@@ -155,19 +155,21 @@ function AdminShell({ children }: { children: React.ReactNode }) {
               badgeValue = String(pendingReviewsCount);
             }
 
+            const activeColor = theme === "dark" ? "#ffffff" : ADMIN_BLUE;
+
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={`flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
                   isActive
-                    ? "bg-[#2F3CD9]/10 border border-[#2F3CD9]/20"
+                    ? "bg-[#2F3CD9]/15 border border-[#2F3CD9]/30"
                     : `${cls.textMuted} hover:${cls.textMain} ${theme === "dark" ? "hover:bg-white/5" : "hover:bg-gray-100"}`
                 }`}
-                style={isActive ? { color: ADMIN_BLUE } : {}}
+                style={isActive ? { color: activeColor } : {}}
               >
                 <span className="flex items-center gap-3">
-                  <span style={isActive ? { color: ADMIN_BLUE } : {}}>{item.icon}</span>
+                  <span style={isActive ? { color: activeColor } : {}}>{item.icon}</span>
                   {item.label}
                 </span>
                 {badgeValue && (
