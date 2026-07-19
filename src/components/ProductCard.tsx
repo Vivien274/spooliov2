@@ -21,6 +21,7 @@ export interface Product {
   date_created?: string;
   attributes?: any[];
   stock?: number;
+  tags?: any[];
 }
 
 interface ProductCardProps {
@@ -32,13 +33,10 @@ export default function ProductCard({ product }: ProductCardProps) {
   const imageUrl = product.images[0]?.src || "";
   const imageAlt = product.images[0]?.alt || product.name;
 
-  // Mockup index-based badge text
-  const getBadgeText = (id: number) => {
-    const badges = ["Satisfaisant !", "Nouveau", "Nouveau", "Adhérent", "Adhérent", "Nouveau", "Adhérent", "Adhérent"];
-    return badges[(id - 1) % 8];
-  };
-
-  const badgeText = getBadgeText(product.id);
+  // Get first real tag if defined, otherwise null
+  const firstTag = product.tags && product.tags.length > 0 
+    ? (typeof product.tags[0] === 'object' ? product.tags[0].name : product.tags[0])
+    : null;
 
   // Price formatting to match mockup (e.g. 5,00€)
   const formatPrice = (val: string) => {
@@ -94,10 +92,12 @@ export default function ProductCard({ product }: ProductCardProps) {
           )}
 
           {/* Badges Overlays */}
-          {/* Top-Left Badge (Adhérent / Nouveau) */}
-          <span className="absolute top-4 left-4 px-3 py-1.5 text-[10px] font-semibold bg-[#2a2a30]/85 text-gray-300 rounded-full backdrop-blur-sm tracking-wide z-10 no-invert">
-            {badgeText}
-          </span>
+          {/* Top-Left Badge (Only if real tag is defined) */}
+          {firstTag && (
+            <span className="absolute top-4 left-4 px-3 py-1.5 text-[10px] font-semibold bg-[#2a2a30]/85 text-gray-300 rounded-full backdrop-blur-sm tracking-wide z-10 no-invert">
+              {firstTag}
+            </span>
+          )}
 
           {/* Top-Right Price Badge */}
           <span className="absolute top-4 right-4 px-3 py-1.5 text-[10px] font-bold bg-[#f7eb12] text-black rounded-full shadow-md z-10">
