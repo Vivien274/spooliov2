@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
 
 export async function POST(request: Request) {
   try {
@@ -38,24 +40,56 @@ export async function POST(request: Request) {
         };
       });
 
+      const newOrderData = {
+        id: orderId,
+        stripeSession: `sim_${orderId}`,
+        email: "client-demo@spoolio.fr",
+        customerName: "Jean Demo",
+        items: JSON.stringify(purchasedItems),
+        total: cartTotal + cost,
+        shippingCost: cost,
+        shippingMethod: shippingMethod || "home",
+        status: "attente_impression",
+        relayDetails: shippingMethod === "relay" && selectedRelay ? JSON.stringify(selectedRelay) : null,
+        createdAt: new Date().toISOString()
+      };
+
       try {
         const { prisma } = await import("@/lib/prisma");
         await prisma.order.create({
           data: {
-            id: orderId,
-            stripeSession: `sim_${orderId}`,
-            email: "client-demo@spoolio.fr",
-            customerName: "Jean Demo",
-            items: JSON.stringify(purchasedItems),
-            total: cartTotal + cost,
-            shippingCost: cost,
-            shippingMethod: shippingMethod || "home",
-            status: "attente_impression",
-            relayDetails: shippingMethod === "relay" && selectedRelay ? JSON.stringify(selectedRelay) : null
+            id: newOrderData.id,
+            stripeSession: newOrderData.stripeSession,
+            email: newOrderData.email,
+            customerName: newOrderData.customerName,
+            items: newOrderData.items,
+            total: newOrderData.total,
+            shippingCost: newOrderData.shippingCost,
+            shippingMethod: newOrderData.shippingMethod,
+            status: newOrderData.status,
+            relayDetails: newOrderData.relayDetails
           }
         });
       } catch (err) {
-        console.error("Failed to create simulated order:", err);
+        console.error("Failed to create simulated order in Prisma:", err);
+      }
+
+      // Synchronize local JSON cache
+      try {
+        const jsonPath = path.join(process.cwd(), 'src/data/orders.json');
+        let localOrders = [];
+        if (fs.existsSync(jsonPath)) {
+          try {
+            localOrders = JSON.parse(fs.readFileSync(jsonPath, 'utf-8') || "[]");
+          } catch (e) {
+            localOrders = [];
+          }
+        }
+        localOrders.unshift(newOrderData);
+        fs.writeFileSync(jsonPath, JSON.stringify(localOrders, null, 2), 'utf-8');
+        console.log("Successfully persisted simulated order in local orders.json!");
+      } catch (jsonErr: any) {
+        console.error("Failed to write local orders.json:", jsonErr.message);
       }
 
       await new Promise(resolve => setTimeout(resolve, 800));
