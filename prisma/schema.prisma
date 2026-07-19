@@ -1,5 +1,5 @@
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
 }
 
 generator client {
@@ -49,7 +49,7 @@ model BlogPost {
   id                Int      @id @default(autoincrement())
   title             String
   slug              String   @unique
-  content           String   @db.LongText
+  content           String   @db.Text
   excerpt           String?  @db.Text
   date              DateTime @default(now())
   status            String   @default("publish")
@@ -60,7 +60,7 @@ model Page {
   id                Int      @id @default(autoincrement())
   title             String
   slug              String   @unique
-  content           String   @db.LongText
+  content           String   @db.Text
   date              DateTime @default(now())
   status            String   @default("publish")
   featuredImageUrl  String?
