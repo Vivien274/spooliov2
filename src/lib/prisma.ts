@@ -9,10 +9,10 @@ const globalForPrisma = global as unknown as {
 let prisma: PrismaClient;
 
 if (typeof window === 'undefined') {
-  const databaseUrl = process.env.DATABASE_URL;
+  const databaseUrl = process.env.DATABASE_URL || "mysql://localhost:3306/placeholder_db";
 
-  if (!databaseUrl) {
-    throw new Error('DATABASE_URL is not defined in environment variables');
+  if (!process.env.DATABASE_URL) {
+    console.warn("[Prisma] Warning: DATABASE_URL is not defined in environment variables. Using placeholder for build phase.");
   }
 
   // Parse check just to ensure it is mysql/mariadb URL format
