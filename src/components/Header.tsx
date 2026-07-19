@@ -533,6 +533,13 @@ export default function Header({ className = "" }: HeaderProps) {
                       🧩 Boussole Sensorielle
                     </a>
                     <Link 
+                      href="/pro" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3 py-2 text-xs font-bold text-gray-200 hover:text-white rounded-lg hover:bg-white/5 block transition-colors"
+                    >
+                      💼 Spoolio pour les pros
+                    </Link>
+                    <Link 
                       href="/blog" 
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="px-3 py-2 text-xs font-bold text-gray-200 hover:text-white rounded-lg hover:bg-white/5 block transition-colors"
