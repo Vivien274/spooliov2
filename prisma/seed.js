@@ -1,5 +1,5 @@
-const { PrismaClient } = require('../src/generated/client');
-const { PrismaMariaDb } = require('@prisma/adapter-mariadb');
+require('dotenv').config({ path: '.env.local' });
+const { PrismaClient } = require('@prisma/client');
 const fs = require('fs');
 const path = require('path');
 
@@ -9,15 +9,12 @@ if (!databaseUrl) {
   process.exit(1);
 }
 
-let adapter;
 let prisma;
 
 try {
-  new URL(databaseUrl);
-  adapter = new PrismaMariaDb(databaseUrl);
-  prisma = new PrismaClient({ adapter });
+  prisma = new PrismaClient();
 } catch (err) {
-  console.error("Failed to initialize database driver for seed:", err.message);
+  console.error("Failed to initialize Prisma client for seed:", err);
   process.exit(1);
 }
 
