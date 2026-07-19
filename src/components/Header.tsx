@@ -11,6 +11,7 @@ interface HeaderProps {
 
 export default function Header({ className = "" }: HeaderProps) {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const { cartCount, setIsCartOpen } = useCart();
 
   // Search states
@@ -78,6 +79,25 @@ export default function Header({ className = "" }: HeaderProps) {
 
   return (
     <header className={className}>
+      {/* Mobile Burger Button (left on mobile) */}
+      <div className="flex md:hidden mr-2">
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="w-10 h-10 flex items-center justify-center bg-white/5 hover:bg-white/15 text-white rounded-full border border-white/10 transition-all cursor-pointer z-50"
+          title="Menu"
+        >
+          {isMobileMenuOpen ? (
+            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
+            </svg>
+          )}
+        </button>
+      </div>
+
       {/* Logo */}
       <Link href="/" className="flex items-center gap-2 group">
         <Image
@@ -148,6 +168,17 @@ export default function Header({ className = "" }: HeaderProps) {
 
       {/* Header Actions (Theme Toggle + Cart) */}
       <div className="flex items-center gap-3">
+        {/* Mobile Search Button */}
+        <button 
+          onClick={() => setIsSearchOpen(true)}
+          className="flex md:hidden w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 items-center justify-center transition-all cursor-pointer border border-white/10"
+          title="Rechercher"
+        >
+          <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+
         {/* Theme Toggle Button */}
         <button
           onClick={toggleTheme}
@@ -379,6 +410,143 @@ export default function Header({ className = "" }: HeaderProps) {
                     )}
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Drawer Navigation Menu */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[15000] flex md:hidden font-sans select-none no-invert">
+          {/* Backdrop overlay */}
+          <div 
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="fixed inset-0 bg-black/80 backdrop-blur-md transition-opacity duration-300"
+          />
+
+          {/* Drawer menu content (slide-in from left) */}
+          <div className="relative w-[300px] max-w-full h-full bg-[#0d0d0f]/95 backdrop-blur-xl border-r border-[#1f1f23] flex flex-col justify-between p-6 shadow-2xl z-10 transition-all duration-300 animate-slide-in">
+            <div className="flex flex-col gap-6">
+              {/* Logo & close row */}
+              <div className="flex items-center justify-between pb-4 border-b border-white/5">
+                <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2">
+                  <Image
+                    src="/images/logo.png"
+                    alt="Spoolio Logo"
+                    width={110}
+                    height={32}
+                    className="h-8 w-auto object-contain"
+                  />
+                </Link>
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:text-white transition-colors"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Navigation links */}
+              <nav className="flex flex-col gap-5">
+                {/* Categories title */}
+                <div>
+                  <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest block mb-3">
+                    La Boutique (Catégories)
+                  </span>
+                  <div className="flex flex-col gap-2">
+                    <Link 
+                      href="/boutique" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3 py-2 text-xs font-bold text-gray-200 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                    >
+                      <span>Tous les produits</span>
+                      <span className="text-gray-600">→</span>
+                    </Link>
+                    <Link 
+                      href="/boutique?category=Accessoires" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                    >
+                      <span>Accessoires</span>
+                    </Link>
+                    <Link 
+                      href="/boutique?category=Animaux & Figurines" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                    >
+                      <span>Animaux & Figurines</span>
+                    </Link>
+                    <Link 
+                      href="/boutique?category=Fidgets" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                    >
+                      <span>Fidgets</span>
+                      <span className="bg-red-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide leading-none no-invert">HOT</span>
+                    </Link>
+                    <Link 
+                      href="/boutique?category=Décoration" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                    >
+                      <span>Décoration</span>
+                    </Link>
+                    <Link 
+                      href="/boutique?category=Jeux & activités" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                    >
+                      <span>Jeux & activités</span>
+                    </Link>
+                    <Link 
+                      href="/boutique?category=Porte clés" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                    >
+                      <span>Porte clés</span>
+                    </Link>
+                    <Link 
+                      href="/boutique?category=Geek / Gaming" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                    >
+                      <span>Geek / Gaming</span>
+                      <span className="bg-[#ff4f00] text-white text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide leading-none no-invert">NEW</span>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Others title */}
+                <div className="pt-2 border-t border-white/5">
+                  <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest block mb-3">
+                    Découvrir
+                  </span>
+                  <div className="flex flex-col gap-2">
+                    <a 
+                      href="https://boussole.spoolio.fr" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="px-3 py-2 text-xs font-bold text-gray-200 hover:text-white rounded-lg hover:bg-white/5 block transition-colors"
+                    >
+                      🧩 Boussole Sensorielle
+                    </a>
+                    <Link 
+                      href="/blog" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3 py-2 text-xs font-bold text-gray-200 hover:text-white rounded-lg hover:bg-white/5 block transition-colors"
+                    >
+                      📝 L'Atelier (Blog)
+                    </Link>
+                  </div>
+                </div>
+              </nav>
+            </div>
+
+            {/* Bottom contact signature */}
+            <div className="text-[10px] text-gray-600 border-t border-white/5 pt-4">
+              <span>Spoolio V2 - Fait avec passion</span>
             </div>
           </div>
         </div>
