@@ -79,13 +79,13 @@ function SuccessPageContent() {
         <div className="flex flex-col sm:flex-row gap-4 w-full">
           <Link
             href="/boutique"
-            className="flex-1 h-12 inline-flex items-center justify-center text-xs font-bold text-black bg-white hover:bg-gray-100 rounded-xl transition-all shadow-lg cursor-pointer"
+            className="flex-1 h-[50px] min-h-[50px] inline-flex items-center justify-center text-xs font-bold text-black bg-white hover:bg-gray-100 rounded-xl transition-all shadow-lg cursor-pointer"
           >
             Retourner à la boutique
           </Link>
           <Link
             href="/"
-            className="flex-1 h-12 inline-flex items-center justify-center text-xs font-bold text-gray-300 bg-spoolio-card border border-spoolio-border hover:border-white/40 hover:text-white rounded-xl transition-all cursor-pointer"
+            className="flex-1 h-[50px] min-h-[50px] inline-flex items-center justify-center text-xs font-bold text-gray-300 bg-spoolio-card border border-spoolio-border hover:border-white/40 hover:text-white rounded-xl transition-all cursor-pointer"
           >
             Page d'accueil
           </Link>
