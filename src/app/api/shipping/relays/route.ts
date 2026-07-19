@@ -37,43 +37,78 @@ export async function GET(request: Request) {
     }
 
     // Return realistic mocked Relay Points for demo & integration tests
-    const simulatedRelays = [
-      {
-        id: `MR-${cp}-01`,
-        name: "Tabac Presse Saint-Michel",
-        address: "18 Rue de la Gare",
-        cp: cp,
-        ville: city
-      },
-      {
-        id: `MR-${cp}-02`,
-        name: "Boulangerie du Centre",
-        address: "42 Place de la Mairie",
-        cp: cp,
-        ville: city
-      },
-      {
-        id: `MR-${cp}-03`,
-        name: "L'Épicerie Fine",
-        address: "115 Rue des Lilas",
-        cp: cp,
-        ville: city
-      },
-      {
-        id: `MR-${cp}-04`,
-        name: "Fleuriste Cœur de Pétale",
-        address: "5 Avenue Pasteur",
-        cp: cp,
-        ville: city
-      },
-      {
-        id: `MR-${cp}-05`,
-        name: "Presse et Loto des Arcades",
-        address: "8 Place Verte",
-        cp: cp,
-        ville: city
-      }
-    ];
+    let simulatedRelays = [];
+
+    if (cp === "59560") {
+      simulatedRelays = [
+        {
+          id: "MR-59560-01",
+          name: "Locker LIDL Comines",
+          address: "224 Rue d'Armentières",
+          cp: "59560",
+          ville: "Comines"
+        },
+        {
+          id: "MR-59560-02",
+          name: "Hygie Meca Comines",
+          address: "114 Rue de la Lys",
+          cp: "59560",
+          ville: "Comines"
+        },
+        {
+          id: "MR-59560-03",
+          name: "Tabac Presse Saint-Michel",
+          address: "18 Rue du Hoccart",
+          cp: "59560",
+          ville: "Comines"
+        },
+        {
+          id: "MR-59560-04",
+          name: "Boulangerie du Centre",
+          address: "42 Grand Place",
+          cp: "59560",
+          ville: "Comines"
+        }
+      ];
+    } else {
+      simulatedRelays = [
+        {
+          id: `MR-${cp}-01`,
+          name: "Tabac Presse Saint-Michel",
+          address: "18 Rue de la Gare",
+          cp: cp,
+          ville: city
+        },
+        {
+          id: `MR-${cp}-02`,
+          name: "Boulangerie du Centre",
+          address: "42 Place de la Mairie",
+          cp: cp,
+          ville: city
+        },
+        {
+          id: `MR-${cp}-03`,
+          name: "L'Épicerie Fine",
+          address: "115 Rue des Lilas",
+          cp: cp,
+          ville: city
+        },
+        {
+          id: `MR-${cp}-04`,
+          name: "Fleuriste Cœur de Pétale",
+          address: "5 Avenue Pasteur",
+          cp: cp,
+          ville: city
+        },
+        {
+          id: `MR-${cp}-05`,
+          name: "Presse et Loto des Arcades",
+          address: "8 Place Verte",
+          cp: cp,
+          ville: city
+        }
+      ];
+    }
 
     return NextResponse.json({ success: true, relays: simulatedRelays });
   } catch (e: any) {
