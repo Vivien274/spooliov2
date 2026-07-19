@@ -1,0 +1,783 @@
+[
+  {
+    "id": 172,
+    "name": "Accessoires",
+    "slug": "accessoires",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": {
+      "id": 11167,
+      "date_created": "2025-12-26T14:27:00",
+      "date_created_gmt": "2025-12-26T13:27:00",
+      "date_modified": "2025-12-26T14:27:00",
+      "date_modified_gmt": "2025-12-26T13:27:00",
+      "src": "/images/imported/accessoires-black.png",
+      "name": "accessoires black",
+      "alt": "accessoires black"
+    },
+    "menu_order": 0,
+    "count": 21,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/172",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 66,
+    "name": "Action",
+    "slug": "action",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": {
+      "id": 11087,
+      "date_created": "2025-12-18T16:49:46",
+      "date_created_gmt": "2025-12-18T15:49:46",
+      "date_modified": "2025-12-18T16:49:46",
+      "date_modified_gmt": "2025-12-18T15:49:46",
+      "src": "/images/imported/action.png",
+      "name": "action",
+      "alt": "action"
+    },
+    "menu_order": 4,
+    "count": 0,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/66",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 65,
+    "name": "Animaux &amp; Figurines",
+    "slug": "animaux-figurines",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": {
+      "id": 11166,
+      "date_created": "2025-12-26T14:26:58",
+      "date_created_gmt": "2025-12-26T13:26:58",
+      "date_modified": "2025-12-26T14:26:58",
+      "date_modified_gmt": "2025-12-26T13:26:58",
+      "src": "/images/imported/animaux-black.png",
+      "name": "animaux black",
+      "alt": "animaux black"
+    },
+    "menu_order": 1,
+    "count": 65,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/65",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 151,
+    "name": "Bijoux",
+    "slug": "bijoux",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": {
+      "id": 11163,
+      "date_created": "2025-12-26T14:26:54",
+      "date_created_gmt": "2025-12-26T13:26:54",
+      "date_modified": "2025-12-26T14:26:54",
+      "date_modified_gmt": "2025-12-26T13:26:54",
+      "src": "/images/imported/bijoux-black.png",
+      "name": "bijoux black",
+      "alt": "bijoux black"
+    },
+    "menu_order": 0,
+    "count": 1,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/151",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 115,
+    "name": "Boites, sacs &amp; emballages",
+    "slug": "boite-sac-cadeau",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": {
+      "id": 11162,
+      "date_created": "2025-12-26T14:26:52",
+      "date_created_gmt": "2025-12-26T13:26:52",
+      "date_modified": "2025-12-26T14:26:52",
+      "date_modified_gmt": "2025-12-26T13:26:52",
+      "src": "/images/imported/sacs-black.png",
+      "name": "sacs black",
+      "alt": "sacs black"
+    },
+    "menu_order": 0,
+    "count": 14,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/115",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 193,
+    "name": "Carte cadeau",
+    "slug": "carte-cadeau",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": null,
+    "menu_order": 0,
+    "count": 1,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/193",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 77,
+    "name": "Décoration",
+    "slug": "decoration",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": {
+      "id": 11161,
+      "date_created": "2025-12-26T14:26:50",
+      "date_created_gmt": "2025-12-26T13:26:50",
+      "date_modified": "2025-12-26T14:26:50",
+      "date_modified_gmt": "2025-12-26T13:26:50",
+      "src": "/images/imported/decoration-black.png",
+      "name": "decoration black",
+      "alt": "decoration black"
+    },
+    "menu_order": 5,
+    "count": 42,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/77",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 64,
+    "name": "Fidgets",
+    "slug": "fidgets",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": {
+      "id": 11160,
+      "date_created": "2025-12-26T14:26:48",
+      "date_created_gmt": "2025-12-26T13:26:48",
+      "date_modified": "2025-12-26T14:26:48",
+      "date_modified_gmt": "2025-12-26T13:26:48",
+      "src": "/images/imported/fidgets-black.png",
+      "name": "fidgets black",
+      "alt": "fidgets black"
+    },
+    "menu_order": 2,
+    "count": 18,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/64",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 175,
+    "name": "Fidgets costauds",
+    "slug": "fidgets-costauds",
+    "parent": 64,
+    "description": "",
+    "display": "default",
+    "image": null,
+    "menu_order": 0,
+    "count": 1,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/175",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ],
+      "up": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/64"
+        }
+      ]
+    }
+  },
+  {
+    "id": 174,
+    "name": "Fidgets mécaniques",
+    "slug": "fidgets-mecaniques",
+    "parent": 64,
+    "description": "",
+    "display": "default",
+    "image": null,
+    "menu_order": 0,
+    "count": 2,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/174",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ],
+      "up": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/64"
+        }
+      ]
+    }
+  },
+  {
+    "id": 173,
+    "name": "Fidgets simples",
+    "slug": "fidgets-simples",
+    "parent": 64,
+    "description": "",
+    "display": "default",
+    "image": null,
+    "menu_order": 0,
+    "count": 3,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/173",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ],
+      "up": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/64"
+        }
+      ]
+    }
+  },
+  {
+    "id": 125,
+    "name": "Figurines",
+    "slug": "figurines",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": {
+      "id": 11174,
+      "date_created": "2025-12-26T14:29:58",
+      "date_created_gmt": "2025-12-26T13:29:58",
+      "date_modified": "2025-12-26T14:29:58",
+      "date_modified_gmt": "2025-12-26T13:29:58",
+      "src": "/images/imported/figurine-black.png",
+      "name": "figurine black",
+      "alt": "figurine black"
+    },
+    "menu_order": 0,
+    "count": 13,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/125",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 140,
+    "name": "Geek / Gaming",
+    "slug": "geek-gaming",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": {
+      "id": 11158,
+      "date_created": "2025-12-26T14:26:45",
+      "date_created_gmt": "2025-12-26T13:26:45",
+      "date_modified": "2025-12-26T14:26:45",
+      "date_modified_gmt": "2025-12-26T13:26:45",
+      "src": "/images/imported/geek-black.png",
+      "name": "geek black",
+      "alt": "geek black"
+    },
+    "menu_order": 0,
+    "count": 6,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/140",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 139,
+    "name": "Jeux &amp; activités",
+    "slug": "jeux-activites",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": {
+      "id": 11157,
+      "date_created": "2025-12-26T14:26:44",
+      "date_created_gmt": "2025-12-26T13:26:44",
+      "date_modified": "2025-12-26T14:26:44",
+      "date_modified_gmt": "2025-12-26T13:26:44",
+      "src": "/images/imported/jeux-societe-black.png",
+      "name": "jeux société black",
+      "alt": "jeux société black"
+    },
+    "menu_order": 0,
+    "count": 16,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/139",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 116,
+    "name": "Non classé",
+    "slug": "non-classe",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": null,
+    "menu_order": 0,
+    "count": 0,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/116",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 157,
+    "name": "Planches",
+    "slug": "planche-bois",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": {
+      "id": 11156,
+      "date_created": "2025-12-26T14:26:42",
+      "date_created_gmt": "2025-12-26T13:26:42",
+      "date_modified": "2025-12-26T14:26:42",
+      "date_modified_gmt": "2025-12-26T13:26:42",
+      "src": "/images/imported/planches-black.png",
+      "name": "planches black",
+      "alt": "planches black"
+    },
+    "menu_order": 0,
+    "count": 0,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/157",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 113,
+    "name": "Pochettes surprise",
+    "slug": "pochettes-surprise",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": {
+      "id": 11155,
+      "date_created": "2025-12-26T14:26:40",
+      "date_created_gmt": "2025-12-26T13:26:40",
+      "date_modified": "2025-12-26T14:26:40",
+      "date_modified_gmt": "2025-12-26T13:26:40",
+      "src": "/images/imported/pochettes-black.png",
+      "name": "pochettes black",
+      "alt": "pochettes black"
+    },
+    "menu_order": 0,
+    "count": 3,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/113",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 176,
+    "name": "Porte clés",
+    "slug": "porte-cles",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": {
+      "id": 11164,
+      "date_created": "2025-12-26T14:26:55",
+      "date_created_gmt": "2025-12-26T13:26:55",
+      "date_modified": "2025-12-26T14:26:55",
+      "date_modified_gmt": "2025-12-26T13:26:55",
+      "src": "/images/imported/porte-cles-black.png",
+      "name": "porte clés black",
+      "alt": "porte clés black"
+    },
+    "menu_order": 0,
+    "count": 12,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/176",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 98,
+    "name": "Santé",
+    "slug": "sante",
+    "parent": 0,
+    "description": "",
+    "display": "products",
+    "image": {
+      "id": 11165,
+      "date_created": "2025-12-26T14:26:57",
+      "date_created_gmt": "2025-12-26T13:26:57",
+      "date_modified": "2025-12-26T14:26:57",
+      "date_modified_gmt": "2025-12-26T13:26:57",
+      "src": "/images/imported/sante-black.png",
+      "name": "santé black",
+      "alt": "santé black"
+    },
+    "menu_order": 3,
+    "count": 0,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/98",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  },
+  {
+    "id": 203,
+    "name": "Sécurité SOS NFC",
+    "slug": "securite-sos-nfc",
+    "parent": 0,
+    "description": "",
+    "display": "default",
+    "image": null,
+    "menu_order": 0,
+    "count": 2,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories/203",
+          "targetHints": {
+            "allow": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wc/v3/products/categories"
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,3839 @@
+[
+  {
+    "id": 12901,
+    "date": "2026-03-23T11:05:55",
+    "date_gmt": "2026-03-23T10:05:55",
+    "guid": {
+      "rendered": "https://spoolio.fr/?p=12901"
+    },
+    "modified": "2026-03-23T11:05:58",
+    "modified_gmt": "2026-03-23T10:05:58",
+    "slug": "cest-quoi-une-puce-nfc-et-a-quoi-ca-sert-vraiment-chez-spoolio",
+    "status": "publish",
+    "type": "post",
+    "link": "https://spoolio.fr/cest-quoi-une-puce-nfc-et-a-quoi-ca-sert-vraiment-chez-spoolio/",
+    "title": {
+      "rendered": "C&rsquo;est quoi une puce NFC ? (Et à quoi ça sert vraiment chez Spoolio)"
+    },
+    "content": {
+      "rendered": "\n<p class=\"wp-block-paragraph\">Tu as peut-être remarqué un petit autocollant brillant à l&rsquo;intérieur d&rsquo;un de nos produits Spoolio. Ou tu as vu la mention « NFC » sur notre site sans vraiment savoir ce que ça signifie. Pas de panique — on t&rsquo;explique tout, simplement.</p>\n\n\n\n<h2 class=\"wp-block-heading\">NFC, c&rsquo;est quoi en deux mots ?</h2>\n\n\n\n<p class=\"wp-block-paragraph\">NFC signifie <strong>Near Field Communication</strong>, ce qui veut dire littéralement « communication en champ proche ». C&rsquo;est une technologie sans fil qui permet à deux appareils d&rsquo;échanger des informations lorsqu&rsquo;ils sont placés à quelques centimètres l&rsquo;un de l&rsquo;autre.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Tu l&rsquo;utilises probablement déjà sans le savoir : quand tu paies sans contact avec ton téléphone ou ta carte bancaire, c&rsquo;est du NFC. Quand tu bipes ton badge à l&rsquo;entrée du bureau, c&rsquo;est du NFC aussi.</p>\n\n\n\n<h2 class=\"wp-block-heading\">Comment ça fonctionne concrètement ?</h2>\n\n\n\n<p class=\"wp-block-paragraph\">Une puce NFC est un minuscule composant électronique, souvent intégré dans un autocollant fin comme du papier. Elle ne possède pas de batterie : elle s&rsquo;alimente grâce au champ magnétique généré par ton téléphone au moment de la lecture.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Il suffit d&rsquo;approcher ton smartphone (la plupart des modèles récents sont compatibles NFC) à quelques centimètres de la puce pour déclencher une action : ouvrir un lien, afficher un message, lancer une page web, etc.</p>\n\n\n\n<h2 class=\"wp-block-heading\">Et chez Spoolio, ça sert à quoi ?</h2>\n\n\n\n<p class=\"wp-block-paragraph\">Chez nous, la technologie NFC prend tout son sens. On l&rsquo;utilise dans deux types de produits bien précis :</p>\n\n\n\n<ul class=\"wp-block-list\"><li><strong>Le porte-clés NFC enfant</strong> : en cas de perte, toute personne qui trouve le porte-clés peut approcher son téléphone de la puce pour accéder à une fiche de contact personnalisée — sans avoir à télécharger une app, sans compte à créer.</li><li><strong>La médaille NFC pour animaux</strong> : accrochée au collier de ton chat ou ton chien, elle permet à celui qui le trouve de scanner la médaille et d&rsquo;accéder immédiatement à ta fiche contact et aux informations de ton animal.</li></ul>\n\n\n\n<p class=\"wp-block-paragraph\">Dans les deux cas, l&rsquo;idée est simple : <strong>un objet du quotidien, imprimé en 3D chez nous en France, qui contient une puce intelligente</strong> pouvant sauver une situation de stress.</p>\n\n\n\n<h2 class=\"wp-block-heading\">Est-ce que c&rsquo;est compliqué à utiliser ?</h2>\n\n\n\n<p class=\"wp-block-paragraph\">Non, vraiment pas. Si tu as un iPhone (à partir de l&rsquo;iPhone 7) ou un Android récent, ton téléphone lit les puces NFC nativement — pas d&rsquo;application à installer. Tu approches, ça s&rsquo;ouvre. C&rsquo;est tout.</p>\n\n\n\n<p class=\"wp-block-paragraph\">La fiche de contact que tu renseignes lors de l&rsquo;activation de ton produit Spoolio est modifiable à tout moment depuis ton espace client. Tu déménages ? Tu changes de numéro ? Deux clics, et la puce est à jour — sans toucher à l&rsquo;objet physique.</p>\n\n\n\n<h2 class=\"wp-block-heading\">En résumé</h2>\n\n\n\n<p class=\"wp-block-paragraph\">La puce NFC, c&rsquo;est une petite technologie discrète mais vraiment utile. Chez Spoolio, on l&rsquo;a intégrée dans des objets fabriqués en France, solides, jolis, et pensés pour les familles et les amoureux des animaux. Pas de gadget pour le gadget : chaque objet a un vrai rôle.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Tu veux en savoir plus ou découvrir nos produits NFC ? <a href=\"/boutique\">Fais un tour dans la boutique</a> 👋</p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>Tu as entendu parler de NFC sans vraiment savoir ce que c&rsquo;est ? On t&rsquo;explique simplement cette technologie, et comment Spoolio l&rsquo;utilise dans ses produits du quotidien fabriqués en France.</p>\n",
+      "protected": false
+    },
+    "author": 1,
+    "featured_media": 12903,
+    "comment_status": "open",
+    "ping_status": "open",
+    "sticky": false,
+    "template": "",
+    "format": "standard",
+    "meta": {
+      "_acf_changed": false,
+      "rs_blank_template": "",
+      "rs_page_bg_color": "",
+      "slide_template_v7": "",
+      "_jetpack_newsletter_access": "",
+      "_jetpack_dont_email_post_to_subs": false,
+      "_jetpack_newsletter_tier_id": 0,
+      "_jetpack_memberships_contains_paywalled_content": false,
+      "_jetpack_feature_clip_id": 0,
+      "_jetpack_memberships_contains_paid_content": false,
+      "footnotes": "",
+      "jetpack_post_was_ever_published": false
+    },
+    "categories": [
+      112
+    ],
+    "tags": [],
+    "class_list": [
+      "post-12901",
+      "post",
+      "type-post",
+      "status-publish",
+      "format-standard",
+      "has-post-thumbnail",
+      "hentry",
+      "category-explications"
+    ],
+    "acf": [],
+    "featured_image_src": {
+      "landsacpe": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?resize=1140%2C445&ssl=1",
+        1140,
+        445,
+        true
+      ],
+      "list": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?resize=463%2C348&ssl=1",
+        463,
+        348,
+        true
+      ],
+      "medium": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?fit=300%2C200&ssl=1",
+        300,
+        200,
+        true
+      ],
+      "full": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?fit=2560%2C1707&ssl=1",
+        2560,
+        1707,
+        false
+      ]
+    },
+    "jetpack_featured_media_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?fit=2560%2C1707&ssl=1",
+    "jetpack_sharing_enabled": true,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/12901",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/types/post"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/comments?post=12901"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 1,
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/12901/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 12902,
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/12901/revisions/12902"
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/media/12903"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/media?parent=12901"
+        }
+      ],
+      "wp:term": [
+        {
+          "taxonomy": "category",
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/categories?post=12901"
+        },
+        {
+          "taxonomy": "post_tag",
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/tags?post=12901"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    },
+    "_embedded": {
+      "author": [
+        {
+          "id": 1,
+          "name": "Vivien",
+          "url": "http://spoolio.fr",
+          "description": "",
+          "link": "https://spoolio.fr/author/admin5267/",
+          "slug": "admin5267",
+          "avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=24&d=mm&r=g",
+            "48": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=48&d=mm&r=g",
+            "96": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=96&d=mm&r=g"
+          },
+          "is_super_admin": true,
+          "woocommerce_meta": {
+            "variable_product_tour_shown": "yes",
+            "wc_payments_overview_inbox_last_read": "1736771903081",
+            "wc_payments_transactions_hidden_columns": "",
+            "wc_payments_transactions_blocked_hidden_columns": "",
+            "wc_payments_transactions_risk_review_hidden_columns": "",
+            "wc_payments_transactions_uncaptured_hidden_columns": "",
+            "wc_payments_payouts_hidden_columns": "",
+            "wc_payments_disputes_hidden_columns": "",
+            "wc_payments_documents_hidden_columns": "",
+            "wc_payments_reports_fees_view": "",
+            "wc_payments_review_prompt_dismissed": "1774535029",
+            "wc_payments_review_prompt_maybe_later": "",
+            "wc_payments_reports_feedback_dismissed": "",
+            "activity_panel_inbox_last_read": "",
+            "activity_panel_reviews_last_read": "",
+            "categories_report_columns": "",
+            "coupons_report_columns": "",
+            "customers_report_columns": "",
+            "orders_report_columns": "[\"customer_type\",\"coupons\",\"customer_currency\"]",
+            "products_report_columns": "",
+            "revenue_report_columns": "",
+            "taxes_report_columns": "",
+            "variations_report_columns": "",
+            "dashboard_sections": "",
+            "dashboard_chart_type": "",
+            "dashboard_chart_interval": "",
+            "dashboard_leaderboard_rows": "",
+            "order_attribution_install_banner_dismissed": "",
+            "scheduled_updates_promotion_notice_dismissed": "",
+            "homepage_layout": "",
+            "homepage_stats": "",
+            "task_list_tracked_started_tasks": "{\"tax\":2,\"shipping\":1,\"customize-store\":2,\"launch-your-store\":1}",
+            "android_app_banner_dismissed": "",
+            "launch_your_store_tour_hidden": "",
+            "coming_soon_banner_dismissed": ""
+          },
+          "acf": [],
+          "_links": {
+            "self": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/users/1",
+                "targetHints": {
+                  "allow": [
+                    "GET"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/users"
+              }
+            ]
+          }
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "id": 12903,
+          "date": "2026-03-23T11:05:22",
+          "slug": "spoolio-badge-nfc-securite-7",
+          "type": "attachment",
+          "link": "https://spoolio.fr/cest-quoi-une-puce-nfc-et-a-quoi-ca-sert-vraiment-chez-spoolio/spoolio-badge-nfc-securite-7/",
+          "title": {
+            "rendered": "Spoolio badge nfc securite 7"
+          },
+          "author": 1,
+          "featured_media": 0,
+          "jetpack_sharing_enabled": true,
+          "acf": [],
+          "caption": {
+            "rendered": "<p>Spoolio badge nfc securite 7</p>\n"
+          },
+          "alt_text": "Spoolio badge nfc securite 7",
+          "media_type": "image",
+          "mime_type": "image/webp",
+          "media_details": {
+            "width": 2560,
+            "height": 1707,
+            "file": "2026/03/Spoolio-badge-nfc-securite-7-scaled.webp",
+            "filesize": 224152,
+            "sizes": {
+              "medium": {
+                "file": "Spoolio-badge-nfc-securite-7-300x200.webp",
+                "width": 300,
+                "height": 200,
+                "filesize": 40588,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?fit=300%2C200&ssl=1"
+              },
+              "large": {
+                "file": "Spoolio-badge-nfc-securite-7-1024x683.webp",
+                "width": 1024,
+                "height": 683,
+                "filesize": 87898,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?fit=1024%2C683&ssl=1"
+              },
+              "thumbnail": {
+                "file": "Spoolio-badge-nfc-securite-7-150x150.webp",
+                "width": 150,
+                "height": 150,
+                "filesize": 34834,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?resize=150%2C150&ssl=1"
+              },
+              "medium_large": {
+                "file": "Spoolio-badge-nfc-securite-7-768x512.webp",
+                "width": 768,
+                "height": 512,
+                "filesize": 68500,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?fit=768%2C512&ssl=1"
+              },
+              "1536x1536": {
+                "file": "Spoolio-badge-nfc-securite-7-1536x1024.webp",
+                "width": 1536,
+                "height": 1024,
+                "filesize": 126260,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?fit=1536%2C1024&ssl=1"
+              },
+              "2048x2048": {
+                "file": "Spoolio-badge-nfc-securite-7-2048x1365.webp",
+                "width": 2048,
+                "height": 1365,
+                "filesize": 174282,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?fit=2048%2C1365&ssl=1"
+              },
+              "blog-large": {
+                "file": "Spoolio-badge-nfc-securite-7-1140x445.webp",
+                "width": 1140,
+                "height": 445,
+                "filesize": 79240,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?resize=1140%2C445&ssl=1"
+              },
+              "blog-medium": {
+                "file": "Spoolio-badge-nfc-securite-7-463x348.webp",
+                "width": 463,
+                "height": 348,
+                "filesize": 51652,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?resize=463%2C348&ssl=1"
+              },
+              "blog-masonry": {
+                "file": "Spoolio-badge-nfc-securite-7-640x427.webp",
+                "width": 640,
+                "height": 427,
+                "filesize": 60714,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?fit=640%2C427&ssl=1"
+              },
+              "blog-masonry-small": {
+                "file": "Spoolio-badge-nfc-securite-7-400x267.webp",
+                "width": 400,
+                "height": 267,
+                "filesize": 46124,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?fit=400%2C267&ssl=1"
+              },
+              "blog-grid": {
+                "file": "Spoolio-badge-nfc-securite-7-640x480.webp",
+                "width": 640,
+                "height": 480,
+                "filesize": 62634,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?resize=640%2C480&ssl=1"
+              },
+              "blog-grid-small": {
+                "file": "Spoolio-badge-nfc-securite-7-400x300.webp",
+                "width": 400,
+                "height": 300,
+                "filesize": 47174,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?resize=400%2C300&ssl=1"
+              },
+              "related-post": {
+                "file": "Spoolio-badge-nfc-securite-7-450x231.webp",
+                "width": 450,
+                "height": 231,
+                "filesize": 46534,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?resize=450%2C231&ssl=1"
+              },
+              "widget-thumb-medium": {
+                "file": "Spoolio-badge-nfc-securite-7-85x85.webp",
+                "width": 85,
+                "height": 85,
+                "filesize": 31482,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?resize=85%2C85&ssl=1"
+              },
+              "woocommerce_thumbnail": {
+                "file": "Spoolio-badge-nfc-securite-7-300x300.webp",
+                "width": 300,
+                "height": 300,
+                "filesize": 44708,
+                "uncropped": false,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?resize=300%2C300&ssl=1"
+              },
+              "woocommerce_single": {
+                "file": "Spoolio-badge-nfc-securite-7-1200x800.webp",
+                "width": 1200,
+                "height": 800,
+                "filesize": 101210,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?fit=1200%2C800&ssl=1"
+              },
+              "woocommerce_gallery_thumbnail": {
+                "file": "Spoolio-badge-nfc-securite-7-150x150.webp",
+                "width": 150,
+                "height": 150,
+                "filesize": 34834,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?resize=150%2C150&ssl=1"
+              },
+              "swatches_image_size": {
+                "file": "Spoolio-badge-nfc-securite-7-32x32.webp",
+                "width": 32,
+                "height": 32,
+                "filesize": 29556,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?resize=32%2C32&ssl=1"
+              },
+              "full": {
+                "file": "Spoolio-badge-nfc-securite-7-scaled.webp?fit=2560%2C1707&ssl=1",
+                "width": 2560,
+                "height": 1707,
+                "mime_type": "image/webp",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp?fit=2560%2C1707&ssl=1"
+              }
+            },
+            "image_meta": {
+              "aperture": "0",
+              "credit": "",
+              "camera": "",
+              "caption": "",
+              "created_timestamp": "0",
+              "copyright": "",
+              "focal_length": "0",
+              "iso": "0",
+              "shutter_speed": "0",
+              "title": "",
+              "orientation": "0",
+              "keywords": []
+            },
+            "original_image": "Spoolio-badge-nfc-securite-7.webp"
+          },
+          "source_url": "https://spoolio.fr/wp-content/uploads/2026/03/Spoolio-badge-nfc-securite-7-scaled.webp",
+          "_links": {
+            "self": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/media/12903",
+                "targetHints": {
+                  "allow": [
+                    "GET"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/media"
+              }
+            ],
+            "about": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/types/attachment"
+              }
+            ],
+            "author": [
+              {
+                "embeddable": true,
+                "href": "https://spoolio.fr/wp-json/wp/v2/users/1"
+              }
+            ],
+            "replies": [
+              {
+                "embeddable": true,
+                "href": "https://spoolio.fr/wp-json/wp/v2/comments?post=12903"
+              }
+            ],
+            "wp:attached-to": [
+              {
+                "embeddable": true,
+                "post_type": "post",
+                "id": 12901,
+                "href": "https://spoolio.fr/wp-json/wp/v2/posts/12901"
+              }
+            ],
+            "curies": [
+              {
+                "name": "wp",
+                "href": "https://api.w.org/{rel}",
+                "templated": true
+              }
+            ]
+          }
+        }
+      ],
+      "wp:term": [
+        [
+          {
+            "id": 112,
+            "link": "https://spoolio.fr/category/explications/",
+            "name": "Explications",
+            "slug": "explications",
+            "taxonomy": "category",
+            "acf": [],
+            "_links": {
+              "self": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/categories/112",
+                  "targetHints": {
+                    "allow": [
+                      "GET"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/categories"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/taxonomies/category"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/posts?categories=112"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          }
+        ],
+        []
+      ]
+    },
+    "featured_image_url": "/images/imported/Spoolio-badge-nfc-securite-7-scaled.webp"
+  },
+  {
+    "id": 12857,
+    "date": "2026-03-14T08:22:35",
+    "date_gmt": "2026-03-14T07:22:35",
+    "guid": {
+      "rendered": "https://spoolio.fr/?p=12857"
+    },
+    "modified": "2026-03-14T08:22:38",
+    "modified_gmt": "2026-03-14T07:22:38",
+    "slug": "pla-biosource-impression-3d-eco-responsable",
+    "status": "publish",
+    "type": "post",
+    "link": "https://spoolio.fr/pla-biosource-impression-3d-eco-responsable/",
+    "title": {
+      "rendered": "C&rsquo;est quoi le PLA biosourcé ? Pourquoi on l&rsquo;a choisi chez Spoolio"
+    },
+    "content": {
+      "rendered": "\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\"><strong>Introduction</strong></p>\n\n\n\n<p class=\"wp-block-paragraph\">Tu as peut-être remarqué qu&rsquo;on parle souvent de PLA biosourcé chez Spoolio. Mais c&rsquo;est quoi exactement ? Pourquoi ce matériau plutôt qu&rsquo;un autre ? Et surtout, est-ce vraiment meilleur pour la planète ? On t&rsquo;explique tout, sans jargon.</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\"><strong>C&rsquo;est quoi le PLA ?</strong></p>\n\n\n\n<p class=\"wp-block-paragraph\">Le PLA — acide polylactique de son vrai nom — est le matériau d&rsquo;impression 3D le plus répandu dans le monde. Contrairement au plastique classique dérivé du pétrole, le PLA est fabriqué à partir de matières végétales : le plus souvent de l&rsquo;amidon de maïs, de canne à sucre ou de betterave.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Résultat : une matière première renouvelable, qui nécessite moins d&rsquo;énergie à produire, et qui ne dégage pas de fumées toxiques lors de l&rsquo;impression. Pour ceux qui impriment à la maison (comme nous !), c&rsquo;est une vraie différence au quotidien.</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p class=\"wp-block-paragraph\"><strong>« Biosourcé », ça veut dire quoi exactement ?</strong></p>\n\n\n\n<p class=\"wp-block-paragraph\">Le terme <em>biosourcé</em> signifie simplement que la matière est issue du vivant — des végétaux, en l&rsquo;occurrence. Ce n&rsquo;est pas synonyme de « biodégradable dans toutes les conditions », attention. Le PLA se dégrade en conditions industrielles de compostage, pas forcément dans ton jardin ou ta poubelle verte.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Mais comparé à l&rsquo;ABS ou au PETG (d&rsquo;autres plastiques courants en impression 3D), le bilan carbone du PLA biosourcé est nettement plus favorable. Et ça, ça compte.</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\"><strong>Pourquoi on a choisi ce matériau chez Spoolio</strong></p>\n\n\n\n<p class=\"wp-block-paragraph\">Quand Vivien a lancé Spoolio, le choix du filament n&rsquo;était pas anodin. Plusieurs raisons ont guidé cette décision :</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li><strong>La sécurité</strong> : le PLA est non-toxique à l&rsquo;impression, idéal quand on fabrique des objets destinés à des enfants ou à des animaux</li>\n\n\n\n<li><strong>La qualité de rendu</strong> : il permet des finitions précises, des couleurs vives et une belle texture mate ou brillante selon les références</li>\n\n\n\n<li><strong>L&rsquo;engagement écologique</strong> : fabriquer en France avec un matériau biosourcé, c&rsquo;est cohérent avec nos valeurs. On ne va pas faire des beaux objets avec un matériau qui fait du mal à la planète</li>\n\n\n\n<li><strong>La diversité</strong> : on dispose de plus de 40 couleurs en PLA, des plus classiques aux plus originales (pailletées, bicolores, phosphorescentes&#8230;)</li>\n</ul>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p class=\"wp-block-paragraph\"><strong>Est-ce que ça change quelque chose pour toi, en tant qu&rsquo;acheteur ?</strong></p>\n\n\n\n<p class=\"wp-block-paragraph\">Oui, concrètement. Les objets Spoolio sont :</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li><strong>Fabriqués en France</strong>, dans notre atelier à Comines</li>\n\n\n\n<li><strong>Sans solvants ni produits chimiques agressifs</strong> lors de la fabrication</li>\n\n\n\n<li><strong>Solides et durables</strong> dans des conditions normales d&rsquo;utilisation</li>\n\n\n\n<li><strong>Colorés sans compromis</strong> : la richesse de notre palette prouve qu&rsquo;éco-responsable ne rime pas avec ennuyeux</li>\n</ul>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>Conclusion</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">Le PLA biosourcé, c&rsquo;est un peu le meilleur des deux mondes : un matériau technique qui permet de faire de belles choses, et une origine végétale qui allège la conscience. Chez Spoolio, c&rsquo;est un choix assumé, pas un argument marketing.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Si tu veux en savoir plus sur comment on fabrique nos objets, ou si tu as une idée de création, <a href=\"https://spoolio.fr/contact/\">viens nous en parler</a> ! 😊</p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>Introduction Tu as peut-être remarqué qu&rsquo;on parle souvent de PLA biosourcé chez Spoolio. Mais c&rsquo;est quoi exactement ? Pourquoi ce matériau plutôt qu&rsquo;un autre ? Et surtout, est-ce vraiment meilleur pour la planète ? On t&rsquo;explique tout, sans jargon. C&rsquo;est quoi le PLA ? Le PLA — acide polylactique de son vrai nom — est [&hellip;]</p>\n",
+      "protected": false
+    },
+    "author": 1,
+    "featured_media": 12858,
+    "comment_status": "open",
+    "ping_status": "open",
+    "sticky": false,
+    "template": "",
+    "format": "standard",
+    "meta": {
+      "_acf_changed": false,
+      "rs_blank_template": "",
+      "rs_page_bg_color": "",
+      "slide_template_v7": "",
+      "_jetpack_newsletter_access": "",
+      "_jetpack_dont_email_post_to_subs": false,
+      "_jetpack_newsletter_tier_id": 0,
+      "_jetpack_memberships_contains_paywalled_content": false,
+      "_jetpack_feature_clip_id": 0,
+      "_jetpack_memberships_contains_paid_content": false,
+      "footnotes": "",
+      "jetpack_post_was_ever_published": false
+    },
+    "categories": [
+      112
+    ],
+    "tags": [],
+    "class_list": [
+      "post-12857",
+      "post",
+      "type-post",
+      "status-publish",
+      "format-standard",
+      "has-post-thumbnail",
+      "hentry",
+      "category-explications"
+    ],
+    "acf": [],
+    "featured_image_src": {
+      "landsacpe": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?resize=1140%2C445&ssl=1",
+        1140,
+        445,
+        true
+      ],
+      "list": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?resize=463%2C348&ssl=1",
+        463,
+        348,
+        true
+      ],
+      "medium": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?fit=300%2C200&ssl=1",
+        300,
+        200,
+        true
+      ],
+      "full": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?fit=2560%2C1707&ssl=1",
+        2560,
+        1707,
+        false
+      ]
+    },
+    "jetpack_featured_media_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?fit=2560%2C1707&ssl=1",
+    "jetpack_sharing_enabled": true,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/12857",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/types/post"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/comments?post=12857"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 1,
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/12857/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 12859,
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/12857/revisions/12859"
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/media/12858"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/media?parent=12857"
+        }
+      ],
+      "wp:term": [
+        {
+          "taxonomy": "category",
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/categories?post=12857"
+        },
+        {
+          "taxonomy": "post_tag",
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/tags?post=12857"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    },
+    "_embedded": {
+      "author": [
+        {
+          "id": 1,
+          "name": "Vivien",
+          "url": "http://spoolio.fr",
+          "description": "",
+          "link": "https://spoolio.fr/author/admin5267/",
+          "slug": "admin5267",
+          "avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=24&d=mm&r=g",
+            "48": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=48&d=mm&r=g",
+            "96": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=96&d=mm&r=g"
+          },
+          "is_super_admin": true,
+          "woocommerce_meta": {
+            "variable_product_tour_shown": "yes",
+            "wc_payments_overview_inbox_last_read": "1736771903081",
+            "wc_payments_transactions_hidden_columns": "",
+            "wc_payments_transactions_blocked_hidden_columns": "",
+            "wc_payments_transactions_risk_review_hidden_columns": "",
+            "wc_payments_transactions_uncaptured_hidden_columns": "",
+            "wc_payments_payouts_hidden_columns": "",
+            "wc_payments_disputes_hidden_columns": "",
+            "wc_payments_documents_hidden_columns": "",
+            "wc_payments_reports_fees_view": "",
+            "wc_payments_review_prompt_dismissed": "1774535029",
+            "wc_payments_review_prompt_maybe_later": "",
+            "wc_payments_reports_feedback_dismissed": "",
+            "activity_panel_inbox_last_read": "",
+            "activity_panel_reviews_last_read": "",
+            "categories_report_columns": "",
+            "coupons_report_columns": "",
+            "customers_report_columns": "",
+            "orders_report_columns": "[\"customer_type\",\"coupons\",\"customer_currency\"]",
+            "products_report_columns": "",
+            "revenue_report_columns": "",
+            "taxes_report_columns": "",
+            "variations_report_columns": "",
+            "dashboard_sections": "",
+            "dashboard_chart_type": "",
+            "dashboard_chart_interval": "",
+            "dashboard_leaderboard_rows": "",
+            "order_attribution_install_banner_dismissed": "",
+            "scheduled_updates_promotion_notice_dismissed": "",
+            "homepage_layout": "",
+            "homepage_stats": "",
+            "task_list_tracked_started_tasks": "{\"tax\":2,\"shipping\":1,\"customize-store\":2,\"launch-your-store\":1}",
+            "android_app_banner_dismissed": "",
+            "launch_your_store_tour_hidden": "",
+            "coming_soon_banner_dismissed": ""
+          },
+          "acf": [],
+          "_links": {
+            "self": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/users/1",
+                "targetHints": {
+                  "allow": [
+                    "GET"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/users"
+              }
+            ]
+          }
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "id": 12858,
+          "date": "2026-03-14T08:21:41",
+          "slug": "plabiosource",
+          "type": "attachment",
+          "link": "https://spoolio.fr/pla-biosource-impression-3d-eco-responsable/plabiosource/",
+          "title": {
+            "rendered": "plabiosourcé"
+          },
+          "author": 1,
+          "featured_media": 0,
+          "jetpack_sharing_enabled": true,
+          "acf": [],
+          "caption": {
+            "rendered": "<p>plabiosourcé</p>\n"
+          },
+          "alt_text": "plabiosourcé",
+          "media_type": "image",
+          "mime_type": "image/jpeg",
+          "media_details": {
+            "width": 2560,
+            "height": 1707,
+            "file": "2026/03/plabiosource-scaled.jpg",
+            "filesize": 492720,
+            "sizes": {
+              "medium": {
+                "file": "plabiosource-300x200.jpg",
+                "width": 300,
+                "height": 200,
+                "filesize": 22608,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?fit=300%2C200&ssl=1"
+              },
+              "large": {
+                "file": "plabiosource-1024x683.jpg",
+                "width": 1024,
+                "height": 683,
+                "filesize": 128459,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?fit=1024%2C683&ssl=1"
+              },
+              "thumbnail": {
+                "file": "plabiosource-150x150.jpg",
+                "width": 150,
+                "height": 150,
+                "filesize": 11658,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?resize=150%2C150&ssl=1"
+              },
+              "medium_large": {
+                "file": "plabiosource-768x512.jpg",
+                "width": 768,
+                "height": 512,
+                "filesize": 84213,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?fit=768%2C512&ssl=1"
+              },
+              "1536x1536": {
+                "file": "plabiosource-1536x1024.jpg",
+                "width": 1536,
+                "height": 1024,
+                "filesize": 231155,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?fit=1536%2C1024&ssl=1"
+              },
+              "2048x2048": {
+                "file": "plabiosource-2048x1365.jpg",
+                "width": 2048,
+                "height": 1365,
+                "filesize": 353750,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?fit=2048%2C1365&ssl=1"
+              },
+              "blog-large": {
+                "file": "plabiosource-1140x445.jpg",
+                "width": 1140,
+                "height": 445,
+                "filesize": 89673,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?resize=1140%2C445&ssl=1"
+              },
+              "blog-medium": {
+                "file": "plabiosource-463x348.jpg",
+                "width": 463,
+                "height": 348,
+                "filesize": 43730,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?resize=463%2C348&ssl=1"
+              },
+              "blog-masonry": {
+                "file": "plabiosource-640x427.jpg",
+                "width": 640,
+                "height": 427,
+                "filesize": 65315,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?fit=640%2C427&ssl=1"
+              },
+              "blog-masonry-small": {
+                "file": "plabiosource-400x267.jpg",
+                "width": 400,
+                "height": 267,
+                "filesize": 33579,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?fit=400%2C267&ssl=1"
+              },
+              "blog-grid": {
+                "file": "plabiosource-640x480.jpg",
+                "width": 640,
+                "height": 480,
+                "filesize": 68993,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?resize=640%2C480&ssl=1"
+              },
+              "blog-grid-small": {
+                "file": "plabiosource-400x300.jpg",
+                "width": 400,
+                "height": 300,
+                "filesize": 35606,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?resize=400%2C300&ssl=1"
+              },
+              "related-post": {
+                "file": "plabiosource-450x231.jpg",
+                "width": 450,
+                "height": 231,
+                "filesize": 31588,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?resize=450%2C231&ssl=1"
+              },
+              "widget-thumb-medium": {
+                "file": "plabiosource-85x85.jpg",
+                "width": 85,
+                "height": 85,
+                "filesize": 6691,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?resize=85%2C85&ssl=1"
+              },
+              "woocommerce_thumbnail": {
+                "file": "plabiosource-300x300.jpg",
+                "width": 300,
+                "height": 300,
+                "filesize": 27882,
+                "uncropped": false,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?resize=300%2C300&ssl=1"
+              },
+              "woocommerce_single": {
+                "file": "plabiosource-1200x800.jpg",
+                "width": 1200,
+                "height": 800,
+                "filesize": 160980,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?fit=1200%2C800&ssl=1"
+              },
+              "woocommerce_gallery_thumbnail": {
+                "file": "plabiosource-150x150.jpg",
+                "width": 150,
+                "height": 150,
+                "filesize": 11658,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?resize=150%2C150&ssl=1"
+              },
+              "swatches_image_size": {
+                "file": "plabiosource-32x32.jpg",
+                "width": 32,
+                "height": 32,
+                "filesize": 3918,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?resize=32%2C32&ssl=1"
+              },
+              "full": {
+                "file": "plabiosource-scaled.jpg?fit=2560%2C1707&ssl=1",
+                "width": 2560,
+                "height": 1707,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg?fit=2560%2C1707&ssl=1"
+              }
+            },
+            "image_meta": {
+              "aperture": "0",
+              "credit": "",
+              "camera": "",
+              "caption": "",
+              "created_timestamp": "0",
+              "copyright": "",
+              "focal_length": "0",
+              "iso": "0",
+              "shutter_speed": "0",
+              "title": "",
+              "orientation": "0",
+              "keywords": []
+            },
+            "original_image": "plabiosource.jpg"
+          },
+          "source_url": "https://spoolio.fr/wp-content/uploads/2026/03/plabiosource-scaled.jpg",
+          "_links": {
+            "self": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/media/12858",
+                "targetHints": {
+                  "allow": [
+                    "GET"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/media"
+              }
+            ],
+            "about": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/types/attachment"
+              }
+            ],
+            "author": [
+              {
+                "embeddable": true,
+                "href": "https://spoolio.fr/wp-json/wp/v2/users/1"
+              }
+            ],
+            "replies": [
+              {
+                "embeddable": true,
+                "href": "https://spoolio.fr/wp-json/wp/v2/comments?post=12858"
+              }
+            ],
+            "wp:attached-to": [
+              {
+                "embeddable": true,
+                "post_type": "post",
+                "id": 12857,
+                "href": "https://spoolio.fr/wp-json/wp/v2/posts/12857"
+              }
+            ],
+            "curies": [
+              {
+                "name": "wp",
+                "href": "https://api.w.org/{rel}",
+                "templated": true
+              }
+            ]
+          }
+        }
+      ],
+      "wp:term": [
+        [
+          {
+            "id": 112,
+            "link": "https://spoolio.fr/category/explications/",
+            "name": "Explications",
+            "slug": "explications",
+            "taxonomy": "category",
+            "acf": [],
+            "_links": {
+              "self": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/categories/112",
+                  "targetHints": {
+                    "allow": [
+                      "GET"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/categories"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/taxonomies/category"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/posts?categories=112"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          }
+        ],
+        []
+      ]
+    },
+    "featured_image_url": "/images/imported/plabiosource-scaled.jpg"
+  },
+  {
+    "id": 9918,
+    "date": "2025-11-01T16:55:00",
+    "date_gmt": "2025-11-01T15:55:00",
+    "guid": {
+      "rendered": "https://spoolio.fr/?p=9918"
+    },
+    "modified": "2025-10-29T16:56:17",
+    "modified_gmt": "2025-10-29T15:56:17",
+    "slug": "spoolio-sengage-pour-movember",
+    "status": "publish",
+    "type": "post",
+    "link": "https://spoolio.fr/spoolio-sengage-pour-movember/",
+    "title": {
+      "rendered": "Spoolio s&rsquo;engage pour Movember"
+    },
+    "content": {
+      "rendered": "\n<h2 class=\"wp-block-heading\"><strong>1. Pourquoi Movember ?</strong></h2>\n\n\n\n<p class=\"wp-block-paragraph\">Novembre, c’est ce mois un peu spécial où les moustaches fleurissent un peu partout.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Mais derrière les poils, il y a une cause sérieuse : <strong>la santé masculine</strong>.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Movember, c’est une organisation internationale qui agit pour la <strong>prévention et la recherche</strong> sur :</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li>le <strong>cancer de la prostate</strong>,</li>\n\n\n\n<li>le <strong>cancer des testicules</strong>,</li>\n\n\n\n<li>et la <strong>santé mentale</strong> des hommes.</li>\n</ul>\n\n\n\n<p class=\"wp-block-paragraph\">Chaque année, plus de <strong>510 000 hommes</strong> se suicident dans le monde.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Des pères, des fils, des frères, des amis.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Alors si une moustache peut servir à briser le silence, à amorcer une discussion ou à financer la recherche… autant la laisser pousser, non ?</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<h2 class=\"wp-block-heading\"><strong>2. Spoolio, c’est quoi déjà ?</strong></h2>\n\n\n\n<p class=\"wp-block-paragraph\">Pour ceux qui découvrent le site, Spoolio, c’est mon projet de cœur.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Je m’appelle Vivien, je suis passionné de <strong>création, de bricolage et d’impression 3D</strong> depuis plus de dix ans.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Un jour, en voyant mon fils s’émerveiller devant un jouet imprimé à la maison, je me suis dit :</p>\n\n\n\n<blockquote class=\"wp-block-quote is-layout-flow wp-block-quote-is-layout-flow\">\n<p class=\"wp-block-paragraph\">“Et si je pouvais partager ça avec d’autres ?”</p>\n</blockquote>\n\n\n\n<p class=\"wp-block-paragraph\">C’est comme ça qu’est né <strong>Spoolio.fr</strong> :</p>\n\n\n\n<p class=\"wp-block-paragraph\">un atelier de fabrication artisanale, où je conçois des <strong>objets funs, accessibles et imprimés en 3D</strong> — le tout avec une bonne dose d’humour.</p>\n\n\n\n<p class=\"wp-block-paragraph\">L’idée, c’est simple : faire sourire, offrir des petits trucs sympas, et prouver qu’on peut créer différemment.</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<h2 class=\"wp-block-heading\"><strong>3. Pourquoi m’engager avec Movember ?</strong></h2>\n\n\n\n<p class=\"wp-block-paragraph\">Parce qu’à un moment, j’ai eu envie de donner <strong>plus de sens</strong> à ce que je fais.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Créer des objets, c’est cool.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Mais créer des objets qui <strong>servent à quelque chose de plus grand</strong>, c’est encore mieux.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Après avoir soutenu <strong>Octobre Rose</strong> (avec un clicker “sein” plein d’humour pour parler du dépistage du cancer du sein), j’ai eu envie d’équilibrer la balance.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Cette fois, c’est aux hommes qu’on s’adresse.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Movember, c’est tout sauf une campagne triste.</p>\n\n\n\n<p class=\"wp-block-paragraph\">C’est un mouvement <strong>humain, positif, un peu décalé</strong>, exactement comme Spoolio.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Alors l’idée s’est imposée d’elle-même :</p>\n\n\n\n<blockquote class=\"wp-block-quote is-layout-flow wp-block-quote-is-layout-flow\">\n<p class=\"wp-block-paragraph\">“Et si je mettais Spoolio au service de cette cause ?”</p>\n</blockquote>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<h2 class=\"wp-block-heading\"><strong>4. Comment Spoolio s’engage concrètement 💪</strong></h2>\n\n\n\n<p class=\"wp-block-paragraph\">Pendant tout le mois de novembre, je m’engage à reverser <strong>50 % de la marge</strong> de toutes les commandes passées sur le site à Movember France.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Et sur une sélection d’objets “spéciaux Movember”, <strong>100 % des bénéfices</strong> seront reversés.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Je publierai d’ailleurs la preuve du virement en fin de campagne — la transparence, c’est important.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Mais Spoolio, c’est aussi du fun, alors pas question de faire ça sans un petit clin d’œil 😏</p>\n\n\n\n<p class=\"wp-block-paragraph\">Voici quelques objets créés spécialement pour l’occasion 👇</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>🧔 Le porte-clé “MO POWER”</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">Parce qu’avoir une moustache, c’est bien.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Mais avoir <strong>le pouvoir de faire une différence</strong>, c’est encore mieux.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Ce petit porte-clé moustachu en 3D symbolise la solidarité masculine.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Imprimé en édition limitée dans les couleurs de Movember, il te rappelle que même un petit geste peut avoir un vrai impact.</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>🥚 Le “Clicker Testicules” (oui, oui)</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">Après le succès du <strong>clicker “sein”</strong> pour Octobre Rose, il fallait bien une suite logique.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Voici donc le <strong>clicker “testicules”</strong>, alias <em>le “Testiclick”</em>.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Derrière l’humour, il y a un message sérieux :</p>\n\n\n\n<blockquote class=\"wp-block-quote is-layout-flow wp-block-quote-is-layout-flow\">\n<p class=\"wp-block-paragraph\">parler du corps, se connaître, se surveiller.</p>\n</blockquote>\n\n\n\n<p class=\"wp-block-paragraph\">Ce petit objet absurde mais utile permet d’aborder la question du <strong>dépistage du cancer testiculaire</strong> sans gêne.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Tu cliques, tu ris, et tu fais passer le message.</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>🥸 La moustache à poser</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">Une mini moustache imprimée en 3D, à poser sur ton bureau ou ton étagère.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Parce que Movember, c’est aussi une manière d’afficher son soutien au quotidien.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Chaque moustache vendue = les bénéfices reversés à Movember.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Et si tu veux, tu peux même la coller sur ta voiture. (Oui, vraiment.)</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<h2 class=\"wp-block-heading\"><strong>5. Parler des vrais sujets (sans se prendre trop au sérieux)</strong></h2>\n\n\n\n<p class=\"wp-block-paragraph\">Les hommes ont parfois du mal à parler de santé.</p>\n\n\n\n<p class=\"wp-block-paragraph\">C’est culturel, c’est sociétal, c’est un peu “on verra plus tard”.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Mais Movember, c’est justement l’occasion de <strong>changer ça</strong>.</p>\n\n\n\n<p class=\"wp-block-paragraph\">De dire que oui, un homme peut aller faire un check-up,</p>\n\n\n\n<p class=\"wp-block-paragraph\">qu’il peut parler de ses émotions,</p>\n\n\n\n<p class=\"wp-block-paragraph\">et que ça ne remet pas en question sa virilité.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Parce qu’être fort, ce n’est pas faire semblant.</p>\n\n\n\n<p class=\"wp-block-paragraph\">C’est <strong>prendre soin de soi</strong>.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Et si une moustache, un porte-clé ou un clicker peuvent aider à ouvrir la conversation, alors mission accomplie.</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<h2 class=\"wp-block-heading\"><strong>6. Le sens derrière la moustache</strong></h2>\n\n\n\n<p class=\"wp-block-paragraph\">Ce projet Movember chez Spoolio, c’est aussi une manière de dire merci.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Merci à ceux qui soutiennent mes créations,</p>\n\n\n\n<p class=\"wp-block-paragraph\">merci à ceux qui partagent mes publications,</p>\n\n\n\n<p class=\"wp-block-paragraph\">et merci à ceux qui croient qu’on peut <strong>changer les choses à notre échelle</strong>.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Chaque commande passée en novembre, chaque euro reversé, chaque mot partagé sur cette cause…</p>\n\n\n\n<p class=\"wp-block-paragraph\">c’est un petit pas vers une société plus consciente, plus bienveillante et plus ouverte.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Je ne suis pas une grande entreprise, je ne cherche pas la reconnaissance.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Je veux juste utiliser ce que je sais faire — imprimer, créer, partager — pour <strong>aider autrement</strong>.</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<h2 class=\"wp-block-heading\"><strong>7. Le mot de la fin : faire pousser la solidarité 🌱</strong></h2>\n\n\n\n<p class=\"wp-block-paragraph\">Movember, ce n’est pas qu’une histoire de moustache.</p>\n\n\n\n<p class=\"wp-block-paragraph\">C’est une histoire de solidarité, de bienveillance, de santé et de partage.</p>\n\n\n\n<p class=\"wp-block-paragraph\">C’est aussi un bon prétexte pour rire un peu, pour parler de sujets sérieux sans se prendre la tête.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Chez Spoolio, je crois à cette idée :</p>\n\n\n\n<blockquote class=\"wp-block-quote is-layout-flow wp-block-quote-is-layout-flow\">\n<p class=\"wp-block-paragraph\">qu’un objet peut être à la fois drôle, utile et porteur de sens.</p>\n</blockquote>\n\n\n\n<p class=\"wp-block-paragraph\">Alors cette année, si tu veux soutenir la cause, tu peux :</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li>te laisser pousser la moustache,</li>\n\n\n\n<li>en parler autour de toi,</li>\n\n\n\n<li>ou simplement <strong>faire un achat sur Spoolio.fr</strong> — et ainsi contribuer directement à Movember.</li>\n</ul>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>🙌 Ensemble, on fait pousser la moustache… et la solidarité.</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">Merci à toi si tu participes, partage, ou ne serait-ce que lis ces lignes.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Et si ça t’a donné envie d’en parler, alors le pari est déjà gagné 💙</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p class=\"wp-block-paragraph\"><strong>👉 Découvre la collection spéciale Movember sur </strong><a href=\"https://spoolio.fr\"><strong>Spoolio.fr</strong></a></p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>1. Pourquoi Movember ? Novembre, c’est ce mois un peu spécial où les moustaches fleurissent un peu partout. Mais derrière les poils, il y a une cause sérieuse : la santé masculine. Movember, c’est une organisation internationale qui agit pour la prévention et la recherche sur : Chaque année, plus de 510 000 hommes se [&hellip;]</p>\n",
+      "protected": false
+    },
+    "author": 1,
+    "featured_media": 9920,
+    "comment_status": "open",
+    "ping_status": "open",
+    "sticky": false,
+    "template": "",
+    "format": "standard",
+    "meta": {
+      "_acf_changed": false,
+      "rs_blank_template": "",
+      "rs_page_bg_color": "",
+      "slide_template_v7": "",
+      "_jetpack_newsletter_access": "",
+      "_jetpack_dont_email_post_to_subs": false,
+      "_jetpack_newsletter_tier_id": 0,
+      "_jetpack_memberships_contains_paywalled_content": false,
+      "_jetpack_feature_clip_id": 0,
+      "_jetpack_memberships_contains_paid_content": false,
+      "footnotes": "",
+      "jetpack_post_was_ever_published": false
+    },
+    "categories": [
+      112
+    ],
+    "tags": [],
+    "class_list": [
+      "post-9918",
+      "post",
+      "type-post",
+      "status-publish",
+      "format-standard",
+      "has-post-thumbnail",
+      "hentry",
+      "category-explications"
+    ],
+    "acf": [],
+    "featured_image_src": {
+      "landsacpe": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?resize=1140%2C445&ssl=1",
+        1140,
+        445,
+        true
+      ],
+      "list": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?resize=463%2C348&ssl=1",
+        463,
+        348,
+        true
+      ],
+      "medium": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?fit=300%2C167&ssl=1",
+        300,
+        167,
+        true
+      ],
+      "full": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?fit=1706%2C951&ssl=1",
+        1706,
+        951,
+        false
+      ]
+    },
+    "jetpack_featured_media_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?fit=1706%2C951&ssl=1",
+    "jetpack_sharing_enabled": true,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/9918",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/types/post"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/comments?post=9918"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 2,
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/9918/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 9921,
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/9918/revisions/9921"
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/media/9920"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/media?parent=9918"
+        }
+      ],
+      "wp:term": [
+        {
+          "taxonomy": "category",
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/categories?post=9918"
+        },
+        {
+          "taxonomy": "post_tag",
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/tags?post=9918"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    },
+    "_embedded": {
+      "author": [
+        {
+          "id": 1,
+          "name": "Vivien",
+          "url": "http://spoolio.fr",
+          "description": "",
+          "link": "https://spoolio.fr/author/admin5267/",
+          "slug": "admin5267",
+          "avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=24&d=mm&r=g",
+            "48": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=48&d=mm&r=g",
+            "96": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=96&d=mm&r=g"
+          },
+          "is_super_admin": true,
+          "woocommerce_meta": {
+            "variable_product_tour_shown": "yes",
+            "wc_payments_overview_inbox_last_read": "1736771903081",
+            "wc_payments_transactions_hidden_columns": "",
+            "wc_payments_transactions_blocked_hidden_columns": "",
+            "wc_payments_transactions_risk_review_hidden_columns": "",
+            "wc_payments_transactions_uncaptured_hidden_columns": "",
+            "wc_payments_payouts_hidden_columns": "",
+            "wc_payments_disputes_hidden_columns": "",
+            "wc_payments_documents_hidden_columns": "",
+            "wc_payments_reports_fees_view": "",
+            "wc_payments_review_prompt_dismissed": "1774535029",
+            "wc_payments_review_prompt_maybe_later": "",
+            "wc_payments_reports_feedback_dismissed": "",
+            "activity_panel_inbox_last_read": "",
+            "activity_panel_reviews_last_read": "",
+            "categories_report_columns": "",
+            "coupons_report_columns": "",
+            "customers_report_columns": "",
+            "orders_report_columns": "[\"customer_type\",\"coupons\",\"customer_currency\"]",
+            "products_report_columns": "",
+            "revenue_report_columns": "",
+            "taxes_report_columns": "",
+            "variations_report_columns": "",
+            "dashboard_sections": "",
+            "dashboard_chart_type": "",
+            "dashboard_chart_interval": "",
+            "dashboard_leaderboard_rows": "",
+            "order_attribution_install_banner_dismissed": "",
+            "scheduled_updates_promotion_notice_dismissed": "",
+            "homepage_layout": "",
+            "homepage_stats": "",
+            "task_list_tracked_started_tasks": "{\"tax\":2,\"shipping\":1,\"customize-store\":2,\"launch-your-store\":1}",
+            "android_app_banner_dismissed": "",
+            "launch_your_store_tour_hidden": "",
+            "coming_soon_banner_dismissed": ""
+          },
+          "acf": [],
+          "_links": {
+            "self": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/users/1",
+                "targetHints": {
+                  "allow": [
+                    "GET"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/users"
+              }
+            ]
+          }
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "id": 9920,
+          "date": "2025-10-29T16:51:25",
+          "slug": "movember-post-couv",
+          "type": "attachment",
+          "link": "https://spoolio.fr/spoolio-sengage-pour-movember/movember-post-couv/",
+          "title": {
+            "rendered": "Movember Post Couv"
+          },
+          "author": 1,
+          "featured_media": 0,
+          "jetpack_sharing_enabled": true,
+          "acf": [],
+          "caption": {
+            "rendered": "<p>Movember Post Couv</p>\n"
+          },
+          "alt_text": "Movember Post Couv",
+          "media_type": "image",
+          "mime_type": "image/png",
+          "media_details": {
+            "width": 1706,
+            "height": 951,
+            "file": "2025/10/Movember-Post-Couv.png",
+            "filesize": 979784,
+            "sizes": {
+              "medium": {
+                "file": "Movember-Post-Couv-300x167.png",
+                "width": 300,
+                "height": 167,
+                "filesize": 12610,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?fit=300%2C167&ssl=1"
+              },
+              "large": {
+                "file": "Movember-Post-Couv-1024x571.png",
+                "width": 1024,
+                "height": 571,
+                "filesize": 78746,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?fit=1024%2C571&ssl=1"
+              },
+              "thumbnail": {
+                "file": "Movember-Post-Couv-150x150.png",
+                "width": 150,
+                "height": 150,
+                "filesize": 7398,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?resize=150%2C150&ssl=1"
+              },
+              "medium_large": {
+                "file": "Movember-Post-Couv-768x428.png",
+                "width": 768,
+                "height": 428,
+                "filesize": 52424,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?fit=768%2C428&ssl=1"
+              },
+              "1536x1536": {
+                "file": "Movember-Post-Couv-1536x856.png",
+                "width": 1536,
+                "height": 856,
+                "filesize": 147437,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?fit=1536%2C856&ssl=1"
+              },
+              "blog-large": {
+                "file": "Movember-Post-Couv-1140x445.png",
+                "width": 1140,
+                "height": 445,
+                "filesize": 67899,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?resize=1140%2C445&ssl=1"
+              },
+              "blog-medium": {
+                "file": "Movember-Post-Couv-463x348.png",
+                "width": 463,
+                "height": 348,
+                "filesize": 30937,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?resize=463%2C348&ssl=1"
+              },
+              "blog-masonry": {
+                "file": "Movember-Post-Couv-640x357.png",
+                "width": 640,
+                "height": 357,
+                "filesize": 40151,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?fit=640%2C357&ssl=1"
+              },
+              "blog-masonry-small": {
+                "file": "Movember-Post-Couv-400x223.png",
+                "width": 400,
+                "height": 223,
+                "filesize": 19707,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?fit=400%2C223&ssl=1"
+              },
+              "blog-grid": {
+                "file": "Movember-Post-Couv-640x480.png",
+                "width": 640,
+                "height": 480,
+                "filesize": 48456,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?resize=640%2C480&ssl=1"
+              },
+              "blog-grid-small": {
+                "file": "Movember-Post-Couv-400x300.png",
+                "width": 400,
+                "height": 300,
+                "filesize": 25004,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?resize=400%2C300&ssl=1"
+              },
+              "related-post": {
+                "file": "Movember-Post-Couv-450x231.png",
+                "width": 450,
+                "height": 231,
+                "filesize": 22077,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?resize=450%2C231&ssl=1"
+              },
+              "widget-thumb-medium": {
+                "file": "Movember-Post-Couv-85x85.png",
+                "width": 85,
+                "height": 85,
+                "filesize": 3218,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?resize=85%2C85&ssl=1"
+              },
+              "woocommerce_thumbnail": {
+                "file": "Movember-Post-Couv-300x300.png",
+                "width": 300,
+                "height": 300,
+                "filesize": 20433,
+                "uncropped": false,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?resize=300%2C300&ssl=1"
+              },
+              "woocommerce_single": {
+                "file": "Movember-Post-Couv-1200x669.png",
+                "width": 1200,
+                "height": 669,
+                "filesize": 100024,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?fit=1200%2C669&ssl=1"
+              },
+              "woocommerce_gallery_thumbnail": {
+                "file": "Movember-Post-Couv-150x150.png",
+                "width": 150,
+                "height": 150,
+                "filesize": 7398,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?resize=150%2C150&ssl=1"
+              },
+              "swatches_image_size": {
+                "file": "Movember-Post-Couv-32x32.png",
+                "width": 32,
+                "height": 32,
+                "filesize": 1014,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?resize=32%2C32&ssl=1"
+              },
+              "full": {
+                "file": "Movember-Post-Couv.png?fit=1706%2C951&ssl=1",
+                "width": 1706,
+                "height": 951,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png?fit=1706%2C951&ssl=1"
+              }
+            },
+            "image_meta": {
+              "aperture": "0",
+              "credit": "",
+              "camera": "",
+              "caption": "",
+              "created_timestamp": "0",
+              "copyright": "",
+              "focal_length": "0",
+              "iso": "0",
+              "shutter_speed": "0",
+              "title": "",
+              "orientation": "0",
+              "keywords": []
+            }
+          },
+          "source_url": "https://spoolio.fr/wp-content/uploads/2025/10/Movember-Post-Couv.png",
+          "_links": {
+            "self": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/media/9920",
+                "targetHints": {
+                  "allow": [
+                    "GET"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/media"
+              }
+            ],
+            "about": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/types/attachment"
+              }
+            ],
+            "author": [
+              {
+                "embeddable": true,
+                "href": "https://spoolio.fr/wp-json/wp/v2/users/1"
+              }
+            ],
+            "replies": [
+              {
+                "embeddable": true,
+                "href": "https://spoolio.fr/wp-json/wp/v2/comments?post=9920"
+              }
+            ],
+            "wp:attached-to": [
+              {
+                "embeddable": true,
+                "post_type": "post",
+                "id": 9918,
+                "href": "https://spoolio.fr/wp-json/wp/v2/posts/9918"
+              }
+            ],
+            "curies": [
+              {
+                "name": "wp",
+                "href": "https://api.w.org/{rel}",
+                "templated": true
+              }
+            ]
+          }
+        }
+      ],
+      "wp:term": [
+        [
+          {
+            "id": 112,
+            "link": "https://spoolio.fr/category/explications/",
+            "name": "Explications",
+            "slug": "explications",
+            "taxonomy": "category",
+            "acf": [],
+            "_links": {
+              "self": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/categories/112",
+                  "targetHints": {
+                    "allow": [
+                      "GET"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/categories"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/taxonomies/category"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/posts?categories=112"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          }
+        ],
+        []
+      ]
+    },
+    "featured_image_url": "/images/imported/Movember-Post-Couv.png"
+  },
+  {
+    "id": 9816,
+    "date": "2025-09-11T15:16:06",
+    "date_gmt": "2025-09-11T13:16:06",
+    "guid": {
+      "rendered": "https://spoolio.fr/?p=9816"
+    },
+    "modified": "2025-09-11T15:20:00",
+    "modified_gmt": "2025-09-11T13:20:00",
+    "slug": "5-idees-simples-pour-feter-halloween-a-la-maison",
+    "status": "publish",
+    "type": "post",
+    "link": "https://spoolio.fr/5-idees-simples-pour-feter-halloween-a-la-maison/",
+    "title": {
+      "rendered": "5 idées simples pour fêter Halloween à la maison"
+    },
+    "content": {
+      "rendered": "\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"has-text-align-center wp-block-paragraph\">Halloween approche à grands pas 🎃 ! Cette fête venue d’outre-Atlantique est devenue un incontournable en France, aussi bien pour les enfants que pour les adultes. Mais pas besoin d’un énorme budget ni d’une maison entièrement décorée pour créer une ambiance frissonnante. Voici 5 idées simples et accessibles pour fêter Halloween à la maison, en famille ou entre amis – et profiter de ce moment pour réveiller ton âme créative.</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<figure class=\"wp-block-image size-large\"><a href=\"https://spoolio.fr/produit/deco-halloween-originale-mini-frousse-box/\"><img data-recalc-dims=\"1\" fetchpriority=\"high\" decoding=\"async\" width=\"1024\" height=\"683\" src=\"/images/imported/Spoolio_Mini-Frousse-Box_6.webp\" alt=\"Spoolio Mini Frousse Box 6\" class=\"wp-image-9775\" title=\"\" srcset=\"https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/Spoolio_Mini-Frousse-Box_6-scaled.webp?resize=1024%2C683&amp;ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/Spoolio_Mini-Frousse-Box_6-scaled.webp?resize=768%2C512&amp;ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/Spoolio_Mini-Frousse-Box_6-scaled.webp?resize=640%2C427&amp;ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/Spoolio_Mini-Frousse-Box_6-scaled.webp?resize=400%2C267&amp;ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/Spoolio_Mini-Frousse-Box_6-scaled.webp?w=2280&amp;ssl=1 2280w\" sizes=\"(max-width: 1024px) 100vw, 1024px\" /></a><figcaption class=\"wp-element-caption\">Spoolio Mini Frousse Box 6</figcaption></figure>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>🎃 1. Décore ta maison avec des petits détails qui font peur</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">Pas besoin de transformer ton salon en manoir hanté pour ressentir l’esprit d’Halloween. Quelques citrouilles (naturelles ou en plastique), des bougies LED et une guirlande de fantômes peuvent suffire à créer l’ambiance.</p>\n\n\n\n<p class=\"wp-block-paragraph\">💡 <strong>Astuce :</strong> Si tu veux aller plus loin, jette un œil à notre <strong>Mini Frousse Box</strong> : un petit kit déco avec fantômes, araignées et mini chaudron lumineux pour installer une ambiance Halloween en un rien de temps.</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>🎶 2. Crée une playlist qui fait frissonner</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\"><br>Rien de tel qu’une bonne bande-son pour plonger tout le monde dans l’ambiance ! Ajoute des classiques comme <em>Thriller</em> de Michael Jackson ou la musique de <em>Ghostbusters</em>, mais aussi des morceaux plus mystérieux pour un effet dramatique.</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>🖌️ 3. Organise un atelier créatif</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">Peindre des citrouilles, découper des silhouettes de chauves-souris ou fabriquer des photophores avec des pots de confiture : voilà une activité simple et ludique. C’est une belle manière de préparer Halloween en famille, et d’avoir une maison décorée avec tes propres créations.</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>🍪 4. Prépare un goûter terrifiant</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">Les biscuits en forme de fantômes, les muffins araignée ou le chocolat chaud façon potion magique sont des classiques qui plaisent à tout le monde. N’hésite pas à prendre quelques photos de tes créations pour les partager sur Instagram avec le hashtag <strong>#Spooloween</strong>.</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<figure class=\"wp-block-image size-large\"><a href=\"https://spoolio.fr/produit/crane-dinosaure-imprime-en-3d/\"><img data-recalc-dims=\"1\" decoding=\"async\" width=\"1024\" height=\"683\" src=\"/images/imported/Spoolio_CraneDinosaure-21.jpg\" alt=\"Spoolio CraneDinosaure 21\" class=\"wp-image-9767\" title=\"\" srcset=\"https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/Spoolio_CraneDinosaure-21-scaled.jpg?resize=1024%2C683&amp;ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/Spoolio_CraneDinosaure-21-scaled.jpg?resize=768%2C512&amp;ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/Spoolio_CraneDinosaure-21-scaled.jpg?resize=640%2C427&amp;ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/Spoolio_CraneDinosaure-21-scaled.jpg?resize=400%2C267&amp;ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/Spoolio_CraneDinosaure-21-scaled.jpg?w=2280&amp;ssl=1 2280w\" sizes=\"(max-width: 1024px) 100vw, 1024px\" /></a><figcaption class=\"wp-element-caption\">Spoolio CraneDinosaure 21</figcaption></figure>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>👻 5. Accessoirise ton look</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">Pas envie de te déguiser complètement ? Un maquillage rapide et quelques accessoires suffisent. Nos <strong>boucles d’oreilles fantômes phosphorescentes</strong> sont parfaites pour ajouter une touche fun et spooky à ta tenue sans en faire trop.</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>🎉 Conclusion</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">Halloween, c’est avant tout l’occasion de passer un moment convivial et de laisser parler son imagination. Avec quelques idées simples, tu peux créer une ambiance magique chez toi, sans te ruiner.</p>\n\n\n\n<p class=\"wp-block-paragraph\">💡 Découvre toute notre capsule <strong>Spooloween</strong> et profite de <strong>-15% avec le code SPOOLOWEEN15</strong> jusqu’au 31 octobre.</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>Halloween approche à grands pas 🎃 ! Cette fête venue d’outre-Atlantique est devenue un incontournable en France, aussi bien pour les enfants que pour les adultes. Mais pas besoin d’un énorme budget ni d’une maison entièrement décorée pour créer une ambiance frissonnante. Voici 5 idées simples et accessibles pour fêter Halloween à la maison, en [&hellip;]</p>\n",
+      "protected": false
+    },
+    "author": 1,
+    "featured_media": 9818,
+    "comment_status": "open",
+    "ping_status": "open",
+    "sticky": false,
+    "template": "",
+    "format": "standard",
+    "meta": {
+      "_acf_changed": false,
+      "rs_blank_template": "",
+      "rs_page_bg_color": "",
+      "slide_template_v7": "",
+      "_jetpack_newsletter_access": "",
+      "_jetpack_dont_email_post_to_subs": false,
+      "_jetpack_newsletter_tier_id": 0,
+      "_jetpack_memberships_contains_paywalled_content": false,
+      "_jetpack_feature_clip_id": 0,
+      "_jetpack_memberships_contains_paid_content": false,
+      "footnotes": "",
+      "jetpack_post_was_ever_published": false
+    },
+    "categories": [
+      152
+    ],
+    "tags": [],
+    "class_list": [
+      "post-9816",
+      "post",
+      "type-post",
+      "status-publish",
+      "format-standard",
+      "has-post-thumbnail",
+      "hentry",
+      "category-saisonnier"
+    ],
+    "acf": [],
+    "featured_image_src": {
+      "landsacpe": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?resize=1140%2C445&ssl=1",
+        1140,
+        445,
+        true
+      ],
+      "list": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?resize=463%2C348&ssl=1",
+        463,
+        348,
+        true
+      ],
+      "medium": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?fit=300%2C169&ssl=1",
+        300,
+        169,
+        true
+      ],
+      "full": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?fit=1920%2C1080&ssl=1",
+        1920,
+        1080,
+        false
+      ]
+    },
+    "jetpack_featured_media_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?fit=1920%2C1080&ssl=1",
+    "jetpack_sharing_enabled": true,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/9816",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/types/post"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/comments?post=9816"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 3,
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/9816/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 9821,
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/9816/revisions/9821"
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/media/9818"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/media?parent=9816"
+        }
+      ],
+      "wp:term": [
+        {
+          "taxonomy": "category",
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/categories?post=9816"
+        },
+        {
+          "taxonomy": "post_tag",
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/tags?post=9816"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    },
+    "_embedded": {
+      "author": [
+        {
+          "id": 1,
+          "name": "Vivien",
+          "url": "http://spoolio.fr",
+          "description": "",
+          "link": "https://spoolio.fr/author/admin5267/",
+          "slug": "admin5267",
+          "avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=24&d=mm&r=g",
+            "48": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=48&d=mm&r=g",
+            "96": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=96&d=mm&r=g"
+          },
+          "is_super_admin": true,
+          "woocommerce_meta": {
+            "variable_product_tour_shown": "yes",
+            "wc_payments_overview_inbox_last_read": "1736771903081",
+            "wc_payments_transactions_hidden_columns": "",
+            "wc_payments_transactions_blocked_hidden_columns": "",
+            "wc_payments_transactions_risk_review_hidden_columns": "",
+            "wc_payments_transactions_uncaptured_hidden_columns": "",
+            "wc_payments_payouts_hidden_columns": "",
+            "wc_payments_disputes_hidden_columns": "",
+            "wc_payments_documents_hidden_columns": "",
+            "wc_payments_reports_fees_view": "",
+            "wc_payments_review_prompt_dismissed": "1774535029",
+            "wc_payments_review_prompt_maybe_later": "",
+            "wc_payments_reports_feedback_dismissed": "",
+            "activity_panel_inbox_last_read": "",
+            "activity_panel_reviews_last_read": "",
+            "categories_report_columns": "",
+            "coupons_report_columns": "",
+            "customers_report_columns": "",
+            "orders_report_columns": "[\"customer_type\",\"coupons\",\"customer_currency\"]",
+            "products_report_columns": "",
+            "revenue_report_columns": "",
+            "taxes_report_columns": "",
+            "variations_report_columns": "",
+            "dashboard_sections": "",
+            "dashboard_chart_type": "",
+            "dashboard_chart_interval": "",
+            "dashboard_leaderboard_rows": "",
+            "order_attribution_install_banner_dismissed": "",
+            "scheduled_updates_promotion_notice_dismissed": "",
+            "homepage_layout": "",
+            "homepage_stats": "",
+            "task_list_tracked_started_tasks": "{\"tax\":2,\"shipping\":1,\"customize-store\":2,\"launch-your-store\":1}",
+            "android_app_banner_dismissed": "",
+            "launch_your_store_tour_hidden": "",
+            "coming_soon_banner_dismissed": ""
+          },
+          "acf": [],
+          "_links": {
+            "self": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/users/1",
+                "targetHints": {
+                  "allow": [
+                    "GET"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/users"
+              }
+            ]
+          }
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "id": 9818,
+          "date": "2025-09-11T15:13:07",
+          "slug": "postspooliohalloween",
+          "type": "attachment",
+          "link": "https://spoolio.fr/5-idees-simples-pour-feter-halloween-a-la-maison/postspooliohalloween/",
+          "title": {
+            "rendered": "postSpoolioHalloween"
+          },
+          "author": 1,
+          "featured_media": 0,
+          "jetpack_sharing_enabled": true,
+          "acf": [],
+          "caption": {
+            "rendered": "<p>postSpoolioHalloween</p>\n"
+          },
+          "alt_text": "postSpoolioHalloween",
+          "media_type": "image",
+          "mime_type": "image/png",
+          "media_details": {
+            "width": 1920,
+            "height": 1080,
+            "file": "2025/09/postSpoolioHalloween.png",
+            "filesize": 914478,
+            "sizes": {
+              "medium": {
+                "file": "postSpoolioHalloween-300x169.png",
+                "width": 300,
+                "height": 169,
+                "filesize": 18361,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?fit=300%2C169&ssl=1"
+              },
+              "large": {
+                "file": "postSpoolioHalloween-1024x576.png",
+                "width": 1024,
+                "height": 576,
+                "filesize": 160110,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?fit=1024%2C576&ssl=1"
+              },
+              "thumbnail": {
+                "file": "postSpoolioHalloween-150x150.png",
+                "width": 150,
+                "height": 150,
+                "filesize": 10585,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?resize=150%2C150&ssl=1"
+              },
+              "medium_large": {
+                "file": "postSpoolioHalloween-768x432.png",
+                "width": 768,
+                "height": 432,
+                "filesize": 94935,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?fit=768%2C432&ssl=1"
+              },
+              "1536x1536": {
+                "file": "postSpoolioHalloween-1536x864.png",
+                "width": 1536,
+                "height": 864,
+                "filesize": 284132,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?fit=1536%2C864&ssl=1"
+              },
+              "blog-large": {
+                "file": "postSpoolioHalloween-1140x445.png",
+                "width": 1140,
+                "height": 445,
+                "filesize": 133808,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?resize=1140%2C445&ssl=1"
+              },
+              "blog-medium": {
+                "file": "postSpoolioHalloween-463x348.png",
+                "width": 463,
+                "height": 348,
+                "filesize": 56223,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?resize=463%2C348&ssl=1"
+              },
+              "blog-masonry": {
+                "file": "postSpoolioHalloween-640x360.png",
+                "width": 640,
+                "height": 360,
+                "filesize": 69931,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?fit=640%2C360&ssl=1"
+              },
+              "blog-masonry-small": {
+                "file": "postSpoolioHalloween-400x225.png",
+                "width": 400,
+                "height": 225,
+                "filesize": 30143,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?fit=400%2C225&ssl=1"
+              },
+              "blog-grid": {
+                "file": "postSpoolioHalloween-640x480.png",
+                "width": 640,
+                "height": 480,
+                "filesize": 97481,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?resize=640%2C480&ssl=1"
+              },
+              "blog-grid-small": {
+                "file": "postSpoolioHalloween-400x300.png",
+                "width": 400,
+                "height": 300,
+                "filesize": 43143,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?resize=400%2C300&ssl=1"
+              },
+              "related-post": {
+                "file": "postSpoolioHalloween-450x231.png",
+                "width": 450,
+                "height": 231,
+                "filesize": 34731,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?resize=450%2C231&ssl=1"
+              },
+              "widget-thumb-medium": {
+                "file": "postSpoolioHalloween-85x85.png",
+                "width": 85,
+                "height": 85,
+                "filesize": 4243,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?resize=85%2C85&ssl=1"
+              },
+              "woocommerce_thumbnail": {
+                "file": "postSpoolioHalloween-300x300.png",
+                "width": 300,
+                "height": 300,
+                "filesize": 34688,
+                "uncropped": false,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?resize=300%2C300&ssl=1"
+              },
+              "woocommerce_single": {
+                "file": "postSpoolioHalloween-1200x675.png",
+                "width": 1200,
+                "height": 675,
+                "filesize": 203835,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?fit=1200%2C675&ssl=1"
+              },
+              "woocommerce_gallery_thumbnail": {
+                "file": "postSpoolioHalloween-150x150.png",
+                "width": 150,
+                "height": 150,
+                "filesize": 10585,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?resize=150%2C150&ssl=1"
+              },
+              "swatches_image_size": {
+                "file": "postSpoolioHalloween-32x32.png",
+                "width": 32,
+                "height": 32,
+                "filesize": 1106,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?resize=32%2C32&ssl=1"
+              },
+              "full": {
+                "file": "postSpoolioHalloween.png?fit=1920%2C1080&ssl=1",
+                "width": 1920,
+                "height": 1080,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png?fit=1920%2C1080&ssl=1"
+              }
+            },
+            "image_meta": {
+              "aperture": "0",
+              "credit": "",
+              "camera": "",
+              "caption": "",
+              "created_timestamp": "0",
+              "copyright": "",
+              "focal_length": "0",
+              "iso": "0",
+              "shutter_speed": "0",
+              "title": "",
+              "orientation": "0",
+              "keywords": []
+            }
+          },
+          "source_url": "https://spoolio.fr/wp-content/uploads/2025/09/postSpoolioHalloween.png",
+          "_links": {
+            "self": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/media/9818",
+                "targetHints": {
+                  "allow": [
+                    "GET"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/media"
+              }
+            ],
+            "about": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/types/attachment"
+              }
+            ],
+            "author": [
+              {
+                "embeddable": true,
+                "href": "https://spoolio.fr/wp-json/wp/v2/users/1"
+              }
+            ],
+            "replies": [
+              {
+                "embeddable": true,
+                "href": "https://spoolio.fr/wp-json/wp/v2/comments?post=9818"
+              }
+            ],
+            "wp:attached-to": [
+              {
+                "embeddable": true,
+                "post_type": "post",
+                "id": 9816,
+                "href": "https://spoolio.fr/wp-json/wp/v2/posts/9816"
+              }
+            ],
+            "curies": [
+              {
+                "name": "wp",
+                "href": "https://api.w.org/{rel}",
+                "templated": true
+              }
+            ]
+          }
+        }
+      ],
+      "wp:term": [
+        [
+          {
+            "id": 152,
+            "link": "https://spoolio.fr/category/saisonnier/",
+            "name": "Saisonnier",
+            "slug": "saisonnier",
+            "taxonomy": "category",
+            "acf": [],
+            "_links": {
+              "self": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/categories/152",
+                  "targetHints": {
+                    "allow": [
+                      "GET"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/categories"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/taxonomies/category"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/posts?categories=152"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          }
+        ],
+        []
+      ]
+    },
+    "featured_image_url": "/images/imported/postSpoolioHalloween.png"
+  },
+  {
+    "id": 9170,
+    "date": "2025-05-05T11:44:19",
+    "date_gmt": "2025-05-05T09:44:19",
+    "guid": {
+      "rendered": "https://spoolio.fr/?p=9170"
+    },
+    "modified": "2025-05-05T11:44:23",
+    "modified_gmt": "2025-05-05T09:44:23",
+    "slug": "cest-quoi-une-capsule-chez-spoolio",
+    "status": "publish",
+    "type": "post",
+    "link": "https://spoolio.fr/cest-quoi-une-capsule-chez-spoolio/",
+    "title": {
+      "rendered": "C’est quoi une « Capsule » chez Spoolio ?"
+    },
+    "content": {
+      "rendered": "\n<p class=\"wp-block-paragraph\">Chez <strong>Spoolio</strong>, on aime surprendre, créer, et surtout… s’amuser. Et c’est dans cet esprit qu’on lance quelque chose d’un peu spécial pour cet été : <strong>notre toute première capsule</strong> !</p>\n\n\n\n<p class=\"wp-block-paragraph\">Mais au fait, une capsule, c’est quoi exactement ? Si tu n’es pas familier avec ce mot, installe-toi confortablement, on t’explique tout. Et promis, ce sera aussi rafraîchissant qu’un cocktail sur un transat.</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><br><strong>🌴 Une capsule, c’est une parenthèse créative</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">Le mot « capsule » est souvent utilisé dans le monde de la mode ou du design pour désigner une <strong>collection éphémère</strong>, souvent en édition limitée, qui sort des sentiers battus. C’est un peu comme une bulle dans le temps, une petite explosion d’inspiration, un clin d’œil à un moment précis de l’année.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Chez <strong>Spoolio</strong>, une capsule c’est :</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li>🎯 Une <strong>gamme d’objets uniques</strong>,</li>\n\n\n\n<li>⏳ Disponibles <strong>pendant une période limitée</strong>,</li>\n\n\n\n<li>🧠 Inspirés par <strong>la saison, les tendances et l’air du temps</strong>,</li>\n\n\n\n<li>✨ Et conçus pour faire briller les yeux des petits… comme des grands.</li>\n</ul>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>🧊 Pourquoi lancer une capsule pour l’été ?</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">L’été, c’est le moment où tout ralentit un peu, où on prend le temps de respirer, de profiter, de s’amuser. Et c’est exactement ce qu’on veut transmettre à travers notre <strong>Capsule Summer</strong> : une ambiance légère, colorée, pleine de bonne humeur !</p>\n\n\n\n<p class=\"wp-block-paragraph\">On a imaginé une série d’objets <strong>ludiques, utiles ou tout simplement fun</strong>, à imprimer en 3D, et qu’on ne trouvera <strong>nulle part ailleurs</strong>.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Parmi les créations prévues, on peut déjà te dire qu’il y aura :</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li>Des <strong>porte-clés palmier, tong et glace</strong> 🏖️,</li>\n\n\n\n<li>Un <strong>éventail à assembler</strong>, pour brasser l’air avec style 🌬️,</li>\n\n\n\n<li>Un <strong>mini jeu de morpion de poche</strong> 🧠,</li>\n\n\n\n<li>Et même un petit panneau “Zone de sieste” à planter au jardin ou à coller sur la porte ! 😴</li>\n</ul>\n\n\n\n<p class=\"wp-block-paragraph\">Et bien sûr, tout ça dans le ton habituel de Spoolio : <strong>coloré, rigolo, et pas prise de tête</strong>.</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>⏳ Une durée limitée… vraiment ?</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">Oui, vraiment. Une capsule, ce n’est <strong>pas éternel</strong>. Elle a un début, une fin, et c’est aussi ce qui la rend précieuse.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Quand la <strong>Capsule Summer</strong> prendra fin, les objets ne seront plus disponibles sur le site (ou peut-être que si, mais dans une autre forme, une autre couleur, ou pour un usage totalement différent !).</p>\n\n\n\n<p class=\"wp-block-paragraph\">C’est une façon de <strong>rester créatif et réactif</strong>, de tester des idées, d’écouter vos retours… et de ne pas tomber dans la routine.</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>🧡 Pourquoi c’est cool pour toi ?</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">Lancer des capsules, c’est aussi une manière pour nous de :</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li>Te <strong>proposer des objets originaux</strong> sans attendre Noël ou Halloween,</li>\n\n\n\n<li><strong>Donner du rythme</strong> à la boutique en ligne, avec des nouveautés plus souvent,</li>\n\n\n\n<li>Te permettre de <strong>faire des petits cadeaux différents et saisonniers</strong>,</li>\n\n\n\n<li>Et de <strong>créer des souvenirs sympas</strong>, attachés à un moment de l’année.</li>\n</ul>\n\n\n\n<p class=\"wp-block-paragraph\">Et toi, tu peux :</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li>🎁 Offrir un objet qu’on ne verra <strong>pas chez tout le monde</strong>,</li>\n\n\n\n<li>🛍️ Compléter ta collection Spoolio avec une touche d’été,</li>\n\n\n\n<li>😍 Craquer pour un petit coup de cœur, sans te ruiner.</li>\n</ul>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>🧪 Une capsule, c’est aussi un labo à idées</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">Ce format nous permet aussi de <strong>tester des créations</strong> sans pression : des formes, des concepts, des jeux, des idées rigolotes… parfois simples, parfois complètement décalées.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Et si ça vous plaît, on pourra les retravailler, les étoffer, ou même les transformer en produits permanents.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Mais pour ça, on a besoin de toi, de ton œil curieux, de ton avis, de ton enthousiasme !</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><strong>📅 Quand ça arrive ?</strong></h3>\n\n\n\n<p class=\"wp-block-paragraph\">La <strong>Capsule Summer</strong> sera en ligne très bientôt. Si tu veux être dans les premiers à découvrir les nouveautés, <strong>inscris-toi à notre newsletter</strong>, ou suis-nous sur Instagram : @spoolio.fr.</p>\n\n\n\n<p class=\"wp-block-paragraph\">On y partage des avant-premières, des coulisses, et parfois même… des surprises réservées aux abonnés.</p>\n\n\n\n<hr class=\"wp-block-separator has-alpha-channel-opacity\"/>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h2 class=\"wp-block-heading\"><strong>🌞 En résumé</strong></h2>\n\n\n\n<p class=\"wp-block-paragraph\">Une capsule, c’est :</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li>Éphémère mais intense,</li>\n\n\n\n<li>Créatif mais concret,</li>\n\n\n\n<li>Saisonnier, mais pas saisonnier au rabais,</li>\n\n\n\n<li>Et surtout : fait pour te faire plaisir.</li>\n</ul>\n\n\n\n<p class=\"wp-block-paragraph\">Chez Spoolio, on a mis tout notre soleil, nos idées et notre bonne humeur dans cette première capsule.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Alors prépare-toi à <strong>choper un peu d’été en 3D</strong>, avec des objets qui sentent bon les vacances.</p>\n\n\n\n<p class=\"wp-block-paragraph\">À très vite pour le lancement !</p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>Chez Spoolio, on aime surprendre, créer, et surtout… s’amuser. Et c’est dans cet esprit qu’on lance quelque chose d’un peu spécial pour cet été : notre toute première capsule ! Mais au fait, une capsule, c’est quoi exactement ? Si tu n’es pas familier avec ce mot, installe-toi confortablement, on t’explique tout. Et promis, ce [&hellip;]</p>\n",
+      "protected": false
+    },
+    "author": 1,
+    "featured_media": 9173,
+    "comment_status": "open",
+    "ping_status": "open",
+    "sticky": false,
+    "template": "",
+    "format": "standard",
+    "meta": {
+      "_acf_changed": false,
+      "rs_blank_template": "",
+      "rs_page_bg_color": "",
+      "slide_template_v7": "",
+      "_jetpack_newsletter_access": "",
+      "_jetpack_dont_email_post_to_subs": false,
+      "_jetpack_newsletter_tier_id": 0,
+      "_jetpack_memberships_contains_paywalled_content": false,
+      "_jetpack_feature_clip_id": 0,
+      "_jetpack_memberships_contains_paid_content": false,
+      "footnotes": "",
+      "jetpack_post_was_ever_published": false
+    },
+    "categories": [
+      112
+    ],
+    "tags": [],
+    "class_list": [
+      "post-9170",
+      "post",
+      "type-post",
+      "status-publish",
+      "format-standard",
+      "has-post-thumbnail",
+      "hentry",
+      "category-explications"
+    ],
+    "acf": [],
+    "featured_image_src": {
+      "landsacpe": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?resize=1140%2C445&ssl=1",
+        1140,
+        445,
+        true
+      ],
+      "list": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?resize=463%2C348&ssl=1",
+        463,
+        348,
+        true
+      ],
+      "medium": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?fit=300%2C194&ssl=1",
+        300,
+        194,
+        true
+      ],
+      "full": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?fit=1728%2C1117&ssl=1",
+        1728,
+        1117,
+        false
+      ]
+    },
+    "jetpack_featured_media_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?fit=1728%2C1117&ssl=1",
+    "jetpack_sharing_enabled": true,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/9170",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/types/post"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/comments?post=9170"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 2,
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/9170/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 9174,
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/9170/revisions/9174"
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/media/9173"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/media?parent=9170"
+        }
+      ],
+      "wp:term": [
+        {
+          "taxonomy": "category",
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/categories?post=9170"
+        },
+        {
+          "taxonomy": "post_tag",
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/tags?post=9170"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    },
+    "_embedded": {
+      "author": [
+        {
+          "id": 1,
+          "name": "Vivien",
+          "url": "http://spoolio.fr",
+          "description": "",
+          "link": "https://spoolio.fr/author/admin5267/",
+          "slug": "admin5267",
+          "avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=24&d=mm&r=g",
+            "48": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=48&d=mm&r=g",
+            "96": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=96&d=mm&r=g"
+          },
+          "is_super_admin": true,
+          "woocommerce_meta": {
+            "variable_product_tour_shown": "yes",
+            "wc_payments_overview_inbox_last_read": "1736771903081",
+            "wc_payments_transactions_hidden_columns": "",
+            "wc_payments_transactions_blocked_hidden_columns": "",
+            "wc_payments_transactions_risk_review_hidden_columns": "",
+            "wc_payments_transactions_uncaptured_hidden_columns": "",
+            "wc_payments_payouts_hidden_columns": "",
+            "wc_payments_disputes_hidden_columns": "",
+            "wc_payments_documents_hidden_columns": "",
+            "wc_payments_reports_fees_view": "",
+            "wc_payments_review_prompt_dismissed": "1774535029",
+            "wc_payments_review_prompt_maybe_later": "",
+            "wc_payments_reports_feedback_dismissed": "",
+            "activity_panel_inbox_last_read": "",
+            "activity_panel_reviews_last_read": "",
+            "categories_report_columns": "",
+            "coupons_report_columns": "",
+            "customers_report_columns": "",
+            "orders_report_columns": "[\"customer_type\",\"coupons\",\"customer_currency\"]",
+            "products_report_columns": "",
+            "revenue_report_columns": "",
+            "taxes_report_columns": "",
+            "variations_report_columns": "",
+            "dashboard_sections": "",
+            "dashboard_chart_type": "",
+            "dashboard_chart_interval": "",
+            "dashboard_leaderboard_rows": "",
+            "order_attribution_install_banner_dismissed": "",
+            "scheduled_updates_promotion_notice_dismissed": "",
+            "homepage_layout": "",
+            "homepage_stats": "",
+            "task_list_tracked_started_tasks": "{\"tax\":2,\"shipping\":1,\"customize-store\":2,\"launch-your-store\":1}",
+            "android_app_banner_dismissed": "",
+            "launch_your_store_tour_hidden": "",
+            "coming_soon_banner_dismissed": ""
+          },
+          "acf": [],
+          "_links": {
+            "self": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/users/1",
+                "targetHints": {
+                  "allow": [
+                    "GET"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/users"
+              }
+            ]
+          }
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "id": 9173,
+          "date": "2025-05-05T11:43:04",
+          "slug": "bg_capsule",
+          "type": "attachment",
+          "link": "https://spoolio.fr/cest-quoi-une-capsule-chez-spoolio/bg_capsule/",
+          "title": {
+            "rendered": "BG Capsule"
+          },
+          "author": 1,
+          "featured_media": 0,
+          "jetpack_sharing_enabled": true,
+          "acf": [],
+          "caption": {
+            "rendered": "<p>BG Capsule</p>\n"
+          },
+          "alt_text": "BG Capsule",
+          "media_type": "image",
+          "mime_type": "image/png",
+          "media_details": {
+            "width": 1728,
+            "height": 1117,
+            "file": "2025/05/BG_Capsule.png",
+            "filesize": 2249489,
+            "sizes": {
+              "medium": {
+                "file": "BG_Capsule-300x194.png",
+                "width": 300,
+                "height": 194,
+                "filesize": 16211,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?fit=300%2C194&ssl=1"
+              },
+              "large": {
+                "file": "BG_Capsule-1024x662.png",
+                "width": 1024,
+                "height": 662,
+                "filesize": 157751,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?fit=1024%2C662&ssl=1"
+              },
+              "thumbnail": {
+                "file": "BG_Capsule-150x150.png",
+                "width": 150,
+                "height": 150,
+                "filesize": 8728,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?resize=150%2C150&ssl=1"
+              },
+              "medium_large": {
+                "file": "BG_Capsule-768x496.png",
+                "width": 768,
+                "height": 496,
+                "filesize": 85320,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?fit=768%2C496&ssl=1"
+              },
+              "1536x1536": {
+                "file": "BG_Capsule-1536x993.png",
+                "width": 1536,
+                "height": 993,
+                "filesize": 380541,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?fit=1536%2C993&ssl=1"
+              },
+              "blog-large": {
+                "file": "BG_Capsule-1140x445.png",
+                "width": 1140,
+                "height": 445,
+                "filesize": 124719,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?resize=1140%2C445&ssl=1"
+              },
+              "blog-medium": {
+                "file": "BG_Capsule-463x348.png",
+                "width": 463,
+                "height": 348,
+                "filesize": 38395,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?resize=463%2C348&ssl=1"
+              },
+              "blog-masonry": {
+                "file": "BG_Capsule-640x414.png",
+                "width": 640,
+                "height": 414,
+                "filesize": 59911,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?fit=640%2C414&ssl=1"
+              },
+              "blog-masonry-small": {
+                "file": "BG_Capsule-400x259.png",
+                "width": 400,
+                "height": 259,
+                "filesize": 25510,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?fit=400%2C259&ssl=1"
+              },
+              "blog-grid": {
+                "file": "BG_Capsule-640x480.png",
+                "width": 640,
+                "height": 480,
+                "filesize": 71701,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?resize=640%2C480&ssl=1"
+              },
+              "blog-grid-small": {
+                "file": "BG_Capsule-400x300.png",
+                "width": 400,
+                "height": 300,
+                "filesize": 29549,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?resize=400%2C300&ssl=1"
+              },
+              "related-post": {
+                "file": "BG_Capsule-450x231.png",
+                "width": 450,
+                "height": 231,
+                "filesize": 26004,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?resize=450%2C231&ssl=1"
+              },
+              "widget-thumb-medium": {
+                "file": "BG_Capsule-85x85.png",
+                "width": 85,
+                "height": 85,
+                "filesize": 4384,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?resize=85%2C85&ssl=1"
+              },
+              "woocommerce_thumbnail": {
+                "file": "BG_Capsule-300x300.png",
+                "width": 300,
+                "height": 300,
+                "filesize": 24720,
+                "uncropped": false,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?resize=300%2C300&ssl=1"
+              },
+              "woocommerce_single": {
+                "file": "BG_Capsule-600x388.png",
+                "width": 600,
+                "height": 388,
+                "filesize": 51853,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?fit=1200%2C776&ssl=1"
+              },
+              "woocommerce_gallery_thumbnail": {
+                "file": "BG_Capsule-150x150.png",
+                "width": 150,
+                "height": 150,
+                "filesize": 8728,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?resize=150%2C150&ssl=1"
+              },
+              "swatches_image_size": {
+                "file": "BG_Capsule-32x32.png",
+                "width": 32,
+                "height": 32,
+                "filesize": 1669,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?resize=32%2C32&ssl=1"
+              },
+              "full": {
+                "file": "BG_Capsule.png?fit=1728%2C1117&ssl=1",
+                "width": 1728,
+                "height": 1117,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png?fit=1728%2C1117&ssl=1"
+              }
+            },
+            "image_meta": {
+              "aperture": "0",
+              "credit": "",
+              "camera": "",
+              "caption": "",
+              "created_timestamp": "0",
+              "copyright": "",
+              "focal_length": "0",
+              "iso": "0",
+              "shutter_speed": "0",
+              "title": "",
+              "orientation": "0",
+              "keywords": []
+            }
+          },
+          "source_url": "https://spoolio.fr/wp-content/uploads/2025/05/BG_Capsule.png",
+          "_links": {
+            "self": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/media/9173",
+                "targetHints": {
+                  "allow": [
+                    "GET"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/media"
+              }
+            ],
+            "about": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/types/attachment"
+              }
+            ],
+            "author": [
+              {
+                "embeddable": true,
+                "href": "https://spoolio.fr/wp-json/wp/v2/users/1"
+              }
+            ],
+            "replies": [
+              {
+                "embeddable": true,
+                "href": "https://spoolio.fr/wp-json/wp/v2/comments?post=9173"
+              }
+            ],
+            "wp:attached-to": [
+              {
+                "embeddable": true,
+                "post_type": "post",
+                "id": 9170,
+                "href": "https://spoolio.fr/wp-json/wp/v2/posts/9170"
+              }
+            ],
+            "curies": [
+              {
+                "name": "wp",
+                "href": "https://api.w.org/{rel}",
+                "templated": true
+              }
+            ]
+          }
+        }
+      ],
+      "wp:term": [
+        [
+          {
+            "id": 112,
+            "link": "https://spoolio.fr/category/explications/",
+            "name": "Explications",
+            "slug": "explications",
+            "taxonomy": "category",
+            "acf": [],
+            "_links": {
+              "self": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/categories/112",
+                  "targetHints": {
+                    "allow": [
+                      "GET"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/categories"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/taxonomies/category"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/posts?categories=112"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          }
+        ],
+        []
+      ]
+    },
+    "featured_image_url": "/images/imported/BG_Capsule.png"
+  },
+  {
+    "id": 8714,
+    "date": "2025-04-07T12:47:34",
+    "date_gmt": "2025-04-07T10:47:34",
+    "guid": {
+      "rendered": "https://spoolio.fr/?p=8714"
+    },
+    "modified": "2025-04-07T12:48:27",
+    "modified_gmt": "2025-04-07T10:48:27",
+    "slug": "top-5-des-idees-cadeaux-originales-pour-les-ados-et-grands-enfants",
+    "status": "publish",
+    "type": "post",
+    "link": "https://spoolio.fr/top-5-des-idees-cadeaux-originales-pour-les-ados-et-grands-enfants/",
+    "title": {
+      "rendered": "Top 5 des idées cadeaux originales pour les ados et grands enfants"
+    },
+    "content": {
+      "rendered": "\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<blockquote class=\"wp-block-quote is-layout-flow wp-block-quote-is-layout-flow\">\n<p class=\"wp-block-paragraph\">Trouver une idée de cadeau pour un ado ou un grand enfant, c’est souvent un vrai casse-tête. Trop jeune pour les jouets « bébé », trop vieux pour se contenter d’un pull… et pas toujours facile à satisfaire !</p>\n\n\n\n<p class=\"wp-block-paragraph\">Heureusement, il existe des objets originaux, funs et pas hors de prix qui font mouche à tous les coups. Chez Spoolio, on imprime en 3D des petits trésors ludiques, articulés, déco ou complètement farfelus… et on a sélectionné pour toi <strong>le top 5 des idées cadeaux qui font plaisir à coup sûr</strong> 🧡</p>\n</blockquote>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><br>🐙 Les figurines articulées : le plaisir de manipuler (et de collectionner)</h3>\n\n\n\n<p class=\"wp-block-paragraph\">Les best-sellers de la boutique !</p>\n\n\n\n<p class=\"wp-block-paragraph\">Des pieuvres aux serpents, en passant par les aliens et les squelettes, ces petites créatures sont articulées de partout. Elles sont hyper satisfaisantes à manipuler, peuvent servir de <strong>fidget anti-stress</strong>, ou simplement de compagnons de bureau ou d’étagère.</p>\n\n\n\n<p class=\"wp-block-paragraph\">➡️ Pourquoi ça plaît ?</p>\n\n\n\n<p class=\"wp-block-paragraph\">• Parce que c’est fun à manipuler</p>\n\n\n\n<p class=\"wp-block-paragraph\">• Parce que ça se collectionne</p>\n\n\n\n<p class=\"wp-block-paragraph\">• Parce que c’est original (et imprimé en France)</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><br><strong>🧠 </strong>Les objets fidget : pour les doigts qui n’arrêtent jamais</h3>\n\n\n\n<p class=\"wp-block-paragraph\">Les ados ont besoin de bouger, de tripoter, de cliquer… alors autant leur offrir <strong>des objets prévus pour ça</strong>. Chez Spoolio, on a toute une gamme de petits fidgets originaux : cactus clicker, petits “cacas” qui tournent, porte-clés tactiles, et bien plus encore.</p>\n\n\n\n<p class=\"wp-block-paragraph\">➡️ Pourquoi ça plaît ?</p>\n\n\n\n<p class=\"wp-block-paragraph\">• C’est drôle, simple, et ultra addictif</p>\n\n\n\n<p class=\"wp-block-paragraph\">• Parfait pour déstresser ou se concentrer</p>\n\n\n\n<p class=\"wp-block-paragraph\">• Facile à transporter dans une poche ou un sac</p>\n\n\n\n<p class=\"wp-block-paragraph\"><strong>Idée bonus</strong> : à offrir avec un petit message personnalisé du style “pour t’occuper en maths !”</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><br><strong>🍬 </strong>Les objets de bureau décalés</h3>\n\n\n\n<p class=\"wp-block-paragraph\">Qui a dit que le rangement devait être ennuyeux ?</p>\n\n\n\n<p class=\"wp-block-paragraph\">Entre le <strong>pot à crayons en forme de sucette fondue</strong>, le support de casque en cristal ou la <strong>tirelire façon caisse en bois cartoon</strong>, il y a de quoi faire sourire un ado à chaque fois qu’il s’installe à son bureau.</p>\n\n\n\n<p class=\"wp-block-paragraph\">➡️ Pourquoi ça plaît ?</p>\n\n\n\n<p class=\"wp-block-paragraph\">• Ça donne du style à un coin bureau ou une chambre</p>\n\n\n\n<p class=\"wp-block-paragraph\">• C’est utile ET décoratif</p>\n\n\n\n<p class=\"wp-block-paragraph\">• Ça change des objets vus 1000 fois en magasin</p>\n\n\n\n<p class=\"wp-block-paragraph\"><strong>Idée bonus</strong> : combine plusieurs objets pour faire un “pack déco fun” 🎨</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><br>🎮 Les accessoires gaming revisités</h3>\n\n\n\n<p class=\"wp-block-paragraph\">Tu connais un ado gamer ? Alors tu peux taper dans le mille avec les <strong>supports de manette stylisés</strong> (coussin, tentacule, cristal…), ou même les <strong>porte-clés clavier mécanique personnalisables</strong>.</p>\n\n\n\n<p class=\"wp-block-paragraph\">➡️ Pourquoi ça plaît ?</p>\n\n\n\n<p class=\"wp-block-paragraph\">• C’est geek mais discret</p>\n\n\n\n<p class=\"wp-block-paragraph\">• C’est personnalisable (initiales, couleurs…)</p>\n\n\n\n<p class=\"wp-block-paragraph\">• C’est un cadeau qui fait “pro” sans être cher</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\"><br><strong>🛍️</strong> Les pochettes surprises : l’effet “WTF” assuré</h3>\n\n\n\n<p class=\"wp-block-paragraph\">Et si tu offrais… <strong>plusieurs surprises d’un coup</strong> ?</p>\n\n\n\n<p class=\"wp-block-paragraph\">Les pochettes surprises Spoolio contiennent 3, 6 ou 10 objets funs, variés et rigolos. Idéal quand tu ne sais pas quoi choisir, ou quand tu veux <strong>créer l’effet waouh à l’ouverture</strong>.</p>\n\n\n\n<p class=\"wp-block-paragraph\">➡️ Pourquoi ça plaît ?</p>\n\n\n\n<p class=\"wp-block-paragraph\">• L’excitation de la découverte</p>\n\n\n\n<p class=\"wp-block-paragraph\">• Une vraie expérience, pas juste un objet</p>\n\n\n\n<p class=\"wp-block-paragraph\">• Le prix est réduit comparé à l’achat à l’unité</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h2 class=\"wp-block-heading\"><br><strong>🎁 En résumé…</strong></h2>\n\n\n\n<p class=\"wp-block-paragraph\">Les bons cadeaux pour les ados, ce sont ceux qui :</p>\n\n\n\n<p class=\"wp-block-paragraph\">• font rire</p>\n\n\n\n<p class=\"wp-block-paragraph\">• se collectionnent</p>\n\n\n\n<p class=\"wp-block-paragraph\">• se triturent dans tous les sens</p>\n\n\n\n<p class=\"wp-block-paragraph\">• ou décorent avec style</p>\n\n\n\n<p class=\"wp-block-paragraph\">Chez Spoolio, on fait tout ça. Et plus encore. Le tout imprimé en 3D, en France, avec des matériaux écoresponsables, et une bonne dose de bonne humeur 🧡</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\">➡️ Viens découvrir toutes nos idées cadeaux sur <a href=\"https://spoolio.fr\"><strong>spoolio.fr</strong></a> et fais plaisir à ceux qui ont gardé leur âme d’enfant… ou qui l’assument à fond !</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>Trouver une idée de cadeau pour un ado ou un grand enfant, c’est souvent un vrai casse-tête. Trop jeune pour les jouets « bébé », trop vieux pour se contenter d’un pull… et pas toujours facile à satisfaire ! Heureusement, il existe des objets originaux, funs et pas hors de prix qui font mouche à [&hellip;]</p>\n",
+      "protected": false
+    },
+    "author": 1,
+    "featured_media": 8717,
+    "comment_status": "open",
+    "ping_status": "open",
+    "sticky": false,
+    "template": "",
+    "format": "standard",
+    "meta": {
+      "_acf_changed": false,
+      "rs_blank_template": "",
+      "rs_page_bg_color": "",
+      "slide_template_v7": "",
+      "_jetpack_newsletter_access": "",
+      "_jetpack_dont_email_post_to_subs": false,
+      "_jetpack_newsletter_tier_id": 0,
+      "_jetpack_memberships_contains_paywalled_content": false,
+      "_jetpack_feature_clip_id": 0,
+      "_jetpack_memberships_contains_paid_content": false,
+      "footnotes": "",
+      "jetpack_post_was_ever_published": false
+    },
+    "categories": [
+      1
+    ],
+    "tags": [
+      142,
+      144,
+      143,
+      141
+    ],
+    "class_list": [
+      "post-8714",
+      "post",
+      "type-post",
+      "status-publish",
+      "format-standard",
+      "has-post-thumbnail",
+      "hentry",
+      "category-non-classe",
+      "tag-adolescent",
+      "tag-gaming",
+      "tag-geek",
+      "tag-idees-cadeau"
+    ],
+    "acf": [],
+    "featured_image_src": {
+      "landsacpe": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?resize=1140%2C445&ssl=1",
+        1140,
+        445,
+        true
+      ],
+      "list": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?resize=463%2C348&ssl=1",
+        463,
+        348,
+        true
+      ],
+      "medium": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?fit=300%2C200&ssl=1",
+        300,
+        200,
+        true
+      ],
+      "full": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?fit=1536%2C1024&ssl=1",
+        1536,
+        1024,
+        false
+      ]
+    },
+    "jetpack_featured_media_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?fit=1536%2C1024&ssl=1",
+    "jetpack_sharing_enabled": true,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/8714",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/types/post"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/comments?post=8714"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 2,
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/8714/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 8716,
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/8714/revisions/8716"
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/media/8717"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/media?parent=8714"
+        }
+      ],
+      "wp:term": [
+        {
+          "taxonomy": "category",
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/categories?post=8714"
+        },
+        {
+          "taxonomy": "post_tag",
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/tags?post=8714"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    },
+    "_embedded": {
+      "author": [
+        {
+          "id": 1,
+          "name": "Vivien",
+          "url": "http://spoolio.fr",
+          "description": "",
+          "link": "https://spoolio.fr/author/admin5267/",
+          "slug": "admin5267",
+          "avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=24&d=mm&r=g",
+            "48": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=48&d=mm&r=g",
+            "96": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=96&d=mm&r=g"
+          },
+          "is_super_admin": true,
+          "woocommerce_meta": {
+            "variable_product_tour_shown": "yes",
+            "wc_payments_overview_inbox_last_read": "1736771903081",
+            "wc_payments_transactions_hidden_columns": "",
+            "wc_payments_transactions_blocked_hidden_columns": "",
+            "wc_payments_transactions_risk_review_hidden_columns": "",
+            "wc_payments_transactions_uncaptured_hidden_columns": "",
+            "wc_payments_payouts_hidden_columns": "",
+            "wc_payments_disputes_hidden_columns": "",
+            "wc_payments_documents_hidden_columns": "",
+            "wc_payments_reports_fees_view": "",
+            "wc_payments_review_prompt_dismissed": "1774535029",
+            "wc_payments_review_prompt_maybe_later": "",
+            "wc_payments_reports_feedback_dismissed": "",
+            "activity_panel_inbox_last_read": "",
+            "activity_panel_reviews_last_read": "",
+            "categories_report_columns": "",
+            "coupons_report_columns": "",
+            "customers_report_columns": "",
+            "orders_report_columns": "[\"customer_type\",\"coupons\",\"customer_currency\"]",
+            "products_report_columns": "",
+            "revenue_report_columns": "",
+            "taxes_report_columns": "",
+            "variations_report_columns": "",
+            "dashboard_sections": "",
+            "dashboard_chart_type": "",
+            "dashboard_chart_interval": "",
+            "dashboard_leaderboard_rows": "",
+            "order_attribution_install_banner_dismissed": "",
+            "scheduled_updates_promotion_notice_dismissed": "",
+            "homepage_layout": "",
+            "homepage_stats": "",
+            "task_list_tracked_started_tasks": "{\"tax\":2,\"shipping\":1,\"customize-store\":2,\"launch-your-store\":1}",
+            "android_app_banner_dismissed": "",
+            "launch_your_store_tour_hidden": "",
+            "coming_soon_banner_dismissed": ""
+          },
+          "acf": [],
+          "_links": {
+            "self": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/users/1",
+                "targetHints": {
+                  "allow": [
+                    "GET"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/users"
+              }
+            ]
+          }
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "id": 8717,
+          "date": "2025-04-07T12:46:54",
+          "slug": "couverture_top5ideecadeau",
+          "type": "attachment",
+          "link": "https://spoolio.fr/top-5-des-idees-cadeaux-originales-pour-les-ados-et-grands-enfants/couverture_top5ideecadeau/",
+          "title": {
+            "rendered": "Couverture Top5IdeeCadeau"
+          },
+          "author": 1,
+          "featured_media": 0,
+          "jetpack_sharing_enabled": true,
+          "acf": [],
+          "caption": {
+            "rendered": "<p>Couverture Top5IdeeCadeau</p>\n"
+          },
+          "alt_text": "Couverture Top5IdeeCadeau",
+          "media_type": "image",
+          "mime_type": "image/png",
+          "media_details": {
+            "width": 1536,
+            "height": 1024,
+            "file": "2025/04/Couverture_Top5IdeeCadeau.png",
+            "filesize": 2389715,
+            "sizes": {
+              "medium": {
+                "file": "Couverture_Top5IdeeCadeau-300x200.png",
+                "width": 300,
+                "height": 200,
+                "filesize": 72367,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?fit=300%2C200&ssl=1"
+              },
+              "large": {
+                "file": "Couverture_Top5IdeeCadeau-1024x683.png",
+                "width": 1024,
+                "height": 683,
+                "filesize": 779814,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?fit=1024%2C683&ssl=1"
+              },
+              "thumbnail": {
+                "file": "Couverture_Top5IdeeCadeau-150x150.png",
+                "width": 150,
+                "height": 150,
+                "filesize": 32441,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?resize=150%2C150&ssl=1"
+              },
+              "medium_large": {
+                "file": "Couverture_Top5IdeeCadeau-768x512.png",
+                "width": 768,
+                "height": 512,
+                "filesize": 414348,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?fit=768%2C512&ssl=1"
+              },
+              "blog-large": {
+                "file": "Couverture_Top5IdeeCadeau-1140x445.png",
+                "width": 1140,
+                "height": 445,
+                "filesize": 587825,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?resize=1140%2C445&ssl=1"
+              },
+              "blog-medium": {
+                "file": "Couverture_Top5IdeeCadeau-463x348.png",
+                "width": 463,
+                "height": 348,
+                "filesize": 178968,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?resize=463%2C348&ssl=1"
+              },
+              "blog-masonry": {
+                "file": "Couverture_Top5IdeeCadeau-640x427.png",
+                "width": 640,
+                "height": 427,
+                "filesize": 292507,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?fit=640%2C427&ssl=1"
+              },
+              "blog-masonry-small": {
+                "file": "Couverture_Top5IdeeCadeau-400x267.png",
+                "width": 400,
+                "height": 267,
+                "filesize": 122463,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?fit=400%2C267&ssl=1"
+              },
+              "blog-grid": {
+                "file": "Couverture_Top5IdeeCadeau-640x480.png",
+                "width": 640,
+                "height": 480,
+                "filesize": 333838,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?resize=640%2C480&ssl=1"
+              },
+              "blog-grid-small": {
+                "file": "Couverture_Top5IdeeCadeau-400x300.png",
+                "width": 400,
+                "height": 300,
+                "filesize": 136975,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?resize=400%2C300&ssl=1"
+              },
+              "related-post": {
+                "file": "Couverture_Top5IdeeCadeau-450x231.png",
+                "width": 450,
+                "height": 231,
+                "filesize": 126031,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?resize=450%2C231&ssl=1"
+              },
+              "widget-thumb-medium": {
+                "file": "Couverture_Top5IdeeCadeau-85x85.png",
+                "width": 85,
+                "height": 85,
+                "filesize": 12530,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?resize=85%2C85&ssl=1"
+              },
+              "woocommerce_thumbnail": {
+                "file": "Couverture_Top5IdeeCadeau-300x300.png",
+                "width": 300,
+                "height": 300,
+                "filesize": 105312,
+                "uncropped": false,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?resize=300%2C300&ssl=1"
+              },
+              "woocommerce_single": {
+                "file": "Couverture_Top5IdeeCadeau-600x400.png",
+                "width": 600,
+                "height": 400,
+                "filesize": 257460,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?fit=1200%2C800&ssl=1"
+              },
+              "woocommerce_gallery_thumbnail": {
+                "file": "Couverture_Top5IdeeCadeau-150x150.png",
+                "width": 150,
+                "height": 150,
+                "filesize": 32441,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?resize=150%2C150&ssl=1"
+              },
+              "swatches_image_size": {
+                "file": "Couverture_Top5IdeeCadeau-32x32.png",
+                "width": 32,
+                "height": 32,
+                "filesize": 2377,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?resize=32%2C32&ssl=1"
+              },
+              "full": {
+                "file": "Couverture_Top5IdeeCadeau.png?fit=1536%2C1024&ssl=1",
+                "width": 1536,
+                "height": 1024,
+                "mime_type": "image/png",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png?fit=1536%2C1024&ssl=1"
+              }
+            },
+            "image_meta": {
+              "aperture": "0",
+              "credit": "",
+              "camera": "",
+              "caption": "",
+              "created_timestamp": "0",
+              "copyright": "",
+              "focal_length": "0",
+              "iso": "0",
+              "shutter_speed": "0",
+              "title": "",
+              "orientation": "0",
+              "keywords": []
+            }
+          },
+          "source_url": "https://spoolio.fr/wp-content/uploads/2025/04/Couverture_Top5IdeeCadeau.png",
+          "_links": {
+            "self": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/media/8717",
+                "targetHints": {
+                  "allow": [
+                    "GET"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/media"
+              }
+            ],
+            "about": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/types/attachment"
+              }
+            ],
+            "author": [
+              {
+                "embeddable": true,
+                "href": "https://spoolio.fr/wp-json/wp/v2/users/1"
+              }
+            ],
+            "replies": [
+              {
+                "embeddable": true,
+                "href": "https://spoolio.fr/wp-json/wp/v2/comments?post=8717"
+              }
+            ],
+            "wp:attached-to": [
+              {
+                "embeddable": true,
+                "post_type": "post",
+                "id": 8714,
+                "href": "https://spoolio.fr/wp-json/wp/v2/posts/8714"
+              }
+            ],
+            "curies": [
+              {
+                "name": "wp",
+                "href": "https://api.w.org/{rel}",
+                "templated": true
+              }
+            ]
+          }
+        }
+      ],
+      "wp:term": [
+        [
+          {
+            "id": 1,
+            "link": "https://spoolio.fr/category/non-classe/",
+            "name": "Non classé",
+            "slug": "non-classe",
+            "taxonomy": "category",
+            "acf": [],
+            "_links": {
+              "self": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/categories/1",
+                  "targetHints": {
+                    "allow": [
+                      "GET"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/categories"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/taxonomies/category"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/posts?categories=1"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          }
+        ],
+        [
+          {
+            "id": 142,
+            "link": "https://spoolio.fr/tag/adolescent/",
+            "name": "adolescent",
+            "slug": "adolescent",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/tags/142",
+                  "targetHints": {
+                    "allow": [
+                      "GET"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/posts?tags=142"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 144,
+            "link": "https://spoolio.fr/tag/gaming/",
+            "name": "gaming",
+            "slug": "gaming",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/tags/144",
+                  "targetHints": {
+                    "allow": [
+                      "GET"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/posts?tags=144"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 143,
+            "link": "https://spoolio.fr/tag/geek/",
+            "name": "geek",
+            "slug": "geek",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/tags/143",
+                  "targetHints": {
+                    "allow": [
+                      "GET"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/posts?tags=143"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          },
+          {
+            "id": 141,
+            "link": "https://spoolio.fr/tag/idees-cadeau/",
+            "name": "idées cadeau",
+            "slug": "idees-cadeau",
+            "taxonomy": "post_tag",
+            "_links": {
+              "self": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/tags/141",
+                  "targetHints": {
+                    "allow": [
+                      "GET"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/tags"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/taxonomies/post_tag"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/posts?tags=141"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          }
+        ]
+      ]
+    },
+    "featured_image_url": "/images/imported/Couverture_Top5IdeeCadeau.png"
+  },
+  {
+    "id": 8349,
+    "date": "2025-03-25T16:54:08",
+    "date_gmt": "2025-03-25T15:54:08",
+    "guid": {
+      "rendered": "https://spoolio.fr/?p=8349"
+    },
+    "modified": "2025-03-25T16:59:43",
+    "modified_gmt": "2025-03-25T15:59:43",
+    "slug": "bienfaits-des-fidgets",
+    "status": "publish",
+    "type": "post",
+    "link": "https://spoolio.fr/bienfaits-des-fidgets/",
+    "title": {
+      "rendered": "Les bienfaits des fidgets et jouets sensoriels pour la concentration"
+    },
+    "content": {
+      "rendered": "\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\"><strong>Dans un monde où les sollicitations sont multiples, se concentrer n’est pas toujours évident, que ce soit à l’école, au travail ou simplement dans la vie de tous les jours. Pour les enfants comme pour les adultes, les fidgets et autres jouets sensoriels se sont imposés comme des alliés indispensables pour travailler l’attention et la gestion du stress. Mais comment ces objets fonctionnent-ils vraiment pour nos enfants atypiques ou pour nous-mêmes qui avons du mal à canaliser notre énergie ? Est-ce un simple phénomène de mode ou un véritable besoin ?</strong></p>\n\n\n\n<figure class=\"wp-block-image size-large\"><img data-recalc-dims=\"1\" decoding=\"async\" width=\"1024\" height=\"682\" src=\"/images/imported/Spoolio_Banane-Articulee-3.jpg\" alt=\"Spoolio Banane Articulee\" class=\"wp-image-8531\" title=\"\" srcset=\"https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/03/Spoolio_Banane-Articulee-3.jpg?resize=1024%2C682&amp;ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/03/Spoolio_Banane-Articulee-3.jpg?resize=768%2C512&amp;ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/03/Spoolio_Banane-Articulee-3.jpg?resize=640%2C427&amp;ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/03/Spoolio_Banane-Articulee-3.jpg?resize=400%2C267&amp;ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/03/Spoolio_Banane-Articulee-3.jpg?resize=600%2C400&amp;ssl=1 600w\" sizes=\"(max-width: 1024px) 100vw, 1024px\" /><figcaption class=\"wp-element-caption\">Spoolio Banane Articulee 3</figcaption></figure>\n\n\n\n<h3 class=\"wp-block-heading\">Qu’est-ce qu’un fidget et un jouet sensoriel ?</h3>\n\n\n\n<p class=\"wp-block-paragraph\">Le fidget (pluriel : fidgets) est un objet dans lequel la personne manipule pour occuper ses mains et canaliser son excitation ou son anxiété. Le jouet sensoriel, quant à lui, sollicite un ou plusieurs sens de l’enfant dans l’objectif d’apaiser son anxiété et le rendre disponible pour apprendre.</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\">Pourquoi les fidgets permettent-ils de mieux se concentrer ?</h3>\n\n\n\n<p class=\"wp-block-paragraph\">En bref, la réponse tient dans la gestion du surplus d’énergie. Certaines personnes, en particulier celles qui sont hyperactives ou qui ont un trouble de déficit de l’attention avec hyperactivité (TDAH), sont tellement enclines à bouger et à toucher à tout, que cela finit par nuire grandement à leur concentration. Ces personnes éprouvent d’énormes difficultés à rester assises, à travailler calmement et à ne pas être distrait par leur environnement immédiat.</p>\n\n\n\n<p class=\"wp-block-paragraph\">Des études ont prouvé que les gens qui manipulent consciemment ou inconsciemment des objets mineurs durant une période d’intense réflexion, sont davantage enclins à se souvenir d’informations lues, ont une meilleure concentration et sont meilleurs pour penser de façon conceptuelle. Le fait de trouver de petites astuces pour fournir aux enfants la possibilité de faire des jeux de mouvement, peut les aider à se concentrer chez les enfants à l&rsquo;école, et chez d’autres qui sont assis, lorsqu’ils sont concentrés sur une leçon ! Lorsqu’ils ne sont plus obligés de gribouiller ou de taper du pied, ces gestes sont éliminés du cerveau et ne consomment plus ses ressources, permettant alors à l’enfant de concentrer ses efforts sur ses devoirs scolaires.</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<figure class=\"wp-block-image size-large\"><img data-recalc-dims=\"1\" loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"682\" src=\"/images/imported/Spoolio_Trex-Raleur-5.jpg\" alt=\"Spoolio Trex Raleur\" class=\"wp-image-8312\" title=\"\" srcset=\"https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/02/Spoolio_Trex-Raleur-5.jpg?resize=1024%2C682&amp;ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/02/Spoolio_Trex-Raleur-5.jpg?resize=768%2C512&amp;ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/02/Spoolio_Trex-Raleur-5.jpg?resize=640%2C427&amp;ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/02/Spoolio_Trex-Raleur-5.jpg?resize=400%2C267&amp;ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/02/Spoolio_Trex-Raleur-5.jpg?resize=600%2C400&amp;ssl=1 600w\" sizes=\"(max-width: 1024px) 100vw, 1024px\" /><figcaption class=\"wp-element-caption\">Spoolio Trex Raleur 5</figcaption></figure>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\">Les bienfaits des jouets sensoriels : au-delà de la concentration</h3>\n\n\n\n<p class=\"wp-block-paragraph\">Il apaise et permet la détente : la manipulation répétitive des jouets sensoriels tels que les pop it favorise l’apaisement. Ce type de jouet sensoriel est utile en période de stress, par exemple durant un examen. Certains témoignages assurent que les fidgets peuvent être utiles dans l’apprentissage des leçons et pour améliorer la concentration pour les devoirs.<br>Ils développent la dextérité et la précision : une initiation en douceur pour les jeunes enfants aux activités qui demandent une dextérité et une précision avec des objets plus fins.<br>Cela aide à exprimer et gérer les émotions : les jouets sensoriels offrent une aide non négligeable à l’expression des émotions, par exemple pour les enfants atteints de troubles sensoriels ou Asperger. La pression, la torsion ou la caresse du doigt à la manipulation du fidget permet de trouver un équilibre émotionnel.<br>Il sait aussi être malin : en plus d’occuper les mains, certains jouets parviennent à titiller les neurones !</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<figure class=\"wp-block-image size-large\"><img data-recalc-dims=\"1\" loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"682\" src=\"/images/imported/Spoolio_Fidget-engrenage-mini-3.jpg\" alt=\"Spoolio Fidget engrenage\" class=\"wp-image-8277\" title=\"\" srcset=\"https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/02/Spoolio_Fidget-engrenage-mini-3.jpg?resize=1024%2C682&amp;ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/02/Spoolio_Fidget-engrenage-mini-3.jpg?resize=768%2C512&amp;ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/02/Spoolio_Fidget-engrenage-mini-3.jpg?resize=640%2C427&amp;ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/02/Spoolio_Fidget-engrenage-mini-3.jpg?resize=400%2C267&amp;ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/02/Spoolio_Fidget-engrenage-mini-3.jpg?resize=600%2C400&amp;ssl=1 600w\" sizes=\"(max-width: 1024px) 100vw, 1024px\" /><figcaption class=\"wp-element-caption\">Spoolio Fidget engrenage mini 3</figcaption></figure>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\">Quels fidgets choisir selon les besoins ?</h3>\n\n\n\n<p class=\"wp-block-paragraph\">Le choix du fidget ou du jouet sensoriel dépend du profil et des besoins spécifiques de chaque utilisateur :</p>\n\n\n\n<ul class=\"wp-block-list\">\n<li><strong>Pour la concentration en classe ou au bureau</strong>&nbsp;: les fidgets silencieux comme les anneaux à rouler ou les cubes magnétiques sont idéaux.</li>\n\n\n\n<li><strong>Pour la gestion du stress</strong>&nbsp;: les balles anti-stress, les objets à presser ou les fidgets en silicone texturé sont particulièrement efficaces.</li>\n\n\n\n<li><strong>Pour les enfants hyperactifs</strong>&nbsp;: les fidgets à mouvement répétitif (spinner, toupie, bâton flexible) permettent de canaliser l’énergie excédentaire.</li>\n\n\n\n<li><strong>Pour la stimulation sensorielle</strong>&nbsp;: les objets lumineux ou vibrants peuvent être bénéfiques aux enfants ayant des besoins spécifiques.</li>\n</ul>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<figure class=\"wp-block-gallery has-nested-images columns-default is-cropped wp-block-gallery-1 is-layout-flex wp-block-gallery-is-layout-flex\">\n<figure class=\"wp-block-image size-large\"><img data-recalc-dims=\"1\" loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"682\" data-id=\"7141\" src=\"/images/imported/Spoolio-Caca_Fidget-6.jpg\" alt=\"Spoolio Caca Fidget 6\" class=\"wp-image-7141\" title=\"\" srcset=\"https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Caca_Fidget-6.jpg?resize=1024%2C682&amp;ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Caca_Fidget-6.jpg?resize=768%2C512&amp;ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Caca_Fidget-6.jpg?resize=640%2C427&amp;ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Caca_Fidget-6.jpg?resize=400%2C267&amp;ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Caca_Fidget-6.jpg?resize=600%2C400&amp;ssl=1 600w\" sizes=\"(max-width: 1024px) 100vw, 1024px\" /><figcaption class=\"wp-element-caption\">Spoolio Caca Fidget 6</figcaption></figure>\n\n\n\n<figure class=\"wp-block-image size-large\"><img data-recalc-dims=\"1\" loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"682\" data-id=\"7140\" src=\"/images/imported/Spoolio-Caca_Fidget-5.jpg\" alt=\"Spoolio Caca Fidget 5\" class=\"wp-image-7140\" title=\"\" srcset=\"https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Caca_Fidget-5.jpg?resize=1024%2C682&amp;ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Caca_Fidget-5.jpg?resize=768%2C512&amp;ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Caca_Fidget-5.jpg?resize=640%2C427&amp;ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Caca_Fidget-5.jpg?resize=400%2C267&amp;ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Caca_Fidget-5.jpg?resize=600%2C400&amp;ssl=1 600w\" sizes=\"(max-width: 1024px) 100vw, 1024px\" /><figcaption class=\"wp-element-caption\">Spoolio Caca Fidget 5</figcaption></figure>\n\n\n\n<figure class=\"wp-block-image size-large\"><img data-recalc-dims=\"1\" loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"682\" data-id=\"7244\" src=\"/images/imported/Spoolio_Fidget-Engrenage-2.jpeg\" alt=\"Spoolio Fidget Engrenage 2\" class=\"wp-image-7244\" title=\"\" srcset=\"https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=1024%2C682&amp;ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=768%2C512&amp;ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=640%2C427&amp;ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=400%2C267&amp;ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=600%2C400&amp;ssl=1 600w\" sizes=\"(max-width: 1024px) 100vw, 1024px\" /><figcaption class=\"wp-element-caption\">Spoolio Fidget Engrenage 2</figcaption></figure>\n\n\n\n<figure class=\"wp-block-image size-large\"><img data-recalc-dims=\"1\" loading=\"lazy\" decoding=\"async\" width=\"1024\" height=\"682\" data-id=\"7246\" src=\"/images/imported/Spoolio_Fidget-Engrenage-1.jpeg\" alt=\"Spoolio Fidget Engrenage 1\" class=\"wp-image-7246\" title=\"\" srcset=\"https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-1.jpeg?resize=1024%2C682&amp;ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-1.jpeg?resize=768%2C512&amp;ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-1.jpeg?resize=640%2C427&amp;ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-1.jpeg?resize=400%2C267&amp;ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-1.jpeg?resize=600%2C400&amp;ssl=1 600w\" sizes=\"(max-width: 1024px) 100vw, 1024px\" /><figcaption class=\"wp-element-caption\">Spoolio Fidget Engrenage 1</figcaption></figure>\n</figure>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<h3 class=\"wp-block-heading\">Un outil simple, mais aux effets puissants</h3>\n\n\n\n<p class=\"wp-block-paragraph\">Les fidgets et jouets sensoriels sont bien plus qu’une simple tendance. Ils répondent à un besoin fondamental de concentration et de gestion du stress, aussi bien chez les enfants que chez les adultes. Bien choisis et utilisés de manière appropriée, ils deviennent de véritables alliés du quotidien, favorisant un meilleur apprentissage, une plus grande productivité et un bien-être général. Alors, prêt à adopter le vôtre ?</p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n\n\n\n<p class=\"wp-block-paragraph\"></p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>Dans un monde où les sollicitations sont multiples, se concentrer n’est pas toujours évident, que ce soit à l’école, au travail ou simplement dans la vie de tous les jours. Pour les enfants comme pour les adultes, les fidgets et autres jouets sensoriels se sont imposés comme des alliés indispensables pour travailler l’attention et la [&hellip;]</p>\n",
+      "protected": false
+    },
+    "author": 1,
+    "featured_media": 7244,
+    "comment_status": "open",
+    "ping_status": "open",
+    "sticky": false,
+    "template": "",
+    "format": "standard",
+    "meta": {
+      "_acf_changed": false,
+      "rs_blank_template": "",
+      "rs_page_bg_color": "",
+      "slide_template_v7": "",
+      "_jetpack_newsletter_access": "",
+      "_jetpack_dont_email_post_to_subs": false,
+      "_jetpack_newsletter_tier_id": 0,
+      "_jetpack_memberships_contains_paywalled_content": false,
+      "_jetpack_feature_clip_id": 0,
+      "_jetpack_memberships_contains_paid_content": false,
+      "footnotes": "",
+      "jetpack_post_was_ever_published": false
+    },
+    "categories": [
+      112
+    ],
+    "tags": [],
+    "class_list": [
+      "post-8349",
+      "post",
+      "type-post",
+      "status-publish",
+      "format-standard",
+      "has-post-thumbnail",
+      "hentry",
+      "category-explications"
+    ],
+    "acf": [],
+    "featured_image_src": {
+      "landsacpe": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=1140%2C445&ssl=1",
+        1140,
+        445,
+        true
+      ],
+      "list": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=463%2C348&ssl=1",
+        463,
+        348,
+        true
+      ],
+      "medium": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?fit=300%2C200&ssl=1",
+        300,
+        200,
+        true
+      ],
+      "full": [
+        "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?fit=2000%2C1333&ssl=1",
+        2000,
+        1333,
+        false
+      ]
+    },
+    "jetpack_featured_media_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?fit=2000%2C1333&ssl=1",
+    "jetpack_sharing_enabled": true,
+    "_links": {
+      "self": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/8349",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/types/post"
+        }
+      ],
+      "author": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/users/1"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/comments?post=8349"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 7,
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/8349/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 8586,
+          "href": "https://spoolio.fr/wp-json/wp/v2/posts/8349/revisions/8586"
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/media/7244"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://spoolio.fr/wp-json/wp/v2/media?parent=8349"
+        }
+      ],
+      "wp:term": [
+        {
+          "taxonomy": "category",
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/categories?post=8349"
+        },
+        {
+          "taxonomy": "post_tag",
+          "embeddable": true,
+          "href": "https://spoolio.fr/wp-json/wp/v2/tags?post=8349"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    },
+    "_embedded": {
+      "author": [
+        {
+          "id": 1,
+          "name": "Vivien",
+          "url": "http://spoolio.fr",
+          "description": "",
+          "link": "https://spoolio.fr/author/admin5267/",
+          "slug": "admin5267",
+          "avatar_urls": {
+            "24": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=24&d=mm&r=g",
+            "48": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=48&d=mm&r=g",
+            "96": "https://secure.gravatar.com/avatar/7444c9982bc234103d7468c4f6e9a22c23ece4cd733d4934de228bbabe2a60e6?s=96&d=mm&r=g"
+          },
+          "is_super_admin": true,
+          "woocommerce_meta": {
+            "variable_product_tour_shown": "yes",
+            "wc_payments_overview_inbox_last_read": "1736771903081",
+            "wc_payments_transactions_hidden_columns": "",
+            "wc_payments_transactions_blocked_hidden_columns": "",
+            "wc_payments_transactions_risk_review_hidden_columns": "",
+            "wc_payments_transactions_uncaptured_hidden_columns": "",
+            "wc_payments_payouts_hidden_columns": "",
+            "wc_payments_disputes_hidden_columns": "",
+            "wc_payments_documents_hidden_columns": "",
+            "wc_payments_reports_fees_view": "",
+            "wc_payments_review_prompt_dismissed": "1774535029",
+            "wc_payments_review_prompt_maybe_later": "",
+            "wc_payments_reports_feedback_dismissed": "",
+            "activity_panel_inbox_last_read": "",
+            "activity_panel_reviews_last_read": "",
+            "categories_report_columns": "",
+            "coupons_report_columns": "",
+            "customers_report_columns": "",
+            "orders_report_columns": "[\"customer_type\",\"coupons\",\"customer_currency\"]",
+            "products_report_columns": "",
+            "revenue_report_columns": "",
+            "taxes_report_columns": "",
+            "variations_report_columns": "",
+            "dashboard_sections": "",
+            "dashboard_chart_type": "",
+            "dashboard_chart_interval": "",
+            "dashboard_leaderboard_rows": "",
+            "order_attribution_install_banner_dismissed": "",
+            "scheduled_updates_promotion_notice_dismissed": "",
+            "homepage_layout": "",
+            "homepage_stats": "",
+            "task_list_tracked_started_tasks": "{\"tax\":2,\"shipping\":1,\"customize-store\":2,\"launch-your-store\":1}",
+            "android_app_banner_dismissed": "",
+            "launch_your_store_tour_hidden": "",
+            "coming_soon_banner_dismissed": ""
+          },
+          "acf": [],
+          "_links": {
+            "self": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/users/1",
+                "targetHints": {
+                  "allow": [
+                    "GET"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/users"
+              }
+            ]
+          }
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "id": 7244,
+          "date": "2025-01-17T14:37:35",
+          "slug": "spoolio_fidget-engrenage-2",
+          "type": "attachment",
+          "link": "https://spoolio.fr/spoolio_fidget-engrenage-2/",
+          "title": {
+            "rendered": "Spoolio Fidget Engrenage 2"
+          },
+          "author": 1,
+          "featured_media": 0,
+          "jetpack_sharing_enabled": true,
+          "acf": [],
+          "caption": {
+            "rendered": "<p>Spoolio Fidget Engrenage 2</p>\n"
+          },
+          "alt_text": "Spoolio Fidget Engrenage 2",
+          "media_type": "image",
+          "mime_type": "image/jpeg",
+          "media_details": {
+            "width": 2000,
+            "height": 1333,
+            "file": "2025/01/Spoolio_Fidget-Engrenage-2.jpeg",
+            "filesize": 377522,
+            "sizes": {
+              "medium": {
+                "file": "Spoolio_Fidget-Engrenage-2-300x200.jpeg",
+                "width": 300,
+                "height": 200,
+                "filesize": 12110,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?fit=300%2C200&ssl=1"
+              },
+              "large": {
+                "file": "Spoolio_Fidget-Engrenage-2-1024x682.jpeg",
+                "width": 1024,
+                "height": 682,
+                "filesize": 64898,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?fit=1024%2C682&ssl=1"
+              },
+              "thumbnail": {
+                "file": "Spoolio_Fidget-Engrenage-2-150x150.jpeg",
+                "width": 150,
+                "height": 150,
+                "filesize": 7467,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=150%2C150&ssl=1"
+              },
+              "medium_large": {
+                "file": "Spoolio_Fidget-Engrenage-2-768x512.jpeg",
+                "width": 768,
+                "height": 512,
+                "filesize": 42618,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?fit=768%2C512&ssl=1"
+              },
+              "1536x1536": {
+                "file": "Spoolio_Fidget-Engrenage-2-1536x1024.jpeg",
+                "width": 1536,
+                "height": 1024,
+                "filesize": 118832,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?fit=1536%2C1024&ssl=1"
+              },
+              "blog-large": {
+                "file": "Spoolio_Fidget-Engrenage-2-1140x445.jpeg",
+                "width": 1140,
+                "height": 445,
+                "filesize": 52763,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=1140%2C445&ssl=1"
+              },
+              "blog-medium": {
+                "file": "Spoolio_Fidget-Engrenage-2-463x348.jpeg",
+                "width": 463,
+                "height": 348,
+                "filesize": 23690,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=463%2C348&ssl=1"
+              },
+              "blog-masonry": {
+                "file": "Spoolio_Fidget-Engrenage-2-640x427.jpeg",
+                "width": 640,
+                "height": 427,
+                "filesize": 33109,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?fit=640%2C427&ssl=1"
+              },
+              "blog-masonry-small": {
+                "file": "Spoolio_Fidget-Engrenage-2-400x267.jpeg",
+                "width": 400,
+                "height": 267,
+                "filesize": 17478,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?fit=400%2C267&ssl=1"
+              },
+              "blog-grid": {
+                "file": "Spoolio_Fidget-Engrenage-2-640x480.jpeg",
+                "width": 640,
+                "height": 480,
+                "filesize": 37007,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=640%2C480&ssl=1"
+              },
+              "blog-grid-small": {
+                "file": "Spoolio_Fidget-Engrenage-2-400x300.jpeg",
+                "width": 400,
+                "height": 300,
+                "filesize": 19438,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=400%2C300&ssl=1"
+              },
+              "related-post": {
+                "file": "Spoolio_Fidget-Engrenage-2-450x231.jpeg",
+                "width": 450,
+                "height": 231,
+                "filesize": 17946,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=450%2C231&ssl=1"
+              },
+              "widget-thumb-medium": {
+                "file": "Spoolio_Fidget-Engrenage-2-85x85.jpeg",
+                "width": 85,
+                "height": 85,
+                "filesize": 4315,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=85%2C85&ssl=1"
+              },
+              "woocommerce_thumbnail": {
+                "file": "Spoolio_Fidget-Engrenage-2-300x300.jpeg",
+                "width": 300,
+                "height": 300,
+                "filesize": 17346,
+                "uncropped": false,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=300%2C300&ssl=1"
+              },
+              "woocommerce_single": {
+                "file": "Spoolio_Fidget-Engrenage-2-600x400.jpeg",
+                "width": 600,
+                "height": 400,
+                "filesize": 30155,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?fit=1200%2C800&ssl=1"
+              },
+              "woocommerce_gallery_thumbnail": {
+                "file": "Spoolio_Fidget-Engrenage-2-150x150.jpeg",
+                "width": 150,
+                "height": 150,
+                "filesize": 7467,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=150%2C150&ssl=1"
+              },
+              "swatches_image_size": {
+                "file": "Spoolio_Fidget-Engrenage-2-32x32.jpeg",
+                "width": 32,
+                "height": 32,
+                "filesize": 2541,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?resize=32%2C32&ssl=1"
+              },
+              "full": {
+                "file": "Spoolio_Fidget-Engrenage-2.jpeg?fit=2000%2C1333&ssl=1",
+                "width": 2000,
+                "height": 1333,
+                "mime_type": "image/jpeg",
+                "source_url": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg?fit=2000%2C1333&ssl=1"
+              }
+            },
+            "image_meta": {
+              "aperture": "5",
+              "credit": "",
+              "camera": "ILCE-7M3",
+              "caption": "",
+              "created_timestamp": "1737124011",
+              "copyright": "",
+              "focal_length": "70",
+              "iso": "100",
+              "shutter_speed": "0.016666666666667",
+              "title": "",
+              "orientation": "1",
+              "keywords": []
+            }
+          },
+          "source_url": "https://spoolio.fr/wp-content/uploads/2025/01/Spoolio_Fidget-Engrenage-2.jpeg",
+          "_links": {
+            "self": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/media/7244",
+                "targetHints": {
+                  "allow": [
+                    "GET"
+                  ]
+                }
+              }
+            ],
+            "collection": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/media"
+              }
+            ],
+            "about": [
+              {
+                "href": "https://spoolio.fr/wp-json/wp/v2/types/attachment"
+              }
+            ],
+            "author": [
+              {
+                "embeddable": true,
+                "href": "https://spoolio.fr/wp-json/wp/v2/users/1"
+              }
+            ],
+            "replies": [
+              {
+                "embeddable": true,
+                "href": "https://spoolio.fr/wp-json/wp/v2/comments?post=7244"
+              }
+            ]
+          }
+        }
+      ],
+      "wp:term": [
+        [
+          {
+            "id": 112,
+            "link": "https://spoolio.fr/category/explications/",
+            "name": "Explications",
+            "slug": "explications",
+            "taxonomy": "category",
+            "acf": [],
+            "_links": {
+              "self": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/categories/112",
+                  "targetHints": {
+                    "allow": [
+                      "GET"
+                    ]
+                  }
+                }
+              ],
+              "collection": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/categories"
+                }
+              ],
+              "about": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/taxonomies/category"
+                }
+              ],
+              "wp:post_type": [
+                {
+                  "href": "https://spoolio.fr/wp-json/wp/v2/posts?categories=112"
+                }
+              ],
+              "curies": [
+                {
+                  "name": "wp",
+                  "href": "https://api.w.org/{rel}",
+                  "templated": true
+                }
+              ]
+            }
+          }
+        ],
+        []
+      ]
+    },
+    "featured_image_url": "/images/imported/Spoolio_Fidget-Engrenage-2.jpeg"
+  }
+]

@@ -1,26 +1,611 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-spoolio-bg: #000000;
+  --color-spoolio-card: #131316;
+  --color-spoolio-border: #1f1f23;
+  --color-spoolio-orange: #ff4f00;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-plus-jakarta), Arial, sans-serif;
+  --font-antonio: var(--font-antonio), Arial, sans-serif;
+  --font-mono: monospace;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-spoolio-bg);
+  color: #ededed;
+  font-family: var(--font-sans);
+}
+
+
+/* Custom Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  display: inline-flex;
+  animation: marquee 60s linear infinite;
+}
+
+/* Theme light mode variables */
+html.light {
+  --color-spoolio-bg: #f9f9fb;
+  --color-spoolio-card: #ffffff;
+  --color-spoolio-border: #e2e2e9;
+}
+
+/* .no-invert elements: preserve their original colors — don't touch text or bg */
+html.light .no-invert {
+  /* Let Tailwind color classes apply naturally by excluding them from theme light overrides */
+}
+html.light .no-invert *:not(a) {
+  /* Non-anchor elements can revert if necessary, but we avoid overriding anchor links */
+}
+/* Specifically re-force white text on dark badge backgrounds */
+html.light span.no-invert.text-gray-300,
+html.light span.no-invert.text-gray-200 {
+  color: #e5e7eb !important;
+}
+
+/* Light theme overrides */
+html.light body {
+  background-color: #f9f9fb;
+  color: #121212;
+}
+
+/* Text overrides in light mode, excluding keep-dark / no-invert children */
+html.light .text-white:not(.no-invert, .no-invert *) {
+  color: #0d0d11 !important;
+}
+html.light .text-gray-100:not(.no-invert, .no-invert *) {
+  color: #1a1a24 !important;
+}
+html.light .text-gray-200:not(.no-invert, .no-invert *) {
+  color: #2a2a35 !important;
+}
+html.light .text-gray-300:not(.no-invert, .no-invert *) {
+  color: #3a3a45 !important;
+}
+html.light .text-gray-400:not(.no-invert, .no-invert *) {
+  color: #555566 !important;
+}
+html.light .text-gray-500:not(.no-invert, .no-invert *) {
+  color: #717185 !important;
+}
+
+html.light .text-blue-400 {
+  color: #2F3CD9 !important;
+}
+
+/* Keep original text colors inside elements that have these backgrounds */
+html.light .bg-\[\#ff4f00\],
+html.light .bg-\[\#ff4f00\] *,
+html.light .bg-red-600,
+html.light .bg-red-600 *,
+html.light .bg-\[\#ff9f1c\],
+html.light .bg-\[\#ff9f1c\] *,
+html.light .bg-\[\#005cff\],
+html.light .bg-\[\#005cff\] *,
+html.light .bg-gradient-to-tr.from-blue-600,
+html.light .bg-gradient-to-tr.from-blue-600 *,
+html.light .bg-\[\#230f06\],
+html.light .bg-\[\#230f06\] * {
+  color: #ffffff !important;
+}
+
+/* Keep warning yellow */
+html.light .bg-\[\#230f06\] .text-yellow-400 {
+  color: #fbbf24 !important;
+}
+
+/* Specific background button and pill overrides in light mode */
+html.light .bg-white\/10:not(.no-invert, .no-invert *) {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  color: #0d0d11 !important;
+}
+html.light .bg-white\/20:not(.no-invert, .no-invert *) {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+  color: #0d0d11 !important;
+}
+html.light .bg-white\/5:not(.no-invert, .no-invert *) {
+  background-color: rgba(0, 0, 0, 0.03) !important;
+}
+
+/* Product card hover border and shadow overrides */
+html.light .group.bg-spoolio-card {
+  transition: all 0.3s ease;
+}
+html.light .group.bg-spoolio-card:hover {
+  border-color: #d1d1db !important;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Dropdown backdrops in light mode */
+html.light .bg-\[\#131316\]\/95 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #e2e2e9 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Sticky Header background in light mode */
+html.light .bg-black\/60 {
+  background-color: rgba(255, 255, 255, 0.75) !important;
+}
+
+html.light .sticky.border-b {
+  border-bottom-width: 0px !important;
+  border-bottom-color: transparent !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Logo inversion ONLY on the sticky header (since it sits on white background) */
+html.light .sticky img[alt="Spoolio Logo"] {
+  filter: invert(1);
+}
+
+/* Description collapsible gradient in light mode */
+html.light .from-black {
+  --tw-gradient-from: #ffffff var(--tw-gradient-from-position) !important;
+  --tw-gradient-to: rgba(255, 255, 255, 0) var(--tw-gradient-to-position) !important;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important;
+}
+
+/* Utility to hide scrollbars globally while keeping scroll function */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Blog Content HTML Prose Typography Style */
+.blog-content-prose p {
+  margin-bottom: 1.25rem;
+  color: #c9c9d4;
+  line-height: 1.7;
+}
+.blog-content-prose h2 {
+  font-family: var(--font-antonio), sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.blog-content-prose h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.blog-content-prose ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.blog-content-prose ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.blog-content-prose li {
+  margin-bottom: 0.5rem;
+  color: #c9c9d4;
+}
+.blog-content-prose strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+.blog-content-prose img {
+  border-radius: 1.25rem;
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+  border: 1px border var(--color-spoolio-border);
+}
+
+/* Blog Content light mode overrides */
+html.light .blog-content-prose p {
+  color: #3b3b4a;
+}
+html.light .blog-content-prose h2,
+html.light .blog-content-prose h3,
+html.light .blog-content-prose strong {
+  color: #0d0d11;
+}
+html.light .blog-content-prose li {
+  color: #3b3b4a;
+}
+
+/* Force white text on homepage hero elements regardless of light theme overrides */
+.home-hero-text,
+html.light .home-hero-text,
+.keep-white,
+html.light .keep-white {
+  color: #ffffff !important;
+}
+
+/* Reviews inputs style */
+.review-input {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-color: #1f1f23;
+  color: #ffffff;
+}
+.review-input:focus {
+  border-color: #ff4f00;
+}
+
+/* Theme light mode overrides for reviews inputs */
+html.light .review-input {
+  background-color: #f3f4f6 !important;
+  border-color: #e2e2e9 !important;
+  color: #121212 !important;
+}
+html.light .review-input:focus {
+  border-color: #2F3CD9 !important;
+}
+
+/* Reviews submit button style (default: orange/white text) */
+.review-submit-btn {
+  background-color: #ff4f00;
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px rgba(255, 79, 0, 0.25);
+}
+.review-submit-btn:hover {
+  background-color: #e04500;
+}
+
+/* Theme light mode overrides for reviews submit button: Blue background, White text */
+html.light .review-submit-btn {
+  background-color: #2F3CD9 !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px rgba(47, 60, 217, 0.25) !important;
+}
+html.light .review-submit-btn:hover {
+  background-color: #1e2bc2 !important;
+}
+
+/* ==========================================
+   CART DRAWER LIGHT THEME OVERRIDES
+   ========================================== */
+
+/* Cart panel background & borders */
+html.light .cart-panel {
+  background-color: #ffffff !important;
+  border-left-color: #e2e2e9 !important;
+}
+
+/* Header & close button */
+html.light .cart-header {
+  border-bottom-color: #e2e2e9 !important;
+}
+html.light .cart-header h2 {
+  color: #0d0d11 !important;
+}
+html.light .close-btn {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  color: #121212 !important;
+}
+html.light .close-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Cart empty state */
+html.light .cart-content h3 {
+  color: #0d0d11 !important;
+}
+html.light .cart-content p {
+  color: #555566 !important;
+}
+
+/* Cart Item card */
+html.light .cart-item {
+  background-color: #f9f9fb !important;
+  border-color: #e2e2e9 !important;
+}
+html.light .cart-item h4,
+html.light .cart-item h4 a {
+  color: #121212 !important;
+}
+html.light .cart-item h4 a:hover {
+  color: #ff4f00 !important;
+}
+html.light .cart-item span {
+  color: #555566 !important;
+}
+
+/* Quantity controls inside cart item */
+html.light .qty-selector {
+  background-color: #f3f4f6 !important;
+  border-color: #e2e2e9 !important;
+}
+html.light .qty-btn {
+  color: #555566 !important;
+}
+html.light .qty-btn:hover {
+  color: #121212 !important;
+}
+html.light .qty-display {
+  color: #121212 !important;
+}
+html.light .item-price {
+  color: #121212 !important;
+}
+html.light .remove-item-btn {
+  color: #717185 !important;
+}
+html.light .remove-item-btn:hover {
+  color: #ef4444 !important;
+  background-color: rgba(239, 68, 68, 0.1) !important;
+}
+
+/* Shipping choices section */
+html.light .shipping-section h4 {
+  color: #717185 !important;
+}
+html.light .shipping-card {
+  border-color: #e2e2e9 !important;
+  background-color: #f9f9fb !important;
+}
+html.light .shipping-card:hover {
+  border-color: #d1d1db !important;
+}
+html.light .shipping-card.active {
+  border-color: #ff4f00 !important;
+  background-color: rgba(255, 79, 0, 0.04) !important;
+}
+html.light .shipping-card span {
+  color: #121212 !important;
+}
+html.light .shipping-card .text-gray-500 {
+  color: #717185 !important;
+}
+
+/* Relay widget selector */
+html.light .relay-widget {
+  background-color: #f9f9fb !important;
+  border-color: #e2e2e9 !important;
+}
+html.light .relay-widget span {
+  color: #121212 !important;
+}
+html.light .relay-input {
+  background-color: #ffffff !important;
+  border-color: #e2e2e9 !important;
+  color: #121212 !important;
+}
+html.light .relay-input:focus {
+  border-color: #ff4f00 !important;
+}
+html.light .relay-btn {
+  background-color: #121212 !important;
+  color: #ffffff !important;
+}
+html.light .relay-btn:hover {
+  background-color: #2a2a35 !important;
+}
+html.light .relay-result-btn {
+  border-color: #e2e2e9 !important;
+  background-color: #ffffff !important;
+}
+html.light .relay-result-btn span.text-white {
+  color: #121212 !important;
+}
+html.light .relay-result-btn span.text-gray-400 {
+  color: #717185 !important;
+}
+html.light .relay-result-btn:hover {
+  border-color: #ff4f00 !important;
+  background-color: rgba(255, 79, 0, 0.02) !important;
+}
+html.light .selected-relay-box {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+  border-color: #e2e2e9 !important;
+}
+html.light .selected-relay-box span.text-gray-400 {
+  color: #717185 !important;
+}
+
+/* Cart total & checkout footer */
+html.light .cart-footer {
+  border-top-color: #e2e2e9 !important;
+  background-color: #f9f9fb !important;
+}
+html.light .cart-row span {
+  color: #717185 !important;
+}
+html.light .cart-row span:last-child {
+  color: #121212 !important;
+}
+html.light .total-title {
+  color: #121212 !important;
+}
+html.light .total-value {
+  color: #121212 !important;
+}
+html.light .cart-secure-text {
+  color: #717185 !important;
+}
+
+/* ==========================================
+   GLOBAL SEARCH DIALOG LIGHT THEME OVERRIDES
+   ========================================== */
+
+/* Search box backdrop and container */
+html.light .search-dialog-box {
+  background-color: #ffffff !important;
+  border-color: #e2e2e9 !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Input container & field */
+html.light .search-input-container {
+  border-bottom-color: #e2e2e9 !important;
+}
+html.light .search-field {
+  color: #121212 !important;
+}
+html.light .search-field::placeholder {
+  color: #717185 !important;
+}
+
+/* Results text / sections */
+html.light .search-results-content h5 {
+  color: #717185 !important;
+}
+
+/* Shortcut and result items links */
+html.light .search-shortcut-link,
+html.light .search-result-item {
+  background-color: #f9f9fb !important;
+  border-color: #e2e2e9 !important;
+  color: #121212 !important;
+}
+
+html.light .search-shortcut-link:hover,
+html.light .search-result-item:hover {
+  background-color: rgba(255, 79, 0, 0.05) !important;
+  border-color: #ff4f00 !important;
+  color: #ff4f00 !important;
+}
+
+/* Text overrides in results links */
+html.light .search-shortcut-link span.text-white,
+html.light .search-result-item span.text-white,
+html.light .search-shortcut-link span.text-gray-200 {
+  color: #121212 !important;
+}
+
+html.light .search-shortcut-link:hover span.text-white,
+html.light .search-result-item:hover span.text-white,
+html.light .search-shortcut-link:hover span.text-gray-200 {
+  color: #ff4f00 !important;
+}
+
+html.light .search-shortcut-link span.text-gray-400,
+html.light .search-result-item span.text-gray-400 {
+  color: #555566 !important;
+}
+
+html.light .search-results-content div {
+  color: #555566 !important;
+}
+
+/* ==========================================
+   NO-INVERT HEADERS & TOOLBAR COLOR FIXES
+   ========================================== */
+
+/* Maintain white color on menu links and buttons inside no-invert elements */
+html.light .no-invert a:not(.hover\:text-\[\#ff4f00\]),
+html.light .no-invert button:not(.hover\:text-\[\#ff4f00\]),
+html.light .no-invert span {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+html.light .no-invert a:hover,
+html.light .no-invert button:hover {
+  color: #ffffff !important;
+}
+
+/* Allow specific hover colors inside no-invert headers */
+html.light .no-invert .hover\:text-white:hover {
+  color: #ffffff !important;
+}
+html.light .no-invert .hover\:text-\[\#ff4f00\]:hover {
+  color: #ff4f00 !important;
+}
+html.light .no-invert .hover\:text-\[\#ff4f00\]:hover * {
+  color: #ff4f00 !important;
+}
+
+/* Specific overrides for Admin Toolbar links & icons (prevent theme light overrides) */
+html.light .fixed.no-invert a {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+html.light .fixed.no-invert a:hover {
+  color: #ffffff !important;
+}
+html.light .fixed.no-invert .hover\:text-\[\#2F3CD9\]:hover,
+html.light .fixed.no-invert .hover\:text-\[\#2F3CD9\]:hover * {
+  color: #2F3CD9 !important;
+}
+html.light .fixed.no-invert svg.text-\[\#2F3CD9\] {
+  color: #2F3CD9 !important;
+}
+html.light .fixed.no-invert svg.text-\[\#f7eb12\] {
+  color: #f7eb12 !important;
+}
+html.light .fixed.no-invert strong.text-white {
+  color: #ffffff !important;
+}
+
+/* Force white text on buttons and elements containing text-white inside no-invert components */
+html.light .no-invert.text-white,
+html.light .no-invert .text-white,
+html.light button.no-invert,
+html.light button.no-invert * {
+  color: #ffffff !important;
+}
+
+/* WYSIWYG Editor custom HTML styling inside contentEditable area */
+.wysiwyg-editor-area {
+  outline: none;
+}
+.wysiwyg-editor-area h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-family: inherit;
+}
+.wysiwyg-editor-area p {
+  margin-bottom: 0.75rem;
+  line-height: 1.625;
+}
+.wysiwyg-editor-area ul {
+  list-style-type: disc !important;
+  padding-left: 1.5rem !important;
+  margin-bottom: 0.75rem !important;
+}
+.wysiwyg-editor-area li {
+  margin-bottom: 0.25rem !important;
+  display: list-item !important;
+}
+.wysiwyg-editor-area a {
+  color: #2F3CD9 !important;
+  text-decoration: underline !important;
+  cursor: pointer;
+}
+html.light .wysiwyg-editor-area a {
+  color: #2F3CD9 !important;
+}
+.wysiwyg-editor-area img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: block;
+}
+html.light .wysiwyg-editor-area img {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.wysiwyg-editor-area hr {
+  border: 0;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
+  margin: 1.5rem 0;
+}
+html.light .wysiwyg-editor-area hr {
+  border-top: 2px solid rgba(0, 0, 0, 0.1);
 }

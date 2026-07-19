@@ -1,0 +1,39 @@
+- [x] Installer les dépendances Prisma (`prisma`, `@prisma/client`)
+- [x] Créer le schéma Prisma dans `prisma/schema.prisma`
+- [x] Créer le client Prisma global dans `src/lib/prisma.ts`
+- [x] Écrire le script de peuplement (seed) `prisma/seed.js` pour insérer les données JSON dans la base o2switch
+- [x] Mettre à jour les API routes (`src/app/api/products/route.ts` et `src/app/api/products/[slug]/route.ts`) pour utiliser Prisma
+- [x] Tester et compiler le projet
+- [x] Configurer la détection admin dans `src/app/admin/layout.tsx` (sauvegarde de la clé is_spoolio_admin)
+- [x] Créer le composant `src/components/AdminToolbar.tsx` avec les liens dynamiques de modification
+- [x] Intégrer l'AdminToolbar dans `src/app/layout.tsx` (décalage de hauteur inclus)
+- [x] Tester et compiler le projet avec la barre d'administration
+- [x] Ajouter le champ `attributes` dans `prisma/schema.prisma`
+- [x] Mettre à jour `prisma/seed.js` pour stocker les attributs
+- [x] Exécuter `npx prisma db push` et `npx prisma db seed` pour mettre à jour o2switch
+- [x] Mettre à jour `src/components/ProductCard.tsx` (interface Product) et les API routes Next.js
+- [x] Modifier `src/app/product/[slug]/ProductDetailClient.tsx` pour le rendu dynamique des variantes
+- [x] Tester et compiler le projet complet
+- [x] Créer le fichier `src/app/boutique/page.tsx` pour configurer le titre SEO et importer le client de la boutique
+- [x] Créer le composant `src/app/boutique/BoutiqueClient.tsx` avec filtres, tris et pagination
+- [x] Tester et compiler le projet avec la boutique publique
+- [x] Configurer `ADMIN_PASSWORD` et `JWT_SECRET` dans `.env.local`
+- [x] Créer l'API de connexion `/api/admin/login` (génération du cookie HTTP-Only)
+- [x] Créer l'API de déconnexion `/api/admin/logout` (nettoyage du cookie)
+- [x] Créer le middleware Next.js `src/middleware.ts` pour bloquer les pages `/admin`
+- [x] Créer la page de login `/admin/login/page.tsx`
+- [x] Tester et compiler le projet sécurisé
+- [x] Créer le Context du panier `src/context/CartContext.tsx`
+- [x] Mettre à jour `src/app/layout.tsx` pour englober l'app avec `CartProvider`
+- [x] Créer le composant tiroir coulissant `src/components/CartDrawer.tsx`
+- [x] Modifier `src/components/Header.tsx` pour afficher le nombre d'articles et ouvrir le tiroir
+- [x] Lier les boutons d'achat dans `ProductCard.tsx` et `ProductDetailClient.tsx` au panier
+- [x] Créer l'API route `/api/checkout` pour rediriger vers Stripe
+- [x] Créer la page de remerciement `/success/page.tsx`
+- [x] Créer la route de Webhook Stripe `/api/webhooks/stripe` pour traiter l'événement checkout.session.completed
+- [x] Tester et compiler la totalité du parcours d'achat
+- [x] Intégrer les variables de livraison dans `src/context/CartContext.tsx`
+- [x] Créer l'API de recherche des points relais `/api/shipping/relays/route.ts`
+- [x] Intégrer le sélecteur d'expédition et la recherche de relais dans `src/components/CartDrawer.tsx`
+- [x] Mettre à jour `/api/checkout/route.ts` pour transmettre les frais et relais à Stripe Checkout
+- [x] Valider le parcours complet et compiler

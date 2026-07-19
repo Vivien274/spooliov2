@@ -1,0 +1,95 @@
+datasource db {
+  provider = "mysql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String
+  slug     String    @unique
+  products Product[]
+}
+
+model ProductImage {
+  id        Int     @id @default(autoincrement())
+  src       String
+  name      String?
+  alt       String?
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id                Int            @id @default(autoincrement())
+  name              String
+  slug              String         @unique
+  permalink         String?
+  price             String
+  regularPrice      String?
+  salePrice         String?
+  onSale            Boolean        @default(false)
+  shortDescription  String?        @db.Text
+  description       String?        @db.Text
+  stock             Int            @default(0)
+  productType       String         @default("simple") // simple or variable
+  status            String         @default("publish") // publish or draft
+  seoScore          Int            @default(0)
+  dateCreated       DateTime       @default(now())
+  categories        Category[]
+  images            ProductImage[]
+  attributes        String?        @db.Text
+  reviews           Review[]
+}
+
+model BlogPost {
+  id                Int      @id @default(autoincrement())
+  title             String
+  slug              String   @unique
+  content           String   @db.LongText
+  excerpt           String?  @db.Text
+  date              DateTime @default(now())
+  status            String   @default("publish")
+  featuredImageUrl  String?
+}
+
+model Page {
+  id                Int      @id @default(autoincrement())
+  title             String
+  slug              String   @unique
+  content           String   @db.LongText
+  date              DateTime @default(now())
+  status            String   @default("publish")
+  featuredImageUrl  String?
+}
+
+model Order {
+  id             String   @id @default(uuid())
+  stripeSession  String   @unique
+  email          String
+  customerName   String?
+  items          String   @db.Text
+  total          Float
+  shippingCost   Float
+  shippingMethod String
+  status         String   @default("attente_impression") // attente_impression | impression | emballe | expedie
+  relayDetails   String?  @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Review {
+  id           Int      @id @default(autoincrement())
+  productId    Int
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  customerName String
+  email        String
+  rating       Int
+  comment      String   @db.Text
+  approved     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
