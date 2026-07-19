@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { sendOrderConfirmationEmail } from "@/lib/email";
+import fs from "fs";
+import path from "path";
 
 export const dynamic = "force-dynamic";
 
@@ -94,20 +97,74 @@ export async function POST(request: Request) {
         console.log(`[Stripe Success] Création de la commande réelle en base: ${orderId} (${email})`);
 
         // Insert order inside MySQL o2switch database
-        await prisma.order.create({
-          data: {
-            id: orderId,
-            stripeSession: sessionId,
-            email: email,
-            customerName: customerName,
-            items: itemsSummary,
-            total: total,
-            shippingCost: shippingMethod === "pickup" ? 0 : (shippingMethod === "relay" ? 3.90 : 4.90),
-            shippingMethod: shippingMethod,
-            status: "attente_impression",
-            relayDetails: relayDetails
+        const shippingCost = shippingMethod === "pickup" ? 0 : (shippingMethod === "relay" ? 3.90 : 4.90);
+        const newOrderData = {
+          id: orderId,
+          stripeSession: sessionId,
+          email: email,
+          customerName: customerName,
+          items: itemsSummary,
+          total: total,
+          shippingCost: shippingCost,
+          shippingMethod: shippingMethod,
+          status: "attente_impression",
+          relayDetails: relayDetails,
+          createdAt: new Date().toISOString()
+        };
+
+        try {
+          await prisma.order.create({
+            data: {
+              id: newOrderData.id,
+              stripeSession: newOrderData.stripeSession,
+              email: newOrderData.email,
+              customerName: newOrderData.customerName,
+              items: newOrderData.items,
+              total: newOrderData.total,
+              shippingCost: newOrderData.shippingCost,
+              shippingMethod: newOrderData.shippingMethod,
+              status: newOrderData.status,
+              relayDetails: newOrderData.relayDetails
+            }
+          });
+        } catch (dbErr: any) {
+          console.error("[Webhook Database Error] Failed to write order to database:", dbErr.message);
+        }
+
+        // Cache order in local JSON file
+        try {
+          const jsonPath = path.join(process.cwd(), 'src/data/orders.json');
+          let localOrders = [];
+          if (fs.existsSync(jsonPath)) {
+            try {
+              localOrders = JSON.parse(fs.readFileSync(jsonPath, 'utf-8') || "[]");
+            } catch (e) {
+              localOrders = [];
+            }
           }
-        });
+          localOrders.unshift(newOrderData);
+          fs.writeFileSync(jsonPath, JSON.stringify(localOrders, null, 2), 'utf-8');
+        } catch (jsonErr: any) {
+          console.error("[Webhook Cache Error] Failed to cache order in local JSON:", jsonErr.message);
+        }
+
+        // Send confirmation email via Resend
+        try {
+          const parsedItems = JSON.parse(itemsSummary || "[]");
+          const parsedRelay = relayDetails ? JSON.parse(relayDetails) : null;
+          await sendOrderConfirmationEmail({
+            orderId: orderId,
+            customerName: customerName,
+            customerEmail: email,
+            items: parsedItems,
+            total: total,
+            shippingCost: shippingCost,
+            shippingMethod: shippingMethod,
+            relayDetails: parsedRelay
+          });
+        } catch (emailErr: any) {
+          console.error("[Webhook Email Trigger Error] Failed to trigger email send:", emailErr.message);
+        }
       }
     }
 
