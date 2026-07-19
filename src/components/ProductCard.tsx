@@ -4,7 +4,6 @@ import Link from "next/link";
 import Image from "next/image";
 import UnicornIcon from "@/components/UnicornIcon";
 import cartIconData from "@/components/shopping bag.json";
-import { useCart } from "@/context/CartContext";
 
 export interface Product {
   id: number;
@@ -29,34 +28,9 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const { addToCart } = useCart();
   const hasImage = !!product.images[0]?.src;
   const imageUrl = product.images[0]?.src || "";
   const imageAlt = product.images[0]?.alt || product.name;
-
-  const handleBuyClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    // Choose default variations if they exist in the product attributes
-    const defaultOptions: Record<string, string> = {};
-    if (product.attributes) {
-      product.attributes.forEach((attr: any) => {
-        if (attr.options && attr.options.length > 0) {
-          defaultOptions[attr.name] = attr.options[0].replace(/\u00a0/g, ' ').trim();
-        }
-      });
-    }
-
-    addToCart({
-      productId: product.id,
-      name: product.name,
-      slug: product.slug,
-      price: product.price,
-      selectedOptions: defaultOptions,
-      image: product.images[0]?.src || ""
-    }, 1);
-  };
 
   // Mockup index-based badge text
   const getBadgeText = (id: number) => {
@@ -147,13 +121,12 @@ export default function ProductCard({ product }: ProductCardProps) {
 
       {/* Blue Actions Button at the bottom with Padding */}
       <div className="p-6 pt-5">
-        <button
-          onClick={handleBuyClick}
+        <div
           className="w-full h-[50px] inline-flex items-center justify-center gap-2 px-4 text-xs font-bold text-white bg-[#005cff] hover:bg-[#004ecc] rounded-xl transition-colors shadow-[0_4px_10px_rgba(0,92,255,0.15)] select-none border-none cursor-pointer no-invert"
         >
           <UnicornIcon animationData={cartIconData} className="w-4 h-4" />
           ACHETER
-        </button>
+        </div>
       </div>
     </Link>
   );
