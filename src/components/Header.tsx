@@ -99,7 +99,7 @@ export default function Header({ className = "" }: HeaderProps) {
       </div>
 
       {/* Logo */}
-      <Link href="/" className="flex items-center gap-2 group">
+      <Link href="/" className="relative z-50 flex items-center gap-2 group">
         <Image
           src="/images/logo.png"
           alt="Spoolio Logo"
@@ -417,7 +417,7 @@ export default function Header({ className = "" }: HeaderProps) {
 
       {/* Mobile Drawer Navigation Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-[15000] flex md:hidden font-sans select-none no-invert">
+        <div className="fixed top-0 left-0 w-screen h-screen z-[15000] flex md:hidden font-sans select-none no-invert">
           {/* Backdrop overlay */}
           <div 
             onClick={() => setIsMobileMenuOpen(false)}
@@ -425,11 +425,11 @@ export default function Header({ className = "" }: HeaderProps) {
           />
 
           {/* Drawer menu content (slide-in from left) */}
-          <div className="relative w-[300px] max-w-full h-full bg-[#0d0d0f]/95 backdrop-blur-xl border-r border-[#1f1f23] flex flex-col justify-between p-6 shadow-2xl z-10 transition-all duration-300 animate-slide-in">
+          <div className="relative w-[300px] max-w-full h-screen bg-[#0d0d0f] border-r border-[#1f1f23] flex flex-col justify-between p-6 shadow-2xl z-10 transition-all duration-300 animate-slide-in">
             <div className="flex flex-col gap-6">
               {/* Logo & close row */}
               <div className="flex items-center justify-between pb-4 border-b border-white/5">
-                <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2">
+                <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="relative z-50 flex items-center gap-2">
                   <Image
                     src="/images/logo.png"
                     alt="Spoolio Logo"
