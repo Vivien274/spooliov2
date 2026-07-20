@@ -3,7 +3,17 @@
 import { useEffect, useState, useMemo } from "react";
 import ProductCard, { Product } from "./ProductCard";
 
-export default function SpoolioProductGrid() {
+interface SpoolioProductGridProps {
+  limit?: number;
+  filterType?: "latest" | "best-of" | "all";
+  showFilters?: boolean;
+}
+
+export default function SpoolioProductGrid({
+  limit,
+  filterType = "all",
+  showFilters = true
+}: SpoolioProductGridProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -33,7 +43,7 @@ export default function SpoolioProductGrid() {
           const timeB = b.date_created ? new Date(b.date_created).getTime() : 0;
           return timeB - timeA;
         });
-        setProducts(sorted.slice(0, 12));
+        setProducts(sorted);
       } catch (err: any) {
         setError(err.message || "Une erreur est survenue lors du chargement des produits");
       } finally {
@@ -44,17 +54,36 @@ export default function SpoolioProductGrid() {
     fetchProducts();
   }, []);
 
-  // Filter products by active category
+  // Filter products by active category or segments
   const filteredProducts = useMemo(() => {
-    if (activeCategory === "TOUT") {
-      return products;
+    let result = [...products];
+
+    if (filterType === "latest") {
+      // Already sorted by date_created in fetch
+    } else if (filterType === "best-of") {
+      const bestOf = result.filter(p => 
+        p.tags?.some(t => ["coup de coeur", "coup de cœur", "best-of", "best of", "populaire", "popular", "vedette", "stars"].includes(t.name?.toLowerCase() || ""))
+      );
+      // Fallback: take on_sale products or slice of main list if no tag matches
+      result = bestOf.length > 0 
+        ? bestOf 
+        : result.filter(p => p.on_sale).concat(result).slice(3, 8);
+      // Deduplicate fallback just in case
+      result = Array.from(new Set(result.map(p => p.id))).map(id => result.find(p => p.id === id)!);
+    } else if (filterType === "all" && activeCategory !== "TOUT") {
+      result = result.filter((product) =>
+        product.categories?.some(
+          (cat) => cat.name.toLowerCase() === activeCategory.toLowerCase()
+        )
+      );
     }
-    return products.filter((product) =>
-      product.categories?.some(
-        (cat) => cat.name.toLowerCase() === activeCategory.toLowerCase()
-      )
-    );
-  }, [products, activeCategory]);
+
+    // Apply slice limit if provided
+    if (limit && limit > 0) {
+      return result.slice(0, limit);
+    }
+    return result;
+  }, [products, activeCategory, filterType, limit]);
 
   if (error) {
     return (
@@ -81,21 +110,23 @@ export default function SpoolioProductGrid() {
   return (
     <div className="w-full flex flex-col gap-8">
       {/* Category Filter Pills */}
-      <div className="flex flex-wrap items-center justify-center gap-2">
-        {categories.map((tag) => (
-          <button
-            key={tag}
-            onClick={() => setActiveCategory(tag)}
-            className={`px-4 py-1.5 rounded-full text-[11px] font-semibold transition-all border cursor-pointer select-none ${
-              activeCategory === tag
-                ? "bg-white text-black border-white shadow-lg"
-                : "bg-transparent text-gray-400 border-[#1f1f23] hover:text-white hover:border-gray-500"
-            }`}
-          >
-            {tag}
-          </button>
-        ))}
-      </div>
+      {showFilters && filterType === "all" && (
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          {categories.map((tag) => (
+            <button
+              key={tag}
+              onClick={() => setActiveCategory(tag)}
+              className={`px-4 py-1.5 rounded-full text-[11px] font-semibold transition-all border cursor-pointer select-none ${
+                activeCategory === tag
+                  ? "bg-white text-black border-white shadow-lg"
+                  : "bg-transparent text-gray-400 border-[#1f1f23] hover:text-white hover:border-gray-500"
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Bento-style product grid with auto-fill minmax 280px */}
       {loading ? (

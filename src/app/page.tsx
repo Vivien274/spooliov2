@@ -299,21 +299,61 @@ export default async function Home() {
       </section>
 
       {/* 5. Product Grid Header & List */}
-      <section className="w-full max-w-[1200px] px-4 py-8 relative z-10">
-        {/* Title */}
-        <div className="text-center mb-6">
-          <h2 className="text-3xl font-extrabold uppercase tracking-tight font-antonio text-neon-flow">
-            Les objets Spoolio
+      <section className="w-full max-w-[1200px] px-4 py-12 relative z-10 flex flex-col gap-16">
+        {/* Title Block */}
+        <div className="text-center">
+          <h2 className="text-4xl md:text-5xl font-extrabold uppercase tracking-tight font-antonio text-neon-flow">
+            La Collection Spoolio
           </h2>
+          <p className="text-xs md:text-sm text-gray-400 font-sans mt-2 max-w-md mx-auto leading-relaxed">
+            Des fidgets sensoriels aux figurines articulées, découvre nos créations originales imprimées en 3D.
+          </p>
         </div>
 
-        {/* Product Grid */}
-        <div className="mb-10">
-          <SpoolioProductGrid />
+        {/* Section 1: Derniers Ajouts */}
+        <div className="flex flex-col gap-6">
+          <div className="flex items-center gap-3 pb-2 border-b border-white/5 font-sans">
+            <span className="text-xl">🌱</span>
+            <div className="flex flex-col">
+              <h3 className="text-lg font-bold text-white uppercase tracking-tight">
+                Les Dernières Créations
+              </h3>
+              <p className="text-[10px] text-gray-500 font-medium">Tout chaud sortis de nos buses d'impression à Comines</p>
+            </div>
+          </div>
+          <SpoolioProductGrid filterType="latest" limit={3} showFilters={false} />
+        </div>
+
+        {/* Section 2: Best Of */}
+        <div className="flex flex-col gap-6">
+          <div className="flex items-center gap-3 pb-2 border-b border-white/5 font-sans">
+            <span className="text-xl">✨</span>
+            <div className="flex flex-col">
+              <h3 className="text-lg font-bold text-white uppercase tracking-tight">
+                Nos Coups de Cœur
+              </h3>
+              <p className="text-[10px] text-gray-500 font-medium">Les objets préférés et les plus populaires de la commu</p>
+            </div>
+          </div>
+          <SpoolioProductGrid filterType="best-of" limit={3} showFilters={false} />
+        </div>
+
+        {/* Section 3: Tout le Catalogue */}
+        <div className="flex flex-col gap-6 font-sans">
+          <div className="flex items-center gap-3 pb-2 border-b border-white/5">
+            <span className="text-xl">🧩</span>
+            <div className="flex flex-col">
+              <h3 className="text-lg font-bold text-white uppercase tracking-tight">
+                Explorer Tout le Catalogue
+              </h3>
+              <p className="text-[10px] text-gray-500 font-medium">Filtre par univers pour trouver ton bonheur</p>
+            </div>
+          </div>
+          <SpoolioProductGrid filterType="all" limit={9} showFilters={true} />
         </div>
 
         {/* Large Blue Application Link */}
-        <div className="flex justify-center mb-20">
+        <div className="flex justify-center mt-4">
           <Link href="/boutique" className="w-full max-w-lg py-4 px-6 inline-flex items-center justify-center gap-2.5 bg-[#005cff] hover:bg-[#004ecc] text-white font-bold text-xs tracking-wider rounded-xl transition-all shadow-xl shadow-[#005cff]/15 cursor-pointer no-invert text-center">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1h16a1 1 0 011 1v8zM3 10h18M5 14v7a1 1 0 001 1h12a1 1 0 001-1v-7M9 14v4a1 1 0 001 1h4a1 1 0 001-1v-4" />
