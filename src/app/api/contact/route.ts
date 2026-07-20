@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     console.log("=========================================");
 
     const apiKey = process.env.RESEND_API_KEY;
-    const emailTo = process.env.CONTACT_EMAIL_TO || "contact@spoolio.fr";
+    const emailTo = process.env.RESEND_TO_EMAIL || process.env.CONTACT_EMAIL_TO || "contact@spoolio.fr";
     const emailFrom = process.env.RESEND_EMAIL_FROM || "onboarding@resend.dev";
 
     if (apiKey) {
