@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Review {
   id: number;
@@ -20,6 +20,23 @@ interface ReviewsSectionProps {
 
 export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) {
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
+  const [isLight, setIsLight] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Detect theme class on html tag
+    setIsLight(document.documentElement.classList.contains("light"));
+    
+    const observer = new MutationObserver(() => {
+      setIsLight(document.documentElement.classList.contains("light"));
+    });
+    
+    observer.observe(document.documentElement, { 
+      attributes: true, 
+      attributeFilter: ["class"] 
+    });
+    
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <>
@@ -82,17 +99,23 @@ export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) 
       {/* Detail Modal Overlay */}
       {selectedReview && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in"
           onClick={() => setSelectedReview(null)}
         >
           <div 
-            className="relative w-full max-w-lg rounded-3xl bg-[#131316] border border-white/10 p-6 md:p-8 shadow-2xl text-left animate-reveal"
+            className={`relative w-full max-w-lg rounded-3xl p-6 md:p-8 shadow-2xl text-left animate-reveal border ${
+              isLight 
+                ? "bg-[#ffffff] text-gray-800 border-gray-200" 
+                : "bg-[#131316] text-gray-200 border-white/10"
+            }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
               onClick={() => setSelectedReview(null)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-xl transition-colors cursor-pointer select-none"
+              className={`absolute top-4 right-4 p-2 rounded-xl transition-colors cursor-pointer select-none ${
+                isLight ? "text-gray-400 hover:text-gray-900 hover:bg-gray-100" : "text-gray-400 hover:text-white"
+              }`}
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
@@ -101,7 +124,7 @@ export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) 
 
             {/* Stars & Source Badge */}
             <div className="flex items-center justify-between gap-4 mb-4 pr-8">
-              <span className="text-xl text-[#ffdd67] tracking-wider drop-shadow-[0_0_8px_rgba(255,221,103,0.3)]">
+              <span className="text-xl text-[#ffbc00] tracking-wider drop-shadow-[0_0_8px_rgba(255,188,0,0.3)]">
                 {Array(selectedReview.rating).fill("★").join("")}
               </span>
               <span className="text-[9px] font-black uppercase tracking-widest text-[#ff4f00] px-2 py-0.5 rounded-md bg-[#ff4f00]/10 border border-[#ff4f00]/25">
@@ -110,14 +133,20 @@ export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) 
             </div>
 
             {/* Comment Body */}
-            <div className="max-h-[300px] overflow-y-auto pr-1 text-gray-200 text-sm md:text-base leading-relaxed font-medium italic mb-6 whitespace-pre-line font-sans scrollbar-thin">
+            <div className={`max-h-[300px] overflow-y-auto pr-1 text-sm md:text-base leading-relaxed font-medium italic mb-6 whitespace-pre-line font-sans scrollbar-thin ${
+              isLight ? "text-gray-700" : "text-gray-200"
+            }`}>
               "{selectedReview.comment}"
             </div>
 
             {/* Author details */}
-            <div className="flex items-center justify-between border-t border-white/5 pt-4 mt-4">
+            <div className={`flex items-center justify-between border-t pt-4 mt-4 ${
+              isLight ? "border-gray-100" : "border-white/5"
+            }`}>
               <div>
-                <h4 className="text-sm font-black text-white font-sans tracking-wide">
+                <h4 className={`text-sm font-black font-sans tracking-wide ${
+                  isLight ? "text-gray-900" : "text-white"
+                }`}>
                   {selectedReview.customerName}
                 </h4>
                 <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider font-sans">
@@ -129,7 +158,7 @@ export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) 
                 href="https://g.page/r/CZEMl8MXwp-kEBM/review"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-bold text-[#ff4f00] hover:underline"
+                className="text-xs font-bold text-[#ff4f00] hover:text-[#e64400] transition-colors hover:underline"
               >
                 Déposer un avis sur Google &rarr;
               </a>
