@@ -341,25 +341,41 @@ export default async function Home() {
       {/* 6. Bottom Showcase Cards */}
       <section className="w-full max-w-[1200px] px-4 pb-20 relative z-10 animate-reveal delay-200">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Left Block (2 columns width, orange container, review cards) */}
-          <div className="md:col-span-2 rounded-3xl bg-[#ff4f00] p-6 md:p-8 flex flex-col justify-start gap-6">
-            <h3 className="text-xl md:text-2xl font-bold text-white font-sans">
-              Nos clients adorent :
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Left Block (2 columns width, premium warm-gradient container, review cards) */}
+          <div className="md:col-span-2 relative rounded-3xl bg-gradient-to-tr from-[#ff3c00] via-[#ff6200] to-[#e60067] p-6 md:p-8 flex flex-col justify-start gap-6 overflow-hidden shadow-2xl shadow-[#ff4f00]/10 border border-white/5 group-hover:shadow-[#ff4f00]/20 transition-shadow duration-500">
+            {/* Soft grid background overlay */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
+
+            <div className="relative z-10 flex items-center justify-between">
+              <h3 className="text-xl md:text-2xl font-black text-white font-antonio uppercase tracking-wide">
+                Nos clients adorent Spoolio ⭐
+              </h3>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/70 px-2 py-0.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10">
+                Avis Vérifiés
+              </span>
+            </div>
+
+            <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {displayReviews.map((rev: any, idx: number) => (
                 <div
                   key={rev.id || idx}
-                  className="bg-white text-black p-5 rounded-[20px] shadow-lg flex flex-col justify-between h-full select-none"
+                  className="relative bg-white/10 backdrop-blur-md border border-white/10 p-5 rounded-2xl flex flex-col justify-between h-full select-none hover:-translate-y-1 hover:scale-[1.015] hover:bg-white/15 hover:border-white/20 transition-all duration-300 cursor-pointer shadow-lg shadow-black/10 group/card"
                 >
-                  <p className="text-[13px] text-gray-800 leading-normal font-medium line-clamp-4" title={rev.comment}>
+                  {/* Decorative quote mark */}
+                  <span className="absolute top-2 right-4 text-5xl font-serif text-white/5 select-none pointer-events-none font-bold">
+                    ”
+                  </span>
+
+                  <p className="text-[13px] text-white/90 leading-relaxed font-medium font-sans italic relative z-10 mb-4">
                     "{rev.comment}"
                   </p>
-                  <div className="flex items-center justify-between mt-4">
-                    <span className="text-[13px] font-semibold text-gray-500 font-sans">
+
+                  <div className="relative z-10 flex items-center justify-between pt-3 border-t border-white/10 mt-auto">
+                    <span className="text-[12px] font-black text-white/95 font-sans tracking-wide flex items-center gap-1">
                       {rev.customerName}
+                      <span className="text-[10px] text-white/70">✔️</span>
                     </span>
-                    <span className="text-[13px] text-[#ffae19] font-sans tracking-wide">
+                    <span className="text-[12px] text-[#ffd166] font-sans tracking-wide drop-shadow-[0_0_6px_rgba(255,209,102,0.4)]">
                       {Array(rev.rating).fill("★").join("")}
                     </span>
                   </div>
