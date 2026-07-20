@@ -232,7 +232,9 @@ export default function AdminReviewsPage() {
                           {r.product.name}
                         </Link>
                       ) : (
-                        `ID: ${r.productId}`
+                        <span className="text-gray-500 font-medium text-[11px] flex items-center gap-1">
+                          🌐 Avis Google (Général)
+                        </span>
                       )}
                     </td>
                     <td className="px-5 py-4">
