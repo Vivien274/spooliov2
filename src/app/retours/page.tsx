@@ -70,12 +70,12 @@ export default function RetoursPage() {
         </div>
 
         {/* Policy Content */}
-        <div className="mt-8 p-6 md:p-8 rounded-3xl bg-spoolio-card border border-spoolio-border text-gray-300 space-y-6 text-xs leading-relaxed animate-reveal delay-100 font-sans">
-          <p className="text-sm font-semibold text-gray-200">
+        <div className="mt-8 p-6 md:p-8 rounded-3xl bg-spoolio-card border border-spoolio-border text-gray-300 space-y-6 text-sm md:text-base leading-relaxed animate-reveal delay-100 font-sans">
+          <p className="text-base md:text-lg font-semibold text-gray-250">
             La présente politique de retour et de rétractation a pour objet de définir les conditions dans lesquelles vous pouvez exercer votre droit de rétractation auprès de Spoolio, conformément aux dispositions du Code de la consommation français et de la réglementation européenne en vigueur.
           </p>
 
-          <h2 className="text-base font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg md:text-xl font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
             1. Droit de rétractation : Délai et Conditions
           </h2>
           <p>
@@ -85,7 +85,7 @@ export default function RetoursPage() {
             Le délai de 14 jours court à compter du lendemain de la réception de votre commande. Si le délai expire un samedi, un dimanche ou un jour férié ou chômé, il est prorogé jusqu'au premier jour ouvrable suivant.
           </p>
 
-          <h2 className="text-base font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg md:text-xl font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
             2. Exceptions strictes au droit de rétractation (Exclusions)
           </h2>
           <p>
@@ -100,7 +100,7 @@ export default function RetoursPage() {
             </li>
           </ul>
 
-          <h2 className="text-base font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg md:text-xl font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
             3. Procédure de rétractation en ligne (En quelques clics)
           </h2>
           <p>
@@ -110,7 +110,7 @@ export default function RetoursPage() {
             Vous devez ensuite renvoyer les produits intacts au plus tard dans les quatorze (14) jours suivant la communication de votre décision de vous rétracter.
           </p>
 
-          <h2 className="text-base font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg md:text-xl font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
             4. Modalités de renvoi et Frais de retour
           </h2>
           <p>
@@ -120,7 +120,7 @@ export default function RetoursPage() {
             <strong>Responsabilité :</strong> Le produit doit être correctement protégé et emballé pour le transport. Le client est responsable de l'état du produit jusqu'à son arrivée à notre atelier. Nous vous conseillons d'utiliser un mode de transport avec suivi (type Colissimo ou lettre suivie).
           </p>
 
-          <h2 className="text-base font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg md:text-xl font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
             5. Remboursement intégral
           </h2>
           <p>
@@ -137,18 +137,18 @@ export default function RetoursPage() {
             <h2 className="text-xl font-black font-antonio uppercase tracking-tight text-white">
               Demande de rétractation en ligne
             </h2>
-            <p className="text-[11px] text-gray-400 mt-2 leading-relaxed font-sans">
+            <p className="text-xs md:text-sm text-gray-400 mt-2 leading-relaxed font-sans">
               Vous avez changé d'avis ? Conformément à nos conditions générales de vente, vous disposez d'un délai de 14 jours après la réception de votre commande pour exercer votre droit de rétractation.
             </p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-black/40 border border-white/5 text-[10px] text-gray-400 leading-relaxed font-sans space-y-2">
+          <div className="p-4 rounded-2xl bg-black/40 border border-white/5 text-xs md:text-sm text-gray-450 leading-relaxed font-sans space-y-2">
             <span className="font-bold text-white uppercase block tracking-wider">Avant de remplir ce formulaire, veuillez vous assurer que votre demande respecte les critères suivants :</span>
             <ul className="list-disc pl-4 space-y-1">
               <li><strong>Produits intacts :</strong> Pour des raisons évidentes de protection, les objets ne doivent pas avoir été endommagés, modifiés ou sortis de leur sachet d'emballage d'origine.</li>
               <li><strong>Biens personnalisés :</strong> Les commandes réalisées sur-mesure pour vos événements (mariages, anniversaires...) ne peuvent pas faire l'objet d'une rétractation dès lors que leur fabrication a débuté.</li>
             </ul>
-            <p className="text-[9px] text-gray-500 pt-1 leading-normal">
+            <p className="text-[10px] md:text-xs text-gray-500 pt-1 leading-normal">
               Pour valider votre demande en quelques clics, merci de compléter les informations ci-dessous. Dès réception, un accusé de réception vous sera immédiatement envoyé par e-mail et vous disposerez de 14 jours pour nous renvoyer vos produits (frais de retour à la charge du client).
             </p>
           </div>
