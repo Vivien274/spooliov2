@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import fs from "fs";
 import path from "path";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Modifier le produit — Admin | Spoolio",
 };

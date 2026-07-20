@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { useAdminTheme } from "../../AdminThemeContext";
@@ -107,6 +108,7 @@ function computeSeoScore(data: ProductData): number {
 
 export default function ProductFormClient({ product, isNew }: Props) {
   const { cls, theme } = useAdminTheme();
+  const router = useRouter();
   const [form, setForm] = useState<ProductData>(
     product ?? {
       name: "",
@@ -205,6 +207,7 @@ export default function ProductFormClient({ product, isNew }: Props) {
 
       if (res.ok) {
         setSaved(true);
+        router.refresh();
         setTimeout(() => setSaved(false), 2500);
       } else {
         const errorData = await res.json();
