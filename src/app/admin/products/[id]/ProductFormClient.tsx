@@ -168,7 +168,48 @@ export default function ProductFormClient({ productId, isNew }: Props) {
         if (res.ok) {
           const data = await res.json();
           if (data.product) {
-            setForm(data.product);
+            const normalizedProduct = { ...data.product };
+            if (normalizedProduct.attributes) {
+              try {
+                let attrData = typeof normalizedProduct.attributes === "string"
+                  ? JSON.parse(normalizedProduct.attributes)
+                  : normalizedProduct.attributes;
+                
+                const decodeHtml = (str: string) => {
+                  if (!str) return "";
+                  return str
+                    .replace(/&#039;/g, "'")
+                    .replace(/&#39;/g, "'")
+                    .replace(/&amp;/g, "&")
+                    .replace(/&lt;/g, "<")
+                    .replace(/&gt;/g, ">")
+                    .replace(/&quot;/g, '"')
+                    .replace(/&nbsp;/g, " ");
+                };
+
+                if (attrData && Array.isArray(attrData.attributes)) {
+                  attrData.attributes = attrData.attributes.map((a: any) => ({
+                    ...a,
+                    name: decodeHtml(a.name)
+                  }));
+                }
+
+                if (attrData && Array.isArray(attrData.variationPrices)) {
+                  attrData.variationPrices = attrData.variationPrices.map((vp: any) => {
+                    const normCombination: Record<string, string> = {};
+                    Object.entries(vp.combination || {}).forEach(([key, val]) => {
+                      normCombination[decodeHtml(key)] = decodeHtml(String(val));
+                    });
+                    return { ...vp, combination: normCombination };
+                  });
+                }
+
+                normalizedProduct.attributes = attrData;
+              } catch (e) {
+                console.error("Error parsing/normalizing product attributes in admin:", e);
+              }
+            }
+            setForm(normalizedProduct);
           }
         } else {
           alert("Erreur lors de la récupération des détails du produit.");

@@ -74,6 +74,49 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
           throw new Error("Produit introuvable");
         }
         const data = await res.json();
+        
+        // Normalize HTML entities in product attributes & variation combinations keys/values
+        if (data && data.attributes) {
+          try {
+            let attrData = typeof data.attributes === "string"
+              ? JSON.parse(data.attributes)
+              : data.attributes;
+            
+            const decodeHtml = (str: string) => {
+              if (!str) return "";
+              return str
+                .replace(/&#039;/g, "'")
+                .replace(/&#39;/g, "'")
+                .replace(/&amp;/g, "&")
+                .replace(/&lt;/g, "<")
+                .replace(/&gt;/g, ">")
+                .replace(/&quot;/g, '"')
+                .replace(/&nbsp;/g, " ");
+            };
+
+            if (attrData && Array.isArray(attrData.attributes)) {
+              attrData.attributes = attrData.attributes.map((a: any) => ({
+                ...a,
+                name: decodeHtml(a.name)
+              }));
+            }
+
+            if (attrData && Array.isArray(attrData.variationPrices)) {
+              attrData.variationPrices = attrData.variationPrices.map((vp: any) => {
+                const normCombination: Record<string, string> = {};
+                Object.entries(vp.combination || {}).forEach(([key, val]) => {
+                  normCombination[decodeHtml(key)] = decodeHtml(String(val));
+                });
+                return { ...vp, combination: normCombination };
+              });
+            }
+
+            data.attributes = attrData;
+          } catch (e) {
+            console.error("Error parsing/normalizing product attributes in detail page:", e);
+          }
+        }
+        
         setProduct(data);
       } catch (err: any) {
         setError(err.message || "Impossible de charger les détails du produit");
