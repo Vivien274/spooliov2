@@ -8,7 +8,7 @@ import path from "path";
 export const dynamic = "force-dynamic";
 
 // Helper to query with timeout
-async function withTimeout<T>(promise: Promise<T>, timeoutMs: number = 800): Promise<T> {
+async function withTimeout<T>(promise: Promise<T>, timeoutMs: number = 2500): Promise<T> {
   const timeoutPromise = new Promise<never>((_, reject) =>
     setTimeout(() => reject(new Error("Prisma Query Timeout")), timeoutMs)
   );
@@ -79,7 +79,7 @@ export async function GET() {
   }
 }
 
-// POST: Moderate (Approve / showOnHome) a review (Admin only)
+// POST: Moderate or Create a review (Admin only)
 export async function POST(request: Request) {
   try {
     const cookieStore = await cookies();
@@ -93,8 +93,50 @@ export async function POST(request: Request) {
       );
     }
 
-    const { id, approved, showOnHome } = await request.json();
+    const body = await request.json();
+    const { action, id, approved, showOnHome, customerName, email, rating, comment, productId } = body;
 
+    // Handle manual review creation
+    if (action === "create") {
+      if (!customerName || !rating || !comment) {
+        return NextResponse.json(
+          { error: "Champs obligatoires manquants (nom, note, commentaire)." },
+          { status: 400 }
+        );
+      }
+
+      const newReview = await withTimeout(prisma.review.create({
+        data: {
+          customerName,
+          email: email || "contact@spoolio.fr",
+          rating: parseInt(rating, 10),
+          comment,
+          approved: true, // Auto approve manual reviews
+          showOnHome: !!showOnHome,
+          productId: productId ? parseInt(productId, 10) : null
+        },
+        include: {
+          product: {
+            select: {
+              name: true,
+              slug: true
+            }
+          }
+        }
+      }));
+
+      // Flush local cache file if exists
+      const jsonPath = path.join(process.cwd(), 'src/data/reviews.json');
+      if (fs.existsSync(jsonPath)) {
+        try {
+          fs.unlinkSync(jsonPath);
+        } catch (e) {}
+      }
+
+      return NextResponse.json({ success: true, review: newReview });
+    }
+
+    // Handle existing review moderation
     if (id === undefined) {
       return NextResponse.json({ error: "Paramètre id manquant." }, { status: 400 });
     }
@@ -107,9 +149,25 @@ export async function POST(request: Request) {
     try {
       updatedReview = await withTimeout(prisma.review.update({
         where: { id: parseInt(id, 10) },
-        data: updateData
+        data: updateData,
+        include: {
+          product: {
+            select: {
+              name: true,
+              slug: true
+            }
+          }
+        }
       }));
       console.log(`[Admin Update] Avis ${id} modéré avec:`, updateData);
+      
+      // Flush cache
+      const jsonPath = path.join(process.cwd(), 'src/data/reviews.json');
+      if (fs.existsSync(jsonPath)) {
+        try {
+          fs.unlinkSync(jsonPath);
+        } catch (e) {}
+      }
     } catch (dbErr: any) {
       console.warn("Failed to moderate review in DB, performing local cache update only...", dbErr.message);
       // Fallback simulated update on local json cache
@@ -130,7 +188,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true, review: updatedReview });
   } catch (e: any) {
     return NextResponse.json(
-      { error: e.message || "Erreur lors de la modération de l'avis." },
+      { error: e.message || "Erreur lors du traitement de l'avis." },
       { status: 500 }
     );
   }

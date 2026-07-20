@@ -28,8 +28,21 @@ export default function AdminReviewsPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [actionLoading, setActionLoading] = useState<number | null>(null);
-  const [filterTab, setFilterTab] = useState<string>("pending"); // pending | approved | all
+  const [filterTab, setFilterTab] = useState<string>("all"); // default to all so he can see Google reviews instantly
   const [searchTerm, setSearchTerm] = useState<string>("");
+
+  // Products list for manual review association
+  const [productsList, setProductsList] = useState<{ id: number; name: string }[]>([]);
+
+  // Manual review form states
+  const [showAddForm, setShowAddForm] = useState<boolean>(false);
+  const [newCustName, setNewCustName] = useState<string>("");
+  const [newCustEmail, setNewCustEmail] = useState<string>("");
+  const [newRating, setNewRating] = useState<number>(5);
+  const [newComment, setNewComment] = useState<string>("");
+  const [newProductId, setNewProductId] = useState<string>("");
+  const [newShowOnHome, setNewShowOnHome] = useState<boolean>(true);
+  const [formSaving, setFormSaving] = useState<boolean>(false);
 
   const fetchReviews = async () => {
     setLoading(true);
@@ -50,9 +63,69 @@ export default function AdminReviewsPage() {
     }
   };
 
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch("/api/products");
+      if (res.ok) {
+        const data = await res.json();
+        setProductsList(data || []);
+      }
+    } catch (e) {
+      console.error("Failed to load products list:", e);
+    }
+  };
+
   useEffect(() => {
     fetchReviews();
+    fetchProducts();
   }, []);
+
+  const handleSubmitManual = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCustName.trim() || !newComment.trim()) {
+      alert("Veuillez remplir le nom et le commentaire.");
+      return;
+    }
+    setFormSaving(true);
+    try {
+      const res = await fetch("/api/admin/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "create",
+          customerName: newCustName,
+          email: newCustEmail,
+          rating: newRating,
+          comment: newComment,
+          productId: newProductId ? parseInt(newProductId, 10) : null,
+          showOnHome: newShowOnHome
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.review) {
+          setReviews([data.review, ...reviews]);
+          // Reset form
+          setNewCustName("");
+          setNewCustEmail("");
+          setNewRating(5);
+          setNewComment("");
+          setNewProductId("");
+          setNewShowOnHome(true);
+          setShowAddForm(false);
+        } else {
+          alert("Erreur lors de la création.");
+        }
+      } else {
+        const data = await res.json();
+        alert(data.error || "Erreur de serveur.");
+      }
+    } catch (err) {
+      alert("Erreur réseau.");
+    } finally {
+      setFormSaving(false);
+    }
+  };
 
   const handleApprove = async (id: number) => {
     setActionLoading(id);
@@ -145,13 +218,146 @@ export default function AdminReviewsPage() {
             {reviews.length} avis reçus · {reviews.filter(r => !r.approved).length} en attente de validation
           </p>
         </div>
-        <button
-          onClick={fetchReviews}
-          className={`text-xs px-4 py-2 border ${cls.border} ${cls.inputBg} rounded-xl hover:text-white cursor-pointer transition-colors`}
-        >
-          Rafraîchir les avis 🔄
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowAddForm(!showAddForm)}
+            className={`text-xs px-4 py-2 rounded-xl font-bold transition-all cursor-pointer select-none ${
+              showAddForm
+                ? "bg-red-500/20 text-red-400 border border-red-500/30"
+                : "bg-blue-600 hover:bg-blue-700 text-white"
+            }`}
+          >
+            {showAddForm ? "Annuler ❌" : "Ajouter un avis ➕"}
+          </button>
+          <button
+            onClick={fetchReviews}
+            className={`text-xs px-4 py-2 border ${cls.border} ${cls.inputBg} rounded-xl hover:text-white cursor-pointer transition-colors`}
+          >
+            Rafraîchir les avis 🔄
+          </button>
+        </div>
       </div>
+
+      {/* Manual review creation form */}
+      {showAddForm && (
+        <form onSubmit={handleSubmitManual} className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 space-y-4 animate-reveal`}>
+          <div className="flex items-center justify-between border-b pb-3 border-spoolio-border">
+            <h3 className="text-sm font-black text-white uppercase tracking-wider font-antonio">
+              ➕ Saisir un avis manuellement
+            </h3>
+            <button
+              type="button"
+              onClick={() => setShowAddForm(false)}
+              className="text-gray-400 hover:text-white text-xs cursor-pointer"
+            >
+              Fermer ❌
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Nom */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Nom du client *</label>
+              <input
+                type="text"
+                required
+                value={newCustName}
+                onChange={(e) => setNewCustName(e.target.value)}
+                placeholder="Ex: Daphné Marlière"
+                className={`w-full bg-[#131316] border ${cls.border} rounded-xl px-3 py-2 text-xs ${cls.textMain} placeholder-gray-600 focus:outline-none focus:border-gray-500`}
+              />
+            </div>
+
+            {/* Email */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Adresse Email (Optionnel)</label>
+              <input
+                type="email"
+                value={newCustEmail}
+                onChange={(e) => setNewCustEmail(e.target.value)}
+                placeholder="Ex: daphne@example.com"
+                className={`w-full bg-[#131316] border ${cls.border} rounded-xl px-3 py-2 text-xs ${cls.textMain} placeholder-gray-600 focus:outline-none focus:border-gray-500`}
+              />
+            </div>
+
+            {/* Note */}
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Note (de 1 à 5) *</label>
+              <select
+                value={newRating}
+                onChange={(e) => setNewRating(parseInt(e.target.value, 10))}
+                className={`w-full bg-[#131316] border ${cls.border} rounded-xl px-3 py-2 text-xs ${cls.textMain} focus:outline-none focus:border-gray-500`}
+              >
+                {[5, 4, 3, 2, 1].map(n => (
+                  <option key={n} value={n} className="bg-[#131316]">{Array(n).fill("★").join("")} ({n}/5)</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Produit lié */}
+            <div className="flex flex-col gap-1.5 md:col-span-2">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Associer à un produit (Optionnel)</label>
+              <select
+                value={newProductId}
+                onChange={(e) => setNewProductId(e.target.value)}
+                className={`w-full bg-[#131316] border ${cls.border} rounded-xl px-3 py-2 text-xs ${cls.textMain} focus:outline-none focus:border-gray-500`}
+              >
+                <option value="" className="bg-[#131316]">🌐 Aucun produit (Avis Général / Fiche Google)</option>
+                {productsList.map(p => (
+                  <option key={p.id} value={p.id} className="bg-[#131316]">{p.name}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Affichage Home checkbox */}
+            <div className="flex items-center gap-2 pt-5 select-none">
+              <input
+                type="checkbox"
+                id="show_home_form"
+                checked={newShowOnHome}
+                onChange={(e) => setNewShowOnHome(e.target.checked)}
+                className="w-4 h-4 rounded accent-blue-600 bg-[#131316] border-gray-700 focus:ring-0 focus:ring-offset-0 cursor-pointer"
+              />
+              <label htmlFor="show_home_form" className="text-xs font-semibold text-gray-300 cursor-pointer">
+                Afficher sur la page d'accueil (Home)
+              </label>
+            </div>
+          </div>
+
+          {/* Commentaire */}
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Commentaire / Avis client *</label>
+            <textarea
+              required
+              rows={3}
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              placeholder="Saisis ici le commentaire rédigé par le client..."
+              className={`w-full bg-[#131316] border ${cls.border} rounded-xl px-3 py-2 text-xs ${cls.textMain} placeholder-gray-600 focus:outline-none focus:border-gray-500 font-sans leading-relaxed`}
+            />
+          </div>
+
+          {/* Boutons d'action */}
+          <div className="flex justify-end gap-2 pt-2">
+            <button
+              type="button"
+              onClick={() => setShowAddForm(false)}
+              className="text-xs px-4 py-2 border border-transparent text-gray-400 hover:text-white cursor-pointer"
+            >
+              Annuler
+            </button>
+            <button
+              type="submit"
+              disabled={formSaving}
+              className="text-xs px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold cursor-pointer transition-colors disabled:opacity-50"
+            >
+              {formSaving ? "Enregistrement..." : "Enregistrer l'avis ✓"}
+            </button>
+          </div>
+        </form>
+      )}
 
       {/* Filters */}
       <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">

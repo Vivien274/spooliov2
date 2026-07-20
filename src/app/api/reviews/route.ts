@@ -6,7 +6,7 @@ import path from "path";
 export const dynamic = "force-dynamic";
 
 // Helper to query with timeout
-async function withTimeout<T>(promise: Promise<T>, timeoutMs: number = 800): Promise<T> {
+async function withTimeout<T>(promise: Promise<T>, timeoutMs: number = 2500): Promise<T> {
   const timeoutPromise = new Promise<never>((_, reject) =>
     setTimeout(() => reject(new Error("Prisma Query Timeout")), timeoutMs)
   );
