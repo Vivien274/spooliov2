@@ -872,6 +872,24 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
           </section>
         )}
 
+        {/* Safety and conformity notice */}
+        <section className="border-t border-spoolio-border pt-12 mt-12">
+          <div className="rounded-3xl border border-amber-500/20 bg-amber-500/5 p-6 md:p-8 flex flex-col md:flex-row gap-5 items-start">
+            <span className="text-3xl shrink-0 select-none bg-amber-500/10 p-3 rounded-2xl border border-amber-500/15">⚠️</span>
+            <div className="space-y-2 font-sans">
+              <h4 className="text-sm font-black uppercase tracking-wider text-amber-400">
+                Note importante de sécurité & conformité
+              </h4>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                Afin de maintenir nos prix accessibles, nos objets et fidgets 3D ne subissent pas les tests de laboratoire requis pour l'obtention de la certification CE (dont le coût s'élève à 1500 € par modèle). 
+              </p>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                Par conséquent, nos créations sont réglementairement adaptées et recommandées exclusivement aux personnes de <strong>plus de 14 ans</strong>. Chaque utilisateur reste pleinement responsable de son achat, de son utilisation et de la supervision associée.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Section Avis Clients */}
         <section className="border-t border-spoolio-border pt-12 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Liste des avis (2/3 de l'espace) */}
