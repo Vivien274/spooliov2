@@ -827,3 +827,24 @@ html.light .wysiwyg-editor-area hr {
 .animate-slide-down {
   animation: slideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* Light mode adaptations for sticky header */
+html.light header.fixed {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light header.fixed a,
+html.light header.fixed button,
+html.light header.fixed span:not(.bg-red-600) {
+  color: #121212 !important;
+}
+
+html.light header.fixed .hover\:text-white:hover {
+  color: #ff4f00 !important;
+}
+
+html.light header.fixed svg:not(.text-white) {
+  color: #121212 !important;
+}

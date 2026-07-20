@@ -28,7 +28,7 @@ const DEFAULT_HERO = {
 export default async function Home() {
   let hero = DEFAULT_HERO;
   let dbReviews: any[] = [];
-  
+
   try {
     const heroPromise = prisma.page.findUnique({
       where: { slug: "config-hero" }
@@ -46,7 +46,7 @@ export default async function Home() {
         resolve([null, []]);
       }, 2500);
     });
-    
+
     // Query both hero config and approved reviews in parallel
     const [page, fetchedReviews] = await Promise.race([
       Promise.all([heroPromise, reviewsPromise]),
@@ -69,7 +69,7 @@ export default async function Home() {
       };
     }
     dbReviews = fetchedReviews || [];
-    
+
     // Fallback: If DB query returned no reviews (e.g. database empty or columns mismatch in production),
     // load approved reviews from local cache reviews.json
     if (dbReviews.length === 0) {
@@ -105,23 +105,23 @@ export default async function Home() {
       {/* Background Decorative Blobs */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Blob Orange - Top Right */}
-        <div 
-          className="absolute top-[-10%] right-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full blob-orange" 
+        <div
+          className="absolute top-[-10%] right-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full blob-orange"
           style={{ backgroundColor: 'rgba(255, 79, 0, 0.22)', filter: 'blur(90px)' }}
         />
         {/* Blob Indigo - Mid Left */}
-        <div 
-          className="absolute top-[35%] left-[-15%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full blob-indigo" 
+        <div
+          className="absolute top-[35%] left-[-15%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full blob-indigo"
           style={{ backgroundColor: 'rgba(99, 102, 241, 0.18)', filter: 'blur(90px)' }}
         />
         {/* Blob Yellow - Bottom Right */}
-        <div 
-          className="absolute bottom-[20%] right-[-10%] w-[250px] md:w-[450px] h-[250px] md:h-[450px] rounded-full blob-yellow" 
+        <div
+          className="absolute bottom-[20%] right-[-10%] w-[250px] md:w-[450px] h-[250px] md:h-[450px] rounded-full blob-yellow"
           style={{ backgroundColor: 'rgba(247, 235, 18, 0.14)', filter: 'blur(90px)' }}
         />
         {/* Extra Blob Indigo/Purple - Bottom Left */}
-        <div 
-          className="absolute bottom-[5%] left-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full blob-indigo" 
+        <div
+          className="absolute bottom-[5%] left-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full blob-indigo"
           style={{ backgroundColor: 'rgba(168, 85, 247, 0.14)', filter: 'blur(90px)' }}
         />
       </div>
@@ -133,7 +133,7 @@ export default async function Home() {
         <Header className="absolute top-0 left-0 right-0 h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full no-invert" />
 
         {/* Hero Background Panel */}
-        <div 
+        <div
           className="relative w-full aspect-[2.1/1] min-h-[360px] md:min-h-[500px] flex flex-col items-center justify-center text-center p-6 bg-cover no-invert"
           style={{ backgroundImage: `url('${hero.imageUrl}')`, backgroundPosition: hero.imagePosition || 'center center' }}
         >
@@ -149,8 +149,8 @@ export default async function Home() {
                 {hero.subtitle}
               </p>
             )}
-            <Link 
-              href={hero.buttonLink} 
+            <Link
+              href={hero.buttonLink}
               className="mt-4 px-8 py-3 bg-[#ff4f00] hover:bg-[#e04500] text-white font-bold text-[10px] md:text-xs tracking-wider rounded-full uppercase transition-all duration-300 shadow-lg shadow-[#ff4f00]/25 hover:scale-[1.02] cursor-pointer"
             >
               {hero.buttonText}
@@ -162,9 +162,9 @@ export default async function Home() {
       {/* 3. Ticker Marquee (White text, custom content) */}
       <section className="w-full bg-spoolio-bg py-3 overflow-hidden border-y border-[#1f1f23]">
         <div className="flex whitespace-nowrap animate-marquee text-[10px] tracking-widest text-white font-semibold gap-8 select-none">
-          <span>maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
-          <span>maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
-          <span>maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
+          <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
+          <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
+          <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
         </div>
       </section>
 
@@ -189,10 +189,10 @@ export default async function Home() {
             {/* Social Buttons Row */}
             <div className="relative z-10 flex justify-center gap-4 py-2">
               {/* Instagram */}
-              <a 
-                href="https://www.instagram.com/spoolio.fr/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://www.instagram.com/spoolio.fr/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 hover:bg-gradient-to-tr hover:from-yellow-500 hover:via-pink-500 hover:to-purple-500 hover:border-transparent group/insta"
                 title="Instagram"
               >
@@ -202,10 +202,10 @@ export default async function Home() {
               </a>
 
               {/* TikTok */}
-              <a 
-                href="https://www.tiktok.com/@spoolio.fr" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://www.tiktok.com/@spoolio.fr"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 hover:bg-black hover:border-cyan-400 group/tiktok shadow-[0_0_15px_rgba(37,244,238,0)] hover:shadow-[0_0_15px_rgba(37,244,238,0.3)]"
                 title="TikTok"
               >
@@ -214,10 +214,10 @@ export default async function Home() {
                 </svg>
               </a>
 
-              <a 
-                href="https://www.facebook.com/spoolio.fr/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://www.facebook.com/spoolio.fr/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 hover:bg-[#1877f2] hover:border-transparent group/fb"
                 title="Facebook"
               >
@@ -418,7 +418,7 @@ export default async function Home() {
           {/* Decorative neon gradient glow in background */}
           <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-[#ff4f00]/10 filter blur-[80px] pointer-events-none" />
           <div className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-[#2F3CD9]/15 filter blur-[80px] pointer-events-none" />
-          
+
           <div className="max-w-xl space-y-3 relative z-10">
             <span className="inline-block text-[10px] font-black uppercase tracking-widest text-[#ff4f00] px-3 py-1 rounded-full bg-[#ff4f00]/10 border border-[#ff4f00]/20 font-sans">
               Rejoins la commu 🚀
@@ -439,7 +439,7 @@ export default async function Home() {
               rel="noopener noreferrer"
               className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 hover:bg-gradient-to-tr hover:from-yellow-500/10 hover:via-pink-500/10 hover:to-purple-500/10 transition-all duration-300 hover:scale-[1.03] group"
             >
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-500 flex items-center justify-center text-white shadow-lg shadow-pink-500/20 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-500 flex items-center justify-center text-white no-invert shadow-lg shadow-pink-500/20 group-hover:scale-110 transition-transform duration-300">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
                 </svg>
@@ -455,7 +455,7 @@ export default async function Home() {
               rel="noopener noreferrer"
               className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 hover:bg-black/40 transition-all duration-300 hover:scale-[1.03] group"
             >
-              <div className="w-12 h-12 rounded-xl bg-black border border-cyan-400/30 flex items-center justify-center text-white shadow-lg shadow-cyan-400/10 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-12 h-12 rounded-xl bg-black border border-cyan-400/30 flex items-center justify-center text-white no-invert shadow-lg shadow-cyan-400/10 group-hover:scale-110 transition-transform duration-300">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12.525.02c1.31-.03 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.21-.42-.45-.6-.7-.03 3.68-.01 7.35-.02 11.03-.09 1.58-.69 3.19-1.87 4.26-1.52 1.41-3.79 2.05-5.83 1.65-2.61-.43-4.83-2.58-5.23-5.22-.59-3.23 1.43-6.52 4.62-7.05.69-.13 1.4-.15 2.1-.06v4.08c-.76-.17-1.57-.04-2.22.38-.85.5-1.34 1.51-1.22 2.49.12 1.34 1.28 2.44 2.63 2.44 1.31.06 2.53-.94 2.65-2.24.03-3.41.01-6.83.02-10.24-.02-4.22-.01-8.43-.02-12.65z" />
                 </svg>
@@ -471,7 +471,7 @@ export default async function Home() {
               rel="noopener noreferrer"
               className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 hover:bg-[#1877f2]/10 transition-all duration-300 hover:scale-[1.03] group"
             >
-              <div className="w-12 h-12 rounded-xl bg-[#1877f2] flex items-center justify-center text-white shadow-lg shadow-blue-600/20 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-12 h-12 rounded-xl bg-[#1877f2] flex items-center justify-center text-white no-invert shadow-lg shadow-blue-600/20 group-hover:scale-110 transition-transform duration-300">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
@@ -485,7 +485,7 @@ export default async function Home() {
               href="/contact"
               className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 hover:bg-[#ff4f00]/10 transition-all duration-300 hover:scale-[1.03] group"
             >
-              <div className="w-12 h-12 rounded-xl bg-[#ff4f00] flex items-center justify-center text-white shadow-lg shadow-orange-500/20 group-hover:scale-110 transition-transform duration-300">
+              <div className="w-12 h-12 rounded-xl bg-[#ff4f00] flex items-center justify-center text-white no-invert shadow-lg shadow-orange-500/20 group-hover:scale-110 transition-transform duration-300">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
