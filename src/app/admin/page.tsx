@@ -8,6 +8,7 @@ const ADMIN_BLUE = "#2F3CD9";
 
 interface AdminOrder {
   id: string;
+  stripeSession?: string;
   email: string;
   customerName: string;
   items: {
@@ -515,6 +516,27 @@ export default function AdminDashboard() {
                             <span className={`block text-[10px] ${cls.textFaint} truncate max-w-[150px]`} title={o.relayDetails.name}>
                               {o.relayDetails.name}
                             </span>
+                          )}
+                          {o.shippingMethod !== "pickup" && (
+                            <div className="flex gap-2 mt-1 select-none">
+                              <a
+                                href={`https://dashboard.stripe.com/search?query=${o.stripeSession}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[9px] text-[#ff4f00] hover:text-[#ff6a22] transition-colors font-bold uppercase"
+                              >
+                                Stripe 💳
+                              </a>
+                              <span className="text-gray-700 text-[9px] select-none">|</span>
+                              <a
+                                href="https://www.boxtal.com/fr/fr/espace-client/envois/a-preparer"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[9px] text-blue-400 hover:text-blue-300 transition-colors font-bold uppercase"
+                              >
+                                Boxtal 📦
+                              </a>
+                            </div>
                           )}
                         </td>
                         <td className={`py-4 px-4 font-bold ${cls.textMain}`}>
