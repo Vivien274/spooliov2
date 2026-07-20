@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Lottie from "lottie-react";
 
 interface UnicornIconProps {
@@ -9,14 +9,40 @@ interface UnicornIconProps {
   loop?: boolean;
 }
 
-export default function UnicornIcon({ animationData, className, loop = true }: UnicornIconProps) {
+export default function UnicornIcon({ animationData, className, loop = false }: UnicornIconProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const lottieRef = useRef<any>(null);
 
   // Check if we are passing a full Lottie file containing layers
   const isRealLottie = animationData && (animationData.layers || animationData.v);
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    if (isRealLottie && lottieRef.current) {
+      lottieRef.current.goToAndPlay(0, true); // Play from the start on hover
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   if (isRealLottie) {
-    return <Lottie animationData={animationData} loop={loop} className={className} />;
+    return (
+      <div 
+        className={className}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <Lottie 
+          lottieRef={lottieRef}
+          animationData={animationData} 
+          loop={loop} 
+          autoplay={false} // Autoplay disabled to trigger only on hover
+          style={{ width: "100%", height: "100%" }}
+        />
+      </div>
+    );
   }
 
   // Fallback: Custom animated interactive SVG shopping cart (Panier blanc animé Spoolio)
@@ -24,8 +50,8 @@ export default function UnicornIcon({ animationData, className, loop = true }: U
   return (
     <div
       className={className}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <svg
         className="w-full h-full overflow-visible"
