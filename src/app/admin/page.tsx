@@ -324,7 +324,7 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2">
+                <div className={`grid gap-2 ${mod.stats.length === 2 ? "grid-cols-2" : "grid-cols-3"}`}>
                   {mod.stats.map((s) => (
                     <div key={s.label} className={`${cls.inputBg} rounded-xl p-3 flex flex-col gap-0.5 border ${cls.border} transition-colors duration-300`}>
                       <span className={`text-lg font-black ${cls.textMain}`}>{s.value}</span>
