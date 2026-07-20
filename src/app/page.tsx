@@ -128,36 +128,44 @@ export default async function Home() {
 
       {/* Background Floating Elements Layer (Modern gravity particle dots) */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden" style={{ top: "650px", bottom: "1600px" }}>
-        {/* Particle 1 */}
-        <div className="gravity-dot rounded-full absolute top-[5%] left-[8%] w-2 h-2 bg-[#ff4f00]/25 animate-gravity-dot-1" />
-        {/* Particle 2 */}
-        <div className="gravity-dot rounded-full absolute top-[8%] right-[12%] w-1.5 h-1.5 bg-white/20 animate-gravity-dot-2" />
-        {/* Particle 3 */}
-        <div className="gravity-dot rounded-full absolute top-[15%] left-[25%] w-3 h-3 bg-[#2F3CD9]/20 animate-gravity-dot-3" />
-        {/* Particle 4 */}
-        <div className="gravity-dot rounded-full absolute top-[22%] right-[5%] w-2 h-2 bg-[#ff4f00]/30 animate-gravity-dot-4" />
-        {/* Particle 5 */}
-        <div className="gravity-dot rounded-full absolute top-[30%] left-[10%] w-1.5 h-1.5 bg-white/15 animate-gravity-dot-1" />
-        {/* Particle 6 */}
-        <div className="gravity-dot rounded-full absolute top-[38%] right-[20%] w-3 h-3 bg-white/20 animate-gravity-dot-2" />
-        {/* Particle 7 */}
-        <div className="gravity-dot rounded-full absolute top-[45%] left-[18%] w-2.5 h-2.5 bg-[#2F3CD9]/25 animate-gravity-dot-3" />
-        {/* Particle 8 */}
-        <div className="gravity-dot rounded-full absolute top-[52%] right-[10%] w-2 h-2 bg-[#ff4f00]/25 animate-gravity-dot-4" />
-        {/* Particle 9 */}
-        <div className="gravity-dot rounded-full absolute top-[60%] left-[8%] w-1.5 h-1.5 bg-white/15 animate-gravity-dot-1" />
-        {/* Particle 10 */}
-        <div className="gravity-dot rounded-full absolute top-[68%] right-[25%] w-3 h-3 bg-white/20 animate-gravity-dot-2" />
-        {/* Particle 11 */}
-        <div className="gravity-dot rounded-full absolute top-[75%] left-[30%] w-2 h-2 bg-[#ff4f00]/30 animate-gravity-dot-3" />
-        {/* Particle 12 */}
-        <div className="gravity-dot rounded-full absolute top-[82%] right-[8%] w-1.5 h-1.5 bg-white/15 animate-gravity-dot-4" />
-        {/* Particle 13 */}
-        <div className="gravity-dot rounded-full absolute top-[88%] left-[12%] w-2.5 h-2.5 bg-[#2F3CD9]/25 animate-gravity-dot-1" />
-        {/* Particle 14 */}
-        <div className="gravity-dot rounded-full absolute top-[92%] right-[18%] w-3 h-3 bg-[#ff4f00]/20 animate-gravity-dot-2" />
-        {/* Particle 15 */}
-        <div className="gravity-dot rounded-full absolute top-[96%] left-[22%] w-2 h-2 bg-white/20 animate-gravity-dot-3" />
+        {/* Row 1 */}
+        <div className="gravity-dot rounded-full absolute top-[3%] left-[5%] w-2 h-2 bg-[#ff4f00]/25 animate-gravity-dot-1" />
+        <div className="gravity-dot rounded-full absolute top-[6%] right-[10%] w-1.5 h-1.5 bg-white/20 animate-gravity-dot-2" />
+        <div className="gravity-dot rounded-full absolute top-[8%] left-[45%] w-2 h-2 bg-white/10 animate-gravity-dot-3" />
+        {/* Row 2 */}
+        <div className="gravity-dot rounded-full absolute top-[12%] left-[22%] w-3 h-3 bg-[#2F3CD9]/20 animate-gravity-dot-3" />
+        <div className="gravity-dot rounded-full absolute top-[15%] right-[28%] w-1.5 h-1.5 bg-[#ff4f00]/15 animate-gravity-dot-4" />
+        <div className="gravity-dot rounded-full absolute top-[18%] right-[5%] w-2 h-2 bg-white/15 animate-gravity-dot-1" />
+        {/* Row 3 */}
+        <div className="gravity-dot rounded-full absolute top-[24%] left-[12%] w-2.5 h-2.5 bg-[#ff4f00]/20 animate-gravity-dot-2" />
+        <div className="gravity-dot rounded-full absolute top-[27%] left-[60%] w-1.5 h-1.5 bg-white/10 animate-gravity-dot-1" />
+        <div className="gravity-dot rounded-full absolute top-[30%] right-[15%] w-2 h-2 bg-white/20 animate-gravity-dot-3" />
+        {/* Row 4 */}
+        <div className="gravity-dot rounded-full absolute top-[35%] left-[35%] w-3 h-3 bg-[#2F3CD9]/15 animate-gravity-dot-4" />
+        <div className="gravity-dot rounded-full absolute top-[38%] right-[40%] w-2 h-2 bg-white/15 animate-gravity-dot-2" />
+        <div className="gravity-dot rounded-full absolute top-[41%] left-[3%] w-1.5 h-1.5 bg-[#ff4f00]/25 animate-gravity-dot-1" />
+        {/* Row 5 */}
+        <div className="gravity-dot rounded-full absolute top-[47%] left-[18%] w-2.5 h-2.5 bg-[#2F3CD9]/25 animate-gravity-dot-3" />
+        <div className="gravity-dot rounded-full absolute top-[50%] right-[8%] w-2 h-2 bg-white/20 animate-gravity-dot-4" />
+        <div className="gravity-dot rounded-full absolute top-[53%] left-[50%] w-1.5 h-1.5 bg-white/10 animate-gravity-dot-1" />
+        {/* Row 6 */}
+        <div className="gravity-dot rounded-full absolute top-[58%] right-[22%] w-3 h-3 bg-[#ff4f00]/25 animate-gravity-dot-2" />
+        <div className="gravity-dot rounded-full absolute top-[62%] left-[8%] w-2 h-2 bg-white/15 animate-gravity-dot-3" />
+        <div className="gravity-dot rounded-full absolute top-[65%] left-[38%] w-1.5 h-1.5 bg-white/10 animate-gravity-dot-4" />
+        {/* Row 7 */}
+        <div className="gravity-dot rounded-full absolute top-[70%] right-[12%] w-2 h-2 bg-[#2F3CD9]/20 animate-gravity-dot-1" />
+        <div className="gravity-dot rounded-full absolute top-[73%] left-[25%] w-3 h-3 bg-white/15 animate-gravity-dot-2" />
+        <div className="gravity-dot rounded-full absolute top-[77%] right-[45%] w-1.5 h-1.5 bg-[#ff4f00]/20 animate-gravity-dot-3" />
+        {/* Row 8 */}
+        <div className="gravity-dot rounded-full absolute top-[81%] left-[10%] w-2 h-2 bg-white/20 animate-gravity-dot-4" />
+        <div className="gravity-dot rounded-full absolute top-[84%] right-[28%] w-2.5 h-2.5 bg-[#2F3CD9]/25 animate-gravity-dot-1" />
+        <div className="gravity-dot rounded-full absolute top-[87%] left-[58%] w-1.5 h-1.5 bg-white/10 animate-gravity-dot-2" />
+        {/* Row 9 */}
+        <div className="gravity-dot rounded-full absolute top-[91%] right-[6%] w-2 h-2 bg-[#ff4f00]/30 animate-gravity-dot-3" />
+        <div className="gravity-dot rounded-full absolute top-[94%] left-[15%] w-3 h-3 bg-white/15 animate-gravity-dot-4" />
+        <div className="gravity-dot rounded-full absolute top-[96%] left-[45%] w-1.5 h-1.5 bg-[#2F3CD9]/15 animate-gravity-dot-1" />
+        {/* Row 10 */}
+        <div className="gravity-dot rounded-full absolute top-[98%] right-[20%] w-2 h-2 bg-[#ff4f00]/20 animate-gravity-dot-2" />
       </div>
 
       {/* 1. Full-Width Hero Section with Absolute Header Overlay */}
