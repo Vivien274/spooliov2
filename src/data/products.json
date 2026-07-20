@@ -7101,28 +7101,7 @@
       "variationPrices": [
         {
           "combination": {
-            "Modèle": "Dragon (violet)",
-            "Boite de stockage": "Avec (+2€)"
-          },
-          "price": "10"
-        },
-        {
-          "combination": {
-            "Modèle": "Chat (blanc)",
-            "Boite de stockage": "Avec (+2€)"
-          },
-          "price": "10"
-        },
-        {
-          "combination": {
-            "Modèle": "Dinosaure (vert)",
-            "Boite de stockage": "Avec (+2€)"
-          },
-          "price": "10"
-        },
-        {
-          "combination": {
-            "Modèle": "Panda (couleur panda)",
+            "Modèle": "",
             "Boite de stockage": "Avec (+2€)"
           },
           "price": "10"
