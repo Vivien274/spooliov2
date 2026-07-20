@@ -67,7 +67,7 @@ function PickupConfirmationContent() {
   const formattedDate = formatPickupSlot(slot);
 
   return (
-    <div className="max-w-xl mx-auto w-full px-6 py-12 font-sans flex flex-col items-center justify-center min-h-[50vh] no-invert select-none">
+    <div className="max-w-xl mx-auto w-full px-6 py-12 font-sans flex flex-col items-center justify-center min-h-[50vh] select-none">
       {success ? (
         <div className="text-center space-y-4 animate-reveal">
           <div className="w-16 h-16 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full flex items-center justify-center text-3xl mx-auto">
@@ -139,7 +139,7 @@ function PickupConfirmationContent() {
 export default function PickupConfirmationPage() {
   return (
     <div className="min-h-screen bg-[#070709] text-white flex flex-col justify-between selection:bg-[#ff4f00] selection:text-white">
-      <Header className="h-24 flex items-center justify-between px-6 max-w-[1200px] mx-auto w-full no-invert" />
+      <Header className="h-24 flex items-center justify-between px-6 max-w-[1200px] mx-auto w-full" />
       <Suspense fallback={
         <div className="flex-1 flex items-center justify-center">
           <div className="animate-pulse text-xs text-gray-500 font-bold uppercase tracking-widest font-sans">
