@@ -848,3 +848,8 @@ html.light header.fixed .hover\:text-white:hover {
 html.light header.fixed svg:not(.text-white) {
   color: #121212 !important;
 }
+
+/* Invert white Spoolio Logo to black in the sticky header only when in light mode */
+html.light header.fixed img[alt="Spoolio Logo"] {
+  filter: invert(1) !important;
+}
