@@ -13,7 +13,10 @@ interface OrderItem {
 
 interface Order {
   id: string;
+  stripeSession?: string | null;
   customerName: string | null;
+  customerPhone?: string | null;
+  shippingAddress?: string | null;
   email: string;
   items: OrderItem[];
   shippingMethod: string;
@@ -52,6 +55,103 @@ export default function AdminOrdersPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleExportBoxtalCSV = () => {
+    const shippableOrders = orders.filter(o => o.shippingMethod !== "pickup");
+    if (shippableOrders.length === 0) {
+      alert("Aucune commande à expédier à exporter.");
+      return;
+    }
+
+    const headers = [
+      "reference",
+      "dest_name",
+      "dest_address",
+      "dest_address2",
+      "dest_zipcode",
+      "dest_city",
+      "dest_country",
+      "dest_email",
+      "dest_phone",
+      "weight",
+      "value"
+    ];
+
+    const rows = shippableOrders.map(o => {
+      const lines = (o.shippingAddress || "").split("\n").map(l => l.trim()).filter(Boolean);
+      let name = o.customerName || "";
+      let address1 = "";
+      let address2 = "";
+      let zipcode = "";
+      let city = "";
+      let country = "FR";
+
+      if (lines.length > 0) {
+        if (lines[0].toLowerCase().includes(name.split(" ")[0].toLowerCase()) || lines[0].toLowerCase().includes(name.split(" ").slice(-1)[0].toLowerCase())) {
+          name = lines[0];
+          address1 = lines[1] || "";
+          const zipCityRow = lines.find(l => /^\d{5}/.test(l)) || lines[2] || "";
+          const zipMatch = zipCityRow.match(/^(\d{5})/);
+          if (zipMatch) {
+            zipcode = zipMatch[1];
+            city = zipCityRow.replace(zipcode, "").trim();
+          } else {
+            city = zipCityRow;
+          }
+          const remainingLines = lines.slice(2).filter(l => l !== zipCityRow && !/^(FR|BELGIQUE|BELGIUM|FRANCE)$/i.test(l));
+          address2 = remainingLines.join(", ");
+        } else {
+          address1 = lines[0] || "";
+          const zipCityRow = lines.find(l => /^\d{5}/.test(l)) || lines[1] || "";
+          const zipMatch = zipCityRow.match(/^(\d{5})/);
+          if (zipMatch) {
+            zipcode = zipMatch[1];
+            city = zipCityRow.replace(zipcode, "").trim();
+          } else {
+            city = zipCityRow;
+          }
+          const remainingLines = lines.slice(1).filter(l => l !== zipCityRow && !/^(FR|BELGIQUE|BELGIUM|FRANCE)$/i.test(l));
+          address2 = remainingLines.join(", ");
+        }
+
+        const countryLine = lines.find(l => /^(FR|BELGIQUE|BELGIUM|FRANCE|BE)$/i.test(l));
+        if (countryLine) {
+          country = /^(BELGIQUE|BELGIUM|BE)$/i.test(countryLine) ? "BE" : "FR";
+        }
+      }
+
+      return [
+        o.id,
+        name,
+        address1,
+        address2,
+        zipcode,
+        city,
+        country,
+        o.email,
+        o.customerPhone || "",
+        "0.25",
+        o.total.toFixed(2)
+      ];
+    });
+
+    const csvContent = [
+      headers.join(";"),
+      ...rows.map(r => r.map(val => {
+        const cleaned = String(val || "").replace(/"/g, '""').replace(/;/g, ',');
+        return `"${cleaned}"`;
+      }).join(";"))
+    ].join("\n");
+
+    const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `spoolio_commandes_boxtal_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   useEffect(() => {
@@ -177,8 +277,8 @@ export default function AdminOrdersPage() {
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6 font-sans">
-      <div className="flex items-start justify-between">
+    <div className="max-w-7xl mx-auto space-y-6 font-sans px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div>
           <nav className={`text-[10px] uppercase font-bold tracking-wider ${cls.textFaint} mb-1`}>
             <Link href="/admin" className="hover:text-white transition-colors">Admin</Link>
@@ -190,12 +290,20 @@ export default function AdminOrdersPage() {
             {orders.length} commandes au total · {orders.filter(o => o.status === "attente_impression").length} nouvelles à imprimer
           </p>
         </div>
-        <button
-          onClick={fetchOrders}
-          className={`text-xs px-4 py-2 border ${cls.border} ${cls.inputBg} rounded-xl hover:text-white cursor-pointer transition-colors`}
-        >
-          Rafraîchir les commandes 🔄
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={handleExportBoxtalCSV}
+            className="text-xs px-4 py-2 border border-blue-500/30 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white rounded-xl font-bold transition-all cursor-pointer"
+          >
+            Exporter pour Boxtal 📤
+          </button>
+          <button
+            onClick={fetchOrders}
+            className={`text-xs px-4 py-2 border ${cls.border} ${cls.inputBg} rounded-xl hover:text-white cursor-pointer transition-colors`}
+          >
+            Rafraîchir les commandes 🔄
+          </button>
+        </div>
       </div>
 
       {/* Search & Status Tabs Filters */}
@@ -261,36 +369,68 @@ export default function AdminOrdersPage() {
               </thead>
               <tbody className={`divide-y ${cls.divider}`}>
                 {filteredOrders.map((o) => (
-                  <tr key={o.id} className={`group ${cls.hoverRow} transition-colors text-xs`}>
-                    <td className="px-5 pl-6 py-4 font-mono font-bold text-gray-300 select-all shrink-0">
+                  <tr key={o.id} className={`group ${cls.hoverRow} transition-colors text-[13px]`}>
+                    <td className="px-5 pl-6 py-5 font-mono font-bold text-gray-300 select-all shrink-0">
                       {o.id}
                     </td>
-                    <td className="px-5 py-4 text-gray-400">
+                    <td className="px-5 py-5 text-gray-400">
                       {new Date(o.createdAt).toLocaleDateString("fr-FR", {
                         day: "numeric",
                         month: "short",
                         year: "numeric"
                       })}
                     </td>
-                    <td className="px-5 py-4">
+                    <td className="px-5 py-5 min-w-[220px] max-w-[280px]">
                       <span className={`block font-bold ${cls.textMain}`}>{o.customerName || "—"}</span>
                       <span className={`block text-[10px] ${cls.textFaint}`}>{o.email}</span>
+                      {o.customerPhone && (
+                        <span className={`block text-[10px] text-gray-400 mt-0.5 font-mono select-all`}>📞 {o.customerPhone}</span>
+                      )}
+                      {o.shippingAddress && (
+                        <span 
+                          className={`block text-[10px] text-gray-400 mt-1.5 bg-white/[0.03] border border-white/5 rounded-lg p-2 select-all whitespace-pre-line leading-relaxed font-sans`}
+                          title="Adresse de livraison"
+                        >
+                          📍 {o.shippingAddress}
+                        </span>
+                      )}
                     </td>
-                    <td className="px-5 py-4 max-w-[220px]">
+                    <td className="px-5 py-5 min-w-[180px]">
                       {(o.items || []).map((item, idx) => (
-                        <div key={idx} className={`text-gray-300 truncate`} title={item.name}>
+                        <div key={idx} className={`text-gray-300`} title={item.name}>
                           {item.quantity}x {item.name}
                         </div>
                       ))}
                     </td>
-                    <td className="px-5 py-4 max-w-[200px] no-invert">
+                    <td className="px-5 py-5 min-w-[200px] no-invert">
                       <span className={`block font-semibold ${cls.textMain}`}>
                         {o.shippingMethod === "pickup" ? "Retrait Atelier 📅" : (o.shippingMethod === "relay" ? "Mondial Relay 📦" : "Colissimo Domicile 🚚")}
                       </span>
                       {o.relayDetails && (
-                        <span className={`block text-[10px] ${cls.textFaint} truncate`} title={`${o.relayDetails.name} - ${o.relayDetails.address}`}>
+                        <span className={`block text-[10px] ${cls.textFaint}`} title={`${o.relayDetails.name} - ${o.relayDetails.address}`}>
                           {o.relayDetails.name} ({o.relayDetails.zip})
                         </span>
+                      )}
+                      {o.shippingMethod !== "pickup" && o.stripeSession && (
+                        <div className="flex gap-2 mt-1.5 select-none">
+                          <a
+                            href={`https://dashboard.stripe.com/search?query=${o.stripeSession}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[9px] text-[#ff4f00] hover:text-[#ff6a22] transition-colors font-bold uppercase"
+                          >
+                            Stripe 💳
+                          </a>
+                          <span className="text-gray-700 text-[9px] select-none">|</span>
+                          <a
+                            href="https://www.boxtal.com/fr/fr/espace-client/envois/a-preparer"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[9px] text-blue-400 hover:text-blue-300 transition-colors font-bold uppercase"
+                          >
+                            Boxtal 📦
+                          </a>
+                        </div>
                       )}
                       {o.shippingMethod === "pickup" && (
                         <div className="mt-1 space-y-0.5 select-none">
@@ -309,12 +449,11 @@ export default function AdminOrdersPage() {
                             }
                           </span>
                         </div>
-                      )}
-                    </td>
-                    <td className={`px-5 py-4 font-bold ${cls.textMain} whitespace-nowrap`}>
+                      )}</td>
+                    <td className={`px-5 py-5 font-bold ${cls.textMain} whitespace-nowrap`}>
                       {o.total.toFixed(2)}€
                     </td>
-                    <td className="px-5 py-4">
+                    <td className="px-5 py-5">
                       <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider ${
                         o.status === "attente_impression" ? "bg-orange-500/10 text-orange-400" :
                         o.status === "impression" ? "bg-blue-500/10 text-blue-400 animate-pulse" :
@@ -324,7 +463,7 @@ export default function AdminOrdersPage() {
                         {getStatusLabel(o.status)}
                       </span>
                     </td>
-                    <td className="px-5 pr-6 py-4">
+                    <td className="px-5 pr-6 py-5">
                       <div className="flex justify-end items-center gap-1.5">
                         <div className="flex gap-1">
                           {o.status === "attente_impression" && (
