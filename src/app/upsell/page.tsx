@@ -161,13 +161,13 @@ export default function UpsellPage() {
     <div className="min-h-screen bg-spoolio-bg text-white flex flex-col justify-between selection:bg-[#ff4f00] selection:text-white">
       {/* Centered Minimal Header */}
       <header className="h-24 w-full flex items-center justify-center max-w-[1200px] mx-auto px-6">
-        <Link href="/">
+        <Link href="/" className="flex items-center justify-center">
           <Image
-            src="/images/logo-spoolio-web-white.png"
+            src="/images/logo.png"
             alt="Spoolio Logo"
             width={130}
-            height={36}
-            className="h-9 w-auto"
+            height={38}
+            className="h-10 w-auto object-contain"
             priority
           />
         </Link>
