@@ -32,7 +32,7 @@ export default function MentionsLegalesPage() {
             Conformément aux dispositions de la loi n° 2004-575 du 21 juin 2004 pour la confiance en l'économie numérique (LCEN), il est précisé aux utilisateurs du site Spoolio l'identité des différents intervenants dans le cadre de sa réalisation et de son suivi.
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             Edition du site
           </h2>
           <p>
@@ -42,21 +42,21 @@ export default function MentionsLegalesPage() {
             <strong>Vivien BOCQUELET</strong>, résidant au 40 rue du Hoccart, 59560 Comines, de nationalité Française, immatriculé à l'entreprise individuelle sous le numéro RCS Lille Métropole 840 388 201.
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             Hébergement
           </h2>
           <p>
             Le Site est hébergé par la société <strong>o2switch</strong>, dont le siège social est situé : Chemin des Pardiaux, 63000 Clermont-Ferrand (Contact téléphonique ou e-mail : +33 4 44 44 60 40 ou support@o2switch.fr).
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             Directeur de publication
           </h2>
           <p>
             Le Directeur de la publication du Site est <strong>Vivien BOCQUELET</strong>.
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             Nous contacter
           </h2>
           <ul className="list-disc pl-5 space-y-1">
@@ -65,7 +65,7 @@ export default function MentionsLegalesPage() {
             <li>Par courrier postal : <strong>40 rue du Hoccart, 59560 Comines</strong></li>
           </ul>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             Propriété intellectuelle
           </h2>
           <p>

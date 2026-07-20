@@ -119,7 +119,7 @@ export default function FAQPage() {
         <div className="flex flex-col gap-10 animate-reveal delay-100">
           {faqSections.map((section, idx) => (
             <div key={idx} className="flex flex-col gap-4">
-              <h2 className="text-lg font-bold tracking-wider text-[#ff4f00] uppercase font-antonio border-b border-[#1f1f23] pb-2">
+              <h2 className="text-lg font-bold tracking-wider text-[#ff4f00] uppercase font-antonio border-b border-spoolio-border pb-2">
                 {section.title}
               </h2>
               

@@ -19,8 +19,7 @@ export default function AboutPage() {
 
       <Header className="relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full no-invert" />
 
-      {/* Main Content Area */}
-      <main className="w-full max-w-[800px] px-6 py-12 relative z-10 flex-grow no-invert">
+      <main className="w-full max-w-[800px] px-6 py-12 relative z-10 flex-grow">
         <div className="animate-reveal">
           <h1 className="text-4xl md:text-5xl font-extrabold uppercase tracking-tight font-antonio text-neon-flow mb-4 text-center">
             À Propos de Spoolio
@@ -44,7 +43,7 @@ export default function AboutPage() {
           </div>
 
           {/* Section 2: Vivien & The Family */}
-          <div className="space-y-4 border-t border-[#1f1f23] pt-8">
+          <div className="space-y-4 border-t border-spoolio-border pt-8">
             <h2 className="text-xl md:text-2xl font-black font-antonio uppercase tracking-tight text-white flex items-center gap-2.5">
               <span>👨‍👩‍👦</span> Une Aventure Familiale
             </h2>
@@ -69,7 +68,7 @@ export default function AboutPage() {
           </div>
 
           {/* Section 3: Eco & Production Values */}
-          <div className="space-y-4 border-t border-[#1f1f23] pt-8">
+          <div className="space-y-4 border-t border-spoolio-border pt-8">
             <h2 className="text-xl md:text-2xl font-black font-antonio uppercase tracking-tight text-white flex items-center gap-2.5">
               <span>🌱</span> Nos Engagements & Production Locale
             </h2>

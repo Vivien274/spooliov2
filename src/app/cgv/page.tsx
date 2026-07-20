@@ -32,42 +32,42 @@ export default function CGVPage() {
             Les présentes Conditions Générales de Vente (CGV) régissent les transactions commerciales effectuées sur la boutique en ligne <strong>www.spoolio.fr</strong> par des clients particuliers ou professionnels avec l'entreprise individuelle Bocquelet.
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             Article 1 - Objet et acceptation
           </h2>
           <p>
             Toute commande passée sur la boutique en ligne implique l'acceptation entière et sans réserve des présentes CGV. Spoolio se réserve le droit de modifier ses CGV à tout moment. Les CGV applicables sont celles en vigueur à la date de validation de la commande par le client.
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             Article 2 - Produits et tarification
           </h2>
           <p>
             Les produits proposés sont des objets de décoration et des accessoires imprimés en 3D à partir de plastique végétal (PLA - amidon de maïs). Les prix sont indiqués en Euros (€) et s'entendent toutes taxes comprises (TTC), hors frais de livraison. Spoolio se réserve le droit de modifier ses tarifs à tout moment, mais les produits seront facturés sur la base des prix enregistrés lors de la passation de la commande.
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             Article 3 - Commande et paiement
           </h2>
           <p>
             Le client valide sa commande en effectuant son paiement par carte bancaire (via Stripe) ou par PayPal. Les informations bancaires du client sont chiffrées et sécurisées par des tiers de confiance et ne sont jamais stockées sur nos serveurs. Une fois le paiement reçu, une confirmation de commande est envoyée au client par e-mail.
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             Article 4 - Fabrication et livraison
           </h2>
           <p>
             Les objets Spoolio sont fabriqués à la demande (impression 3D couche par couche). Les délais habituels de traitement et d'expédition varient de 3 à 7 jours ouvrés selon le volume de commande. La livraison s'effectue en France et en Belgique via Mondial Relay, Colissimo ou lettre suivie à l'adresse indiquée par le client lors du paiement.
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             Article 5 - Droit de rétractation et retours
           </h2>
           <p>
             Conformément à l'article L. 221-18 du Code de la consommation, le client dispose d'un délai de 14 jours calendaires à compter de la réception de ses produits pour exercer son droit de rétractation, sans justification. Les objets doivent être retournés dans leur état d'origine. Les produits personnalisés (ex: prénoms sur mesure) ne sont ni repris, ni échangés. Les frais d'expédition de retour sont à la charge exclusive du client.
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             Article 6 - Service client et litiges
           </h2>
           <p>

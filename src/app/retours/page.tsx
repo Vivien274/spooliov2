@@ -61,8 +61,7 @@ export default function RetoursPage() {
 
       <Header className="relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full no-invert" />
 
-      {/* Main Content Area */}
-      <main className="w-full max-w-[800px] px-6 py-12 relative z-10 flex-grow no-invert">
+      <main className="w-full max-w-[800px] px-6 py-12 relative z-10 flex-grow">
         <div className="animate-reveal">
           <h1 className="text-4xl md:text-5xl font-extrabold uppercase tracking-tight font-antonio text-neon-flow mb-6 text-center">
             Retours & Rétractation
@@ -75,7 +74,7 @@ export default function RetoursPage() {
             La présente politique de retour et de rétractation a pour objet de définir les conditions dans lesquelles vous pouvez exercer votre droit de rétractation auprès de Spoolio, conformément aux dispositions du Code de la consommation français et de la réglementation européenne en vigueur.
           </p>
 
-          <h2 className="text-lg md:text-xl font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg md:text-xl font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             1. Droit de rétractation : Délai et Conditions
           </h2>
           <p>
@@ -85,7 +84,7 @@ export default function RetoursPage() {
             Le délai de 14 jours court à compter du lendemain de la réception de votre commande. Si le délai expire un samedi, un dimanche ou un jour férié ou chômé, il est prorogé jusqu'au premier jour ouvrable suivant.
           </p>
 
-          <h2 className="text-lg md:text-xl font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg md:text-xl font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             2. Exceptions strictes au droit de rétractation (Exclusions)
           </h2>
           <p>
@@ -100,7 +99,7 @@ export default function RetoursPage() {
             </li>
           </ul>
 
-          <h2 className="text-lg md:text-xl font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg md:text-xl font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             3. Procédure de rétractation en ligne (En quelques clics)
           </h2>
           <p>
@@ -110,7 +109,7 @@ export default function RetoursPage() {
             Vous devez ensuite renvoyer les produits intacts au plus tard dans les quatorze (14) jours suivant la communication de votre décision de vous rétracter.
           </p>
 
-          <h2 className="text-lg md:text-xl font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg md:text-xl font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             4. Modalités de renvoi et Frais de retour
           </h2>
           <p>
@@ -120,7 +119,7 @@ export default function RetoursPage() {
             <strong>Responsabilité :</strong> Le produit doit être correctement protégé et emballé pour le transport. Le client est responsable de l'état du produit jusqu'à son arrivée à notre atelier. Nous vous conseillons d'utiliser un mode de transport avec suivi (type Colissimo ou lettre suivie).
           </p>
 
-          <h2 className="text-lg md:text-xl font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg md:text-xl font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             5. Remboursement intégral
           </h2>
           <p>
@@ -174,7 +173,7 @@ export default function RetoursPage() {
                     value={formData.firstName}
                     onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                     placeholder="Votre prénom"
-                    className="h-10 bg-black border border-[#222225] rounded-xl px-3 outline-none focus:border-[#ff4f00] transition-colors text-white"
+                    className="h-10 border border-spoolio-border rounded-xl px-3 outline-none focus:border-[#ff4f00] transition-colors review-input"
                   />
                 </div>
                 <div className="flex-1 flex flex-col gap-1.5">
@@ -187,7 +186,7 @@ export default function RetoursPage() {
                     value={formData.lastName}
                     onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                     placeholder="Votre nom"
-                    className="h-10 bg-black border border-[#222225] rounded-xl px-3 outline-none focus:border-[#ff4f00] transition-colors text-white"
+                    className="h-10 border border-spoolio-border rounded-xl px-3 outline-none focus:border-[#ff4f00] transition-colors review-input"
                   />
                 </div>
               </div>
@@ -202,7 +201,7 @@ export default function RetoursPage() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="votre.email@exemple.com"
-                  className="h-10 bg-black border border-[#222225] rounded-xl px-3 outline-none focus:border-[#ff4f00] transition-colors text-white"
+                  className="h-10 border border-spoolio-border rounded-xl px-3 outline-none focus:border-[#ff4f00] transition-colors review-input"
                 />
               </div>
 
@@ -215,7 +214,7 @@ export default function RetoursPage() {
                   value={formData.orderId}
                   onChange={(e) => setFormData({ ...formData, orderId: e.target.value })}
                   placeholder="Ex: SP-12345"
-                  className="h-10 bg-black border border-[#222225] rounded-xl px-3 outline-none focus:border-[#ff4f00] transition-colors text-white uppercase"
+                  className="h-10 border border-spoolio-border rounded-xl px-3 outline-none focus:border-[#ff4f00] transition-colors review-input uppercase"
                 />
               </div>
 
@@ -228,7 +227,7 @@ export default function RetoursPage() {
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Précisez ici les articles que vous souhaitez retourner..."
                   rows={4}
-                  className="bg-black border border-[#222225] rounded-xl p-3 outline-none focus:border-[#ff4f00] transition-colors text-white resize-y min-h-[80px]"
+                  className="border border-spoolio-border rounded-xl p-3 outline-none focus:border-[#ff4f00] transition-colors review-input resize-y min-h-[80px]"
                 />
               </div>
 

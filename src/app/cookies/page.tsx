@@ -28,7 +28,7 @@ export default function CookiesPage() {
         </div>
 
         <div className="mt-8 p-6 md:p-8 rounded-3xl bg-spoolio-card border border-spoolio-border text-gray-300 space-y-6 text-xs leading-relaxed animate-reveal delay-100 font-sans">
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             1. L'utilisation de cookies
           </h2>
           <p>
@@ -38,14 +38,14 @@ export default function CookiesPage() {
             L'utilisation de cookies est d'une grande importance pour le bon fonctionnement de notre site web. Grâce à la contribution (anonyme) des visiteurs, nous pouvons améliorer l'utilisation du site internet et le rendre plus convivial.
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             2. Consentement
           </h2>
           <p>
             Ton consentement est requis pour l'utilisation de certains cookies. Nous le recueillons au moyen d'une bannière informative présente lors de ta première visite sur le site.
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             3. Le type de cookies utilisés et leurs objectifs
           </h2>
           <p>
@@ -63,7 +63,7 @@ export default function CookiesPage() {
             </li>
           </ul>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             4. Tes droits à l'égard de tes données personnelles
           </h2>
           <p>
@@ -73,7 +73,7 @@ export default function CookiesPage() {
             Tu peux exercer ces droits en nous envoyant un e-mail simple à l'adresse suivante : <strong>contact@spoolio.fr</strong>.
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
+          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
             5. Blocage et suppression des cookies
           </h2>
           <p>
