@@ -136,7 +136,7 @@ export default function UpsellPage() {
 
   return (
     <div className="min-h-screen bg-[#070709] text-white flex flex-col justify-between selection:bg-[#ff4f00] selection:text-white">
-      <Header />
+      <Header className="h-24 flex items-center justify-between px-6 max-w-[1200px] mx-auto w-full no-invert" />
 
       <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-12 flex flex-col items-center justify-center">
         {/* Progress Banner */}
@@ -150,10 +150,7 @@ export default function UpsellPage() {
 
         {/* Header Title */}
         <div className="text-center max-w-xl mb-12">
-          <span className="px-3 py-1 bg-[#ff4f00]/10 text-[#ff4f00] rounded-full text-[10px] font-black uppercase tracking-widest border border-[#ff4f00]/20 font-sans">
-            Offre de Complément Colis
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-black font-antonio tracking-tight uppercase mt-3">
+          <h2 className="text-3xl sm:text-4xl font-black font-antonio tracking-tight uppercase">
             Vous aimeriez peut-être aussi...
           </h2>
           <p className="text-sm text-gray-400 mt-3 leading-relaxed">
