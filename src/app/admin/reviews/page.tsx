@@ -4,11 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAdminTheme } from "../AdminThemeContext";
 
-const ADMIN_BLUE = "#2F3CD9";
-
 interface Review {
   id: number;
-  productId: number;
+  productId: number | null;
   customerName: string;
   email: string;
   rating: number;
@@ -19,7 +17,7 @@ interface Review {
   product: {
     name: string;
     slug: string;
-  };
+  } | null;
 }
 
 export default function AdminReviewsPage() {
