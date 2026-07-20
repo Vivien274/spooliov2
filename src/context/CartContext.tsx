@@ -27,7 +27,7 @@ interface CartContextType {
   cartItems: CartItem[];
   isCartOpen: boolean;
   setIsCartOpen: (open: boolean) => void;
-  addToCart: (item: Omit<CartItem, "id" | "quantity">, quantity?: number) => void;
+  addToCart: (item: Omit<CartItem, "id" | "quantity">, quantity?: number, openCart?: boolean) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -96,7 +96,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     return `${productId}-${optionsKey}`;
   };
 
-  const addToCart = (item: Omit<CartItem, "id" | "quantity">, quantity: number = 1) => {
+  const addToCart = (item: Omit<CartItem, "id" | "quantity">, quantity: number = 1, openCart: boolean = true) => {
     const id = getComboId(item.productId, item.selectedOptions);
     
     setCartItems((prevItems) => {
@@ -112,7 +112,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     });
     
     // Automatically open the cart drawer for premium UX feedback
-    setIsCartOpen(true);
+    if (openCart) {
+      setIsCartOpen(true);
+    }
   };
 
   const removeFromCart = (id: string) => {

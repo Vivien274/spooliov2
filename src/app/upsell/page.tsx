@@ -71,7 +71,7 @@ export default function UpsellPage() {
   const handleAddSuggestion = (p: Product) => {
     setAddingIds((prev) => ({ ...prev, [p.id]: true }));
     
-    // Add product to cart with default empty selectedOptions
+    // Add product to cart without opening the drawer
     addToCart({
       productId: p.id,
       name: p.name,
@@ -79,7 +79,7 @@ export default function UpsellPage() {
       price: p.sale_price || p.price,
       selectedOptions: {},
       image: p.images[0]?.src || "/images/figma_keychains.jpg"
-    }, 1);
+    }, 1, false);
 
     // Simulate success animation state
     setTimeout(() => {
@@ -202,14 +202,20 @@ export default function UpsellPage() {
                   {/* Add button */}
                   <button
                     onClick={() => handleAddSuggestion(p)}
-                    disabled={isAdding}
-                    className={`w-full mt-4 h-9 flex items-center justify-center gap-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider cursor-pointer transition-all ${
-                      isAdding 
-                        ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" 
-                        : "bg-[#005cff] text-white hover:bg-[#004ecc] hover:scale-[1.02]"
+                    disabled={cartItems.some((item) => String(item.productId) === String(p.id)) || isAdding}
+                    className={`w-full mt-4 h-9 flex items-center justify-center gap-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all ${
+                      cartItems.some((item) => String(item.productId) === String(p.id))
+                        ? "bg-white/5 text-gray-500 border border-white/10 cursor-not-allowed"
+                        : isAdding 
+                          ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 cursor-wait" 
+                          : "bg-[#005cff] text-white hover:bg-[#004ecc] hover:scale-[1.02] cursor-pointer"
                     }`}
                   >
-                    {isAdding ? "✓ Ajouté !" : "Ajouter au colis"}
+                    {cartItems.some((item) => String(item.productId) === String(p.id)) 
+                      ? "✓ Ajouté au colis" 
+                      : isAdding 
+                        ? "Ajout..." 
+                        : "Ajouter au colis"}
                   </button>
                 </div>
               );
