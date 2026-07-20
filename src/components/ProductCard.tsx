@@ -32,6 +32,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, compact = false }: ProductCardProps) {
   const [tiltStyle, setTiltStyle] = useState<React.CSSProperties>({});
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const card = e.currentTarget;
@@ -200,12 +201,13 @@ export default function ProductCard({ product, compact = false }: ProductCardPro
         </div>
       </div>
 
-      {/* Blue Actions Button at the bottom with Padding */}
       <div className="p-6 pt-5">
         <div
+          onMouseEnter={() => setIsButtonHovered(true)}
+          onMouseLeave={() => setIsButtonHovered(false)}
           className="w-full h-[50px] inline-flex items-center justify-center gap-2 px-4 text-xs font-bold text-white bg-[#005cff] hover:bg-[#004ecc] rounded-xl transition-colors shadow-[0_4px_10px_rgba(0,92,255,0.15)] select-none border-none cursor-pointer no-invert"
         >
-          <UnicornIcon animationData={cartIconData} className="w-8 h-8 scale-[1.8]" />
+          <UnicornIcon animationData={cartIconData} className="w-8 h-8 scale-[1.8]" isHovered={isButtonHovered} />
           ACHETER
         </div>
       </div>

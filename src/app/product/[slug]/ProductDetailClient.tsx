@@ -21,6 +21,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
   const [error, setError] = useState<string | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [quantity, setQuantity] = useState<number>(1);
+  const [isButtonHovered, setIsButtonHovered] = useState(false);
 
   // Force scroll to top when page loaded or product slug changes
   useEffect(() => {
@@ -729,9 +730,11 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               ) : (
                 <button
                   onClick={handleAddToCartClick}
+                  onMouseEnter={() => setIsButtonHovered(true)}
+                  onMouseLeave={() => setIsButtonHovered(false)}
                   className="flex-1 h-14 flex items-center justify-center gap-2 text-sm font-bold text-white bg-[#ff4f00] hover:bg-[#e04500] rounded-xl transition-all duration-300 shadow-xl shadow-[#ff4f00]/25 hover:scale-[1.02] cursor-pointer text-center no-invert group"
                 >
-                  <UnicornIcon animationData={cartIconData} className="w-10 h-10 scale-[1.8]" />
+                  <UnicornIcon animationData={cartIconData} className="w-10 h-10 scale-[1.8]" isHovered={isButtonHovered} />
                   Ajouter au panier
                 </button>
               )}

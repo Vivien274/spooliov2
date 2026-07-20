@@ -1,30 +1,42 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Lottie from "lottie-react";
 
 interface UnicornIconProps {
   animationData?: any;
   className?: string;
   loop?: boolean;
+  isHovered?: boolean; // Triggered externally by the parent button's hover state
 }
 
-export default function UnicornIcon({ animationData, className, loop = false }: UnicornIconProps) {
-  const [isHovered, setIsHovered] = useState(false);
+export default function UnicornIcon({ animationData, className, loop = false, isHovered: externalHovered }: UnicornIconProps) {
+  const [internalHovered, setInternalHovered] = useState(false);
   const lottieRef = useRef<any>(null);
+
+  // Use external hover state if provided, otherwise fallback to local hover state
+  const isHovered = externalHovered !== undefined ? externalHovered : internalHovered;
 
   // Check if we are passing a full Lottie file containing layers
   const isRealLottie = animationData && (animationData.layers || animationData.v);
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-    if (isRealLottie && lottieRef.current) {
+  // Play animation whenever hover state changes to true
+  useEffect(() => {
+    if (isHovered && isRealLottie && lottieRef.current) {
       lottieRef.current.goToAndPlay(0, true); // Play from the start on hover
+    }
+  }, [isHovered, isRealLottie]);
+
+  const handleMouseEnter = () => {
+    if (externalHovered === undefined) {
+      setInternalHovered(true);
     }
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
+    if (externalHovered === undefined) {
+      setInternalHovered(false);
+    }
   };
 
   if (isRealLottie) {
@@ -38,7 +50,7 @@ export default function UnicornIcon({ animationData, className, loop = false }: 
           lottieRef={lottieRef}
           animationData={animationData} 
           loop={loop} 
-          autoplay={false} // Autoplay disabled to trigger only on hover
+          autoplay={false} // Autoplay disabled
           style={{ width: "100%", height: "100%" }}
         />
       </div>
@@ -46,7 +58,6 @@ export default function UnicornIcon({ animationData, className, loop = false }: 
   }
 
   // Fallback: Custom animated interactive SVG shopping cart (Panier blanc animé Spoolio)
-  // Uses "currentColor" to adapt to parent text color (white on buttons, gray/black elsewhere)
   return (
     <div
       className={className}
@@ -63,7 +74,6 @@ export default function UnicornIcon({ animationData, className, loop = false }: 
           transition: "transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
         }}
       >
-        {/* Cart Basket Body - Slides forward slightly on hover */}
         <path
           d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
           stroke="currentColor"
@@ -75,8 +85,6 @@ export default function UnicornIcon({ animationData, className, loop = false }: 
             transition: "transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.15)",
           }}
         />
-        
-        {/* Left Wheel - Spins on hover */}
         <circle
           cx="9"
           cy="20"
@@ -89,8 +97,6 @@ export default function UnicornIcon({ animationData, className, loop = false }: 
             transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         />
-
-        {/* Right Wheel - Spins on hover */}
         <circle
           cx="19"
           cy="20"
