@@ -55,23 +55,19 @@ export async function GET() {
         console.warn("Could not cache reviews to local JSON:", err);
       }
     } catch (dbErr: any) {
-      console.error("Database failed or timed out in admin GET reviews API:", dbErr);
+      console.warn("Database query failed in admin GET reviews API, trying local reviews.json...", dbErr.message || dbErr);
       
       if (fs.existsSync(jsonPath)) {
         try {
           const fileData = fs.readFileSync(jsonPath, 'utf-8');
           reviews = JSON.parse(fileData || "[]");
         } catch (jsonErr: any) {
-          return NextResponse.json(
-            { error: `Database query failed (${dbErr.message || "Timeout"}) and local cache is corrupted.` },
-            { status: 500 }
-          );
+          console.error("Local reviews.json is corrupted, returning empty list:", jsonErr.message);
+          reviews = [];
         }
       } else {
-        return NextResponse.json(
-          { error: `Connexion base de données échouée : ${dbErr.message || "Timeout de connexion Supabase"}` },
-          { status: 500 }
-        );
+        console.warn("Local reviews.json does not exist, returning empty list.");
+        reviews = [];
       }
     }
 

@@ -35,7 +35,7 @@ export default async function Home() {
       orderBy: { createdAt: "desc" }
     });
     const timeoutPromise = new Promise<null>((_, reject) =>
-      setTimeout(() => reject(new Error("Prisma Query Timeout (800ms)")), 800)
+      setTimeout(() => reject(new Error("Prisma Query Timeout (2500ms)")), 2500)
     );
     
     // Query both hero config and approved reviews in parallel
@@ -59,17 +59,7 @@ export default async function Home() {
     console.error("Failed to load homepage assets:", e);
   }
 
-  // Real fallback client reviews when database reviews count is empty
-  const defaultReviews = [
-    { customerName: "Amandine", rating: 5, comment: "Petit cactus anti stress est désormais bien placé sur mon bureau 🤩 Super produit très résistant et surtout coup de cœur garanti !" },
-    { customerName: "Quentin", rating: 5, comment: "Le fidget articulé est super agréable à manipuler, mon fils l'adore et ne le lâche plus ! Finition propre pour de la 3D." },
-    { customerName: "Cyrielle", rating: 5, comment: "Commande livrée rapidement. Les petites pieuvres articulées sont super mignonnes et les couleurs bicolores sont magnifiques !" },
-    { customerName: "Guillaume", rating: 5, comment: "Top qualité pour le médaillon NFC de mon chat. Il a été scanné par un ami pour tester et ça marche parfaitement, je suis rassuré." },
-    { customerName: "Inès", rating: 5, comment: "Les couleurs sont incroyables et l'effet brillant sur les articulés est superbe. Parfait pour offrir, tout le monde adore !" },
-    { customerName: "Julien", rating: 5, comment: "Super réactivité de l'atelier pour un projet de goodies d'entreprise personnalisé. Fabrication soignée et envoi rapide." }
-  ];
-
-  const displayReviews = dbReviews.length > 0 ? dbReviews : defaultReviews;
+  const displayReviews = dbReviews;
 
   return (
     <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
