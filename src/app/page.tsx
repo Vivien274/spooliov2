@@ -23,9 +23,13 @@ const DEFAULT_HERO = {
 export default async function Home() {
   let hero = DEFAULT_HERO;
   try {
-    const page = await prisma.page.findUnique({
+    const heroPromise = prisma.page.findUnique({
       where: { slug: "config-hero" }
     });
+    const timeoutPromise = new Promise<null>((_, reject) =>
+      setTimeout(() => reject(new Error("Prisma Query Timeout (800ms)")), 800)
+    );
+    const page = await Promise.race([heroPromise, timeoutPromise]);
     if (page) {
       const config = JSON.parse(page.content);
       hero = {
@@ -46,13 +50,25 @@ export default async function Home() {
       {/* Background Decorative Blobs */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         {/* Blob Orange - Top Right */}
-        <div className="absolute top-[-10%] right-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full bg-[#ff4f00]/15 blur-[80px] md:blur-[120px] blob-orange" />
+        <div 
+          className="absolute top-[-10%] right-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full blob-orange" 
+          style={{ backgroundColor: 'rgba(255, 79, 0, 0.22)', filter: 'blur(90px)' }}
+        />
         {/* Blob Indigo - Mid Left */}
-        <div className="absolute top-[35%] left-[-15%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full bg-[#6366f1]/12 blur-[80px] md:blur-[120px] blob-indigo" />
+        <div 
+          className="absolute top-[35%] left-[-15%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full blob-indigo" 
+          style={{ backgroundColor: 'rgba(99, 102, 241, 0.18)', filter: 'blur(90px)' }}
+        />
         {/* Blob Yellow - Bottom Right */}
-        <div className="absolute bottom-[20%] right-[-10%] w-[250px] md:w-[450px] h-[250px] md:h-[450px] rounded-full bg-[#f7eb12]/8 blur-[80px] md:blur-[120px] blob-yellow" />
+        <div 
+          className="absolute bottom-[20%] right-[-10%] w-[250px] md:w-[450px] h-[250px] md:h-[450px] rounded-full blob-yellow" 
+          style={{ backgroundColor: 'rgba(247, 235, 18, 0.14)', filter: 'blur(90px)' }}
+        />
         {/* Extra Blob Indigo/Purple - Bottom Left */}
-        <div className="absolute bottom-[5%] left-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full bg-[#a855f7]/8 blur-[80px] md:blur-[120px] blob-indigo" />
+        <div 
+          className="absolute bottom-[5%] left-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full blob-indigo" 
+          style={{ backgroundColor: 'rgba(168, 85, 247, 0.14)', filter: 'blur(90px)' }}
+        />
       </div>
 
       {/* 1. Full-Width Hero Section with Absolute Header Overlay */}
