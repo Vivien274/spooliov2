@@ -52266,7 +52266,7 @@
   {
     "id": 10386,
     "name": "Planche Petit Papa (Noël)",
-    "slug": "",
+    "slug": "planche-petit-papa-(noël)",
     "permalink": "https://spoolio.fr/?post_type=product&p=10386",
     "date_created": null,
     "date_created_gmt": null,
@@ -52299,7 +52299,7 @@
     "tax_status": "taxable",
     "tax_class": "",
     "manage_stock": false,
-    "stock_quantity": null,
+    "stock_quantity": 10,
     "backorders": "no",
     "backorders_allowed": false,
     "backordered": false,
@@ -52333,124 +52333,56 @@
     "tags": [],
     "images": [
       {
-        "id": 10394,
-        "date_created": "2025-11-16T19:19:03",
-        "date_created_gmt": "2025-11-16T17:19:03",
-        "date_modified": "2025-11-16T19:19:03",
-        "date_modified_gmt": "2025-11-16T17:19:03",
+        "id": 1771,
         "src": "/images/imported/Spoolio_planche-papa-noel-3.webp",
-        "name": "Spoolio planche papa noel 3",
-        "alt": "Spoolio planche papa noel 3",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?w=2048&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2048px) 100vw, 2048px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio planche papa noel 3"
       },
       {
-        "id": 10389,
-        "date_created": "2025-11-16T19:18:19",
-        "date_created_gmt": "2025-11-16T17:18:19",
-        "date_modified": "2025-11-16T19:18:19",
-        "date_modified_gmt": "2025-11-16T17:18:19",
+        "id": 1772,
         "src": "/images/imported/Spoolio_planche-papa-noel-8.webp",
-        "name": "Spoolio planche papa noel 8",
-        "alt": "Spoolio planche papa noel 8",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-8.webp?w=2048&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-8.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-8.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-8.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-8.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-8.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-8.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2048px) 100vw, 2048px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-8.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio planche papa noel 8"
       },
       {
-        "id": 10390,
-        "date_created": "2025-11-16T19:18:27",
-        "date_created_gmt": "2025-11-16T17:18:27",
-        "date_modified": "2025-11-16T19:18:27",
-        "date_modified_gmt": "2025-11-16T17:18:27",
+        "id": 1773,
         "src": "/images/imported/Spoolio_planche-papa-noel-6.webp",
-        "name": "Spoolio planche papa noel 6",
-        "alt": "Spoolio planche papa noel 6",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-6.webp?w=2048&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-6.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-6.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-6.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-6.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-6.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-6.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2048px) 100vw, 2048px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-6.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio planche papa noel 6"
       },
       {
-        "id": 10391,
-        "date_created": "2025-11-16T19:18:35",
-        "date_created_gmt": "2025-11-16T17:18:35",
-        "date_modified": "2025-11-16T19:18:35",
-        "date_modified_gmt": "2025-11-16T17:18:35",
+        "id": 1774,
         "src": "/images/imported/Spoolio_planche-papa-noel-7.webp",
-        "name": "Spoolio planche papa noel 7",
-        "alt": "Spoolio planche papa noel 7",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-7.webp?w=2048&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-7.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-7.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-7.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-7.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-7.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-7.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2048px) 100vw, 2048px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-7.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio planche papa noel 7"
       },
       {
-        "id": 10392,
-        "date_created": "2025-11-16T19:18:43",
-        "date_created_gmt": "2025-11-16T17:18:43",
-        "date_modified": "2025-11-16T19:18:43",
-        "date_modified_gmt": "2025-11-16T17:18:43",
+        "id": 1775,
         "src": "/images/imported/Spoolio_planche-papa-noel-1.webp",
-        "name": "Spoolio planche papa noel 1",
-        "alt": "Spoolio planche papa noel 1",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-1.webp?w=2048&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-1.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-1.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-1.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-1.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-1.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-1.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2048px) 100vw, 2048px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-1.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio planche papa noel 1"
       },
       {
-        "id": 10393,
-        "date_created": "2025-11-16T19:18:53",
-        "date_created_gmt": "2025-11-16T17:18:53",
-        "date_modified": "2025-11-16T19:18:53",
-        "date_modified_gmt": "2025-11-16T17:18:53",
+        "id": 1776,
         "src": "/images/imported/Spoolio_planche-papa-noel-4.webp",
-        "name": "Spoolio planche papa noel 4",
-        "alt": "Spoolio planche papa noel 4",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-4.webp?w=2048&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-4.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-4.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-4.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-4.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-4.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-4.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2048px) 100vw, 2048px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-4.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio planche papa noel 4"
       },
       {
-        "id": 10394,
-        "date_created": "2025-11-16T19:19:03",
-        "date_created_gmt": "2025-11-16T17:19:03",
-        "date_modified": "2025-11-16T19:19:03",
-        "date_modified_gmt": "2025-11-16T17:19:03",
+        "id": 1777,
         "src": "/images/imported/Spoolio_planche-papa-noel-3.webp",
-        "name": "Spoolio planche papa noel 3",
-        "alt": "Spoolio planche papa noel 3",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?w=2048&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2048px) 100vw, 2048px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-3.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio planche papa noel 3"
       },
       {
-        "id": 10395,
-        "date_created": "2025-11-16T19:19:11",
-        "date_created_gmt": "2025-11-16T17:19:11",
-        "date_modified": "2025-11-16T19:19:11",
-        "date_modified_gmt": "2025-11-16T17:19:11",
+        "id": 1778,
         "src": "/images/imported/Spoolio_planche-papa-noel-2.webp",
-        "name": "Spoolio planche papa noel 2",
-        "alt": "Spoolio planche papa noel 2",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-2.webp?w=2048&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-2.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-2.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-2.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-2.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-2.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-2.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2048px) 100vw, 2048px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-2.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio planche papa noel 2"
       },
       {
-        "id": 10396,
-        "date_created": "2025-11-16T19:19:20",
-        "date_created_gmt": "2025-11-16T17:19:20",
-        "date_modified": "2025-11-16T19:19:20",
-        "date_modified_gmt": "2025-11-16T17:19:20",
+        "id": 1779,
         "src": "/images/imported/Spoolio_planche-papa-noel-5.webp",
-        "name": "Spoolio planche papa noel 5",
-        "alt": "Spoolio planche papa noel 5",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-5.webp?w=2048&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-5.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-5.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-5.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-5.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-5.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-5.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2048px) 100vw, 2048px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio_planche-papa-noel-5.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio planche papa noel 5"
       }
     ],
-    "attributes": [],
+    "attributes": {
+      "attributes": [],
+      "variationPrices": [],
+      "tags": []
+    },
     "default_attributes": [],
     "variations": [],
     "grouped_products": [],

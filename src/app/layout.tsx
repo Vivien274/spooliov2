@@ -5,6 +5,7 @@ import AdminToolbar from "@/components/AdminToolbar";
 import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/components/CartDrawer";
 import VisitorTracker from "@/components/VisitorTracker";
+import CookieBanner from "@/components/CookieBanner";
 
 const antonio = Antonio({
   variable: "--font-antonio",
@@ -57,6 +58,7 @@ export default function RootLayout({
           <VisitorTracker />
           <AdminToolbar />
           <CartDrawer />
+          <CookieBanner />
           {children}
         </CartProvider>
       </body>
