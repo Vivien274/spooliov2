@@ -549,9 +549,18 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
 
                     return (
                       <div key={name} className="flex flex-col gap-2">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
-                          {name}
-                        </label>
+                        <div className="flex items-center justify-between">
+                          <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
+                            {name}
+                          </label>
+                          <Link 
+                            href="/palette-couleurs" 
+                            target="_blank" 
+                            className="text-[10px] text-[#ff4f00] hover:text-[#ff4f00]/80 underline font-semibold transition-colors flex items-center gap-1 font-sans"
+                          >
+                            🎨 Palette de couleurs
+                          </Link>
+                        </div>
                         <div className="flex flex-wrap items-center gap-3">
                           {options.map((opt: string) => {
                             const isSelected = selectedVal === opt;
