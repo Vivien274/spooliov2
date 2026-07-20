@@ -524,7 +524,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
           <div className="flex flex-col">
             {/* Category tag */}
             {product.categories.length > 0 && (
-              <span className="text-xs font-bold text-[#2F3CD9] uppercase tracking-widest mb-2">
+              <span className="inline-flex items-center self-start text-[10px] font-black text-white bg-[#2F3CD9] px-2.5 py-1.5 rounded-lg uppercase tracking-widest mb-3.5 no-invert shadow-md shadow-[#2F3CD9]/10">
                 {product.categories.map(c => c.name).join(" / ")}
               </span>
             )}
