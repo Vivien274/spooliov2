@@ -145,8 +145,8 @@ html.light .sticky.border-b {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Logo inversion ONLY on the sticky header (since it sits on white background) */
-html.light .sticky img[alt="Spoolio Logo"] {
+/* Logo inversion in light mode */
+html.light img[alt="Spoolio Logo"] {
   filter: invert(1);
 }
 
