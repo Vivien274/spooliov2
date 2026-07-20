@@ -395,7 +395,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="max-w-7xl mx-auto space-y-6">
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
@@ -857,7 +857,9 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                             <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-3">
                               {(form.attributes?.attributes || []).map((attr) => (
                                 <div key={attr.name} className="flex flex-col gap-1">
-                                  <label className={`text-[10px] ${cls.textFaint} uppercase tracking-wider`}>{attr.name}</label>
+                                  <label className="text-[10px] text-white font-semibold uppercase tracking-wider">
+                                    {attr.name.replace(/&#039;/g, "'").replace(/&#39;/g, "'")}
+                                  </label>
                                   <select
                                     value={vPrice.combination[attr.name] || ""}
                                     onChange={(e) => {
@@ -890,7 +892,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                             </div>
 
                             <div className="w-full sm:w-28 flex flex-col gap-1">
-                              <label className={`text-[10px] ${cls.textFaint} uppercase tracking-wider`}>Prix (€)</label>
+                              <label className="text-[10px] text-white font-semibold uppercase tracking-wider">Prix (€)</label>
                               <input
                                 type="number"
                                 placeholder={form.price || "12.00"}

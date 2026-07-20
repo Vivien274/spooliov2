@@ -276,9 +276,20 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
       const matches = attrData.variationPrices.filter((vp: any) => {
         return Object.entries(vp.combination).every(([key, value]) => {
           // If value is empty, it's a wildcard matching any selected option
-          if (!value || String(value).trim() === "") return true;
-          const selected = selectedOptions[key];
-          return selected && selected.toLowerCase().trim() === String(value).toLowerCase().trim();
+          if (!value || String(value).trim() === "" || String(value).toLowerCase().includes("tous")) return true;
+          
+          // Decode both combination key and selectedOptions keys to avoid mismatch due to HTML entities (like &#039; vs ')
+          const decodedKey = decodeHtml(key).toLowerCase().trim();
+          
+          // Find the value in selectedOptions where the decoded key matches
+          const selectedEntry = Object.entries(selectedOptions).find(([selKey]) => {
+            return decodeHtml(selKey).toLowerCase().trim() === decodedKey;
+          });
+          
+          if (!selectedEntry) return false;
+          
+          const selectedValue = selectedEntry[1];
+          return selectedValue && decodeHtml(selectedValue).toLowerCase().trim() === decodeHtml(String(value)).toLowerCase().trim();
         });
       });
 

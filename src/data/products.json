@@ -104321,67 +104321,67 @@
     ],
     "images": [
       {
-        "id": 2360,
+        "id": 2727,
         "src": "/images/imported/Spoolio-oeuf-boite-7.jpg",
         "alt": "Spoolio oeuf boite 7"
       },
       {
-        "id": 2361,
+        "id": 2728,
         "src": "/images/imported/Spoolio-oeuf-boite-13.jpg",
         "alt": "Spoolio oeuf boite 13"
       },
       {
-        "id": 2362,
+        "id": 2729,
         "src": "/images/imported/Spoolio-oeuf-boite-10.jpg",
         "alt": "Spoolio oeuf boite 10"
       },
       {
-        "id": 2363,
+        "id": 2730,
         "src": "/images/imported/Spoolio-oeuf-boite-9.jpg",
         "alt": "Spoolio oeuf boite 9"
       },
       {
-        "id": 2364,
+        "id": 2731,
         "src": "/images/imported/Spoolio-oeuf-boite-7.jpg",
         "alt": "Spoolio oeuf boite 7"
       },
       {
-        "id": 2365,
+        "id": 2732,
         "src": "/images/imported/Spoolio-oeuf-boite-5.jpg",
         "alt": "Spoolio oeuf boite 5"
       },
       {
-        "id": 2366,
+        "id": 2733,
         "src": "/images/imported/Spoolio-oeuf-boite-4.jpg",
         "alt": "Spoolio oeuf boite 4"
       },
       {
-        "id": 2367,
+        "id": 2734,
         "src": "/images/imported/Spoolio-oeuf-boite-2.jpg",
         "alt": "Spoolio oeuf boite 2"
       },
       {
-        "id": 2368,
+        "id": 2735,
         "src": "/images/imported/Spoolio-Serpent-articule-11-scaled.jpg",
         "alt": "Spoolio Serpent articule 11 scaled"
       },
       {
-        "id": 2369,
+        "id": 2736,
         "src": "/images/imported/Spoolio-Serpent-articule-9-scaled.jpg",
         "alt": "Spoolio Serpent articule 9 scaled"
       },
       {
-        "id": 2370,
+        "id": 2737,
         "src": "/images/imported/Spoolio-Serpent-articule-7-scaled.jpg",
         "alt": "Spoolio Serpent articule 7 scaled"
       },
       {
-        "id": 2371,
+        "id": 2738,
         "src": "/images/imported/Spoolio-Serpent-articule-2-scaled.jpg",
         "alt": "Spoolio Serpent articule 2 scaled"
       },
       {
-        "id": 2372,
+        "id": 2739,
         "src": "/images/imported/Spoolio-Serpent-articule-5-scaled.jpg",
         "alt": "Spoolio Serpent articule 5 scaled"
       }
@@ -104400,7 +104400,7 @@
             "M (30cm)",
             "L (50cm)"
           ],
-          "controlType": "chips"
+          "controlType": "segmented_control"
         },
         {
           "id": 0,
@@ -104469,7 +104469,35 @@
           ]
         }
       ],
-      "variationPrices": [],
+      "variationPrices": [
+        {
+          "combination": {
+            "Taille du serpent": "S (15cm)",
+            "Couleur du serpent": "",
+            "Taille de l&#039;oeuf": "",
+            "Couleur de l&#039;oeuf": ""
+          },
+          "price": "4"
+        },
+        {
+          "combination": {
+            "Taille du serpent": "M (30cm)",
+            "Couleur du serpent": "",
+            "Taille de l&#039;oeuf": "",
+            "Couleur de l&#039;oeuf": ""
+          },
+          "price": "10"
+        },
+        {
+          "combination": {
+            "Taille du serpent": "L (50cm)",
+            "Couleur du serpent": "",
+            "Taille de l&#039;oeuf": "",
+            "Couleur de l&#039;oeuf": ""
+          },
+          "price": "20"
+        }
+      ],
       "tags": []
     },
     "default_attributes": [],
