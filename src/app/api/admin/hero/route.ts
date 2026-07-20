@@ -10,7 +10,8 @@ const DEFAULT_HERO = {
   subtitle: "Elle est sortie, elle est tout belle !",
   buttonText: "VOIR LA CAPSULE",
   buttonLink: "/boutique",
-  imageUrl: "/images/hero_background.jpg"
+  imageUrl: "/images/hero_background.jpg",
+  imagePosition: "center center"
 };
 
 // GET: Retrieve hero configuration
@@ -62,7 +63,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { title, subtitle, buttonText, buttonLink, imageUrl } = await request.json();
+    const { title, subtitle, buttonText, buttonLink, imageUrl, imagePosition } = await request.json();
 
     if (!title || !buttonText || !buttonLink || !imageUrl) {
       return NextResponse.json(
@@ -76,7 +77,8 @@ export async function POST(request: Request) {
       subtitle: subtitle || "",
       buttonText,
       buttonLink,
-      imageUrl
+      imageUrl,
+      imagePosition: imagePosition || "center center"
     });
 
     await prisma.page.upsert({

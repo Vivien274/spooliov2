@@ -126,12 +126,44 @@ export default function AdminDashboard() {
     subtitle: "",
     buttonText: "",
     buttonLink: "",
-    imageUrl: ""
+    imageUrl: "",
+    imagePosition: "center center"
   });
   const [loadingHero, setLoadingHero] = useState<boolean>(false);
   const [savingHero, setSavingHero] = useState<boolean>(false);
+  const [uploading, setUploading] = useState<boolean>(false);
   const [heroSuccess, setHeroSuccess] = useState<string | null>(null);
   const [heroError, setHeroError] = useState<string | null>(null);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    setHeroError(null);
+    setHeroSuccess(null);
+    
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setHeroConfig(prev => ({ ...prev, imageUrl: data.imageUrl }));
+        setHeroSuccess("Image téléversée avec succès !");
+      } else {
+        setHeroError(data.error || "Erreur de téléversement.");
+      }
+    } catch (err) {
+      setHeroError("Impossible d'uploader l'image.");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   // Load orders list
   const fetchOrders = async () => {
@@ -161,7 +193,8 @@ export default function AdminDashboard() {
           subtitle: "Elle est sortie, elle est tout belle !",
           buttonText: "VOIR LA CAPSULE",
           buttonLink: "/boutique",
-          imageUrl: "/images/hero_background.jpg"
+          imageUrl: "/images/hero_background.jpg",
+          imagePosition: "center center"
         });
       }
     } catch (e: any) {
@@ -513,18 +546,54 @@ export default function AdminDashboard() {
 
                 <div className="flex flex-col gap-1.5">
                   <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
-                    URL Image de Fond *
+                    Image de Fond *
                   </label>
-                  <input
-                    type="text"
-                    required
-                    value={heroConfig.imageUrl}
-                    onChange={(e) => setHeroConfig({ ...heroConfig, imageUrl: e.target.value })}
-                    placeholder="Ex: /images/hero_background.jpg"
-                    className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#2F3CD9]`}
-                  />
-                  <span className={`text-[10px] ${cls.textFaint} mt-1 leading-normal`}>
-                    Indiquez le chemin d'une image locale (ex: <code>/images/hero_background.jpg</code>) ou l'adresse absolue d'une image en ligne (ex: <code>https://...</code>).
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      required
+                      value={heroConfig.imageUrl}
+                      onChange={(e) => setHeroConfig({ ...heroConfig, imageUrl: e.target.value })}
+                      placeholder="Ex: /images/hero_background.jpg"
+                      className={`flex-1 h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#2F3CD9]`}
+                    />
+                    <label className="h-10 px-4 bg-[#2F3CD9] hover:bg-[#202db0] disabled:bg-[#2F3CD9]/40 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer shrink-0">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleImageUpload}
+                        disabled={uploading}
+                      />
+                      {uploading ? "..." : "Uploader"}
+                    </label>
+                  </div>
+                  <span className={`text-[10px] ${cls.textFaint} mt-0.5 leading-normal`}>
+                    Sélectionnez une image sur votre ordinateur ou indiquez une URL absolue.
+                  </span>
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                    Positionnement de l'image *
+                  </label>
+                  <select
+                    value={heroConfig.imagePosition || "center center"}
+                    onChange={(e) => setHeroConfig({ ...heroConfig, imagePosition: e.target.value })}
+                    className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#2F3CD9] cursor-pointer`}
+                  >
+                    <option value="center center">Centré (Milieu)</option>
+                    <option value="top center">Haut Centré</option>
+                    <option value="bottom center">Bas Centré</option>
+                    <option value="center left">Milieu Gauche</option>
+                    <option value="center right">Milieu Droite</option>
+                    <option value="top left">Haut Gauche</option>
+                    <option value="top right">Haut Droite</option>
+                    <option value="bottom left">Bas Gauche</option>
+                    <option value="bottom right">Bas Droite</option>
+                  </select>
+                  <span className={`text-[10px] ${cls.textFaint} mt-0.5 leading-normal`}>
+                    Définit la zone d'ancrage de l'image de fond (utile si l'image est recadrée).
                   </span>
                 </div>
 
@@ -558,9 +627,10 @@ export default function AdminDashboard() {
             <div className="relative overflow-hidden rounded-3xl border border-spoolio-border bg-[#0d0d11] aspect-[1.8/1] w-full p-6 flex flex-col items-center justify-center text-center shadow-2xl">
               {/* Dynamic Background Image */}
               <div 
-                className="absolute inset-0 bg-cover bg-center transition-all duration-300 no-invert"
+                className="absolute inset-0 bg-cover transition-all duration-300 no-invert"
                 style={{ 
-                  backgroundImage: `url('${heroConfig.imageUrl || "/images/hero_background.jpg"}')`
+                  backgroundImage: `url('${heroConfig.imageUrl || "/images/hero_background.jpg"}')`,
+                  backgroundPosition: heroConfig.imagePosition || "center center"
                 }}
               />
               {/* Overlay */}

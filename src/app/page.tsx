@@ -19,7 +19,8 @@ const DEFAULT_HERO = {
   subtitle: "Elle est sortie, elle est tout belle !",
   buttonText: "VOIR LA CAPSULE",
   buttonLink: "/boutique",
-  imageUrl: "/images/hero_background.jpg"
+  imageUrl: "/images/hero_background.jpg",
+  imagePosition: "center center"
 };
 
 export default async function Home() {
@@ -52,7 +53,8 @@ export default async function Home() {
         subtitle: config.subtitle || DEFAULT_HERO.subtitle,
         buttonText: config.buttonText || DEFAULT_HERO.buttonText,
         buttonLink: config.buttonLink || DEFAULT_HERO.buttonLink,
-        imageUrl: config.imageUrl || DEFAULT_HERO.imageUrl
+        imageUrl: config.imageUrl || DEFAULT_HERO.imageUrl,
+        imagePosition: config.imagePosition || DEFAULT_HERO.imagePosition
       };
     }
     dbReviews = fetchedReviews || [];
@@ -97,8 +99,8 @@ export default async function Home() {
 
         {/* Hero Background Panel */}
         <div 
-          className="relative w-full aspect-[2.1/1] min-h-[360px] md:min-h-[500px] flex flex-col items-center justify-center text-center p-6 bg-cover bg-center no-invert"
-          style={{ backgroundImage: `url('${hero.imageUrl}')` }}
+          className="relative w-full aspect-[2.1/1] min-h-[360px] md:min-h-[500px] flex flex-col items-center justify-center text-center p-6 bg-cover no-invert"
+          style={{ backgroundImage: `url('${hero.imageUrl}')`, backgroundPosition: hero.imagePosition || 'center center' }}
         >
           {/* Dark visual overlay for contrast */}
           <div className="absolute inset-0 bg-black/35" />
