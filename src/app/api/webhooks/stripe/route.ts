@@ -95,6 +95,28 @@ export async function POST(request: Request) {
         // Generate clean human-readable short ID for order (e.g. SP-12345)
         const orderId = `SP-${Math.floor(10000 + Math.random() * 90000)}`;
 
+        // Extract shipping address and telephone from Stripe checkout session
+        let shippingAddress = null;
+        if (shippingMethod === "relay" && session.metadata?.relay_address) {
+          shippingAddress = [
+            session.shipping_details?.name || customerName,
+            session.metadata.relay_name,
+            session.metadata.relay_address
+          ].filter(Boolean).join("\n");
+        } else if (session.shipping_details?.address) {
+          const addr = session.shipping_details.address;
+          shippingAddress = [
+            session.shipping_details.name || customerName,
+            addr.line1,
+            addr.line2,
+            `${addr.postal_code || ""} ${addr.city || ""}`,
+            addr.state,
+            addr.country
+          ].filter(Boolean).join("\n");
+        }
+
+        const customerPhone = session.customer_details?.phone || null;
+
         console.log(`[Stripe Success] Création de la commande réelle en base: ${orderId} (${email})`);
 
         // Insert order inside MySQL o2switch database
@@ -104,6 +126,8 @@ export async function POST(request: Request) {
           stripeSession: sessionId,
           email: email,
           customerName: customerName,
+          customerPhone: customerPhone,
+          shippingAddress: shippingAddress,
           items: itemsSummary,
           total: total,
           shippingCost: shippingCost,
@@ -122,6 +146,8 @@ export async function POST(request: Request) {
               stripeSession: newOrderData.stripeSession,
               email: newOrderData.email,
               customerName: newOrderData.customerName,
+              customerPhone: newOrderData.customerPhone,
+              shippingAddress: newOrderData.shippingAddress,
               items: newOrderData.items,
               total: newOrderData.total,
               shippingCost: newOrderData.shippingCost,

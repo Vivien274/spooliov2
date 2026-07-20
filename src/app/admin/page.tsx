@@ -11,6 +11,8 @@ interface AdminOrder {
   stripeSession?: string;
   email: string;
   customerName: string;
+  customerPhone?: string;
+  shippingAddress?: string;
   items: {
     name: string;
     quantity: number;
@@ -120,6 +122,103 @@ export default function AdminDashboard() {
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loadingOrders, setLoadingOrders] = useState<boolean>(true);
   const [statusChangeLoading, setStatusChangeLoading] = useState<string | null>(null);
+
+  const handleExportBoxtalCSV = () => {
+    const shippableOrders = orders.filter(o => o.shippingMethod !== "pickup");
+    if (shippableOrders.length === 0) {
+      alert("Aucune commande à expédier à exporter.");
+      return;
+    }
+
+    const headers = [
+      "reference",
+      "dest_name",
+      "dest_address",
+      "dest_address2",
+      "dest_zipcode",
+      "dest_city",
+      "dest_country",
+      "dest_email",
+      "dest_phone",
+      "weight",
+      "value"
+    ];
+
+    const rows = shippableOrders.map(o => {
+      const lines = (o.shippingAddress || "").split("\n").map(l => l.trim()).filter(Boolean);
+      let name = o.customerName || "";
+      let address1 = "";
+      let address2 = "";
+      let zipcode = "";
+      let city = "";
+      let country = "FR";
+
+      if (lines.length > 0) {
+        if (lines[0].toLowerCase().includes(name.split(" ")[0].toLowerCase()) || lines[0].toLowerCase().includes(name.split(" ").slice(-1)[0].toLowerCase())) {
+          name = lines[0];
+          address1 = lines[1] || "";
+          const zipCityRow = lines.find(l => /^\d{5}/.test(l)) || lines[2] || "";
+          const zipMatch = zipCityRow.match(/^(\d{5})/);
+          if (zipMatch) {
+            zipcode = zipMatch[1];
+            city = zipCityRow.replace(zipcode, "").trim();
+          } else {
+            city = zipCityRow;
+          }
+          const remainingLines = lines.slice(2).filter(l => l !== zipCityRow && !/^(FR|BELGIQUE|BELGIUM|FRANCE)$/i.test(l));
+          address2 = remainingLines.join(", ");
+        } else {
+          address1 = lines[0] || "";
+          const zipCityRow = lines.find(l => /^\d{5}/.test(l)) || lines[1] || "";
+          const zipMatch = zipCityRow.match(/^(\d{5})/);
+          if (zipMatch) {
+            zipcode = zipMatch[1];
+            city = zipCityRow.replace(zipcode, "").trim();
+          } else {
+            city = zipCityRow;
+          }
+          const remainingLines = lines.slice(1).filter(l => l !== zipCityRow && !/^(FR|BELGIQUE|BELGIUM|FRANCE)$/i.test(l));
+          address2 = remainingLines.join(", ");
+        }
+
+        const countryLine = lines.find(l => /^(FR|BELGIQUE|BELGIUM|FRANCE|BE)$/i.test(l));
+        if (countryLine) {
+          country = /^(BELGIQUE|BELGIUM|BE)$/i.test(countryLine) ? "BE" : "FR";
+        }
+      }
+
+      return [
+        o.id,
+        name,
+        address1,
+        address2,
+        zipcode,
+        city,
+        country,
+        o.email,
+        o.customerPhone || "",
+        "0.25",
+        o.total.toFixed(2)
+      ];
+    });
+
+    const csvContent = [
+      headers.join(";"),
+      ...rows.map(r => r.map(val => {
+        const cleaned = String(val || "").replace(/"/g, '""').replace(/;/g, ',');
+        return `"${cleaned}"`;
+      }).join(";"))
+    ].join("\n");
+
+    const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `spoolio_commandes_boxtal_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   // Visits statistics states
   const [visitsStats, setVisitsStats] = useState<any>(null);
@@ -461,12 +560,20 @@ export default function AdminDashboard() {
                 <h3 className={`text-base font-bold ${cls.textMain} uppercase tracking-widest font-antonio`}>Gestion des Commandes</h3>
                 <p className={`text-xs ${cls.textMuted} mt-0.5`}>Mettez à jour le statut des impressions 3D et des livraisons en temps réel.</p>
               </div>
-              <button
-                onClick={fetchOrders}
-                className={`text-xs px-3 py-1.5 rounded-lg border ${cls.border} ${cls.inputBg} hover:text-white cursor-pointer transition-colors`}
-              >
-                Rafraîchir
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={handleExportBoxtalCSV}
+                  className="text-xs px-3 py-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white cursor-pointer transition-all font-bold"
+                >
+                  Exporter pour Boxtal 📤
+                </button>
+                <button
+                  onClick={fetchOrders}
+                  className={`text-xs px-3 py-1.5 rounded-lg border ${cls.border} ${cls.inputBg} hover:text-white cursor-pointer transition-colors`}
+                >
+                  Rafraîchir
+                </button>
+              </div>
             </div>
 
             {loadingOrders ? (
@@ -497,9 +604,20 @@ export default function AdminDashboard() {
                         <td className="py-4 pr-4 font-mono font-bold text-gray-300 select-all shrink-0">
                           {o.id}
                         </td>
-                        <td className="py-4 px-4">
+                        <td className="py-4 px-4 max-w-[220px]">
                           <span className={`block font-bold ${cls.textMain}`}>{o.customerName || "—"}</span>
                           <span className={`block text-[10px] ${cls.textFaint}`}>{o.email}</span>
+                          {o.customerPhone && (
+                            <span className={`block text-[10px] text-gray-400 mt-0.5 font-mono select-all`}>📞 {o.customerPhone}</span>
+                          )}
+                          {o.shippingAddress && (
+                            <span 
+                              className={`block text-[9px] text-gray-400 mt-1 bg-white/[0.03] border border-white/5 rounded-lg p-1.5 select-all whitespace-pre-line leading-relaxed max-w-[200px] font-sans`}
+                              title="Adresse de livraison"
+                            >
+                              📍 {o.shippingAddress}
+                            </span>
+                          )}
                         </td>
                         <td className="py-4 px-4 max-w-[200px]">
                           {(o.items || []).map((item, idx) => (

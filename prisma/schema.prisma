@@ -75,6 +75,8 @@ model Order {
   stripeSession  String   @unique
   email          String
   customerName   String?
+  customerPhone  String?
+  shippingAddress String?  @db.Text
   items          String   @db.Text
   total          Float
   shippingCost   Float
