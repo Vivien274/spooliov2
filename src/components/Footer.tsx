@@ -18,6 +18,7 @@ export default function Footer({ className = "" }: FooterProps) {
         
         {/* Legal and Support Links */}
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-center">
+          <Link href="/a-propos" className="hover:text-[#ff4f00] transition-colors">À Propos</Link>
           <Link href="/pro" className="hover:text-[#ff4f00] transition-colors">Espace Pro</Link>
           <Link href="/contact" className="hover:text-[#ff4f00] transition-colors">Contact</Link>
           <Link href="/faq" className="hover:text-[#ff4f00] transition-colors">FAQ / Questions</Link>
