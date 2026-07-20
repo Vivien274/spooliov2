@@ -109,7 +109,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { id, status, pickupSlotConfirmed, pickupStatus } = body;
+    const { id, status, pickupSlotConfirmed, pickupStatus, trackingNumber } = body;
 
     if (!id) {
       return NextResponse.json(
@@ -135,6 +135,9 @@ export async function POST(request: Request) {
     if (pickupStatus !== undefined) {
       updateData.pickupStatus = pickupStatus;
     }
+    if (trackingNumber !== undefined) {
+      updateData.trackingNumber = trackingNumber;
+    }
 
     let updatedOrder: any = null;
 
@@ -158,6 +161,7 @@ export async function POST(request: Request) {
           if (status) orders[idx].status = status;
           if (pickupSlotConfirmed !== undefined) orders[idx].pickupSlotConfirmed = pickupSlotConfirmed;
           if (pickupStatus !== undefined) orders[idx].pickupStatus = pickupStatus;
+          if (trackingNumber !== undefined) orders[idx].trackingNumber = trackingNumber;
           
           fs.writeFileSync(jsonPath, JSON.stringify(orders, null, 2), 'utf-8');
           if (!updatedOrder) {
@@ -214,7 +218,8 @@ export async function POST(request: Request) {
           customerName: updatedOrder.customerName || "Client Spoolio",
           customerEmail: updatedOrder.email,
           shippingMethod: updatedOrder.shippingMethod,
-          relayDetails: parsedRelay
+          relayDetails: parsedRelay,
+          trackingNumber: updatedOrder.trackingNumber
         });
       } catch (emailErr: any) {
         console.error("[Admin Order Shipped Email Error] Failed to send email:", emailErr.message);

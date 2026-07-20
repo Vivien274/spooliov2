@@ -17,6 +17,7 @@ interface Order {
   customerName: string | null;
   customerPhone?: string | null;
   shippingAddress?: string | null;
+  trackingNumber?: string | null;
   email: string;
   items: OrderItem[];
   shippingMethod: string;
@@ -160,18 +161,18 @@ export default function AdminOrdersPage() {
     fetchOrders();
   }, []);
 
-  const handleUpdateStatus = async (orderId: string, newStatus: string) => {
+  const handleUpdateStatus = async (orderId: string, newStatus: string, trackingNumber?: string) => {
     setStatusChangeLoading(orderId);
     try {
       const res = await fetch("/api/admin/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: orderId, status: newStatus }),
+        body: JSON.stringify({ id: orderId, status: newStatus, trackingNumber }),
       });
       if (res.ok) {
         // Update local state
-        setOrders(orders.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
-        setSelectedOrder(prev => prev && prev.id === orderId ? { ...prev, status: newStatus } : prev);
+        setOrders(orders.map(o => o.id === orderId ? { ...o, status: newStatus, trackingNumber: trackingNumber || o.trackingNumber } : o));
+        setSelectedOrder(prev => prev && prev.id === orderId ? { ...prev, status: newStatus, trackingNumber: trackingNumber || prev.trackingNumber } : prev);
       } else {
         const data = await res.json();
         alert(data.error || "Erreur de mise à jour.");
@@ -470,7 +471,13 @@ export default function AdminOrdersPage() {
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                handleUpdateStatus(o.id, "expedie");
+                                if (o.shippingMethod !== "pickup") {
+                                  const trackNum = prompt("Saisissez le numéro de suivi du colis (Mondial Relay / Colissimo) ou laissez vide :");
+                                  if (trackNum === null) return;
+                                  handleUpdateStatus(o.id, "expedie", trackNum.trim());
+                                } else {
+                                  handleUpdateStatus(o.id, "expedie");
+                                }
                               }}
                               disabled={statusChangeLoading === o.id}
                               className="px-2.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
@@ -582,7 +589,7 @@ export default function AdminOrdersPage() {
 
               {/* Delivery Details Block */}
               {selectedOrder.shippingMethod !== "pickup" ? (
-                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-3">
+                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-4">
                   <div>
                     <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block mb-1">Adresse de livraison</span>
                     {selectedOrder.shippingAddress ? (
@@ -603,6 +610,27 @@ export default function AdminOrdersPage() {
                     >
                       📋 Copier l'adresse pour Boxtal
                     </button>
+                  )}
+                  {selectedOrder.trackingNumber && (
+                    <div className="pt-3 border-t border-white/5 space-y-1">
+                      <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block">Numéro de suivi transporteur</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-sm font-bold text-yellow-400 bg-white/5 px-2 py-1 rounded select-all">
+                          {selectedOrder.trackingNumber}
+                        </span>
+                        <a
+                          href={selectedOrder.shippingMethod === "relay" 
+                            ? `https://www.mondialrelay.fr/suivi-de-colis?numeroColis=${selectedOrder.trackingNumber}`
+                            : `https://www.laposte.fr/outils/suivre-un-envoi?code=${selectedOrder.trackingNumber}`
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[11px] font-bold text-[#ff4f00] hover:underline"
+                        >
+                          Suivre le colis &rarr;
+                        </a>
+                      </div>
+                    </div>
                   )}
                 </div>
               ) : (
@@ -736,7 +764,15 @@ export default function AdminOrdersPage() {
                   )}
                   {selectedOrder.status === "emballe" && (
                     <button
-                      onClick={() => handleUpdateStatus(selectedOrder.id, "expedie")}
+                      onClick={() => {
+                        if (selectedOrder.shippingMethod !== "pickup") {
+                          const trackNum = prompt("Saisissez le numéro de suivi du colis (Mondial Relay / Colissimo) ou laissez vide :");
+                          if (trackNum === null) return;
+                          handleUpdateStatus(selectedOrder.id, "expedie", trackNum.trim());
+                        } else {
+                          handleUpdateStatus(selectedOrder.id, "expedie");
+                        }
+                      }}
                       disabled={statusChangeLoading === selectedOrder.id}
                       className="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs transition-colors cursor-pointer"
                     >

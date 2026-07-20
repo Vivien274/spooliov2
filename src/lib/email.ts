@@ -171,6 +171,7 @@ interface ShippedEmailParams {
   customerEmail: string;
   shippingMethod: string;
   relayDetails?: { name: string; address: string } | null;
+  trackingNumber?: string | null;
 }
 
 export async function sendOrderShippedEmail({
@@ -178,7 +179,8 @@ export async function sendOrderShippedEmail({
   customerName,
   customerEmail,
   shippingMethod,
-  relayDetails
+  relayDetails,
+  trackingNumber
 }: ShippedEmailParams) {
   try {
     const resendKey = process.env.RESEND_API_KEY;
@@ -204,6 +206,15 @@ export async function sendOrderShippedEmail({
            </div>`
         : "";
 
+    let carrierTrackingUrl = "";
+    if (trackingNumber) {
+      if (shippingMethod === "relay") {
+        carrierTrackingUrl = `https://www.mondialrelay.fr/suivi-de-colis?numeroColis=${trackingNumber}`;
+      } else if (shippingMethod === "home") {
+        carrierTrackingUrl = `https://www.laposte.fr/outils/suivre-un-envoi?code=${trackingNumber}`;
+      }
+    }
+
     const trackingUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://spoolio.fr'}/suivi?id=${orderId}&email=${encodeURIComponent(customerEmail)}`;
 
     const emailHtml = `
@@ -218,8 +229,7 @@ export async function sendOrderShippedEmail({
           
           <!-- Logo Row -->
           <div style="text-align: center; margin-bottom: 30px;">
-            <div style="display: inline-block; background-color: #ff4f00; color: #ffffff; font-weight: 900; font-size: 20px; width: 40px; height: 40px; line-height: 40px; border-radius: 10px; text-align: center; margin-right: 8px; vertical-align: middle;">S</div>
-            <span style="font-size: 22px; font-weight: bold; color: #ffffff; vertical-align: middle; letter-spacing: -0.02em;">Spoolio</span>
+            <img src="https://spoolio.fr/images/logo.png" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
           </div>
 
           <!-- Title -->
@@ -234,14 +244,25 @@ export async function sendOrderShippedEmail({
             <div style="font-size: 14px; color: #ffffff; margin-bottom: 6px;">
               <strong>Mode d'envoi :</strong> ${shippingLabel}
             </div>
+            ${trackingNumber ? `
+            <div style="font-size: 14px; color: #ffffff; margin-bottom: 6px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed #1f1f23;">
+              <strong>Numéro de suivi :</strong> <span style="font-family: monospace; font-weight: bold; color: #ff4f00; background-color: #1a1a24; padding: 2px 6px; border-radius: 4px;">${trackingNumber}</span>
+            </div>
+            ` : ""}
             ${relayInfoHtml}
           </div>
 
-          <!-- Track Button -->
+          <!-- Action Buttons -->
           <div style="text-align: center; margin-bottom: 40px;">
-            <a href="${trackingUrl}" style="display: inline-block; background-color: #ff4f00; color: #ffffff; font-weight: bold; text-decoration: none; font-size: 13px; padding: 14px 28px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 4px 15px rgba(255, 79, 0, 0.3);">
-              Suivre ma commande en direct 📦
+            <a href="${trackingUrl}" style="display: inline-block; background-color: #ff4f00; color: #ffffff; font-weight: bold; text-decoration: none; font-size: 13px; padding: 14px 28px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 4px 15px rgba(255, 79, 0, 0.3); margin-bottom: 15px;">
+              Suivre sur Spoolio 📦
             </a>
+            ${carrierTrackingUrl ? `
+            <br/>
+            <a href="${carrierTrackingUrl}" target="_blank" style="display: inline-block; background-color: #1e1e24; color: #ffffff; font-weight: bold; text-decoration: none; font-size: 12px; padding: 10px 20px; border-radius: 50px; border: 1px solid #2f2f37; text-transform: uppercase; letter-spacing: 0.05em;">
+              Lien direct transporteur 🚚
+            </a>
+            ` : ""}
           </div>
 
           <!-- Footer banner -->
@@ -498,6 +519,115 @@ export async function sendAdminOrderNotificationEmail({
     return true;
   } catch (e) {
     console.error("Failed to send admin order notification email:", e);
+    return false;
+  }
+}
+
+interface AbandonedCartEmailParams {
+  customerEmail: string;
+  customerName?: string | null;
+  items: { name: string; quantity: number; price?: string }[];
+  checkoutUrl: string;
+}
+
+export async function sendAbandonedCartEmail({
+  customerEmail,
+  customerName,
+  items,
+  checkoutUrl
+}: AbandonedCartEmailParams) {
+  try {
+    const resendKey = process.env.RESEND_API_KEY;
+    if (!resendKey) {
+      console.warn("[Email Notification] Resend API Key is missing in environment variables. Email send skipped.");
+      return false;
+    }
+
+    const fromAddress = process.env.RESEND_EMAIL_FROM || process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const recipient = process.env.RESEND_TO_EMAIL || customerEmail;
+
+    const itemsRowsHtml = items
+      .map(
+        (item) => `
+      <tr style="border-bottom: 1px solid #1f1f23;">
+        <td style="padding: 12px 0; color: #ffffff; font-size: 14px; text-align: left;">
+          <strong>${item.name}</strong> <span style="color: #88888b; font-size: 12px;">x${item.quantity}</span>
+        </td>
+      </tr>
+    `
+      )
+      .join("");
+
+    const displayName = customerName || "Ami de Spoolio";
+
+    const emailHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Vous avez oublié quelque chose ? 🛒 - Spoolio</title>
+      </head>
+      <body style="background-color: #0a0a0f; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 40px 20px;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: #0d0d12; border: 1px solid #1f1f23; border-radius: 24px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center;">
+          
+          <!-- Logo Row -->
+          <div style="text-align: center; margin-bottom: 30px;">
+            <img src="https://spoolio.fr/images/logo.png" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
+          </div>
+
+          <!-- Title -->
+          <h2 style="color: #ffffff; font-size: 20px; font-weight: 900; margin-top: 0; margin-bottom: 10px; text-align: center;">Vous avez laissé des objets dans votre panier, ${displayName} ! 🛒</h2>
+          <p style="color: #88888b; font-size: 14px; line-height: 1.6; text-align: center; margin-bottom: 30px;">
+            Votre panier a été sauvegardé avec amour. Nos imprimantes 3D (Berthe, Philomène, Ursule, Godelaine et Claudine) trépignent d'impatience à l'idée de fabriquer vos objets éco-responsables !
+          </p>
+
+          <!-- Items Table -->
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+            <thead>
+              <tr style="border-bottom: 1px solid #1f1f23;">
+                <th style="text-align: left; padding-bottom: 10px; color: #52525b; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;">Articles dans votre panier</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${itemsRowsHtml}
+            </tbody>
+          </table>
+
+          <!-- Recovery Button -->
+          <div style="text-align: center; margin-bottom: 40px;">
+            <a href="${checkoutUrl}" style="display: inline-block; background-color: #ff4f00; color: #ffffff; font-weight: bold; text-decoration: none; font-size: 14px; padding: 14px 28px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 4px 15px rgba(255, 79, 0, 0.3);">
+              Finaliser ma commande 🛒
+            </a>
+          </div>
+
+          <!-- Footer banner -->
+          <div style="margin-top: 40px; border-top: 1px solid #1f1f23; padding-top: 20px; text-align: center; font-size: 11px; color: #52525b;">
+            <p>Spoolio - Objets éco-responsables imprimés en 3D à Comines, France.</p>
+            <p>Des questions ou besoin d'aide ? Répondez simplement à cet e-mail ou écrivez-nous à contact@spoolio.fr</p>
+          </div>
+
+        </div>
+      </body>
+      </html>
+    `;
+
+    console.log(`[Resend Email] Sending abandoned cart email recovery to ${recipient}...`);
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        from: `Spoolio <${fromAddress}>`,
+        to: recipient,
+        subject: "Vous avez oublié quelque chose ? 🛒 - Spoolio",
+        html: emailHtml
+      })
+    });
+    return true;
+  } catch (e) {
+    console.error("Failed to send abandoned cart email:", e);
     return false;
   }
 }
