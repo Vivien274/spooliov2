@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 interface Product {
@@ -73,7 +72,7 @@ export default function UpsellPage() {
           .filter((p) => !filtered.some((f) => f.id === p.id))
           .sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
         
-        filtered = [...filtered, ...remaining].slice(0, 3);
+          filtered = [...filtered, ...remaining].slice(0, 3);
       }
     } else {
       // If free shipping is already reached, suggest cheapest items to add as little extra cost as possible
@@ -115,7 +114,7 @@ export default function UpsellPage() {
     setCheckoutLoading(true);
     setCheckoutError(null);
 
-    // Retrieve shipping options saved in localStorage by the CartDrawer
+    // Retrieve shipping options saved in localStorage
     const shippingMethod = localStorage.getItem("spoolio_shipping_method") || "pickup";
     const selectedRelayStr = localStorage.getItem("spoolio_selected_relay");
     let selectedRelay = null;
@@ -159,22 +158,34 @@ export default function UpsellPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#070709] text-white flex flex-col justify-between selection:bg-[#ff4f00] selection:text-white">
-      <Header className="h-24 flex items-center justify-between px-6 max-w-[1200px] mx-auto w-full no-invert" />
+    <div className="min-h-screen bg-spoolio-bg text-white flex flex-col justify-between selection:bg-[#ff4f00] selection:text-white">
+      {/* Centered Minimal Header */}
+      <header className="h-24 w-full flex items-center justify-center max-w-[1200px] mx-auto px-6">
+        <Link href="/">
+          <Image
+            src="/images/logo-spoolio-web-white.png"
+            alt="Spoolio Logo"
+            width={130}
+            height={36}
+            className="h-9 w-auto"
+            priority
+          />
+        </Link>
+      </header>
 
       <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-12 flex flex-col items-center justify-center">
         {/* Progress Banner */}
         <div className="w-full flex items-center justify-between text-xs text-gray-500 uppercase tracking-widest font-bold mb-8 max-w-2xl font-sans">
-          <span className="text-[#005cff] flex items-center gap-1.5">✓ Panier</span>
+          <span className="text-[#005cff] flex items-center gap-1.5 font-sans">✓ Panier</span>
           <span className="w-8 h-px bg-white/10" />
-          <span className="text-[#ff4f00] flex items-center gap-1.5 animate-pulse">🛒 Ventes Privées</span>
+          <span className="text-[#ff4f00] flex items-center gap-1.5 animate-pulse font-sans">🛒 Ventes Privées</span>
           <span className="w-8 h-px bg-white/10" />
-          <span className="text-gray-600">Paiement sécurisé</span>
+          <span className="text-gray-600 font-sans">Paiement sécurisé</span>
         </div>
 
         {/* Header Title */}
         <div className="text-center max-w-xl mb-8">
-          <h2 className="text-3xl sm:text-4xl font-black font-antonio tracking-tight uppercase">
+          <h2 className="text-3xl sm:text-4xl font-black font-antonio tracking-tight uppercase text-white">
             Vous aimeriez peut-être aussi...
           </h2>
           <p className="text-sm text-gray-400 mt-3 leading-relaxed">
@@ -183,21 +194,21 @@ export default function UpsellPage() {
         </div>
 
         {/* Free Shipping Progress Indicator */}
-        <div className="w-full max-w-2xl bg-[#121214]/40 border border-[#222225] rounded-[24px] p-5 mb-10 flex flex-col gap-3 font-sans select-none no-invert shadow-xl">
-          <div className="flex items-center justify-between text-xs font-bold">
+        <div className="w-full max-w-2xl bg-spoolio-card border border-spoolio-border rounded-[24px] p-5 mb-10 flex flex-col gap-3 font-sans select-none shadow-xl">
+          <div className="flex items-center justify-between text-xs font-bold font-sans">
             {cartTotal < 40 ? (
               <>
-                <span className="text-gray-300">
-                  Plus que <strong className="text-[#ff4f00] text-sm">{(40 - cartTotal).toFixed(2)}€</strong> pour profiter de la <span className="text-white">livraison offerte</span> !
+                <span className="text-gray-400 font-sans">
+                  Plus que <strong className="text-[#ff4f00] text-sm font-sans">{(40 - cartTotal).toFixed(2)}€</strong> pour profiter de la <span className="text-white">livraison offerte</span> !
                 </span>
                 <span className="text-[#ff4f00] animate-bounce text-sm">🚀</span>
               </>
             ) : (
               <>
-                <span className="text-emerald-400 flex items-center gap-1.5 text-sm">
+                <span className="text-emerald-400 flex items-center gap-1.5 text-sm font-sans">
                   🎉 Livraison offerte active !
                 </span>
-                <span className="text-emerald-400 font-black uppercase tracking-wider text-[11px]">Offerte</span>
+                <span className="text-emerald-400 font-black uppercase tracking-wider text-[11px] font-sans">Offerte</span>
               </>
             )}
           </div>
@@ -220,11 +231,11 @@ export default function UpsellPage() {
           ) : (
             suggestions.map((p) => {
               const isAdding = addingIds[p.id];
-              const price = parseFloat(p.sale_price || p.price);
+              const price = parseFloat(p.price);
               return (
                 <div 
                   key={p.id}
-                  className="bg-[#121214]/60 border border-[#222225] rounded-[24px] p-5 flex flex-col justify-between hover:border-white/10 hover:bg-[#121214]/80 transition-all duration-300 shadow-xl group font-sans"
+                  className="bg-spoolio-card border border-spoolio-border rounded-[24px] p-5 flex flex-col justify-between hover:border-spoolio-orange/30 hover:shadow-2xl transition-all duration-300 shadow-xl group font-sans"
                 >
                   <div className="flex flex-col gap-3">
                     {/* Suggestion Image */}
@@ -236,7 +247,7 @@ export default function UpsellPage() {
                         className="object-cover transition-transform duration-300 group-hover:scale-102 no-invert"
                         sizes="(max-width: 768px) 100vw, 25vw"
                       />
-                      <span className="absolute top-3 right-3 bg-white text-black font-extrabold text-[10px] px-2.5 py-1 rounded-full shadow">
+                      <span className="absolute top-3 right-3 bg-white text-black font-extrabold text-[10px] px-2.5 py-1 rounded-full shadow no-invert">
                         {price.toFixed(2)}€
                       </span>
                     </div>
@@ -256,7 +267,7 @@ export default function UpsellPage() {
                   <button
                     onClick={() => handleAddSuggestion(p)}
                     disabled={cartItems.some((item) => String(item.productId) === String(p.id)) || isAdding}
-                    className={`w-full mt-4 h-9 flex items-center justify-center gap-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all ${
+                    className={`w-full mt-4 h-9 flex items-center justify-center gap-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all no-invert ${
                       cartItems.some((item) => String(item.productId) === String(p.id))
                         ? "bg-white/5 text-gray-500 border border-white/10 cursor-not-allowed"
                         : isAdding 
@@ -277,15 +288,15 @@ export default function UpsellPage() {
         </div>
 
         {/* Total Summary and checkout actions */}
-        <div className="w-full max-w-md bg-[#131316]/50 border border-[#222225] p-6 rounded-[28px] flex flex-col gap-4 font-sans text-center shadow-2xl">
+        <div className="w-full max-w-md bg-spoolio-card border border-spoolio-border p-6 rounded-[28px] flex flex-col gap-4 font-sans text-center shadow-2xl">
           <div className="flex items-center justify-between text-sm pb-3 border-b border-white/5">
-            <span className="text-gray-400 font-medium">Panier total actualisé :</span>
+            <span className="text-gray-400 font-medium font-sans">Panier total actualisé :</span>
             <div className="flex flex-col items-end">
               <span className="font-black text-xl text-white">{cartTotal.toFixed(2)}€</span>
               {cartTotal < 40 ? (
-                <span className="text-[10px] text-gray-500 font-semibold mt-0.5">+ 3,90€ de port</span>
+                <span className="text-[10px] text-gray-500 font-semibold mt-0.5 font-sans">+ 3,90€ de port</span>
               ) : (
-                <span className="text-[10px] text-emerald-400 font-bold mt-0.5">Livraison offerte</span>
+                <span className="text-[10px] text-emerald-400 font-bold mt-0.5 font-sans">Livraison offerte</span>
               )}
             </div>
           </div>
@@ -300,7 +311,7 @@ export default function UpsellPage() {
             <button
               onClick={handleFinalCheckout}
               disabled={checkoutLoading}
-              className="w-full h-12 flex items-center justify-center gap-2 text-xs font-black uppercase tracking-wider text-white bg-[#ff4f00] hover:bg-[#e04500] disabled:bg-[#ff4f00]/50 rounded-xl transition-all shadow-xl shadow-[#ff4f00]/25 hover:scale-[1.01] active:scale-[0.99] cursor-pointer disabled:cursor-not-allowed"
+              className="w-full h-12 flex items-center justify-center gap-2 text-xs font-black uppercase tracking-wider text-white bg-[#ff4f00] hover:bg-[#e04500] disabled:bg-[#ff4f00]/50 rounded-xl transition-all shadow-xl shadow-[#ff4f00]/25 hover:scale-[1.01] active:scale-[0.99] cursor-pointer disabled:cursor-not-allowed no-invert"
             >
               {checkoutLoading ? (
                 <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -318,13 +329,13 @@ export default function UpsellPage() {
             <button
               onClick={handleFinalCheckout}
               disabled={checkoutLoading}
-              className="text-[10px] text-gray-500 hover:text-white font-bold tracking-wide transition-colors cursor-pointer"
+              className="text-[10px] text-gray-500 hover:text-white font-bold tracking-wide transition-colors cursor-pointer font-sans"
             >
               Non merci, procéder directement au paiement
             </button>
           </div>
 
-          <span className="text-[9px] text-gray-600 leading-normal block">
+          <span className="text-[9px] text-gray-600 leading-normal block font-sans">
             Paiement chiffré et sécurisé par Stripe. Expédié sous 48h.
           </span>
         </div>
