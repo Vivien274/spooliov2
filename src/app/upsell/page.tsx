@@ -145,7 +145,7 @@ export default function UpsellPage() {
           <span className="w-8 h-px bg-white/10" />
           <span className="text-[#ff4f00] flex items-center gap-1.5 animate-pulse">🛒 Ventes Privées</span>
           <span className="w-8 h-px bg-white/10" />
-          <span className="text-gray-600">Paiement Stripe</span>
+          <span className="text-gray-600">Paiement sécurisé</span>
         </div>
 
         {/* Header Title */}
