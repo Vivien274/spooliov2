@@ -280,7 +280,14 @@ export default function UpsellPage() {
         <div className="w-full max-w-md bg-[#131316]/50 border border-[#222225] p-6 rounded-[28px] flex flex-col gap-4 font-sans text-center shadow-2xl">
           <div className="flex items-center justify-between text-sm pb-3 border-b border-white/5">
             <span className="text-gray-400 font-medium">Panier total actualisé :</span>
-            <span className="font-black text-xl text-white">{cartTotal.toFixed(2)}€</span>
+            <div className="flex flex-col items-end">
+              <span className="font-black text-xl text-white">{cartTotal.toFixed(2)}€</span>
+              {cartTotal < 40 ? (
+                <span className="text-[10px] text-gray-500 font-semibold mt-0.5">+ 3,90€ de port</span>
+              ) : (
+                <span className="text-[10px] text-emerald-400 font-bold mt-0.5">Livraison offerte</span>
+              )}
+            </div>
           </div>
 
           {checkoutError && (
