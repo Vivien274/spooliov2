@@ -731,7 +731,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                   onClick={handleAddToCartClick}
                   className="flex-1 h-14 flex items-center justify-center gap-2 text-sm font-bold text-white bg-[#ff4f00] hover:bg-[#e04500] rounded-xl transition-all duration-300 shadow-xl shadow-[#ff4f00]/25 hover:scale-[1.02] cursor-pointer text-center no-invert group"
                 >
-                  <UnicornIcon animationData={cartIconData} className="w-8 h-8 scale-[1.4]" />
+                  <UnicornIcon animationData={cartIconData} className="w-10 h-10 scale-[1.8]" />
                   Ajouter au panier
                 </button>
               )}
