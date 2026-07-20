@@ -18,7 +18,7 @@ const DEFAULT_HERO = {
 export async function GET() {
   try {
     const timeoutPromise = new Promise<null>((_, reject) =>
-      setTimeout(() => reject(new Error("Database Query Timeout (1000ms)")), 1000)
+      setTimeout(() => reject(new Error("Database Query Timeout (6000ms)")), 6000)
     );
 
     const queryPromise = prisma.page.findUnique({

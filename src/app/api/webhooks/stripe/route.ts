@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { sendOrderConfirmationEmail } from "@/lib/email";
+import { sendOrderConfirmationEmail, sendAdminOrderNotificationEmail } from "@/lib/email";
 import fs from "fs";
 import path from "path";
 
@@ -157,6 +157,8 @@ export async function POST(request: Request) {
         try {
           const parsedItems = JSON.parse(itemsSummary || "[]");
           const parsedRelay = relayDetails ? JSON.parse(relayDetails) : null;
+          
+          // 1. Client confirmation
           await sendOrderConfirmationEmail({
             orderId: orderId,
             customerName: customerName,
@@ -166,6 +168,16 @@ export async function POST(request: Request) {
             shippingCost: shippingCost,
             shippingMethod: shippingMethod,
             relayDetails: parsedRelay
+          });
+
+          // 2. Admin notification alert
+          await sendAdminOrderNotificationEmail({
+            orderId: orderId,
+            customerName: customerName,
+            customerEmail: email,
+            items: parsedItems,
+            total: total,
+            shippingMethod: shippingMethod
           });
         } catch (emailErr: any) {
           console.error("[Webhook Email Trigger Error] Failed to trigger email send:", emailErr.message);

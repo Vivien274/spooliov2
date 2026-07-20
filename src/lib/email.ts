@@ -393,3 +393,99 @@ export async function sendPickupSlotProposedEmail({
     return false;
   }
 }
+
+interface AdminNotificationEmailParams {
+  orderId: string;
+  customerName: string;
+  customerEmail: string;
+  items: { name: string; quantity: number; price: string }[];
+  total: number;
+  shippingMethod: string;
+}
+
+export async function sendAdminOrderNotificationEmail({
+  orderId,
+  customerName,
+  customerEmail,
+  items,
+  total,
+  shippingMethod
+}: AdminNotificationEmailParams) {
+  try {
+    const resendKey = process.env.RESEND_API_KEY;
+    if (!resendKey) return false;
+
+    const fromAddress = process.env.RESEND_EMAIL_FROM || process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const recipient = process.env.RESEND_TO_EMAIL || process.env.CONTACT_EMAIL_TO || "contact@spoolio.fr";
+
+    const itemsRowsHtml = items
+      .map(
+        (item) => `
+      <tr style="border-b: 1px solid #eee;">
+        <td style="padding: 10px 0; text-align: left; font-size: 14px;">
+          <strong>${item.name}</strong> <span style="color: #666; font-size: 12px;">x${item.quantity}</span>
+        </td>
+        <td style="padding: 10px 0; text-align: right; font-weight: bold; font-size: 14px;">
+          ${(parseFloat(item.price) * item.quantity).toFixed(2)}€
+        </td>
+      </tr>`
+      )
+      .join("");
+
+    const emailHtml = `
+      <!DOCTYPE html>
+      <html>
+      <body style="background-color: #f9f9fb; color: #121212; font-family: sans-serif; padding: 40px 20px;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #eee; border-radius: 20px; padding: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+          <h2 style="color: #005cff; border-bottom: 2px solid #005cff; padding-bottom: 10px; margin-top: 0;">🎉 Nouvelle Commande Reçue !</h2>
+          <p>Une nouvelle commande vient d'être validée et payée sur le site Spoolio V2.</p>
+          
+          <div style="background-color: #f0f4ff; padding: 15px; border-radius: 8px; margin: 20px 0; font-size: 14px;">
+            <strong>Commande ID :</strong> ${orderId}<br/>
+            <strong>Client :</strong> ${customerName} (<a href="mailto:${customerEmail}">${customerEmail}</a>)<br/>
+            <strong>Mode de livraison :</strong> ${shippingMethod === "pickup" ? "Retrait Atelier" : (shippingMethod === "relay" ? "Mondial Relay" : "Colissimo Domicile")}<br/>
+            <strong>Montant total payé :</strong> <span style="font-weight: bold; color: #ff4f00;">${total.toFixed(2)}€</span>
+          </div>
+
+          <p><strong>Détail des articles :</strong></p>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+              <tr style="border-b: 1px solid #eee;">
+                <th style="text-align: left; padding-bottom: 8px; color: #666; font-size: 12px; text-transform: uppercase;">Article</th>
+                <th style="text-align: right; padding-bottom: 8px; color: #666; font-size: 12px; text-transform: uppercase;">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${itemsRowsHtml}
+            </tbody>
+          </table>
+
+          <div style="text-align: center; margin-top: 30px;">
+            <a href="${process.env.NEXT_PUBLIC_APP_URL || 'https://v2.spoolio.fr'}/admin" style="display: inline-block; background-color: #005cff; color: #ffffff; font-weight: bold; text-decoration: none; font-size: 13px; padding: 12px 24px; border-radius: 8px;">
+              Accéder à l'Espace Admin Spoolio
+            </a>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        from: `Spoolio Alertes <${fromAddress}>`,
+        to: recipient,
+        subject: `🎉 Nouvelle commande ${orderId} - Spoolio [${total.toFixed(2)}€]`,
+        html: emailHtml
+      })
+    });
+    return true;
+  } catch (e) {
+    console.error("Failed to send admin order notification email:", e);
+    return false;
+  }
+}
