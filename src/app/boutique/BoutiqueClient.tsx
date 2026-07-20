@@ -13,6 +13,7 @@ const PRODUCTS_PER_PAGE = 12;
 function BoutiqueClientContent() {
   const searchParams = useSearchParams();
   const catParam = searchParams.get("category");
+  const qParam = searchParams.get("q");
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -25,14 +26,17 @@ function BoutiqueClientContent() {
   const [sortOption, setSortOption] = useState<string>("newest");
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  // Update selected category when query parameter changes
+  // Update selected category and search query when parameters change
   useEffect(() => {
     if (catParam) {
       setSelectedCategory(catParam);
     } else {
       setSelectedCategory("all");
     }
-  }, [catParam]);
+    if (qParam) {
+      setSearchQuery(qParam);
+    }
+  }, [catParam, qParam]);
 
   // Fetch all products from MySQL database
   useEffect(() => {
