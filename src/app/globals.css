@@ -853,3 +853,42 @@ html.light header.fixed svg:not(.text-white) {
 html.light header.fixed img[alt="Spoolio Logo"] {
   filter: invert(1) !important;
 }
+
+/* Custom Fine Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+html.light ::-webkit-scrollbar-track {
+  background: #f9f9fb;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2a30;
+  border-radius: 4px;
+  border: 2px solid #000000;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: #c2c2cf;
+  border: 2px solid #f9f9fb;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff4f00 !important;
+}
+
+/* Firefox scrollbar support */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #2a2a30 #000000;
+}
+
+html.light {
+  scrollbar-color: #c2c2cf #f9f9fb;
+}

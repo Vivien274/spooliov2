@@ -107,10 +107,14 @@ export default function Header({ className = "" }: HeaderProps) {
     }
   };
 
+  const cleanClassName = isSticky
+    ? className.replace(/\bno-invert\b/g, "").trim()
+    : className;
+
   const headerJsx = (
-    <header className={`${className} ${
+    <header className={`${cleanClassName} ${
       isSticky 
-        ? "!fixed top-0 left-0 right-0 !max-w-none h-16 md:h-20 bg-[#131316]/90 backdrop-blur-md border-b border-white/10 shadow-2xl px-6 md:px-12 z-[99999] flex items-center justify-between transition-all duration-300 animate-slide-down"
+        ? "fixed top-0 left-0 right-0 !max-w-none h-16 md:h-20 bg-[#131316]/90 backdrop-blur-md border-b border-white/10 shadow-2xl px-6 md:px-12 z-[99999] flex items-center justify-between transition-all duration-300 animate-slide-down"
         : ""
     }`}>
       {/* Mobile Burger Button (left on mobile) */}
