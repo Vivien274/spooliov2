@@ -241,7 +241,7 @@ export default function AdminAttributesPage() {
                       {attr.values.split(",").map(v => v.trim()).filter(Boolean).map((val, idx) => (
                         <span
                           key={idx}
-                          className="px-2 py-0.5 text-[10px] font-bold rounded-md bg-[#2F3CD9]/10 border border-[#2F3CD9]/20 text-[#2F3CD9]"
+                          className="px-2.5 py-0.5 text-[10px] font-bold rounded-md bg-white/5 border border-white/10 text-white"
                         >
                           {val}
                         </span>
