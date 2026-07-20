@@ -253,34 +253,19 @@ export default async function Home() {
           </h2>
         </div>
 
-        {/* Filter Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
-          {["TOUT", "Accessoires", "Boussole Sensorielle", "Objets du quotidien", "Fidgets", "Porte-clés connectés"].map((tag, idx) => (
-            <button
-              key={tag}
-              className={`px-4 py-1.5 rounded-full text-[11px] font-semibold transition-all border cursor-pointer ${idx === 0
-                  ? "bg-white text-black border-white"
-                  : "bg-transparent text-gray-400 border-[#1f1f23] hover:text-white hover:border-gray-500"
-                }`}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-
         {/* Product Grid */}
         <div className="mb-10">
           <SpoolioProductGrid />
         </div>
 
-        {/* Large Blue Application Button */}
+        {/* Large Blue Application Link */}
         <div className="flex justify-center mb-20">
-          <button className="w-full max-w-lg py-4 px-6 inline-flex items-center justify-center gap-2.5 bg-[#005cff] hover:bg-[#004ecc] text-white font-bold text-xs tracking-wider rounded-xl transition-all shadow-xl shadow-[#005cff]/15 cursor-pointer no-invert">
+          <Link href="/boutique" className="w-full max-w-lg py-4 px-6 inline-flex items-center justify-center gap-2.5 bg-[#005cff] hover:bg-[#004ecc] text-white font-bold text-xs tracking-wider rounded-xl transition-all shadow-xl shadow-[#005cff]/15 cursor-pointer no-invert text-center">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1h16a1 1 0 011 1v8zM3 10h18M5 14v7a1 1 0 001 1h12a1 1 0 001-1v-7M9 14v4a1 1 0 001 1h4a1 1 0 001-1v-4" />
             </svg>
             VOIR TOUTE LA BOUTIQUE
-          </button>
+          </Link>
         </div>
       </section>
 
