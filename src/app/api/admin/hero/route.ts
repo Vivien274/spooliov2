@@ -17,35 +17,46 @@ const DEFAULT_HERO = {
 // GET: Retrieve hero configuration
 export async function GET() {
   try {
-    let page = await prisma.page.findUnique({
+    const timeoutPromise = new Promise<null>((_, reject) =>
+      setTimeout(() => reject(new Error("Database Query Timeout (1000ms)")), 1000)
+    );
+
+    const queryPromise = prisma.page.findUnique({
       where: { slug: "config-hero" }
     });
 
+    let page = await Promise.race([queryPromise, timeoutPromise]);
+
     if (!page) {
-      // Create default settings row
-      page = await prisma.page.create({
-        data: {
-          title: "Configuration Hero Accueil",
-          slug: "config-hero",
-          content: JSON.stringify(DEFAULT_HERO),
-          status: "publish"
-        }
-      });
+      try {
+        // Create default settings row in DB, but with a timeout fallback
+        const createPromise = prisma.page.create({
+          data: {
+            title: "Configuration Hero Accueil",
+            slug: "config-hero",
+            content: JSON.stringify(DEFAULT_HERO),
+            status: "publish"
+          }
+        });
+        page = await Promise.race([createPromise, timeoutPromise]);
+      } catch (createErr: any) {
+        console.warn("Prisma page creation timed out or failed:", createErr.message);
+      }
     }
 
-    let config;
-    try {
-      config = JSON.parse(page.content);
-    } catch {
-      config = DEFAULT_HERO;
+    let config = DEFAULT_HERO;
+    if (page) {
+      try {
+        config = JSON.parse(page.content);
+      } catch {
+        config = DEFAULT_HERO;
+      }
     }
 
     return NextResponse.json({ success: true, config });
   } catch (e: any) {
-    return NextResponse.json(
-      { error: e.message || "Erreur de récupération de la configuration Hero." },
-      { status: 500 }
-    );
+    console.warn("GET hero config query timed out or failed, returning defaults:", e.message || e);
+    return NextResponse.json({ success: true, config: DEFAULT_HERO });
   }
 }
 

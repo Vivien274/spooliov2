@@ -16,9 +16,15 @@ const DEFAULT_SLOTS = [
 // GET: Retrieve all available slots
 export async function GET() {
   try {
-    const page = await prisma.page.findUnique({
+    const timeoutPromise = new Promise<null>((_, reject) =>
+      setTimeout(() => reject(new Error("Database Query Timeout (1000ms)")), 1000)
+    );
+
+    const queryPromise = prisma.page.findUnique({
       where: { slug: "config-pickup-slots" }
     });
+
+    const page = await Promise.race([queryPromise, timeoutPromise]);
 
     let slots = DEFAULT_SLOTS;
     if (page) {
@@ -31,6 +37,7 @@ export async function GET() {
 
     return NextResponse.json({ success: true, slots });
   } catch (e: any) {
+    console.warn("GET available slots query timed out or failed, returning default slots:", e.message || e);
     return NextResponse.json({ success: true, slots: DEFAULT_SLOTS });
   }
 }
