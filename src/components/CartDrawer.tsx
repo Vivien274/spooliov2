@@ -404,13 +404,13 @@ export default function CartDrawer() {
                         }}
                         className={`w-full p-3 rounded-xl border text-left flex items-start justify-between transition-all cursor-pointer shipping-card ${
                           active
-                            ? "active border-[#ff4f00] bg-[#ff4f00]/5"
+                            ? "active border-[#005cff] bg-[#005cff]/5"
                             : "border-[#222225] bg-black/20 hover:border-white/10"
                         }`}
                       >
                         <div className="flex items-start gap-2.5 min-w-0">
-                          <div className={`mt-0.5 w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 ${active ? "border-[#ff4f00]" : "border-gray-700"}`}>
-                            {active && <div className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />}
+                          <div className={`mt-0.5 w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 ${active ? "border-[#005cff]" : "border-gray-700"}`}>
+                            {active && <div className="w-1.5 h-1.5 rounded-full bg-[#005cff]" />}
                           </div>
                           <div className="truncate">
                             <span className="text-xs font-bold text-white block leading-tight">
@@ -442,7 +442,7 @@ export default function CartDrawer() {
                             setSelectedRelay(null);
                             setShowRelayFinder(true);
                           }}
-                          className="text-[9px] text-[#ff4f00] font-bold hover:underline cursor-pointer"
+                          className="text-[9px] text-[#005cff] font-bold hover:underline cursor-pointer"
                         >
                           Changer
                         </button>
@@ -458,7 +458,7 @@ export default function CartDrawer() {
                             value={postalCode}
                             onChange={(e) => setPostalCode(e.target.value.replace(/\D/g, ""))}
                             placeholder="Code postal (ex: 59560)"
-                            className="flex-1 h-9 bg-black border border-[#222225] rounded-lg px-3 text-xs text-white focus:outline-none focus:border-[#ff4f00] font-sans relay-input"
+                            className="flex-1 h-9 bg-black border border-[#222225] rounded-lg px-3 text-xs text-white focus:outline-none focus:border-[#005cff] font-sans relay-input"
                           />
                           <button
                             onClick={handleSearchRelays}
@@ -493,7 +493,7 @@ export default function CartDrawer() {
                                     setShowRelayFinder(false);
                                     setRelays([]);
                                   }}
-                                  className="w-full p-2.5 rounded-lg border border-[#222225] hover:border-[#ff4f00]/50 hover:bg-[#ff4f00]/5 text-left text-xs transition-all cursor-pointer flex flex-col gap-0.5 relay-result-btn"
+                                  className="w-full p-2.5 rounded-lg border border-[#222225] hover:border-[#005cff]/50 hover:bg-[#005cff]/5 text-left text-xs transition-all cursor-pointer flex flex-col gap-0.5 relay-result-btn"
                                 >
                                   <span className="font-extrabold text-white truncate block">{r.name}</span>
                                   <span className="text-[9px] text-gray-400 truncate block">{r.address}, {r.cp} {r.ville}</span>
