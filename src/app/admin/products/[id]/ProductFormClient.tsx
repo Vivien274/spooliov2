@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -132,6 +132,39 @@ export default function ProductFormClient({ product, isNew }: Props) {
   const [newTag, setNewTag] = useState("");
   const [saved, setSaved] = useState(false);
   const [activeTab, setActiveTab] = useState<"form" | "preview">("form");
+
+  // Predefined attributes & dynamic categories states
+  const [predefinedAttributes, setPredefinedAttributes] = useState<{ id: number; name: string; values: string }[]>([]);
+  const [dynamicCategories, setDynamicCategories] = useState<{ id: number; name: string }[]>([]);
+
+  useEffect(() => {
+    const fetchPredefined = async () => {
+      try {
+        const res = await fetch("/api/admin/attributes");
+        if (res.ok) {
+          const data = await res.json();
+          setPredefinedAttributes(data.attributes || []);
+        }
+      } catch (e) {
+        console.error("Failed to load preset attributes:", e);
+      }
+    };
+
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch("/api/admin/categories");
+        if (res.ok) {
+          const data = await res.json();
+          setDynamicCategories(data.categories || []);
+        }
+      } catch (e) {
+        console.error("Failed to load dynamic categories:", e);
+      }
+    };
+
+    fetchPredefined();
+    fetchCategories();
+  }, []);
 
   // Image upload states & ref
   const [isDragOver, setIsDragOver] = useState(false);
@@ -457,9 +490,15 @@ export default function ProductFormClient({ product, isNew }: Props) {
                   className={`${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-sm ${cls.textMain} focus:outline-none focus:border-[#2F3CD9]/50 transition-colors cursor-pointer`}
                 >
                   <option value="">— Choisir une catégorie —</option>
-                  {CATEGORIES.map((c) => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
+                  {dynamicCategories.length > 0 ? (
+                    dynamicCategories.map((c) => (
+                      <option key={c.id} value={c.name}>{c.name}</option>
+                    ))
+                  ) : (
+                    CATEGORIES.map((c) => (
+                      <option key={c} value={c}>{c}</option>
+                    ))
+                  )}
                 </select>
               </div>
             </SectionCard>
@@ -625,26 +664,65 @@ export default function ProductFormClient({ product, isNew }: Props) {
                 <div className="flex flex-col gap-5">
                   {/* Section 1 : Attributs du produit */}
                   <div className={`flex flex-col gap-3 p-4 rounded-2xl ${cls.inputBg} border ${cls.border}`}>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-4 flex-wrap">
                       <h4 className={`text-xs font-bold ${cls.textMain} uppercase tracking-wider`}>Attributs Globaux (ex: Couleur A, Taille...)</h4>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const name = prompt("Nom de l'attribut (ex: Taille) :");
-                          if (name) {
-                            const optionsStr = prompt("Options séparées par des virgules (ex: S, M, L) :");
-                            const options = optionsStr ? optionsStr.split(",").map(o => o.trim()).filter(Boolean) : [];
-                            const attrs = form.attributes?.attributes || [];
-                            set("attributes")({
-                              attributes: [...attrs, { name, options }],
-                              variationPrices: form.attributes?.variationPrices || []
-                            });
-                          }
-                        }}
-                        className="text-[11px] font-bold text-[#2F3CD9] hover:underline cursor-pointer"
-                      >
-                        + Créer un attribut
-                      </button>
+                      
+                      <div className="flex items-center gap-3">
+                        {predefinedAttributes.length > 0 && (
+                          <select
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              if (!val) return;
+                              const attr = predefinedAttributes.find(a => a.id.toString() === val);
+                              if (attr) {
+                                const name = attr.name;
+                                const options = attr.values.split(",").map(o => o.trim()).filter(Boolean);
+                                const attrs = form.attributes?.attributes || [];
+                                
+                                if (attrs.some(a => a.name.toLowerCase() === name.toLowerCase())) {
+                                  alert("Cet attribut est déjà présent sur le produit.");
+                                  e.target.value = "";
+                                  return;
+                                }
+
+                                set("attributes")({
+                                  attributes: [...attrs, { name, options }],
+                                  variationPrices: form.attributes?.variationPrices || []
+                                });
+                              }
+                              e.target.value = "";
+                            }}
+                            className={`h-8 border rounded-lg px-2 text-[10px] outline-none ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#ff4f00] cursor-pointer`}
+                            defaultValue=""
+                          >
+                            <option value="">⚡ Charger prédéfini...</option>
+                            {predefinedAttributes.map((attr) => (
+                              <option key={attr.id} value={attr.id}>
+                                {attr.name} ({attr.values.split(",").length} val.)
+                              </option>
+                            ))}
+                          </select>
+                        )}
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const name = prompt("Nom de l'attribut (ex: Taille) :");
+                            if (name) {
+                              const optionsStr = prompt("Options séparées par des virgules (ex: S, M, L) :");
+                              const options = optionsStr ? optionsStr.split(",").map(o => o.trim()).filter(Boolean) : [];
+                              const attrs = form.attributes?.attributes || [];
+                              set("attributes")({
+                                attributes: [...attrs, { name, options }],
+                                variationPrices: form.attributes?.variationPrices || []
+                              });
+                            }
+                          }}
+                          className="text-[11px] font-bold text-[#ff4f00] hover:underline cursor-pointer"
+                        >
+                          + Créer manuellement
+                        </button>
+                      </div>
                     </div>
 
                     {(form.attributes?.attributes || []).length === 0 ? (

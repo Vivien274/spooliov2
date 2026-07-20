@@ -13,6 +13,7 @@ interface NavItem {
   href: string;
   icon: React.ReactNode;
   badge?: string;
+  subItems?: { label: string; href: string }[];
 }
 
 const navItems: NavItem[] = [
@@ -33,6 +34,11 @@ const navItems: NavItem[] = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
       </svg>
     ),
+    subItems: [
+      { label: "Tous les produits", href: "/admin/products" },
+      { label: "Catégories", href: "/admin/products/categories" },
+      { label: "Attributs", href: "/admin/products/attributes" },
+    ],
   },
   {
     label: "Commandes",
@@ -184,27 +190,50 @@ function AdminShell({ children }: { children: React.ReactNode }) {
 
             const activeColor = theme === "dark" ? "#ffffff" : ADMIN_BLUE;
 
+            const isParentActive = pathname.startsWith(item.href) && item.href !== "/admin";
+
             return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
-                  isActive
-                    ? "bg-[#2F3CD9]/15 border border-[#2F3CD9]/30"
-                    : `${cls.textMuted} hover:${cls.textMain} ${theme === "dark" ? "hover:bg-white/5" : "hover:bg-gray-100"}`
-                }`}
-                style={isActive ? { color: activeColor } : {}}
-              >
-                <span className="flex items-center gap-3">
-                  <span style={isActive ? { color: activeColor } : {}}>{item.icon}</span>
-                  {item.label}
-                </span>
-                {badgeValue && (
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-500 text-white animate-pulse">
-                    {badgeValue}
+              <div key={item.href} className="flex flex-col gap-1">
+                <Link
+                  href={item.href}
+                  className={`flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
+                    isActive
+                      ? "bg-[#2F3CD9]/15 border border-[#2F3CD9]/30"
+                      : `${cls.textMuted} hover:${cls.textMain} ${theme === "dark" ? "hover:bg-white/5" : "hover:bg-gray-100"}`
+                  }`}
+                  style={isActive ? { color: activeColor } : {}}
+                >
+                  <span className="flex items-center gap-3">
+                    <span style={isActive ? { color: activeColor } : {}}>{item.icon}</span>
+                    {item.label}
                   </span>
+                  {badgeValue && (
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-500 text-white animate-pulse">
+                      {badgeValue}
+                    </span>
+                  )}
+                </Link>
+                {item.subItems && isParentActive && (
+                  <div className={`flex flex-col gap-1 pl-9 pr-2 py-1 border-l ml-5 ${theme === "dark" ? "border-white/10" : "border-gray-200"}`}>
+                    {item.subItems.map((sub) => {
+                      const isSubActive = pathname === sub.href;
+                      return (
+                        <Link
+                          key={sub.href}
+                          href={sub.href}
+                          className={`text-xs py-1.5 px-2 rounded-lg transition-all ${
+                            isSubActive
+                              ? `font-bold ${theme === "dark" ? "text-white bg-white/5" : "text-black bg-gray-100"}`
+                              : `${cls.textMuted} hover:${theme === "dark" ? "text-white" : "text-black"}`
+                          }`}
+                        >
+                          {sub.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
                 )}
-              </Link>
+              </div>
             );
           })}
         </nav>

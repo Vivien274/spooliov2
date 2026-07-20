@@ -16,6 +16,12 @@ model Category {
   products Product[]
 }
 
+model Attribute {
+  id     Int    @id @default(autoincrement())
+  name   String @unique
+  values String @db.Text
+}
+
 model ProductImage {
   id        Int     @id @default(autoincrement())
   src       String

@@ -130553,7 +130553,11 @@
       "attributes": [
         {
           "name": "Couleur",
-          "options": []
+          "options": [
+            "Rouge",
+            "Noir",
+            "Blanc"
+          ]
         }
       ],
       "variationPrices": [],
@@ -130561,6 +130565,17 @@
         "Satisfaisant"
       ]
     },
-    "images": []
+    "images": [
+      {
+        "id": 1784552726760,
+        "src": "/uploads/hero_upload_1784552725913.webp",
+        "alt": "Fidget aimanté"
+      },
+      {
+        "id": 1784552726538,
+        "src": "/uploads/hero_upload_1784552725979.webp",
+        "alt": "Fidget aimanté"
+      }
+    ]
   }
 ]
