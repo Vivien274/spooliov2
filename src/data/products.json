@@ -130502,5 +130502,65 @@
         }
       ]
     }
+  },
+  {
+    "id": 36864,
+    "name": "Fidget aimanté",
+    "slug": "fidget-aimante",
+    "price": "4",
+    "regular_price": "4",
+    "sale_price": "",
+    "on_sale": false,
+    "short_description": "Coucou je suis un fidgetos",
+    "description": "C'est moi le fidget aimanté ! Je m'amuse hahaha",
+    "stock_quantity": -1,
+    "type": "simple",
+    "status": "draft",
+    "attributes": {
+      "attributes": [],
+      "variationPrices": [],
+      "tags": [
+        "Satisfaisant"
+      ]
+    },
+    "images": [
+      {
+        "id": 1784552574419,
+        "src": "/uploads/hero_upload_1784552574002.webp",
+        "alt": "Fidget aimanté"
+      },
+      {
+        "id": 1784552574819,
+        "src": "/uploads/hero_upload_1784552574007.webp",
+        "alt": "Fidget aimanté"
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Fidget aimanté",
+    "slug": "fidget-aimante",
+    "price": "4",
+    "regular_price": "4",
+    "sale_price": "",
+    "on_sale": false,
+    "short_description": "Coucou je suis un fidgetos",
+    "description": "C'est moi le fidget aimanté ! Je m'amuse hahaha",
+    "stock_quantity": -1,
+    "type": "variable",
+    "status": "publish",
+    "attributes": {
+      "attributes": [
+        {
+          "name": "Couleur",
+          "options": []
+        }
+      ],
+      "variationPrices": [],
+      "tags": [
+        "Satisfaisant"
+      ]
+    },
+    "images": []
   }
 ]

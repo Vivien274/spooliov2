@@ -297,11 +297,25 @@ export async function PUT(
         new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 800))
       ]) as any;
 
+      const imagesPayload = (body.images || []).map((img: any) => ({
+        src: img.src,
+        alt: img.alt || ""
+      }));
+
       if (exists) {
         updatedProduct = await Promise.race([
           prisma.product.update({
             where: { id: exists.id },
-            data: updateData
+            data: {
+              ...updateData,
+              images: {
+                deleteMany: {},
+                create: imagesPayload
+              }
+            },
+            include: {
+              images: true
+            }
           }),
           new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 800))
         ]) as any;
@@ -326,6 +340,12 @@ export async function PUT(
               metaTitle: updateData.metaTitle,
               metaDescription: updateData.metaDescription,
               attributes: updateData.attributes,
+              images: {
+                create: imagesPayload
+              }
+            },
+            include: {
+              images: true
             }
           }),
           new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 800))
