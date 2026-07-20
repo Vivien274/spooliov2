@@ -46,7 +46,7 @@ export default function AdminReviewsPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/admin/reviews");
+      const res = await fetch(`/api/admin/reviews?t=${Date.now()}`, { cache: "no-store" });
       if (res.ok) {
         const data = await res.json();
         setReviews(data.reviews || []);
@@ -63,7 +63,7 @@ export default function AdminReviewsPage() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch("/api/products");
+      const res = await fetch(`/api/products?t=${Date.now()}`, { cache: "no-store" });
       if (res.ok) {
         const data = await res.json();
         setProductsList(data || []);
