@@ -335,7 +335,7 @@ export default async function Home() {
               <p className="text-[10px] text-gray-500 font-medium">Les objets préférés et les plus populaires de la commu</p>
             </div>
           </div>
-          <SpoolioProductGrid filterType="best-of" limit={3} showFilters={false} />
+          <SpoolioProductGrid filterType="best-of" limit={3} showFilters={false} compact={true} />
         </div>
 
         {/* Section 3: Tout le Catalogue */}

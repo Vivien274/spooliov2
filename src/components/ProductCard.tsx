@@ -134,13 +134,10 @@ export default function ProductCard({ product, compact = false }: ProductCardPro
         </span>
 
         {/* Bottom Glass Overlay for Title */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-black/50 backdrop-blur-md border-t border-white/10 flex items-center justify-between z-10 no-invert">
-          <h3 className="text-[13px] md:text-[14px] font-bold text-white leading-tight line-clamp-1 pr-2">
+        <div className="absolute bottom-0 left-0 right-0 p-4 bg-black/50 backdrop-blur-md border-t border-white/10 flex items-center z-10 no-invert">
+          <h3 className="text-[13px] md:text-[14px] font-bold text-white leading-tight line-clamp-1">
             {product.name}
           </h3>
-          <span className="text-[10px] text-[#ff4f00] font-black shrink-0 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-            Détails &rarr;
-          </span>
         </div>
       </Link>
     );
