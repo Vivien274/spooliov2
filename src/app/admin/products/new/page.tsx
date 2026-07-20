@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function NewProductPage() {
-  return <ProductFormClient product={null} isNew={true} />;
+  return <ProductFormClient productId="new" isNew={true} />;
 }

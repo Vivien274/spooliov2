@@ -40,7 +40,7 @@ interface ProductData {
 }
 
 interface Props {
-  product: ProductData | null;
+  productId: string;
   isNew: boolean;
 }
 
@@ -106,29 +106,28 @@ function computeSeoScore(data: ProductData): number {
   return score;
 }
 
-export default function ProductFormClient({ product, isNew }: Props) {
+export default function ProductFormClient({ productId, isNew }: Props) {
   const { cls, theme } = useAdminTheme();
   const router = useRouter();
-  const [form, setForm] = useState<ProductData>(
-    product ?? {
-      name: "",
-      slug: "",
-      shortDescription: "",
-      description: "",
-      category: "",
-      tags: [],
-      price: "",
-      salePrice: "",
-      productType: "simple",
-      status: "draft",
-      stock: -1,
-      metaTitle: "",
-      metaDescription: "",
-      images: [],
-      variations: [],
-      attributes: { attributes: [], variationPrices: [] },
-    }
-  );
+  const [loadingProduct, setLoadingProduct] = useState<boolean>(!isNew);
+  const [form, setForm] = useState<ProductData>({
+    name: "",
+    slug: "",
+    shortDescription: "",
+    description: "",
+    category: "",
+    tags: [],
+    price: "",
+    salePrice: "",
+    productType: "simple",
+    status: "draft",
+    stock: -1,
+    metaTitle: "",
+    metaDescription: "",
+    images: [],
+    variations: [],
+    attributes: { attributes: [], variationPrices: [] },
+  });
   const [newTag, setNewTag] = useState("");
   const [saved, setSaved] = useState(false);
   const [activeTab, setActiveTab] = useState<"form" | "preview">("form");
@@ -162,9 +161,29 @@ export default function ProductFormClient({ product, isNew }: Props) {
       }
     };
 
+    const fetchProductDetails = async () => {
+      if (isNew) return;
+      try {
+        const res = await fetch(`/api/admin/products?id=${productId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.product) {
+            setForm(data.product);
+          }
+        } else {
+          alert("Erreur lors de la récupération des détails du produit.");
+        }
+      } catch (e) {
+        console.error("Failed to load product details:", e);
+      } finally {
+        setLoadingProduct(false);
+      }
+    };
+
     fetchPredefined();
     fetchCategories();
-  }, []);
+    fetchProductDetails();
+  }, [productId, isNew]);
 
   // Image upload states & ref
   const [isDragOver, setIsDragOver] = useState(false);
@@ -331,7 +350,7 @@ export default function ProductFormClient({ product, isNew }: Props) {
   };
 
   const handleSave = async () => {
-    const targetId = isNew ? "new" : (form.id || product?.id);
+    const targetId = isNew ? "new" : (form.id || productId);
     if (!targetId) {
       alert("Impossible de sauvegarder un nouveau produit pour l'instant (ID manquant).");
       return;
@@ -364,6 +383,16 @@ export default function ProductFormClient({ product, isNew }: Props) {
       alert(`Erreur réseau lors de la sauvegarde : ${err.message}`);
     }
   };
+
+  if (loadingProduct) {
+    return (
+      <div className="min-h-[400px] flex items-center justify-center font-sans">
+        <div className={`text-xs ${cls.textMuted} uppercase tracking-widest font-black animate-pulse`}>
+          Chargement du produit... 📦
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
