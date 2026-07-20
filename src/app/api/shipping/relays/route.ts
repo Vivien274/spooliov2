@@ -36,6 +36,33 @@ export async function GET(request: Request) {
       city = "Bruxelles (Belgique)";
     }
 
+    // Fetch coordinate of postal code using government API
+    let baseLat = 50.7667; // Default to Comines coordinates
+    let baseLng = 3.0075;
+    try {
+      const geoRes = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${cp}&postcode=${cp}&limit=1`);
+      if (geoRes.ok) {
+        const geoData = await geoRes.json();
+        const coords = geoData.features?.[0]?.geometry?.coordinates;
+        if (coords && coords.length === 2) {
+          baseLng = coords[0];
+          baseLat = coords[1];
+        }
+      }
+    } catch (e) {
+      console.warn("Geocoding failed, using fallbacks:", e);
+    }
+
+    const offsetCoordinates = (index: number) => {
+      // Small offsets to disperse markers around base coordinates
+      const offsetLat = (index - 2) * 0.0035 + (Math.random() - 0.5) * 0.001;
+      const offsetLng = ((index % 2) - 0.5) * 0.007 + (Math.random() - 0.5) * 0.001;
+      return {
+        lat: (baseLat + offsetLat).toFixed(6),
+        lng: (baseLng + offsetLng).toFixed(6)
+      };
+    };
+
     // Return realistic mocked Relay Points for demo & integration tests
     let simulatedRelays = [];
 
@@ -46,28 +73,36 @@ export async function GET(request: Request) {
           name: "Locker LIDL Comines",
           address: "224 Rue d'Armentières",
           cp: "59560",
-          ville: "Comines"
+          ville: "Comines",
+          latitude: "50.763421",
+          longitude: "3.004523"
         },
         {
           id: "MR-59560-02",
           name: "Hygie Meca Comines",
           address: "114 Rue de la Lys",
           cp: "59560",
-          ville: "Comines"
+          ville: "Comines",
+          latitude: "50.762100",
+          longitude: "3.011244"
         },
         {
           id: "MR-59560-03",
           name: "Tabac Presse Saint-Michel",
           address: "18 Rue du Hoccart",
           cp: "59560",
-          ville: "Comines"
+          ville: "Comines",
+          latitude: "50.768102",
+          longitude: "3.006122"
         },
         {
           id: "MR-59560-04",
           name: "Boulangerie du Centre",
           address: "42 Grand Place",
           cp: "59560",
-          ville: "Comines"
+          ville: "Comines",
+          latitude: "50.765123",
+          longitude: "3.007554"
         }
       ];
     } else {
@@ -107,7 +142,14 @@ export async function GET(request: Request) {
           cp: cp,
           ville: city
         }
-      ];
+      ].map((relay, idx) => {
+        const coords = offsetCoordinates(idx);
+        return {
+          ...relay,
+          latitude: coords.lat,
+          longitude: coords.lng
+        };
+      });
     }
 
     return NextResponse.json({ success: true, relays: simulatedRelays });

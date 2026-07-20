@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart, SelectedRelay } from "@/context/CartContext";
@@ -30,6 +30,135 @@ export default function CartDrawer() {
   const [loadingRelays, setLoadingRelays] = useState<boolean>(false);
   const [relayError, setRelayError] = useState<string | null>(null);
   const [showRelayFinder, setShowRelayFinder] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (relays.length === 0 || !isCartOpen) return;
+
+    let mapInstance: any = null;
+
+    // Helper to load stylesheet
+    const loadStylesheet = () => {
+      if (document.getElementById("leaflet-css")) return Promise.resolve();
+      return new Promise<void>((resolve) => {
+        const link = document.createElement("link");
+        link.id = "leaflet-css";
+        link.rel = "stylesheet";
+        link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+        link.onload = () => resolve();
+        document.head.appendChild(link);
+      });
+    };
+
+    // Helper to load Leaflet script
+    const loadScript = () => {
+      if ((window as any).L) return Promise.resolve((window as any).L);
+      return new Promise<any>((resolve) => {
+        const script = document.createElement("script");
+        script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+        script.onload = () => resolve((window as any).L);
+        document.head.appendChild(script);
+      });
+    };
+
+    Promise.all([loadStylesheet(), loadScript()]).then(([_, L]) => {
+      if (!L) return;
+      const mapContainer = document.getElementById("relay-map");
+      if (!mapContainer) return;
+
+      // Clean up previous map if it exists
+      if ((window as any)._spoolioMap) {
+        try {
+          (window as any)._spoolioMap.remove();
+        } catch (e) {
+          console.warn("Error cleaning previous map:", e);
+        }
+      }
+
+      // Initialize map centered on first relay coordinates (or default)
+      const firstRelay = relays[0];
+      const defaultLat = firstRelay?.latitude ? parseFloat(firstRelay.latitude) : 50.7667;
+      const defaultLng = firstRelay?.longitude ? parseFloat(firstRelay.longitude) : 3.0075;
+
+      const map = L.map("relay-map", {
+        center: [defaultLat, defaultLng],
+        zoom: 12,
+        zoomControl: false // Hide controls for compact size
+      });
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+
+      // Store map instance globally to remove it on hot-reload or unmount
+      (window as any)._spoolioMap = map;
+      mapInstance = map;
+
+      // Custom icon using standard Leaflet styling
+      const customIcon = L.icon({
+        iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+        shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+      });
+
+      // Fit bounds to show all markers
+      const group: any[] = [];
+
+      relays.forEach((r) => {
+        if (!r.latitude || !r.longitude) return;
+        const lat = parseFloat(r.latitude);
+        const lng = parseFloat(r.longitude);
+        const marker = L.marker([lat, lng], { icon: customIcon }).addTo(map);
+        
+        group.push([lat, lng]);
+
+        // Construct HTML details for popup click
+        const popupContent = document.createElement("div");
+        popupContent.className = "text-black font-sans p-1";
+        popupContent.style.color = "#111";
+        popupContent.innerHTML = `
+          <strong style="display: block; font-size: 13px; font-weight: 800; color: #111; margin-bottom: 2px;">${r.name}</strong>
+          <span style="display: block; font-size: 11px; color: #555; margin-top: 2px;">${r.address}</span>
+          <span style="display: block; font-size: 11px; color: #555;">${r.cp} ${r.ville}</span>
+          <button id="select-relay-${r.id}" style="margin-top: 8px; width: 100%; display: block; background-color: #ff4f00; color: white; font-weight: bold; border: none; padding: 6px 8px; border-radius: 6px; font-size: 10px; cursor: pointer; text-transform: uppercase; text-align: center;">
+            Sélectionner
+          </button>
+        `;
+
+        marker.bindPopup(popupContent);
+
+        // Bind event on popup open to wire button click
+        marker.on("popupopen", () => {
+          const btn = document.getElementById(`select-relay-${r.id}`);
+          if (btn) {
+            btn.onclick = () => {
+              setSelectedRelay(r);
+              setShowRelayFinder(false);
+              setRelays([]);
+              map.closePopup();
+            };
+          }
+        });
+      });
+
+      if (group.length > 0) {
+        map.fitBounds(group, { padding: [20, 20] });
+      }
+    });
+
+    return () => {
+      if (mapInstance) {
+        try {
+          mapInstance.remove();
+        } catch (e) {
+          console.warn("Error destroying Leaflet map instance:", e);
+        }
+        (window as any)._spoolioMap = null;
+      }
+    };
+  }, [relays, isCartOpen]);
 
   if (!isCartOpen) return null;
 
@@ -316,21 +445,30 @@ export default function CartDrawer() {
                         )}
 
                         {relays.length > 0 && (
-                          <div className="flex flex-col gap-2 max-h-[140px] overflow-y-auto pr-1 no-scrollbar border-t border-white/5 pt-2">
-                            {relays.map((r) => (
-                              <button
-                                key={r.id}
-                                onClick={() => {
-                                  setSelectedRelay(r);
-                                  setShowRelayFinder(false);
-                                  setRelays([]);
-                                }}
-                                className="w-full p-2.5 rounded-lg border border-[#222225] hover:border-[#ff4f00]/50 hover:bg-[#ff4f00]/5 text-left text-xs transition-all cursor-pointer flex flex-col gap-0.5 relay-result-btn"
-                              >
-                                <span className="font-extrabold text-white truncate block">{r.name}</span>
-                                <span className="text-[9px] text-gray-400 truncate block">{r.address}, {r.cp} {r.ville}</span>
-                              </button>
-                            ))}
+                          <div className="flex flex-col gap-3 border-t border-white/5 pt-3">
+                            {/* Interactive Leaflet Map Container */}
+                            <div 
+                              id="relay-map" 
+                              className="w-full h-[180px] rounded-xl border border-white/5 bg-black/10 overflow-hidden relative z-10 no-invert" 
+                            />
+                            
+                            {/* Text List Fallback */}
+                            <div className="flex flex-col gap-2 max-h-[140px] overflow-y-auto pr-1 no-scrollbar">
+                              {relays.map((r) => (
+                                <button
+                                  key={r.id}
+                                  onClick={() => {
+                                    setSelectedRelay(r);
+                                    setShowRelayFinder(false);
+                                    setRelays([]);
+                                  }}
+                                  className="w-full p-2.5 rounded-lg border border-[#222225] hover:border-[#ff4f00]/50 hover:bg-[#ff4f00]/5 text-left text-xs transition-all cursor-pointer flex flex-col gap-0.5 relay-result-btn"
+                                >
+                                  <span className="font-extrabold text-white truncate block">{r.name}</span>
+                                  <span className="text-[9px] text-gray-400 truncate block">{r.address}, {r.cp} {r.ville}</span>
+                                </button>
+                              ))}
+                            </div>
                           </div>
                         )}
                       </div>

@@ -28,8 +28,8 @@
 - [x] Créer le composant tiroir coulissant `src/components/CartDrawer.tsx`
 - [x] Modifier `src/components/Header.tsx` pour afficher le nombre d'articles et ouvrir le tiroir
 - [x] Lier les boutons d'achat dans `ProductCard.tsx` et `ProductDetailClient.tsx` au panier
-- [x] Créer l'API route `/api/checkout` pour rediriger vers Stripe
-- [x] Créer la page de remerciement `/success/page.tsx`
+- [x] Implémenter la carte Leaflet interactive pour le choix du Point Relais (Mondial Relay) dans le CartDrawer
+- [/] Créer le template et la fonction sendOrderShippedEmail avec Resends/page.tsx`
 - [x] Créer la route de Webhook Stripe `/api/webhooks/stripe` pour traiter l'événement checkout.session.completed
 - [x] Tester et compiler la totalité du parcours d'achat
 - [x] Intégrer les variables de livraison dans `src/context/CartContext.tsx`

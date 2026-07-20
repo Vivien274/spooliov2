@@ -795,4 +795,23 @@ html.light .wysiwyg-editor-area hr {
   animation: bouncy-cart 0.65s cubic-bezier(0.25, 1, 0.5, 1) both;
 }
 
+/* 3D Printer Animation Keyframes */
+@keyframes printer-gantry {
+  0%, 100% { top: 25%; }
+  50% { top: 75%; }
+}
+
+@keyframes printer-nozzle {
+  0%, 100% { transform: translateX(-35px); }
+  50% { transform: translateX(35px); }
+}
+
+.animate-printer-gantry {
+  animation: printer-gantry 6s ease-in-out infinite;
+}
+
+.animate-printer-nozzle {
+  animation: printer-nozzle 2.2s ease-in-out infinite;
+}
+
 

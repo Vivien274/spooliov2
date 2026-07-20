@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
 import { cookies } from "next/headers";
+import { sendOrderShippedEmail } from "@/lib/email";
 import fs from "fs";
 import path from "path";
 
@@ -159,6 +160,24 @@ export async function POST(request: Request) {
     }
 
     console.log(`[Admin Update] Commande ${id} mise à jour avec statut: ${status}`);
+
+    if (status === "expedie" && updatedOrder) {
+      try {
+        const parsedRelay = updatedOrder.relayDetails 
+          ? (typeof updatedOrder.relayDetails === 'string' ? JSON.parse(updatedOrder.relayDetails) : updatedOrder.relayDetails)
+          : null;
+
+        await sendOrderShippedEmail({
+          orderId: updatedOrder.id,
+          customerName: updatedOrder.customerName || "Client Spoolio",
+          customerEmail: updatedOrder.email,
+          shippingMethod: updatedOrder.shippingMethod,
+          relayDetails: parsedRelay
+        });
+      } catch (emailErr: any) {
+        console.error("[Admin Order Shipped Email Error] Failed to send email:", emailErr.message);
+      }
+    }
 
     return NextResponse.json({ success: true, order: updatedOrder });
   } catch (e: any) {

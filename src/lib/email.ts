@@ -153,3 +153,122 @@ export async function sendOrderConfirmationEmail({
     return false;
   }
 }
+
+interface ShippedEmailParams {
+  orderId: string;
+  customerName: string;
+  customerEmail: string;
+  shippingMethod: string;
+  relayDetails?: { name: string; address: string } | null;
+}
+
+export async function sendOrderShippedEmail({
+  orderId,
+  customerName,
+  customerEmail,
+  shippingMethod,
+  relayDetails
+}: ShippedEmailParams) {
+  try {
+    const resendKey = process.env.RESEND_API_KEY;
+    if (!resendKey) {
+      console.warn("[Email Notification] Resend API Key is missing in environment variables. Email send skipped.");
+      return false;
+    }
+
+    const fromAddress = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const recipient = process.env.RESEND_TO_EMAIL || customerEmail;
+
+    const shippingLabel = 
+      shippingMethod === "pickup" 
+        ? "Retrait à l'Atelier (Comines)" 
+        : (shippingMethod === "relay" ? "Livraison Point Relais (Mondial Relay)" : "Livraison Colissimo Domicile");
+
+    const relayInfoHtml = 
+      shippingMethod === "relay" && relayDetails 
+        ? `<div style="background-color: #131316; border: 1px solid #1f1f23; border-radius: 12px; padding: 15px; margin-top: 15px; text-align: left;">
+             <strong style="color: #ff4f00; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 5px;">Point Relais de destination</strong>
+             <span style="color: #ffffff; font-size: 13px; font-weight: bold; display: block;">${relayDetails.name}</span>
+             <span style="color: #88888b; font-size: 12px; display: block; margin-top: 2px;">${relayDetails.address}</span>
+           </div>`
+        : "";
+
+    const trackingUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://spoolio.fr'}/suivi?id=${orderId}&email=${encodeURIComponent(customerEmail)}`;
+
+    const emailHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Votre commande Spoolio est en route ! 🚚</title>
+      </head>
+      <body style="background-color: #0a0a0f; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 40px 20px;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: #0d0d12; border: 1px solid #1f1f23; border-radius: 24px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center;">
+          
+          <!-- Logo Row -->
+          <div style="text-align: center; margin-bottom: 30px;">
+            <div style="display: inline-block; background-color: #ff4f00; color: #ffffff; font-weight: 900; font-size: 20px; width: 40px; height: 40px; line-height: 40px; border-radius: 10px; text-align: center; margin-right: 8px; vertical-align: middle;">S</div>
+            <span style="font-size: 22px; font-weight: bold; color: #ffffff; vertical-align: middle; letter-spacing: -0.02em;">Spoolio</span>
+          </div>
+
+          <!-- Title -->
+          <h2 style="color: #ffffff; font-size: 20px; font-weight: 900; margin-top: 0; margin-bottom: 10px; text-align: center;">Bonne nouvelle, ${customerName} ! 🎉</h2>
+          <p style="color: #88888b; font-size: 14px; line-height: 1.6; text-align: center; margin-bottom: 30px;">
+            Votre commande <strong>${orderId}</strong> a quitté notre atelier de Comines. Nos imprimantes 3D ont fait un super travail et vos objets sont emballés avec soin.
+          </p>
+
+          <!-- Shipping Summary -->
+          <div style="background-color: #131316; border: 1px solid #1f1f23; border-radius: 16px; padding: 20px; text-align: left; margin-bottom: 30px;">
+            <span style="display: block; font-size: 11px; font-weight: bold; color: #52525b; text-transform: uppercase; tracking-wider: 0.05em; margin-bottom: 10px;">Détails de l'expédition</span>
+            <div style="font-size: 14px; color: #ffffff; margin-bottom: 6px;">
+              <strong>Mode d'envoi :</strong> ${shippingLabel}
+            </div>
+            ${relayInfoHtml}
+          </div>
+
+          <!-- Track Button -->
+          <div style="text-align: center; margin-bottom: 40px;">
+            <a href="${trackingUrl}" style="display: inline-block; background-color: #ff4f00; color: #ffffff; font-weight: bold; text-decoration: none; font-size: 13px; padding: 14px 28px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 4px 15px rgba(255, 79, 0, 0.3);">
+              Suivre ma commande en direct 📦
+            </a>
+          </div>
+
+          <!-- Footer banner -->
+          <div style="margin-top: 40px; border-top: 1px solid #1f1f23; padding-top: 20px; text-align: center; font-size: 11px; color: #52525b;">
+            <p>Spoolio - Objets éco-responsables imprimés en 3D à Comines, France.</p>
+             <p>Des questions sur votre commande ? Contactez-nous à contact@spoolio.fr</p>
+          </div>
+
+        </div>
+      </body>
+      </html>
+    `;
+
+    console.log(`[Resend Email] Sending Shipped email from ${fromAddress} to ${recipient} for Order ${orderId}...`);
+    const emailRes = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        from: fromAddress,
+        to: recipient,
+        subject: `Commande expédiée ! Spoolio [${orderId}] 🚚`,
+        html: emailHtml
+      })
+    });
+
+    const emailData = await emailRes.json();
+    if (emailRes.ok) {
+      console.log(`[Resend Email Success] Shipped email sent for order ${orderId} (ID: ${emailData.id})`);
+      return true;
+    } else {
+      console.error("[Resend Email Error] Shipped API error details:", emailData);
+      return false;
+    }
+  } catch (err: any) {
+    console.error("[Resend Email Error] Failed to send shipped email via Resend:", err.message || err);
+    return false;
+  }
+}

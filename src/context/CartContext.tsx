@@ -19,6 +19,8 @@ export interface SelectedRelay {
   address: string;
   cp: string;
   ville: string;
+  latitude?: string;
+  longitude?: string;
 }
 
 interface CartContextType {

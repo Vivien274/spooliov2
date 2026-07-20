@@ -24,12 +24,22 @@ interface OrderDetail {
   createdAt: string;
 }
 
+const MACHINES = ["Berthe", "Philomène", "Ursule", "Godelaine", "Claudine"];
+
 export default function OrderTrackingPage() {
   const [orderId, setOrderId] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [order, setOrder] = useState<OrderDetail | null>(null);
+
+  const getMachineForOrder = (id: string) => {
+    let sum = 0;
+    for (let i = 0; i < id.length; i++) sum += id.charCodeAt(i);
+    return MACHINES[sum % MACHINES.length];
+  };
+
+  const machineName = order ? getMachineForOrder(order.id) : "";
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -233,6 +243,56 @@ export default function OrderTrackingPage() {
                   );
                 })}
               </div>
+
+              {/* Interactive 3D Printer Animation (Visible only when status is 'impression') */}
+              {order.status === "impression" && (
+                <div className="flex flex-col items-center justify-center p-6 bg-black/30 rounded-2xl border border-[#ff4f00]/25 my-4 gap-4 animate-reveal select-none">
+                  {/* 3D Printer Animation Frame Container */}
+                  <div className="relative w-48 h-36 border border-white/10 rounded-xl overflow-hidden bg-black/40 flex flex-col justify-end p-2 z-0 no-invert shadow-inner">
+                    {/* Grid design background */}
+                    <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
+                    
+                    {/* Printer Frame structure */}
+                    <div className="absolute top-2 left-4 right-4 h-0.5 bg-white/20" />
+                    <div className="absolute top-2 left-6 bottom-2 w-0.5 bg-white/10" />
+                    <div className="absolute top-2 right-6 bottom-2 w-0.5 bg-white/10" />
+                    
+                    {/* Vertical Lead screw */}
+                    <div className="absolute top-2 left-12 bottom-2 w-0.5 bg-white/5 border-l border-dashed border-white/25" />
+                    
+                    {/* Printer Bed (heated plate) */}
+                    <div className="w-full h-2 bg-[#ff4f00]/20 border-t border-[#ff4f00]/40 rounded-sm relative z-0 flex items-center justify-center shadow-lg shadow-[#ff4f00]/10">
+                      <span className="w-8 h-0.5 bg-[#ff4f00]/80 blur-[2px] animate-pulse" />
+                    </div>
+                    
+                    {/* Moving print nozzle/gantry */}
+                    <div className="absolute left-8 right-8 top-1/2 -translate-y-1/2 h-1 bg-white/20 flex items-center justify-center animate-printer-gantry z-10">
+                      {/* Nozzle Block */}
+                      <div className="w-6 h-6 bg-gray-800 border border-white/20 rounded-md relative flex flex-col items-center justify-start pt-1 animate-printer-nozzle shadow-md">
+                        <div className="w-2.5 h-2.5 bg-yellow-500 rounded-full animate-ping opacity-75" />
+                        {/* Nozzle Tip */}
+                        <div className="absolute bottom-[-3px] w-1.5 h-1.5 bg-yellow-600 rounded-full" />
+                      </div>
+                    </div>
+                    
+                    {/* Filament Line */}
+                    <div className="absolute top-2 left-1/2 -translate-x-1/2 w-[1px] bg-[#ff4f00]/50 bottom-1/2 z-0" />
+                    
+                    {/* Spoolio Logo watermark inside container */}
+                    <span className="absolute top-4 right-8 text-[8px] font-black text-white/5 uppercase tracking-widest pointer-events-none">Spoolio V2</span>
+                  </div>
+                  <div className="text-center font-sans">
+                    <p className="text-xs text-white font-extrabold flex items-center gap-1.5 justify-center">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff4f00] opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff4f00]"></span>
+                      </span>
+                      🤖 {machineName} s'active sur votre commande !
+                    </p>
+                    <p className="text-[10px] text-gray-500 mt-1 leading-normal">Fabrication active par dépôt de filament PLA biosourcé à 215°C.</p>
+                  </div>
+                </div>
+              )}
 
               {/* Statut Explanatory Text Box */}
               <div className="p-4 rounded-2xl bg-black/40 border border-white/5 text-xs text-gray-400 font-sans leading-relaxed mt-2 select-none">
