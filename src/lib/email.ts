@@ -35,6 +35,8 @@ export async function sendOrderConfirmationEmail({
     // We let the developer force a recipient for testing in preview/dev env
     const recipient = process.env.RESEND_TO_EMAIL || customerEmail;
 
+    const trackingUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://v2.spoolio.fr'}/suivi?id=${orderId}&email=${encodeURIComponent(customerEmail)}`;
+
     const itemsRowsHtml = items
       .map(
         (item) => `
@@ -75,8 +77,7 @@ export async function sendOrderConfirmationEmail({
           
           <!-- Logo Row -->
           <div style="text-align: center; margin-bottom: 30px;">
-            <div style="display: inline-block; background-color: #ff4f00; color: #ffffff; font-weight: 900; font-size: 20px; width: 40px; height: 40px; line-height: 40px; border-radius: 10px; text-align: center; margin-right: 8px; vertical-align: middle;">S</div>
-            <span style="font-size: 22px; font-weight: bold; color: #ffffff; vertical-align: middle; letter-spacing: -0.02em;">Spoolio</span>
+            <img src="https://spoolio.fr/images/logo.png" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
           </div>
 
           <!-- Title -->
@@ -100,18 +101,29 @@ export async function sendOrderConfirmationEmail({
 
           <!-- Pricing summary -->
           <div style="border-top: 1px solid #1f1f23; padding-top: 15px; margin-bottom: 30px;">
-            <div style="display: flex; justify-content: space-between; font-size: 13px; color: #88888b; margin-bottom: 6px;">
-              <span>Mode de livraison : ${shippingLabel}</span>
-              <span style="font-weight: bold; color: #ffffff;">${shippingCost === 0 ? "Gratuit" : (shippingCost.toFixed(2) + "€")}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: bold; color: #ffffff; margin-top: 12px; border-top: 1px dashed #1f1f23; padding-top: 12px;">
-              <span>Total payé</span>
-              <span style="color: #f7eb12; font-size: 18px;">${total.toFixed(2)}€</span>
-            </div>
+            <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #88888b; margin-bottom: 6px;">
+              <tr>
+                <td style="text-align: left; padding: 4px 0;">Mode de livraison : ${shippingLabel}</td>
+                <td style="text-align: right; padding: 4px 0; font-weight: bold; color: #ffffff;">${shippingCost === 0 ? "Gratuit" : (shippingCost.toFixed(2) + "€")}</td>
+              </tr>
+            </table>
+            <table style="width: 100%; border-collapse: collapse; font-size: 16px; font-weight: bold; color: #ffffff; margin-top: 12px; border-top: 1px dashed #1f1f23; padding-top: 12px;">
+              <tr>
+                <td style="text-align: left; padding: 8px 0;">Total payé</td>
+                <td style="text-align: right; padding: 8px 0; color: #f7eb12; font-size: 18px;">${total.toFixed(2)}€</td>
+              </tr>
+            </table>
           </div>
 
           <!-- Relais parcel details -->
           ${relayInfoHtml}
+
+          <!-- Track Button -->
+          <div style="text-align: center; margin-top: 35px; margin-bottom: 35px;">
+            <a href="${trackingUrl}" style="display: inline-block; background-color: #ff4f00; color: #ffffff; font-weight: bold; text-decoration: none; font-size: 13px; padding: 14px 28px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 4px 15px rgba(255, 79, 0, 0.3);">
+              Suivre ma commande en direct 📦
+            </a>
+          </div>
 
           <!-- Footer banner -->
           <div style="margin-top: 40px; border-top: 1px solid #1f1f23; padding-top: 20px; text-align: center; font-size: 11px; color: #52525b;">
