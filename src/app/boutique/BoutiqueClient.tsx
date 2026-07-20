@@ -58,13 +58,25 @@ function BoutiqueClientContent() {
     fetchProducts();
   }, []);
 
+  const decodeHtml = (str: string) => {
+    if (!str) return "";
+    return str
+      .replace(/&#039;/g, "'")
+      .replace(/&#39;/g, "'")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&nbsp;/g, " ");
+  };
+
   // Dynamically extract categories list from products loaded
   const categoriesList = useMemo(() => {
     const list = new Set<string>();
     products.forEach((p) => {
       if (p.categories) {
         p.categories.forEach((c) => {
-          if (c.name) list.add(c.name);
+          if (c.name) list.add(decodeHtml(c.name));
         });
       }
     });
@@ -94,7 +106,7 @@ function BoutiqueClientContent() {
     // 2. Category filter
     if (selectedCategory !== "all") {
       result = result.filter((p) =>
-        p.categories?.some((c) => c.name === selectedCategory)
+        p.categories?.some((c) => decodeHtml(c.name) === decodeHtml(selectedCategory))
       );
     }
 

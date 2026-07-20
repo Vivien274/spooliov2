@@ -63,9 +63,12 @@ async function getCategoryProducts(categoryName: string) {
       where: {
         categories: {
           some: {
-            name: {
-              equals: categoryName,
-            }
+            OR: [
+              { name: { equals: categoryName, mode: 'insensitive' } },
+              { name: { equals: categoryName.replace(/&/g, "&amp;"), mode: 'insensitive' } },
+              { name: { equals: categoryName.replace(/'/g, "&#039;").replace(/&/g, "&amp;"), mode: 'insensitive' } },
+              { name: { equals: categoryName.replace(/'/g, "&#39;").replace(/&/g, "&amp;"), mode: 'insensitive' } }
+            ]
           }
         },
         status: "publish"
@@ -93,10 +96,21 @@ async function getCategoryProducts(categoryName: string) {
       const fileData = fs.readFileSync(jsonPath, "utf8");
       const parsed = JSON.parse(fileData);
       if (Array.isArray(parsed)) {
-        const filtered = parsed.filter(p =>
-          p.status === "publish" &&
-          p.categories?.some((c: any) => c.name?.toLowerCase() === categoryName.toLowerCase())
-        );
+        const filtered = parsed.filter(p => {
+          const decodeHtmlLocal = (str: string) => {
+            if (!str) return "";
+            return str
+              .replace(/&#039;/g, "'")
+              .replace(/&#39;/g, "'")
+              .replace(/&amp;/g, "&")
+              .replace(/&lt;/g, "<")
+              .replace(/&gt;/g, ">")
+              .replace(/&quot;/g, '"')
+              .replace(/&nbsp;/g, " ");
+          };
+          return p.status === "publish" &&
+            p.categories?.some((c: any) => decodeHtmlLocal(c.name || "").toLowerCase() === categoryName.toLowerCase());
+        });
         return filtered.map(mapProduct);
       }
     }
