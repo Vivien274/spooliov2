@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -133,6 +133,105 @@ export default function ProductFormClient({ product, isNew }: Props) {
   const [saved, setSaved] = useState(false);
   const [activeTab, setActiveTab] = useState<"form" | "preview">("form");
 
+  // Image upload states & ref
+  const [isDragOver, setIsDragOver] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const convertToWebP = (file: File): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = document.createElement("img");
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          if (!ctx) {
+            reject(new Error("Failed to get canvas context"));
+            return;
+          }
+
+          const MAX_WIDTH = 1200;
+          const MAX_HEIGHT = 1200;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height = Math.round((height * MAX_WIDTH) / width);
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width = Math.round((width * MAX_HEIGHT) / height);
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                resolve(blob);
+              } else {
+                reject(new Error("Canvas toBlob returned null"));
+              }
+            },
+            "image/webp",
+            0.82
+          );
+        };
+        img.onerror = () => reject(new Error("Failed to load image element"));
+        img.src = e.target?.result as string;
+      };
+      reader.onerror = () => reject(new Error("Failed to read file"));
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const uploadImage = async (file: File) => {
+    setIsUploadingImage(true);
+    try {
+      const webpBlob = await convertToWebP(file);
+      const webpFile = new File([webpBlob], `${file.name.split(".")[0] || "image"}_optimized.webp`, {
+        type: "image/webp"
+      });
+
+      const formData = new FormData();
+      formData.append("file", webpFile);
+
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const newImage = {
+          id: Date.now() + Math.floor(Math.random() * 1000),
+          src: data.imageUrl,
+          alt: form.name || "Image produit"
+        };
+        setForm(prev => ({ ...prev, images: [...prev.images, newImage] }));
+      } else {
+        const data = await res.json();
+        alert(`Erreur d'upload : ${data.error || 'Erreur inconnue'}`);
+      }
+    } catch (err: any) {
+      console.error("Upload image error:", err);
+      alert(`Erreur lors du traitement de l'image : ${err.message}`);
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
+  const removeImage = (id: number) => {
+    setForm(prev => ({ ...prev, images: prev.images.filter(img => img.id !== id) }));
+  };
+
   const seoScore = computeSeoScore(form);
   const seoColor = seoScore >= 75 ? "#059669" : seoScore >= 50 ? "#f59e0b" : "#dc2626";
 
@@ -199,7 +298,7 @@ export default function ProductFormClient({ product, isNew }: Props) {
   };
 
   const handleSave = async () => {
-    const targetId = form.id || product?.id;
+    const targetId = isNew ? "new" : (form.id || product?.id);
     if (!targetId) {
       alert("Impossible de sauvegarder un nouveau produit pour l'instant (ID manquant).");
       return;
@@ -215,8 +314,13 @@ export default function ProductFormClient({ product, isNew }: Props) {
       });
 
       if (res.ok) {
+        const data = await res.json();
         setSaved(true);
-        router.refresh();
+        if (isNew && data.product) {
+          router.push(`/admin/products/${data.product.id || data.product.slug}`);
+        } else {
+          router.refresh();
+        }
         setTimeout(() => setSaved(false), 2500);
       } else {
         const errorData = await res.json();
@@ -410,31 +514,80 @@ export default function ProductFormClient({ product, isNew }: Props) {
               icon={<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>}
               cardBg={cls.cardBg} border={cls.border} textMain={cls.textMain}
             >
+              {/* Hidden file input */}
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={(e) => {
+                  const files = Array.from(e.target.files || []);
+                  files.forEach(uploadImage);
+                }}
+                multiple
+                accept="image/*"
+                className="hidden"
+              />
+
               {/* Image grid */}
-              <div className="grid grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {form.images.map((img) => (
                   <div key={img.id} className={`relative aspect-square rounded-xl overflow-hidden ${cls.inputBg} border ${cls.border} group`}>
                     <Image src={img.src} alt={img.alt} fill className="object-cover" />
-                    <button className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
-                      <svg className="w-5 h-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        removeImage(img.id);
+                      }}
+                      className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer border-transparent"
+                    >
+                      <svg className="w-6 h-6 text-red-500 hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                       </svg>
                     </button>
                   </div>
                 ))}
-                {/* Upload slot */}
-                <button className={`aspect-square rounded-xl border-2 border-dashed ${theme === "dark" ? "border-[#2a2a35] hover:border-[#2F3CD9]/40" : "border-gray-300 hover:border-[#2F3CD9]/40"} flex flex-col items-center justify-center gap-1 ${cls.textFaint} hover:text-[#2F3CD9] transition-colors cursor-pointer`}>
-                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
-                  </svg>
-                  <span className="text-[10px] font-semibold">Ajouter</span>
-                </button>
+                
+                {/* Drag and Drop dropzone slot */}
+                <div
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    setIsDragOver(true);
+                  }}
+                  onDragLeave={() => setIsDragOver(false)}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    setIsDragOver(false);
+                    const files = Array.from(e.dataTransfer.files);
+                    files.forEach(uploadImage);
+                  }}
+                  onClick={() => fileInputRef.current?.click()}
+                  className={`aspect-square rounded-xl border-2 border-dashed flex flex-col items-center justify-center gap-1.5 transition-all duration-300 cursor-pointer select-none ${
+                    isDragOver 
+                      ? "border-[#2F3CD9] bg-[#2F3CD9]/5 text-[#2F3CD9] scale-98"
+                      : `${theme === "dark" ? "border-[#2a2a35] hover:border-[#2F3CD9]/40" : "border-gray-300 hover:border-[#2F3CD9]/40"} ${cls.textFaint} hover:text-[#2F3CD9]`
+                  }`}
+                >
+                  {isUploadingImage ? (
+                    <div className="flex flex-col items-center gap-1.5 text-center">
+                      <svg className="w-6 h-6 animate-spin text-[#2F3CD9]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      <span className="text-[10px] font-semibold text-[#2F3CD9]">Optimisation...</span>
+                    </div>
+                  ) : (
+                    <>
+                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <span className="text-[10px] font-semibold text-center px-2">Drag & Drop ou Clic</span>
+                    </>
+                  )}
+                </div>
               </div>
-              <p className={`text-[11px] ${cls.textFaint} flex items-center gap-1.5`}>
+              <p className={`text-[11px] ${cls.textFaint} flex items-center gap-1.5 mt-2`}>
                 <svg className="w-3.5 h-3.5 text-[#2F3CD9]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                Les images sont automatiquement converties en WebP à l'upload.
+                Les images sont automatiquement optimisées et converties en format WebP côté client à l'upload.
               </p>
             </SectionCard>
 
