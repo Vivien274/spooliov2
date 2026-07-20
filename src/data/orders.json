@@ -1,1 +1,19 @@
-[]
+[
+  {
+    "id": "SP-97783",
+    "stripeSession": "cs_test_mock_1784545175563",
+    "email": "test@spoolio.fr",
+    "customerName": "Test Client",
+    "items": "[]",
+    "total": 10,
+    "shippingCost": 4.9,
+    "shippingMethod": "home",
+    "status": "attente_impression",
+    "relayDetails": null,
+    "pickupSlotRequested": null,
+    "pickupSlotConfirmed": null,
+    "pickupStatus": null,
+    "createdAt": "2026-07-20T10:59:35.980Z",
+    "updatedAt": "2026-07-20T10:59:35.980Z"
+  }
+]
