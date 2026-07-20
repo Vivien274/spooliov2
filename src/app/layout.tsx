@@ -4,6 +4,7 @@ import "./globals.css";
 import AdminToolbar from "@/components/AdminToolbar";
 import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/components/CartDrawer";
+import VisitorTracker from "@/components/VisitorTracker";
 
 const antonio = Antonio({
   variable: "--font-antonio",
@@ -53,6 +54,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <CartProvider>
+          <VisitorTracker />
           <AdminToolbar />
           <CartDrawer />
           {children}

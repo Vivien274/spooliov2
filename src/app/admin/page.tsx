@@ -115,10 +115,14 @@ const modules = [
 
 export default function AdminDashboard() {
   const { cls, theme } = useAdminTheme();
-  const [activeTab, setActiveTab] = useState<"dashboard" | "hero">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "stats" | "hero">("dashboard");
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loadingOrders, setLoadingOrders] = useState<boolean>(true);
   const [statusChangeLoading, setStatusChangeLoading] = useState<string | null>(null);
+
+  // Visits statistics states
+  const [visitsStats, setVisitsStats] = useState<any>(null);
+  const [loadingStats, setLoadingStats] = useState<boolean>(true);
 
   // Hero settings state
   const [heroConfig, setHeroConfig] = useState({
@@ -204,9 +208,26 @@ export default function AdminDashboard() {
     }
   };
 
+  // Load visits statistics
+  const fetchVisitsStats = async () => {
+    setLoadingStats(true);
+    try {
+      const res = await fetch("/api/admin/visits-stats");
+      if (res.ok) {
+        const data = await res.json();
+        setVisitsStats(data.stats);
+      }
+    } catch (e) {
+      console.error("Failed to load visits stats:", e);
+    } finally {
+      setLoadingStats(false);
+    }
+  };
+
   useEffect(() => {
     fetchOrders();
     fetchHeroConfig();
+    fetchVisitsStats();
   }, []);
 
   const handleUpdateStatus = async (orderId: string, newStatus: string) => {
@@ -289,6 +310,14 @@ export default function AdminDashboard() {
             }`}
           >
             Dashboard
+          </button>
+          <button
+            onClick={() => setActiveTab("stats")}
+            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
+              activeTab === "stats" ? "bg-white text-black shadow-md" : `text-gray-400 hover:text-white`
+            }`}
+          >
+            Visites & Analytics
           </button>
           <button
             onClick={() => setActiveTab("hero")}
@@ -472,6 +501,132 @@ export default function AdminDashboard() {
             )}
           </div>
         </>
+      ) : activeTab === "stats" ? (
+        <div className="space-y-6">
+          {/* Header & Refresh */}
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className={`text-base font-bold ${cls.textMain} uppercase tracking-widest font-antonio`}>Analyses des Visites</h3>
+              <p className={`text-xs ${cls.textMuted} mt-0.5`}>Consultez l'activité et le trafic de votre boutique en temps réel.</p>
+            </div>
+            <button
+              onClick={fetchVisitsStats}
+              disabled={loadingStats}
+              className={`text-xs px-3 py-1.5 rounded-lg border ${cls.border} ${cls.inputBg} hover:text-white cursor-pointer transition-colors`}
+            >
+              {loadingStats ? "Chargement..." : "Rafraîchir"}
+            </button>
+          </div>
+
+          {loadingStats ? (
+            <div className="py-12 text-center text-xs text-gray-500 font-bold uppercase tracking-widest font-sans">
+              Chargement des statistiques...
+            </div>
+          ) : !visitsStats ? (
+            <div className="py-12 text-center text-xs text-gray-500 font-sans">
+              Aucune donnée de visites disponible.
+            </div>
+          ) : (
+            <>
+              {/* Analytics KPIs Row */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[
+                  { label: "Visites totales", value: visitsStats.totalVisits.toString(), desc: "De tous les temps" },
+                  { label: "Visites aujourd'hui", value: visitsStats.todayVisits.toString(), desc: "Pages consultées" },
+                  { label: "Visiteurs uniques (Jour)", value: visitsStats.uniqueToday.toString(), desc: "IPs anonymisées" },
+                  { label: "Visiteurs uniques (Semaine)", value: visitsStats.uniqueWeek.toString(), desc: "Tendance 7 jours" },
+                ].map((kpi) => (
+                  <div key={kpi.label} className={`${cls.cardBg} border ${cls.border} rounded-2xl p-4 flex flex-col gap-1 transition-colors duration-300`}>
+                    <span className={`text-[11px] ${cls.textFaint} uppercase tracking-widest font-semibold`}>{kpi.label}</span>
+                    <span className={`text-2xl font-black ${cls.textMain} font-antonio`}>{kpi.value}</span>
+                    <span className={`text-[10px] ${cls.textFaint}`}>{kpi.desc}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Left: Interactive Daily Activity Chart */}
+                <div className={`lg:col-span-2 ${cls.cardBg} border ${cls.border} rounded-3xl p-6 flex flex-col justify-between h-[360px]`}>
+                  <div>
+                    <h4 className={`text-xs font-bold ${cls.textMain} uppercase tracking-widest font-antonio mb-1`}>Trafic hebdomadaire</h4>
+                    <p className={`text-[10px] ${cls.textFaint}`}>Nombre de pages visitées par jour sur les 7 derniers jours.</p>
+                  </div>
+
+                  {/* SVG Line / Bar Chart */}
+                  <div className="flex-1 flex items-end justify-between gap-2 h-44 mt-6 pt-4 border-b border-white/5 pb-2 relative z-0">
+                    {visitsStats.dailyStats.map((day: any) => {
+                      // Calculate height based on maximum value in range
+                      const maxVal = Math.max(...visitsStats.dailyStats.map((d: any) => d.count), 1);
+                      const percent = (day.count / maxVal) * 100;
+                      return (
+                        <div key={day.label} className="flex-1 flex flex-col items-center gap-2 group h-full justify-end relative">
+                          {/* Tooltip on hover */}
+                          <span className="opacity-0 group-hover:opacity-100 bg-[#ff4f00] text-black text-[9px] font-black px-1.5 py-0.5 rounded-md transition-opacity absolute mb-14 translate-y-[-10px] shadow-lg select-none z-50">
+                            {day.count}
+                          </span>
+                          
+                          {/* Bar Graphic */}
+                          <div 
+                            className="w-full bg-gradient-to-t from-[#ff4f00]/30 to-[#ff4f00] rounded-t-lg transition-all duration-500 hover:scale-[1.03] shadow-[0_0_15px_rgba(255,79,0,0.15)]"
+                            style={{ height: `${percent}%`, minHeight: day.count > 0 ? "4px" : "1px" }}
+                          />
+
+                          {/* Day details */}
+                          <span className={`text-[9px] ${cls.textFaint} uppercase tracking-wider text-center`}>
+                            {day.label}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Right Stack: Top Pages & Top Products */}
+                <div className="lg:col-span-1 flex flex-col gap-6">
+                  {/* Top Products */}
+                  <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 flex-1`}>
+                    <h4 className={`text-xs font-bold ${cls.textMain} uppercase tracking-widest font-antonio mb-3`}>Top Produits</h4>
+                    
+                    {visitsStats.topProducts.length === 0 ? (
+                      <p className={`text-xs ${cls.textFaint} text-center py-6`}>Aucune visite produit pour le moment.</p>
+                    ) : (
+                      <div className="space-y-3 font-sans">
+                        {visitsStats.topProducts.map((p: any) => {
+                          const maxCount = Math.max(...visitsStats.topProducts.map((pr: any) => pr.count), 1);
+                          const barWidth = (p.count / maxCount) * 100;
+                          return (
+                            <div key={p.url} className="space-y-1">
+                              <div className="flex items-center justify-between text-xs font-bold">
+                                <span className={`${cls.textMain} truncate max-w-[150px]`}>{p.name}</span>
+                                <span className="text-[#ff4f00] font-black">{p.count}</span>
+                              </div>
+                              <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                                <div className="h-full bg-[#ff4f00] rounded-full" style={{ width: `${barWidth}%` }} />
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Top Pages */}
+                  <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 flex-1`}>
+                    <h4 className={`text-xs font-bold ${cls.textMain} uppercase tracking-widest font-antonio mb-3`}>Top Pages</h4>
+                    <div className="space-y-2 font-sans">
+                      {visitsStats.topPages.map((p: any) => (
+                        <div key={p.url} className="flex items-center justify-between text-xs py-1 border-b border-white/5 last:border-0">
+                          <span className={`font-mono text-[10px] ${cls.textFaint} truncate max-w-[170px]`}>{p.url === "" || p.url === "/" ? "/ (Accueil)" : p.url}</span>
+                          <span className={`${cls.textMain} font-extrabold`}>{p.count}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
       ) : (
         /* Hero Settings Customizer Panel */
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
