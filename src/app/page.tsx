@@ -36,15 +36,24 @@ export default async function Home() {
       take: 6,
       orderBy: { createdAt: "desc" }
     });
-    const timeoutPromise = new Promise<null>((_, reject) =>
-      setTimeout(() => reject(new Error("Prisma Query Timeout (2500ms)")), 2500)
-    );
+
+    let timeoutId: any;
+    const timeoutPromise = new Promise<[null, any[]]>((resolve) => {
+      timeoutId = setTimeout(() => {
+        console.warn("Prisma Query Timeout (2500ms) triggered on home load");
+        resolve([null, []]);
+      }, 2500);
+    });
     
     // Query both hero config and approved reviews in parallel
     const [page, fetchedReviews] = await Promise.race([
       Promise.all([heroPromise, reviewsPromise]),
-      timeoutPromise.then(() => [null, []])
+      timeoutPromise
     ]) as [any, any[]];
+
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
 
     if (page) {
       const config = JSON.parse(page.content);

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCart, SelectedRelay } from "@/context/CartContext";
 
 export default function CartDrawer() {
@@ -21,6 +22,7 @@ export default function CartDrawer() {
     cartTotalWithShipping,
   } = useCart();
 
+  const router = useRouter();
   const [checkoutLoading, setCheckoutLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -197,29 +199,20 @@ export default function CartDrawer() {
     setCheckoutLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          items: cartItems,
-          shippingMethod,
-          selectedRelay: shippingMethod === "relay" ? selectedRelay : null,
-        }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "Une erreur est survenue lors de l'initialisation de la commande.");
-      }
-
-      // Redirect user to secure Stripe Checkout page
-      if (data.url) {
-        window.location.href = data.url;
+      // Save shipping details in localStorage for the upsell page to read
+      localStorage.setItem("spoolio_shipping_method", shippingMethod);
+      if (shippingMethod === "relay" && selectedRelay) {
+        localStorage.setItem("spoolio_selected_relay", JSON.stringify(selectedRelay));
       } else {
-        throw new Error("L'URL de paiement est introuvable.");
+        localStorage.removeItem("spoolio_selected_relay");
       }
+
+      // Close cart drawer and redirect to the upsell page
+      setIsCartOpen(false);
+      router.push("/upsell");
     } catch (err: any) {
-      setError(err.message || "Erreur de connexion avec la passerelle de paiement.");
+      setError("Une erreur est survenue lors de la redirection.");
+    } finally {
       setCheckoutLoading(false);
     }
   };
