@@ -47,19 +47,43 @@ export default function UpsellPage() {
     fetchProducts();
   }, []);
 
-  // Filter 3 appropriate low-price or accessories suggestions not already in cart
+  // Filter 3 appropriate suggestions not already in cart, prioritizing those that help reach free shipping (>= missing amount)
   useEffect(() => {
     if (catalog.length === 0) return;
 
-    const inCartIds = new Set(cartItems.map((item) => String(item.id)));
-    const filtered = catalog
-      .filter((p) => !inCartIds.has(String(p.id)))
-      // Sort by price low-to-high to present cheap impulse items
-      .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
-      .slice(0, 3);
+    const inCartIds = new Set(cartItems.map((item) => String(item.productId)));
+    const missingAmount = 40 - cartTotal;
+
+    // Filter out products already in cart
+    const available = catalog.filter((p) => !inCartIds.has(String(p.id)));
+
+    let filtered: Product[] = [];
+    if (missingAmount > 0) {
+      // 1. Prioritize products that cost at least the missing amount to reach free shipping
+      const prioritize = available.filter((p) => parseFloat(p.price) >= missingAmount);
+      
+      // Sort those by price ascending so the user sees the cheapest option that gets them to free shipping first
+      prioritize.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+
+      filtered = prioritize.slice(0, 3);
+
+      // 2. If we have less than 3 products, backfill with other available products (cheapest first)
+      if (filtered.length < 3) {
+        const remaining = available
+          .filter((p) => !filtered.some((f) => f.id === p.id))
+          .sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+        
+        filtered = [...filtered, ...remaining].slice(0, 3);
+      }
+    } else {
+      // If free shipping is already reached, suggest cheapest items to add as little extra cost as possible
+      filtered = available
+        .sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
+        .slice(0, 3);
+    }
 
     setSuggestions(filtered);
-  }, [catalog, cartItems]);
+  }, [catalog, cartItems, cartTotal]);
 
   // Redirect to home if cart is empty and not loading checkout
   useEffect(() => {
@@ -149,13 +173,42 @@ export default function UpsellPage() {
         </div>
 
         {/* Header Title */}
-        <div className="text-center max-w-xl mb-12">
+        <div className="text-center max-w-xl mb-8">
           <h2 className="text-3xl sm:text-4xl font-black font-antonio tracking-tight uppercase">
             Vous aimeriez peut-être aussi...
           </h2>
           <p className="text-sm text-gray-400 mt-3 leading-relaxed">
             Profitez-en pour ajouter une touche de fun à votre colis ! Aucun frais de port supplémentaire ne s'appliquera pour ces objets.
           </p>
+        </div>
+
+        {/* Free Shipping Progress Indicator */}
+        <div className="w-full max-w-2xl bg-[#121214]/40 border border-[#222225] rounded-[24px] p-5 mb-10 flex flex-col gap-3 font-sans select-none no-invert shadow-xl">
+          <div className="flex items-center justify-between text-xs font-bold">
+            {cartTotal < 40 ? (
+              <>
+                <span className="text-gray-300">
+                  Plus que <strong className="text-[#ff4f00] text-sm">{(40 - cartTotal).toFixed(2)}€</strong> pour profiter de la <span className="text-white">livraison offerte</span> !
+                </span>
+                <span className="text-[#ff4f00] animate-bounce text-sm">🚀</span>
+              </>
+            ) : (
+              <>
+                <span className="text-emerald-400 flex items-center gap-1.5 text-sm">
+                  🎉 Livraison offerte active !
+                </span>
+                <span className="text-emerald-400 font-black uppercase tracking-wider text-[11px]">Offerte</span>
+              </>
+            )}
+          </div>
+          <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden relative">
+            <div 
+              className={`h-full rounded-full transition-all duration-500 ${
+                cartTotal < 40 ? "bg-gradient-to-r from-[#ff4f00]/60 to-[#ff4f00]" : "bg-emerald-400 shadow-[0_0_12px_#34d399]"
+              }`}
+              style={{ width: `${Math.min((cartTotal / 40) * 100, 100)}%` }}
+            />
+          </div>
         </div>
 
         {/* Grille des suggestions */}
