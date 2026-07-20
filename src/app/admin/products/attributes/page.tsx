@@ -229,7 +229,7 @@ export default function AdminAttributesPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="flex-1 h-10 flex items-center justify-center text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer bg-[#2F3CD9] hover:bg-[#202db0] disabled:opacity-50"
+                className="flex-1 h-10 flex items-center justify-center text-black text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer bg-white hover:bg-white/90 disabled:opacity-50 shadow-md shadow-white/5"
               >
                 {submitting ? "Sauvegarde..." : editingId !== null ? "Enregistrer" : "Ajouter ➕"}
               </button>

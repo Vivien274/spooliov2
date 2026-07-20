@@ -510,7 +510,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
             className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition-all cursor-pointer ${
               saved
                 ? "bg-emerald-500 text-white"
-                : "bg-[#2F3CD9] hover:bg-[#2432c0] text-white shadow-lg shadow-[#2F3CD9]/20"
+                : "bg-white text-black hover:bg-white/90 shadow-lg shadow-white/5"
             }`}
           >
             {saved ? (
@@ -608,7 +608,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                     type="button"
                     onClick={handleGenerateDescription}
                     disabled={isGenerating}
-                    className="flex items-center gap-1.5 text-[11px] font-bold text-[#2F3CD9] bg-[#2F3CD9]/10 hover:bg-[#2F3CD9]/15 border border-[#2F3CD9]/20 px-3 py-1.5 rounded-full transition-colors cursor-pointer disabled:opacity-50"
+                    className="flex items-center gap-1.5 text-[11px] font-bold text-white bg-white/10 hover:bg-white/15 border border-white/20 px-3 py-1.5 rounded-full transition-colors cursor-pointer disabled:opacity-50"
                   >
                     <svg className={`w-3 h-3 ${isGenerating ? "animate-spin" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       {isGenerating ? (
@@ -894,7 +894,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                             variationPrices: [...vPrices, { combination: defaultComb, price: "" }]
                           });
                         }}
-                        className="text-xs font-bold text-[#2F3CD9] bg-[#2F3CD9]/10 border border-[#2F3CD9]/20 px-3 py-1.5 rounded-lg hover:bg-[#2F3CD9]/15 transition-colors cursor-pointer"
+                        className="text-xs font-bold text-white bg-white/10 border border-white/20 px-3 py-1.5 rounded-lg hover:bg-white/15 transition-colors cursor-pointer"
                       >
                         + Ajouter une variation de prix
                       </button>
@@ -1063,10 +1063,10 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                 {form.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="flex items-center gap-1.5 text-xs font-semibold bg-[#2F3CD9]/10 text-[#2F3CD9] border border-[#2F3CD9]/20 px-3 py-1 rounded-full"
+                    className="flex items-center gap-1.5 text-xs font-semibold bg-white/10 text-white border border-white/20 px-3 py-1 rounded-full"
                   >
                     {tag}
-                    <button onClick={() => removeTag(tag)} className="text-[#2F3CD9]/60 hover:text-[#2F3CD9] transition-colors cursor-pointer">
+                    <button onClick={() => removeTag(tag)} className="text-white/60 hover:text-white transition-colors cursor-pointer">
                       <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                       </svg>
@@ -1080,11 +1080,11 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                   onChange={(e) => setNewTag(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
                   placeholder="Ajouter un tag…"
-                  className={`flex-1 ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-sm ${cls.textMain} placeholder-gray-400 focus:outline-none focus:border-[#2F3CD9]/50 transition-colors`}
+                  className={`flex-1 ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-sm ${cls.textMain} placeholder-gray-400 focus:outline-none focus:border-white/30 transition-colors`}
                 />
                 <button
                   onClick={addTag}
-                  className="px-4 py-2.5 bg-[#2F3CD9]/15 border border-[#2F3CD9]/30 text-[#2F3CD9] text-xs font-bold rounded-xl hover:bg-[#2F3CD9]/20 transition-colors cursor-pointer"
+                  className="px-4 py-2.5 bg-white text-black hover:bg-white/90 text-xs font-bold rounded-xl transition-all cursor-pointer shadow-md shadow-white/5"
                 >
                   Ajouter
                 </button>

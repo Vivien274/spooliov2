@@ -38,7 +38,7 @@ function mapProduct(p: any) {
       const parsed = typeof p.attributes === 'string' ? JSON.parse(p.attributes) : p.attributes;
       if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
         tagsList = parsed.tags || [];
-        parsedAttributes = parsed.attributes || [];
+        parsedAttributes = parsed; // Keep the whole parsed object (with variationPrices) instead of throwing it away
       } else if (Array.isArray(parsed)) {
         parsedAttributes = parsed;
       }

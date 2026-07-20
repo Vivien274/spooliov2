@@ -217,8 +217,7 @@ export default function AdminPagesPage() {
             <button
               type="submit"
               disabled={saving}
-              className="w-full h-11 flex items-center justify-center text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-lg disabled:opacity-50"
-              style={{ background: ADMIN_BLUE, boxShadow: "0 8px 24px rgba(47, 60, 217, 0.25)" }}
+              className="w-full h-11 flex items-center justify-center text-black bg-white hover:bg-white/90 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-md shadow-white/5 disabled:opacity-50"
             >
               {saving ? "Sauvegarde..." : "Enregistrer les modifications"}
             </button>

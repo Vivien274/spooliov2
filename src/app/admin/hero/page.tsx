@@ -212,7 +212,7 @@ export default function HeroCustomizerPage() {
                     placeholder="Ex: /images/hero_background.jpg"
                     className={`flex-1 h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#2F3CD9]`}
                   />
-                  <label className="h-10 px-4 bg-[#2F3CD9] hover:bg-[#202db0] disabled:bg-[#2F3CD9]/40 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer shrink-0">
+                  <label className="h-10 px-4 bg-white hover:bg-white/90 disabled:bg-white/40 text-black text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer shrink-0 shadow-md shadow-white/5">
                     <input
                       type="file"
                       accept="image/*"
@@ -267,8 +267,7 @@ export default function HeroCustomizerPage() {
               <button
                 type="submit"
                 disabled={savingHero}
-                className="w-full h-11 flex items-center justify-center text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-lg disabled:opacity-50"
-                style={{ background: ADMIN_BLUE, boxShadow: "0 8px 24px rgba(47, 60, 217, 0.25)" }}
+                className="w-full h-11 flex items-center justify-center text-black bg-white hover:bg-white/90 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-md shadow-white/5 disabled:opacity-50"
               >
                 {savingHero ? "Sauvegarde..." : "Enregistrer la configuration"}
               </button>

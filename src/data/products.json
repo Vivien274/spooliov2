@@ -109494,7 +109494,7 @@
     "short_description": "<p class=\"p1\">⌨️ <b>Le porte-clé clavier Spoolio : un accessoire geek et personnalisable !</b> 🎮💻</p>\n<p class=\"p1\">Transformez votre passion pour les claviers en un <b>porte-clés unique</b> ! Avec de <b>vraies touches mécaniques</b>, choisissez entre <b>1, 2, 3 ou 4 touches</b> pour afficher vos <b>initiales, un logo,</b> ou un mot court. <b>Noir ou blanc</b>, il est aussi dispo dans cette version <b>premium</b> avec un logo ou une gravure personnalisée. <b>Un must-have pour les gamers, développeurs et fans de tech !</b> 🚀</p>\n",
     "sku": "",
     "price": "5",
-    "regular_price": "",
+    "regular_price": "5",
     "sale_price": "",
     "date_on_sale_from": null,
     "date_on_sale_from_gmt": null,
@@ -109513,7 +109513,7 @@
     "tax_status": "taxable",
     "tax_class": "",
     "manage_stock": false,
-    "stock_quantity": null,
+    "stock_quantity": 10,
     "backorders": "no",
     "backorders_allowed": false,
     "backordered": false,
@@ -109558,128 +109558,117 @@
     ],
     "images": [
       {
-        "id": 8063,
-        "date_created": "2025-01-31T16:06:42",
-        "date_created_gmt": "2025-01-31T14:06:42",
-        "date_modified": "2025-02-04T12:19:16",
-        "date_modified_gmt": "2025-02-04T10:19:16",
+        "id": 2423,
         "src": "/images/imported/Spoolio_Porte-Cle-clavier-mecanique-16.jpg",
-        "name": "Spoolio Porte Cle clavier mecanique 16",
-        "alt": "Spoolio Porte Cle clavier mecanique 16",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?resize=600%2C400&ssl=1 600w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Porte Cle clavier mecanique 16"
       },
       {
-        "id": 7931,
-        "date_created": "2025-01-31T11:39:49",
-        "date_created_gmt": "2025-01-31T09:39:49",
-        "date_modified": "2025-02-04T12:17:52",
-        "date_modified_gmt": "2025-02-04T10:17:52",
+        "id": 2424,
         "src": "/images/imported/Spoolio_Porte-Cle-clavier-mecanique-12.jpg",
-        "name": "Spoolio Porte Cle clavier mecanique 12",
-        "alt": "Spoolio Porte Cle clavier mecanique 12",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-12.jpg?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-12.jpg?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-12.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-12.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-12.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-12.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-12.jpg?resize=600%2C400&ssl=1 600w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-12.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Porte Cle clavier mecanique 12"
       },
       {
-        "id": 7932,
-        "date_created": "2025-01-31T11:39:53",
-        "date_created_gmt": "2025-01-31T09:39:53",
-        "date_modified": "2025-02-04T12:17:55",
-        "date_modified_gmt": "2025-02-04T10:17:55",
+        "id": 2425,
         "src": "/images/imported/Spoolio_Porte-Cle-clavier-mecanique-13.jpg",
-        "name": "Spoolio Porte Cle clavier mecanique 13",
-        "alt": "Spoolio Porte Cle clavier mecanique 13",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-13.jpg?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-13.jpg?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-13.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-13.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-13.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-13.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-13.jpg?resize=600%2C400&ssl=1 600w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-13.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Porte Cle clavier mecanique 13"
       },
       {
-        "id": 8063,
-        "date_created": "2025-01-31T16:06:42",
-        "date_created_gmt": "2025-01-31T14:06:42",
-        "date_modified": "2025-02-04T12:19:16",
-        "date_modified_gmt": "2025-02-04T10:19:16",
+        "id": 2426,
         "src": "/images/imported/Spoolio_Porte-Cle-clavier-mecanique-16.jpg",
-        "name": "Spoolio Porte Cle clavier mecanique 16",
-        "alt": "Spoolio Porte Cle clavier mecanique 16",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?resize=600%2C400&ssl=1 600w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-16.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Porte Cle clavier mecanique 16"
       },
       {
-        "id": 8062,
-        "date_created": "2025-01-31T16:06:37",
-        "date_created_gmt": "2025-01-31T14:06:37",
-        "date_modified": "2025-02-04T12:19:15",
-        "date_modified_gmt": "2025-02-04T10:19:15",
+        "id": 2427,
         "src": "/images/imported/Spoolio_Porte-Cle-clavier-mecanique-15.jpg",
-        "name": "Spoolio Porte Cle clavier mecanique 15",
-        "alt": "Spoolio Porte Cle clavier mecanique 15",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-15.jpg?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-15.jpg?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-15.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-15.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-15.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-15.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-15.jpg?resize=600%2C400&ssl=1 600w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-15.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Porte Cle clavier mecanique 15"
       },
       {
-        "id": 8061,
-        "date_created": "2025-01-31T16:06:21",
-        "date_created_gmt": "2025-01-31T14:06:21",
-        "date_modified": "2025-02-04T12:19:12",
-        "date_modified_gmt": "2025-02-04T10:19:12",
+        "id": 2428,
         "src": "/images/imported/Spoolio_Porte-Cle-clavier-mecanique-14.jpg",
-        "name": "Spoolio Porte Cle clavier mecanique 14",
-        "alt": "Spoolio Porte Cle clavier mecanique 14",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-14.jpg?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-14.jpg?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-14.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-14.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-14.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-14.jpg?resize=400%2C267&ssl=1 400w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-14.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Porte Cle clavier mecanique 14"
       }
     ],
-    "attributes": [
-      {
-        "id": 1,
-        "name": "Couleur",
-        "slug": "pa_couleur",
-        "position": 0,
-        "visible": true,
-        "variation": true,
-        "options": [
-          "Blanc",
-          "Jaune",
-          "Noir",
-          "Rose pâle",
-          "Rouge",
-          "Vert fluo / pomme"
-        ]
-      },
-      {
-        "id": 0,
-        "name": "Couleur des touches",
-        "slug": "Couleur des touches",
-        "position": 1,
-        "visible": true,
-        "variation": true,
-        "options": [
-          "Noir (écriture blanche)",
-          " Blanc (écriture noire)"
-        ]
-      },
-      {
-        "id": 0,
-        "name": "Nombre de touches",
-        "slug": "Nombre de touches",
-        "position": 2,
-        "visible": true,
-        "variation": true,
-        "options": [
-          "1 touche",
-          "2 touches",
-          "3 touches",
-          "4 touches"
-        ]
-      }
-    ],
+    "attributes": {
+      "attributes": [
+        {
+          "id": 1,
+          "name": "Couleur",
+          "slug": "pa_couleur",
+          "position": 0,
+          "visible": true,
+          "variation": true,
+          "options": [
+            "Blanc",
+            "Jaune",
+            "Noir",
+            "Rose pâle",
+            "Rouge",
+            "Vert fluo / pomme"
+          ]
+        },
+        {
+          "id": 0,
+          "name": "Couleur des touches",
+          "slug": "Couleur des touches",
+          "position": 1,
+          "visible": true,
+          "variation": true,
+          "options": [
+            "Noir (écriture blanche)",
+            " Blanc (écriture noire)"
+          ]
+        },
+        {
+          "id": 0,
+          "name": "Nombre de touches",
+          "slug": "Nombre de touches",
+          "position": 2,
+          "visible": true,
+          "variation": true,
+          "options": [
+            "1 touche",
+            "2 touches",
+            "3 touches",
+            "4 touches"
+          ]
+        }
+      ],
+      "variationPrices": [
+        {
+          "combination": {
+            "Couleur": "",
+            "Couleur des touches": "",
+            "Nombre de touches": "1 touche"
+          },
+          "price": "5"
+        },
+        {
+          "combination": {
+            "Couleur": "",
+            "Couleur des touches": "",
+            "Nombre de touches": "2 touches"
+          },
+          "price": "6"
+        },
+        {
+          "combination": {
+            "Couleur": "",
+            "Couleur des touches": "",
+            "Nombre de touches": "3 touches"
+          },
+          "price": "7"
+        },
+        {
+          "combination": {
+            "Couleur": "",
+            "Couleur des touches": "",
+            "Nombre de touches": "4 touches"
+          },
+          "price": "8"
+        }
+      ],
+      "tags": []
+    },
     "default_attributes": [],
     "variations": [
       7934,

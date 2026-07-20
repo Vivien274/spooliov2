@@ -116,7 +116,7 @@ export default function PickupSlotsPage() {
               <button
                 onClick={handleAddSlot}
                 disabled={savingSlots}
-                className="h-10 px-4 bg-[#2F3CD9] hover:bg-[#202db0] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer shrink-0 disabled:opacity-50"
+                className="h-10 px-4 bg-white hover:bg-white/90 text-black text-xs font-bold rounded-xl transition-colors cursor-pointer shrink-0 disabled:opacity-50 shadow-md shadow-white/5"
               >
                 Ajouter ➕
               </button>
