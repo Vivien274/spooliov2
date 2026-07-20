@@ -667,7 +667,7 @@ export default function PanierClient() {
               </svg>
             ) : (
               <>
-                <span>Étape suivante : Ventes Privées</span>
+                <span>Valider la commande</span>
                 <UnicornIcon animationData={checkoutIconData} className="w-8 h-4 scale-[1.3]" isHovered={isCheckoutHovered} loop={true} />
               </>
             )}

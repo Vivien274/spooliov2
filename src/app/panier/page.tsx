@@ -11,7 +11,7 @@ export default function CartPage() {
   return (
     <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
       {/* Navigation Header */}
-      <Header className="h-24 flex items-center justify-between px-6 max-w-[1200px] mx-auto w-full no-invert" />
+      <Header className="h-24 flex items-center justify-between px-6 max-w-[1200px] mx-auto w-full" />
 
       {/* Main Content Area */}
       <main className="flex-1 w-full max-w-[1200px] px-6 py-12 relative z-10">
