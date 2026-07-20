@@ -118,8 +118,72 @@ export default async function Home() {
       <section className="w-full max-w-[1200px] px-4 py-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
-          {/* Left Block: La boussole à Fidgets (Gradient + Grid) */}
-          <a href="https://boussole.spoolio.fr" target="_blank" rel="noopener noreferrer" className="md:col-span-2 relative h-[220px] rounded-2xl overflow-hidden bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 border border-spoolio-border p-6 flex flex-col justify-between group cursor-pointer transition-transform duration-300 hover:scale-[0.995] no-invert bento-card-glow-blue animate-reveal delay-100">
+          {/* Left Block: Réseaux Sociaux (Hype community card) */}
+          <div className="md:col-span-1 relative h-[220px] rounded-2xl border border-spoolio-border p-6 flex flex-col justify-between bg-[#131316] overflow-hidden group bento-card-glow animate-reveal delay-75">
+            {/* Ambient colorful lighting behind */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-gradient-to-tr from-pink-600/10 via-purple-600/10 to-blue-600/10 filter blur-[40px] pointer-events-none" />
+
+            {/* Header */}
+            <div className="relative z-10 flex items-center justify-between font-sans">
+              <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">
+                Communauté Spoolio
+              </span>
+              {/* Heart animated pulse */}
+              <span className="text-red-500 text-sm animate-pulse">❤️</span>
+            </div>
+
+            {/* Social Buttons Row */}
+            <div className="relative z-10 flex justify-center gap-4 py-2">
+              {/* Instagram */}
+              <a 
+                href="https://www.instagram.com/spoolio.fr/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 hover:bg-gradient-to-tr hover:from-yellow-500 hover:via-pink-500 hover:to-purple-500 hover:border-transparent group/insta"
+                title="Instagram"
+              >
+                <svg className="w-5 h-5 transition-transform duration-300 group-hover/insta:rotate-12" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+                </svg>
+              </a>
+
+              {/* TikTok */}
+              <a 
+                href="https://www.tiktok.com/@spoolio.fr" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 hover:bg-black hover:border-cyan-400 group/tiktok shadow-[0_0_15px_rgba(37,244,238,0)] hover:shadow-[0_0_15px_rgba(37,244,238,0.3)]"
+                title="TikTok"
+              >
+                <svg className="w-5 h-5 transition-transform duration-300 group-hover/tiktok:-rotate-12" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12.525.02c1.31-.03 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.21-.42-.45-.6-.7-.03 3.68-.01 7.35-.02 11.03-.09 1.58-.69 3.19-1.87 4.26-1.52 1.41-3.79 2.05-5.83 1.65-2.61-.43-4.83-2.58-5.23-5.22-.59-3.23 1.43-6.52 4.62-7.05.69-.13 1.4-.15 2.1-.06v4.08c-.76-.17-1.57-.04-2.22.38-.85.5-1.34 1.51-1.22 2.49.12 1.34 1.28 2.44 2.63 2.44 1.31.06 2.53-.94 2.65-2.24.03-3.41.01-6.83.02-10.24-.02-4.22-.01-8.43-.02-12.65z" />
+                </svg>
+              </a>
+
+              {/* Facebook */}
+              <a 
+                href="https://www.facebook.com/spoolio/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 hover:bg-[#1877f2] hover:border-transparent group/fb"
+                title="Facebook"
+              >
+                <svg className="w-5 h-5 transition-transform duration-300 group-hover/fb:scale-110" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
+              </a>
+            </div>
+
+            {/* Footer Text */}
+            <div className="relative z-10 font-sans">
+              <p className="text-[10px] text-gray-400 font-medium">
+                Coulisses, nouveautés & bêtisier de l'atelier en vidéo.
+              </p>
+            </div>
+          </div>
+
+          {/* Middle Block: La boussole à Fidgets (Reduced to col-span-1) */}
+          <a href="https://boussole.spoolio.fr" target="_blank" rel="noopener noreferrer" className="md:col-span-1 relative h-[220px] rounded-2xl overflow-hidden bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 border border-spoolio-border p-6 flex flex-col justify-between group cursor-pointer transition-transform duration-300 hover:scale-[0.995] no-invert bento-card-glow-blue animate-reveal delay-100">
             {/* Grid Pattern Overlay */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:30px_30px] opacity-100 pointer-events-none" />
 
@@ -132,11 +196,11 @@ export default async function Home() {
 
             {/* Bottom Title */}
             <div className="relative z-10">
-              <h2 className="text-xl md:text-2xl font-bold text-white tracking-tight leading-tight">
+              <h2 className="text-xl font-bold text-white tracking-tight leading-tight">
                 La boussole à Fidgets
               </h2>
               <p className="text-xs text-white/80 mt-1 font-medium flex items-center gap-1.5">
-                Trouvez votre fidget idéal en 1 clic <span className="transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
+                Trouve ton fidget idéal <span className="transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
               </p>
             </div>
           </a>
