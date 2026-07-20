@@ -28,9 +28,8 @@ export async function sendOrderConfirmationEmail({
       return false;
     }
 
-    // Determine sender address: default to onboarding domain if domain is not verified yet
-    // Once domain is verified on Resend, user can use 'commandes@spoolio.fr'
-    const fromAddress = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    // Determine sender address: look for RESEND_EMAIL_FROM first
+    const fromAddress = process.env.RESEND_EMAIL_FROM || process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
     
     // In Resend sandbox mode (using onboarding@resend.dev), you can only send emails to the account owner
     // We let the developer force a recipient for testing in preview/dev env
@@ -176,7 +175,7 @@ export async function sendOrderShippedEmail({
       return false;
     }
 
-    const fromAddress = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const fromAddress = process.env.RESEND_EMAIL_FROM || process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
     const recipient = process.env.RESEND_TO_EMAIL || customerEmail;
 
     const shippingLabel = 
@@ -290,7 +289,7 @@ export async function sendPickupSlotConfirmedEmail({
     const resendKey = process.env.RESEND_API_KEY;
     if (!resendKey) return false;
 
-    const fromAddress = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const fromAddress = process.env.RESEND_EMAIL_FROM || process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
     const recipient = process.env.RESEND_TO_EMAIL || customerEmail;
 
     const emailHtml = `
@@ -346,7 +345,7 @@ export async function sendPickupSlotProposedEmail({
     const resendKey = process.env.RESEND_API_KEY;
     if (!resendKey) return false;
 
-    const fromAddress = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const fromAddress = process.env.RESEND_EMAIL_FROM || process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
     const recipient = process.env.RESEND_TO_EMAIL || customerEmail;
     
     const confirmationUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://spoolio.fr'}/suivi/pickup?id=${orderId}&slot=${encodeURIComponent(pickupSlot)}&email=${encodeURIComponent(customerEmail)}`;
