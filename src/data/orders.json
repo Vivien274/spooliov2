@@ -1,5 +1,25 @@
 [
   {
+    "id": "SP-41567",
+    "stripeSession": "cs_test_b1jN0ov4jrgPlv9uHBUhovg1mV8bt70M7xYNZBAj2PvfEL39F0h9lZQ8ff",
+    "email": "vbocquelet@gmail.com",
+    "customerName": "Bocquelet Vivien",
+    "customerPhone": null,
+    "shippingAddress": null,
+    "trackingNumber": null,
+    "items": "[{\"name\":\"Support de téléphone industriel (Couleur A: Noir, Couleur B: Noir, Couleur de la vis: Noir)\",\"quantity\":1,\"price\":\"12.00\"},{\"name\":\"Boîte Magique – Le petit tour qui bluffe tout le monde\",\"quantity\":1,\"price\":\"4.00\"},{\"name\":\"Kit Festival : 6 objets pour survivre à ton été\",\"quantity\":1,\"price\":\"16.00\"},{\"name\":\"Un café pour l'atelier ☕\",\"quantity\":1,\"price\":\"2.00\"},{\"name\":\"Porte-encens Donut\",\"quantity\":1,\"price\":\"6.00\"}]",
+    "total": 40,
+    "shippingCost": 0,
+    "shippingMethod": "pickup",
+    "status": "attente_impression",
+    "relayDetails": null,
+    "pickupSlotRequested": null,
+    "pickupSlotConfirmed": null,
+    "pickupStatus": "pending",
+    "createdAt": "2026-07-20T15:21:15.073Z",
+    "updatedAt": "2026-07-20T15:21:15.073Z"
+  },
+  {
     "id": "SP-84959",
     "stripeSession": "cs_test_b1revx8uq20Kyh1Vibr4XerWECHXLIdW7sUny9Z9643whFoINLkFqGJWVv",
     "email": "vivien274@gmail.com",

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, Suspense } from "react";
+import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
@@ -13,10 +13,46 @@ function SuccessPageContent() {
   const isSimulated = searchParams.get("simulated") === "true";
   const sessionId = searchParams.get("session_id");
 
+  const [realOrderId, setRealOrderId] = useState<string | null>(null);
+  const [loadingOrder, setLoadingOrder] = useState<boolean>(!!sessionId);
+
   // Clear cart when payment success page loads
   useEffect(() => {
     clearCart();
   }, []);
+
+  // Poll API with retries to resolve the human-readable order ID from the database
+  useEffect(() => {
+    if (!sessionId) return;
+    
+    let retries = 0;
+    const maxRetries = 6;
+
+    const fetchOrderId = async () => {
+      try {
+        const res = await fetch(`/api/orders/by-session?session_id=${sessionId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.orderId) {
+            setRealOrderId(data.orderId);
+            setLoadingOrder(false);
+            return;
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load order ID from session:", err);
+      }
+
+      if (retries < maxRetries) {
+        retries++;
+        setTimeout(fetchOrderId, 1200); // Retry every 1.2s to account for Stripe webhook delay
+      } else {
+        setLoadingOrder(false);
+      }
+    };
+
+    fetchOrderId();
+  }, [sessionId]);
 
   return (
     <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-black">
@@ -44,8 +80,8 @@ function SuccessPageContent() {
         {/* Dynamic Payment Details */}
         <div className="w-full bg-spoolio-card border border-spoolio-border rounded-2xl p-5 mb-8 text-left flex flex-col gap-3 font-sans">
           <div className="flex items-center justify-between text-xs border-b border-white/5 pb-2.5">
-            <span className="text-gray-500 font-bold uppercase tracking-wider">Statut</span>
-            <span className="text-emerald-400 font-bold flex items-center gap-1.5">
+            <span className="text-gray-500 font-bold uppercase tracking-wider font-sans">Statut</span>
+            <span className="text-emerald-400 font-bold flex items-center gap-1.5 font-sans">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               Paiement validé
             </span>
@@ -53,16 +89,22 @@ function SuccessPageContent() {
 
           {sessionId && (
             <div className="flex items-center justify-between text-xs border-b border-white/5 pb-2.5">
-              <span className="text-gray-500 font-bold uppercase tracking-wider">Commande ID</span>
+              <span className="text-gray-500 font-bold uppercase tracking-wider font-sans">Commande ID</span>
               <span className="text-gray-300 font-mono select-all truncate max-w-[180px]">
-                {sessionId.slice(0, 18)}...
+                {loadingOrder ? (
+                  <span className="text-gray-500 italic font-sans">Recherche en cours...</span>
+                ) : realOrderId ? (
+                  realOrderId
+                ) : (
+                  `${sessionId.slice(0, 18)}...`
+                )}
               </span>
             </div>
           )}
 
           <div className="flex items-center justify-between text-xs">
-            <span className="text-gray-500 font-bold uppercase tracking-wider">Délai de fabrication</span>
-            <span className="text-gray-300 font-semibold">
+            <span className="text-gray-500 font-bold uppercase tracking-wider font-sans">Délai de fabrication</span>
+            <span className="text-gray-300 font-semibold font-sans">
               24h à 48h (Comines, France)
             </span>
           </div>
@@ -70,7 +112,7 @@ function SuccessPageContent() {
 
         {/* Simulation Banner warning */}
         {isSimulated && (
-          <div className="w-full bg-[#f7eb12]/10 border border-[#f7eb12]/20 text-[#f7eb12] text-[11px] font-semibold px-4 py-3 rounded-xl mb-8 flex items-center gap-2 font-sans select-none">
+          <div className="w-full bg-[#f7eb12]/10 border border-[#f7eb12]/20 text-[#f7eb12] text-[11px] font-semibold px-4 py-3 rounded-xl mb-8 flex items-center gap-2 font-sans select-none animate-pulse">
             <span className="text-sm shrink-0">⚙️</span>
             <span>Mode simulation activé. Aucune transaction réelle n'a été effectuée.</span>
           </div>
@@ -80,13 +122,13 @@ function SuccessPageContent() {
         <div className="flex flex-col sm:flex-row gap-4 w-full">
           <Link
             href="/boutique"
-            className="flex-1 h-[50px] min-h-[50px] inline-flex items-center justify-center text-xs font-bold text-black bg-white hover:bg-gray-100 rounded-xl transition-all shadow-lg cursor-pointer"
+            className="flex-1 h-[50px] min-h-[50px] inline-flex items-center justify-center text-xs font-bold text-black bg-white hover:bg-gray-100 rounded-xl transition-all shadow-lg cursor-pointer font-sans"
           >
             Retourner à la boutique
           </Link>
           <Link
             href="/"
-            className="flex-1 h-[50px] min-h-[50px] inline-flex items-center justify-center text-xs font-bold text-gray-300 bg-spoolio-card border border-spoolio-border hover:border-white/40 hover:text-white rounded-xl transition-all cursor-pointer"
+            className="flex-1 h-[50px] min-h-[50px] inline-flex items-center justify-center text-xs font-bold text-gray-300 bg-spoolio-card border border-spoolio-border hover:border-white/40 hover:text-white rounded-xl transition-all cursor-pointer font-sans"
           >
             Page d'accueil
           </Link>
