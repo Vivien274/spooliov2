@@ -126,45 +126,38 @@ export default async function Home() {
         />
       </div>
 
-      {/* Background Floating Elements Layer */}
+      {/* Background Floating Elements Layer (Modern gravity particle dots) */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden" style={{ top: "650px", bottom: "1600px" }}>
-        {/* Floating Gear 3D outline (Left side, under marquee) */}
-        <div className="absolute top-[5%] left-[3%] w-20 md:w-24 h-20 md:h-24 text-white/5 animate-float-slow opacity-60">
-          <svg fill="currentColor" viewBox="0 0 24 24" className="w-full h-full">
-            <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46.18 14.25 0 14 0h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.53.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z" />
-          </svg>
-        </div>
-
-        {/* Floating Spool of Filament 3D outline (Right side, under pro card) */}
-        <div className="absolute top-[20%] right-[3%] w-24 md:w-28 h-24 md:h-28 text-white/5 animate-float-medium opacity-50">
-          <svg fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" className="w-full h-full">
-            <circle cx="12" cy="12" r="10" />
-            <circle cx="12" cy="12" r="6" />
-            <path strokeLinecap="round" d="M12 2a10 10 0 0110 10M12 6a6 6 0 016 6M12 2v4M12 18v4M6 12H2M22 12h-4" />
-          </svg>
-        </div>
-
-        {/* Floating Die/Cube 3D outline (Left side, near latest creations) */}
-        <div className="absolute top-[45%] left-[2%] w-16 md:w-20 h-16 md:h-20 text-white/5 animate-float-faster opacity-65">
-          <svg fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" className="w-full h-full">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 3h12l4 6v12H2V9l4-6z" />
-            <path strokeLinecap="round" strokeLinejoin="round" d="M2 9h20M6 3v18M18 3v18" />
-          </svg>
-        </div>
-
-        {/* Floating Star/Sparkle 3D outline (Right side, near coups de coeur) */}
-        <div className="absolute top-[70%] right-[4%] w-20 md:w-24 h-20 md:h-24 text-white/5 animate-float-slow opacity-60">
-          <svg fill="currentColor" viewBox="0 0 24 24" className="w-full h-full">
-            <path d="M12 0l3.09 6.26L22 7.27l-5 4.87 1.18 6.88L12 15.77l-6.18 3.25L7 12.14 2 7.27l6.91-1.01L12 0z" />
-          </svg>
-        </div>
-
-        {/* Floating Octopus/Marcel silhouette (Left side, lower section) */}
-        <div className="absolute top-[90%] left-[4%] w-18 md:w-22 h-18 md:h-22 text-white/5 animate-float-medium opacity-55">
-          <svg fill="currentColor" viewBox="0 0 24 24" className="w-full h-full">
-            <path d="M12 2a7 7 0 00-7 7c0 2.25 1.07 4.25 2.75 5.56-.47.64-.75 1.44-.75 2.31a3 3 0 003 3c.31 0 .6-.05.88-.13.31.75.97 1.26 1.77 1.26.8 0 1.46-.51 1.77-1.26.28.08.57.13.88.13a3 3 0 003-3c0-.87-.28-1.67-.75-2.31A6.98 6.98 0 0019 9a7 7 0 00-7-7zm-2.5 6a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
-          </svg>
-        </div>
+        {/* Particle 1 */}
+        <div className="gravity-dot rounded-full absolute top-[5%] left-[8%] w-2 h-2 bg-[#ff4f00]/25 animate-gravity-dot-1" />
+        {/* Particle 2 */}
+        <div className="gravity-dot rounded-full absolute top-[8%] right-[12%] w-1.5 h-1.5 bg-white/20 animate-gravity-dot-2" />
+        {/* Particle 3 */}
+        <div className="gravity-dot rounded-full absolute top-[15%] left-[25%] w-3 h-3 bg-[#2F3CD9]/20 animate-gravity-dot-3" />
+        {/* Particle 4 */}
+        <div className="gravity-dot rounded-full absolute top-[22%] right-[5%] w-2 h-2 bg-[#ff4f00]/30 animate-gravity-dot-4" />
+        {/* Particle 5 */}
+        <div className="gravity-dot rounded-full absolute top-[30%] left-[10%] w-1.5 h-1.5 bg-white/15 animate-gravity-dot-1" />
+        {/* Particle 6 */}
+        <div className="gravity-dot rounded-full absolute top-[38%] right-[20%] w-3 h-3 bg-white/20 animate-gravity-dot-2" />
+        {/* Particle 7 */}
+        <div className="gravity-dot rounded-full absolute top-[45%] left-[18%] w-2.5 h-2.5 bg-[#2F3CD9]/25 animate-gravity-dot-3" />
+        {/* Particle 8 */}
+        <div className="gravity-dot rounded-full absolute top-[52%] right-[10%] w-2 h-2 bg-[#ff4f00]/25 animate-gravity-dot-4" />
+        {/* Particle 9 */}
+        <div className="gravity-dot rounded-full absolute top-[60%] left-[8%] w-1.5 h-1.5 bg-white/15 animate-gravity-dot-1" />
+        {/* Particle 10 */}
+        <div className="gravity-dot rounded-full absolute top-[68%] right-[25%] w-3 h-3 bg-white/20 animate-gravity-dot-2" />
+        {/* Particle 11 */}
+        <div className="gravity-dot rounded-full absolute top-[75%] left-[30%] w-2 h-2 bg-[#ff4f00]/30 animate-gravity-dot-3" />
+        {/* Particle 12 */}
+        <div className="gravity-dot rounded-full absolute top-[82%] right-[8%] w-1.5 h-1.5 bg-white/15 animate-gravity-dot-4" />
+        {/* Particle 13 */}
+        <div className="gravity-dot rounded-full absolute top-[88%] left-[12%] w-2.5 h-2.5 bg-[#2F3CD9]/25 animate-gravity-dot-1" />
+        {/* Particle 14 */}
+        <div className="gravity-dot rounded-full absolute top-[92%] right-[18%] w-3 h-3 bg-[#ff4f00]/20 animate-gravity-dot-2" />
+        {/* Particle 15 */}
+        <div className="gravity-dot rounded-full absolute top-[96%] left-[22%] w-2 h-2 bg-white/20 animate-gravity-dot-3" />
       </div>
 
       {/* 1. Full-Width Hero Section with Absolute Header Overlay */}
