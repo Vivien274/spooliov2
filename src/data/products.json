@@ -75,27 +75,27 @@
     ],
     "images": [
       {
-        "id": 3149,
+        "id": 1349,
         "src": "/images/imported/Spoolio-SupportSmartphonearticule-industriel-9-scaled.webp",
         "alt": "Spoolio SupportSmartphonearticule industriel 9"
       },
       {
-        "id": 3150,
+        "id": 1350,
         "src": "/images/imported/Spoolio-SupportSmartphonearticule-industriel-18-scaled.webp",
         "alt": "Spoolio SupportSmartphonearticule industriel 18"
       },
       {
-        "id": 3151,
+        "id": 1351,
         "src": "/images/imported/Spoolio-SupportSmartphonearticule-industriel-14-scaled.webp",
         "alt": "Spoolio SupportSmartphonearticule industriel 14"
       },
       {
-        "id": 3152,
+        "id": 1352,
         "src": "/images/imported/Spoolio-SupportSmartphonearticule-industriel-11-scaled.webp",
         "alt": "Spoolio SupportSmartphonearticule industriel 11"
       },
       {
-        "id": 3153,
+        "id": 1353,
         "src": "/images/imported/Spoolio-SupportSmartphonearticule-industriel-2-scaled.webp",
         "alt": "Spoolio SupportSmartphonearticule industriel 2"
       }
@@ -186,6 +186,9 @@
           },
           "price": "15"
         }
+      ],
+      "tags": [
+        "ULTRA PRATIQUE"
       ]
     },
     "default_attributes": [],

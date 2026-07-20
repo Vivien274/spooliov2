@@ -66,28 +66,28 @@ export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) 
           </a>
         </div>
 
-        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {displayReviews.map((rev, idx) => (
+        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          {displayReviews.slice(0, 6).map((rev, idx) => (
             <div
               key={rev.id || idx}
               onClick={() => setSelectedReview(rev)}
-              className="relative bg-white/10 backdrop-blur-md border border-white/10 p-5 rounded-2xl flex flex-col justify-between h-full select-none hover:-translate-y-1 hover:scale-[1.015] hover:bg-white/15 hover:border-white/20 transition-all duration-300 cursor-pointer shadow-lg shadow-black/10 group/card"
+              className="relative bg-white/10 backdrop-blur-md border border-white/10 p-4 sm:p-5 rounded-2xl flex flex-col justify-between h-full select-none hover:-translate-y-1 hover:scale-[1.015] hover:bg-white/15 hover:border-white/20 transition-all duration-300 cursor-pointer shadow-lg shadow-black/10 group/card"
             >
               {/* Decorative quote mark */}
-              <span className="absolute top-2 right-4 text-5xl font-serif text-white/5 select-none pointer-events-none font-bold">
+              <span className="absolute top-1 right-3 text-4xl font-serif text-white/5 select-none pointer-events-none font-bold">
                 ”
               </span>
 
-              <p className="text-[13px] text-white/90 leading-relaxed font-medium font-sans italic relative z-10 mb-4 line-clamp-4">
+              <p className="text-xs sm:text-[13px] text-white/90 leading-relaxed font-medium font-sans italic relative z-10 mb-3 line-clamp-3 sm:line-clamp-4">
                 "{rev.comment}"
               </p>
 
-              <div className="relative z-10 flex items-center justify-between pt-3 border-t border-white/10 mt-auto">
-                <span className="text-[12px] font-black text-white/95 font-sans tracking-wide flex items-center gap-1">
+              <div className="relative z-10 flex items-center justify-between pt-2.5 border-t border-white/10 mt-auto">
+                <span className="text-[11px] sm:text-[12px] font-black text-white/95 font-sans tracking-wide flex items-center gap-1">
                   {rev.customerName}
-                  <span className="text-[10px] text-white/70">✔️</span>
+                  <span className="text-[9px] sm:text-[10px] text-white/70">✔️</span>
                 </span>
-                <span className="text-[12px] text-[#ffd166] font-sans tracking-wide drop-shadow-[0_0_6px_rgba(255,209,102,0.4)]">
+                <span className="text-[11px] sm:text-[12px] text-[#ffd166] font-sans tracking-wide drop-shadow-[0_0_6px_rgba(255,209,102,0.4)]">
                   {Array(rev.rating).fill("★").join("")}
                 </span>
               </div>

@@ -84,7 +84,47 @@ async function fetchAllProducts() {
   const consumerKey = process.env.WC_CONSUMER_KEY;
   const consumerSecret = process.env.WC_CONSUMER_SECRET;
 
-  // 1. Try WooCommerce REST API directly
+  // 1. Try Prisma Database client first (with a timeout race)
+  try {
+    console.log("Attempting Prisma Database fetch...");
+    const dbProducts = await Promise.race([
+      prisma.product.findMany({
+        include: {
+          images: true,
+          categories: true,
+        },
+        orderBy: {
+          dateCreated: 'desc',
+        },
+      }),
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 1200))
+    ]) as any;
+
+    if (dbProducts && dbProducts.length > 0) {
+      console.log("Successfully fetched products from Prisma Database.");
+      return dbProducts.map(mapProduct);
+    }
+  } catch (e: any) {
+    console.warn("Prisma query failed or timed out, trying local JSON...", e.message);
+  }
+
+  // 2. Try Local JSON file fallback next (to get local modifications)
+  try {
+    const jsonPath = path.join(process.cwd(), 'src/data/products.json');
+    if (fs.existsSync(jsonPath)) {
+      console.log("Attempting Local products.json fetch...");
+      const fileData = fs.readFileSync(jsonPath, 'utf8');
+      const parsed = JSON.parse(fileData);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        console.log("Successfully fetched products from Local products.json.");
+        return parsed.map(mapProduct);
+      }
+    }
+  } catch (e: any) {
+    console.warn("Failed to load local products.json, trying WooCommerce API...", e.message);
+  }
+
+  // 3. Try WooCommerce REST API directly as a backup
   if (wcUrl && consumerKey && consumerSecret) {
     try {
       console.log("Attempting WooCommerce API fetch...");
@@ -106,44 +146,8 @@ async function fetchAllProducts() {
         console.warn(`WooCommerce API returned status ${response.status}`);
       }
     } catch (e: any) {
-      console.warn("Failed fetching from WooCommerce API, trying Prisma/JSON...", e.message);
+      console.warn("Failed fetching from WooCommerce API", e.message);
     }
-  }
-
-  // 2. Try Prisma Database client
-  try {
-    console.log("Attempting Prisma Database fetch...");
-    const dbProducts = await prisma.product.findMany({
-      include: {
-        images: true,
-        categories: true,
-      },
-      orderBy: {
-        dateCreated: 'desc',
-      },
-    });
-    if (dbProducts && dbProducts.length > 0) {
-      console.log("Successfully fetched products from Prisma Database.");
-      return dbProducts.map(mapProduct);
-    }
-  } catch (e: any) {
-    console.warn("Prisma query failed (likely database connection refused), trying local JSON...", e.message);
-  }
-
-  // 3. Try Local JSON file fallback
-  try {
-    const jsonPath = path.join(process.cwd(), 'src/data/products.json');
-    if (fs.existsSync(jsonPath)) {
-      console.log("Attempting Local products.json fetch...");
-      const fileData = fs.readFileSync(jsonPath, 'utf8');
-      const parsed = JSON.parse(fileData);
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        console.log("Successfully fetched products from Local products.json.");
-        return parsed.map(mapProduct);
-      }
-    }
-  } catch (e: any) {
-    console.warn("Failed to load local products.json, falling back to mockup database...", e.message);
   }
 
   // 4. Fallback Mockup Data (8 Mini-boîte de survie)
