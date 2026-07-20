@@ -32,6 +32,11 @@ if (typeof window === 'undefined') {
     console.log(`[Database] Initializing single database connection pool for Supabase...`);
     globalForPrisma.prisma = new PrismaClient({
       log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
+      datasources: {
+        db: {
+          url: databaseUrl
+        }
+      }
     });
   }
 
