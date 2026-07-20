@@ -436,6 +436,24 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               </span>
             )}
 
+            {/* Product Tags */}
+            {product.tags && product.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mb-3 select-none">
+                {product.tags.map((tag: any, idx: number) => {
+                  const tagName = typeof tag === 'object' ? tag.name : tag;
+                  if (!tagName) return null;
+                  return (
+                    <span
+                      key={idx}
+                      className="text-[9px] font-extrabold px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-gray-400 uppercase tracking-widest no-invert"
+                    >
+                      #{tagName}
+                    </span>
+                  );
+                })}
+              </div>
+            )}
+
             <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mb-4">
               {product.name}
             </h1>

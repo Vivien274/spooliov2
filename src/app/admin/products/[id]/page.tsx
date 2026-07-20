@@ -26,6 +26,7 @@ async function getProduct(id: string) {
     });
 
     if (p) {
+      let tagsList: string[] = [];
       let attributesObj = { attributes: [] as any[], variationPrices: [] as any[] };
       if (p.attributes) {
         try {
@@ -37,6 +38,7 @@ async function getProduct(id: string) {
               attributes: parsed.attributes || [],
               variationPrices: parsed.variationPrices || [],
             };
+            tagsList = parsed.tags || [];
           }
         } catch (e) {
           console.warn("Could not parse product attributes:", e);
@@ -50,7 +52,7 @@ async function getProduct(id: string) {
         shortDescription: p.shortDescription || "",
         description: p.description || "",
         category: p.categories[0]?.name || "Accessoires & Petits Objets",
-        tags: [],
+        tags: tagsList,
         price: p.price,
         salePrice: p.salePrice || "",
         productType: p.productType || "simple",
@@ -80,6 +82,7 @@ async function getProduct(id: string) {
       if (Array.isArray(parsed)) {
         const match = parsed.find(p => p.id === numericId);
         if (match) {
+          let tagsList: string[] = [];
           let attributesObj = { attributes: [] as any[], variationPrices: [] as any[] };
           if (match.attributes) {
             try {
@@ -91,6 +94,7 @@ async function getProduct(id: string) {
                   attributes: parsed.attributes || [],
                   variationPrices: parsed.variationPrices || [],
                 };
+                tagsList = parsed.tags || [];
               }
             } catch (e) {
               console.warn("Could not parse JSON product attributes:", e);
@@ -104,7 +108,7 @@ async function getProduct(id: string) {
             shortDescription: match.short_description || "",
             description: match.description || "",
             category: match.categories?.[0]?.name || "Accessoires & Petits Objets",
-            tags: [],
+            tags: tagsList,
             price: match.price || "0",
             salePrice: match.sale_price || "",
             productType: match.type || "simple",

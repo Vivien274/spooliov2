@@ -30,6 +30,30 @@ function mapProduct(p: any) {
     alt: img.alt || p.name
   }));
 
+  let tagsList: string[] = [];
+  let parsedAttributes: any = [];
+
+  if (p.attributes) {
+    try {
+      const parsed = typeof p.attributes === 'string' ? JSON.parse(p.attributes) : p.attributes;
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+        tagsList = parsed.tags || [];
+        parsedAttributes = parsed.attributes || [];
+      } else if (Array.isArray(parsed)) {
+        parsedAttributes = parsed;
+      }
+    } catch (e) {
+      console.warn("Could not parse attributes/tags JSON:", e);
+    }
+  }
+
+  // Fallback for tags if directly provided
+  if ((!tagsList || tagsList.length === 0) && p.tags) {
+    tagsList = Array.isArray(p.tags)
+      ? p.tags.map((t: any) => typeof t === 'object' ? t.name : t)
+      : [];
+  }
+
   return {
     id: p.id,
     name: decodeHtml(p.name),
@@ -47,7 +71,8 @@ function mapProduct(p: any) {
     short_description: p.shortDescription || p.short_description || "",
     description: p.description || "",
     date_created: p.dateCreated ? new Date(p.dateCreated).toISOString() : (p.date_created ? new Date(p.date_created).toISOString() : null),
-    attributes: p.attributes ? (typeof p.attributes === 'string' ? JSON.parse(p.attributes) : p.attributes) : [],
+    attributes: parsedAttributes,
+    tags: tagsList,
     stock: typeof p.stock === 'number' ? p.stock : (typeof p.stock_quantity === 'number' ? p.stock_quantity : -1),
   };
 }
@@ -217,11 +242,25 @@ export async function PUT(
       metaDescription: body.metaDescription || null,
     };
 
+    let attributesObj: any = { attributes: [], variationPrices: [] };
     if (body.attributes) {
-      updateData.attributes = typeof body.attributes === 'string' 
-        ? body.attributes 
-        : JSON.stringify(body.attributes);
+      try {
+        attributesObj = typeof body.attributes === 'string'
+          ? JSON.parse(body.attributes)
+          : body.attributes;
+        if (Array.isArray(attributesObj)) {
+          attributesObj = { attributes: attributesObj, variationPrices: [] };
+        }
+      } catch (e) {
+        console.warn("Could not parse incoming body attributes:", e);
+      }
     }
+
+    if (body.tags) {
+      attributesObj.tags = body.tags;
+    }
+
+    updateData.attributes = JSON.stringify(attributesObj);
 
     let updatedProduct = null;
     let savedInDb = false;
@@ -301,7 +340,7 @@ export async function PUT(
             stock_quantity: body.stock,
             type: body.productType || "simple",
             status: body.status || "publish",
-            attributes: typeof updateData.attributes === 'string' ? JSON.parse(updateData.attributes) : updateData.attributes,
+            attributes: attributesObj,
             images: body.images || []
           };
 
