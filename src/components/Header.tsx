@@ -162,26 +162,26 @@ export default function Header({ className = "" }: HeaderProps) {
           <div className="absolute top-[80%] left-1/2 -translate-x-1/2 pt-4 w-68 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible transition-all duration-300 transform scale-95 group-hover/menu:scale-100 z-50 cursor-default">
             <div className="bg-[#131316]/95 backdrop-blur-lg border border-[#1f1f23] rounded-2xl p-3 shadow-2xl text-white/80">
               <div className="flex flex-col gap-1">
-                <Link href="/boutique?category=Accessoires" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
+                <Link href="/categorie/Accessoires" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
                   <span>Accessoires</span>
                 </Link>
-                <Link href="/boutique?category=Animaux & Figurines" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
+                <Link href="/categorie/Animaux & Figurines" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
                   <span>Animaux & Figurines</span>
                 </Link>
-                <Link href="/boutique?category=Fidgets" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
+                <Link href="/categorie/Fidgets" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
                   <span>Fidgets</span>
                   <span className="bg-red-600 text-white text-[8px] font-extrabold px-1.5 py-0.5 rounded tracking-wide leading-none shadow-sm no-invert">HOT !</span>
                 </Link>
-                <Link href="/boutique?category=Décoration" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
+                <Link href="/categorie/Décoration" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
                   <span>Décoration</span>
                 </Link>
-                <Link href="/boutique?category=Jeux & activités" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
+                <Link href="/categorie/Jeux & activités" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
                   <span>Jeux & activités</span>
                 </Link>
-                <Link href="/boutique?category=Porte clés" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
+                <Link href="/categorie/Porte clés" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
                   <span>Porte clés</span>
                 </Link>
-                <Link href="/boutique?category=Geek / Gaming" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
+                <Link href="/categorie/Geek %2F Gaming" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
                   <span>Geek / Gaming</span>
                   <span className="bg-[#ff4f00] text-white text-[8px] font-extrabold px-1.5 py-0.5 rounded tracking-wide leading-none shadow-sm whitespace-nowrap no-invert">TOUT CHAUD !</span>
                 </Link>
@@ -503,21 +503,21 @@ export default function Header({ className = "" }: HeaderProps) {
                       <span className="text-gray-600">→</span>
                     </Link>
                     <Link 
-                      href="/boutique?category=Accessoires" 
+                      href="/categorie/Accessoires" 
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
                     >
                       <span>Accessoires</span>
                     </Link>
                     <Link 
-                      href="/boutique?category=Animaux & Figurines" 
+                      href="/categorie/Animaux & Figurines" 
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
                     >
                       <span>Animaux & Figurines</span>
                     </Link>
                     <Link 
-                      href="/boutique?category=Fidgets" 
+                      href="/categorie/Fidgets" 
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
                     >
@@ -525,28 +525,28 @@ export default function Header({ className = "" }: HeaderProps) {
                       <span className="bg-red-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide leading-none no-invert">HOT</span>
                     </Link>
                     <Link 
-                      href="/boutique?category=Décoration" 
+                      href="/categorie/Décoration" 
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
                     >
                       <span>Décoration</span>
                     </Link>
                     <Link 
-                      href="/boutique?category=Jeux & activités" 
+                      href="/categorie/Jeux & activités" 
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
                     >
                       <span>Jeux & activités</span>
                     </Link>
                     <Link 
-                      href="/boutique?category=Porte clés" 
+                      href="/categorie/Porte clés" 
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
                     >
                       <span>Porte clés</span>
                     </Link>
                     <Link 
-                      href="/boutique?category=Geek / Gaming" 
+                      href="/categorie/Geek %2F Gaming" 
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
                     >
