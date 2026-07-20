@@ -25,9 +25,19 @@ const DEFAULT_HERO = {
   imagePosition: "center center"
 };
 
+function getSeededProduct(productsList: any[], seed: number) {
+  if (productsList.length === 0) return "Fidget Cube";
+  const x = Math.sin(seed) * 10000;
+  const randomValue = x - Math.floor(x);
+  const index = Math.floor(randomValue * productsList.length);
+  return productsList[index].name;
+}
+
 export default async function Home() {
   let hero = DEFAULT_HERO;
   let dbReviews: any[] = [];
+  let dbPrinters: any[] = [];
+  let activeProducts: any[] = [];
 
   try {
     const heroPromise = prisma.page.findUnique({
@@ -38,20 +48,27 @@ export default async function Home() {
       take: 6,
       orderBy: { createdAt: "desc" }
     });
+    const printersPromise = prisma.printer.findMany({
+      orderBy: { id: "asc" }
+    });
+    const productsPromise = prisma.product.findMany({
+      where: { status: "publish" },
+      select: { name: true }
+    });
 
     let timeoutId: any;
-    const timeoutPromise = new Promise<[null, any[]]>((resolve) => {
+    const timeoutPromise = new Promise<[null, any[], any[], any[]]>((resolve) => {
       timeoutId = setTimeout(() => {
         console.warn("Prisma Query Timeout (2500ms) triggered on home load");
-        resolve([null, []]);
+        resolve([null, [], [], []]);
       }, 2500);
     });
 
-    // Query both hero config and approved reviews in parallel
-    const [page, fetchedReviews] = await Promise.race([
-      Promise.all([heroPromise, reviewsPromise]),
+    // Query everything in parallel
+    const [page, fetchedReviews, fetchedPrinters, fetchedProducts] = await Promise.race([
+      Promise.all([heroPromise, reviewsPromise, printersPromise, productsPromise]),
       timeoutPromise
-    ]) as [any, any[]];
+    ]) as [any, any[], any[], any[]];
 
     if (timeoutId) {
       clearTimeout(timeoutId);
@@ -69,6 +86,23 @@ export default async function Home() {
       };
     }
     dbReviews = fetchedReviews || [];
+    dbPrinters = fetchedPrinters || [];
+    activeProducts = fetchedProducts || [];
+
+    // Seed printers if empty in DB
+    if (dbPrinters.length === 0) {
+      const DEFAULT_PRINTERS = ["Berthe", "Philomène", "Ursule", "Godelaine", "Claudine"];
+      const seedPromises = DEFAULT_PRINTERS.map((name) => {
+        const defaultStatus = name === "Godelaine" ? "En veille" : "Active";
+        return prisma.printer.create({
+          data: { name, status: defaultStatus }
+        });
+      });
+      await Promise.all(seedPromises);
+      dbPrinters = await prisma.printer.findMany({
+        orderBy: { id: "asc" }
+      });
+    }
 
     // Fallback: If DB query returned no reviews (e.g. database empty or columns mismatch in production),
     // load approved reviews from local cache reviews.json
@@ -79,9 +113,7 @@ export default async function Home() {
           const fileData = fs.readFileSync(jsonPath, 'utf8');
           const parsed = JSON.parse(fileData || "[]");
           if (Array.isArray(parsed)) {
-            // Priority 1: approved and showOnHome
             let localReviews = parsed.filter((r: any) => r.approved === true && r.showOnHome === true);
-            // Priority 2: just approved if none marked for home
             if (localReviews.length === 0) {
               localReviews = parsed.filter((r: any) => r.approved === true);
             }
@@ -417,34 +449,64 @@ export default async function Home() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {[
-            { name: "Berthe", status: "Active", task: "Imprime : Chat Goofy", color: "border-blue-500/30 hover:border-blue-500/80 hover:bg-blue-500/5", glow: "bg-blue-400" },
-            { name: "Philomène", status: "Active", task: "Imprime : Octopus Fidget", color: "border-emerald-500/30 hover:border-emerald-500/80 hover:bg-emerald-500/5", glow: "bg-emerald-400" },
-            { name: "Ursule", status: "Active", task: "Imprime : Keychain NFC", color: "border-orange-500/30 hover:border-orange-500/80 hover:bg-orange-500/5", glow: "bg-orange-400" },
-            { name: "Godelaine", status: "En veille", task: "Température : 25°C", color: "border-purple-500/30 hover:border-purple-500/80 hover:bg-purple-500/5", glow: "bg-purple-400/50" },
-            { name: "Claudine", status: "Active", task: "Imprime : Cactus Anti-stress", color: "border-pink-500/30 hover:border-pink-500/80 hover:bg-pink-500/5", glow: "bg-pink-400" },
-          ].map((m) => (
-            <div
-              key={m.name}
-              className={`p-5 rounded-2xl bg-spoolio-card border transition-all duration-300 flex flex-col justify-between h-[150px] font-sans ${m.color}`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-base font-extrabold text-white">{m.name}</span>
-              </div>
+          {(() => {
+            const currentHour = Math.floor(Date.now() / (1000 * 60 * 60));
+            return dbPrinters.map((p, idx) => {
+              let task = "";
+              let statusText = p.status;
+              let colorClass = "";
+              let glowClass = "";
 
-              <div>
-                <div className="flex items-center gap-1.5 mb-1.5">
-                  <span className={`w-2 h-2 rounded-full ${m.glow} ${m.status === "Active" ? "animate-pulse" : ""}`} />
-                  <span className="text-[10px] font-bold text-gray-300 uppercase tracking-wider">
-                    {m.status}
-                  </span>
+              const baseColors: any = {
+                "Berthe": { active: "border-blue-500/30 hover:border-blue-500/80 hover:bg-blue-500/5", glow: "bg-blue-400" },
+                "Philomène": { active: "border-emerald-500/30 hover:border-emerald-500/80 hover:bg-emerald-500/5", glow: "bg-emerald-400" },
+                "Ursule": { active: "border-orange-500/30 hover:border-orange-500/80 hover:bg-orange-500/5", glow: "bg-orange-400" },
+                "Godelaine": { active: "border-purple-500/30 hover:border-purple-500/80 hover:bg-purple-500/5", glow: "bg-purple-400" },
+                "Claudine": { active: "border-pink-500/30 hover:border-pink-500/80 hover:bg-pink-500/5", glow: "bg-pink-400" }
+              };
+
+              const cfg = baseColors[p.name] || { active: "border-gray-500/30 hover:border-gray-500/80 hover:bg-gray-500/5", glow: "bg-gray-400" };
+
+              if (p.status === "Active") {
+                const productName = getSeededProduct(activeProducts, currentHour + idx);
+                task = `Imprime : ${productName}`;
+                colorClass = cfg.active;
+                glowClass = `${cfg.glow} animate-pulse`;
+              } else if (p.status === "En veille") {
+                task = "Température : 25°C";
+                colorClass = "border-purple-500/20 hover:border-purple-500/50 hover:bg-purple-500/5 bg-purple-950/5";
+                glowClass = "bg-purple-400/40";
+              } else if (p.status === "En panne") {
+                task = "⚠️ HORS SERVICE";
+                statusText = "EN PANNE";
+                colorClass = "border-red-500/40 bg-red-950/15 hover:border-red-500/70 hover:bg-red-500/5";
+                glowClass = "bg-red-500 animate-ping";
+              }
+
+              return (
+                <div
+                  key={p.name}
+                  className={`p-5 rounded-2xl bg-spoolio-card border transition-all duration-300 flex flex-col justify-between h-[150px] font-sans ${colorClass}`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-base font-extrabold text-white">{p.name}</span>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center gap-1.5 mb-1.5">
+                      <span className={`w-2 h-2 rounded-full ${glowClass}`} />
+                      <span className={`text-[10px] font-bold uppercase tracking-wider ${p.status === "En panne" ? "text-red-400" : "text-gray-300"}`}>
+                        {statusText}
+                      </span>
+                    </div>
+                    <p className={`text-[11px] font-medium leading-tight ${p.status === "En panne" ? "text-red-400/80" : "text-gray-500"}`}>
+                      {task}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-[11px] text-gray-500 font-medium leading-tight">
-                  {m.task}
-                </p>
-              </div>
-            </div>
-          ))}
+              );
+            });
+          })()}
         </div>
       </section>
 

@@ -84,7 +84,7 @@ const modules = [
 
 export default function AdminDashboard() {
   const { cls } = useAdminTheme();
-  const [activeTab, setActiveTab] = useState<"dashboard" | "stats">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "stats" | "printers">("dashboard");
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loadingOrders, setLoadingOrders] = useState<boolean>(true);
   const [statusChangeLoading, setStatusChangeLoading] = useState<string | null>(null);
@@ -190,6 +190,10 @@ export default function AdminDashboard() {
   const [visitsStats, setVisitsStats] = useState<any>(null);
   const [loadingStats, setLoadingStats] = useState<boolean>(true);
 
+  // 3D Printers states
+  const [printers, setPrinters] = useState<any[]>([]);
+  const [loadingPrinters, setLoadingPrinters] = useState<boolean>(true);
+
   // Load orders list
   const fetchOrders = async () => {
     try {
@@ -221,9 +225,41 @@ export default function AdminDashboard() {
     }
   };
 
+  // Load printers list
+  const fetchPrinters = async () => {
+    try {
+      const res = await fetch("/api/admin/printers");
+      if (res.ok) {
+        const data = await res.json();
+        setPrinters(data);
+      }
+    } catch (e) {
+      console.error("Failed to load printers:", e);
+    } finally {
+      setLoadingPrinters(false);
+    }
+  };
+
+  const handleUpdatePrinterStatus = async (id: number, status: string) => {
+    try {
+      const res = await fetch("/api/admin/printers", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status })
+      });
+      if (res.ok) {
+        const updated = await res.json();
+        setPrinters(prev => prev.map(p => p.id === id ? updated : p));
+      }
+    } catch (e) {
+      console.error("Failed to update printer status:", e);
+    }
+  };
+
   useEffect(() => {
     fetchOrders();
     fetchVisitsStats();
+    fetchPrinters();
   }, []);
 
   const handleUpdateStatus = async (orderId: string, newStatus: string) => {
@@ -288,6 +324,14 @@ export default function AdminDashboard() {
             }`}
           >
             Visites & Analytics
+          </button>
+          <button
+            onClick={() => setActiveTab("printers")}
+            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
+              activeTab === "printers" ? "bg-white text-black shadow-md" : `text-gray-400 hover:text-white`
+            }`}
+          >
+            État de l'Atelier 🤖
           </button>
         </div>
       </div>
@@ -627,6 +671,82 @@ export default function AdminDashboard() {
                 </div>
               </div>
             </>
+          )}
+        </div>
+      ) : activeTab === "printers" ? (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className={`text-base font-bold ${cls.textMain} uppercase tracking-widest font-antonio`}>Gestion des Imprimantes 3D</h3>
+              <p className={`text-xs ${cls.textMuted} mt-0.5`}>Configurez en temps réel le statut opérationnel des machines de l'atelier.</p>
+            </div>
+            <button
+              onClick={fetchPrinters}
+              disabled={loadingPrinters}
+              className={`text-xs px-3 py-1.5 rounded-lg border ${cls.border} ${cls.inputBg} hover:text-white cursor-pointer transition-colors`}
+            >
+              {loadingPrinters ? "Chargement..." : "Rafraîchir"}
+            </button>
+          </div>
+
+          {loadingPrinters ? (
+            <div className="py-12 text-center text-xs text-gray-500 font-bold uppercase tracking-widest font-sans">
+              Chargement des imprimantes...
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+              {printers.map((p: any) => {
+                const statusColors: any = {
+                  "Active": { border: "border-emerald-500/30", text: "text-emerald-400", dot: "bg-emerald-400 animate-pulse" },
+                  "En veille": { border: "border-purple-500/30", text: "text-purple-400", dot: "bg-purple-400/50" },
+                  "En panne": { border: "border-red-500/30", text: "text-red-400", dot: "bg-red-500 animate-ping" }
+                };
+                const colors = statusColors[p.status] || { border: "border-gray-500/30", text: "text-gray-400", dot: "bg-gray-400" };
+
+                return (
+                  <div key={p.id} className={`${cls.cardBg} border ${colors.border} rounded-2xl p-5 flex flex-col justify-between h-[210px] font-sans transition-colors duration-300`}>
+                    <div>
+                      <span className={`text-[10px] ${cls.textFaint} uppercase tracking-widest font-bold`}>Machine 3D</span>
+                      <h4 className={`text-lg font-black ${cls.textMain} mt-0.5`}>{p.name}</h4>
+                    </div>
+
+                    <div>
+                      <div className="flex items-center gap-1.5 mb-3">
+                        <span className={`w-2.5 h-2.5 rounded-full ${colors.dot}`} />
+                        <span className={`text-[10px] font-bold uppercase tracking-wider ${colors.text}`}>{p.status}</span>
+                      </div>
+
+                      <div className="flex flex-col gap-1.5">
+                        <button
+                          onClick={() => handleUpdatePrinterStatus(p.id, "Active")}
+                          className={`w-full py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg border transition-colors ${
+                            p.status === "Active" ? "bg-white text-black border-white" : `bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 ${cls.textMain}`
+                          }`}
+                        >
+                          Activer
+                        </button>
+                        <button
+                          onClick={() => handleUpdatePrinterStatus(p.id, "En veille")}
+                          className={`w-full py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg border transition-colors ${
+                            p.status === "En veille" ? "bg-white text-black border-white" : `bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 ${cls.textMain}`
+                          }`}
+                        >
+                          En veille
+                        </button>
+                        <button
+                          onClick={() => handleUpdatePrinterStatus(p.id, "En panne")}
+                          className={`w-full py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg border transition-colors ${
+                            p.status === "En panne" ? "bg-white text-black border-white" : `bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 ${cls.textMain}`
+                          }`}
+                        >
+                          En panne ⚠️
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           )}
         </div>
       ) : null}
