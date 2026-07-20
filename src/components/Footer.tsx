@@ -25,6 +25,7 @@ export default function Footer({ className = "" }: FooterProps) {
           <Link href="/mentions-legales" className="hover:text-[#ff4f00] transition-colors">Mentions Légales</Link>
           <Link href="/cgv" className="hover:text-[#ff4f00] transition-colors">CGV</Link>
           <Link href="/retours" className="hover:text-[#ff4f00] transition-colors">Retours</Link>
+          <Link href="/admin" className="hover:text-[#ff4f00] transition-colors">Admin 🔑</Link>
         </div>
       </div>
     </footer>

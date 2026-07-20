@@ -79,6 +79,38 @@ const modules = [
     ],
     cta: "Gérer le blog",
   },
+  {
+    title: "Commandes clients",
+    description: "Suivre les commandes, modifier le statut de livraison (attente impression, expédié...) et voir les relais Mondial Relay.",
+    href: "/admin/orders",
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+      </svg>
+    ),
+    color: "#e11d48",
+    stats: [
+      { label: "Suivi des ventes", value: "Actif" },
+      { label: "Stripe", value: "Connecté" },
+    ],
+    cta: "Voir les commandes",
+  },
+  {
+    title: "Modération des avis",
+    description: "Valider les avis des acheteurs ou supprimer les spams pour les afficher sur la boutique.",
+    href: "/admin/reviews",
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+      </svg>
+    ),
+    color: "#d97706",
+    stats: [
+      { label: "Avis modérés", value: "En direct" },
+      { label: "Contrôle spam", value: "Actif" },
+    ],
+    cta: "Modérer les avis",
+  },
 ];
 
 export default function AdminDashboard() {

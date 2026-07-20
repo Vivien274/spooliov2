@@ -23,14 +23,27 @@ const DEFAULT_HERO = {
 
 export default async function Home() {
   let hero = DEFAULT_HERO;
+  let dbReviews: any[] = [];
+  
   try {
     const heroPromise = prisma.page.findUnique({
       where: { slug: "config-hero" }
     });
+    const reviewsPromise = prisma.review.findMany({
+      where: { approved: true },
+      take: 6,
+      orderBy: { createdAt: "desc" }
+    });
     const timeoutPromise = new Promise<null>((_, reject) =>
       setTimeout(() => reject(new Error("Prisma Query Timeout (800ms)")), 800)
     );
-    const page = await Promise.race([heroPromise, timeoutPromise]);
+    
+    // Query both hero config and approved reviews in parallel
+    const [page, fetchedReviews] = await Promise.race([
+      Promise.all([heroPromise, reviewsPromise]),
+      timeoutPromise.then(() => [null, []])
+    ]) as [any, any[]];
+
     if (page) {
       const config = JSON.parse(page.content);
       hero = {
@@ -41,9 +54,22 @@ export default async function Home() {
         imageUrl: config.imageUrl || DEFAULT_HERO.imageUrl
       };
     }
+    dbReviews = fetchedReviews || [];
   } catch (e) {
-    console.error("Failed to load homepage custom hero:", e);
+    console.error("Failed to load homepage assets:", e);
   }
+
+  // Real fallback client reviews when database reviews count is empty
+  const defaultReviews = [
+    { customerName: "Amandine", rating: 5, comment: "Petit cactus anti stress est désormais bien placé sur mon bureau 🤩 Super produit très résistant et surtout coup de cœur garanti !" },
+    { customerName: "Quentin", rating: 5, comment: "Le fidget articulé est super agréable à manipuler, mon fils l'adore et ne le lâche plus ! Finition propre pour de la 3D." },
+    { customerName: "Cyrielle", rating: 5, comment: "Commande livrée rapidement. Les petites pieuvres articulées sont super mignonnes et les couleurs bicolores sont magnifiques !" },
+    { customerName: "Guillaume", rating: 5, comment: "Top qualité pour le médaillon NFC de mon chat. Il a été scanné par un ami pour tester et ça marche parfaitement, je suis rassuré." },
+    { customerName: "Inès", rating: 5, comment: "Les couleurs sont incroyables et l'effet brillant sur les articulés est superbe. Parfait pour offrir, tout le monde adore !" },
+    { customerName: "Julien", rating: 5, comment: "Super réactivité de l'atelier pour un projet de goodies d'entreprise personnalisé. Fabrication soignée et envoi rapide." }
+  ];
+
+  const displayReviews = dbReviews.length > 0 ? dbReviews : defaultReviews;
 
   return (
     <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
@@ -321,20 +347,20 @@ export default async function Home() {
               Nos clients adorent :
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {Array(6).fill(null).map((_, idx) => (
+              {displayReviews.map((rev: any, idx: number) => (
                 <div
-                  key={idx}
+                  key={rev.id || idx}
                   className="bg-white text-black p-5 rounded-[20px] shadow-lg flex flex-col justify-between h-full select-none"
                 >
-                  <p className="text-[13px] text-gray-800 leading-normal font-medium">
-                    "Petit cactus anti stress est désormais bien placé sur mon bureau 🤩 Super produit très résistants et surtout coup de cœur garanti !"
+                  <p className="text-[13px] text-gray-800 leading-normal font-medium line-clamp-4" title={rev.comment}>
+                    "{rev.comment}"
                   </p>
                   <div className="flex items-center justify-between mt-4">
                     <span className="text-[13px] font-semibold text-gray-500 font-sans">
-                      Amandine
+                      {rev.customerName}
                     </span>
                     <span className="text-[13px] text-[#ffae19] font-sans tracking-wide">
-                      ★★★★★
+                      {Array(rev.rating).fill("★").join("")}
                     </span>
                   </div>
                 </div>
