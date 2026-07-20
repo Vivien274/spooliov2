@@ -7,6 +7,14 @@ const globalForPrisma = global as unknown as {
 let prisma: PrismaClient;
 
 if (typeof window === 'undefined') {
+  // Sanitize environment variables from any wrapping quotes or whitespaces pasted in Vercel UI
+  if (process.env.DATABASE_URL) {
+    process.env.DATABASE_URL = process.env.DATABASE_URL.trim().replace(/^["']|["']$/g, "");
+  }
+  if (process.env.DIRECT_URL) {
+    process.env.DIRECT_URL = process.env.DIRECT_URL.trim().replace(/^["']|["']$/g, "");
+  }
+
   const databaseUrl = process.env.DATABASE_URL || "postgresql://localhost:5432/placeholder_db";
 
   if (!process.env.DATABASE_URL) {
