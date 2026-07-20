@@ -486,7 +486,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               <div className="flex gap-3 mt-4 overflow-x-auto pb-2 select-none no-scrollbar">
                 {product.images.map((img, idx) => (
                   <button
-                    key={img.id}
+                    key={`${img.id}-${idx}`}
                     onClick={() => setActiveImageIndex(idx)}
                     className={`relative w-20 h-20 rounded-xl overflow-hidden bg-spoolio-card border transition-all shrink-0 cursor-pointer ${
                       activeImageIndex === idx
