@@ -173,7 +173,7 @@ export default async function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
           {/* Left Block: Réseaux Sociaux (Hype community card) */}
-          <div className="md:col-span-1 relative h-[220px] rounded-2xl border border-spoolio-border p-6 flex flex-col justify-between bg-[#131316] overflow-hidden group bento-card-glow animate-reveal delay-75">
+          <div className="md:col-span-1 relative h-[220px] rounded-2xl border border-spoolio-border p-6 flex flex-col justify-between bg-spoolio-card overflow-hidden group bento-card-glow animate-reveal delay-75">
             {/* Ambient colorful lighting behind */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-gradient-to-tr from-pink-600/10 via-purple-600/10 to-blue-600/10 filter blur-[40px] pointer-events-none" />
 
@@ -373,7 +373,7 @@ export default async function Home() {
           <ReviewsSection displayReviews={displayReviews} />
 
           {/* Right Block (1 column width, dark brown material info block) */}
-          <div className="md:col-span-1 rounded-3xl bg-[#230f06] border border-[#ff4f00]/25 p-6 md:p-8 flex flex-col justify-between gap-6">
+          <div className="md:col-span-1 rounded-3xl bg-[#230f06] border border-[#ff4f00]/25 p-6 md:p-8 flex flex-col justify-between gap-6 no-invert">
             <div className="flex flex-col gap-5">
               {/* Title */}
               <h4 className="text-[17px] font-bold text-white tracking-tight uppercase leading-snug font-sans">

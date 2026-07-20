@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
@@ -25,6 +26,11 @@ export default function Header({ className = "" }: HeaderProps) {
   }, [cartCount]);
 
   const [isSticky, setIsSticky] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -101,10 +107,10 @@ export default function Header({ className = "" }: HeaderProps) {
     }
   };
 
-  return (
+  const headerJsx = (
     <header className={`${className} ${
       isSticky 
-        ? "!fixed top-0 left-0 right-0 !max-w-none h-16 md:h-20 bg-[#131316]/90 backdrop-blur-md border-b border-white/10 shadow-2xl px-6 md:px-12 z-[999] flex items-center justify-between transition-all duration-300 animate-slide-down"
+        ? "!fixed top-0 left-0 right-0 !max-w-none h-16 md:h-20 bg-[#131316]/90 backdrop-blur-md border-b border-white/10 shadow-2xl px-6 md:px-12 z-[99999] flex items-center justify-between transition-all duration-300 animate-slide-down"
         : ""
     }`}>
       {/* Mobile Burger Button (left on mobile) */}
@@ -588,4 +594,10 @@ export default function Header({ className = "" }: HeaderProps) {
       )}
     </header>
   );
+
+  if (isSticky && mounted) {
+    return createPortal(headerJsx, document.body);
+  }
+
+  return headerJsx;
 }

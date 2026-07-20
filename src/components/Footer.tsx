@@ -8,11 +8,11 @@ interface FooterProps {
 
 export default function Footer({ className = "" }: FooterProps) {
   return (
-    <footer className={`w-full border-t border-[#1f1f23] bg-spoolio-bg py-12 text-xs text-gray-500 relative z-10 ${className} no-invert`}>
+    <footer className={`w-full border-t border-white/10 bg-[#0a0a0c] py-12 text-xs text-gray-500 relative z-10 ${className} no-invert`}>
       <div className="max-w-[1200px] mx-auto px-6 flex flex-col gap-8">
         
         {/* Upper Section: Brand Description & Social Networks */}
-        <div className="flex flex-col md:flex-row items-start justify-between gap-8 pb-8 border-b border-[#1f1f23]">
+        <div className="flex flex-col md:flex-row items-start justify-between gap-8 pb-8 border-b border-white/10">
           
           {/* Brand & Description */}
           <div className="flex flex-col gap-2.5 max-w-md">
