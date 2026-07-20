@@ -716,3 +716,83 @@ html.light .wysiwyg-editor-area hr {
   opacity: 1;
 }
 
+/* ==========================================
+   Spoolio Hype Youth Interactions & Effects
+   ========================================== */
+
+/* Neon flowing text gradients */
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.text-neon-flow {
+  background: linear-gradient(90deg, #ff4f00, #f1c40f, #3b82f6, #a855f7, #ff4f00);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-flow 7s linear infinite;
+  display: inline-block;
+}
+
+/* Holographic dynamic card sweep & scale */
+.card-holographic {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+}
+
+.card-holographic::before {
+  content: "";
+  position: absolute;
+  top: -150%;
+  left: -150%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(
+    115deg,
+    transparent 18%,
+    rgba(255, 255, 255, 0.02) 22%,
+    rgba(255, 255, 255, 0.12) 26%,
+    rgba(255, 255, 255, 0.02) 30%,
+    transparent 34%
+  );
+  z-index: 10;
+  pointer-events: none;
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate3d(0, 0, 0);
+}
+
+.card-holographic:hover::before {
+  transform: translate3d(55%, 55%, 0);
+}
+
+.card-holographic:hover {
+  transform: translateY(-4px) scale(1.008);
+  border-color: rgba(255, 79, 0, 0.25) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 79, 0, 0.04);
+}
+
+/* Bouncy squash & stretch cart animation */
+@keyframes bouncy-cart {
+  0% { transform: scale(1); }
+  30% { transform: scale(0.78, 1.22); }
+  50% { transform: scale(1.18, 0.84); }
+  65% { transform: scale(0.96, 1.04); }
+  80% { transform: scale(1.03, 0.98); }
+  100% { transform: scale(1); }
+}
+
+.animate-bouncy-cart {
+  animation: bouncy-cart 0.65s cubic-bezier(0.25, 1, 0.5, 1) both;
+}
+
+

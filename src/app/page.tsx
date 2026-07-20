@@ -184,7 +184,7 @@ export default async function Home() {
       <section className="w-full max-w-[1200px] px-4 py-8 relative z-10">
         {/* Title */}
         <div className="text-center mb-6">
-          <h2 className="text-3xl font-extrabold uppercase tracking-tight text-white font-antonio">
+          <h2 className="text-3xl font-extrabold uppercase tracking-tight font-antonio text-neon-flow">
             Les objets Spoolio
           </h2>
         </div>

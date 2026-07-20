@@ -68,7 +68,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/product/${product.slug}`}
-      className="group relative flex flex-col justify-between h-full bg-spoolio-card border border-spoolio-border rounded-[30px] overflow-hidden transition-all duration-300 hover:border-white hover:-translate-y-1 hover:shadow-lg hover:shadow-black/50"
+      className="group relative flex flex-col justify-between h-full bg-spoolio-card border border-spoolio-border rounded-[30px] overflow-hidden transition-all duration-300 hover:border-white hover:-translate-y-1 hover:shadow-lg hover:shadow-black/50 card-holographic"
     >
       <div className="flex flex-col">
         {/* Image Container with square aspect ratio - flush with edges */}

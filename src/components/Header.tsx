@@ -13,6 +13,16 @@ export default function Header({ className = "" }: HeaderProps) {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const { cartCount, setIsCartOpen } = useCart();
+  const [isBouncing, setIsBouncing] = useState<boolean>(false);
+
+  // Trigger bouncy-cart animation when item is added
+  useEffect(() => {
+    if (cartCount > 0) {
+      setIsBouncing(true);
+      const timer = setTimeout(() => setIsBouncing(false), 650);
+      return () => clearTimeout(timer);
+    }
+  }, [cartCount]);
 
   // Search states
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
@@ -201,7 +211,7 @@ export default function Header({ className = "" }: HeaderProps) {
         {/* Cart Button */}
         <button
           onClick={() => setIsCartOpen(true)}
-          className="relative w-12 h-12 flex items-center justify-center bg-[#ff4f00] hover:bg-[#e04500] text-white rounded-full transition-colors shadow-lg shadow-[#ff4f00]/15 cursor-pointer"
+          className={`relative w-12 h-12 flex items-center justify-center bg-[#ff4f00] hover:bg-[#e04500] text-white rounded-full transition-colors shadow-lg shadow-[#ff4f00]/15 cursor-pointer ${isBouncing ? "animate-bouncy-cart" : ""}`}
         >
           <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
