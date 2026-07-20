@@ -27,9 +27,10 @@ export interface Product {
 
 interface ProductCardProps {
   product: Product;
+  compact?: boolean;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, compact = false }: ProductCardProps) {
   const [tiltStyle, setTiltStyle] = useState<React.CSSProperties>({});
 
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -91,6 +92,59 @@ export default function ProductCard({ product }: ProductCardProps) {
   const cleanDescription = product.short_description
     ? decodeHtml(product.short_description.replace(/<[^>]*>/g, ""))
     : "La mini-boîte qui sauve tes soirées (et tes lendemains). Bouchons d'oreille, cachet du matin.";
+
+  if (compact) {
+    return (
+      <Link
+        href={`/product/${product.slug}`}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={tiltStyle}
+        className="group relative flex flex-col aspect-square w-full bg-spoolio-card border border-spoolio-border rounded-[30px] overflow-hidden transition-all duration-300 hover:border-white shadow-lg shadow-black/30 card-holographic"
+      >
+        {/* Full Image background */}
+        {hasImage ? (
+          <Image
+            src={imageUrl}
+            alt={imageAlt}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.05] no-invert"
+            priority={product.id <= 4}
+          />
+        ) : (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-spoolio-card/85 text-gray-600">
+            <svg className="w-10 h-10 mb-2 text-spoolio-border/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span className="text-[9px] uppercase font-bold tracking-widest text-gray-500">Spoolio 3D</span>
+          </div>
+        )}
+
+        {/* Tag on top left (Only if real tag is defined) */}
+        {firstTag && (
+          <span className="absolute top-4 left-4 px-2.5 py-1 text-[9px] font-bold bg-black/60 text-gray-200 rounded-full backdrop-blur-sm tracking-wide z-10 no-invert">
+            {firstTag}
+          </span>
+        )}
+
+        {/* Price Tag on top right */}
+        <span className="absolute top-4 right-4 px-2.5 py-1 text-[9px] font-black bg-[#f7eb12] text-black rounded-full shadow-md z-10">
+          {formatPrice(product.price)}
+        </span>
+
+        {/* Bottom Glass Overlay for Title */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 bg-black/50 backdrop-blur-md border-t border-white/10 flex items-center justify-between z-10 no-invert">
+          <h3 className="text-[13px] md:text-[14px] font-bold text-white leading-tight line-clamp-1 pr-2">
+            {product.name}
+          </h3>
+          <span className="text-[10px] text-[#ff4f00] font-black shrink-0 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+            Détails &rarr;
+          </span>
+        </div>
+      </Link>
+    );
+  }
 
   return (
     <Link

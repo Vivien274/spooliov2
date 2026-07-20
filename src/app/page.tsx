@@ -321,7 +321,7 @@ export default async function Home() {
               <p className="text-[10px] text-gray-500 font-medium">Tout chaud sortis de nos buses d'impression à Comines</p>
             </div>
           </div>
-          <SpoolioProductGrid filterType="latest" limit={3} showFilters={false} />
+          <SpoolioProductGrid filterType="latest" limit={3} showFilters={false} compact={true} />
         </div>
 
         {/* Section 2: Best Of */}

@@ -7,12 +7,14 @@ interface SpoolioProductGridProps {
   limit?: number;
   filterType?: "latest" | "best-of" | "all";
   showFilters?: boolean;
+  compact?: boolean;
 }
 
 export default function SpoolioProductGrid({
   limit,
   filterType = "all",
-  showFilters = true
+  showFilters = true,
+  compact = false
 }: SpoolioProductGridProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -154,7 +156,7 @@ export default function SpoolioProductGrid({
       ) : filteredProducts.length > 0 ? (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
           {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard key={product.id} product={product} compact={compact} />
           ))}
         </div>
       ) : (
