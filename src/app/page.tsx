@@ -294,9 +294,6 @@ export default async function Home() {
             >
               <div className="flex items-center justify-between">
                 <span className="text-base font-extrabold text-white">{m.name}</span>
-                <span className="text-[9px] font-extrabold tracking-widest uppercase px-2 py-0.5 rounded-full bg-white/5 text-gray-300">
-                  3D PRINT
-                </span>
               </div>
 
               <div>
