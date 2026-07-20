@@ -77,7 +77,7 @@ export async function sendOrderConfirmationEmail({
           
           <!-- Logo Row -->
           <div style="text-align: center; margin-bottom: 30px;">
-            <img src="https://spoolio.fr/images/logo.png" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
+            <img src="https://spoolio.fr/wp-content/uploads/2025/04/LogoSpoolio_White-long.png" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
           </div>
 
           <!-- Title -->
@@ -229,7 +229,7 @@ export async function sendOrderShippedEmail({
           
           <!-- Logo Row -->
           <div style="text-align: center; margin-bottom: 30px;">
-            <img src="https://spoolio.fr/images/logo.png" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
+            <img src="https://spoolio.fr/wp-content/uploads/2025/04/LogoSpoolio_White-long.png" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
           </div>
 
           <!-- Title -->
@@ -572,7 +572,7 @@ export async function sendAbandonedCartEmail({
           
           <!-- Logo Row -->
           <div style="text-align: center; margin-bottom: 30px;">
-            <img src="https://spoolio.fr/images/logo.png" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
+            <img src="https://spoolio.fr/wp-content/uploads/2025/04/LogoSpoolio_White-long.png" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
           </div>
 
           <!-- Title -->

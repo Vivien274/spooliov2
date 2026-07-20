@@ -117,6 +117,7 @@ export default function UpsellPage() {
     // Retrieve shipping options saved in localStorage
     const shippingMethod = localStorage.getItem("spoolio_shipping_method") || "pickup";
     const selectedRelayStr = localStorage.getItem("spoolio_selected_relay");
+    const pickupSlot = localStorage.getItem("spoolio_pickup_slot") || null;
     let selectedRelay = null;
     if (selectedRelayStr) {
       try {
@@ -134,6 +135,7 @@ export default function UpsellPage() {
           items: cartItems,
           shippingMethod,
           selectedRelay,
+          pickupSlot,
         }),
       });
 
