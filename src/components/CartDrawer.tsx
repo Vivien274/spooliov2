@@ -203,10 +203,10 @@ export default function CartDrawer() {
 
             <button
               onClick={handleGoToCart}
-              className="w-full h-12 flex items-center justify-center gap-2 text-xs font-black text-white bg-white hover:bg-gray-100 hover:text-black rounded-xl transition-all shadow-xl cursor-pointer uppercase tracking-wider text-black font-sans"
+              className="w-full h-12 flex items-center justify-center gap-2 text-xs font-black text-white bg-[#ff4f00] hover:bg-[#e04500] rounded-xl transition-all shadow-xl shadow-[#ff4f00]/15 cursor-pointer uppercase tracking-wider font-sans no-invert"
             >
               <span>Voir mon panier</span>
-              <UnicornIcon animationData={checkoutIconData} className="w-8 h-4 scale-[1.3] invert dark:invert-0" loop={true} />
+              <UnicornIcon animationData={checkoutIconData} className="w-8 h-4 scale-[1.3]" loop={true} />
             </button>
           </div>
         )}
