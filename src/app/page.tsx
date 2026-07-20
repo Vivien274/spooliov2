@@ -6,6 +6,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReviewsSection from "@/components/ReviewsSection";
 import { prisma } from "@/lib/prisma";
+import fs from "fs";
+import path from "path";
 
 export const dynamic = "force-dynamic";
 
@@ -67,6 +69,30 @@ export default async function Home() {
       };
     }
     dbReviews = fetchedReviews || [];
+    
+    // Fallback: If DB query returned no reviews (e.g. database empty or columns mismatch in production),
+    // load approved reviews from local cache reviews.json
+    if (dbReviews.length === 0) {
+      try {
+        const jsonPath = path.join(process.cwd(), 'src/data/reviews.json');
+        if (fs.existsSync(jsonPath)) {
+          const fileData = fs.readFileSync(jsonPath, 'utf8');
+          const parsed = JSON.parse(fileData || "[]");
+          if (Array.isArray(parsed)) {
+            // Priority 1: approved and showOnHome
+            let localReviews = parsed.filter((r: any) => r.approved === true && r.showOnHome === true);
+            // Priority 2: just approved if none marked for home
+            if (localReviews.length === 0) {
+              localReviews = parsed.filter((r: any) => r.approved === true);
+            }
+            dbReviews = localReviews.slice(0, 6);
+            console.log(`Loaded ${dbReviews.length} reviews from local reviews.json cache fallback on home`);
+          }
+        }
+      } catch (jsonErr: any) {
+        console.warn("Failed to load local reviews.json fallback on home:", jsonErr.message);
+      }
+    }
   } catch (e) {
     console.error("Failed to load homepage assets:", e);
   }
