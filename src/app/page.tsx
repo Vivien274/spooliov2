@@ -160,9 +160,8 @@ export default async function Home() {
                 </svg>
               </a>
 
-              {/* Facebook */}
               <a 
-                href="https://www.facebook.com/spoolio/" 
+                href="https://www.facebook.com/spoolio.fr/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 hover:bg-[#1877f2] hover:border-transparent group/fb"
