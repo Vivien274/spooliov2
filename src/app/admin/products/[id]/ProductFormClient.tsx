@@ -51,7 +51,7 @@ function SectionCard({ title, icon, children, cardBg, border, textMain }: {
   return (
     <div className={`${cardBg} border ${border} rounded-3xl p-6 flex flex-col gap-5 transition-colors`}>
       <div className={`flex items-center gap-3 pb-4 border-b ${border}`}>
-        <span className="text-[#2F3CD9]">{icon}</span>
+        <span className="text-[#ff4f00]">{icon}</span>
         <h2 className={`text-sm font-bold ${textMain} uppercase tracking-widest font-antonio`}>{title}</h2>
       </div>
       {children}
