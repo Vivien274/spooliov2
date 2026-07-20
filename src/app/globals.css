@@ -145,8 +145,8 @@ html.light .sticky.border-b {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Logo inversion in light mode */
-html.light img[alt="Spoolio Logo"] {
+/* Logo inversion in light mode, excluding no-invert parent wrappers */
+html.light img[alt="Spoolio Logo"]:not(.no-invert *, .no-invert) {
   filter: invert(1);
 }
 
