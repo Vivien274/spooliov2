@@ -537,7 +537,7 @@ export default function ProductFormClient({ product, isNew }: Props) {
                           }
                           const defaultComb: Record<string, string> = {};
                           attrs.forEach(a => {
-                            if (a.options?.[0]) defaultComb[a.name] = a.options[0];
+                            defaultComb[a.name] = "";
                           });
                           const vPrices = form.attributes?.variationPrices || [];
                           set("attributes")({
@@ -581,6 +581,9 @@ export default function ProductFormClient({ product, isNew }: Props) {
                                     }}
                                     className={`bg-transparent border-b ${theme === "dark" ? "border-white/10" : "border-gray-200"} text-sm ${cls.textMain} pb-1 focus:outline-none focus:border-[#2F3CD9]/50 cursor-pointer`}
                                   >
+                                    <option value="" className={theme === "dark" ? "bg-[#131316]" : "bg-white"}>
+                                      Tous / N'importe lequel
+                                    </option>
                                     {attr.options.map(opt => (
                                       <option key={opt} value={opt} className={theme === "dark" ? "bg-[#131316]" : "bg-white"}>
                                         {opt}

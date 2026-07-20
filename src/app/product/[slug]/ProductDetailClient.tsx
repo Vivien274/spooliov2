@@ -246,14 +246,28 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
     if (!product) return { price: "0", isVariation: false };
     const attrData = product.attributes as any;
     if (attrData && attrData.variationPrices && Array.isArray(attrData.variationPrices)) {
-      const match = attrData.variationPrices.find((vp: any) => {
+      // 1. Filter all matching variations
+      const matches = attrData.variationPrices.filter((vp: any) => {
         return Object.entries(vp.combination).every(([key, value]) => {
+          // If value is empty, it's a wildcard matching any selected option
+          if (!value || String(value).trim() === "") return true;
           const selected = selectedOptions[key];
           return selected && selected.toLowerCase().trim() === String(value).toLowerCase().trim();
         });
       });
-      if (match && match.price) {
-        return { price: match.price, isVariation: true };
+
+      if (matches.length > 0) {
+        // 2. Sort by specificity (number of non-empty constraints) descending
+        matches.sort((a: any, b: any) => {
+          const aSpecificity = Object.values(a.combination).filter(v => v && String(v).trim() !== "").length;
+          const bSpecificity = Object.values(b.combination).filter(v => v && String(v).trim() !== "").length;
+          return bSpecificity - aSpecificity;
+        });
+
+        const bestMatch = matches[0];
+        if (bestMatch && bestMatch.price) {
+          return { price: bestMatch.price, isVariation: true };
+        }
       }
     }
     return { price: product.price, isVariation: false };
