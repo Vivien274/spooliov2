@@ -14,6 +14,7 @@ interface Review {
   rating: number;
   comment: string;
   approved: boolean;
+  showOnHome: boolean;
   createdAt: string;
   product: {
     name: string;
@@ -66,6 +67,28 @@ export default function AdminReviewsPage() {
       } else {
         const data = await res.json();
         alert(data.error || "Erreur de validation.");
+      }
+    } catch (e) {
+      alert("Erreur de connexion.");
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  const handleToggleHome = async (id: number, currentShow: boolean) => {
+    setActionLoading(id);
+    const newShow = !currentShow;
+    try {
+      const res = await fetch("/api/admin/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, showOnHome: newShow })
+      });
+      if (res.ok) {
+        setReviews(reviews.map(r => r.id === id ? { ...r, showOnHome: newShow } : r));
+      } else {
+        const data = await res.json();
+        alert(data.error || "Erreur de mise à jour.");
       }
     } catch (e) {
       alert("Erreur de connexion.");
@@ -184,7 +207,7 @@ export default function AdminReviewsPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className={`border-b ${cls.border}`}>
-                  {["Date", "Client", "Produit", "Note", "Commentaire", "Statut", "Actions"].map((h) => (
+                  {["Date", "Client", "Produit", "Note", "Commentaire", "Statut", "Affiche Home", "Actions"].map((h) => (
                     <th key={h} className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-5 py-3.5 first:pl-6 last:pr-6`}>{h}</th>
                   ))}
                 </tr>
@@ -230,6 +253,20 @@ export default function AdminReviewsPage() {
                       }`}>
                         {r.approved ? "Approuvé" : "En attente"}
                       </span>
+                    </td>
+                    <td className="px-5 py-4">
+                      <button
+                        onClick={() => handleToggleHome(r.id, r.showOnHome)}
+                        disabled={actionLoading === r.id}
+                        className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold text-[10px] uppercase tracking-wider transition-all cursor-pointer disabled:opacity-50 select-none ${
+                          r.showOnHome
+                            ? "bg-blue-500/20 text-blue-400 border border-blue-500/30 hover:bg-blue-500/30"
+                            : "bg-gray-500/10 text-gray-500 border border-gray-500/15 hover:bg-gray-500/20 hover:text-gray-400"
+                        }`}
+                        title={r.showOnHome ? "Retirer de la page d'accueil" : "Afficher sur la page d'accueil"}
+                      >
+                        <span>{r.showOnHome ? "🏠 Oui" : "❌ Non"}</span>
+                      </button>
                     </td>
                     <td className="px-5 pr-6 py-4">
                       <div className="flex items-center gap-1.5 justify-end">

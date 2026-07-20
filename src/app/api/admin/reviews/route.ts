@@ -79,7 +79,7 @@ export async function GET() {
   }
 }
 
-// POST: Moderate (Approve) a review (Admin only)
+// POST: Moderate (Approve / showOnHome) a review (Admin only)
 export async function POST(request: Request) {
   try {
     const cookieStore = await cookies();
@@ -93,19 +93,23 @@ export async function POST(request: Request) {
       );
     }
 
-    const { id, approved } = await request.json();
+    const { id, approved, showOnHome } = await request.json();
 
-    if (id === undefined || approved === undefined) {
-      return NextResponse.json({ error: "Paramètres id ou approved manquants." }, { status: 400 });
+    if (id === undefined) {
+      return NextResponse.json({ error: "Paramètre id manquant." }, { status: 400 });
     }
+
+    const updateData: any = {};
+    if (approved !== undefined) updateData.approved = !!approved;
+    if (showOnHome !== undefined) updateData.showOnHome = !!showOnHome;
 
     let updatedReview;
     try {
       updatedReview = await withTimeout(prisma.review.update({
         where: { id: parseInt(id, 10) },
-        data: { approved: !!approved }
+        data: updateData
       }));
-      console.log(`[Admin Update] Avis ${id} modéré avec approved = ${approved}`);
+      console.log(`[Admin Update] Avis ${id} modéré avec:`, updateData);
     } catch (dbErr: any) {
       console.warn("Failed to moderate review in DB, performing local cache update only...", dbErr.message);
       // Fallback simulated update on local json cache
@@ -115,7 +119,8 @@ export async function POST(request: Request) {
         const list = JSON.parse(fileData || "[]");
         const idx = list.findIndex((r: any) => r.id === parseInt(id, 10));
         if (idx !== -1) {
-          list[idx].approved = !!approved;
+          if (approved !== undefined) list[idx].approved = !!approved;
+          if (showOnHome !== undefined) list[idx].showOnHome = !!showOnHome;
           fs.writeFileSync(jsonPath, JSON.stringify(list, null, 2), 'utf-8');
           updatedReview = list[idx];
         }

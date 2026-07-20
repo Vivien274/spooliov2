@@ -92,6 +92,7 @@ model Review {
   rating       Int
   comment      String   @db.Text
   approved     Boolean  @default(false)
+  showOnHome   Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }

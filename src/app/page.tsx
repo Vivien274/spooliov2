@@ -30,7 +30,7 @@ export default async function Home() {
       where: { slug: "config-hero" }
     });
     const reviewsPromise = prisma.review.findMany({
-      where: { approved: true },
+      where: { approved: true, showOnHome: true },
       take: 6,
       orderBy: { createdAt: "desc" }
     });
