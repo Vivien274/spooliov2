@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart, SelectedRelay } from "@/context/CartContext";
+import UnicornIcon from "@/components/UnicornIcon";
+import checkoutIconData from "@/components/checkout-bag.json";
 
 export default function CartDrawer() {
   const {
@@ -25,6 +27,7 @@ export default function CartDrawer() {
   const router = useRouter();
   const [checkoutLoading, setCheckoutLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [isCheckoutHovered, setIsCheckoutHovered] = useState(false);
   const [pickupSlot, setPickupSlot] = useState<string>("");
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
 
@@ -599,7 +602,7 @@ export default function CartDrawer() {
             <button
               onClick={handleCheckout}
               disabled={checkoutLoading}
-              className="w-full h-12 flex items-center justify-center gap-2 text-xs font-bold text-white bg-[#ff4f00] hover:bg-[#e04500] disabled:bg-[#ff4f00]/50 rounded-xl transition-all shadow-xl shadow-[#ff4f00]/25 hover:scale-[1.01] active:scale-[0.99] disabled:scale-100 cursor-pointer disabled:cursor-not-allowed no-invert"
+              className="w-full h-13 flex items-center justify-center gap-2 text-[13px] font-black text-white bg-[#ff4f00] hover:bg-[#e04500] disabled:bg-[#ff4f00]/50 rounded-xl transition-all shadow-xl shadow-[#ff4f00]/25 hover:scale-[1.01] active:scale-[0.99] disabled:scale-100 cursor-pointer disabled:cursor-not-allowed no-invert uppercase tracking-wider"
             >
               {checkoutLoading ? (
                 <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -609,7 +612,7 @@ export default function CartDrawer() {
               ) : (
                 <>
                   <span>Valider la commande</span>
-                  <span>&rarr;</span>
+                  <UnicornIcon animationData={checkoutIconData} className="w-8 h-4 scale-[1.3]" loop={true} />
                 </>
               )}
             </button>

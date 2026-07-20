@@ -50,7 +50,7 @@ export default function UnicornIcon({ animationData, className, loop = false, is
           lottieRef={lottieRef}
           animationData={animationData} 
           loop={loop} 
-          autoplay={false} // Autoplay disabled
+          autoplay={loop} // Auto-play if looping is enabled
           style={{ width: "100%", height: "100%" }}
         />
       </div>
