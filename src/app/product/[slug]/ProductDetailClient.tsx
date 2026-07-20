@@ -8,7 +8,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import UnicornIcon from "@/components/UnicornIcon";
 import { useCart } from "@/context/CartContext";
-import Configurateur from "@/components/Configurateur";
 
 interface ProductDetailClientProps {
   slug: string;
@@ -426,23 +425,6 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                 ))}
               </div>
             )}
-
-            {/* Interactive 3D Fidget Configurator */}
-            <div className="mt-8">
-              <Configurateur 
-                color={
-                  Object.keys(selectedOptions).find(k => {
-                    const kl = k.toLowerCase();
-                    return kl.includes("couleur") || kl.includes("tube") || kl.includes("accent") || kl.includes("bague") || kl.includes("serpent") || kl.includes("oeuf");
-                  }) 
-                    ? selectedOptions[Object.keys(selectedOptions).find(k => {
-                        const kl = k.toLowerCase();
-                        return kl.includes("couleur") || kl.includes("tube") || kl.includes("accent") || kl.includes("bague") || kl.includes("serpent") || kl.includes("oeuf");
-                      })!] 
-                    : (Object.values(selectedOptions)[0] || "orange")
-                }
-              />
-            </div>
           </div>
 
           {/* Right Column: Content and Options */}
