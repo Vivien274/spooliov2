@@ -280,6 +280,23 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
   const priceNum = parseFloat(currentPrice);
   const estimatedWeight = priceNum < 10 ? "~20g à 40g" : priceNum < 20 ? "~40g à 80g" : "~80g à 150g";
 
+  const getDeliveryDateRange = () => {
+    const today = new Date();
+    
+    // Delivery window: 3 to 5 business days
+    const minDelivery = new Date(today);
+    minDelivery.setDate(today.getDate() + 3);
+    
+    const maxDelivery = new Date(today);
+    maxDelivery.setDate(today.getDate() + 6);
+    
+    const formatOptions: Intl.DateTimeFormatOptions = { day: "numeric", month: "long" };
+    const minStr = minDelivery.toLocaleDateString("fr-FR", formatOptions);
+    const maxStr = maxDelivery.toLocaleDateString("fr-FR", formatOptions);
+    
+    return { minStr, maxStr };
+  };
+
   const handleAddToCartClick = () => {
     if (!product || isNotAvailableToBuy) return;
     addToCart({
@@ -664,6 +681,57 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                   Ajouter au panier
                 </button>
               )}
+            </div>
+
+            {/* Delivery Estimation & Trust Badges */}
+            <div className="mt-6 space-y-5 border-t border-spoolio-border/40 pt-5">
+              {/* Delivery Estimation */}
+              <div className="flex items-start gap-3 text-xs text-gray-400 font-sans leading-relaxed bg-[#1b1b1f]/30 p-3.5 rounded-2xl border border-spoolio-border/30">
+                <span className="text-lg shrink-0 select-none">📦</span>
+                <div>
+                  <p className="text-gray-300 font-bold">
+                    Livraison estimée : <span className="text-[#ff4f00] font-black">{getDeliveryDateRange().minStr}</span> au <span className="text-[#ff4f00] font-black">{getDeliveryDateRange().maxStr}</span>
+                  </p>
+                  <p className="text-[10px] text-gray-500 mt-0.5">
+                    Expédié sous 24/48h depuis notre atelier de Comines (Mondial Relay & Colissimo).
+                  </p>
+                </div>
+              </div>
+
+              {/* Trust Badges Grid */}
+              <div className="grid grid-cols-2 gap-3 text-[11px] font-bold tracking-tight text-gray-300 font-sans">
+                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-spoolio-card border border-spoolio-border/30">
+                  <span className="text-base select-none">🇫🇷</span>
+                  <div>
+                    <span className="block text-white">Made in France</span>
+                    <span className="block text-[9px] text-gray-500 font-normal">Hauts-de-France</span>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-spoolio-card border border-spoolio-border/30">
+                  <span className="text-base select-none">🌱</span>
+                  <div>
+                    <span className="block text-white">PLA Biosourcé</span>
+                    <span className="block text-[9px] text-gray-500 font-normal">Plastique d'amidon</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-spoolio-card border border-spoolio-border/30">
+                  <span className="text-base select-none">🚚</span>
+                  <div>
+                    <span className="block text-white">Livraison Suivie</span>
+                    <span className="block text-[9px] text-gray-500 font-normal">Relais & Domicile</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 p-2.5 rounded-xl bg-spoolio-card border border-spoolio-border/30">
+                  <span className="text-base select-none">💳</span>
+                  <div>
+                    <span className="block text-white">Paiement 3D Secure</span>
+                    <span className="block text-[9px] text-gray-500 font-normal">Stripe 100% protégé</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
