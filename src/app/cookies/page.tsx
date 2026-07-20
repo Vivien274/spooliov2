@@ -70,7 +70,7 @@ export default function CookiesPage() {
             Conformément au Règlement Général sur la Protection des Données (RGPD), tu disposes d'un droit d'accès, de rectification, de limitation et de suppression de tes données personnelles collectées lors de tes commandes ou de ta navigation.
           </p>
           <p>
-            Tu peux exercer ces droits en nous envoyant un e-mail simple à l'adresse suivante : <strong>hello@spoolio.fr</strong>.
+            Tu peux exercer ces droits en nous envoyant un e-mail simple à l'adresse suivante : <strong>contact@spoolio.fr</strong>.
           </p>
 
           <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">

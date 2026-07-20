@@ -71,7 +71,7 @@ export default function CGVPage() {
             Article 6 - Service client et litiges
           </h2>
           <p>
-            Pour toute réclamation, demande de retour ou question sur ton colis, notre service client est disponible à l'adresse email suivante : <strong>hello@spoolio.fr</strong>.
+            Pour toute réclamation, demande de retour ou question sur ton colis, notre service client est disponible à l'adresse email suivante : <strong>contact@spoolio.fr</strong>.
           </p>
         </div>
       </main>

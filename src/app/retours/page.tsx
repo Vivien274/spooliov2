@@ -54,7 +54,7 @@ export default function RetoursPage() {
           </h2>
           <ol className="list-decimal pl-5 space-y-2">
             <li>
-              Envoie-nous un e-mail à <strong>hello@spoolio.fr</strong> en indiquant ton numéro de commande et l'objet concerné.
+              Envoie-nous un e-mail à <strong>contact@spoolio.fr</strong> en indiquant ton numéro de commande et l'objet concerné.
             </li>
             <li>
               Emballe soigneusement l'article pour qu'il ne s'abîme pas durant le voyage.

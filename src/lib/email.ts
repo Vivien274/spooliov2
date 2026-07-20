@@ -117,7 +117,7 @@ export async function sendOrderConfirmationEmail({
           <!-- Footer banner -->
           <div style="margin-top: 40px; border-top: 1px solid #1f1f23; padding-top: 20px; text-align: center; font-size: 11px; color: #52525b;">
             <p>Spoolio - Objets éco-responsables imprimés en 3D à Comines, France.</p>
-            <p>Des questions sur votre commande ? Contactez-nous à hello@spoolio.fr</p>
+             <p>Des questions sur votre commande ? Contactez-nous à contact@spoolio.fr</p>
           </div>
 
         </div>

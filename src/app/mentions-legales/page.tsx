@@ -46,7 +46,7 @@ export default function MentionsLegalesPage() {
             Hébergement
           </h2>
           <p>
-            Le Site est hébergé par la société <strong>OVH SAS</strong>, dont le siège social est situé : 2 rue Kellermann - BP 80157 - 59053 Roubaix Cedex 1 (Contact téléphonique ou e-mail : 1007).
+            Le Site est hébergé par la société <strong>o2switch</strong>, dont le siège social est situé : Chemin des Pardiaux, 63000 Clermont-Ferrand (Contact téléphonique ou e-mail : +33 4 44 44 60 40 ou support@o2switch.fr).
           </p>
 
           <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-[#1f1f23] pb-2 tracking-wide">
@@ -61,7 +61,7 @@ export default function MentionsLegalesPage() {
           </h2>
           <ul className="list-disc pl-5 space-y-1">
             <li>Par téléphone : <strong>+33 6 34 72 55 13</strong></li>
-            <li>Par e-mail : <strong>hello@spoolio.fr</strong></li>
+            <li>Par e-mail : <strong>contact@spoolio.fr</strong></li>
             <li>Par courrier postal : <strong>40 rue du Hoccart, 59560 Comines</strong></li>
           </ul>
 
