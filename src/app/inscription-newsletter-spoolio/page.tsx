@@ -73,7 +73,7 @@ export default function NewsletterPage() {
                   required
                 />
                 <span>
-                  J'accepte de recevoir les e-mails d'informations et offres commerciales de la part de la Savonnerie / Boutique Spoolio.
+                  J'accepte de recevoir les e-mails d'informations et offres commerciales de la part de Spoolio.
                 </span>
               </label>
               <p className="text-[10px] text-gray-500 pl-6 leading-relaxed">
