@@ -20,24 +20,20 @@ export default function NewsletterPage() {
       <Header className="relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full" />
 
       {/* Main Content Area */}
-      <main className="w-full max-w-[650px] px-6 py-12 relative z-10 flex-grow">
+      <main className="w-full max-w-[750px] px-6 py-12 relative z-10 flex-grow flex flex-col gap-10">
         
         {/* Intro */}
-        <div className="text-center mb-8 animate-reveal">
-          <span className="text-xs text-[#2F3CD9] font-black uppercase tracking-widest block mb-2 font-sans">
-            Ne manque aucun bon plan !
-          </span>
-          <h1 className="text-3xl md:text-4xl font-extrabold uppercase tracking-tight font-antonio text-neon-flow text-center">
-            Rejoins la Newsletter Spoolio
+        <div className="text-center animate-reveal">
+          <h1 className="text-3xl md:text-4xl font-extrabold uppercase tracking-tight font-antonio text-[#ff4f00] text-center">
+            Profite de 10% de réduction sur toute la boutique !
           </h1>
-          <p className="text-xs text-gray-400 max-w-sm mx-auto font-sans leading-relaxed mt-2">
-            Des promos exclusives, des coulisses de l'atelier et les nouveautés 3D en avant-première !
+          <p className="text-sm text-gray-300 max-w-xl mx-auto font-sans leading-relaxed mt-4 font-semibold">
+            C'est cadeau ! <span className="text-[#ff4f00] font-black">-10 % sur ta première commande !</span> Comment faire ? Rien de plus simple : laisse ton email ! 👇
           </p>
         </div>
 
         {/* Form Container Card */}
-        <div className="mt-6 p-6 md:p-8 rounded-3xl bg-spoolio-card border border-spoolio-border animate-reveal delay-100 font-sans">
-          
+        <div className="p-6 md:p-8 rounded-3xl bg-spoolio-card border border-spoolio-border animate-reveal delay-100 font-sans shadow-xl">
           <form 
             action="https://spoolio.us15.list-manage.com/subscribe/post?u=ac0c921fbe515914135ceab3c&amp;id=bcabd4b111&amp;f_id=001a85e0f0" 
             method="post" 
@@ -96,8 +92,70 @@ export default function NewsletterPage() {
               M'inscrire gratuitement
             </button>
           </form>
-
         </div>
+
+        {/* Benefits Section */}
+        <div className="p-6 md:p-8 rounded-3xl bg-[#131316]/50 border border-white/5 animate-reveal delay-150 font-sans flex flex-col gap-6">
+          <h2 className="text-xl md:text-2xl font-black text-white font-antonio uppercase tracking-wide flex items-center gap-2">
+            <span>✉️</span> Pourquoi t'inscrire à la newsletter Spoolio ?
+          </h2>
+
+          <ul className="space-y-4 text-xs md:text-sm text-gray-300 font-medium">
+            <li className="flex items-start gap-3">
+              <span className="text-emerald-500 shrink-0 text-base">✅</span>
+              <span>
+                Tu reçois ton <strong className="text-white font-black">code de réduction immédiat</strong> par mail (et ça, c'est pas imprimé à la légère)
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-emerald-500 shrink-0 text-base">✅</span>
+              <span>
+                Tu découvres nos <strong className="text-white font-black">nouveaux objets imprimés en 3D</strong> : fun, décalés et fabriqués chez nous
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-emerald-500 shrink-0 text-base">✅</span>
+              <span>
+                Tu profites de nos <strong className="text-white font-black">idées cadeaux personnalisés</strong> pour toutes les occasions : anniversaire, Noël, fête des parents... ou juste pour te faire kiffer
+              </span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-emerald-500 shrink-0 text-base">✅</span>
+              <span>
+                Tu reçois de temps en temps un zeste d'humour, des clins d'œil complices et <strong className="text-white font-black">du PLA made in Comines 🇫🇷🖨️</strong>
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        {/* Blue Highlight Box */}
+        <div className="rounded-3xl bg-[#2F3CD9] border border-white/10 p-6 md:p-8 animate-reveal delay-200 font-sans shadow-2xl flex flex-col gap-5">
+          <h3 className="text-lg md:text-xl font-black text-white font-antonio uppercase tracking-wide flex items-center gap-2.5">
+            <span>🛒</span> Ce que tu gagnes en t'inscribant :
+          </h3>
+
+          <div className="grid grid-cols-1 gap-4 text-xs md:text-sm text-white/95 font-semibold">
+            <div className="flex items-center gap-3 bg-white/10 px-4 py-3 rounded-2xl border border-white/5">
+              <span className="text-xl shrink-0">🎁</span>
+              <span>
+                Un <strong className="text-white font-black underline decoration-2 decoration-[#ff4f00]">code de réduction -10 %</strong> valable sur toute la boutique
+              </span>
+            </div>
+            <div className="flex items-center gap-3 bg-white/10 px-4 py-3 rounded-2xl border border-white/5">
+              <span className="text-xl shrink-0">🧡</span>
+              <span>
+                Un accès privilégié à notre univers d'objets <strong className="text-white font-black">fun, décalés et personnalisés</strong>
+              </span>
+            </div>
+            <div className="flex items-center gap-3 bg-white/10 px-4 py-3 rounded-2xl border border-white/5">
+              <span className="text-xl shrink-0">🕵️</span>
+              <span>
+                Des avant-premières, bons plans, et des coulisses artisanales
+              </span>
+            </div>
+          </div>
+        </div>
+
       </main>
 
       <Footer />
