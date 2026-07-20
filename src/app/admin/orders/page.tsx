@@ -40,6 +40,8 @@ export default function AdminOrdersPage() {
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [proposingSlots, setProposingSlots] = useState<Record<string, string>>({});
+  const [pickupLoading, setPickupLoading] = useState<string | null>(null);
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -170,7 +172,6 @@ export default function AdminOrdersPage() {
         body: JSON.stringify({ id: orderId, status: newStatus, trackingNumber }),
       });
       if (res.ok) {
-        // Update local state
         setOrders(orders.map(o => o.id === orderId ? { ...o, status: newStatus, trackingNumber: trackingNumber || o.trackingNumber } : o));
         setSelectedOrder(prev => prev && prev.id === orderId ? { ...prev, status: newStatus, trackingNumber: trackingNumber || prev.trackingNumber } : prev);
       } else {
@@ -183,9 +184,6 @@ export default function AdminOrdersPage() {
       setStatusChangeLoading(null);
     }
   };
-
-  const [proposingSlots, setProposingSlots] = useState<Record<string, string>>({});
-  const [pickupLoading, setPickupLoading] = useState<string | null>(null);
 
   const handleConfirmPickupSlot = async (orderId: string, requestedSlot: string) => {
     setPickupLoading(orderId);
@@ -233,7 +231,6 @@ export default function AdminOrdersPage() {
       if (res.ok) {
         setOrders(orders.map(o => o.id === orderId ? { ...o, pickupSlotConfirmed: alternativeSlot, pickupStatus: "proposed" } : o));
         setSelectedOrder(prev => prev && prev.id === orderId ? { ...prev, pickupSlotConfirmed: alternativeSlot, pickupStatus: "proposed" } : prev);
-        // Clear input state
         setProposingSlots(prev => {
           const updated = { ...prev };
           delete updated[orderId];
@@ -262,13 +259,13 @@ export default function AdminOrdersPage() {
   const getStatusLabel = (status: string) => {
     switch (status) {
       case "attente_impression":
-        return "Attente Impression";
+        return "À imprimer 🛠️";
       case "impression":
-        return "Impression en cours";
+        return "Impression... ⏳";
       case "emballe":
-        return "Emballé / Prêt";
+        return "Emballé / Prêt 📦";
       case "expedie":
-        return "Expédié / Clôturé";
+        return "Expédié / Clôturé ✓";
       default:
         return status;
     }
@@ -284,6 +281,7 @@ export default function AdminOrdersPage() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 font-sans px-4 sm:px-6 lg:px-8">
+      {/* Upper header action section */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div>
           <nav className={`text-[10px] uppercase font-bold tracking-wider ${cls.textFaint} mb-1`}>
@@ -368,7 +366,7 @@ export default function AdminOrdersPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className={`border-b ${cls.border}`}>
-                  {["ID", "Date", "Client", "Articles", "Expédition / Relais", "Total", "Statut", "Action"].map((h) => (
+                  {["ID", "Date", "Client", "Articles", "Livraison / Relais", "Total", "Statut"].map((h) => (
                     <th key={h} className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-5 py-3.5 first:pl-6 last:pr-6`}>{h}</th>
                   ))}
                 </tr>
@@ -416,7 +414,7 @@ export default function AdminOrdersPage() {
                         </span>
                       )}
                       {o.shippingMethod === "pickup" && (
-                        <div className="mt-1 space-y-0.5">
+                        <div className="mt-1">
                           <span className={`block text-[10px] font-bold ${
                             o.pickupStatus === "confirmed" ? "text-emerald-400" :
                             o.pickupStatus === "proposed" ? "text-yellow-400" :
@@ -440,95 +438,6 @@ export default function AdminOrdersPage() {
                         {getStatusLabel(o.status)}
                       </span>
                     </td>
-                    <td className="px-5 pr-6 py-5">
-                      <div className="flex justify-end items-center gap-1.5">
-                        <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
-                          {o.status === "attente_impression" && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleUpdateStatus(o.id, "impression");
-                              }}
-                              disabled={statusChangeLoading === o.id}
-                              className="px-2.5 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
-                            >
-                              Lancer Impression 🛠️
-                            </button>
-                          )}
-                          {o.status === "impression" && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleUpdateStatus(o.id, "emballe");
-                              }}
-                              disabled={statusChangeLoading === o.id}
-                              className="px-2.5 py-1.5 rounded-lg bg-purple-500 hover:bg-purple-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
-                            >
-                              Emballer 📦
-                            </button>
-                          )}
-                          {o.status === "emballe" && (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                if (o.shippingMethod !== "pickup") {
-                                  const trackNum = prompt("Saisissez le numéro de suivi du colis (Mondial Relay / Colissimo) ou laissez vide :");
-                                  if (trackNum === null) return;
-                                  handleUpdateStatus(o.id, "expedie", trackNum.trim());
-                                } else {
-                                  handleUpdateStatus(o.id, "expedie");
-                                }
-                              }}
-                              disabled={statusChangeLoading === o.id}
-                              className="px-2.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
-                            >
-                              {o.shippingMethod === "pickup" ? "Prêt au Retrait ✓" : "Expédier 🚚"}
-                            </button>
-                          )}
-                          {o.status === "expedie" && (
-                            <span className={`text-[10px] ${cls.textFaint} italic`}>Clôturée</span>
-                          )}
-                        </div>
-
-                        {o.shippingMethod === "pickup" && o.pickupStatus !== "confirmed" && (
-                          <div 
-                            className="flex flex-col gap-1 items-end border-l border-white/10 pl-2.5 ml-1 select-none"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            {o.pickupSlotRequested && (
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleConfirmPickupSlot(o.id, o.pickupSlotRequested!);
-                                }}
-                                disabled={pickupLoading === o.id}
-                                className="px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500 hover:text-white font-bold text-[9px] uppercase tracking-wider transition-colors cursor-pointer"
-                              >
-                                {pickupLoading === o.id ? "Validation..." : "Valider le créneau ✓"}
-                              </button>
-                            )}
-                            <div className="flex gap-1 items-center" onClick={(e) => e.stopPropagation()}>
-                              <input
-                                type="datetime-local"
-                                value={proposingSlots[o.id] || ""}
-                                onChange={(e) => setProposingSlots(prev => ({ ...prev, [o.id]: e.target.value }))}
-                                className="bg-black border border-[#222225] rounded px-1.5 py-0.5 text-[9px] text-white focus:outline-none focus:border-[#005cff] w-28 cursor-pointer"
-                              />
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  handleProposeAlternativeSlot(o.id);
-                                }}
-                                disabled={pickupLoading === o.id || !proposingSlots[o.id]}
-                                className="px-1.5 py-0.5 rounded bg-blue-500 hover:bg-blue-600 disabled:bg-white/5 disabled:text-gray-600 disabled:border-transparent text-white font-bold text-[9px] transition-colors cursor-pointer border border-transparent"
-                              >
-                                Proposer 📅
-                              </button>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -539,17 +448,19 @@ export default function AdminOrdersPage() {
 
       {/* Order Details Modal Popup */}
       {selectedOrder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm transition-opacity duration-300">
+        <div 
+          onClick={() => setSelectedOrder(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm transition-opacity duration-300"
+        >
           <div 
             className={`relative w-full max-w-2xl ${cls.cardBg} border ${cls.border} rounded-3xl overflow-hidden shadow-2xl animate-fade-in`}
             onClick={(e) => e.stopPropagation()}
           >
-            
             {/* Modal Header */}
             <div className="flex items-center justify-between p-6 border-b border-white/5 bg-white/[0.01]">
               <div>
                 <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500">Détails de la commande</span>
-                <h3 className={`text-xl font-black font-antonio text-white mt-1`}>
+                <h3 className="text-xl font-black font-antonio text-white mt-1">
                   COMMANDE {selectedOrder.id}
                 </h3>
               </div>
@@ -563,7 +474,6 @@ export default function AdminOrdersPage() {
 
             {/* Modal Content */}
             <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
-              
               {/* Client & Metadata Row */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-1">
@@ -650,7 +560,7 @@ export default function AdminOrdersPage() {
                   </div>
                   
                   {selectedOrder.pickupStatus !== "confirmed" && (
-                    <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center mt-3 pt-3 border-t border-white/5 select-none">
+                    <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center mt-3 pt-3 border-t border-white/5 select-none" onClick={(e) => e.stopPropagation()}>
                       {selectedOrder.pickupSlotRequested && (
                         <button
                           onClick={() => handleConfirmPickupSlot(selectedOrder.id, selectedOrder.pickupSlotRequested!)}
@@ -665,7 +575,7 @@ export default function AdminOrdersPage() {
                           type="datetime-local"
                           value={proposingSlots[selectedOrder.id] || ""}
                           onChange={(e) => setProposingSlots(prev => ({ ...prev, [selectedOrder.id]: e.target.value }))}
-                          className="bg-black border border-[#222225] rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-[#005cff] cursor-pointer"
+                          className="bg-black border border-[#222225] rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-[#005cff] cursor-pointer text-gray-800 dark:text-white"
                         />
                         <button
                           onClick={() => handleProposeAlternativeSlot(selectedOrder.id)}
@@ -716,7 +626,6 @@ export default function AdminOrdersPage() {
 
               {/* Quick links & Status Row */}
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-white/5">
-                
                 {/* Logistics */}
                 {selectedOrder.shippingMethod !== "pickup" && (
                   <div className="flex items-center gap-3">
@@ -742,8 +651,8 @@ export default function AdminOrdersPage() {
                 )}
 
                 {/* Status action buttons */}
-                <div className="flex gap-2 items-center ml-auto">
-                  <span className="text-[10px] uppercase font-bold text-gray-500">Statut :</span>
+                <div className="flex gap-2 items-center ml-auto" onClick={(e) => e.stopPropagation()}>
+                  <span className="text-[10px] uppercase font-bold text-gray-500">Actions :</span>
                   {selectedOrder.status === "attente_impression" && (
                     <button
                       onClick={() => handleUpdateStatus(selectedOrder.id, "impression")}
@@ -785,11 +694,8 @@ export default function AdminOrdersPage() {
                     </span>
                   )}
                 </div>
-
               </div>
-
             </div>
-
           </div>
         </div>
       )}
