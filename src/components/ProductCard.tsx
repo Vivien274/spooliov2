@@ -205,7 +205,7 @@ export default function ProductCard({ product, compact = false }: ProductCardPro
         <div
           className="w-full h-[50px] inline-flex items-center justify-center gap-2 px-4 text-xs font-bold text-white bg-[#005cff] hover:bg-[#004ecc] rounded-xl transition-colors shadow-[0_4px_10px_rgba(0,92,255,0.15)] select-none border-none cursor-pointer no-invert"
         >
-          <UnicornIcon iconPath="/icons/shopping-bag.json" className="w-4 h-4" />
+          <UnicornIcon animationData={cartIconData} className="w-4 h-4" />
           ACHETER
         </div>
       </div>
