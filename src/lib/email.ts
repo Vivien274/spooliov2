@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 
+const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://spoolio.fr').replace(/\/$/, "");
+const logoUrl = `${appUrl}/images/logo.png`;
+
 interface OrderEmailParams {
   orderId: string;
   customerName: string;
@@ -77,7 +80,7 @@ export async function sendOrderConfirmationEmail({
           
           <!-- Logo Row -->
           <div style="text-align: center; margin-bottom: 30px;">
-            <img src="https://spoolio.fr/wp-content/uploads/2025/04/LogoSpoolio_White-long.png" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
+            <img src="${logoUrl}" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
           </div>
 
           <!-- Title -->
@@ -229,7 +232,7 @@ export async function sendOrderShippedEmail({
           
           <!-- Logo Row -->
           <div style="text-align: center; margin-bottom: 30px;">
-            <img src="https://spoolio.fr/wp-content/uploads/2025/04/LogoSpoolio_White-long.png" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
+            <img src="${logoUrl}" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
           </div>
 
           <!-- Title -->
@@ -572,7 +575,7 @@ export async function sendAbandonedCartEmail({
           
           <!-- Logo Row -->
           <div style="text-align: center; margin-bottom: 30px;">
-            <img src="https://spoolio.fr/wp-content/uploads/2025/04/LogoSpoolio_White-long.png" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
+            <img src="${logoUrl}" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
           </div>
 
           <!-- Title -->

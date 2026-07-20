@@ -14,10 +14,10 @@
     "status": "attente_impression",
     "relayDetails": null,
     "pickupSlotRequested": null,
-    "pickupSlotConfirmed": "2026-07-21T18:00",
+    "pickupSlotConfirmed": "2026-10-19T17:00",
     "pickupStatus": "proposed",
     "createdAt": "2026-07-20T15:21:15.073Z",
-    "updatedAt": "2026-07-20T15:24:44.755Z"
+    "updatedAt": "2026-07-20T15:29:46.530Z"
   },
   {
     "id": "SP-84959",
