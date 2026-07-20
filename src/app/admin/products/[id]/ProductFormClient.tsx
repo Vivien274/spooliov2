@@ -149,6 +149,7 @@ export default function ProductFormClient({ product, isNew }: Props) {
   const removeTag = (tag: string) => set("tags")(form.tags.filter((t) => t !== tag));
 
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
+  const [aiSeoAdvice, setAiSeoAdvice] = useState<string[]>([]);
 
   const handleGenerateDescription = async () => {
     if (!form.name.trim()) {
@@ -170,7 +171,15 @@ export default function ProductFormClient({ product, isNew }: Props) {
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        set("description")(data.description);
+        setForm(prev => ({
+          ...prev,
+          description: data.description || prev.description,
+          metaTitle: data.seoTitle || prev.metaTitle,
+          metaDescription: data.seoMetaDesc || prev.metaDescription
+        }));
+        if (data.seoAdvice) {
+          setAiSeoAdvice(data.seoAdvice);
+        }
       } else {
         alert(data.error || "Erreur de génération.");
       }
@@ -373,7 +382,7 @@ export default function ProductFormClient({ product, isNew }: Props) {
                     type="button"
                     onClick={handleGenerateDescription}
                     disabled={isGenerating}
-                    className="flex items-center gap-1.5 text-[11px] font-bold text-[#2F3CD9] bg-[#2F3CD9]/10 hover:bg-[#2F3CD9]/15 border border-[#2F3CD9]/20 px-3 py-1 rounded-full transition-colors cursor-pointer disabled:opacity-50"
+                    className="flex items-center gap-1.5 text-[11px] font-bold text-[#2F3CD9] bg-[#2F3CD9]/10 hover:bg-[#2F3CD9]/15 border border-[#2F3CD9]/20 px-3 py-1.5 rounded-full transition-colors cursor-pointer disabled:opacity-50"
                   >
                     <svg className={`w-3 h-3 ${isGenerating ? "animate-spin" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       {isGenerating ? (
@@ -382,7 +391,7 @@ export default function ProductFormClient({ product, isNew }: Props) {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                       )}
                     </svg>
-                    {isGenerating ? "Génération..." : "Générer avec l'IA"}
+                    {isGenerating ? "Optimisation..." : "Optimiser avec l'IA (SEO)"}
                   </button>
                 </div>
                 <WysiwygEditor
@@ -813,6 +822,18 @@ export default function ProductFormClient({ product, isNew }: Props) {
                   </div>
                 </div>
               </div>
+
+              {/* AI SEO Recommendations */}
+              {aiSeoAdvice.length > 0 && (
+                <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl flex flex-col gap-1 text-[11px] font-sans">
+                  <span className={`font-bold flex items-center gap-1 ${cls.textMain}`}>💡 Conseils personnalisés de l'IA :</span>
+                  <ul className="list-disc pl-4 space-y-1 text-gray-400 mt-1">
+                    {aiSeoAdvice.map((advice, idx) => (
+                      <li key={idx}>{advice}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               <InputField
                 label={`Meta title (${form.metaTitle.length}/60 car.)`}

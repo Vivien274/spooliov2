@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import UnicornIcon from "@/components/UnicornIcon";
@@ -29,6 +30,32 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const [tiltStyle, setTiltStyle] = useState<React.CSSProperties>({});
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const card = e.currentTarget;
+    const box = card.getBoundingClientRect();
+    const x = e.clientX - box.left - box.width / 2;
+    const y = e.clientY - box.top - box.height / 2;
+    
+    // Max tilt angle of 8 degrees
+    const rotateX = -(y / (box.height / 2)) * 8;
+    const rotateY = (x / (box.width / 2)) * 8;
+    
+    setTiltStyle({
+      transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`,
+      transition: "transform 0.05s ease-out",
+      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4)"
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setTiltStyle({
+      transform: "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
+      transition: "transform 0.5s ease"
+    });
+  };
+
   const hasImage = !!product.images[0]?.src;
   const imageUrl = product.images[0]?.src || "";
   const imageAlt = product.images[0]?.alt || product.name;
@@ -68,7 +95,10 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/product/${product.slug}`}
-      className="group relative flex flex-col justify-between h-full bg-spoolio-card border border-spoolio-border rounded-[30px] overflow-hidden transition-all duration-300 hover:border-white hover:-translate-y-1 hover:shadow-lg hover:shadow-black/50 card-holographic"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={tiltStyle}
+      className="group relative flex flex-col justify-between h-full bg-spoolio-card border border-spoolio-border rounded-[30px] overflow-hidden transition-all duration-300 hover:border-white shadow-lg shadow-black/30 card-holographic"
     >
       <div className="flex flex-col">
         {/* Image Container with square aspect ratio - flush with edges */}

@@ -212,6 +212,9 @@ export async function PUT(
       stock: typeof body.stock === 'number' ? body.stock : -1,
       productType: body.productType || 'simple',
       status: body.status || 'publish',
+      seoScore: typeof body.seoScore === 'number' ? body.seoScore : 0,
+      metaTitle: body.metaTitle || null,
+      metaDescription: body.metaDescription || null,
     };
 
     if (body.attributes) {
@@ -263,6 +266,9 @@ export async function PUT(
               stock: updateData.stock,
               productType: updateData.productType,
               status: updateData.status,
+              seoScore: updateData.seoScore,
+              metaTitle: updateData.metaTitle,
+              metaDescription: updateData.metaDescription,
               attributes: updateData.attributes,
             }
           }),

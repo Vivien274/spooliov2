@@ -251,6 +251,37 @@ export default function CartDrawer() {
           </button>
         </div>
 
+        {/* Free Shipping Progress Bar */}
+        {cartItems.length > 0 && (
+          <div className="px-6 py-4 bg-[#161619]/60 border-b border-[#222225] flex flex-col gap-2 font-sans select-none no-invert">
+            <div className="flex items-center justify-between text-[11px] font-bold">
+              {cartTotal < 40 ? (
+                <>
+                  <span className="text-gray-400">
+                    Plus que <strong className="text-[#ff4f00]">{(40 - cartTotal).toFixed(2)}€</strong> pour la livraison offerte !
+                  </span>
+                  <span className="text-[#ff4f00] animate-bounce">🚀</span>
+                </>
+              ) : (
+                <>
+                  <span className="text-emerald-400 flex items-center gap-1">
+                    🎉 Livraison offerte active !
+                  </span>
+                  <span className="text-emerald-400 font-black uppercase tracking-wider text-[10px]">Offerte</span>
+                </>
+              )}
+            </div>
+            <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden relative">
+              <div 
+                className={`h-full rounded-full transition-all duration-500 ${
+                  cartTotal < 40 ? "bg-gradient-to-r from-[#ff4f00]/60 to-[#ff4f00]" : "bg-emerald-400 shadow-[0_0_8px_#34d399]"
+                }`}
+                style={{ width: `${Math.min((cartTotal / 40) * 100, 100)}%` }}
+              />
+            </div>
+          </div>
+        )}
+
         {/* Content Section (Scrollable) */}
         <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-4 cart-content">
           {cartItems.length === 0 ? (

@@ -8,6 +8,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import UnicornIcon from "@/components/UnicornIcon";
 import { useCart } from "@/context/CartContext";
+import Configurateur from "@/components/Configurateur";
 
 interface ProductDetailClientProps {
   slug: string;
@@ -425,6 +426,23 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                 ))}
               </div>
             )}
+
+            {/* Interactive 3D Fidget Configurator */}
+            <div className="mt-8">
+              <Configurateur 
+                color={
+                  Object.keys(selectedOptions).find(k => {
+                    const kl = k.toLowerCase();
+                    return kl.includes("couleur") || kl.includes("tube") || kl.includes("accent") || kl.includes("bague") || kl.includes("serpent") || kl.includes("oeuf");
+                  }) 
+                    ? selectedOptions[Object.keys(selectedOptions).find(k => {
+                        const kl = k.toLowerCase();
+                        return kl.includes("couleur") || kl.includes("tube") || kl.includes("accent") || kl.includes("bague") || kl.includes("serpent") || kl.includes("oeuf");
+                      })!] 
+                    : (Object.values(selectedOptions)[0] || "orange")
+                }
+              />
+            </div>
           </div>
 
           {/* Right Column: Content and Options */}
@@ -514,9 +532,14 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                         "violet": "#a32eff",
                         "phosphorescent": "linear-gradient(135deg, #e0ffe0 0%, #a0ffa0 100%)",
                         "transparent": "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.2) 100%)",
-                        "bicolore or-rouge": "linear-gradient(135deg, #ffd700 0%, #ff0000 100%)",
-                        "bicolore bleu-violet": "linear-gradient(135deg, #00c6ff 0%, #0072ff 100%)",
-                        "arc en ciel": "linear-gradient(135deg, #ff0000 0%, #ff7f00 15%, #ffff00 30%, #00ff00 50%, #0000ff 65%, #4b0082 80%, #9400d3 100%)",
+                        "bicolore or-rouge": "linear-gradient(to right, #ffd700 50%, #ff2a2a 50%)",
+                        "bicolore bleu-violet": "linear-gradient(to right, #00c6ff 50%, #a32eff 50%)",
+                        "bicolore bleu-rose": "linear-gradient(to right, #58a6ff 50%, #ff66cc 50%)",
+                        "bicolore bleu-vert": "linear-gradient(to right, #2563eb 50%, #2ebd59 50%)",
+                        "bicolore or-argent": "linear-gradient(to right, #ffd700 50%, #cfd9df 50%)",
+                        "bicolore rose-violet": "linear-gradient(to right, #ff66cc 50%, #a32eff 50%)",
+                        "bicolore": "linear-gradient(to right, #ff4f00 50%, #a32eff 50%)",
+                        "arc en ciel": "linear-gradient(135deg, #ff0000 0%, #ffff00 33%, #00ff00 66%, #0000ff 100%)",
                       };
                       for (const key of Object.keys(colorMap)) {
                         if (cName.includes(key)) return colorMap[key];
@@ -538,13 +561,20 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                                 key={opt}
                                 onClick={() => handleSelect(opt)}
                                 style={{ background: bg }}
-                                className={`w-8 h-8 rounded-full border border-white/20 transition-all cursor-pointer relative ${
+                                className={`w-9 h-9 rounded-full border border-white/20 transition-all cursor-pointer relative shadow-lg ${
                                   isSelected
-                                    ? "ring-2 ring-white ring-offset-2 ring-offset-black scale-110"
+                                    ? "ring-2 ring-[#ff4f00] ring-offset-2 ring-offset-black scale-110"
                                     : "hover:scale-105 opacity-80 hover:opacity-100"
                                 } ${opt.toLowerCase().includes("phospho") ? "animate-pulse" : ""}`}
                                 title={opt}
-                              />
+                              >
+                                {/* Center hole to simulate 3D printing spool */}
+                                <div className="absolute inset-[30%] rounded-full border border-black/30 bg-[#111113] shadow-inner flex items-center justify-center pointer-events-none">
+                                  <div className="w-1 h-1 rounded-full bg-black/60" />
+                                </div>
+                                {/* Spool side lines */}
+                                <div className="absolute inset-0 rounded-full border-2 border-white/5 pointer-events-none" />
+                              </button>
                             );
                           })}
                         </div>

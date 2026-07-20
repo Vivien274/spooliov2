@@ -56,8 +56,8 @@ async function getProduct(id: string) {
         productType: p.productType || "simple",
         status: p.status || "publish",
         stock: p.stock,
-        metaTitle: p.name + " — Spoolio",
-        metaDescription: p.shortDescription || p.name,
+        metaTitle: p.metaTitle || p.name + " — Spoolio",
+        metaDescription: p.metaDescription || p.shortDescription || p.name,
         images: p.images.map((img: any) => ({
           id: img.id,
           src: img.src,

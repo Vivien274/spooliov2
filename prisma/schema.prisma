@@ -40,6 +40,8 @@ model Product {
   productType       String         @default("simple") // simple or variable
   status            String         @default("publish") // publish or draft
   seoScore          Int            @default(0)
+  metaTitle         String?
+  metaDescription   String?        @db.Text
   dateCreated       DateTime       @default(now())
   categories        Category[]
   images            ProductImage[]

@@ -23,8 +23,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     ]) as any;
 
     if (product) {
-      productName = product.name;
-      productDesc = product.shortDescription?.replace(/<[^>]*>/g, '') || `Découvrez le produit ${product.name} imprimé en 3D par Spoolio.`;
+      productName = product.metaTitle || product.name;
+      productDesc = product.metaDescription || product.shortDescription?.replace(/<[^>]*>/g, '') || `Découvrez le produit ${product.name} imprimé en 3D par Spoolio.`;
       found = true;
     }
   } catch (e) {
