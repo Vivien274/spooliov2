@@ -49,40 +49,6 @@ const modules = [
     cta: "Gérer les produits",
   },
   {
-    title: "Gestion des pages",
-    description: "Modifier le contenu des pages statiques du site : À propos, Contact, Mentions légales…",
-    href: "/admin/pages",
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-      </svg>
-    ),
-    color: "#7c3aed",
-    stats: [
-      { label: "Pages publiées", value: "31" },
-      { label: "Brouillons", value: "0" },
-      { label: "Dernière màj", value: "Aujourd'hui" },
-    ],
-    cta: "Gérer les pages",
-  },
-  {
-    title: "Articles de blog",
-    description: "Rédiger et publier des articles. Filtrer par catégorie, tag ou statut de publication.",
-    href: "/admin/blog",
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-      </svg>
-    ),
-    color: "#059669",
-    stats: [
-      { label: "Articles publiés", value: "7" },
-      { label: "Brouillons", value: "0" },
-      { label: "Commentaires", value: "0" },
-    ],
-    cta: "Gérer le blog",
-  },
-  {
     title: "Commandes clients",
     description: "Suivre les commandes, modifier le statut de livraison (attente impression, expédié...) et voir les relais Mondial Relay.",
     href: "/admin/orders",
@@ -338,7 +304,7 @@ export default function AdminDashboard() {
             ].map((kpi) => (
               <div key={kpi.label} className={`${cls.cardBg} border ${cls.border} rounded-2xl p-4 flex flex-col gap-1 transition-colors duration-300`}>
                 <span className={`text-[11px] ${cls.textFaint} uppercase tracking-widest font-semibold`}>{kpi.label}</span>
-                <span className={`text-2xl font-black ${cls.textMain} font-antonio`}>{kpi.value}</span>
+                <span className={`text-2xl font-black ${cls.textMain}`}>{kpi.value}</span>
                 <span className={`text-[11px] ${cls.textFaint}`}>{kpi.delta}</span>
               </div>
             ))}
@@ -361,7 +327,7 @@ export default function AdminDashboard() {
                 <div className="grid grid-cols-3 gap-2">
                   {mod.stats.map((s) => (
                     <div key={s.label} className={`${cls.inputBg} rounded-xl p-3 flex flex-col gap-0.5 border ${cls.border} transition-colors duration-300`}>
-                      <span className={`text-lg font-black ${cls.textMain} font-antonio`}>{s.value}</span>
+                      <span className={`text-lg font-black ${cls.textMain}`}>{s.value}</span>
                       <span className={`text-[10px] ${cls.textFaint} leading-tight`}>{s.label}</span>
                     </div>
                   ))}
@@ -574,7 +540,7 @@ export default function AdminDashboard() {
                 ].map((kpi) => (
                   <div key={kpi.label} className={`${cls.cardBg} border ${cls.border} rounded-2xl p-4 flex flex-col gap-1 transition-colors duration-300`}>
                     <span className={`text-[11px] ${cls.textFaint} uppercase tracking-widest font-semibold`}>{kpi.label}</span>
-                    <span className={`text-2xl font-black ${cls.textMain} font-antonio`}>{kpi.value}</span>
+                    <span className={`text-2xl font-black ${cls.textMain}`}>{kpi.value}</span>
                     <span className={`text-[10px] ${cls.textFaint}`}>{kpi.desc}</span>
                   </div>
                 ))}
