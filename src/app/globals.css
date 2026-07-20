@@ -609,3 +609,110 @@ html.light .wysiwyg-editor-area img {
 html.light .wysiwyg-editor-area hr {
   border-top: 2px solid rgba(0, 0, 0, 0.1);
 }
+
+/* ==========================================
+   Spoolio V2 Premium Animations & Blobs
+   ========================================== */
+
+/* Smooth organic floating animations for background blobs */
+@keyframes blob-float-one {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  33% {
+    transform: translate3d(70px, -90px, 0) scale(1.1) rotate(120deg);
+  }
+  66% {
+    transform: translate3d(-60px, 50px, 0) scale(0.9) rotate(240deg);
+  }
+}
+
+@keyframes blob-float-two {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(-80px, 70px, 0) scale(1.15) rotate(-180deg);
+  }
+}
+
+@keyframes blob-float-three {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  40% {
+    transform: translate3d(50px, 80px, 0) scale(0.85) rotate(180deg);
+  }
+}
+
+.blob-orange {
+  animation: blob-float-one 28s ease-in-out infinite;
+}
+
+.blob-indigo {
+  animation: blob-float-two 34s ease-in-out infinite;
+}
+
+.blob-yellow {
+  animation: blob-float-three 24s ease-in-out infinite;
+}
+
+/* Fluid scroll-reveal entrance animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-reveal {
+  opacity: 0;
+  animation: fadeInUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Sequential stagger delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* Subtle center glow backdrops on cards */
+.bento-card-glow {
+  position: relative;
+}
+.bento-card-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 79, 0, 0.07) 0%, transparent 68%);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.bento-card-glow:hover::after {
+  opacity: 1;
+}
+
+.bento-card-glow-blue {
+  position: relative;
+}
+.bento-card-glow-blue::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.07) 0%, transparent 68%);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.bento-card-glow-blue:hover::after {
+  opacity: 1;
+}
+

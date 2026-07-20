@@ -103,16 +103,16 @@ export async function sendOrderConfirmationEmail({
           <div style="border-top: 1px solid #1f1f23; padding-top: 15px; margin-bottom: 30px;">
             <div style="display: flex; justify-content: space-between; font-size: 13px; color: #88888b; margin-bottom: 6px;">
               <span>Mode de livraison : ${shippingLabel}</span>
-              <span style="font-weight: bold; color: #ffffff;">${shippingCost === 0 ? "Gratuit" : \`\${shippingCost.toFixed(2)}€\`}</span>
+              <span style="font-weight: bold; color: #ffffff;">${shippingCost === 0 ? "Gratuit" : (shippingCost.toFixed(2) + "€")}</span>
             </div>
             <div style="display: flex; justify-content: space-between; font-size: 16px; font-weight: bold; color: #ffffff; margin-top: 12px; border-top: 1px dashed #1f1f23; padding-top: 12px;">
               <span>Total payé</span>
-              <span style="color: #f7eb12; font-size: 18px;">\${total.toFixed(2)}€</span>
+              <span style="color: #f7eb12; font-size: 18px;">${total.toFixed(2)}€</span>
             </div>
           </div>
 
           <!-- Relais parcel details -->
-          \${relayInfoHtml}
+          ${relayInfoHtml}
 
           <!-- Footer banner -->
           <div style="margin-top: 40px; border-top: 1px solid #1f1f23; padding-top: 20px; text-align: center; font-size: 11px; color: #52525b;">
@@ -125,24 +125,24 @@ export async function sendOrderConfirmationEmail({
       </html>
     `;
 
-    console.log(\`[Resend Email] Sending email from \${fromAddress} to \${recipient} for Order \${orderId}...\`);
+    console.log(`[Resend Email] Sending email from ${fromAddress} to ${recipient} for Order ${orderId}...`);
     const emailRes = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
-        Authorization: \`Bearer \${resendKey}\`,
+        Authorization: `Bearer ${resendKey}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
         from: fromAddress,
         to: recipient,
-        subject: \`Commande validée ! Spoolio [\${orderId}]\`,
+        subject: `Commande validée ! Spoolio [${orderId}]`,
         html: emailHtml
       })
     });
 
     const emailData = await emailRes.json();
     if (emailRes.ok) {
-      console.log(\`[Resend Email Success] Confirmation email sent for order \${orderId} (ID: \${emailData.id})\`);
+      console.log(`[Resend Email Success] Confirmation email sent for order ${orderId} (ID: ${emailData.id})`);
       return true;
     } else {
       console.error("[Resend Email Error] API error details:", emailData);

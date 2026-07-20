@@ -41,10 +41,22 @@ export default async function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black">
+    <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
+
+      {/* Background Decorative Blobs */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Blob Orange - Top Right */}
+        <div className="absolute top-[-10%] right-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full bg-[#ff4f00]/15 blur-[80px] md:blur-[120px] blob-orange" />
+        {/* Blob Indigo - Mid Left */}
+        <div className="absolute top-[35%] left-[-15%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full bg-[#6366f1]/12 blur-[80px] md:blur-[120px] blob-indigo" />
+        {/* Blob Yellow - Bottom Right */}
+        <div className="absolute bottom-[20%] right-[-10%] w-[250px] md:w-[450px] h-[250px] md:h-[450px] rounded-full bg-[#f7eb12]/8 blur-[80px] md:blur-[120px] blob-yellow" />
+        {/* Extra Blob Indigo/Purple - Bottom Left */}
+        <div className="absolute bottom-[5%] left-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full bg-[#a855f7]/8 blur-[80px] md:blur-[120px] blob-indigo" />
+      </div>
 
       {/* 1. Full-Width Hero Section with Absolute Header Overlay */}
-      <section className="w-full relative overflow-hidden rounded-b-[60px] border-b border-[#1f1f23] mb-6">
+      <section className="w-full relative overflow-hidden rounded-b-[60px] border-b border-[#1f1f23] mb-6 z-10">
 
         {/* Header Overlay */}
         <Header className="absolute top-0 left-0 right-0 h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full no-invert" />
@@ -57,7 +69,7 @@ export default async function Home() {
           {/* Dark visual overlay for contrast */}
           <div className="absolute inset-0 bg-black/35" />
 
-          <div className="relative z-10 flex flex-col items-center gap-1.5 md:gap-3 max-w-xl mt-14">
+          <div className="relative z-10 flex flex-col items-center gap-1.5 md:gap-3 max-w-xl mt-14 animate-reveal">
             <h1 className="text-4xl sm:text-5xl md:text-[64px] font-extrabold uppercase tracking-tight text-white font-antonio leading-none home-hero-text">
               {hero.title}
             </h1>
@@ -86,11 +98,11 @@ export default async function Home() {
       </section>
 
       {/* 4. Bento Grid Section */}
-      <section className="w-full max-w-[1200px] px-4 py-8">
+      <section className="w-full max-w-[1200px] px-4 py-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
           {/* Left Block: La boussole à Fidgets (Gradient + Grid) */}
-          <a href="https://boussole.spoolio.fr" target="_blank" rel="noopener noreferrer" className="md:col-span-2 relative h-[220px] rounded-2xl overflow-hidden bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 border border-spoolio-border p-6 flex flex-col justify-between group cursor-pointer transition-transform duration-300 hover:scale-[0.995] no-invert">
+          <a href="https://boussole.spoolio.fr" target="_blank" rel="noopener noreferrer" className="md:col-span-2 relative h-[220px] rounded-2xl overflow-hidden bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 border border-spoolio-border p-6 flex flex-col justify-between group cursor-pointer transition-transform duration-300 hover:scale-[0.995] no-invert bento-card-glow-blue animate-reveal delay-100">
             {/* Grid Pattern Overlay */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:30px_30px] opacity-100 pointer-events-none" />
 
@@ -116,7 +128,7 @@ export default async function Home() {
           <div className="md:col-span-1 flex flex-col gap-4">
 
             {/* Top Right: Pour les pros (Solid Orange) */}
-            <Link href="/pro" className="h-[102px] rounded-2xl bg-[#ff9f1c] p-4 flex flex-col justify-between group cursor-pointer transition-transform duration-300 hover:scale-[0.99] no-invert">
+            <Link href="/pro" className="h-[102px] rounded-2xl bg-[#ff9f1c] p-4 flex flex-col justify-between group cursor-pointer transition-transform duration-300 hover:scale-[0.99] no-invert bento-card-glow animate-reveal delay-200">
               {/* Tag Icon */}
               <div className="w-7 h-7 rounded-full border border-white/25 flex items-center justify-center bg-white/10 self-start">
                 <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -132,7 +144,7 @@ export default async function Home() {
             </Link>
 
             {/* Bottom Right: L'atelier (Solid Blue) */}
-            <Link href="/blog" className="h-[102px] rounded-2xl bg-[#005cff] p-4 flex flex-col justify-between group cursor-pointer transition-transform duration-300 hover:scale-[0.99] no-invert">
+            <Link href="/blog" className="h-[102px] rounded-2xl bg-[#005cff] p-4 flex flex-col justify-between group cursor-pointer transition-transform duration-300 hover:scale-[0.99] no-invert bento-card-glow-blue animate-reveal delay-300">
               {/* Tools Icon */}
               <div className="w-7 h-7 rounded-full border border-white/25 flex items-center justify-center bg-white/10 self-start">
                 <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -153,7 +165,7 @@ export default async function Home() {
       </section>
 
       {/* 5. Product Grid Header & List */}
-      <section className="w-full max-w-[1200px] px-4 py-8">
+      <section className="w-full max-w-[1200px] px-4 py-8 relative z-10">
         {/* Title */}
         <div className="text-center mb-6">
           <h2 className="text-3xl font-extrabold uppercase tracking-tight text-white font-antonio">
@@ -239,7 +251,7 @@ export default async function Home() {
       </section>
 
       {/* 6. Bottom Showcase Cards */}
-      <section className="w-full max-w-[1200px] px-4 pb-20">
+      <section className="w-full max-w-[1200px] px-4 pb-20 relative z-10 animate-reveal delay-200">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Left Block (2 columns width, orange container, review cards) */}
           <div className="md:col-span-2 rounded-3xl bg-[#ff4f00] p-6 md:p-8 flex flex-col justify-start gap-6">
