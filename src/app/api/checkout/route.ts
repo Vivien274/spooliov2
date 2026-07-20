@@ -154,6 +154,7 @@ export async function POST(request: Request) {
     body.append("mode", "payment");
     body.append("success_url", new URL("/success?session_id={CHECKOUT_SESSION_ID}", request.url).href);
     body.append("cancel_url", new URL("/boutique", request.url).href);
+    body.append("allow_promotion_codes", "true");
     
     // Append billing & shipping address collection if delivery is required
     if (shippingMethod !== "pickup") {
