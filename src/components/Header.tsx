@@ -24,6 +24,20 @@ export default function Header({ className = "" }: HeaderProps) {
     }
   }, [cartCount]);
 
+  const [isSticky, setIsSticky] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   // Search states
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -88,7 +102,11 @@ export default function Header({ className = "" }: HeaderProps) {
   };
 
   return (
-    <header className={className}>
+    <header className={`${className} ${
+      isSticky 
+        ? "!fixed top-0 left-0 right-0 !max-w-none h-16 md:h-20 bg-[#131316]/90 backdrop-blur-md border-b border-white/10 shadow-2xl px-6 md:px-12 z-[999] flex items-center justify-between transition-all duration-300 animate-slide-down"
+        : ""
+    }`}>
       {/* Mobile Burger Button (left on mobile) */}
       <div className="flex md:hidden mr-2">
         <button
