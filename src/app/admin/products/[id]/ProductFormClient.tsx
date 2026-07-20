@@ -34,7 +34,7 @@ interface ProductData {
   images: { id: number; src: string; alt: string }[];
   variations: { attribute: string; values: string; price: string }[];
   attributes?: {
-    attributes: { name: string; options: string[] }[];
+    attributes: { name: string; options: string[]; controlType?: string }[];
     variationPrices: { combination: Record<string, string>; price: string }[];
   };
 }
@@ -133,7 +133,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
   const [activeTab, setActiveTab] = useState<"form" | "preview">("form");
 
   // Predefined attributes & dynamic categories states
-  const [predefinedAttributes, setPredefinedAttributes] = useState<{ id: number; name: string; values: string }[]>([]);
+  const [predefinedAttributes, setPredefinedAttributes] = useState<{ id: number; name: string; values: string; controlType?: string }[]>([]);
   const [dynamicCategories, setDynamicCategories] = useState<{ id: number; name: string }[]>([]);
 
   useEffect(() => {
@@ -706,6 +706,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                               if (attr) {
                                 const name = attr.name;
                                 const options = attr.values.split(",").map(o => o.trim()).filter(Boolean);
+                                const controlType = attr.controlType || "default";
                                 const attrs = form.attributes?.attributes || [];
                                 
                                 if (attrs.some(a => a.name.toLowerCase() === name.toLowerCase())) {
@@ -715,7 +716,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                                 }
 
                                 set("attributes")({
-                                  attributes: [...attrs, { name, options }],
+                                  attributes: [...attrs, { name, options, controlType }],
                                   variationPrices: form.attributes?.variationPrices || []
                                 });
                               }
@@ -742,7 +743,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                               const options = optionsStr ? optionsStr.split(",").map(o => o.trim()).filter(Boolean) : [];
                               const attrs = form.attributes?.attributes || [];
                               set("attributes")({
-                                attributes: [...attrs, { name, options }],
+                                attributes: [...attrs, { name, options, controlType: "default" }],
                                 variationPrices: form.attributes?.variationPrices || []
                               });
                             }
@@ -759,30 +760,55 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                     ) : (
                       <div className="flex flex-col gap-3.5">
                         {(form.attributes?.attributes || []).map((attr, aIdx) => (
-                          <div key={aIdx} className={`flex items-start justify-between pb-3 border-b ${cls.border} last:border-0 last:pb-0`}>
-                            <div className="flex flex-col gap-1">
-                              <span className={`text-xs font-bold ${cls.textMain}`}>{attr.name}</span>
-                              <div className="flex flex-wrap gap-1">
-                                {attr.options.map((opt) => (
-                                  <span key={opt} className={`text-[10px] px-2 py-0.5 rounded bg-white/5 text-gray-400 border border-white/5`}>
-                                    {opt}
-                                  </span>
-                                ))}
+                          <div key={aIdx} className={`flex flex-col gap-2 pb-3 border-b ${cls.border} last:border-0 last:pb-0`}>
+                            <div className="flex items-start justify-between w-full">
+                              <div className="flex flex-col gap-1">
+                                <span className={`text-xs font-bold ${cls.textMain}`}>{attr.name}</span>
+                                <div className="flex flex-wrap gap-1">
+                                  {attr.options.map((opt) => (
+                                    <span key={opt} className={`text-[10px] px-2 py-0.5 rounded bg-white/5 text-gray-400 border border-white/5`}>
+                                      {opt}
+                                    </span>
+                                  ))}
+                                </div>
                               </div>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const attrs = form.attributes?.attributes || [];
+                                  set("attributes")({
+                                    attributes: attrs.filter((_, idx) => idx !== aIdx),
+                                    variationPrices: form.attributes?.variationPrices || []
+                                  });
+                                }}
+                                className="text-red-400 hover:text-red-500 transition-colors text-[10px] cursor-pointer"
+                              >
+                                Supprimer
+                              </button>
                             </div>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                const attrs = form.attributes?.attributes || [];
-                                set("attributes")({
-                                  attributes: attrs.filter((_, idx) => idx !== aIdx),
-                                  variationPrices: form.attributes?.variationPrices || []
-                                });
-                              }}
-                              className="text-red-400 hover:text-red-500 transition-colors text-[10px] cursor-pointer"
-                            >
-                              Supprimer
-                            </button>
+                            
+                            <div className="flex items-center gap-2">
+                              <span className={`text-[10px] ${cls.textMuted}`}>Affichage :</span>
+                              <select
+                                value={attr.controlType || "default"}
+                                onChange={(e) => {
+                                  const newAttrs = [...(form.attributes?.attributes || [])];
+                                  newAttrs[aIdx] = { ...newAttrs[aIdx], controlType: e.target.value };
+                                  set("attributes")({
+                                    attributes: newAttrs,
+                                    variationPrices: form.attributes?.variationPrices || []
+                                  });
+                                }}
+                                className={`h-7 text-[10px] border rounded-lg px-2 bg-spoolio-card ${cls.border} ${cls.textMain} outline-none focus:border-[#ff4f00] cursor-pointer`}
+                              >
+                                <option value="default">Défaut (automatique)</option>
+                                <option value="color_swatch">Color Swatch (Bobine de couleur)</option>
+                                <option value="segmented_control">Segmented Control (Onglets)</option>
+                                <option value="chips">Chips (Pastilles simples)</option>
+                                <option value="dropdown">Dropdown (Liste déroulante)</option>
+                                <option value="date_picker">Date Picker (Sélecteur de date)</option>
+                              </select>
+                            </div>
                           </div>
                         ))}
                       </div>

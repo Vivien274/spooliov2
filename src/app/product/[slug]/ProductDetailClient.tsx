@@ -236,12 +236,36 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
     return isNaN(num) ? "0.00" : num.toFixed(2);
   };
 
+  // Helper to decode WooCommerce HTML entities (like &#039;)
+  const decodeHtml = (str: string) => {
+    if (!str) return "";
+    return str
+      .replace(/&#039;/g, "'")
+      .replace(/&#39;/g, "'")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, '"')
+      .replace(/&nbsp;/g, " ");
+  };
+
   // Extract attributes list
   const attributesList = product.attributes
     ? (Array.isArray(product.attributes)
         ? product.attributes
         : (product.attributes as any).attributes || [])
     : [];
+
+  const firstColorAttributeName = attributesList?.find((attr: any) => {
+    const nameLower = attr.name.toLowerCase();
+    const controlType = attr.controlType || "default";
+    
+    // Explicit color swatch OR default automatic detection based on color names (excluding taille)
+    return controlType === "color_swatch" || 
+      (controlType === "default" && 
+       (nameLower.includes("couleur") || nameLower.includes("accent") || nameLower.includes("tube") || nameLower.includes("bague")) && 
+       !nameLower.includes("taille"));
+  })?.name;
 
   // Active variation price calculation
   const getActivePriceInfo = () => {
@@ -489,10 +513,11 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               <div className="flex flex-col gap-6 mb-8">
                 {attributesList.map((attr: any) => {
                   const name = attr.name;
-                  const nameLower = name.toLowerCase();
                   const rawOptions = attr.options || [];
                   const options = Array.from(new Set<string>(rawOptions.map((opt: string) => opt.replace(/\u00a0/g, ' ').trim())));
                   const selectedVal = selectedOptions[name];
+                  const decodedName = decodeHtml(name);
+                  const nameLower = name.toLowerCase();
 
                   // Helper function to update state
                   const handleSelect = (val: string) => {
@@ -502,9 +527,29 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                     }));
                   };
 
-                  // 1. COLORS SELECTOR (Circle Swatches)
-                  const isColor = nameLower.includes("couleur") || nameLower.includes("tube") || nameLower.includes("bague") || nameLower.includes("accent") || nameLower.includes("serpent") || nameLower.includes("oeuf");
+                  const controlType = attr.controlType || "default";
+
+                  // Check rendering type
+                  const isColor = controlType === "color_swatch" || 
+                    (controlType === "default" && 
+                     (nameLower.includes("couleur") || nameLower.includes("accent") || nameLower.includes("tube") || nameLower.includes("bague")) && 
+                     !nameLower.includes("taille"));
                   
+                  const isBinary = controlType === "default" && 
+                    options.length === 2 && 
+                    ((options[0].toLowerCase().includes("sans") && options[1].toLowerCase().includes("avec")) ||
+                     (options[0].toLowerCase().includes("avec") && options[1].toLowerCase().includes("sans")) ||
+                     (options[0].toLowerCase().includes("non") && options[1].toLowerCase().includes("oui")) ||
+                     (options[0].toLowerCase().includes("oui") && options[1].toLowerCase().includes("non")));
+
+                  const isSegmented = controlType === "segmented_control" || 
+                    (controlType === "default" && !isColor && !isBinary && options.length <= 5);
+
+                  const isDatePicker = controlType === "date_picker";
+
+                  const isChips = controlType === "chips";
+
+                  // 1. COLORS SELECTOR (Circle Swatches)
                   if (isColor) {
                     const getCssColor = (colorName: string) => {
                       const cName = colorName.toLowerCase().trim();
@@ -549,19 +594,23 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                       return "#ff4f00"; // fallback
                     };
 
+                    const showPaletteLink = name === firstColorAttributeName;
+
                     return (
                       <div key={name} className="flex flex-col gap-2">
                         <div className="flex items-center justify-between">
                           <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
-                            {name}
+                            {decodedName}
                           </label>
-                          <Link 
-                            href="/palette-couleurs" 
-                            target="_blank" 
-                            className="text-[10px] text-[#ff4f00] hover:text-[#ff4f00]/80 underline font-semibold transition-colors flex items-center gap-1 font-sans"
-                          >
-                            🎨 Palette de couleurs
-                          </Link>
+                          {showPaletteLink && (
+                            <Link 
+                              href="/palette-couleurs" 
+                              target="_blank" 
+                              className="text-[10px] text-[#ff4f00] hover:text-[#ff4f00]/80 underline font-semibold transition-colors flex items-center gap-1 font-sans"
+                            >
+                              🎨 Palette de couleurs
+                            </Link>
+                          )}
                         </div>
                         <div className="flex flex-wrap items-center gap-3">
                           {options.map((opt: string) => {
@@ -597,12 +646,6 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                   }
 
                   // 2. BINARY SELECTORS (Toggles "Avec" / "Sans", "Oui" / "Non")
-                  const isBinary = options.length === 2 && 
-                    ((options[0].toLowerCase().includes("sans") && options[1].toLowerCase().includes("avec")) ||
-                     (options[0].toLowerCase().includes("avec") && options[1].toLowerCase().includes("sans")) ||
-                     (options[0].toLowerCase().includes("non") && options[1].toLowerCase().includes("oui")) ||
-                     (options[0].toLowerCase().includes("oui") && options[1].toLowerCase().includes("non")));
-
                   if (isBinary) {
                     const sortedOptions = [...options].sort((a, b) => {
                       const aL = a.toLowerCase();
@@ -613,7 +656,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                     return (
                       <div key={name} className="flex flex-col gap-2">
                         <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
-                          {name}
+                          {decodedName}
                         </label>
                         <div className="inline-flex bg-spoolio-card border border-spoolio-border rounded-xl p-0.5 max-w-fit select-none">
                           {sortedOptions.map((opt: string) => {
@@ -627,6 +670,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                                     ? "bg-white text-black shadow-lg shadow-white/5"
                                     : "text-gray-400 hover:text-white"
                                 }`}
+                                type="button"
                               >
                                 {opt}
                               </button>
@@ -637,12 +681,42 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                     );
                   }
 
-                  // 3. SIZE OR SHORT LISTS (Chips Selector - max 5 options)
-                  if (options.length <= 5) {
+                  // 3. SEGMENTED CONTROL (Onglets juxtaposés)
+                  if (isSegmented) {
                     return (
                       <div key={name} className="flex flex-col gap-2">
                         <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
-                          {name}
+                          {decodedName}
+                        </label>
+                        <div className="inline-flex bg-spoolio-card border border-spoolio-border rounded-xl p-0.5 max-w-fit select-none">
+                          {options.map((opt: string) => {
+                            const isSelected = selectedVal === opt;
+                            return (
+                              <button
+                                key={opt}
+                                onClick={() => handleSelect(opt)}
+                                className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                                  isSelected
+                                    ? "bg-white text-black shadow-lg shadow-white/5"
+                                    : "text-gray-400 hover:text-white"
+                                }`}
+                                type="button"
+                              >
+                                {opt}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  // 4. CHIPS (Pastilles simples séparées)
+                  if (isChips) {
+                    return (
+                      <div key={name} className="flex flex-col gap-2">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
+                          {decodedName}
                         </label>
                         <div className="flex flex-wrap gap-2">
                           {options.map((opt: string) => {
@@ -656,6 +730,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                                     ? "bg-white border-white text-black shadow-lg shadow-white/5"
                                     : "bg-spoolio-card border-spoolio-border text-gray-300 hover:text-white"
                                 }`}
+                                type="button"
                               >
                                 {opt}
                               </button>
@@ -666,11 +741,30 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                     );
                   }
 
-                  // 4. LARGE OPTIONS LISTS (Custom Select Dropdown - > 5 options)
+                  // 5. DATE PICKER
+                  if (isDatePicker) {
+                    return (
+                      <div key={name} className="flex flex-col gap-2">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
+                          {decodedName}
+                        </label>
+                        <div className="relative max-w-xs">
+                          <input
+                            type="date"
+                            value={selectedVal || ""}
+                            onChange={(e) => handleSelect(e.target.value)}
+                            className="w-full h-11 px-4 text-xs font-bold bg-spoolio-card border border-spoolio-border rounded-xl text-white outline-none cursor-pointer focus:border-white transition-all font-sans"
+                          />
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  // 6. DEFAULT SELECT DROPDOWN
                   return (
                     <div key={name} className="flex flex-col gap-2">
                       <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
-                        {name}
+                        {decodedName}
                       </label>
                       <div className="relative max-w-xs">
                         <select

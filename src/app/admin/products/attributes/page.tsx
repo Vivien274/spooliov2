@@ -8,6 +8,7 @@ interface Attribute {
   id: number;
   name: string;
   values: string;
+  controlType: string;
 }
 
 export default function AdminAttributesPage() {
@@ -19,6 +20,7 @@ export default function AdminAttributesPage() {
   // Form states
   const [name, setName] = useState<string>("");
   const [values, setValues] = useState<string>("");
+  const [controlType, setControlType] = useState<string>("dropdown");
   
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
@@ -58,8 +60,8 @@ export default function AdminAttributesPage() {
     const url = "/api/admin/attributes";
     const method = isEdit ? "PUT" : "POST";
     const bodyPayload = isEdit
-      ? { id: editingId, name: name.trim(), values: values.trim() }
-      : { name: name.trim(), values: values.trim() };
+      ? { id: editingId, name: name.trim(), values: values.trim(), controlType }
+      : { name: name.trim(), values: values.trim(), controlType };
 
     try {
       const res = await fetch(url, {
@@ -87,6 +89,7 @@ export default function AdminAttributesPage() {
     setEditingId(attr.id);
     setName(attr.name);
     setValues(attr.values);
+    setControlType(attr.controlType || "dropdown");
     setErrorMsg(null);
     setSuccessMsg(null);
   };
@@ -95,6 +98,7 @@ export default function AdminAttributesPage() {
     setEditingId(null);
     setName("");
     setValues("");
+    setControlType("dropdown");
   };
 
   const handleDeleteAttribute = async (id: number) => {
@@ -183,6 +187,23 @@ export default function AdminAttributesPage() {
               </span>
             </div>
 
+            <div className="flex flex-col gap-1.5">
+              <label className={`text-[10px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                Type de contrôle d'affichage
+              </label>
+              <select
+                value={controlType}
+                onChange={(e) => setControlType(e.target.value)}
+                className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#2F3CD9] cursor-pointer`}
+              >
+                <option value="dropdown">Dropdown (Liste déroulante)</option>
+                <option value="color_swatch">Color Swatch (Bobine de couleur)</option>
+                <option value="segmented_control">Segmented Control (Onglets)</option>
+                <option value="chips">Chips (Pastilles ordinaires)</option>
+                <option value="date_picker">Date Picker (Sélecteur de date)</option>
+              </select>
+            </div>
+
             {successMsg && (
               <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg text-xs leading-normal">
                 ✓ {successMsg}
@@ -232,11 +253,16 @@ export default function AdminAttributesPage() {
             <div className="space-y-4">
               {attributes.map((attr) => (
                 <div
-                  key={attr.id}
-                  className={`p-4 rounded-2xl border ${cls.border} ${cls.inputBg} flex items-start justify-between gap-4`}
+                   key={attr.id}
+                   className={`p-4 rounded-2xl border ${cls.border} ${cls.inputBg} flex items-start justify-between gap-4`}
                 >
                   <div className="space-y-1.5">
-                    <span className={`text-xs font-black uppercase tracking-wider ${cls.textMain}`}>{attr.name}</span>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className={`text-xs font-black uppercase tracking-wider ${cls.textMain}`}>{attr.name}</span>
+                      <span className="px-2.5 py-0.5 text-[9px] font-extrabold rounded-md bg-white/5 border border-white/10 text-gray-400 font-mono">
+                        {attr.controlType || "dropdown"}
+                      </span>
+                    </div>
                     <div className="flex flex-wrap gap-1.5">
                       {attr.values.split(",").map(v => v.trim()).filter(Boolean).map((val, idx) => (
                         <span

@@ -17,9 +17,10 @@ model Category {
 }
 
 model Attribute {
-  id     Int    @id @default(autoincrement())
-  name   String @unique
-  values String @db.Text
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  values      String @db.Text
+  controlType String @default("dropdown")
 }
 
 model ProductImage {

@@ -104258,13 +104258,13 @@
     "short_description": "<p class=\"p1\">🐍🥚 <b>Le pack serpent articulé + œuf Spoolio : une combo fascinante et fun !</b><b></b></p>\n<p class=\"p1\">Découvrez ce <b>serpent articulé ultra-réaliste</b>, capable de bouger et de s’enrouler comme un vrai ! Avec ses <b>articulations fluides</b>, il se plie à toutes vos envies. Et pour encore plus de mystère, il est livré avec <b>son œuf surprise</b> : une coque stylée et intrigante qui sert à la fois de rangement et de présentation. <b>Un duo parfait pour jouer, offrir ou exposer !</b></p>\n",
     "sku": "",
     "price": "11.50",
-    "regular_price": "",
+    "regular_price": "11.50",
     "sale_price": "",
     "date_on_sale_from": null,
     "date_on_sale_from_gmt": null,
     "date_on_sale_to": null,
     "date_on_sale_to_gmt": null,
-    "on_sale": true,
+    "on_sale": false,
     "purchasable": true,
     "total_sales": 1,
     "virtual": false,
@@ -104277,7 +104277,7 @@
     "tax_status": "taxable",
     "tax_class": "",
     "manage_stock": false,
-    "stock_quantity": null,
+    "stock_quantity": 10,
     "backorders": "no",
     "backorders_allowed": false,
     "backordered": false,
@@ -104321,256 +104321,157 @@
     ],
     "images": [
       {
-        "id": 7154,
-        "date_created": "2025-01-17T10:15:07",
-        "date_created_gmt": "2025-01-17T08:15:07",
-        "date_modified": "2025-02-04T12:08:32",
-        "date_modified_gmt": "2025-02-04T10:08:32",
+        "id": 2360,
         "src": "/images/imported/Spoolio-oeuf-boite-7.jpg",
-        "name": "Spoolio oeuf boite 7",
-        "alt": "Spoolio oeuf boite 7",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?resize=600%2C400&ssl=1 600w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio oeuf boite 7"
       },
       {
-        "id": 7735,
-        "date_created": "2025-01-30T16:09:52",
-        "date_created_gmt": "2025-01-30T14:09:52",
-        "date_modified": "2025-02-04T12:16:36",
-        "date_modified_gmt": "2025-02-04T10:16:36",
+        "id": 2361,
         "src": "/images/imported/Spoolio-oeuf-boite-13.jpg",
-        "name": "Spoolio oeuf boite 13",
-        "alt": "Spoolio oeuf boite 13",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-13.jpg?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-13.jpg?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-13.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-13.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-13.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-13.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-13.jpg?resize=600%2C400&ssl=1 600w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-13.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio oeuf boite 13"
       },
       {
-        "id": 7732,
-        "date_created": "2025-01-30T16:09:39",
-        "date_created_gmt": "2025-01-30T14:09:39",
-        "date_modified": "2025-02-04T12:16:28",
-        "date_modified_gmt": "2025-02-04T10:16:28",
+        "id": 2362,
         "src": "/images/imported/Spoolio-oeuf-boite-10.jpg",
-        "name": "Spoolio oeuf boite 10",
-        "alt": "Spoolio oeuf boite 10",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-10.jpg?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-10.jpg?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-10.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-10.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-10.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-10.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-10.jpg?resize=600%2C400&ssl=1 600w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-10.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio oeuf boite 10"
       },
       {
-        "id": 7156,
-        "date_created": "2025-01-17T10:15:15",
-        "date_created_gmt": "2025-01-17T08:15:15",
-        "date_modified": "2025-02-04T12:08:39",
-        "date_modified_gmt": "2025-02-04T10:08:39",
+        "id": 2363,
         "src": "/images/imported/Spoolio-oeuf-boite-9.jpg",
-        "name": "Spoolio oeuf boite 9",
-        "alt": "Spoolio oeuf boite 9",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-9.jpg?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-9.jpg?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-9.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-9.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-9.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-9.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-9.jpg?resize=600%2C400&ssl=1 600w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-9.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio oeuf boite 9"
       },
       {
-        "id": 7154,
-        "date_created": "2025-01-17T10:15:07",
-        "date_created_gmt": "2025-01-17T08:15:07",
-        "date_modified": "2025-02-04T12:08:32",
-        "date_modified_gmt": "2025-02-04T10:08:32",
+        "id": 2364,
         "src": "/images/imported/Spoolio-oeuf-boite-7.jpg",
-        "name": "Spoolio oeuf boite 7",
-        "alt": "Spoolio oeuf boite 7",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?resize=600%2C400&ssl=1 600w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-7.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio oeuf boite 7"
       },
       {
-        "id": 7152,
-        "date_created": "2025-01-17T10:14:59",
-        "date_created_gmt": "2025-01-17T08:14:59",
-        "date_modified": "2025-02-04T12:08:26",
-        "date_modified_gmt": "2025-02-04T10:08:26",
+        "id": 2365,
         "src": "/images/imported/Spoolio-oeuf-boite-5.jpg",
-        "name": "Spoolio oeuf boite 5",
-        "alt": "Spoolio oeuf boite 5",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-5.jpg?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-5.jpg?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-5.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-5.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-5.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-5.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-5.jpg?resize=600%2C400&ssl=1 600w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-5.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio oeuf boite 5"
       },
       {
-        "id": 7151,
-        "date_created": "2025-01-17T10:14:56",
-        "date_created_gmt": "2025-01-17T08:14:56",
-        "date_modified": "2025-02-04T12:08:23",
-        "date_modified_gmt": "2025-02-04T10:08:23",
+        "id": 2366,
         "src": "/images/imported/Spoolio-oeuf-boite-4.jpg",
-        "name": "Spoolio oeuf boite 4",
-        "alt": "Spoolio oeuf boite 4",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-4.jpg?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-4.jpg?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-4.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-4.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-4.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-4.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-4.jpg?resize=600%2C400&ssl=1 600w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-4.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio oeuf boite 4"
       },
       {
-        "id": 7149,
-        "date_created": "2025-01-17T10:14:51",
-        "date_created_gmt": "2025-01-17T08:14:51",
-        "date_modified": "2025-02-04T12:08:17",
-        "date_modified_gmt": "2025-02-04T10:08:17",
+        "id": 2367,
         "src": "/images/imported/Spoolio-oeuf-boite-2.jpg",
-        "name": "Spoolio oeuf boite 2",
-        "alt": "Spoolio oeuf boite 2",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-2.jpg?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-2.jpg?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-2.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-2.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-2.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-2.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-2.jpg?resize=600%2C400&ssl=1 600w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-oeuf-boite-2.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio oeuf boite 2"
       },
       {
-        "id": 6766,
-        "date_created": "2025-01-10T18:06:02",
-        "date_created_gmt": "2025-01-10T16:06:02",
-        "date_modified": "2025-02-04T12:05:21",
-        "date_modified_gmt": "2025-02-04T10:05:21",
+        "id": 2368,
         "src": "/images/imported/Spoolio-Serpent-articule-11-scaled.jpg",
-        "name": "Spoolio Serpent articule 11 scaled",
-        "alt": "Spoolio Serpent articule 11 scaled",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-11-scaled.jpg?w=2560&ssl=1 2560w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-11-scaled.jpg?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-11-scaled.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-11-scaled.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-11-scaled.jpg?resize=2048%2C1365&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-11-scaled.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-11-scaled.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-11-scaled.jpg?resize=600%2C400&ssl=1 600w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-11-scaled.jpg?w=2280&ssl=1 2280w",
-        "sizes": "(max-width: 2560px) 100vw, 2560px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-11-scaled.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Serpent articule 11 scaled"
       },
       {
-        "id": 6764,
-        "date_created": "2025-01-10T18:05:29",
-        "date_created_gmt": "2025-01-10T16:05:29",
-        "date_modified": "2025-02-04T12:05:15",
-        "date_modified_gmt": "2025-02-04T10:05:15",
+        "id": 2369,
         "src": "/images/imported/Spoolio-Serpent-articule-9-scaled.jpg",
-        "name": "Spoolio Serpent articule 9 scaled",
-        "alt": "Spoolio Serpent articule 9 scaled",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-9-scaled.jpg?w=2560&ssl=1 2560w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-9-scaled.jpg?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-9-scaled.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-9-scaled.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-9-scaled.jpg?resize=2048%2C1365&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-9-scaled.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-9-scaled.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-9-scaled.jpg?resize=600%2C400&ssl=1 600w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-9-scaled.jpg?w=2280&ssl=1 2280w",
-        "sizes": "(max-width: 2560px) 100vw, 2560px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-9-scaled.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Serpent articule 9 scaled"
       },
       {
-        "id": 6762,
-        "date_created": "2025-01-10T18:04:52",
-        "date_created_gmt": "2025-01-10T16:04:52",
-        "date_modified": "2025-02-04T12:05:10",
-        "date_modified_gmt": "2025-02-04T10:05:10",
+        "id": 2370,
         "src": "/images/imported/Spoolio-Serpent-articule-7-scaled.jpg",
-        "name": "Spoolio Serpent articule 7 scaled",
-        "alt": "Spoolio Serpent articule 7 scaled",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-7-scaled.jpg?w=2560&ssl=1 2560w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-7-scaled.jpg?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-7-scaled.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-7-scaled.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-7-scaled.jpg?resize=2048%2C1365&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-7-scaled.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-7-scaled.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-7-scaled.jpg?resize=600%2C400&ssl=1 600w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-7-scaled.jpg?w=2280&ssl=1 2280w",
-        "sizes": "(max-width: 2560px) 100vw, 2560px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-7-scaled.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Serpent articule 7 scaled"
       },
       {
-        "id": 6757,
-        "date_created": "2025-01-10T18:03:18",
-        "date_created_gmt": "2025-01-10T16:03:18",
-        "date_modified": "2025-02-04T12:04:56",
-        "date_modified_gmt": "2025-02-04T10:04:56",
+        "id": 2371,
         "src": "/images/imported/Spoolio-Serpent-articule-2-scaled.jpg",
-        "name": "Spoolio Serpent articule 2 scaled",
-        "alt": "Spoolio Serpent articule 2 scaled",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-2-scaled.jpg?w=2560&ssl=1 2560w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-2-scaled.jpg?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-2-scaled.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-2-scaled.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-2-scaled.jpg?resize=2048%2C1365&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-2-scaled.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-2-scaled.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-2-scaled.jpg?resize=600%2C400&ssl=1 600w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-2-scaled.jpg?w=2280&ssl=1 2280w",
-        "sizes": "(max-width: 2560px) 100vw, 2560px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-2-scaled.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Serpent articule 2 scaled"
       },
       {
-        "id": 6760,
-        "date_created": "2025-01-10T18:04:21",
-        "date_created_gmt": "2025-01-10T16:04:21",
-        "date_modified": "2025-02-04T12:05:06",
-        "date_modified_gmt": "2025-02-04T10:05:06",
+        "id": 2372,
         "src": "/images/imported/Spoolio-Serpent-articule-5-scaled.jpg",
-        "name": "Spoolio Serpent articule 5 scaled",
-        "alt": "Spoolio Serpent articule 5 scaled",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-5-scaled.jpg?w=2560&ssl=1 2560w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-5-scaled.jpg?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-5-scaled.jpg?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-5-scaled.jpg?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-5-scaled.jpg?resize=2048%2C1365&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-5-scaled.jpg?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-5-scaled.jpg?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-5-scaled.jpg?resize=600%2C400&ssl=1 600w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-5-scaled.jpg?w=2280&ssl=1 2280w",
-        "sizes": "(max-width: 2560px) 100vw, 2560px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio-Serpent-articule-5-scaled.jpg?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Serpent articule 5 scaled"
       }
     ],
-    "attributes": [
-      {
-        "id": 0,
-        "name": "Taille du serpent",
-        "slug": "Taille du serpent",
-        "position": 0,
-        "visible": true,
-        "variation": true,
-        "options": [
-          "S (15cm)",
-          "M (30cm)",
-          "L (50cm)"
-        ]
-      },
-      {
-        "id": 0,
-        "name": "Couleur du serpent",
-        "slug": "Couleur du serpent",
-        "position": 1,
-        "visible": true,
-        "variation": true,
-        "options": [
-          "Argent",
-          "Bicolore bleu-violet",
-          "Blanc",
-          "Bleu",
-          "Gris",
-          "Jaune",
-          "Noir",
-          "Orange",
-          "Orange / rouge brillant",
-          "Rose",
-          "Rose poudré",
-          "Rouge",
-          "Vert",
-          "Vert clair",
-          "Vert foncé",
-          "Marron",
-          "Violet"
-        ]
-      },
-      {
-        "id": 0,
-        "name": "Taille de l&#039;oeuf",
-        "slug": "Taille de l&#039;oeuf",
-        "position": 2,
-        "visible": true,
-        "variation": true,
-        "options": [
-          "Petit (7cm)",
-          "Grand (10cm)"
-        ]
-      },
-      {
-        "id": 0,
-        "name": "Couleur de l&#039;oeuf",
-        "slug": "Couleur de l&#039;oeuf",
-        "position": 3,
-        "visible": true,
-        "variation": true,
-        "options": [
-          "Argent",
-          "Bicolore bleu-violet",
-          "Blanc",
-          "Bleu",
-          "Gris",
-          "Jaune",
-          "Noir",
-          "Orange",
-          "Orange / rouge brillant",
-          "Rose",
-          "Rose poudré",
-          "Rouge",
-          "Vert",
-          "Vert clair",
-          "Vert foncé",
-          "Marron",
-          "Violet"
-        ]
-      }
-    ],
+    "attributes": {
+      "attributes": [
+        {
+          "id": 0,
+          "name": "Taille du serpent",
+          "slug": "Taille du serpent",
+          "position": 0,
+          "visible": true,
+          "variation": true,
+          "options": [
+            "S (15cm)",
+            "M (30cm)",
+            "L (50cm)"
+          ],
+          "controlType": "chips"
+        },
+        {
+          "id": 0,
+          "name": "Couleur du serpent",
+          "slug": "Couleur du serpent",
+          "position": 1,
+          "visible": true,
+          "variation": true,
+          "options": [
+            "Argent",
+            "Bicolore bleu-violet",
+            "Blanc",
+            "Bleu",
+            "Gris",
+            "Jaune",
+            "Noir",
+            "Orange",
+            "Orange / rouge brillant",
+            "Rose",
+            "Rose poudré",
+            "Rouge",
+            "Vert",
+            "Vert clair",
+            "Vert foncé",
+            "Marron",
+            "Violet"
+          ]
+        },
+        {
+          "id": 0,
+          "name": "Taille de l&#039;oeuf",
+          "slug": "Taille de l&#039;oeuf",
+          "position": 2,
+          "visible": true,
+          "variation": true,
+          "options": [
+            "Petit (7cm)",
+            "Grand (10cm)"
+          ]
+        },
+        {
+          "id": 0,
+          "name": "Couleur de l&#039;oeuf",
+          "slug": "Couleur de l&#039;oeuf",
+          "position": 3,
+          "visible": true,
+          "variation": true,
+          "options": [
+            "Argent",
+            "Bicolore bleu-violet",
+            "Blanc",
+            "Bleu",
+            "Gris",
+            "Jaune",
+            "Noir",
+            "Orange",
+            "Orange / rouge brillant",
+            "Rose",
+            "Rose poudré",
+            "Rouge",
+            "Vert",
+            "Vert clair",
+            "Vert foncé",
+            "Marron",
+            "Violet"
+          ]
+        }
+      ],
+      "variationPrices": [],
+      "tags": []
+    },
     "default_attributes": [],
     "variations": [
       8178,

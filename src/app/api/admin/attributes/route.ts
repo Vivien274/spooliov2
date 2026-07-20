@@ -17,7 +17,7 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, values } = body;
+    const { name, values, controlType } = body;
 
     if (!name || !name.trim()) {
       return NextResponse.json({ error: "Le nom de l'attribut est obligatoire" }, { status: 400 });
@@ -35,7 +35,8 @@ export async function POST(req: Request) {
     const attribute = await prisma.attribute.create({
       data: {
         name: name.trim(),
-        values: values ? values.trim() : ""
+        values: values ? values.trim() : "",
+        controlType: controlType || "dropdown"
       }
     });
 
@@ -49,7 +50,7 @@ export async function POST(req: Request) {
 export async function PUT(req: Request) {
   try {
     const body = await req.json();
-    const { id, name, values } = body;
+    const { id, name, values, controlType } = body;
 
     if (!id) {
       return NextResponse.json({ error: "Identifiant de l'attribut manquant" }, { status: 400 });
@@ -80,7 +81,8 @@ export async function PUT(req: Request) {
       where: { id: attrId },
       data: {
         name: name.trim(),
-        values: values ? values.trim() : ""
+        values: values ? values.trim() : "",
+        controlType: controlType || "dropdown"
       }
     });
 
