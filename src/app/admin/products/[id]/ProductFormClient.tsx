@@ -187,21 +187,34 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                     .replace(/&nbsp;/g, " ");
                 };
 
-                if (attrData && Array.isArray(attrData.attributes)) {
-                  attrData.attributes = attrData.attributes.map((a: any) => ({
-                    ...a,
-                    name: decodeHtml(a.name)
-                  }));
-                }
+                // Convert flat WooCommerce attributes array to Spoolio V2 object structure
+                if (attrData && Array.isArray(attrData)) {
+                  attrData = {
+                    attributes: attrData.map((a: any) => ({
+                      name: decodeHtml(a.name || ""),
+                      options: a.options || (a.values ? a.values.split(",").map((v: string) => v.trim()) : []),
+                      controlType: a.controlType || "default"
+                    })),
+                    variationPrices: []
+                  };
+                } else {
+                  // Standard Spoolio V2 object structure normalization
+                  if (attrData && Array.isArray(attrData.attributes)) {
+                    attrData.attributes = attrData.attributes.map((a: any) => ({
+                      ...a,
+                      name: decodeHtml(a.name)
+                    }));
+                  }
 
-                if (attrData && Array.isArray(attrData.variationPrices)) {
-                  attrData.variationPrices = attrData.variationPrices.map((vp: any) => {
-                    const normCombination: Record<string, string> = {};
-                    Object.entries(vp.combination || {}).forEach(([key, val]) => {
-                      normCombination[decodeHtml(key)] = decodeHtml(String(val));
+                  if (attrData && Array.isArray(attrData.variationPrices)) {
+                    attrData.variationPrices = attrData.variationPrices.map((vp: any) => {
+                      const normCombination: Record<string, string> = {};
+                      Object.entries(vp.combination || {}).forEach(([key, val]) => {
+                        normCombination[decodeHtml(key)] = decodeHtml(String(val));
+                      });
+                      return { ...vp, combination: normCombination };
                     });
-                    return { ...vp, combination: normCombination };
-                  });
+                  }
                 }
 
                 normalizedProduct.attributes = attrData;
