@@ -6,6 +6,7 @@ import { CartProvider } from "@/context/CartContext";
 import CartDrawer from "@/components/CartDrawer";
 import VisitorTracker from "@/components/VisitorTracker";
 import CookieBanner from "@/components/CookieBanner";
+import NewsletterPopup from "@/components/NewsletterPopup";
 
 const antonio = Antonio({
   variable: "--font-antonio",
@@ -59,6 +60,7 @@ export default function RootLayout({
           <AdminToolbar />
           <CartDrawer />
           <CookieBanner />
+          <NewsletterPopup />
           {children}
         </CartProvider>
       </body>
