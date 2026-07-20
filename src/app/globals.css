@@ -235,6 +235,20 @@ html.light .keep-white {
   color: #ffffff !important;
 }
 
+/* Category header light mode overrides */
+html.light .category-header-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f4f4f8 100%) !important;
+  border-color: #e2e2e9 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+html.light .category-header-card .category-label {
+  color: #2F3CD9 !important;
+}
+html.light .category-header-card .absolute {
+  display: none !important; /* Hide the dark blue radial glow on light background */
+}
+
+
 /* Reviews inputs style */
 .review-input {
   background-color: rgba(255, 255, 255, 0.03);

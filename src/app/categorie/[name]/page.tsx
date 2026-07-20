@@ -157,10 +157,10 @@ export default async function CategoryPage({ params }: Props) {
         </nav>
 
         {/* Category Header */}
-        <div className="relative rounded-3xl overflow-hidden mb-12 p-8 md:p-12 bg-gradient-to-br from-[#1e1b4b]/80 via-[#0f172a]/90 to-black border border-[#1f1f29] shadow-2xl">
+        <div className="relative rounded-3xl overflow-hidden mb-12 p-8 md:p-12 bg-gradient-to-br from-[#1e1b4b]/80 via-[#0f172a]/90 to-black border border-[#1f1f29] shadow-2xl category-header-card">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/10 via-transparent to-transparent pointer-events-none" />
           <div className="relative z-10 max-w-2xl">
-            <span className="text-[#2F3CD9] text-xs font-bold uppercase tracking-widest block mb-2">Catégorie</span>
+            <span className="text-[#2F3CD9] text-xs font-bold uppercase tracking-widest block mb-2 category-label">Catégorie</span>
             <h1 className="text-4xl sm:text-5xl font-black font-antonio tracking-tight uppercase text-white mb-4">
               {decodedName}
             </h1>
@@ -178,7 +178,7 @@ export default async function CategoryPage({ params }: Props) {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-20 text-center bg-black/20 rounded-3xl border border-[#1f1f29] px-6">
+          <div className="flex flex-col items-center justify-center py-20 text-center bg-spoolio-card/40 rounded-3xl border border-spoolio-border px-6">
             <svg className="w-16 h-16 text-gray-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
             </svg>
