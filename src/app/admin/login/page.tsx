@@ -1,9 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+
+// Declare google global object for TypeScript
+declare global {
+  interface Window {
+    google?: any;
+  }
+}
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -12,6 +19,9 @@ export default function AdminLoginPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+
+  // Handle classical form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!password) return;
@@ -32,15 +42,75 @@ export default function AdminLoginPage() {
         throw new Error(data.error || "Mot de passe incorrect.");
       }
 
-      // Successful login: redirect to dashboard
       router.push("/admin");
       router.refresh();
     } catch (err: any) {
       setError(err.message || "Une erreur est survenue.");
-    } finally {
       setLoading(false);
     }
   };
+
+  // Callback triggered by Google on successful authentication
+  const handleGoogleCredentialResponse = async (response: any) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await fetch("/api/admin/login/google", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ credential: response.credential }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Échec de la connexion Google.");
+      }
+
+      router.push("/admin");
+      router.refresh();
+    } catch (err: any) {
+      setError(err.message || "Erreur d'authentification Google.");
+      setLoading(false);
+    }
+  };
+
+  // Dynamically load Google GSI script and render button
+  useEffect(() => {
+    if (!googleClientId) return;
+
+    const script = document.createElement("script");
+    script.src = "https://accounts.google.com/gsi/client";
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      if (window.google) {
+        window.google.accounts.id.initialize({
+          client_id: googleClientId,
+          callback: handleGoogleCredentialResponse,
+        });
+        window.google.accounts.id.renderButton(
+          document.getElementById("google-login-btn"),
+          {
+            theme: "filled_black",
+            size: "large",
+            width: "100%",
+            text: "signin_with",
+            shape: "pill",
+          }
+        );
+      }
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      // Avoid clean up errors if script node is missing
+      try {
+        document.body.removeChild(script);
+      } catch (e) {}
+    };
+  }, [googleClientId]);
 
   return (
     <div className="min-h-screen bg-[#09090b] text-white flex flex-col items-center justify-center p-6 selection:bg-[#ff4f00] selection:text-black font-sans">
@@ -67,7 +137,7 @@ export default function AdminLoginPage() {
           Accès Restreint
         </h2>
         <p className="text-gray-400 text-xs text-center leading-relaxed mb-6 font-sans">
-          Veuillez saisir le mot de passe administrateur pour accéder aux outils de gestion de la boutique Spoolio.
+          Veuillez saisir le mot de passe administrateur ou utiliser Google Connect pour gérer l'atelier Spoolio.
         </p>
 
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
@@ -85,7 +155,6 @@ export default function AdminLoginPage() {
                 required
                 className="w-full h-12 pl-4 pr-12 text-sm font-semibold bg-[#1a1a1f] border border-[#2d2d34] rounded-xl text-white placeholder-gray-600 outline-none focus:border-[#2F3CD9]/60 transition-all font-sans"
               />
-              {/* Show/Hide password toggle */}
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -120,6 +189,22 @@ export default function AdminLoginPage() {
             )}
           </button>
         </form>
+
+        {/* Google Sign-in Button */}
+        {googleClientId ? (
+          <div className="w-full flex flex-col items-center gap-3 mt-6 pt-6 border-t border-[#222225] select-none">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-500 mb-1">
+              Ou via Google Connect
+            </span>
+            <div id="google-login-btn" className="w-full flex justify-center min-h-[40px] text-black" />
+          </div>
+        ) : (
+          <div className="w-full text-center mt-6 pt-6 border-t border-[#222225] select-none">
+            <p className="text-[9px] text-gray-600 leading-relaxed font-mono">
+              💡 Configurer les variables <code className="text-gray-500">NEXT_PUBLIC_GOOGLE_CLIENT_ID</code> et <code className="text-gray-500">ADMIN_GOOGLE_EMAIL</code> pour activer Google Connect.
+            </p>
+          </div>
+        )}
 
         <Link
           href="/"
