@@ -8,13 +8,13 @@
     "total": 16,
     "shippingCost": 0,
     "shippingMethod": "pickup",
-    "status": "attente_impression",
+    "status": "impression",
     "relayDetails": null,
     "pickupSlotRequested": null,
     "pickupSlotConfirmed": null,
     "pickupStatus": "pending",
     "createdAt": "2026-07-20T11:13:54.650Z",
-    "updatedAt": "2026-07-20T11:13:54.650Z"
+    "updatedAt": "2026-07-20T12:37:12.469Z"
   },
   {
     "id": "SP-97783",

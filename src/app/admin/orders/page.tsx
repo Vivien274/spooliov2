@@ -22,6 +22,7 @@ interface Order {
   shippingMethod: string;
   relayDetails: { name: string; address?: string; city?: string; zip?: string } | null;
   total: number;
+  shippingCost: number;
   status: string;
   createdAt: string;
   pickupSlotRequested?: string | null;
@@ -37,6 +38,7 @@ export default function AdminOrdersPage() {
   const [statusChangeLoading, setStatusChangeLoading] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -169,6 +171,7 @@ export default function AdminOrdersPage() {
       if (res.ok) {
         // Update local state
         setOrders(orders.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+        setSelectedOrder(prev => prev && prev.id === orderId ? { ...prev, status: newStatus } : prev);
       } else {
         const data = await res.json();
         alert(data.error || "Erreur de mise à jour.");
@@ -197,6 +200,7 @@ export default function AdminOrdersPage() {
       });
       if (res.ok) {
         setOrders(orders.map(o => o.id === orderId ? { ...o, pickupSlotConfirmed: requestedSlot, pickupStatus: "confirmed" } : o));
+        setSelectedOrder(prev => prev && prev.id === orderId ? { ...prev, pickupSlotConfirmed: requestedSlot, pickupStatus: "confirmed" } : prev);
       } else {
         const data = await res.json();
         alert(data.error || "Erreur lors de la validation.");
@@ -227,6 +231,7 @@ export default function AdminOrdersPage() {
       });
       if (res.ok) {
         setOrders(orders.map(o => o.id === orderId ? { ...o, pickupSlotConfirmed: alternativeSlot, pickupStatus: "proposed" } : o));
+        setSelectedOrder(prev => prev && prev.id === orderId ? { ...prev, pickupSlotConfirmed: alternativeSlot, pickupStatus: "proposed" } : prev);
         // Clear input state
         setProposingSlots(prev => {
           const updated = { ...prev };
@@ -369,7 +374,11 @@ export default function AdminOrdersPage() {
               </thead>
               <tbody className={`divide-y ${cls.divider}`}>
                 {filteredOrders.map((o) => (
-                  <tr key={o.id} className={`group ${cls.hoverRow} transition-colors text-[13px]`}>
+                  <tr 
+                    key={o.id} 
+                    onClick={() => setSelectedOrder(o)}
+                    className={`group ${cls.hoverRow} transition-colors text-[13px] cursor-pointer`}
+                  >
                     <td className="px-5 pl-6 py-5 font-mono font-bold text-gray-300 select-all shrink-0">
                       {o.id}
                     </td>
@@ -380,76 +389,43 @@ export default function AdminOrdersPage() {
                         year: "numeric"
                       })}
                     </td>
-                    <td className="px-5 py-5 min-w-[220px] max-w-[280px]">
+                    <td className="px-5 py-5 min-w-[150px]">
                       <span className={`block font-bold ${cls.textMain}`}>{o.customerName || "—"}</span>
                       <span className={`block text-[10px] ${cls.textFaint}`}>{o.email}</span>
-                      {o.customerPhone && (
-                        <span className={`block text-[10px] text-gray-400 mt-0.5 font-mono select-all`}>📞 {o.customerPhone}</span>
-                      )}
-                      {o.shippingAddress && (
-                        <span 
-                          className={`block text-[10px] text-gray-400 mt-1.5 bg-white/[0.03] border border-white/5 rounded-lg p-2 select-all whitespace-pre-line leading-relaxed font-sans`}
-                          title="Adresse de livraison"
-                        >
-                          📍 {o.shippingAddress}
-                        </span>
-                      )}
                     </td>
-                    <td className="px-5 py-5 min-w-[180px]">
-                      {(o.items || []).map((item, idx) => (
-                        <div key={idx} className={`text-gray-300`} title={item.name}>
+                    <td className="px-5 py-5 min-w-[200px]">
+                      {(o.items || []).slice(0, 3).map((item, idx) => (
+                        <div key={idx} className="text-gray-300">
                           {item.quantity}x {item.name}
                         </div>
                       ))}
+                      {o.items && o.items.length > 3 && (
+                        <div className="text-[#ff4f00] font-bold text-[10px] mt-0.5">
+                          + {o.items.length - 3} autre(s) article(s)...
+                        </div>
+                      )}
                     </td>
-                    <td className="px-5 py-5 min-w-[200px] no-invert">
+                    <td className="px-5 py-5 min-w-[180px] no-invert">
                       <span className={`block font-semibold ${cls.textMain}`}>
                         {o.shippingMethod === "pickup" ? "Retrait Atelier 📅" : (o.shippingMethod === "relay" ? "Mondial Relay 📦" : "Colissimo Domicile 🚚")}
                       </span>
                       {o.relayDetails && (
-                        <span className={`block text-[10px] ${cls.textFaint}`} title={`${o.relayDetails.name} - ${o.relayDetails.address}`}>
+                        <span className={`block text-[10px] ${cls.textFaint}`}>
                           {o.relayDetails.name} ({o.relayDetails.zip})
                         </span>
                       )}
-                      {o.shippingMethod !== "pickup" && o.stripeSession && (
-                        <div className="flex gap-2 mt-1.5 select-none">
-                          <a
-                            href={`https://dashboard.stripe.com/search?query=${o.stripeSession}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[9px] text-[#ff4f00] hover:text-[#ff6a22] transition-colors font-bold uppercase"
-                          >
-                            Stripe 💳
-                          </a>
-                          <span className="text-gray-700 text-[9px] select-none">|</span>
-                          <a
-                            href="https://www.boxtal.com/fr/fr/espace-client/envois/a-preparer"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[9px] text-blue-400 hover:text-blue-300 transition-colors font-bold uppercase"
-                          >
-                            Boxtal 📦
-                          </a>
-                        </div>
-                      )}
                       {o.shippingMethod === "pickup" && (
-                        <div className="mt-1 space-y-0.5 select-none">
+                        <div className="mt-1 space-y-0.5">
                           <span className={`block text-[10px] font-bold ${
                             o.pickupStatus === "confirmed" ? "text-emerald-400" :
-                            o.pickupStatus === "proposed" ? "text-yellow-400 animate-pulse" :
+                            o.pickupStatus === "proposed" ? "text-yellow-400" :
                             "text-orange-400"
                           }`}>
                             Créneau : {formatPickupSlot(o.pickupSlotConfirmed || o.pickupSlotRequested)}
                           </span>
-                          <span className={`block text-[9px] font-bold ${cls.textFaint}`}>
-                            Statut : {
-                              o.pickupStatus === "confirmed" ? "Validé ✓" :
-                              o.pickupStatus === "proposed" ? "Alternative proposée" :
-                              "En attente de validation"
-                            }
-                          </span>
                         </div>
-                      )}</td>
+                      )}
+                    </td>
                     <td className={`px-5 py-5 font-bold ${cls.textMain} whitespace-nowrap`}>
                       {o.total.toFixed(2)}€
                     </td>
@@ -465,10 +441,13 @@ export default function AdminOrdersPage() {
                     </td>
                     <td className="px-5 pr-6 py-5">
                       <div className="flex justify-end items-center gap-1.5">
-                        <div className="flex gap-1">
+                        <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
                           {o.status === "attente_impression" && (
                             <button
-                              onClick={() => handleUpdateStatus(o.id, "impression")}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleUpdateStatus(o.id, "impression");
+                              }}
                               disabled={statusChangeLoading === o.id}
                               className="px-2.5 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
                             >
@@ -477,7 +456,10 @@ export default function AdminOrdersPage() {
                           )}
                           {o.status === "impression" && (
                             <button
-                              onClick={() => handleUpdateStatus(o.id, "emballe")}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleUpdateStatus(o.id, "emballe");
+                              }}
                               disabled={statusChangeLoading === o.id}
                               className="px-2.5 py-1.5 rounded-lg bg-purple-500 hover:bg-purple-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
                             >
@@ -486,7 +468,10 @@ export default function AdminOrdersPage() {
                           )}
                           {o.status === "emballe" && (
                             <button
-                              onClick={() => handleUpdateStatus(o.id, "expedie")}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleUpdateStatus(o.id, "expedie");
+                              }}
                               disabled={statusChangeLoading === o.id}
                               className="px-2.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
                             >
@@ -499,17 +484,23 @@ export default function AdminOrdersPage() {
                         </div>
 
                         {o.shippingMethod === "pickup" && o.pickupStatus !== "confirmed" && (
-                          <div className="flex flex-col gap-1 items-end border-l border-white/10 pl-2.5 ml-1 select-none">
+                          <div 
+                            className="flex flex-col gap-1 items-end border-l border-white/10 pl-2.5 ml-1 select-none"
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             {o.pickupSlotRequested && (
                               <button
-                                onClick={() => handleConfirmPickupSlot(o.id, o.pickupSlotRequested!)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleConfirmPickupSlot(o.id, o.pickupSlotRequested!);
+                                }}
                                 disabled={pickupLoading === o.id}
                                 className="px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500 hover:text-white font-bold text-[9px] uppercase tracking-wider transition-colors cursor-pointer"
                               >
                                 {pickupLoading === o.id ? "Validation..." : "Valider le créneau ✓"}
                               </button>
                             )}
-                            <div className="flex gap-1 items-center">
+                            <div className="flex gap-1 items-center" onClick={(e) => e.stopPropagation()}>
                               <input
                                 type="datetime-local"
                                 value={proposingSlots[o.id] || ""}
@@ -517,7 +508,10 @@ export default function AdminOrdersPage() {
                                 className="bg-black border border-[#222225] rounded px-1.5 py-0.5 text-[9px] text-white focus:outline-none focus:border-[#005cff] w-28 cursor-pointer"
                               />
                               <button
-                                onClick={() => handleProposeAlternativeSlot(o.id)}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleProposeAlternativeSlot(o.id);
+                                }}
                                 disabled={pickupLoading === o.id || !proposingSlots[o.id]}
                                 className="px-1.5 py-0.5 rounded bg-blue-500 hover:bg-blue-600 disabled:bg-white/5 disabled:text-gray-600 disabled:border-transparent text-white font-bold text-[9px] transition-colors cursor-pointer border border-transparent"
                               >
@@ -535,6 +529,234 @@ export default function AdminOrdersPage() {
           </div>
         )}
       </div>
+
+      {/* Order Details Modal Popup */}
+      {selectedOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm transition-opacity duration-300">
+          <div 
+            className={`relative w-full max-w-2xl ${cls.cardBg} border ${cls.border} rounded-3xl overflow-hidden shadow-2xl animate-fade-in`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-6 border-b border-white/5 bg-white/[0.01]">
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500">Détails de la commande</span>
+                <h3 className={`text-xl font-black font-antonio text-white mt-1`}>
+                  COMMANDE {selectedOrder.id}
+                </h3>
+              </div>
+              <button
+                onClick={() => setSelectedOrder(null)}
+                className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
+              
+              {/* Client & Metadata Row */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-1">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block">Informations Client</span>
+                  <div className="text-sm font-bold text-white">{selectedOrder.customerName || "—"}</div>
+                  <div className="text-xs text-gray-400 select-all">{selectedOrder.email}</div>
+                  {selectedOrder.customerPhone && (
+                    <div className="text-xs text-gray-400 select-all font-mono">📞 {selectedOrder.customerPhone}</div>
+                  )}
+                </div>
+
+                <div className="space-y-1">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block">Date de création</span>
+                  <div className="text-sm font-bold text-white">
+                    {new Date(selectedOrder.createdAt).toLocaleString("fr-FR", {
+                      dateStyle: "long",
+                      timeStyle: "short"
+                    })}
+                  </div>
+                  <div className="text-xs text-gray-400">Mode : {selectedOrder.shippingMethod === "pickup" ? "Retrait Atelier" : (selectedOrder.shippingMethod === "relay" ? "Mondial Relay" : "Colissimo Domicile")}</div>
+                </div>
+              </div>
+
+              {/* Delivery Details Block */}
+              {selectedOrder.shippingMethod !== "pickup" ? (
+                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-3">
+                  <div>
+                    <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block mb-1">Adresse de livraison</span>
+                    {selectedOrder.shippingAddress ? (
+                      <div className="text-xs text-gray-200 select-all whitespace-pre-line leading-relaxed font-sans bg-black/45 border border-white/5 rounded-xl p-3">
+                        {selectedOrder.shippingAddress}
+                      </div>
+                    ) : (
+                      <div className="text-xs text-gray-500 italic">Aucune adresse enregistrée en base de données. Récupérez-la sur Stripe si besoin.</div>
+                    )}
+                  </div>
+                  {selectedOrder.shippingAddress && (
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(selectedOrder.shippingAddress || "");
+                        alert("Adresse copiée dans le presse-papier !");
+                      }}
+                      className="text-[11px] font-bold text-blue-400 hover:text-blue-300 transition-colors uppercase tracking-wider flex items-center gap-1 cursor-pointer select-none"
+                    >
+                      📋 Copier l'adresse pour Boxtal
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-3">
+                  <div>
+                    <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block mb-1">Détails du Retrait Atelier (Click & Collect)</span>
+                    <div className="text-xs text-gray-300">
+                      Créneau souhaité : <strong className="text-white">{formatPickupSlot(selectedOrder.pickupSlotConfirmed || selectedOrder.pickupSlotRequested)}</strong>
+                    </div>
+                    <div className="text-xs text-gray-400 mt-1">
+                      Statut du créneau : <strong className="text-white">{
+                        selectedOrder.pickupStatus === "confirmed" ? "Validé ✓" :
+                        selectedOrder.pickupStatus === "proposed" ? "Alternative proposée" :
+                        "En attente de validation"
+                      }</strong>
+                    </div>
+                  </div>
+                  
+                  {selectedOrder.pickupStatus !== "confirmed" && (
+                    <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center mt-3 pt-3 border-t border-white/5 select-none">
+                      {selectedOrder.pickupSlotRequested && (
+                        <button
+                          onClick={() => handleConfirmPickupSlot(selectedOrder.id, selectedOrder.pickupSlotRequested!)}
+                          disabled={pickupLoading === selectedOrder.id}
+                          className="px-3 py-1.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500 hover:text-white font-bold text-[10px] uppercase tracking-wider transition-colors cursor-pointer"
+                        >
+                          {pickupLoading === selectedOrder.id ? "Validation..." : "Valider le créneau ✓"}
+                        </button>
+                      )}
+                      <div className="flex gap-1.5 items-center">
+                        <input
+                          type="datetime-local"
+                          value={proposingSlots[selectedOrder.id] || ""}
+                          onChange={(e) => setProposingSlots(prev => ({ ...prev, [selectedOrder.id]: e.target.value }))}
+                          className="bg-black border border-[#222225] rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-[#005cff] cursor-pointer"
+                        />
+                        <button
+                          onClick={() => handleProposeAlternativeSlot(selectedOrder.id)}
+                          disabled={pickupLoading === selectedOrder.id || !proposingSlots[selectedOrder.id]}
+                          className="px-2.5 py-1 rounded bg-blue-500 hover:bg-blue-600 disabled:bg-white/5 disabled:text-gray-600 disabled:border-transparent text-white font-bold text-xs transition-colors cursor-pointer border border-transparent"
+                        >
+                          Proposer 📅
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Items List */}
+              <div>
+                <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block mb-2">Articles commandés</span>
+                <div className="border border-white/5 rounded-2xl overflow-hidden">
+                  <table className="w-full text-xs font-sans text-left border-collapse">
+                    <thead>
+                      <tr className="bg-white/[0.02] text-gray-500 border-b border-white/5">
+                        <th className="p-3">Objet</th>
+                        <th className="p-3 text-right">Quantité</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/5">
+                      {(selectedOrder.items || []).map((item, idx) => (
+                        <tr key={idx} className="hover:bg-white/[0.01]">
+                          <td className="p-3 font-bold text-white">{item.name}</td>
+                          <td className="p-3 text-right text-gray-300 font-mono font-bold">{item.quantity}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Pricing breakdown */}
+              <div className="flex justify-between items-center bg-white/[0.01] border border-white/5 rounded-2xl p-4">
+                <div className="text-xs text-gray-400">
+                  Frais d'envoi : {selectedOrder.shippingCost === 0 ? "Gratuit" : `${selectedOrder.shippingCost.toFixed(2)}€`}
+                </div>
+                <div className="text-right">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block">Total payé</span>
+                  <span className="text-lg font-black text-yellow-400">{selectedOrder.total.toFixed(2)}€</span>
+                </div>
+              </div>
+
+              {/* Quick links & Status Row */}
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-white/5">
+                
+                {/* Logistics */}
+                {selectedOrder.shippingMethod !== "pickup" && (
+                  <div className="flex items-center gap-3">
+                    {selectedOrder.stripeSession && (
+                      <a
+                        href={`https://dashboard.stripe.com/search?query=${selectedOrder.stripeSession}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-1.5 rounded-lg border border-[#ff4f00]/30 bg-[#ff4f00]/10 text-[#ff4f00] hover:bg-[#ff4f00] hover:text-white font-bold text-[10px] uppercase tracking-wider transition-all"
+                      >
+                        Stripe 💳
+                      </a>
+                    )}
+                    <a
+                      href="https://www.boxtal.com/fr/fr/espace-client/envois/a-preparer"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white font-bold text-[10px] uppercase tracking-wider transition-all"
+                    >
+                      Boxtal 📦
+                    </a>
+                  </div>
+                )}
+
+                {/* Status action buttons */}
+                <div className="flex gap-2 items-center ml-auto">
+                  <span className="text-[10px] uppercase font-bold text-gray-500">Statut :</span>
+                  {selectedOrder.status === "attente_impression" && (
+                    <button
+                      onClick={() => handleUpdateStatus(selectedOrder.id, "impression")}
+                      disabled={statusChangeLoading === selectedOrder.id}
+                      className="px-3 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-bold text-xs transition-colors cursor-pointer"
+                    >
+                      Lancer Impression 🛠️
+                    </button>
+                  )}
+                  {selectedOrder.status === "impression" && (
+                    <button
+                      onClick={() => handleUpdateStatus(selectedOrder.id, "emballe")}
+                      disabled={statusChangeLoading === selectedOrder.id}
+                      className="px-3 py-1.5 rounded-lg bg-purple-500 hover:bg-purple-600 text-white font-bold text-xs transition-colors cursor-pointer"
+                    >
+                      Emballer 📦
+                    </button>
+                  )}
+                  {selectedOrder.status === "emballe" && (
+                    <button
+                      onClick={() => handleUpdateStatus(selectedOrder.id, "expedie")}
+                      disabled={statusChangeLoading === selectedOrder.id}
+                      className="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs transition-colors cursor-pointer"
+                    >
+                      {selectedOrder.shippingMethod === "pickup" ? "Prêt au Retrait ✓" : "Expédier 🚚"}
+                    </button>
+                  )}
+                  {selectedOrder.status === "expedie" && (
+                    <span className="px-3 py-1.5 rounded bg-emerald-500/10 text-emerald-400 font-bold text-xs select-none">
+                      Clôturée ✓
+                    </span>
+                  )}
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }
