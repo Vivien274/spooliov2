@@ -63,7 +63,7 @@ export default function AdminReviewsPage() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch(`/api/products?t=${Date.now()}`, { cache: "no-store" });
+      const res = await fetch(`/api/products?status=all&t=${Date.now()}`, { cache: "no-store" });
       if (res.ok) {
         const data = await res.json();
         setProductsList(data || []);

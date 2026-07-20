@@ -79,16 +79,21 @@ function mapProduct(p: any) {
 }
 
 // Resilient product fetcher
-async function fetchAllProducts() {
+async function fetchAllProducts(status: string) {
   const wcUrl = process.env.NEXT_PUBLIC_WC_URL;
   const consumerKey = process.env.WC_CONSUMER_KEY;
   const consumerSecret = process.env.WC_CONSUMER_SECRET;
 
   // 1. Try Prisma Database client first (with a timeout race)
   try {
-    console.log("Attempting Prisma Database fetch...");
+    console.log(`Attempting Prisma Database fetch with status filter: ${status}...`);
     const dbProducts = await Promise.race([
       prisma.product.findMany({
+        where: status === 'all' ? {} : {
+          status: {
+            in: ['publish', '']
+          }
+        },
         include: {
           images: true,
           categories: true,
@@ -117,7 +122,10 @@ async function fetchAllProducts() {
       const parsed = JSON.parse(fileData);
       if (Array.isArray(parsed) && parsed.length > 0) {
         console.log("Successfully fetched products from Local products.json.");
-        return parsed.map(mapProduct);
+        const filtered = status === 'all'
+          ? parsed
+          : parsed.filter((p: any) => p.status === 'publish' || !p.status);
+        return filtered.map(mapProduct);
       }
     }
   } catch (e: any) {
@@ -140,7 +148,10 @@ async function fetchAllProducts() {
         const data = await response.json();
         if (Array.isArray(data) && data.length > 0) {
           console.log("Successfully fetched products from WooCommerce API.");
-          return data.map(mapProduct);
+          const filtered = status === 'all'
+            ? data
+            : data.filter((p: any) => p.status === 'publish' || !p.status);
+          return filtered.map(mapProduct);
         }
       } else {
         console.warn(`WooCommerce API returned status ${response.status}`);
@@ -169,9 +180,11 @@ async function fetchAllProducts() {
   }));
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const products = await fetchAllProducts();
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get('status') || 'publish';
+    const products = await fetchAllProducts(status);
     return NextResponse.json(products);
   } catch (error: any) {
     console.error('Fatal error in products API route:', error);

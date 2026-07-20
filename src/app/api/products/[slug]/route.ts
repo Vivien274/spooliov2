@@ -77,17 +77,27 @@ function mapProduct(p: any) {
   };
 }
 
-async function fetchSingleProduct(slug: string) {
+async function fetchSingleProduct(slug: string, status: string) {
   const wcUrl = process.env.NEXT_PUBLIC_WC_URL;
   const consumerKey = process.env.WC_CONSUMER_KEY;
   const consumerSecret = process.env.WC_CONSUMER_SECRET;
 
   // 1. Try Prisma Database client first (with a timeout race)
   try {
-    console.log(`Attempting Prisma Database fetch for slug: ${slug}...`);
+    console.log(`Attempting Prisma Database fetch for slug: ${slug} with status filter: ${status}...`);
+    // Prisma where condition based on status
+    const whereCond = status === 'all'
+      ? { slug }
+      : {
+          slug,
+          status: {
+            in: ['publish', '']
+          }
+        };
+
     const dbProduct = await Promise.race([
-      prisma.product.findUnique({
-        where: { slug },
+      prisma.product.findFirst({
+        where: whereCond,
         include: {
           images: true,
           categories: true,
@@ -113,12 +123,12 @@ async function fetchSingleProduct(slug: string) {
       const parsed = JSON.parse(fileData);
       if (Array.isArray(parsed)) {
         const match = parsed.find(p => p.slug === slug);
-        if (match) {
+        if (match && (status === 'all' || match.status === 'publish' || !match.status)) {
           console.log("Successfully fetched product from Local products.json.");
           const mapped = mapProduct(match);
           try {
             const localProduct = await Promise.race([
-              prisma.product.findUnique({
+              prisma.product.findFirst({
                 where: { slug },
                 select: { id: true }
               }),
@@ -156,20 +166,23 @@ async function fetchSingleProduct(slug: string) {
         const data = await response.json();
         if (Array.isArray(data) && data.length > 0) {
           console.log("Successfully fetched product from WooCommerce API.");
-          const mapped = mapProduct(data[0]);
-          try {
-            const localProduct = await prisma.product.findUnique({
-              where: { slug },
-              select: { id: true }
-            });
-            if (localProduct) {
-              console.log(`Overwriting WooCommerce product ID ${mapped.id} with local database ID ${localProduct.id}`);
-              mapped.id = localProduct.id;
+          const match = data[0];
+          if (status === 'all' || match.status === 'publish' || !match.status) {
+            const mapped = mapProduct(match);
+            try {
+              const localProduct = await prisma.product.findFirst({
+                where: { slug },
+                select: { id: true }
+              });
+              if (localProduct) {
+                console.log(`Overwriting WooCommerce product ID ${mapped.id} with local database ID ${localProduct.id}`);
+                mapped.id = localProduct.id;
+              }
+            } catch (dbErr: any) {
+              console.warn("Failed checking local product ID for WooCommerce mapped product:", dbErr.message);
             }
-          } catch (dbErr: any) {
-            console.warn("Failed checking local product ID for WooCommerce mapped product:", dbErr.message);
+            return mapped;
           }
-          return mapped;
         }
       }
     } catch (e: any) {
@@ -195,7 +208,9 @@ async function fetchSingleProduct(slug: string) {
     date_created: new Date().toISOString()
   }));
 
-  return mockProducts.find(p => p.slug === slug) || null;
+  const match = mockProducts.find(p => p.slug === slug);
+  if (match) return match;
+  return null;
 }
 
 export async function GET(
@@ -204,7 +219,9 @@ export async function GET(
 ) {
   const { slug } = await params;
   try {
-    const product = await fetchSingleProduct(slug);
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get('status') || 'publish';
+    const product = await fetchSingleProduct(slug, status);
     if (!product) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
