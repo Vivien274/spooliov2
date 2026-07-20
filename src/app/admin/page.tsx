@@ -698,7 +698,7 @@ export default function AdminDashboard() {
             </>
           )}
         </div>
-      ) : (
+      ) : activeTab === "hero" ? (
         /* Hero Settings Customizer Panel */
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left Form */}
@@ -885,7 +885,7 @@ export default function AdminDashboard() {
             </div>
           </div>
         </div>
-      )}
+      ) : null}
 
       {activeTab === "pickup" && (
         <div className={`p-8 rounded-[32px] border ${cls.border} ${cls.cardBg} shadow-2xl space-y-6 font-sans no-invert`}>
