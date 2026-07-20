@@ -115,7 +115,7 @@ const modules = [
 
 export default function AdminDashboard() {
   const { cls, theme } = useAdminTheme();
-  const [activeTab, setActiveTab] = useState<"dashboard" | "stats" | "hero">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "stats" | "hero" | "pickup">("dashboard");
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loadingOrders, setLoadingOrders] = useState<boolean>(true);
   const [statusChangeLoading, setStatusChangeLoading] = useState<string | null>(null);
@@ -138,6 +138,14 @@ export default function AdminDashboard() {
   const [uploading, setUploading] = useState<boolean>(false);
   const [heroSuccess, setHeroSuccess] = useState<string | null>(null);
   const [heroError, setHeroError] = useState<string | null>(null);
+
+  // Click & Collect slots settings states
+  const [pickupSlots, setPickupSlots] = useState<string[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState<boolean>(false);
+  const [savingSlots, setSavingSlots] = useState<boolean>(false);
+  const [newSlotText, setNewSlotText] = useState<string>("");
+  const [slotsSuccess, setSlotsSuccess] = useState<string | null>(null);
+  const [slotsError, setSlotsError] = useState<string | null>(null);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -224,10 +232,65 @@ export default function AdminDashboard() {
     }
   };
 
+  // Load Click & Collect slots list
+  const fetchPickupSlots = async () => {
+    setLoadingSlots(true);
+    setSlotsError(null);
+    try {
+      const res = await fetch("/api/pickup-slots");
+      if (res.ok) {
+        const data = await res.json();
+        setPickupSlots(data.slots || []);
+      }
+    } catch (e: any) {
+      setSlotsError("Impossible de charger les créneaux.");
+    } finally {
+      setLoadingSlots(false);
+    }
+  };
+
+  const handleSavePickupSlots = async (updatedSlots: string[]) => {
+    setSavingSlots(true);
+    setSlotsError(null);
+    setSlotsSuccess(null);
+    try {
+      const res = await fetch("/api/pickup-slots", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slots: updatedSlots })
+      });
+      if (res.ok) {
+        setSlotsSuccess("Créneaux enregistrés avec succès !");
+      } else {
+        const data = await res.json();
+        setSlotsError(data.error || "Erreur de sauvegarde.");
+      }
+    } catch (e) {
+      setSlotsError("Erreur réseau.");
+    } finally {
+      setSavingSlots(false);
+    }
+  };
+
+  const handleAddSlot = () => {
+    if (!newSlotText.trim()) return;
+    const updated = [...pickupSlots, newSlotText.trim()];
+    setPickupSlots(updated);
+    setNewSlotText("");
+    handleSavePickupSlots(updated);
+  };
+
+  const handleRemoveSlot = (index: number) => {
+    const updated = pickupSlots.filter((_, i) => i !== index);
+    setPickupSlots(updated);
+    handleSavePickupSlots(updated);
+  };
+
   useEffect(() => {
     fetchOrders();
     fetchHeroConfig();
     fetchVisitsStats();
+    fetchPickupSlots();
   }, []);
 
   const handleUpdateStatus = async (orderId: string, newStatus: string) => {
@@ -302,7 +365,7 @@ export default function AdminDashboard() {
         </div>
         
         {/* Navigation Tabs */}
-        <div className={`flex bg-black/40 border ${cls.border} rounded-2xl p-1 shrink-0`}>
+        <div className={`flex bg-black/40 border ${cls.border} rounded-2xl p-1 shrink-0 flex-wrap gap-1`}>
           <button
             onClick={() => setActiveTab("dashboard")}
             className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
@@ -326,6 +389,14 @@ export default function AdminDashboard() {
             }`}
           >
             Personnalisation Accueil
+          </button>
+          <button
+            onClick={() => setActiveTab("pickup")}
+            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
+              activeTab === "pickup" ? "bg-white text-black shadow-md" : `text-gray-400 hover:text-white`
+            }`}
+          >
+            Créneaux Retrait 📅
           </button>
         </div>
       </div>
@@ -811,6 +882,78 @@ export default function AdminDashboard() {
               <p>
                 <strong>Conseil de design :</strong> Utilisez une image de fond sombre ou peu saturée pour que vos titres blancs restent parfaitement lisibles sans dénaturer l'esthétique du site.
               </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === "pickup" && (
+        <div className={`p-8 rounded-[32px] border ${cls.border} ${cls.cardBg} shadow-2xl space-y-6 font-sans no-invert`}>
+          <div>
+            <h3 className={`text-xl font-black font-antonio uppercase tracking-tight ${cls.textMain}`}>Gestion des créneaux Click & Collect</h3>
+            <p className={`text-xs ${cls.textMuted} mt-1`}>
+              Définissez la liste des créneaux horaires que vous proposez pour le retrait des commandes à l'Atelier. Les clients devront obligatoirement choisir parmi ces options.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div className="space-y-4">
+              <h4 className={`text-xs font-bold uppercase tracking-wider ${cls.textMain}`}>Ajouter un nouveau créneau</h4>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newSlotText}
+                  onChange={(e) => setNewSlotText(e.target.value)}
+                  placeholder="Ex: Samedi 25 Juillet - 14h à 16h"
+                  className={`flex-1 h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#2F3CD9] text-xs`}
+                  onKeyDown={(e) => e.key === "Enter" && handleAddSlot()}
+                />
+                <button
+                  onClick={handleAddSlot}
+                  className="h-10 px-4 bg-[#2F3CD9] hover:bg-[#202db0] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer shrink-0"
+                >
+                  Ajouter ➕
+                </button>
+              </div>
+
+              {slotsSuccess && (
+                <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg text-xs leading-normal">
+                  ✓ {slotsSuccess}
+                </div>
+              )}
+              {slotsError && (
+                <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-xs leading-normal">
+                  ⚠️ {slotsError}
+                </div>
+              )}
+            </div>
+
+            <div className="space-y-4">
+              <h4 className={`text-xs font-bold uppercase tracking-wider ${cls.textMain}`}>Créneaux actuellement proposés</h4>
+              
+              {loadingSlots ? (
+                <div className={`text-xs ${cls.textMuted} italic animate-pulse`}>Chargement des créneaux...</div>
+              ) : pickupSlots.length === 0 ? (
+                <div className={`text-xs ${cls.textMuted} italic`}>Aucun créneau configuré. Les créneaux par défaut seront appliqués.</div>
+              ) : (
+                <div className="space-y-2 max-h-80 overflow-y-auto pr-2">
+                  {pickupSlots.map((slot, index) => (
+                    <div
+                      key={index}
+                      className={`flex items-center justify-between p-3 rounded-xl border ${cls.border} ${cls.inputBg} text-xs`}
+                    >
+                      <span className={`font-bold ${cls.textMain}`}>{slot}</span>
+                      <button
+                        onClick={() => handleRemoveSlot(index)}
+                        className="text-red-400 hover:text-red-600 font-bold hover:scale-105 transition-all cursor-pointer p-1 text-base leading-none"
+                        title="Supprimer ce créneau"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>

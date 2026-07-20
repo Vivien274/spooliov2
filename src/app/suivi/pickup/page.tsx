@@ -56,10 +56,15 @@ function PickupConfirmationContent() {
     );
   }
 
-  const formattedDate = new Date(slot).toLocaleString("fr-FR", {
-    dateStyle: "long",
-    timeStyle: "short"
-  });
+  const formatPickupSlot = (slotStr: string) => {
+    const dateParsed = Date.parse(slotStr);
+    if (!isNaN(dateParsed) && slotStr.includes("-") && slotStr.split("-").length > 2) {
+      return new Date(slotStr).toLocaleString("fr-FR", { dateStyle: "long", timeStyle: "short" });
+    }
+    return slotStr;
+  };
+
+  const formattedDate = formatPickupSlot(slot);
 
   return (
     <div className="max-w-xl mx-auto w-full px-6 py-12 font-sans flex flex-col items-center justify-center min-h-[50vh] no-invert select-none">

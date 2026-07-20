@@ -26,10 +26,24 @@ export default function CartDrawer() {
   const [checkoutLoading, setCheckoutLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [pickupSlot, setPickupSlot] = useState<string>("");
+  const [availableSlots, setAvailableSlots] = useState<string[]>([]);
 
   useEffect(() => {
     const savedSlot = localStorage.getItem("spoolio_pickup_slot");
     if (savedSlot) setPickupSlot(savedSlot);
+
+    const fetchSlots = async () => {
+      try {
+        const res = await fetch("/api/pickup-slots");
+        if (res.ok) {
+          const data = await res.json();
+          setAvailableSlots(data.slots || []);
+        }
+      } catch (err) {
+        console.error("Failed to load available pickup slots:", err);
+      }
+    };
+    fetchSlots();
   }, []);
 
   // Point Relais search UI states
@@ -448,13 +462,19 @@ export default function CartDrawer() {
                     <p className="text-[9px] text-gray-500 leading-normal">
                       Notre atelier de Comines vous accueille du lundi au samedi de 10h à 18h.
                     </p>
-                    <input
-                      type="datetime-local"
+                    <select
                       value={pickupSlot}
                       onChange={(e) => setPickupSlot(e.target.value)}
                       className="w-full h-9 bg-black border border-[#222225] rounded-lg px-3 text-xs text-white focus:outline-none focus:border-[#005cff] font-sans cursor-pointer"
                       required
-                    />
+                    >
+                      <option value="" disabled>-- Choisir un créneau disponible --</option>
+                      {availableSlots.map((slot) => (
+                        <option key={slot} value={slot} className="bg-[#131316]">
+                          {slot}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 )}
 

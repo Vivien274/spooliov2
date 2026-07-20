@@ -144,6 +144,15 @@ export default function AdminOrdersPage() {
     }
   };
 
+  const formatPickupSlot = (slotStr: string | null | undefined) => {
+    if (!slotStr) return "Non spécifié";
+    const dateParsed = Date.parse(slotStr);
+    if (!isNaN(dateParsed) && slotStr.includes("-") && slotStr.split("-").length > 2) {
+      return new Date(slotStr).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" });
+    }
+    return slotStr;
+  };
+
   const getStatusLabel = (status: string) => {
     switch (status) {
       case "attente_impression":
@@ -290,12 +299,7 @@ export default function AdminOrdersPage() {
                             o.pickupStatus === "proposed" ? "text-yellow-400 animate-pulse" :
                             "text-orange-400"
                           }`}>
-                            Créneau : {o.pickupSlotConfirmed 
-                              ? new Date(o.pickupSlotConfirmed).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })
-                              : o.pickupSlotRequested
-                                ? new Date(o.pickupSlotRequested).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })
-                                : "Non spécifié"
-                            }
+                            Créneau : {formatPickupSlot(o.pickupSlotConfirmed || o.pickupSlotRequested)}
                           </span>
                           <span className={`block text-[9px] font-bold ${cls.textFaint}`}>
                             Statut : {
