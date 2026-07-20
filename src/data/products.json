@@ -6975,7 +6975,7 @@
     "short_description": "<p class=\"p1\">Voici <span class=\"s1\"><b>Chubby</b></span>, l’animal le plus détendu de toute la galaxie Spoolio.</p>\n<p class=\"p1\">Assis confortablement dans son fauteuil, il est passé maître dans l’art du chill absolu.</p>\n<p class=\"p1\">TV, VR, pizza ou scroll infini… chaque Chubby vit sa meilleure vie.</p>\n<p class=\"p1\">Livré avec son fauteuil et sa petite boîte d’affichage, prêt à trôner sur ton bureau.</p>\n",
     "sku": "",
     "price": "8",
-    "regular_price": "",
+    "regular_price": "8",
     "sale_price": "",
     "date_on_sale_from": null,
     "date_on_sale_from_gmt": null,
@@ -6994,7 +6994,7 @@
     "tax_status": "taxable",
     "tax_class": "",
     "manage_stock": false,
-    "stock_quantity": null,
+    "stock_quantity": -1,
     "backorders": "no",
     "backorders_allowed": false,
     "backordered": false,
@@ -7039,112 +7039,96 @@
     ],
     "images": [
       {
-        "id": 12473,
-        "date_created": "2026-02-25T10:56:47",
-        "date_created_gmt": "2026-02-25T08:56:47",
-        "date_modified": "2026-02-25T10:56:47",
-        "date_modified_gmt": "2026-02-25T08:56:47",
+        "id": 1403,
         "src": "/images/imported/Spoolio-VRAC-01.webp",
-        "name": "Spoolio VRAC 01",
-        "alt": "Spoolio VRAC 01",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-VRAC-01.webp?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-VRAC-01.webp?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-VRAC-01.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-VRAC-01.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-VRAC-01.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-VRAC-01.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-VRAC-01.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-VRAC-01.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio VRAC 01"
       },
       {
-        "id": 12469,
-        "date_created": "2026-02-25T10:56:18",
-        "date_created_gmt": "2026-02-25T08:56:18",
-        "date_modified": "2026-02-25T10:56:18",
-        "date_modified_gmt": "2026-02-25T08:56:18",
+        "id": 1404,
         "src": "/images/imported/Spoolio-Chubby-21.webp",
-        "name": "Spoolio Chubby 21",
-        "alt": "Spoolio Chubby 21",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-21.webp?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-21.webp?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-21.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-21.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-21.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-21.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-21.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-21.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Chubby 21"
       },
       {
-        "id": 12467,
-        "date_created": "2026-02-25T10:56:03",
-        "date_created_gmt": "2026-02-25T08:56:03",
-        "date_modified": "2026-02-25T10:56:03",
-        "date_modified_gmt": "2026-02-25T08:56:03",
+        "id": 1405,
         "src": "/images/imported/Spoolio-Chubby-19.webp",
-        "name": "Spoolio Chubby 19",
-        "alt": "Spoolio Chubby 19",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-19.webp?w=1333&ssl=1 1333w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-19.webp?resize=682%2C1024&ssl=1 682w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-19.webp?resize=768%2C1152&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-19.webp?resize=1024%2C1536&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-19.webp?resize=640%2C960&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-19.webp?resize=400%2C600&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-19.webp?resize=1200%2C1800&ssl=1 1200w",
-        "sizes": "(max-width: 1333px) 100vw, 1333px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-19.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Chubby 19"
       },
       {
-        "id": 12463,
-        "date_created": "2026-02-25T10:55:35",
-        "date_created_gmt": "2026-02-25T08:55:35",
-        "date_modified": "2026-02-25T10:55:35",
-        "date_modified_gmt": "2026-02-25T08:55:35",
+        "id": 1406,
         "src": "/images/imported/Spoolio-Chubby-15.webp",
-        "name": "Spoolio Chubby 15",
-        "alt": "Spoolio Chubby 15",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-15.webp?w=1333&ssl=1 1333w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-15.webp?resize=682%2C1024&ssl=1 682w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-15.webp?resize=768%2C1152&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-15.webp?resize=1024%2C1536&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-15.webp?resize=640%2C960&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-15.webp?resize=400%2C600&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-15.webp?resize=1200%2C1800&ssl=1 1200w",
-        "sizes": "(max-width: 1333px) 100vw, 1333px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-15.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Chubby 15"
       },
       {
-        "id": 12451,
-        "date_created": "2026-02-25T10:54:05",
-        "date_created_gmt": "2026-02-25T08:54:05",
-        "date_modified": "2026-02-25T10:54:05",
-        "date_modified_gmt": "2026-02-25T08:54:05",
+        "id": 1407,
         "src": "/images/imported/Spoolio-Chubby-03.webp",
-        "name": "Spoolio Chubby 03",
-        "alt": "Spoolio Chubby 03",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-03.webp?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-03.webp?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-03.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-03.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-03.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-03.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-03.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-03.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Chubby 03"
       },
       {
-        "id": 12461,
-        "date_created": "2026-02-25T10:55:20",
-        "date_created_gmt": "2026-02-25T08:55:20",
-        "date_modified": "2026-02-25T10:55:20",
-        "date_modified_gmt": "2026-02-25T08:55:20",
+        "id": 1408,
         "src": "/images/imported/Spoolio-Chubby-13.webp",
-        "name": "Spoolio Chubby 13",
-        "alt": "Spoolio Chubby 13",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-13.webp?w=2000&ssl=1 2000w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-13.webp?resize=1024%2C682&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-13.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-13.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-13.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-13.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-13.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2000px) 100vw, 2000px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/02/Spoolio-Chubby-13.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Chubby 13"
       }
     ],
-    "attributes": [
-      {
-        "id": 0,
-        "name": "Modèle",
-        "slug": "Modèle",
-        "position": 0,
-        "visible": true,
-        "variation": true,
-        "options": [
-          "Dragon (violet)",
-          "Chat (blanc)",
-          "Dinosaure (vert)",
-          "Panda (couleur panda)"
-        ]
-      },
-      {
-        "id": 0,
-        "name": "Boite de stockage",
-        "slug": "Boite de stockage",
-        "position": 1,
-        "visible": true,
-        "variation": true,
-        "options": [
-          "Avec (+2€)",
-          "Sans"
-        ]
-      }
-    ],
+    "attributes": {
+      "attributes": [
+        {
+          "id": 0,
+          "name": "Modèle",
+          "slug": "Modèle",
+          "position": 0,
+          "visible": true,
+          "variation": true,
+          "options": [
+            "Dragon (violet)",
+            "Chat (blanc)",
+            "Dinosaure (vert)",
+            "Panda (couleur panda)"
+          ]
+        },
+        {
+          "id": 0,
+          "name": "Boite de stockage",
+          "slug": "Boite de stockage",
+          "position": 1,
+          "visible": true,
+          "variation": true,
+          "options": [
+            "Avec (+2€)",
+            "Sans"
+          ]
+        }
+      ],
+      "variationPrices": [
+        {
+          "combination": {
+            "Modèle": "Dragon (violet)",
+            "Boite de stockage": "Avec (+2€)"
+          },
+          "price": "10"
+        },
+        {
+          "combination": {
+            "Modèle": "Chat (blanc)",
+            "Boite de stockage": "Avec (+2€)"
+          },
+          "price": "10"
+        },
+        {
+          "combination": {
+            "Modèle": "Dinosaure (vert)",
+            "Boite de stockage": "Avec (+2€)"
+          },
+          "price": "10"
+        },
+        {
+          "combination": {
+            "Modèle": "Panda (couleur panda)",
+            "Boite de stockage": "Avec (+2€)"
+          },
+          "price": "10"
+        }
+      ]
+    },
     "default_attributes": [],
     "variations": [
       12370,

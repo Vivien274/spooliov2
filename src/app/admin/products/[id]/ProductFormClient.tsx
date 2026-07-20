@@ -146,6 +146,39 @@ export default function ProductFormClient({ product, isNew }: Props) {
 
   const removeTag = (tag: string) => set("tags")(form.tags.filter((t) => t !== tag));
 
+  const [isGenerating, setIsGenerating] = useState<boolean>(false);
+
+  const handleGenerateDescription = async () => {
+    if (!form.name.trim()) {
+      alert("Veuillez saisir le nom du produit avant de lancer la génération.");
+      return;
+    }
+    setIsGenerating(true);
+    try {
+      const res = await fetch("/api/admin/generate-description", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: form.name,
+          shortDescription: form.shortDescription,
+          category: form.category
+        })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        set("description")(data.description);
+      } else {
+        alert(data.error || "Erreur de génération.");
+      }
+    } catch (e) {
+      alert("Erreur réseau lors de la communication avec l'API.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   const addVariation = () =>
     set("variations")([...form.variations, { attribute: "", values: "", price: "" }]);
 
@@ -333,11 +366,20 @@ export default function ProductFormClient({ product, isNew }: Props) {
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
                   <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Description longue</label>
-                  <button className="flex items-center gap-1.5 text-[11px] font-bold text-[#2F3CD9] bg-[#2F3CD9]/10 hover:bg-[#2F3CD9]/15 border border-[#2F3CD9]/20 px-3 py-1 rounded-full transition-colors cursor-pointer">
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  <button
+                    type="button"
+                    onClick={handleGenerateDescription}
+                    disabled={isGenerating}
+                    className="flex items-center gap-1.5 text-[11px] font-bold text-[#2F3CD9] bg-[#2F3CD9]/10 hover:bg-[#2F3CD9]/15 border border-[#2F3CD9]/20 px-3 py-1 rounded-full transition-colors cursor-pointer disabled:opacity-50"
+                  >
+                    <svg className={`w-3 h-3 ${isGenerating ? "animate-spin" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      {isGenerating ? (
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      ) : (
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      )}
                     </svg>
-                    Générer avec l'IA
+                    {isGenerating ? "Génération..." : "Générer avec l'IA"}
                   </button>
                 </div>
                 <WysiwygEditor
