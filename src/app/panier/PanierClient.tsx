@@ -250,7 +250,7 @@ export default function PanierClient() {
         </p>
         <Link
           href="/boutique"
-          className="mt-6 px-6 py-3 text-xs font-black text-black bg-white hover:bg-gray-100 rounded-xl transition-all cursor-pointer uppercase tracking-wider"
+          className="mt-6 px-6 py-3 text-xs font-black text-black bg-white hover:bg-gray-100 rounded-xl transition-all cursor-pointer uppercase tracking-wider animate-pulse hover:animate-none"
         >
           Retourner à la boutique
         </Link>
@@ -302,7 +302,7 @@ export default function PanierClient() {
     <div className="w-full flex flex-col lg:flex-row gap-8 font-sans items-start">
       {/* Colonne Gauche : Produits + Dons */}
       <div className="flex-1 flex flex-col gap-6 w-full">
-        <div className="bg-[#111113]/80 border border-[#222225] rounded-3xl p-6 shadow-xl">
+        <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 shadow-xl">
           <h3 className="text-base font-extrabold text-white uppercase tracking-wider mb-6 pb-4 border-b border-white/5 flex items-center gap-2">
             <span>📦</span> Vos Fidgets & Objets
           </h3>
@@ -311,7 +311,7 @@ export default function PanierClient() {
             {cartItems.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center gap-4 bg-[#18181b]/50 border border-[#222225] rounded-2xl p-4 cart-item"
+                className="flex items-center gap-4 bg-white/5 border border-white/5 rounded-2xl p-4 cart-item"
               >
                 {/* Image */}
                 <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-white/5 bg-black/20 flex items-center justify-center text-2xl">
@@ -400,7 +400,7 @@ export default function PanierClient() {
         </div>
 
         {/* Section Soutien (Dons) */}
-        <div className="bg-[#111113]/80 border border-[#222225] rounded-3xl p-6 shadow-xl">
+        <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 shadow-xl">
           <h3 className="text-base font-extrabold text-white uppercase tracking-wider mb-2 flex items-center gap-2">
             <span>🧡</span> Soutenir l'Atelier Spoolio
           </h3>
@@ -415,8 +415,8 @@ export default function PanierClient() {
               type="button"
               className={`flex flex-col justify-between text-left p-4 rounded-2xl border transition-all cursor-pointer h-[120px] ${
                 hasRoundUp 
-                  ? "border-[#ff4f00] bg-[#ff4f00]/5 text-white" 
-                  : "border-white/5 bg-white/2 hover:bg-white/5 text-gray-400 hover:text-gray-200"
+                  ? "border-[#ff4f00] bg-[#ff4f00]/5 text-white no-invert" 
+                  : "border-spoolio-border bg-white/5 hover:bg-white/10 text-gray-400 hover:text-gray-200"
               }`}
             >
               <div className="flex items-start justify-between w-full">
@@ -425,10 +425,10 @@ export default function PanierClient() {
                 }`}>
                   {hasRoundUp && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
                 </span>
-                <span className="font-black text-white text-xs">+{expectedRoundUp.toFixed(2)}€</span>
+                <span className={`font-black text-xs ${hasRoundUp ? "text-white" : "text-gray-300"}`}>+{expectedRoundUp.toFixed(2)}€</span>
               </div>
               <div>
-                <span className="font-extrabold block text-white text-xs leading-snug">Arrondir à l'euro supérieur</span>
+                <span className={`font-extrabold block text-xs leading-snug ${hasRoundUp ? "text-white" : "text-gray-300"}`}>Arrondir à l'euro supérieur</span>
                 <span className="text-[10px] text-gray-500 block leading-tight mt-1">Soutient l'usage de plastique végétal 🌾</span>
               </div>
             </button>
@@ -439,8 +439,8 @@ export default function PanierClient() {
               type="button"
               className={`flex flex-col justify-between text-left p-4 rounded-2xl border transition-all cursor-pointer h-[120px] ${
                 hasCoffee 
-                  ? "border-[#ff4f00] bg-[#ff4f00]/5 text-white" 
-                  : "border-white/5 bg-white/2 hover:bg-white/5 text-gray-400 hover:text-gray-200"
+                  ? "border-[#ff4f00] bg-[#ff4f00]/5 text-white no-invert" 
+                  : "border-spoolio-border bg-white/5 hover:bg-white/10 text-gray-400 hover:text-gray-200"
               }`}
             >
               <div className="flex items-start justify-between w-full">
@@ -449,10 +449,10 @@ export default function PanierClient() {
                 }`}>
                   {hasCoffee && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
                 </span>
-                <span className="font-black text-white text-xs">+2.00€</span>
+                <span className={`font-black text-xs ${hasCoffee ? "text-white" : "text-gray-300"}`}>+2.00€</span>
               </div>
               <div>
-                <span className="font-extrabold block text-white text-xs leading-snug">Offrir un café à l'atelier ☕</span>
+                <span className={`font-extrabold block text-xs leading-snug ${hasCoffee ? "text-white" : "text-gray-300"}`}>Offrir un café à l'atelier ☕</span>
                 <span className="text-[10px] text-gray-500 block leading-tight mt-1">Aide à entretenir nos imprimantes 3D</span>
               </div>
             </button>
@@ -463,7 +463,7 @@ export default function PanierClient() {
       {/* Colonne Droite : Livraison + Récapitulatif financier */}
       <div className="w-full lg:w-[380px] flex flex-col gap-6 shrink-0">
         {/* Livraison */}
-        <div className="bg-[#111113]/80 border border-[#222225] rounded-3xl p-6 shadow-xl w-full">
+        <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 shadow-xl w-full">
           <h3 className="text-base font-extrabold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
             <span>🚚</span> Livraison & Retrait
           </h3>
@@ -487,7 +487,7 @@ export default function PanierClient() {
                   className={`w-full p-3 rounded-2xl border text-left flex items-start justify-between transition-all cursor-pointer shipping-card ${
                     active
                       ? "active border-[#005cff] bg-[#005cff]/5"
-                      : "border-[#222225] bg-black/20 hover:border-white/10"
+                      : "border-spoolio-border bg-white/5 hover:bg-white/10"
                   }`}
                 >
                   <div className="flex items-start gap-2.5 min-w-0">
@@ -513,7 +513,7 @@ export default function PanierClient() {
 
           {/* Pickup Slots */}
           {shippingMethod === "pickup" && (
-            <div className="bg-[#18181b] border border-[#222225] rounded-2xl p-4 flex flex-col gap-2.5 mt-3 select-none no-invert">
+            <div className="bg-white/5 border border-white/5 rounded-2xl p-4 flex flex-col gap-2.5 mt-3 select-none no-invert">
               <span className="text-[10px] font-black text-white uppercase tracking-wider block">
                 Créneau de retrait à l'Atelier 📅
               </span>
@@ -523,12 +523,12 @@ export default function PanierClient() {
               <select
                 value={pickupSlot}
                 onChange={(e) => setPickupSlot(e.target.value)}
-                className="w-full h-9 bg-black border border-[#222225] rounded-lg px-3 text-xs text-white focus:outline-none focus:border-[#005cff] font-sans cursor-pointer"
+                className="w-full h-9 bg-spoolio-bg border border-spoolio-border rounded-lg px-3 text-xs text-white focus:outline-none focus:border-[#005cff] font-sans cursor-pointer text-gray-800 dark:text-white"
                 required
               >
                 <option value="" disabled>-- Choisir un créneau disponible --</option>
                 {availableSlots.map((slot) => (
-                  <option key={slot} value={slot} className="bg-[#131316]">
+                  <option key={slot} value={slot} className="bg-spoolio-card text-gray-800 dark:text-white">
                     {slot}
                   </option>
                 ))}
@@ -538,9 +538,9 @@ export default function PanierClient() {
 
           {/* Mondial Relay */}
           {shippingMethod === "relay" && (
-            <div className="bg-[#18181b] border border-[#222225] rounded-2xl p-4 flex flex-col gap-3 mt-3 relay-widget">
+            <div className="bg-white/5 border border-white/5 rounded-2xl p-4 flex flex-col gap-3 mt-3 relay-widget">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-black text-white uppercase tracking-wider">
+                <span className="text-[10px] font-black text-white uppercase tracking-wider font-sans">
                   Sélection du relais
                 </span>
                 {selectedRelay && (
@@ -565,7 +565,7 @@ export default function PanierClient() {
                       value={postalCode}
                       onChange={(e) => setPostalCode(e.target.value.replace(/\D/g, ""))}
                       placeholder="Code postal (ex: 59560)"
-                      className="flex-1 h-9 bg-black border border-[#222225] rounded-lg px-3 text-xs text-white focus:outline-none focus:border-[#005cff] font-sans relay-input"
+                      className="flex-1 h-9 bg-spoolio-bg border border-spoolio-border rounded-lg px-3 text-xs text-white focus:outline-none focus:border-[#005cff] font-sans relay-input text-gray-800 dark:text-white"
                     />
                     <button
                       onClick={handleSearchRelays}
@@ -600,7 +600,7 @@ export default function PanierClient() {
                               setShowRelayFinder(false);
                               setRelays([]);
                             }}
-                            className="w-full p-2.5 rounded-lg border border-[#222225] hover:border-[#005cff]/50 hover:bg-[#005cff]/5 text-left text-xs transition-all cursor-pointer flex flex-col gap-0.5 relay-result-btn"
+                            className="w-full p-2.5 rounded-lg border border-spoolio-border hover:border-[#005cff]/50 hover:bg-[#005cff]/5 text-left text-xs transition-all cursor-pointer flex flex-col gap-0.5 relay-result-btn"
                           >
                             <span className="font-extrabold text-white truncate block">{r.name}</span>
                             <span className="text-[9px] text-gray-400 truncate block">{r.address}, {r.cp} {r.ville}</span>
@@ -612,7 +612,7 @@ export default function PanierClient() {
                 </div>
               ) : (
                 <div className="p-3 bg-black/40 border border-white/5 rounded-xl text-xs flex flex-col gap-1 selected-relay-box font-sans">
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5 font-sans">
                     <span className="text-xs shrink-0">🏪</span>
                     <span className="font-extrabold text-emerald-400 truncate block">{selectedRelay.name}</span>
                   </div>
@@ -626,7 +626,7 @@ export default function PanierClient() {
         </div>
 
         {/* Facturation & validation */}
-        <div className="bg-[#111113]/80 border border-[#222225] rounded-3xl p-6 shadow-xl w-full">
+        <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 shadow-xl w-full">
           <h3 className="text-base font-extrabold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
             <span>🧾</span> Récapitulatif
           </h3>

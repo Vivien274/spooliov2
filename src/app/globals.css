@@ -937,6 +937,10 @@ html.light {
   }
 }
 
+.gravity-dot {
+  will-change: transform;
+}
+
 .animate-gravity-dot-1 {
   animation: zero-gravity 22s ease-in-out infinite;
 }
@@ -953,6 +957,17 @@ html.light {
 /* Ensure floating particle dots are semi-invisible/softer in light mode */
 html.light .gravity-dot {
   opacity: 0.12 !important;
+}
+
+/* Optimize for users with prefers-reduced-motion to prevent lag */
+@media (prefers-reduced-motion: reduce) {
+  .animate-gravity-dot-1,
+  .animate-gravity-dot-2,
+  .animate-gravity-dot-3,
+  .animate-gravity-dot-4 {
+    animation: none !important;
+    transform: none !important;
+  }
 }
 
 
