@@ -25,6 +25,12 @@ export default function CartDrawer() {
   const router = useRouter();
   const [checkoutLoading, setCheckoutLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [pickupSlot, setPickupSlot] = useState<string>("");
+
+  useEffect(() => {
+    const savedSlot = localStorage.getItem("spoolio_pickup_slot");
+    if (savedSlot) setPickupSlot(savedSlot);
+  }, []);
 
   // Point Relais search UI states
   const [postalCode, setPostalCode] = useState<string>("");
@@ -196,6 +202,11 @@ export default function CartDrawer() {
       return;
     }
 
+    if (shippingMethod === "pickup" && !pickupSlot) {
+      setError("Veuillez sélectionner une date et heure de retrait à l'Atelier.");
+      return;
+    }
+
     setCheckoutLoading(true);
     setError(null);
     try {
@@ -205,6 +216,12 @@ export default function CartDrawer() {
         localStorage.setItem("spoolio_selected_relay", JSON.stringify(selectedRelay));
       } else {
         localStorage.removeItem("spoolio_selected_relay");
+      }
+
+      if (shippingMethod === "pickup" && pickupSlot) {
+        localStorage.setItem("spoolio_pickup_slot", pickupSlot);
+      } else {
+        localStorage.removeItem("spoolio_pickup_slot");
       }
 
       // Close cart drawer and redirect to the upsell page
@@ -421,6 +438,25 @@ export default function CartDrawer() {
                     );
                   })}
                 </div>
+
+                {/* Pickup Slot Selection Widget block */}
+                {shippingMethod === "pickup" && (
+                  <div className="bg-[#18181b] border border-[#222225] rounded-2xl p-4 flex flex-col gap-2.5 mt-2 font-sans select-none no-invert">
+                    <span className="text-[10px] font-black text-white uppercase tracking-wider block">
+                      Créneau de retrait à l'Atelier 📅
+                    </span>
+                    <p className="text-[9px] text-gray-500 leading-normal">
+                      Notre atelier de Comines vous accueille du lundi au samedi de 10h à 18h.
+                    </p>
+                    <input
+                      type="datetime-local"
+                      value={pickupSlot}
+                      onChange={(e) => setPickupSlot(e.target.value)}
+                      className="w-full h-9 bg-black border border-[#222225] rounded-lg px-3 text-xs text-white focus:outline-none focus:border-[#005cff] font-sans cursor-pointer"
+                      required
+                    />
+                  </div>
+                )}
 
                 {/* Point Relais Selector Widget block */}
                 {shippingMethod === "relay" && (

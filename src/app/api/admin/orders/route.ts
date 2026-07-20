@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
 import { cookies } from "next/headers";
-import { sendOrderShippedEmail } from "@/lib/email";
+import { sendOrderShippedEmail, sendPickupSlotConfirmedEmail, sendPickupSlotProposedEmail } from "@/lib/email";
 import fs from "fs";
 import path from "path";
 
@@ -108,21 +108,32 @@ export async function POST(request: Request) {
       );
     }
 
-    const { id, status } = await request.json();
+    const body = await request.json();
+    const { id, status, pickupSlotConfirmed, pickupStatus } = body;
 
-    if (!id || !status) {
+    if (!id) {
       return NextResponse.json(
-        { error: "Identifiant ou statut de commande manquant." },
+        { error: "Identifiant de commande manquant." },
         { status: 400 }
       );
     }
 
-    const allowedStatuses = ["attente_impression", "impression", "emballe", "expedie"];
-    if (!allowedStatuses.includes(status)) {
-      return NextResponse.json(
-        { error: "Statut de commande invalide." },
-        { status: 400 }
-      );
+    const updateData: any = {};
+    if (status) {
+      const allowedStatuses = ["attente_impression", "impression", "emballe", "expedie"];
+      if (!allowedStatuses.includes(status)) {
+        return NextResponse.json(
+          { error: "Statut de commande invalide." },
+          { status: 400 }
+        );
+      }
+      updateData.status = status;
+    }
+    if (pickupSlotConfirmed !== undefined) {
+      updateData.pickupSlotConfirmed = pickupSlotConfirmed;
+    }
+    if (pickupStatus !== undefined) {
+      updateData.pickupStatus = pickupStatus;
     }
 
     let updatedOrder: any = null;
@@ -130,7 +141,7 @@ export async function POST(request: Request) {
     try {
       updatedOrder = await prisma.order.update({
         where: { id: id },
-        data: { status: status }
+        data: updateData
       });
     } catch (dbErr: any) {
       console.warn("Database failed to update status. Synchronizing locally in orders.json...", dbErr.message);
@@ -144,7 +155,10 @@ export async function POST(request: Request) {
         const orders = JSON.parse(fileData || "[]");
         const idx = orders.findIndex((o: any) => o.id === id);
         if (idx !== -1) {
-          orders[idx].status = status;
+          if (status) orders[idx].status = status;
+          if (pickupSlotConfirmed !== undefined) orders[idx].pickupSlotConfirmed = pickupSlotConfirmed;
+          if (pickupStatus !== undefined) orders[idx].pickupStatus = pickupStatus;
+          
           fs.writeFileSync(jsonPath, JSON.stringify(orders, null, 2), 'utf-8');
           if (!updatedOrder) {
             updatedOrder = orders[idx];
@@ -156,11 +170,39 @@ export async function POST(request: Request) {
     }
 
     if (!updatedOrder) {
-      updatedOrder = { id, status };
+      updatedOrder = { id, ...updateData };
     }
 
-    console.log(`[Admin Update] Commande ${id} mise à jour avec statut: ${status}`);
+    console.log(`[Admin Update] Commande ${id} mise à jour:`, updateData);
 
+    // Click & Collect email notifications
+    if (pickupStatus === "confirmed" && updatedOrder.pickupSlotConfirmed) {
+      try {
+        await sendPickupSlotConfirmedEmail({
+          orderId: updatedOrder.id,
+          customerName: updatedOrder.customerName || "Client Spoolio",
+          customerEmail: updatedOrder.email,
+          pickupSlot: updatedOrder.pickupSlotConfirmed
+        });
+      } catch (err: any) {
+        console.error("Failed to send slot confirmed email:", err.message);
+      }
+    }
+
+    if (pickupStatus === "proposed" && updatedOrder.pickupSlotConfirmed) {
+      try {
+        await sendPickupSlotProposedEmail({
+          orderId: updatedOrder.id,
+          customerName: updatedOrder.customerName || "Client Spoolio",
+          customerEmail: updatedOrder.email,
+          pickupSlot: updatedOrder.pickupSlotConfirmed
+        });
+      } catch (err: any) {
+        console.error("Failed to send slot proposed email:", err.message);
+      }
+    }
+
+    // Shipping shipped notifications
     if (status === "expedie" && updatedOrder) {
       try {
         const parsedRelay = updatedOrder.relayDetails 

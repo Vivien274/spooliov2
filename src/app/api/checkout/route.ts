@@ -4,7 +4,7 @@ import path from "path";
 
 export async function POST(request: Request) {
   try {
-    const { items, shippingMethod, selectedRelay } = await request.json();
+    const { items, shippingMethod, selectedRelay, pickupSlot } = await request.json();
     
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json(
@@ -51,6 +51,8 @@ export async function POST(request: Request) {
         shippingMethod: shippingMethod || "home",
         status: "attente_impression",
         relayDetails: shippingMethod === "relay" && selectedRelay ? JSON.stringify(selectedRelay) : null,
+        pickupSlotRequested: shippingMethod === "pickup" ? pickupSlot : null,
+        pickupStatus: shippingMethod === "pickup" ? "pending" : null,
         createdAt: new Date().toISOString()
       };
 
@@ -67,7 +69,9 @@ export async function POST(request: Request) {
             shippingCost: newOrderData.shippingCost,
             shippingMethod: newOrderData.shippingMethod,
             status: newOrderData.status,
-            relayDetails: newOrderData.relayDetails
+            relayDetails: newOrderData.relayDetails,
+            pickupSlotRequested: newOrderData.pickupSlotRequested,
+            pickupStatus: newOrderData.pickupStatus
           }
         });
       } catch (err) {
@@ -163,6 +167,9 @@ export async function POST(request: Request) {
       body.append("metadata[relay_id]", selectedRelay.id || "");
       body.append("metadata[relay_name]", selectedRelay.name || "");
       body.append("metadata[relay_address]", `${selectedRelay.address}, ${selectedRelay.cp} ${selectedRelay.ville}`);
+    }
+    if (shippingMethod === "pickup" && pickupSlot) {
+      body.append("metadata[pickup_slot]", pickupSlot);
     }
 
     // Append items parameters

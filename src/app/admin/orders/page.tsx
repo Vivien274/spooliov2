@@ -21,6 +21,9 @@ interface Order {
   total: number;
   status: string;
   createdAt: string;
+  pickupSlotRequested?: string | null;
+  pickupSlotConfirmed?: string | null;
+  pickupStatus?: string | null;
 }
 
 export default function AdminOrdersPage() {
@@ -74,6 +77,70 @@ export default function AdminOrdersPage() {
       alert("Erreur de connexion.");
     } finally {
       setStatusChangeLoading(null);
+    }
+  };
+
+  const [proposingSlots, setProposingSlots] = useState<Record<string, string>>({});
+  const [pickupLoading, setPickupLoading] = useState<string | null>(null);
+
+  const handleConfirmPickupSlot = async (orderId: string, requestedSlot: string) => {
+    setPickupLoading(orderId);
+    try {
+      const res = await fetch("/api/admin/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: orderId,
+          pickupSlotConfirmed: requestedSlot,
+          pickupStatus: "confirmed"
+        }),
+      });
+      if (res.ok) {
+        setOrders(orders.map(o => o.id === orderId ? { ...o, pickupSlotConfirmed: requestedSlot, pickupStatus: "confirmed" } : o));
+      } else {
+        const data = await res.json();
+        alert(data.error || "Erreur lors de la validation.");
+      }
+    } catch (e) {
+      alert("Erreur réseau.");
+    } finally {
+      setPickupLoading(null);
+    }
+  };
+
+  const handleProposeAlternativeSlot = async (orderId: string) => {
+    const alternativeSlot = proposingSlots[orderId];
+    if (!alternativeSlot) {
+      alert("Veuillez d'abord sélectionner une date/heure alternative.");
+      return;
+    }
+    setPickupLoading(orderId);
+    try {
+      const res = await fetch("/api/admin/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: orderId,
+          pickupSlotConfirmed: alternativeSlot,
+          pickupStatus: "proposed"
+        }),
+      });
+      if (res.ok) {
+        setOrders(orders.map(o => o.id === orderId ? { ...o, pickupSlotConfirmed: alternativeSlot, pickupStatus: "proposed" } : o));
+        // Clear input state
+        setProposingSlots(prev => {
+          const updated = { ...prev };
+          delete updated[orderId];
+          return updated;
+        });
+      } else {
+        const data = await res.json();
+        alert(data.error || "Erreur lors de la proposition.");
+      }
+    } catch (e) {
+      alert("Erreur réseau.");
+    } finally {
+      setPickupLoading(null);
     }
   };
 
@@ -207,14 +274,37 @@ export default function AdminOrdersPage() {
                         </div>
                       ))}
                     </td>
-                    <td className="px-5 py-4 max-w-[200px]">
+                    <td className="px-5 py-4 max-w-[200px] no-invert">
                       <span className={`block font-semibold ${cls.textMain}`}>
-                        {o.shippingMethod === "pickup" ? "Retrait Atelier" : (o.shippingMethod === "relay" ? "Mondial Relay" : "Colissimo Domicile")}
+                        {o.shippingMethod === "pickup" ? "Retrait Atelier 📅" : (o.shippingMethod === "relay" ? "Mondial Relay 📦" : "Colissimo Domicile 🚚")}
                       </span>
                       {o.relayDetails && (
                         <span className={`block text-[10px] ${cls.textFaint} truncate`} title={`${o.relayDetails.name} - ${o.relayDetails.address}`}>
                           {o.relayDetails.name} ({o.relayDetails.zip})
                         </span>
+                      )}
+                      {o.shippingMethod === "pickup" && (
+                        <div className="mt-1 space-y-0.5 select-none">
+                          <span className={`block text-[10px] font-bold ${
+                            o.pickupStatus === "confirmed" ? "text-emerald-400" :
+                            o.pickupStatus === "proposed" ? "text-yellow-400 animate-pulse" :
+                            "text-orange-400"
+                          }`}>
+                            Créneau : {o.pickupSlotConfirmed 
+                              ? new Date(o.pickupSlotConfirmed).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })
+                              : o.pickupSlotRequested
+                                ? new Date(o.pickupSlotRequested).toLocaleString("fr-FR", { dateStyle: "short", timeStyle: "short" })
+                                : "Non spécifié"
+                            }
+                          </span>
+                          <span className={`block text-[9px] font-bold ${cls.textFaint}`}>
+                            Statut : {
+                              o.pickupStatus === "confirmed" ? "Validé ✓" :
+                              o.pickupStatus === "proposed" ? "Alternative proposée" :
+                              "En attente de validation"
+                            }
+                          </span>
+                        </div>
                       )}
                     </td>
                     <td className={`px-5 py-4 font-bold ${cls.textMain} whitespace-nowrap`}>
@@ -231,36 +321,67 @@ export default function AdminOrdersPage() {
                       </span>
                     </td>
                     <td className="px-5 pr-6 py-4">
-                      <div className="flex justify-end gap-1.5">
-                        {o.status === "attente_impression" && (
-                          <button
-                            onClick={() => handleUpdateStatus(o.id, "impression")}
-                            disabled={statusChangeLoading === o.id}
-                            className="px-2.5 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
-                          >
-                            Lancer Impression 🛠️
-                          </button>
-                        )}
-                        {o.status === "impression" && (
-                          <button
-                            onClick={() => handleUpdateStatus(o.id, "emballe")}
-                            disabled={statusChangeLoading === o.id}
-                            className="px-2.5 py-1.5 rounded-lg bg-purple-500 hover:bg-purple-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
-                          >
-                            Emballer 📦
-                          </button>
-                        )}
-                        {o.status === "emballe" && (
-                          <button
-                            onClick={() => handleUpdateStatus(o.id, "expedie")}
-                            disabled={statusChangeLoading === o.id}
-                            className="px-2.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
-                          >
-                            {o.shippingMethod === "pickup" ? "Prêt au Retrait ✓" : "Expédier 🚚"}
-                          </button>
-                        )}
-                        {o.status === "expedie" && (
-                          <span className={`text-[10px] ${cls.textFaint} italic`}>Clôturée</span>
+                      <div className="flex justify-end items-center gap-1.5">
+                        <div className="flex gap-1">
+                          {o.status === "attente_impression" && (
+                            <button
+                              onClick={() => handleUpdateStatus(o.id, "impression")}
+                              disabled={statusChangeLoading === o.id}
+                              className="px-2.5 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
+                            >
+                              Lancer Impression 🛠️
+                            </button>
+                          )}
+                          {o.status === "impression" && (
+                            <button
+                              onClick={() => handleUpdateStatus(o.id, "emballe")}
+                              disabled={statusChangeLoading === o.id}
+                              className="px-2.5 py-1.5 rounded-lg bg-purple-500 hover:bg-purple-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
+                            >
+                              Emballer 📦
+                            </button>
+                          )}
+                          {o.status === "emballe" && (
+                            <button
+                              onClick={() => handleUpdateStatus(o.id, "expedie")}
+                              disabled={statusChangeLoading === o.id}
+                              className="px-2.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
+                            >
+                              {o.shippingMethod === "pickup" ? "Prêt au Retrait ✓" : "Expédier 🚚"}
+                            </button>
+                          )}
+                          {o.status === "expedie" && (
+                            <span className={`text-[10px] ${cls.textFaint} italic`}>Clôturée</span>
+                          )}
+                        </div>
+
+                        {o.shippingMethod === "pickup" && o.pickupStatus !== "confirmed" && (
+                          <div className="flex flex-col gap-1 items-end border-l border-white/10 pl-2.5 ml-1 select-none">
+                            {o.pickupSlotRequested && (
+                              <button
+                                onClick={() => handleConfirmPickupSlot(o.id, o.pickupSlotRequested!)}
+                                disabled={pickupLoading === o.id}
+                                className="px-2 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500 hover:text-white font-bold text-[9px] uppercase tracking-wider transition-colors cursor-pointer"
+                              >
+                                {pickupLoading === o.id ? "Validation..." : "Valider le créneau ✓"}
+                              </button>
+                            )}
+                            <div className="flex gap-1 items-center">
+                              <input
+                                type="datetime-local"
+                                value={proposingSlots[o.id] || ""}
+                                onChange={(e) => setProposingSlots(prev => ({ ...prev, [o.id]: e.target.value }))}
+                                className="bg-black border border-[#222225] rounded px-1.5 py-0.5 text-[9px] text-white focus:outline-none focus:border-[#005cff] w-28 cursor-pointer"
+                              />
+                              <button
+                                onClick={() => handleProposeAlternativeSlot(o.id)}
+                                disabled={pickupLoading === o.id || !proposingSlots[o.id]}
+                                className="px-1.5 py-0.5 rounded bg-blue-500 hover:bg-blue-600 disabled:bg-white/5 disabled:text-gray-600 disabled:border-transparent text-white font-bold text-[9px] transition-colors cursor-pointer border border-transparent"
+                              >
+                                Proposer 📅
+                              </button>
+                            </div>
+                          </div>
                         )}
                       </div>
                     </td>

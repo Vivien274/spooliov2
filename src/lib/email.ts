@@ -272,3 +272,125 @@ export async function sendOrderShippedEmail({
     return false;
   }
 }
+
+interface PickupSlotEmailParams {
+  orderId: string;
+  customerName: string;
+  customerEmail: string;
+  pickupSlot: string;
+}
+
+export async function sendPickupSlotConfirmedEmail({
+  orderId,
+  customerName,
+  customerEmail,
+  pickupSlot
+}: PickupSlotEmailParams) {
+  try {
+    const resendKey = process.env.RESEND_API_KEY;
+    if (!resendKey) return false;
+
+    const fromAddress = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const recipient = process.env.RESEND_TO_EMAIL || customerEmail;
+
+    const emailHtml = `
+      <!DOCTYPE html>
+      <html>
+      <body style="background-color: #0a0a0f; color: #ffffff; font-family: sans-serif; padding: 40px 20px;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: #0d0d12; border: 1px solid #1f1f23; border-radius: 24px; padding: 40px; text-align: center;">
+          <h2 style="color: #ffffff;">Créneau de retrait confirmé ! 🎉</h2>
+          <p style="color: #88888b; font-size: 14px; line-height: 1.6;">
+            Bonjour ${customerName},<br/><br/>
+            Bonne nouvelle ! Votre créneau de retrait à l'Atelier de Comines pour la commande <strong>${orderId}</strong> a été validé par notre équipe.
+          </p>
+          <div style="background-color: #131316; border: 1px solid #1f1f23; border-radius: 16px; padding: 20px; text-align: center; margin: 30px 0;">
+            <span style="font-size: 11px; text-transform: uppercase; color: #88888b; font-weight: bold;">Date & Heure validées</span>
+            <h3 style="color: #ff4f00; font-size: 18px; margin: 10px 0 0 0;">${new Date(pickupSlot).toLocaleString("fr-FR", { dateStyle: "long", timeStyle: "short" })}</h3>
+          </div>
+          <p style="color: #88888b; font-size: 12px;">
+            Adresse de l'Atelier : Comines, Nord (59560).<br/>
+            À bientôt !
+          </p>
+        </div>
+      </body>
+      </html>
+    `;
+
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        from: fromAddress,
+        to: recipient,
+        subject: `Créneau de retrait confirmé ! Spoolio [${orderId}]`,
+        html: emailHtml
+      })
+    });
+    return true;
+  } catch (e) {
+    console.error("Failed to send pickup confirmed email:", e);
+    return false;
+  }
+}
+
+export async function sendPickupSlotProposedEmail({
+  orderId,
+  customerName,
+  customerEmail,
+  pickupSlot
+}: PickupSlotEmailParams) {
+  try {
+    const resendKey = process.env.RESEND_API_KEY;
+    if (!resendKey) return false;
+
+    const fromAddress = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const recipient = process.env.RESEND_TO_EMAIL || customerEmail;
+    
+    const confirmationUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://spoolio.fr'}/suivi/pickup?id=${orderId}&slot=${encodeURIComponent(pickupSlot)}&email=${encodeURIComponent(customerEmail)}`;
+
+    const emailHtml = `
+      <!DOCTYPE html>
+      <html>
+      <body style="background-color: #0a0a0f; color: #ffffff; font-family: sans-serif; padding: 40px 20px;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: #0d0d12; border: 1px solid #1f1f23; border-radius: 24px; padding: 40px; text-align: center;">
+          <h2 style="color: #ffffff;">Proposition de nouveau créneau de retrait 📅</h2>
+          <p style="color: #88888b; font-size: 14px; line-height: 1.6;">
+            Bonjour ${customerName},<br/><br/>
+            Le créneau de retrait demandé pour votre commande <strong>${orderId}</strong> n'est pas disponible. Notre équipe vous propose ce créneau alternatif :
+          </p>
+          <div style="background-color: #131316; border: 1px solid #1f1f23; border-radius: 16px; padding: 20px; text-align: center; margin: 30px 0;">
+            <span style="font-size: 11px; text-transform: uppercase; color: #88888b; font-weight: bold;">Nouveau créneau proposé</span>
+            <h3 style="color: #ff4f00; font-size: 18px; margin: 10px 0 0 0;">${new Date(pickupSlot).toLocaleString("fr-FR", { dateStyle: "long", timeStyle: "short" })}</h3>
+          </div>
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${confirmationUrl}" style="display: inline-block; background-color: #ff4f00; color: #ffffff; font-weight: bold; text-decoration: none; font-size: 13px; padding: 14px 28px; border-radius: 50px;">
+              Accepter ce nouveau créneau ✓
+            </a>
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        from: fromAddress,
+        to: recipient,
+        subject: `Nouveau créneau de retrait proposé - Spoolio [${orderId}]`,
+        html: emailHtml
+      })
+    });
+    return true;
+  } catch (e) {
+    console.error("Failed to send pickup proposed email:", e);
+    return false;
+  }
+}

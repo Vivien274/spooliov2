@@ -79,10 +79,13 @@ model Order {
   total          Float
   shippingCost   Float
   shippingMethod String
-  status         String   @default("attente_impression") // attente_impression | impression | emballe | expedie
-  relayDetails   String?  @db.Text
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  status              String   @default("attente_impression") // attente_impression | impression | emballe | expedie
+  relayDetails        String?  @db.Text
+  pickupSlotRequested String?
+  pickupSlotConfirmed String?
+  pickupStatus        String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
 }
 
 model Review {

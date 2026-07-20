@@ -56,6 +56,7 @@ export async function POST(request: Request) {
         const customerName = session.customer_details?.name || "";
         const total = session.amount_total ? session.amount_total / 100 : 0;
         const shippingMethod = session.metadata?.shipping_method || "home";
+        const pickupSlot = session.metadata?.pickup_slot || null;
         
         // Extract Point Relais metadata if applicable
         let relayDetails = null;
@@ -109,6 +110,8 @@ export async function POST(request: Request) {
           shippingMethod: shippingMethod,
           status: "attente_impression",
           relayDetails: relayDetails,
+          pickupSlotRequested: shippingMethod === "pickup" ? pickupSlot : null,
+          pickupStatus: shippingMethod === "pickup" ? "pending" : null,
           createdAt: new Date().toISOString()
         };
 
@@ -124,7 +127,9 @@ export async function POST(request: Request) {
               shippingCost: newOrderData.shippingCost,
               shippingMethod: newOrderData.shippingMethod,
               status: newOrderData.status,
-              relayDetails: newOrderData.relayDetails
+              relayDetails: newOrderData.relayDetails,
+              pickupSlotRequested: newOrderData.pickupSlotRequested,
+              pickupStatus: newOrderData.pickupStatus
             }
           });
         } catch (dbErr: any) {
