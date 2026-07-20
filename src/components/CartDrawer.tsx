@@ -233,7 +233,7 @@ export default function CartDrawer() {
       />
 
       {/* Cart Panel Slide-over */}
-      <div className="relative w-full max-w-md h-full bg-[#111113] border-l border-[#222225] shadow-2xl flex flex-col justify-between z-10 transition-transform duration-300 animate-slide-in cart-panel">
+      <div className="relative w-full sm:max-w-[480px] md:max-w-[520px] h-full bg-[#111113] border-l border-[#222225] shadow-2xl flex flex-col justify-between z-10 transition-transform duration-300 animate-slide-in cart-panel">
         {/* Header Section */}
         <div className="p-6 border-b border-[#222225] flex items-center justify-between cart-header">
           <div className="flex items-center gap-2">
