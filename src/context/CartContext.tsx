@@ -87,6 +87,30 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [cartItems, shippingMethod, selectedRelay, initialized]);
 
+  // Recalculate dynamic roundup price dynamically when normal items change
+  useEffect(() => {
+    if (!initialized) return;
+    const roundUpItem = cartItems.find(item => item.productId === -1);
+    if (roundUpItem) {
+      const normalTotal = cartItems
+        .filter((item) => item.productId > 0)
+        .reduce((acc, item) => acc + parseFloat(item.price) * item.quantity, 0);
+      
+      const expectedAmount = normalTotal > 0 
+        ? (Math.ceil(normalTotal) - normalTotal === 0 ? 1.00 : Math.ceil(normalTotal) - normalTotal)
+        : 0;
+
+      if (expectedAmount > 0 && parseFloat(roundUpItem.price) !== expectedAmount) {
+        setCartItems(prev => prev.map(item => 
+          item.productId === -1 ? { ...item, price: expectedAmount.toFixed(2) } : item
+        ));
+      } else if (normalTotal === 0) {
+        // If cart becomes empty of normal items, remove the roundup item
+        setCartItems(prev => prev.filter(item => item.productId !== -1));
+      }
+    }
+  }, [cartItems, initialized]);
+
   // Compute unique key for variation combo
   const getComboId = (productId: number, selectedOptions: Record<string, string>) => {
     const optionsKey = Object.entries(selectedOptions)
@@ -136,14 +160,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   // Compute aggregate totals
-  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const cartCount = cartItems.filter(item => item.productId > 0).reduce((acc, item) => acc + item.quantity, 0);
   const cartTotal = cartItems.reduce(
     (acc, item) => acc + parseFloat(item.price) * item.quantity,
     0
   );
 
-  // Compute Shipping costs dynamically (offered over 40€)
-  const isFreeShipping = cartTotal >= 40;
+  // Compute Shipping costs dynamically (offered over 40€ of normal products)
+  const cartTotalNormal = cartItems.filter(item => item.productId > 0).reduce(
+    (acc, item) => acc + parseFloat(item.price) * item.quantity,
+    0
+  );
+  const isFreeShipping = cartTotalNormal >= 40;
   const shippingCost = shippingMethod === "pickup"
     ? 0
     : (isFreeShipping ? 0 : (shippingMethod === "relay" ? 3.90 : 4.90));

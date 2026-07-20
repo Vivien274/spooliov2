@@ -13,6 +13,7 @@ export default function CartDrawer() {
     cartItems,
     isCartOpen,
     setIsCartOpen,
+    addToCart,
     updateQuantity,
     removeFromCart,
     cartTotal,
@@ -335,8 +336,12 @@ export default function CartDrawer() {
                     className="flex items-center gap-4 bg-[#18181b]/50 border border-[#222225] rounded-2xl p-3 cart-item"
                   >
                     {/* Product Image */}
-                    <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0 border border-white/5 bg-black/20">
-                      {item.image ? (
+                    <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-white/5 bg-black/20 flex items-center justify-center text-lg">
+                      {item.productId === -1 ? (
+                        <span className="select-none">🌾</span>
+                      ) : item.productId === -2 ? (
+                        <span className="select-none">☕</span>
+                      ) : item.image ? (
                         <Image
                           src={item.image}
                           alt={item.name}
@@ -348,13 +353,17 @@ export default function CartDrawer() {
                         <div className="absolute inset-0 bg-white/5" />
                       )}
                     </div>
-
+ 
                     {/* Info & Options */}
                     <div className="flex-1 flex flex-col min-w-0">
-                      <h4 className="text-xs font-bold text-white truncate hover:text-[#ff4f00] transition-colors">
-                        <Link href={`/product/${item.slug}`} onClick={() => setIsCartOpen(false)}>
-                          {item.name}
-                        </Link>
+                      <h4 className="text-xs font-bold text-white truncate">
+                        {item.productId < 0 ? (
+                          <span>{item.name}</span>
+                        ) : (
+                          <Link href={`/product/${item.slug}`} onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
+                            {item.name}
+                          </Link>
+                        )}
                       </h4>
                       
                       {/* Selected Options list */}
@@ -367,34 +376,40 @@ export default function CartDrawer() {
                           ))}
                         </div>
                       )}
-
+ 
                       {/* Quantity and Price */}
                       <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/5">
                         {/* Quantity selectors */}
-                        <div className="flex items-center bg-[#111] border border-[#222] rounded-lg h-7 px-1.5 qty-selector">
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-white rounded active:scale-95 transition-all text-xs font-bold cursor-pointer qty-btn"
-                          >
-                            -
-                          </button>
-                          <span className="w-6 text-center font-bold text-[10px] text-white qty-display">
-                            {item.quantity}
+                        {item.productId < 0 ? (
+                          <span className="text-[9px] font-extrabold text-gray-500 uppercase tracking-widest font-sans">
+                            Soutien
                           </span>
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-white rounded active:scale-95 transition-all text-xs font-bold cursor-pointer qty-btn"
-                          >
-                            +
-                          </button>
-                        </div>
-
+                        ) : (
+                          <div className="flex items-center bg-[#111] border border-[#222] rounded-lg h-7 px-1.5 qty-selector">
+                            <button
+                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              className="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-white rounded active:scale-95 transition-all text-xs font-bold cursor-pointer qty-btn"
+                            >
+                              -
+                            </button>
+                            <span className="w-6 text-center font-bold text-[10px] text-white qty-display">
+                              {item.quantity}
+                            </span>
+                            <button
+                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              className="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-white rounded active:scale-95 transition-all text-xs font-bold cursor-pointer qty-btn"
+                            >
+                              +
+                            </button>
+                          </div>
+                        )}
+ 
                         <span className="text-xs font-black text-white item-price">
                           {(parseFloat(item.price) * item.quantity).toFixed(2)}€
                         </span>
                       </div>
                     </div>
-
+ 
                     {/* Remove button */}
                     <button
                       onClick={() => removeFromCart(item.id)}
@@ -576,6 +591,110 @@ export default function CartDrawer() {
         {/* Footer & Checkout Section */}
         {cartItems.length > 0 && (
           <div className="p-6 border-t border-[#222225] bg-[#131316]/50 flex flex-col gap-4 cart-footer">
+            {/* Donation Option Block */}
+            {(() => {
+              const normalTotal = cartItems
+                .filter((item) => item.productId > 0)
+                .reduce((acc, item) => acc + parseFloat(item.price) * item.quantity, 0);
+
+              if (normalTotal === 0) return null;
+
+              const expectedRoundUp = Math.ceil(normalTotal) - normalTotal === 0 ? 1.00 : Math.ceil(normalTotal) - normalTotal;
+              const hasRoundUp = cartItems.some((item) => item.productId === -1);
+              const hasCoffee = cartItems.some((item) => item.productId === -2);
+
+              const handleToggleRoundUp = () => {
+                if (hasRoundUp) {
+                  const item = cartItems.find((i) => i.productId === -1);
+                  if (item) removeFromCart(item.id);
+                } else {
+                  addToCart({
+                    productId: -1,
+                    name: "Arrondi Solidaire 🌾",
+                    price: expectedRoundUp.toFixed(2),
+                    slug: "donation-roundup",
+                    selectedOptions: {},
+                    image: ""
+                  }, 1, false);
+                }
+              };
+
+              const handleToggleCoffee = () => {
+                if (hasCoffee) {
+                  const item = cartItems.find((i) => i.productId === -2);
+                  if (item) removeFromCart(item.id);
+                } else {
+                  addToCart({
+                    productId: -2,
+                    name: "Un café pour l'atelier ☕",
+                    price: "2.00",
+                    slug: "donation-coffee",
+                    selectedOptions: {},
+                    image: ""
+                  }, 1, false);
+                }
+              };
+
+              return (
+                <div className="bg-[#18181b]/50 border border-[#222225] rounded-2xl p-4 flex flex-col gap-3 font-sans mt-1">
+                  <div className="flex items-center gap-2 border-b border-white/5 pb-2">
+                    <span className="text-xs">🧡</span>
+                    <span className="text-[10px] font-black text-gray-300 uppercase tracking-widest">Soutenir l'Atelier Spoolio</span>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    {/* Option 1: Round-up */}
+                    <button
+                      onClick={handleToggleRoundUp}
+                      type="button"
+                      className={`flex items-center justify-between text-left p-2.5 rounded-xl border text-[11px] font-medium transition-all cursor-pointer ${
+                        hasRoundUp 
+                          ? "border-[#ff4f00] bg-[#ff4f00]/5 text-white" 
+                          : "border-white/5 bg-white/2 hover:bg-white/5 text-gray-400 hover:text-gray-200"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 ${
+                          hasRoundUp ? "border-[#ff4f00] bg-[#ff4f00]" : "border-white/20"
+                        }`}>
+                          {hasRoundUp && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
+                        </span>
+                        <div>
+                          <span className="font-extrabold block text-white text-[11px] leading-tight">Arrondir à l'euro supérieur</span>
+                          <span className="text-[9px] text-gray-500 block leading-tight mt-0.5">Soutient l'usage de plastique végétal</span>
+                        </div>
+                      </div>
+                      <span className="font-black text-white text-right text-xs">+{expectedRoundUp.toFixed(2)}€</span>
+                    </button>
+
+                    {/* Option 2: Coffee */}
+                    <button
+                      onClick={handleToggleCoffee}
+                      type="button"
+                      className={`flex items-center justify-between text-left p-2.5 rounded-xl border text-[11px] font-medium transition-all cursor-pointer ${
+                        hasCoffee 
+                          ? "border-[#ff4f00] bg-[#ff4f00]/5 text-white" 
+                          : "border-white/5 bg-white/2 hover:bg-white/5 text-gray-400 hover:text-gray-200"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center shrink-0 ${
+                          hasCoffee ? "border-[#ff4f00] bg-[#ff4f00]" : "border-white/20"
+                        }`}>
+                          {hasCoffee && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
+                        </span>
+                        <div>
+                          <span className="font-extrabold block text-white text-[11px] leading-tight">Offrir un café à l'atelier ☕</span>
+                          <span className="text-[9px] text-gray-500 block leading-tight mt-0.5">Aide à entretenir nos imprimantes 3D</span>
+                        </div>
+                      </div>
+                      <span className="font-black text-white text-right text-xs">+2.00€</span>
+                    </button>
+                  </div>
+                </div>
+              );
+            })()}
+
             {/* Price detail lists */}
             <div className="flex flex-col gap-1.5 text-xs font-sans">
               <div className="flex items-center justify-between text-gray-500 cart-row">

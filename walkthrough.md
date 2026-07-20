@@ -55,3 +55,13 @@ Toutes les étapes ont été réalisées et déployées avec succès ! Le site c
   - **Tâche horaire aléatoire** : Les machines actives affichent un produit aléatoire issu de la boutique qui **change automatiquement toutes les heures** de façon synchronisée.
   - **Gestion de Panne (Admin)** : Ajout d'un nouvel onglet "État de l'Atelier 🤖" dans le dashboard pour permettre à l'administrateur de passer chaque imprimante en mode *Active*, *En veille*, ou *En panne* en un clic.
   - **Affichage dynamique** : En cas de panne, l'imprimante passe immédiatement au rouge avec un voyant clignotant et la mention "⚠️ HORS SERVICE / EN PANNE" à l'écran.
+
+### 11. Dons & Arrondi Solidaire (Panier & Checkout)
+* **Double option solidaire** : Ajout d'une section "Soutenir l'Atelier Spoolio 🧡" dans le tiroir du panier ([`CartDrawer.tsx`](file:///Users/20015984/Documents/SpoolioV2/src/components/CartDrawer.tsx#L590-L694)) avec deux interrupteurs interactifs :
+  - **Arrondi solidaire** : calculé dynamiquement par rapport au sous-total (ex: de 14,40 € à 15,00 €). Si le total est déjà un nombre entier, l'arrondi propose un don de 1,00 € pour éviter l'incohérence d'un don à 0,00 €.
+  - **Café solidaire** : don fixe de 2,00 € pour financer l'entretien des imprimantes.
+* **Recalcul dynamique intelligent** : Implémentation d'un hook `useEffect` dans [`CartContext.tsx`](file:///Users/20015984/Documents/SpoolioV2/src/context/CartContext.tsx#L88-L112) pour recalculer et ajuster automatiquement le montant de l'arrondi solidaire à chaque fois que des articles classiques sont ajoutés, retirés ou que leur quantité change.
+* **Intégration Stripe transparente** : Les dons sont passés comme des produits virtuels spéciaux (avec ID négatifs `-1` et `-2`), ce qui permet leur transmission automatique à Stripe Checkout et leur enregistrement dans les commandes sans aucune modification de base de données.
+* **Exclusion des frais de livraison** : Les dons sont exclus du calcul des 40 € requis pour obtenir la livraison offerte afin d'éviter les abus.
+* **Optimisation de l'affichage** : Les articles de don masquent les sélecteurs de quantité et les liens de produits dans la liste du panier. Le compteur d'icône panier (`cartCount`) n'incrémente pas le nombre d'articles physiques pour ces dons virtuels.
+
