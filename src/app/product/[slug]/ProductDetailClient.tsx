@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/components/ProductCard";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import UnicornIcon from "@/components/UnicornIcon";
 import { useCart } from "@/context/CartContext";
 
@@ -1025,22 +1026,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
         )}
       </main>
 
-      {/* Footer Section */}
-      <footer className="w-full border-t border-[#1f1f23] bg-spoolio-bg py-8 text-xs text-gray-500 mt-20">
-        <div className="max-w-[1200px] mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-1.5">
-            <div className="w-5 h-5 rounded-md bg-[#ff4f00] flex items-center justify-center text-white font-extrabold text-[10px]">
-              S
-            </div>
-            <span className="font-bold text-gray-300">Spoolio</span>
-            <span>&copy; {new Date().getFullYear()} - Tous droits réservés.</span>
-          </div>
-          <div className="flex gap-6">
-            <a href="#" className="hover:text-[#ff4f00] transition-colors">Mentions Légales</a>
-            <a href="#" className="hover:text-[#ff4f00] transition-colors">CGV</a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

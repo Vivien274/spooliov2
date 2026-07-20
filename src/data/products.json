@@ -1604,7 +1604,7 @@
     "short_description": "<p>Tes lunettes de soleil méritent mieux que ta poche (ou le sol). Ce pins porte-lunettes s&rsquo;accroche à ton t-shirt, ton sac ou ta ceinture, et tient tes lunettes prêtes à dégainer. Fabriqué chez nous, en France, à la commande. Plusieurs modèles au choix.</p>\n",
     "sku": "",
     "price": "3",
-    "regular_price": "",
+    "regular_price": "3",
     "sale_price": "",
     "date_on_sale_from": null,
     "date_on_sale_from_gmt": null,
@@ -1623,7 +1623,7 @@
     "tax_status": "taxable",
     "tax_class": "",
     "manage_stock": false,
-    "stock_quantity": null,
+    "stock_quantity": 10,
     "backorders": "no",
     "backorders_allowed": false,
     "backordered": false,
@@ -1663,115 +1663,62 @@
     ],
     "images": [
       {
-        "id": 13115,
-        "date_created": "2026-06-21T14:03:02",
-        "date_created_gmt": "2026-06-21T10:03:02",
-        "date_modified": "2026-06-21T14:03:02",
-        "date_modified_gmt": "2026-06-21T10:03:02",
+        "id": 1362,
         "src": "/images/imported/Spoolio_Kit-Festival-28-scaled.webp",
-        "name": "Spoolio Kit Festival 28",
-        "alt": "Spoolio Kit Festival 28",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-28-scaled.webp?w=2560&ssl=1 2560w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-28-scaled.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-28-scaled.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-28-scaled.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-28-scaled.webp?resize=2048%2C1365&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-28-scaled.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-28-scaled.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-28-scaled.webp?resize=1200%2C800&ssl=1 1200w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-28-scaled.webp?w=2280&ssl=1 2280w",
-        "sizes": "(max-width: 2560px) 100vw, 2560px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-28-scaled.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Kit Festival 28"
       },
       {
-        "id": 13128,
-        "date_created": "2026-06-21T14:09:45",
-        "date_created_gmt": "2026-06-21T10:09:45",
-        "date_modified": "2026-06-21T14:09:45",
-        "date_modified_gmt": "2026-06-21T10:09:45",
+        "id": 1363,
         "src": "/images/imported/Spoolio_Kit-Festival-75-scaled.webp",
-        "name": "Spoolio Kit Festival 75",
-        "alt": "Spoolio Kit Festival 75",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-75-scaled.webp?w=1707&ssl=1 1707w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-75-scaled.webp?resize=683%2C1024&ssl=1 683w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-75-scaled.webp?resize=768%2C1152&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-75-scaled.webp?resize=1024%2C1536&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-75-scaled.webp?resize=1365%2C2048&ssl=1 1365w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-75-scaled.webp?resize=640%2C960&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-75-scaled.webp?resize=400%2C600&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-75-scaled.webp?resize=1200%2C1800&ssl=1 1200w",
-        "sizes": "(max-width: 1707px) 100vw, 1707px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-75-scaled.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Kit Festival 75"
       },
       {
-        "id": 13130,
-        "date_created": "2026-06-21T14:11:00",
-        "date_created_gmt": "2026-06-21T10:11:00",
-        "date_modified": "2026-06-21T14:11:00",
-        "date_modified_gmt": "2026-06-21T10:11:00",
+        "id": 1364,
         "src": "/images/imported/Spoolio_Kit-Festival-77-scaled.webp",
-        "name": "Spoolio Kit Festival 77",
-        "alt": "Spoolio Kit Festival 77",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-77-scaled.webp?w=2560&ssl=1 2560w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-77-scaled.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-77-scaled.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-77-scaled.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-77-scaled.webp?resize=2048%2C1365&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-77-scaled.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-77-scaled.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-77-scaled.webp?resize=1200%2C800&ssl=1 1200w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-77-scaled.webp?w=2280&ssl=1 2280w",
-        "sizes": "(max-width: 2560px) 100vw, 2560px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-77-scaled.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Kit Festival 77"
       },
       {
-        "id": 13100,
-        "date_created": "2026-06-21T13:53:43",
-        "date_created_gmt": "2026-06-21T09:53:43",
-        "date_modified": "2026-06-21T13:53:43",
-        "date_modified_gmt": "2026-06-21T09:53:43",
+        "id": 1365,
         "src": "/images/imported/Spoolio_Kit-Festival-13-scaled.webp",
-        "name": "Spoolio Kit Festival 13",
-        "alt": "Spoolio Kit Festival 13",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-13-scaled.webp?w=1707&ssl=1 1707w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-13-scaled.webp?resize=683%2C1024&ssl=1 683w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-13-scaled.webp?resize=768%2C1152&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-13-scaled.webp?resize=1024%2C1536&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-13-scaled.webp?resize=1365%2C2048&ssl=1 1365w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-13-scaled.webp?resize=640%2C960&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-13-scaled.webp?resize=400%2C600&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-13-scaled.webp?resize=1200%2C1800&ssl=1 1200w",
-        "sizes": "(max-width: 1707px) 100vw, 1707px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-13-scaled.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Kit Festival 13"
       },
       {
-        "id": 13116,
-        "date_created": "2026-06-21T14:03:33",
-        "date_created_gmt": "2026-06-21T10:03:33",
-        "date_modified": "2026-06-21T14:03:33",
-        "date_modified_gmt": "2026-06-21T10:03:33",
+        "id": 1366,
         "src": "/images/imported/Spoolio_Kit-Festival-29-scaled.webp",
-        "name": "Spoolio Kit Festival 29",
-        "alt": "Spoolio Kit Festival 29",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-29-scaled.webp?w=1707&ssl=1 1707w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-29-scaled.webp?resize=683%2C1024&ssl=1 683w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-29-scaled.webp?resize=768%2C1152&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-29-scaled.webp?resize=1024%2C1536&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-29-scaled.webp?resize=1365%2C2048&ssl=1 1365w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-29-scaled.webp?resize=640%2C960&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-29-scaled.webp?resize=400%2C600&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-29-scaled.webp?resize=1200%2C1800&ssl=1 1200w",
-        "sizes": "(max-width: 1707px) 100vw, 1707px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/Spoolio_Kit-Festival-29-scaled.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio Kit Festival 29"
       },
       {
-        "id": 13138,
-        "date_created": "2026-06-21T14:21:57",
-        "date_created_gmt": "2026-06-21T10:21:57",
-        "date_modified": "2026-06-21T14:21:57",
-        "date_modified_gmt": "2026-06-21T10:21:57",
+        "id": 1367,
         "src": "/images/imported/DSC3561.webp",
-        "name": "DSC3561",
-        "alt": "DSC3561",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3561.webp?w=1365&ssl=1 1365w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3561.webp?resize=683%2C1024&ssl=1 683w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3561.webp?resize=768%2C1152&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3561.webp?resize=1024%2C1536&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3561.webp?resize=640%2C960&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3561.webp?resize=400%2C600&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3561.webp?resize=1200%2C1800&ssl=1 1200w",
-        "sizes": "(max-width: 1365px) 100vw, 1365px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3561.webp?resize=300%2C300&ssl=1"
+        "alt": "DSC3561"
       },
       {
-        "id": 13139,
-        "date_created": "2026-06-21T14:22:05",
-        "date_created_gmt": "2026-06-21T10:22:05",
-        "date_modified": "2026-06-21T14:22:05",
-        "date_modified_gmt": "2026-06-21T10:22:05",
+        "id": 1368,
         "src": "/images/imported/DSC3562.webp",
-        "name": "DSC3562",
-        "alt": "DSC3562",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3562.webp?w=2048&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3562.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3562.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3562.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3562.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3562.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3562.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2048px) 100vw, 2048px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/06/DSC3562.webp?resize=300%2C300&ssl=1"
+        "alt": "DSC3562"
       }
     ],
-    "attributes": [
-      {
-        "id": 0,
-        "name": "Modèle",
-        "slug": "Modèle",
-        "position": 0,
-        "visible": true,
-        "variation": true,
-        "options": [
-          "Fleur violette",
-          "Fleur orange",
-          "Fleur jaune",
-          " Donut",
-          "Bouée",
-          "Vinyle"
-        ]
-      }
-    ],
+    "attributes": {
+      "attributes": [
+        {
+          "id": 0,
+          "name": "Modèle",
+          "slug": "Modèle",
+          "position": 0,
+          "visible": true,
+          "variation": true,
+          "options": [
+            "Fleur violette",
+            "Fleur orange",
+            "Fleur jaune",
+            " Donut",
+            "Bouée",
+            "Vinyle"
+          ]
+        }
+      ],
+      "variationPrices": []
+    },
     "default_attributes": [],
     "variations": [
       13141
