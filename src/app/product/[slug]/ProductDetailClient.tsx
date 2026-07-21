@@ -652,6 +652,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                   // 1. COLORS SELECTOR (Circle Swatches)
                   if (isColor) {
                     const getCssColor = (colorName: string) => {
+                      if (!colorName) return "#ff4f00"; // safety guard
                       const cName = colorName.toLowerCase().trim();
                       const colorMap: Record<string, string> = {
                         "arc en ciel": "conic-gradient(#ff0000 0deg, #ff7f00 45deg, #ffff00 90deg, #00ff00 135deg, #0000ff 180deg, #4b0082 225deg, #8b00ff 270deg, #ff0000 360deg)",

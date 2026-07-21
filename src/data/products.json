@@ -130359,22 +130359,50 @@
             "Noir",
             "Blanc"
           ]
+        },
+        {
+          "name": "Taille",
+          "options": [
+            "Petit",
+            "Grand"
+          ],
+          "controlType": "default"
         }
       ],
-      "variationPrices": [],
+      "variationPrices": [
+        {
+          "combination": {
+            "Couleur": "",
+            "Taille": "Petit"
+          },
+          "price": "4"
+        },
+        {
+          "combination": {
+            "Couleur": "",
+            "Taille": "Grand"
+          },
+          "price": "8"
+        }
+      ],
       "tags": [
         "Satisfaisant"
       ]
     },
     "images": [
       {
-        "id": 2697,
+        "id": 2699,
         "src": "/uploads/hero_upload_1784552725913.webp",
         "alt": "Fidget aimanté"
       },
       {
-        "id": 2698,
+        "id": 2700,
         "src": "/uploads/hero_upload_1784552725979.webp",
+        "alt": "Fidget aimanté"
+      },
+      {
+        "id": 1784636423329,
+        "src": "/uploads/hero_upload_1784636422349.webp",
         "alt": "Fidget aimanté"
       }
     ]
