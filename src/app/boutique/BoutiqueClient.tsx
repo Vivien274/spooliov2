@@ -327,9 +327,9 @@ function BoutiqueClientContent() {
             {/* Products Bento-Style Grid */}
             {/* Products Bento-Style Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-              {displayedProducts.map((p) => (
+              {displayedProducts.map((p, index) => (
                 <div key={p.id} className="h-full animate-reveal">
-                  <ProductCard product={p} />
+                  <ProductCard product={p} priority={index < 4} />
                 </div>
               ))}
             </div>

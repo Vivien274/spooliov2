@@ -179,7 +179,7 @@ export async function GET(request: Request) {
           console.warn(`[Mondial Relay API Error] Server returned STAT code: ${statCode}. Falling back to simulated relays...`);
           isSoapError = true;
         } else {
-          const blocks = xmlResponse.match(/<PointRelais_Detail>([\s\S]*?)<\/PointRelais_Detail>/g) || [];
+          const blocks = xmlResponse.match(/<PointRelais_Details>([\s\S]*?)<\/PointRelais_Details>/g) || [];
           realRelays = blocks.map((block) => {
             const getValue = (tag: string) => {
               const match = block.match(new RegExp(`<${tag}>([^<]*?)<\/${tag}>`));

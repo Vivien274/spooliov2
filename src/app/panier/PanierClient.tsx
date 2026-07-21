@@ -39,14 +39,25 @@ export default function PanierClient() {
 
   useEffect(() => {
     const savedSlot = localStorage.getItem("spoolio_pickup_slot");
-    if (savedSlot) setPickupSlot(savedSlot);
 
     const fetchSlots = async () => {
       try {
         const res = await fetch("/api/pickup-slots");
         if (res.ok) {
           const data = await res.json();
-          setAvailableSlots(data.slots || []);
+          const activeSlots = data.slots || [];
+          setAvailableSlots(activeSlots);
+          
+          // Validate that the saved slot is still active and valid
+          if (savedSlot) {
+            if (activeSlots.includes(savedSlot)) {
+              setPickupSlot(savedSlot);
+            } else {
+              console.log("[Pickup Validation] Saved slot is obsolete or has been deleted. Clearing...");
+              localStorage.removeItem("spoolio_pickup_slot");
+              setPickupSlot("");
+            }
+          }
         }
       } catch (err) {
         console.error("Failed to load available pickup slots:", err);

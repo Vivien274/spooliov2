@@ -28,9 +28,10 @@ export interface Product {
 interface ProductCardProps {
   product: Product;
   compact?: boolean;
+  priority?: boolean;
 }
 
-export default function ProductCard({ product, compact = false }: ProductCardProps) {
+export default function ProductCard({ product, compact = false, priority = false }: ProductCardProps) {
   const [tiltStyle, setTiltStyle] = useState<React.CSSProperties>({});
   const [isButtonHovered, setIsButtonHovered] = useState(false);
 
@@ -111,7 +112,7 @@ export default function ProductCard({ product, compact = false }: ProductCardPro
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
             className="object-cover transition-transform duration-500 group-hover:scale-[1.05] no-invert"
-            priority={product.id <= 4}
+            priority={priority}
           />
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-spoolio-card/85 text-gray-600">
@@ -162,7 +163,7 @@ export default function ProductCard({ product, compact = false }: ProductCardPro
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               className="object-cover transition-transform duration-500 group-hover:scale-[1.02] no-invert"
-              priority={product.id <= 4}
+              priority={priority}
             />
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-spoolio-card/85 text-gray-600">

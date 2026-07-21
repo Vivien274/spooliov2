@@ -155,8 +155,8 @@ export default function SpoolioProductGrid({
         </div>
       ) : filteredProducts.length > 0 ? (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} compact={compact} />
+          {filteredProducts.map((product, index) => (
+            <ProductCard key={product.id} product={product} compact={compact} priority={index < 4} />
           ))}
         </div>
       ) : (
