@@ -79,6 +79,7 @@ export default function Footer({ className = "" }: FooterProps) {
 
         {/* Lower Section: Legal & Navigation Links */}
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2.5 text-center text-gray-400 font-sans font-semibold">
+          <Link href="/don" className="text-[#ff4f00] hover:underline transition-colors">Soutenir l'Atelier 🧡</Link>
           <Link href="/a-propos" className="hover:text-[#ff4f00] transition-colors">À Propos</Link>
           <Link href="/pro" className="hover:text-[#ff4f00] transition-colors">Espace Pro</Link>
           <Link href="/contact" className="hover:text-[#ff4f00] transition-colors">Contact</Link>

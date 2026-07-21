@@ -53,36 +53,7 @@ export default function CartDrawer() {
           </button>
         </div>
 
-        {/* Free Shipping Progress Bar */}
-        {cartItems.length > 0 && (
-          <div className="px-6 py-4 bg-[#161619]/60 border-b border-[#222225] flex flex-col gap-2 font-sans select-none no-invert">
-            <div className="flex items-center justify-between text-[11px] font-bold">
-              {cartTotal < 40 ? (
-                <>
-                  <span className="text-gray-400">
-                    Plus que <strong className="text-[#ff4f00]">{(40 - cartTotal).toFixed(2)}€</strong> pour la livraison offerte !
-                  </span>
-                  <span className="text-[#ff4f00] animate-bounce">🚀</span>
-                </>
-              ) : (
-                <>
-                  <span className="text-emerald-400 flex items-center gap-1">
-                    🎉 Livraison offerte active !
-                  </span>
-                  <span className="text-emerald-400 font-black uppercase tracking-wider text-[10px]">Offerte</span>
-                </>
-              )}
-            </div>
-            <div className="w-full bg-[#222225] h-1.5 rounded-full overflow-hidden">
-              <div
-                className={`h-full rounded-full transition-all duration-500 ${
-                  cartTotal < 40 ? "bg-gradient-to-r from-[#ff4f00]/60 to-[#ff4f00]" : "bg-emerald-400 shadow-[0_0_8px_#34d399]"
-                }`}
-                style={{ width: `${Math.min((cartTotal / 40) * 100, 100)}%` }}
-              />
-            </div>
-          </div>
-        )}
+
 
         {/* Cart Items Scroll Container */}
         <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-4 cart-content">
@@ -195,10 +166,39 @@ export default function CartDrawer() {
 
         {/* Footer & Go to checkout */}
         {cartItems.length > 0 && (
-          <div className="p-6 border-t border-[#222225] bg-[#131316]/50 flex flex-col gap-4 cart-footer">
-            <div className="flex items-center justify-between text-xs font-sans">
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Sous-total</span>
-              <span className="text-base font-black text-white">{cartTotal.toFixed(2)}€</span>
+          <div className="p-6 border-t border-[#222225] bg-[#131316]/80 flex flex-col gap-4.5 cart-footer select-none">
+            {/* Relocated and redesigned Free Shipping Progress Bar */}
+            <div className="flex flex-col gap-2 p-3 bg-white/[0.02] border border-[#222225] rounded-xl font-sans cart-footer-promo">
+              <div className="flex items-center justify-between text-[11px] font-bold">
+                {cartTotal < 40 ? (
+                  <>
+                    <span className="text-gray-300 cart-footer-promo-text">
+                      Plus que <strong className="text-[#ff4f00] text-xs">{(40 - cartTotal).toFixed(2)}€</strong> pour la livraison offerte !
+                    </span>
+                    <span className="text-[#ff4f00] animate-bounce">🚀</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-emerald-400 flex items-center gap-1 font-extrabold uppercase tracking-wide text-[10px]">
+                      🎉 Livraison offerte active !
+                    </span>
+                    <span className="text-emerald-400 font-extrabold uppercase tracking-wider text-[9px] bg-emerald-400/10 px-2 py-0.5 rounded border border-emerald-400/20">Offerte</span>
+                  </>
+                )}
+              </div>
+              <div className="w-full bg-[#222225] h-2 rounded-full overflow-hidden cart-footer-progress-bg">
+                <div
+                  className={`h-full rounded-full transition-all duration-700 ${
+                    cartTotal < 40 ? "bg-gradient-to-r from-[#ff4f00]/60 to-[#ff4f00]" : "bg-emerald-400 shadow-[0_0_10px_#34d399]"
+                  }`}
+                  style={{ width: `${Math.min((cartTotal / 40) * 100, 100)}%` }}
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between text-xs font-sans mt-0.5">
+              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider total-title">Sous-total</span>
+              <span className="text-base font-black text-white total-value">{cartTotal.toFixed(2)}€</span>
             </div>
 
             <button

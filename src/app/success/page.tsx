@@ -15,6 +15,7 @@ function SuccessPageContent() {
 
   const [realOrderId, setRealOrderId] = useState<string | null>(null);
   const [loadingOrder, setLoadingOrder] = useState<boolean>(!!sessionId);
+  const [loyaltyCard, setLoyaltyCard] = useState<any | null>(null);
 
   // Clear cart when payment success page loads
   useEffect(() => {
@@ -35,6 +36,9 @@ function SuccessPageContent() {
           const data = await res.json();
           if (data.orderId) {
             setRealOrderId(data.orderId);
+            if (data.loyaltyCard) {
+              setLoyaltyCard(data.loyaltyCard);
+            }
             setLoadingOrder(false);
             return;
           }
@@ -109,6 +113,120 @@ function SuccessPageContent() {
             </span>
           </div>
         </div>
+
+        {/* Loyalty Card widget */}
+        {loyaltyCard && (() => {
+          // Charger la configuration des cadeaux depuis le localStorage si disponible (sinon fallback)
+          const currentRewards: Record<number, string> = {
+            20: "Porte-clés Clavier Mécanique ⌨️",
+            40: "Boîte Canette Cachette Secrète 🥫",
+            60: "Capsule Mystère 🧪",
+            100: "Super Lot Mystère 🎁"
+          };
+          if (typeof window !== "undefined") {
+            try {
+              const saved = localStorage.getItem("spoolio_loyalty_rewards");
+              if (saved) {
+                const parsed = JSON.parse(saved);
+                Object.keys(parsed).forEach(k => {
+                  const pts = parseInt(k);
+                  if (parsed[pts]?.text) {
+                    currentRewards[pts] = parsed[pts].text;
+                  }
+                });
+              }
+            } catch (e) {}
+          }
+
+          const getNextRewardDetails = (points: number) => {
+            if (points < 20) {
+              return { target: 20, text: currentRewards[20], diff: 20 - points };
+            } else if (points < 40) {
+              return { target: 40, text: currentRewards[40], diff: 40 - points };
+            } else if (points < 60) {
+              return { target: 60, text: currentRewards[60], diff: 60 - points };
+            } else if (points < 100) {
+              return { target: 100, text: currentRewards[100], diff: 100 - points };
+            }
+            return null;
+          };
+
+          const getPointsAdded = () => {
+            if (!loyaltyCard || !realOrderId) return null;
+            const latestEvent = loyaltyCard.history?.[0];
+            if (latestEvent && latestEvent.reason?.includes(realOrderId)) {
+              return latestEvent.points;
+            }
+            return null;
+          };
+
+          const pointsAdded = getPointsAdded();
+          const nextReward = getNextRewardDetails(loyaltyCard.points);
+          const progressPercent = nextReward ? Math.min(100, (loyaltyCard.points / nextReward.target) * 100) : 100;
+
+          return (
+            <div className="w-full bg-gradient-to-br from-[#ff4f00]/10 via-[#2F3CD9]/10 to-black border border-[#ff4f00]/20 rounded-2xl p-5 mb-8 text-left font-sans shadow-xl relative overflow-hidden group select-none">
+              {/* Background lighting */}
+              <div className="absolute top-0 right-0 w-24 h-24 rounded-full bg-[#ff4f00]/10 filter blur-[20px] pointer-events-none" />
+              
+              {/* Header info */}
+              <div className="flex items-center gap-2 mb-3.5">
+                <span className="text-lg">⚡</span>
+                <div>
+                  <h4 className="text-sm font-black text-white uppercase tracking-tight">
+                    Carte Super-Fan Connectée
+                  </h4>
+                  <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">
+                    Badge ID: {loyaltyCard.id}
+                  </p>
+                </div>
+              </div>
+
+              {/* Points won indicator */}
+              <p className="text-xs text-gray-300 mb-4 leading-relaxed font-sans">
+                Merci <span className="font-bold text-white">{loyaltyCard.customerName || "l'ami"}</span> ! 
+                {pointsAdded && (
+                  <> Ton achat vient de créditer <span className="font-black text-[#ff4f00] text-sm px-1">{pointsAdded} points</span> sur ta carte.</>
+                )} Solde actuel : <span className="font-black text-white">{loyaltyCard.points} pts</span>.
+              </p>
+
+              {/* Progress bar */}
+              {nextReward && (
+                <div className="space-y-2 mb-4 font-sans">
+                  <div className="flex justify-between items-center text-[10px] font-bold text-gray-400">
+                    <span>PROGRÈS VERS PALIER {nextReward.target} PTS</span>
+                    <span className="text-white font-extrabold">{loyaltyCard.points} / {nextReward.target} PTS</span>
+                  </div>
+                  
+                  {/* Visual Bar */}
+                  <div className="w-full h-2.5 bg-white/5 border border-white/5 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-gradient-to-r from-[#ff4f00] to-[#ff9f1c] rounded-full transition-all duration-1000"
+                      style={{ width: `${progressPercent}%` }}
+                    />
+                  </div>
+
+                  {/* Reward detail */}
+                  <p className="text-[11px] text-gray-400 leading-normal flex items-start gap-1 font-sans">
+                    <span>🎁</span>
+                    <span>
+                      Plus que <strong className="text-white">{nextReward.diff} points</strong> avant de débloquer : <strong className="text-[#ff4f00]">{nextReward.text}</strong> !
+                    </span>
+                  </p>
+                </div>
+              )}
+
+              {/* CTA to interactive 3D Card */}
+              <Link 
+                href={`/loyalty/${loyaltyCard.id}`}
+                className="inline-flex items-center gap-1.5 text-xs text-[#ff4f00] hover:text-white font-bold transition-colors cursor-pointer group-hover:underline font-sans"
+              >
+                <span>Consulter ma carte 3D interactive</span>
+                <span className="transition-transform group-hover:translate-x-1">→</span>
+              </Link>
+            </div>
+          );
+        })()}
 
         {/* Simulation Banner warning */}
         {isSimulated && (

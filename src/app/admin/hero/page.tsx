@@ -38,7 +38,7 @@ export default function HeroCustomizerPage() {
       const res = await fetch("/api/admin/hero");
       if (res.ok) {
         const data = await res.json();
-        setHeroConfig(data.hero || {
+        setHeroConfig(data.config || {
           title: "",
           subtitle: "",
           buttonText: "",
@@ -98,7 +98,7 @@ export default function HeroCustomizerPage() {
       const res = await fetch("/api/admin/hero", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ hero: heroConfig }),
+        body: JSON.stringify(heroConfig),
       });
       if (res.ok) {
         setHeroSuccess("Configuration enregistrée avec succès !");

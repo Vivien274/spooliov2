@@ -30,64 +30,81 @@ interface AdminOrder {
   createdAt: string;
 }
 
-const modules = [
-  {
-    title: "Gestion des produits",
-    description: "Créer, modifier et supprimer des produits. Gérer les variations, prix, photos et données SEO.",
-    href: "/admin/products",
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-      </svg>
-    ),
-    color: ADMIN_BLUE,
-    stats: [
-      { label: "Produits actifs", value: "207" },
-      { label: "Catégories", value: "20" },
-      { label: "En promo", value: "Oui" },
-    ],
-    cta: "Gérer les produits",
-  },
-  {
-    title: "Commandes clients",
-    description: "Suivre les commandes, modifier le statut de livraison (attente impression, expédié...) et voir les relais Mondial Relay.",
-    href: "/admin/orders",
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-      </svg>
-    ),
-    color: "#e11d48",
-    stats: [
-      { label: "Suivi des ventes", value: "Actif" },
-      { label: "Stripe", value: "Connecté" },
-    ],
-    cta: "Voir les commandes",
-  },
-  {
-    title: "Modération des avis",
-    description: "Valider les avis des acheteurs ou supprimer les spams pour les afficher sur la boutique.",
-    href: "/admin/reviews",
-    icon: (
-      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-      </svg>
-    ),
-    color: "#d97706",
-    stats: [
-      { label: "Avis modérés", value: "En direct" },
-      { label: "Contrôle spam", value: "Actif" },
-    ],
-    cta: "Modérer les avis",
-  },
-];
-
 export default function AdminDashboard() {
   const { cls } = useAdminTheme();
   const [activeTab, setActiveTab] = useState<"dashboard" | "stats" | "printers">("dashboard");
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loadingOrders, setLoadingOrders] = useState<boolean>(true);
   const [statusChangeLoading, setStatusChangeLoading] = useState<string | null>(null);
+  const [donationTiersCount, setDonationTiersCount] = useState<number | null>(null);
+
+  const modules = [
+    {
+      title: "Gestion des produits",
+      description: "Créer, modifier et supprimer des produits. Gérer les variations, prix, photos et données SEO.",
+      href: "/admin/products",
+      icon: (
+        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+        </svg>
+      ),
+      color: ADMIN_BLUE,
+      stats: [
+        { label: "Produits actifs", value: "207" },
+        { label: "Catégories", value: "20" },
+        { label: "En promo", value: "Oui" },
+      ],
+      cta: "Gérer les produits",
+    },
+    {
+      title: "Commandes clients",
+      description: "Suivre les commandes, modifier le statut de livraison (attente impression, expédié...) et voir les relais Mondial Relay.",
+      href: "/admin/orders",
+      icon: (
+        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg>
+      ),
+      color: "#e11d48",
+      stats: [
+        { label: "Suivi des ventes", value: "Actif" },
+        { label: "Stripe", value: "Connecté" },
+      ],
+      cta: "Voir les commandes",
+    },
+    {
+      title: "Configuration des Dons",
+      description: "Gérer les différents paliers d'entraide (Café, Buse, Plateau PEI...) affichés aux clients sur la boutique.",
+      href: "/admin/don",
+      icon: (
+        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      color: "#0d9488",
+      stats: [
+        { label: "Paliers actifs", value: donationTiersCount === null ? "..." : donationTiersCount.toString() },
+        { label: "Don libre", value: "Actif" },
+      ],
+      cta: "Gérer les dons",
+    },
+    {
+      title: "Modération des avis",
+      description: "Valider les avis des acheteurs ou supprimer les spams pour les afficher sur la boutique.",
+      href: "/admin/reviews",
+      icon: (
+        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+      ),
+      color: "#d97706",
+      stats: [
+        { label: "Avis modérés", value: "En direct" },
+        { label: "Contrôle spam", value: "Actif" },
+      ],
+      cta: "Modérer les avis",
+    },
+  ];
 
   const handleExportBoxtalCSV = () => {
     const shippableOrders = orders.filter(o => o.shippingMethod !== "pickup");
@@ -240,6 +257,18 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchDonationTiersCount = async () => {
+    try {
+      const res = await fetch("/api/don/tiers");
+      if (res.ok) {
+        const data = await res.json();
+        setDonationTiersCount(data?.length || 0);
+      }
+    } catch (e) {
+      console.error("Failed to load donation tiers count:", e);
+    }
+  };
+
   const handleUpdatePrinterStatus = async (id: number, status: string) => {
     try {
       const res = await fetch("/api/admin/printers", {
@@ -260,6 +289,7 @@ export default function AdminDashboard() {
     fetchOrders();
     fetchVisitsStats();
     fetchPrinters();
+    fetchDonationTiersCount();
   }, []);
 
   const handleUpdateStatus = async (orderId: string, newStatus: string) => {
@@ -354,8 +384,8 @@ export default function AdminDashboard() {
             ))}
           </div>
 
-          {/* 3 Main Modules */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* 4 Main Modules */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {modules.map((mod) => (
               <div key={mod.href} className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 flex flex-col gap-5 transition-colors duration-300 hover:border-white/10`}>
                 <div className="flex items-start gap-4">

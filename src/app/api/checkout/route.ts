@@ -19,14 +19,20 @@ export async function POST(request: Request) {
       stripeKey = stripeKey.trim().replace(/[\s\r\n↵\u2195]/g, "");
     }
     
+    const isPureDonation = items.every((item: any) => 
+      item.id === -1 || 
+      item.id === -2 || 
+      item.id === -3 || 
+      (typeof item.id === 'string' && item.id.startsWith("don-"))
+    );
+
     // Fallback simulation in dev mode if Stripe keys are missing
     if (!stripeKey) {
       console.log("[Dev Mode] Stripe API keys are missing. Creating simulated order...");
       
       const orderId = `SP-${Math.floor(10000 + Math.random() * 90000)}`;
       const cartTotal = items.reduce((acc: number, item: any) => acc + parseFloat(item.price) * item.quantity, 0);
-      const isFreeShipping = cartTotal >= 40;
-      const cost = shippingMethod === "pickup" ? 0 : (isFreeShipping ? 0 : (shippingMethod === "relay" ? 3.90 : 4.90));
+      const cost = isPureDonation ? 0 : (shippingMethod === "pickup" ? 0 : (cartTotal >= 40 ? 0 : (shippingMethod === "relay" ? 3.90 : 4.90)));
 
       const purchasedItems = items.map((item: any) => {
         const optionsText = Object.entries(item.selectedOptions || {})
@@ -48,11 +54,11 @@ export async function POST(request: Request) {
         items: JSON.stringify(purchasedItems),
         total: cartTotal + cost,
         shippingCost: cost,
-        shippingMethod: shippingMethod || "home",
-        status: "attente_impression",
-        relayDetails: shippingMethod === "relay" && selectedRelay ? JSON.stringify(selectedRelay) : null,
-        pickupSlotRequested: shippingMethod === "pickup" ? pickupSlot : null,
-        pickupStatus: shippingMethod === "pickup" ? "pending" : null,
+        shippingMethod: isPureDonation ? "don_soutien" : (shippingMethod || "home"),
+        status: isPureDonation ? "don_soutien" : "attente_impression",
+        relayDetails: !isPureDonation && shippingMethod === "relay" && selectedRelay ? JSON.stringify(selectedRelay) : null,
+        pickupSlotRequested: !isPureDonation && shippingMethod === "pickup" ? pickupSlot : null,
+        pickupStatus: !isPureDonation && shippingMethod === "pickup" ? "pending" : null,
         createdAt: new Date().toISOString()
       };
 
@@ -113,7 +119,6 @@ export async function POST(request: Request) {
           currency: "eur",
           product_data: {
             name: name,
-            // Fallback default image link if item.image is a local path
             images: item.image && item.image.startsWith("http") ? [item.image] : [],
           },
           unit_amount: Math.round(parseFloat(item.price) * 100), // Stripe expects amounts in cents
@@ -130,7 +135,7 @@ export async function POST(request: Request) {
     const isFreeShipping = cartTotal >= 40;
 
     // Add shipping cost line item to Stripe Checkout if applicable
-    if (shippingMethod !== "pickup" && !isFreeShipping) {
+    if (!isPureDonation && shippingMethod !== "pickup" && !isFreeShipping) {
       const isRelay = shippingMethod === "relay";
       const shippingLabel = isRelay
         ? "Frais de livraison - Point Relais Mondial Relay (Boxtal)"
@@ -157,20 +162,22 @@ export async function POST(request: Request) {
     body.append("allow_promotion_codes", "true");
     
     // Append billing & shipping address collection if delivery is required
-    if (shippingMethod !== "pickup") {
+    if (!isPureDonation && shippingMethod !== "pickup") {
       body.append("shipping_address_collection[allowed_countries][0]", "FR");
       body.append("shipping_address_collection[allowed_countries][1]", "BE");
     }
 
     // Append metadata to track shipping details dynamically in Stripe/Boxtal
-    body.append("metadata[shipping_method]", shippingMethod || "home");
-    if (shippingMethod === "relay" && selectedRelay) {
-      body.append("metadata[relay_id]", selectedRelay.id || "");
-      body.append("metadata[relay_name]", selectedRelay.name || "");
-      body.append("metadata[relay_address]", `${selectedRelay.address}, ${selectedRelay.cp} ${selectedRelay.ville}`);
-    }
-    if (shippingMethod === "pickup" && pickupSlot) {
-      body.append("metadata[pickup_slot]", pickupSlot);
+    body.append("metadata[shipping_method]", isPureDonation ? "don_soutien" : (shippingMethod || "home"));
+    if (!isPureDonation) {
+      if (shippingMethod === "relay" && selectedRelay) {
+        body.append("metadata[relay_id]", selectedRelay.id || "");
+        body.append("metadata[relay_name]", selectedRelay.name || "");
+        body.append("metadata[relay_address]", `${selectedRelay.address}, ${selectedRelay.cp} ${selectedRelay.ville}`);
+      }
+      if (shippingMethod === "pickup" && pickupSlot) {
+        body.append("metadata[pickup_slot]", pickupSlot);
+      }
     }
 
     // Append items parameters

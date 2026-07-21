@@ -166,12 +166,22 @@ export default async function Home() {
         <Header className="absolute top-0 left-0 right-0 h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full no-invert" />
 
         {/* Hero Background Panel */}
-        <div
-          className="relative w-full aspect-[2.1/1] min-h-[360px] md:min-h-[500px] flex flex-col items-center justify-center text-center p-6 bg-cover no-invert"
-          style={{ backgroundImage: `url('${hero.imageUrl}')`, backgroundPosition: hero.imagePosition || 'center center' }}
-        >
+        <div className="relative w-full aspect-[2.1/1] min-h-[360px] md:min-h-[500px] flex flex-col items-center justify-center text-center p-6 no-invert">
+          {/* Next.js Optimized Image (WebP format by default, priority LCP load) */}
+          {hero.imageUrl && (
+            <Image
+              src={hero.imageUrl}
+              alt="Spoolio Hero Background"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover pointer-events-none select-none z-0 no-invert"
+              style={{ objectPosition: hero.imagePosition || "center center" }}
+            />
+          )}
+
           {/* Dark visual overlay for contrast */}
-          <div className="absolute inset-0 bg-black/35" />
+          <div className="absolute inset-0 bg-black/35 z-0" />
 
           <div className="relative z-10 flex flex-col items-center gap-1.5 md:gap-3 max-w-xl mt-14 animate-reveal">
             <h1 className="text-4xl sm:text-5xl md:text-[64px] font-extrabold uppercase tracking-tight text-white font-antonio leading-none home-hero-text">
@@ -226,7 +236,7 @@ export default async function Home() {
                 href="https://www.instagram.com/spoolio.fr/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 hover:bg-gradient-to-tr hover:from-yellow-500 hover:via-pink-500 hover:to-purple-500 hover:border-transparent group/insta"
+                className="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] border border-transparent flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 group/insta shadow-lg shadow-pink-500/10 no-invert"
                 title="Instagram"
               >
                 <svg className="w-5 h-5 transition-transform duration-300 group-hover/insta:rotate-12" fill="currentColor" viewBox="0 0 24 24">
@@ -239,7 +249,7 @@ export default async function Home() {
                 href="https://www.tiktok.com/@spoolio.fr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 hover:bg-black hover:border-cyan-400 group/tiktok shadow-[0_0_15px_rgba(37,244,238,0)] hover:shadow-[0_0_15px_rgba(37,244,238,0.3)]"
+                className="w-12 h-12 rounded-xl bg-black border border-white/20 flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 group/tiktok shadow-lg shadow-white/5 hover:border-cyan-400 no-invert"
                 title="TikTok"
               >
                 <svg className="w-5 h-5 transition-transform duration-300 group-hover/tiktok:-rotate-12" fill="currentColor" viewBox="0 0 24 24">
@@ -247,11 +257,12 @@ export default async function Home() {
                 </svg>
               </a>
 
+              {/* Facebook */}
               <a
                 href="https://www.facebook.com/spoolio.fr/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 hover:bg-[#1877f2] hover:border-transparent group/fb"
+                className="w-12 h-12 rounded-xl bg-[#1877f2] border border-transparent flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 group/fb shadow-lg shadow-blue-500/10 no-invert"
                 title="Facebook"
               >
                 <svg className="w-5 h-5 transition-transform duration-300 group-hover/fb:scale-110" fill="currentColor" viewBox="0 0 24 24">
@@ -369,6 +380,36 @@ export default async function Home() {
             </div>
           </div>
           <SpoolioProductGrid filterType="best-of" limit={3} showFilters={false} compact={true} />
+        </div>
+
+        {/* Donation Call-to-action Ribbon (Voyant & Premium) */}
+        <div className="relative rounded-3xl p-8 bg-gradient-to-r from-[#ff4f00]/10 via-[#131316]/90 to-[#131316]/90 border border-[#ff4f00]/30 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_0_30px_rgba(255,79,0,0.1)] backdrop-blur-md font-sans group hover:border-[#ff4f00]/50 hover:shadow-[0_0_40px_rgba(255,79,0,0.15)] transition-all duration-500">
+          {/* Permanent Glow in Background */}
+          <div className="absolute -left-12 -top-12 w-48 h-48 rounded-full bg-[#ff4f00]/15 blur-3xl pointer-events-none animate-pulse" />
+          <div className="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-[#ff4f00]/10 blur-3xl pointer-events-none" />
+          
+          <div className="relative z-10 flex flex-col md:flex-row items-center gap-5 text-center md:text-left">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#ff4f00] to-[#e04500] flex items-center justify-center shrink-0 shadow-lg shadow-[#ff4f00]/20 select-none animate-bounce">
+              <span className="text-2xl">🧡</span>
+            </div>
+            <div className="space-y-1.5 max-w-xl">
+              <h4 className="text-[23px] font-black text-white tracking-wide uppercase font-antonio flex flex-wrap items-center justify-center md:justify-start gap-2 leading-none">
+                <span>Aider l'Atelier à s'équiper</span>
+                <span className="inline-block px-2 py-0.5 rounded-full text-[8px] font-black tracking-widest bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30 animate-pulse no-invert">PROJET LOCAL</span>
+              </h4>
+              <p className="text-xs text-gray-400 leading-relaxed font-sans font-medium">
+                Spoolio est un projet artisanal et éco-responsable. Vous pouvez soutenir nos investissements matériels (buses neuves, plateaux d'impression, entretien des machines) en choisissant un palier d'aide.
+              </p>
+            </div>
+          </div>
+
+          <Link
+            href="/don"
+            className="relative z-10 shrink-0 h-13 px-8 rounded-xl bg-[#ff4f00] hover:bg-[#e04500] text-white font-black text-xs uppercase tracking-wider transition-all shadow-xl shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 no-invert"
+          >
+            <span>Soutenir l'Atelier</span>
+            <span className="transition-transform duration-300 group-hover:translate-x-1 text-sm">&rarr;</span>
+          </Link>
         </div>
 
         {/* Section 3: Tout le Catalogue */}

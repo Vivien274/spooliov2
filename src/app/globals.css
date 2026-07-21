@@ -970,4 +970,26 @@ html.light .gravity-dot {
   }
 }
 
+/* Theme light overrides for redesigned cart footer progress bar */
+html.light .cart-footer-promo {
+  background-color: rgba(0, 0, 0, 0.02) !important;
+  border-color: #e2e2e9 !important;
+}
+html.light .cart-footer-promo-text {
+  color: #374151 !important;
+}
+html.light .cart-footer-progress-bg {
+  background-color: #e4e4e7 !important;
+}
+
+/* Theme light overrides for donation input */
+html.light .donation-input {
+  background-color: #f3f4f6 !important;
+  border-color: #e2e2e9 !important;
+  color: #121212 !important;
+}
+html.light .donation-input::placeholder {
+  color: #9ca3af !important;
+}
+
 

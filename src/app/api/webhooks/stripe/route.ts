@@ -120,7 +120,8 @@ export async function POST(request: Request) {
         console.log(`[Stripe Success] Création de la commande réelle en base: ${orderId} (${email})`);
 
         // Insert order inside MySQL o2switch database
-        const shippingCost = shippingMethod === "pickup" ? 0 : (shippingMethod === "relay" ? 3.90 : 4.90);
+        const isDonation = shippingMethod === "don_soutien";
+        const shippingCost = isDonation ? 0 : (shippingMethod === "pickup" ? 0 : (shippingMethod === "relay" ? 3.90 : 4.90));
         const newOrderData = {
           id: orderId,
           stripeSession: sessionId,
@@ -132,10 +133,10 @@ export async function POST(request: Request) {
           total: total,
           shippingCost: shippingCost,
           shippingMethod: shippingMethod,
-          status: "attente_impression",
+          status: isDonation ? "don_soutien" : "attente_impression",
           relayDetails: relayDetails,
-          pickupSlotRequested: shippingMethod === "pickup" ? pickupSlot : null,
-          pickupStatus: shippingMethod === "pickup" ? "pending" : null,
+          pickupSlotRequested: !isDonation && shippingMethod === "pickup" ? pickupSlot : null,
+          pickupStatus: !isDonation && shippingMethod === "pickup" ? "pending" : null,
           createdAt: new Date().toISOString()
         };
 
@@ -158,6 +159,62 @@ export async function POST(request: Request) {
               pickupStatus: newOrderData.pickupStatus
             }
           });
+
+          // Loyalty Cards Point Credits (Option 1: Link automatically by email)
+          let pointsGagnes = 0;
+          try {
+            const parsedItems = JSON.parse(itemsSummary || "[]");
+            // Calculate eligible total (exclude shipping fees and items with "Don de soutien" or similar)
+            const eligibleTotal = parsedItems
+              .filter((item: any) => !item.name.toLowerCase().includes("don de soutien"))
+              .reduce((acc: number, item: any) => acc + (parseFloat(item.price) * item.quantity), 0);
+            
+            pointsGagnes = Math.floor(eligibleTotal / 2);
+          } catch (e) {
+            pointsGagnes = Math.floor((total - shippingCost) / 2);
+          }
+
+          if (pointsGagnes > 0 && email) {
+            try {
+              const cleanEmail = email.trim().toLowerCase();
+              const card = await prisma.loyaltyCard.findFirst({
+                where: {
+                  customerEmail: {
+                    equals: cleanEmail,
+                    mode: "insensitive"
+                  }
+                }
+              });
+
+              if (card) {
+                const currentHistory = typeof card.history === "string" 
+                  ? JSON.parse(card.history)
+                  : (Array.isArray(card.history) ? card.history : []);
+                  
+                const nextHistory = [
+                  {
+                    date: new Date().toISOString(),
+                    points: `+${pointsGagnes}`,
+                    reason: `Achat Commande ${orderId}`
+                  },
+                  ...currentHistory
+                ];
+
+                await prisma.loyaltyCard.update({
+                  where: { id: card.id },
+                  data: {
+                    points: card.points + pointsGagnes,
+                    history: JSON.stringify(nextHistory)
+                  }
+                });
+                console.log(`[Loyalty Webhook] Credited +${pointsGagnes} points to card ${card.id} (${cleanEmail})`);
+              } else {
+                console.log(`[Loyalty Webhook] No loyalty card found for email: ${cleanEmail}`);
+              }
+            } catch (loyaltyErr: any) {
+              console.error("[Loyalty Webhook Error] Failed to credit points:", loyaltyErr.message);
+            }
+          }
         } catch (dbErr: any) {
           console.error("[Webhook Database Error] Failed to write order to database:", dbErr.message);
         }

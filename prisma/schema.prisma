@@ -125,3 +125,27 @@ model Printer {
   name   String @unique
   status String @default("Active") // Active | En veille | En panne
 }
+
+model DonationTier {
+  id          String   @id @default(uuid())
+  amount      Int
+  title       String
+  subtitle    String
+  description String   @db.Text
+  emoji       String
+  color       String   @default("orange") // orange | blue
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model LoyaltyCard {
+  id            String   @id @default(uuid())
+  customerName  String?  @map("customer_name")
+  customerEmail String?  @map("customer_email")
+  points        Int      @default(0)
+  maxPoints     Int      @default(100) @map("max_points")
+  createdAt     DateTime @default(now()) @map("created_at")
+  history       Json     @default("[]")
+
+  @@map("loyalty_cards")
+}

@@ -37,6 +37,34 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
   const [isLightboxOpen, setIsLightboxOpen] = useState<boolean>(false);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState<boolean>(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+  // Swipe states for mobile image gallery
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
+  const [isAdded, setIsAdded] = useState<boolean>(false);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEndX(null);
+    setTouchStartX(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX || !touchEndX || !product || !product.images || product.images.length <= 1) return;
+    const distance = touchStartX - touchEndX;
+    const minSwipeDistance = 50;
+    if (distance > minSwipeDistance) {
+      // Swipe left -> Next image
+      setActiveImageIndex(prev => (prev === product.images.length - 1 ? 0 : prev + 1));
+    } else if (distance < -minSwipeDistance) {
+      // Swipe right -> Previous image
+      setActiveImageIndex(prev => (prev === 0 ? product.images.length - 1 : prev - 1));
+    }
+  };
 
   // Reviews states
   const [reviews, setReviews] = useState<any[]>([]);
@@ -414,6 +442,8 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
       selectedOptions: selectedOptions,
       image: product.images[0]?.src || ""
     }, quantity);
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
   };
 
   return (
@@ -458,7 +488,10 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
             <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-black/40 border border-spoolio-border p-2 animate-none">
               <div
                 onClick={() => setIsLightboxOpen(true)}
-                className="relative w-full h-full rounded-xl overflow-hidden bg-spoolio-card cursor-zoom-in"
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
+                className="relative w-full h-full rounded-xl overflow-hidden bg-spoolio-card cursor-zoom-in select-none touch-pan-y"
               >
                 {hasImage ? (
                   <Image
@@ -621,42 +654,63 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                     const getCssColor = (colorName: string) => {
                       const cName = colorName.toLowerCase().trim();
                       const colorMap: Record<string, string> = {
+                        "arc en ciel": "conic-gradient(#ff0000 0deg, #ff7f00 45deg, #ffff00 90deg, #00ff00 135deg, #0000ff 180deg, #4b0082 225deg, #8b00ff 270deg, #ff0000 360deg)",
+                        "bicolore bleu-rose": "linear-gradient(135deg, #58a6ff 50%, #ff66cc 50%)",
+                        "bicolore bleu clair – rose": "linear-gradient(135deg, #58a6ff 50%, #ff66cc 50%)",
+                        "bicolore bleu-vert": "linear-gradient(135deg, #2563eb 50%, #2ebd59 50%)",
+                        "bicolore bleu-violet mat": "linear-gradient(135deg, #2c3e50 50%, #8e44ad 50%)",
+                        "bicolore bleu-violet": "linear-gradient(135deg, #00c6ff 50%, #a32eff 50%)",
+                        "bicolore or-rouge": "linear-gradient(135deg, #ffd700 50%, #ff2a2a 50%)",
+                        "bicolore or-argent": "linear-gradient(135deg, #ffd700 50%, #cfd9df 50%)",
+                        "bicolore rose-violet": "linear-gradient(135deg, #ff66cc 50%, #a32eff 50%)",
+                        "bicolore": "linear-gradient(to right, #ff4f00 50%, #a32eff 50%)",
+                        "rouge feu (dégradé)": "linear-gradient(to bottom, #ff4f00, #dc2626)",
+                        "feu": "radial-gradient(circle, #facc15 0%, #f97316 60%, #dc2626 100%)",
+                        "noir pailleté": "linear-gradient(135deg, #151518 0%, #35353a 100%)",
+                        "gris pailleté": "linear-gradient(135deg, #7f8c8d 0%, #a5b1b2 100%)",
+                        "vert foncé pailleté": "linear-gradient(135deg, #114220 0%, #246d3a 100%)",
+                        "argenté (reflets métal)": "linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%)",
+                        "argenté": "linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%)",
+                        "argent": "linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%)",
+                        "bois (imitation chêne)": "#a0785a",
+                        "bois": "#a0785a",
+                        "imitation roche": "#8c8c82",
+                        "roche": "#8c8c82",
+                        "marbre": "#f5f6f8",
+                        "phosphorescent": "#e0ffe0",
+                        "transparent": "rgba(255, 255, 255, 0.15)",
                         "blanc": "#ffffff",
                         "noir": "#121214",
-                        "noir pailleté": "linear-gradient(135deg, #121214 0%, #34343a 100%)",
-                        "argenté": "linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%)",
-                        "argent": "linear-gradient(135deg, #cfd9df 0%, #e2ebf0 100%)",
-                        "doré": "linear-gradient(135deg, #f6d365 0%, #fda085 100%)",
-                        "doré brillant": "linear-gradient(135deg, #f6d365 0%, #fda085 100%)",
-                        "bleu": "#005cff",
-                        "bleu clair": "#58a6ff",
-                        "bleu marine": "#0d1b2a",
-                        "jaune": "#f7eb12",
-                        "rouge": "#ff2a2a",
-                        "rouge brillant": "linear-gradient(135deg, #ff2a2a 0%, #b30000 100%)",
+                        "gris": "#7f8c8d",
+                        "beige (cacahuète)": "#c8a87a",
+                        "beige": "#c8a87a",
+                        "jaune soleil": "#f59e0b",
+                        "jaune": "#facc15",
+                        "orange pêche": "#ffb085",
+                        "orange translucide": "rgba(249, 115, 22, 0.4)",
                         "orange": "#ff4f00",
-                        "orange / rouge brillant": "linear-gradient(135deg, #ff4f00 0%, #ff2a2a 100%)",
-                        "rose": "#ff66cc",
                         "rose poudré": "#ffb7c5",
                         "rose pâle": "#ffd1dc",
-                        "vert": "#2ebd59",
+                        "rose": "#ff66cc",
+                        "rouge brique": "#9b2335",
+                        "rouge": "#ff2a2a",
                         "vert fluo / pomme": "#66ff33",
+                        "vert fluo": "#66ff33",
                         "vert foncé": "#134e1e",
-                        "vert menthe": "#a2f2c8",
+                        "vert pâle": "#86efac",
+                        "vert": "#2ebd59",
                         "violet": "#a32eff",
-                        "phosphorescent": "linear-gradient(135deg, #e0ffe0 0%, #a0ffa0 100%)",
-                        "transparent": "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.2) 100%)",
-                        "bicolore or-rouge": "linear-gradient(to right, #ffd700 50%, #ff2a2a 50%)",
-                        "bicolore bleu-violet": "linear-gradient(to right, #00c6ff 50%, #a32eff 50%)",
-                        "bicolore bleu-rose": "linear-gradient(to right, #58a6ff 50%, #ff66cc 50%)",
-                        "bicolore bleu-vert": "linear-gradient(to right, #2563eb 50%, #2ebd59 50%)",
-                        "bicolore or-argent": "linear-gradient(to right, #ffd700 50%, #cfd9df 50%)",
-                        "bicolore rose-violet": "linear-gradient(to right, #ff66cc 50%, #a32eff 50%)",
-                        "bicolore": "linear-gradient(to right, #ff4f00 50%, #a32eff 50%)",
-                        "arc en ciel": "linear-gradient(135deg, #ff0000 0%, #ffff00 33%, #00ff00 66%, #0000ff 100%)",
+                        "bleu canard": "#008080",
+                        "bleu marine": "#0d1b2a",
+                        "bleu turquoise": "#06b6d4",
+                        "bleu clair": "#58a6ff",
+                        "bleu": "#005cff",
+                        "marron clair": "#a0785a",
+                        "marron moyen": "#7d4f35",
+                        "marron foncé": "#5c3d2e",
                       };
                       for (const key of Object.keys(colorMap)) {
-                        if (cName.includes(key)) return colorMap[key];
+                        if (cName === key || cName.includes(key)) return colorMap[key];
                       }
                       return "#ff4f00"; // fallback
                     };
@@ -664,7 +718,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                     const showPaletteLink = name === firstColorAttributeName;
 
                     return (
-                      <div key={name} className="flex flex-col gap-2">
+                      <div key={name} className="relative flex flex-col gap-2 w-full">
                         <div className="flex items-center justify-between">
                           <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
                             {decodedName}
@@ -679,34 +733,76 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                             </Link>
                           )}
                         </div>
-                        <div className="flex flex-wrap items-center gap-3">
-                          {options.map((opt: string) => {
-                            const isSelected = selectedVal === opt;
-                            const bg = getCssColor(opt);
-                            return (
-                              <button
-                                key={opt}
-                                onClick={() => handleSelect(opt)}
-                                style={{ background: bg }}
-                                className={`w-9 h-9 rounded-full border border-white/20 transition-all cursor-pointer relative shadow-lg ${
-                                  isSelected
-                                    ? "ring-2 ring-[#ff4f00] ring-offset-2 ring-offset-black scale-110"
-                                    : "hover:scale-105 opacity-80 hover:opacity-100"
-                                } ${opt.toLowerCase().includes("phospho") ? "animate-pulse" : ""}`}
-                                title={opt}
+                        
+                        <div className="relative">
+                          <button
+                            onClick={() => setActiveDropdown(activeDropdown === name ? null : name)}
+                            type="button"
+                            className={`w-full h-12 px-4 rounded-xl bg-spoolio-card border transition-all cursor-pointer text-left flex items-center justify-between focus:outline-none select-none ${
+                              activeDropdown === name ? "border-[#ff4f00] ring-1 ring-[#ff4f00]/25" : "border-spoolio-border/60 hover:border-white/30"
+                            }`}
+                          >
+                            <div className="flex items-center gap-3">
+                              {/* Micro-bobine de la couleur sélectionnée */}
+                              <div 
+                                style={{ background: getCssColor(selectedVal) }} 
+                                className="w-6 h-6 rounded-full border border-white/20 relative shrink-0 shadow-md"
                               >
-                                {/* Center hole to simulate 3D printing spool */}
-                                <div className="absolute inset-[30%] rounded-full border border-black/30 bg-[#111113] shadow-inner flex items-center justify-center pointer-events-none">
-                                  <div className="w-1 h-1 rounded-full bg-black/60" />
-                                </div>
-                                {/* Spool side lines */}
-                                <div className="absolute inset-0 rounded-full border-2 border-white/5 pointer-events-none" />
-                              </button>
-                            );
-                          })}
-                        </div>
-                        <div className="text-[10px] text-gray-400 font-sans min-h-[14px]">
-                          {selectedVal}
+                                <div className="absolute inset-[30%] rounded-full bg-[#111113] border border-black/35 pointer-events-none" />
+                              </div>
+                              <span className="text-sm font-semibold text-white truncate max-w-[220px] md:max-w-xs">{selectedVal || "Choisir une couleur..."}</span>
+                            </div>
+                            <svg 
+                              className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${activeDropdown === name ? "rotate-180 text-white" : ""}`} 
+                              fill="none" 
+                              viewBox="0 0 24 24" 
+                              stroke="currentColor"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </button>
+
+                          {/* Dropdown Options List */}
+                          {activeDropdown === name && (
+                            <>
+                              {/* Background overlay to catch click-away events */}
+                              <div className="fixed inset-0 z-40" onClick={() => setActiveDropdown(null)} />
+                              
+                              <div className="absolute left-0 right-0 mt-2 max-h-60 overflow-y-auto bg-[#141418]/95 border border-spoolio-border/80 rounded-xl shadow-2xl z-50 backdrop-blur-md divide-y divide-white/5 animate-none no-scrollbar">
+                                {options.map((opt: string) => {
+                                  const isOptionSelected = selectedVal === opt;
+                                  const optionBg = getCssColor(opt);
+                                  return (
+                                    <button
+                                      key={opt}
+                                      onClick={() => {
+                                        handleSelect(opt);
+                                        setActiveDropdown(null);
+                                      }}
+                                      type="button"
+                                      className={`w-full px-4 py-3.5 flex items-center gap-3 transition-colors hover:bg-white/[0.04] cursor-pointer text-left ${
+                                        isOptionSelected ? "bg-white/[0.02]" : ""
+                                      }`}
+                                    >
+                                      {/* Micro-bobine de l'option */}
+                                      <div 
+                                        style={{ background: optionBg }} 
+                                        className="w-5 h-5 rounded-full border border-white/10 relative shrink-0"
+                                      >
+                                        <div className="absolute inset-[30%] rounded-full bg-[#111113] pointer-events-none" />
+                                      </div>
+                                      <span className={`text-xs font-semibold flex-1 truncate ${isOptionSelected ? "text-[#ff4f00] font-black" : "text-gray-300"}`}>
+                                        {opt}
+                                      </span>
+                                      {isOptionSelected && (
+                                        <span className="text-xs text-[#ff4f00] font-black select-none">✓</span>
+                                      )}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </>
+                          )}
                         </div>
                       </div>
                     );
@@ -893,10 +989,23 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                   onClick={handleAddToCartClick}
                   onMouseEnter={() => setIsButtonHovered(true)}
                   onMouseLeave={() => setIsButtonHovered(false)}
-                  className="flex-1 h-14 flex items-center justify-center gap-2 text-sm font-bold text-white bg-[#ff4f00] hover:bg-[#e04500] rounded-xl transition-all duration-300 shadow-xl shadow-[#ff4f00]/25 hover:scale-[1.02] cursor-pointer text-center no-invert group"
+                  className={`flex-1 h-14 flex items-center justify-center gap-2 text-sm font-bold text-white rounded-xl transition-all duration-300 shadow-xl cursor-pointer text-center no-invert group ${
+                    isAdded 
+                      ? "bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/25 scale-[0.98]" 
+                      : "bg-[#ff4f00] hover:bg-[#e04500] shadow-[#ff4f00]/25 hover:scale-[1.02]"
+                  }`}
                 >
-                  <UnicornIcon animationData={cartIconData} className="w-10 h-10 scale-[1.8]" isHovered={isButtonHovered} />
-                  Ajouter au panier
+                  {isAdded ? (
+                    <>
+                      <span className="text-base select-none animate-bounce">✓</span>
+                      Ajouté au panier !
+                    </>
+                  ) : (
+                    <>
+                      <UnicornIcon animationData={cartIconData} className="w-10 h-10 scale-[1.8]" isHovered={isButtonHovered} />
+                      Ajouter au panier
+                    </>
+                  )}
                 </button>
               )}
             </div>
@@ -915,6 +1024,23 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                   </p>
                 </div>
               </div>
+
+              {/* Loyalty Points Credit Estimation */}
+              {parseFloat(currentPrice) >= 2 && (
+                <div className="flex items-start gap-3 text-xs text-gray-400 font-sans leading-relaxed bg-[#ff4f00]/5 p-3.5 rounded-2xl border border-[#ff4f00]/25 relative overflow-hidden group select-none transition-all duration-300 hover:border-[#ff4f00]/40">
+                  {/* Background light glow */}
+                  <div className="absolute top-0 right-0 w-16 h-16 rounded-full bg-[#ff4f00]/5 filter blur-[15px] pointer-events-none" />
+                  <span className="text-lg shrink-0 select-none text-[#ff4f00] animate-pulse">⚡</span>
+                  <div>
+                    <p className="text-gray-300 font-bold">
+                      Carte de fidélité : <span className="text-[#ff4f00] font-black">+{Math.floor(parseFloat(currentPrice) / 2)} points</span> sur cette commande !
+                    </p>
+                    <p className="text-[10px] text-gray-500 mt-0.5">
+                      Cumule 2€ = 1 point (hors dons/livraison) et débloque tes cadeaux exclusifs à l'atelier.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               {/* Trust Badges Grid */}
               <div className="grid grid-cols-2 gap-3 text-[11px] font-bold tracking-tight text-gray-300 font-sans">

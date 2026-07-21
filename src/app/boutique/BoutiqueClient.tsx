@@ -19,12 +19,12 @@ function BoutiqueClientContent() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Filter & Sort & Pagination states
+  // Filter & Sort & Infinite Scroll states
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [onlyOnSale, setOnlyOnSale] = useState<boolean>(false);
   const [sortOption, setSortOption] = useState<string>("newest");
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [visibleCount, setVisibleCount] = useState<number>(PRODUCTS_PER_PAGE);
 
   // Update selected category and search query when parameters change
   useEffect(() => {
@@ -83,9 +83,9 @@ function BoutiqueClientContent() {
     return Array.from(list).sort();
   }, [products]);
 
-  // Reset page when filter or sorting changes
+  // Reset scroll limit when filter or sorting changes
   useEffect(() => {
-    setCurrentPage(1);
+    setVisibleCount(PRODUCTS_PER_PAGE);
   }, [searchQuery, selectedCategory, onlyOnSale, sortOption]);
 
   // Apply filters and sorting
@@ -137,17 +137,29 @@ function BoutiqueClientContent() {
     return result;
   }, [products, searchQuery, selectedCategory, onlyOnSale, sortOption]);
 
-  // Pagination slicing
-  const totalPages = Math.ceil(processedProducts.length / PRODUCTS_PER_PAGE);
-  const paginatedProducts = useMemo(() => {
-    const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
-    return processedProducts.slice(startIndex, startIndex + PRODUCTS_PER_PAGE);
-  }, [processedProducts, currentPage]);
+  // Slicing for infinite scroll
+  const displayedProducts = useMemo(() => {
+    return processedProducts.slice(0, visibleCount);
+  }, [processedProducts, visibleCount]);
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 220, behavior: "smooth" });
-  };
+  // IntersectionObserver effect for seamless, lag-free infinite scrolling
+  useEffect(() => {
+    const trigger = document.getElementById("infinite-scroll-trigger");
+    if (!trigger) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && visibleCount < processedProducts.length) {
+          // Preload next batch before user reaches bottom margin
+          setVisibleCount((prev) => Math.min(prev + PRODUCTS_PER_PAGE, processedProducts.length));
+        }
+      },
+      { threshold: 0.1, rootMargin: "250px" }
+    );
+
+    observer.observe(trigger);
+    return () => observer.disconnect();
+  }, [visibleCount, processedProducts.length]);
 
   return (
     <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-black">
@@ -313,65 +325,27 @@ function BoutiqueClientContent() {
         ) : (
           <>
             {/* Products Bento-Style Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
-              {paginatedProducts.map((p) => (
-                <div key={p.id} className="h-full">
+            {/* Products Bento-Style Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+              {displayedProducts.map((p) => (
+                <div key={p.id} className="h-full animate-reveal">
                   <ProductCard product={p} />
                 </div>
               ))}
             </div>
 
-            {/* Pagination Controls */}
-            {totalPages > 1 && (
-              <nav className="flex items-center justify-center gap-2 select-none border-t border-spoolio-border/40 pt-8 mt-12">
-                {/* Previous button */}
-                <button
-                  onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
-                  disabled={currentPage === 1}
-                  className={`w-9 h-9 rounded-lg border flex items-center justify-center transition-all ${
-                    currentPage === 1
-                      ? "border-spoolio-border/20 text-gray-600 cursor-not-allowed"
-                      : "border-spoolio-border text-gray-300 hover:border-white hover:text-white cursor-pointer"
-                  }`}
-                  title="Page précédente"
-                >
-                  &larr;
-                </button>
-
-                {/* Page numbers */}
-                {Array.from({ length: totalPages }).map((_, idx) => {
-                  const pNum = idx + 1;
-                  const isCurrent = currentPage === pNum;
-                  return (
-                    <button
-                      key={pNum}
-                      onClick={() => handlePageChange(pNum)}
-                      className={`w-9 h-9 flex items-center justify-center text-xs font-bold rounded-lg border transition-all cursor-pointer ${
-                        isCurrent
-                          ? "bg-white border-white text-black shadow-md shadow-white/5"
-                          : "bg-spoolio-card border-spoolio-border text-gray-300 hover:border-white/50 hover:text-white"
-                      }`}
-                    >
-                      {pNum}
-                    </button>
-                  );
-                })}
-
-                {/* Next button */}
-                <button
-                  onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
-                  disabled={currentPage === totalPages}
-                  className={`w-9 h-9 rounded-lg border flex items-center justify-center transition-all ${
-                    currentPage === totalPages
-                      ? "border-spoolio-border/20 text-gray-600 cursor-not-allowed"
-                      : "border-spoolio-border text-gray-300 hover:border-white hover:text-white cursor-pointer"
-                  }`}
-                  title="Page suivante"
-                >
-                  &rarr;
-                </button>
-              </nav>
-            )}
+            {/* Infinite Scroll Trigger element */}
+            <div id="infinite-scroll-trigger" className="h-10 w-full flex items-center justify-center">
+              {visibleCount < processedProducts.length && (
+                <div className="flex flex-col items-center gap-3 py-6">
+                  <svg className="animate-spin h-6 w-6 text-[#ff4f00]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span className="text-[10px] text-gray-500 font-extrabold uppercase tracking-widest font-sans animate-pulse">Chargement de nouveaux objets...</span>
+                </div>
+              )}
+            </div>
           </>
         )}
       </main>

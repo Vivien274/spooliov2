@@ -124,6 +124,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const id = getComboId(item.productId, item.selectedOptions);
     
     setCartItems((prevItems) => {
+      // If it is a donation (productId === -3), remove any previous donation and add the new one instead of aggregating
+      if (item.productId === -3) {
+        const filtered = prevItems.filter(i => i.productId !== -3);
+        return [...filtered, { ...item, id, quantity: 1 }];
+      }
+
       const existingIndex = prevItems.findIndex((i) => i.id === id);
       if (existingIndex > -1) {
         // Increment quantity of existing item

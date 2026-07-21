@@ -22,10 +22,33 @@ export async function GET(request: Request) {
       const order = await prisma.order.findUnique({
         where: { id: orderId }
       });
-      if (order) {
-        return NextResponse.json({ success: true, orderId: order.id });
+
+      let loyaltyCard = null;
+      if (order && order.email) {
+        const card = await prisma.loyaltyCard.findFirst({
+          where: {
+            customerEmail: {
+              equals: order.email.trim().toLowerCase(),
+              mode: "insensitive"
+            }
+          }
+        });
+        if (card) {
+          loyaltyCard = {
+            id: card.id,
+            customerName: card.customerName,
+            points: card.points,
+            maxPoints: card.maxPoints,
+            history: typeof card.history === "string" ? JSON.parse(card.history) : card.history
+          };
+        }
       }
-      return NextResponse.json({ success: true, orderId });
+
+      return NextResponse.json({ 
+        success: true, 
+        orderId: order ? order.id : orderId,
+        loyaltyCard
+      });
     }
 
     // 2. Otherwise, look up the order in the Prisma database by its stripeSession token
@@ -40,9 +63,32 @@ export async function GET(request: Request) {
       );
     }
 
+    // Look up loyalty card associated with this order's customer email
+    let loyaltyCard = null;
+    if (order.email) {
+      const card = await prisma.loyaltyCard.findFirst({
+        where: {
+          customerEmail: {
+            equals: order.email.trim().toLowerCase(),
+            mode: "insensitive"
+          }
+        }
+      });
+      if (card) {
+        loyaltyCard = {
+          id: card.id,
+          customerName: card.customerName,
+          points: card.points,
+          maxPoints: card.maxPoints,
+          history: typeof card.history === "string" ? JSON.parse(card.history) : card.history
+        };
+      }
+    }
+
     return NextResponse.json({
       success: true,
-      orderId: order.id
+      orderId: order.id,
+      loyaltyCard
     });
   } catch (e: any) {
     return NextResponse.json(

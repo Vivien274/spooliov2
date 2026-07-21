@@ -191,6 +191,7 @@ export default function Header({ className = "" }: HeaderProps) {
         </div>
         <a href="https://boussole.spoolio.fr" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">Boussole Sensorielle</a>
         <Link href="/blog" className="hover:text-white cursor-pointer transition-colors">L'Atelier</Link>
+        <Link href="/don" className="hover:text-white cursor-pointer transition-colors text-[#ff4f00] font-bold">Soutenir 🧡</Link>
 
         {/* Search magnifier bubble */}
         <button 
@@ -220,7 +221,7 @@ export default function Header({ className = "" }: HeaderProps) {
         {/* Theme Toggle Button */}
         <button
           onClick={toggleTheme}
-          className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/10 backdrop-blur-md transition-all cursor-pointer shadow-lg"
+          className="hidden md:flex w-12 h-12 items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/10 backdrop-blur-md transition-all cursor-pointer shadow-lg"
           title={theme === "dark" ? "Passer au thème clair" : "Passer au thème sombre"}
         >
           {theme === "dark" ? (
@@ -334,9 +335,9 @@ export default function Header({ className = "" }: HeaderProps) {
                             className="flex items-center gap-3.5 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-[#ff4f00]/30 hover:bg-[#ff4f00]/5 transition-all search-shortcut-link"
                           >
                             <div className="relative w-9 h-9 rounded-lg overflow-hidden shrink-0 border border-white/5 bg-black/20">
-                              {p.images[0] && (
+                              {(p.image || p.images?.[0]?.src) && (
                                 <Image
-                                  src={p.images[0].src}
+                                  src={p.image || p.images?.[0]?.src}
                                   alt={p.name}
                                   fill
                                   sizes="36px"
@@ -374,9 +375,9 @@ export default function Header({ className = "" }: HeaderProps) {
                             className="flex items-center gap-3.5 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-[#ff4f00]/30 hover:bg-[#ff4f00]/5 transition-all search-result-item"
                           >
                             <div className="relative w-9 h-9 rounded-lg overflow-hidden shrink-0 border border-white/5 bg-black/20">
-                              {p.images[0] && (
+                              {(p.image || p.images?.[0]?.src) && (
                                 <Image
-                                  src={p.images[0].src}
+                                  src={p.image || p.images?.[0]?.src}
                                   alt={p.name}
                                   fill
                                   sizes="36px"
@@ -455,7 +456,7 @@ export default function Header({ className = "" }: HeaderProps) {
 
       {/* Mobile Drawer Navigation Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed top-0 left-0 w-screen h-screen z-[15000] flex md:hidden font-sans select-none no-invert">
+        <div className="fixed top-0 left-0 w-screen h-screen z-[15000] flex md:hidden font-sans select-none">
           {/* Backdrop overlay */}
           <div 
             onClick={() => setIsMobileMenuOpen(false)}
@@ -463,10 +464,15 @@ export default function Header({ className = "" }: HeaderProps) {
           />
 
           {/* Drawer menu content (slide-in from left) */}
-          <div className="relative w-[300px] max-w-full h-screen bg-[#0d0d0f] border-r border-[#1f1f23] flex flex-col justify-between p-6 shadow-2xl z-10 transition-all duration-300 animate-slide-in">
-            <div className="flex flex-col gap-6">
+          <div className={`relative w-[300px] max-w-full h-screen border-r flex flex-col justify-between p-6 shadow-2xl z-10 transition-all duration-300 animate-slide-in ${
+            theme === "light" 
+              ? "bg-[#f7f7f9] border-gray-200 text-black" 
+              : "bg-[#0d0d0f] border-[#1f1f23] text-white"
+          }`}>
+            {/* Scrollable navigation container */}
+            <div className="flex-1 overflow-y-auto pr-1 flex flex-col gap-6 select-none no-scrollbar pb-6">
               {/* Logo & close row */}
-              <div className="flex items-center justify-between pb-4 border-b border-white/5">
+              <div className={`flex items-center justify-between pb-4 border-b ${theme === "light" ? "border-black/5" : "border-white/5"}`}>
                 <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="relative z-50 flex items-center gap-2">
                   <Image
                     src="/images/logo.png"
@@ -478,7 +484,11 @@ export default function Header({ className = "" }: HeaderProps) {
                 </Link>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:text-white transition-colors"
+                  className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
+                    theme === "light"
+                      ? "bg-black/5 text-gray-700 hover:text-black hover:bg-black/10"
+                      : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10"
+                  }`}
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -584,14 +594,63 @@ export default function Header({ className = "" }: HeaderProps) {
                     >
                       📝 L'Atelier (Blog)
                     </Link>
+                    <Link 
+                      href="/don" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3 py-2 text-xs font-bold text-[#ff4f00] hover:text-white rounded-lg hover:bg-white/5 block transition-colors"
+                    >
+                      🧡 Soutenir l'Atelier
+                    </Link>
                   </div>
                 </div>
               </nav>
             </div>
 
-            {/* Bottom contact signature */}
-            <div className="text-[10px] text-gray-600 border-t border-white/5 pt-4">
-              <span>Spoolio V2 - Fait avec passion</span>
+            {/* Sticky Bottom Area */}
+            <div className={`sticky bottom-0 pt-4 border-t flex flex-col gap-4 mt-auto ${
+              theme === "light" ? "bg-[#f7f7f9] border-black/5" : "bg-[#0d0d0f] border-white/5"
+            }`}>
+              {/* Theme Toggle Button */}
+              <button
+                onClick={toggleTheme}
+                className={`w-full h-11 flex items-center justify-between px-4 rounded-xl border transition-all cursor-pointer text-xs font-semibold ${
+                  theme === "light"
+                    ? "bg-black/5 border-black/5 text-gray-800 hover:bg-black/10"
+                    : "bg-white/5 border-white/10 text-white hover:bg-white/10"
+                }`}
+                title={theme === "dark" ? "Passer au thème clair" : "Passer au thème sombre"}
+              >
+                <span className="flex items-center gap-2">
+                  {theme === "dark" ? (
+                    <>
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 7a5 5 0 100 10 5 5 0 000-10z" />
+                      </svg>
+                      <span>Thème Clair</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                      </svg>
+                      <span>Thème Sombre</span>
+                    </>
+                  )}
+                </span>
+                <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded ${
+                  theme === "light" ? "bg-black/10 text-gray-600" : "bg-white/10 text-gray-400"
+                }`}>
+                  ACTIF
+                </span>
+              </button>
+
+              {/* Bottom contact signature */}
+              <div className={`text-[10px] flex justify-between items-center pb-2 ${
+                theme === "light" ? "text-gray-500" : "text-gray-600"
+              }`}>
+                <span>Spoolio V2 - Fait avec passion</span>
+                <span className="text-[8px] opacity-40">v2.0</span>
+              </div>
             </div>
           </div>
         </div>
