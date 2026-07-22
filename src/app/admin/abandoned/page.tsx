@@ -68,7 +68,7 @@ export default function AbandonedCartsPage() {
         </div>
       </div>
 
-      <div className={`p-8 rounded-[32px] border ${cls.border} ${cls.cardBg} shadow-2xl space-y-6 font-sans no-invert`}>
+      <div className={`p-8 rounded-[32px] border ${cls.border} ${cls.cardBg} shadow-2xl space-y-6 font-sans`}>
         <div className="flex items-center justify-between">
           <div>
             <h3 className={`text-xl font-black font-antonio uppercase tracking-tight ${cls.textMain}`}>Relance de paniers abandonnés</h3>

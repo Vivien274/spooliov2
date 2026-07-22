@@ -118,7 +118,7 @@ export default function AdminDonationTiersPage() {
       </div>
 
       {/* Main card panel */}
-      <div className={`p-8 rounded-[32px] border ${cls.border} ${cls.cardBg} shadow-2xl space-y-6 font-sans no-invert`}>
+      <div className={`p-8 rounded-[32px] border ${cls.border} ${cls.cardBg} shadow-2xl space-y-6 font-sans`}>
         <div className="flex items-center justify-between">
           <div>
             <h3 className={`text-xl font-black font-antonio uppercase tracking-tight ${cls.textMain}`}>Liste des paliers de dons</h3>
@@ -216,7 +216,7 @@ export default function AdminDonationTiersPage() {
       {/* Editing / Creating Modal */}
       {editingTier && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className={`w-full max-w-lg rounded-3xl border ${cls.border} ${cls.cardBg} shadow-2xl p-6 md:p-8 space-y-6 animate-scale-up no-invert`}>
+          <div className={`w-full max-w-lg rounded-3xl border ${cls.border} ${cls.cardBg} shadow-2xl p-6 md:p-8 space-y-6 animate-scale-up`}>
             <div className="flex justify-between items-center border-b border-white/5 pb-4">
               <h3 className={`text-lg font-black font-antonio uppercase tracking-widest ${cls.textMain}`}>
                 {editingTier.id ? "Modifier le Palier" : "Créer un Palier"}
@@ -247,7 +247,7 @@ export default function AdminDonationTiersPage() {
                     required
                     value={editingTier.amount || ""}
                     onChange={(e) => setEditingTier(prev => ({ ...prev, amount: parseInt(e.target.value, 10) }))}
-                    className="w-full h-11 px-3 bg-[#1a1a1f] border border-[#2d2d34] rounded-xl text-white outline-none focus:border-[#ff4f00]/50 transition-colors text-xs font-bold"
+                    className={`w-full h-11 px-3 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#ff4f00]/50 transition-colors text-xs font-bold`}
                   />
                 </div>
 
@@ -260,7 +260,7 @@ export default function AdminDonationTiersPage() {
                     maxLength={4}
                     value={editingTier.emoji || ""}
                     onChange={(e) => setEditingTier(prev => ({ ...prev, emoji: e.target.value }))}
-                    className="w-full h-11 px-3 bg-[#1a1a1f] border border-[#2d2d34] rounded-xl text-white outline-none focus:border-[#ff4f00]/50 transition-colors text-xs text-center"
+                    className={`w-full h-11 px-3 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#ff4f00]/50 transition-colors text-xs text-center`}
                   />
                 </div>
 
@@ -270,7 +270,7 @@ export default function AdminDonationTiersPage() {
                   <select
                     value={editingTier.color || "orange"}
                     onChange={(e) => setEditingTier(prev => ({ ...prev, color: e.target.value }))}
-                    className="w-full h-11 px-3 bg-[#1a1a1f] border border-[#2d2d34] rounded-xl text-white outline-none focus:border-[#ff4f00]/50 transition-colors text-xs font-bold"
+                    className={`w-full h-11 px-3 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#ff4f00]/50 transition-colors text-xs font-bold`}
                   >
                     <option value="orange">Orange</option>
                     <option value="blue">Bleu</option>
@@ -287,7 +287,7 @@ export default function AdminDonationTiersPage() {
                   placeholder="Ex: Une Buse en Laiton"
                   value={editingTier.title || ""}
                   onChange={(e) => setEditingTier(prev => ({ ...prev, title: e.target.value }))}
-                  className="w-full h-11 px-4 bg-[#1a1a1f] border border-[#2d2d34] rounded-xl text-white outline-none focus:border-[#ff4f00]/50 transition-colors text-xs font-semibold"
+                  className={`w-full h-11 px-4 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#ff4f00]/50 transition-colors text-xs font-semibold`}
                 />
               </div>
 
@@ -300,7 +300,7 @@ export default function AdminDonationTiersPage() {
                   placeholder="Ex: Entretien Précision"
                   value={editingTier.subtitle || ""}
                   onChange={(e) => setEditingTier(prev => ({ ...prev, subtitle: e.target.value }))}
-                  className="w-full h-11 px-4 bg-[#1a1a1f] border border-[#2d2d34] rounded-xl text-white outline-none focus:border-[#ff4f00]/50 transition-colors text-xs font-semibold"
+                  className={`w-full h-11 px-4 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#ff4f00]/50 transition-colors text-xs font-semibold`}
                 />
               </div>
 
@@ -313,7 +313,7 @@ export default function AdminDonationTiersPage() {
                   placeholder="Expliquez concrètement ce que ce don finance..."
                   value={editingTier.description || ""}
                   onChange={(e) => setEditingTier(prev => ({ ...prev, description: e.target.value }))}
-                  className="w-full p-4 bg-[#1a1a1f] border border-[#2d2d34] rounded-xl text-white outline-none focus:border-[#ff4f00]/50 transition-colors text-xs font-sans leading-relaxed resize-none"
+                  className={`w-full p-4 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#ff4f00]/50 transition-colors text-xs font-sans leading-relaxed resize-none`}
                 />
               </div>
 

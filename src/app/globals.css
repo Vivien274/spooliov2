@@ -90,6 +90,39 @@ html.light .text-blue-400 {
   color: #2F3CD9 !important;
 }
 
+html.light .text-red-400 {
+  color: #b91c1c !important;
+}
+html.light .bg-red-500\/10 {
+  background-color: rgba(185, 28, 28, 0.08) !important;
+}
+html.light .border-red-500\/20 {
+  border-color: rgba(185, 28, 28, 0.2) !important;
+}
+
+html.light .text-emerald-400 {
+  color: #065f46 !important;
+}
+html.light .bg-emerald-500\/10 {
+  background-color: rgba(6, 95, 70, 0.08) !important;
+}
+html.light .border-emerald-500\/20 {
+  border-color: rgba(6, 95, 70, 0.2) !important;
+}
+
+html.light .text-orange-400 {
+  color: #c2410c !important;
+}
+html.light .text-indigo-400 {
+  color: #4338ca !important;
+}
+html.light .text-purple-400 {
+  color: #6d28d9 !important;
+}
+html.light .text-yellow-400 {
+  color: #a16207 !important;
+}
+
 /* Keep original text colors inside elements that have these backgrounds */
 html.light .bg-\[\#ff4f00\],
 html.light .bg-\[\#ff4f00\] *,
@@ -114,6 +147,14 @@ html.light .bg-\[\#230f06\] .text-yellow-400 {
 }
 
 /* Specific background button and pill overrides in light mode */
+html.light .bg-white.text-black:not(.no-invert, .no-invert *) {
+  background-color: #0d0d11 !important;
+  color: #ffffff !important;
+}
+html.light .bg-white.text-black:hover:not(.no-invert, .no-invert *) {
+  background-color: #1a1a24 !important;
+}
+
 html.light .bg-white\/10:not(.no-invert, .no-invert *) {
   background-color: rgba(0, 0, 0, 0.05) !important;
   border-color: rgba(0, 0, 0, 0.08) !important;

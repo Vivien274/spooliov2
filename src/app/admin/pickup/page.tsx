@@ -93,7 +93,7 @@ export default function PickupSlotsPage() {
         </div>
       </div>
 
-      <div className={`p-8 rounded-[32px] border ${cls.border} ${cls.cardBg} shadow-2xl space-y-6 font-sans no-invert`}>
+      <div className={`p-8 rounded-[32px] border ${cls.border} ${cls.cardBg} shadow-2xl space-y-6 font-sans`}>
         <div>
           <h3 className={`text-xl font-black font-antonio uppercase tracking-tight ${cls.textMain}`}>Gestion des créneaux Click & Collect</h3>
           <p className={`text-xs ${cls.textMuted} mt-1`}>

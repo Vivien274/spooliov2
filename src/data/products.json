@@ -130316,7 +130316,7 @@
     "regular_price": "4",
     "sale_price": "",
     "on_sale": false,
-    "short_description": "Coucou je suis un fidgetos",
+    "short_description": "Découvre ce fidget ultra satisfant à manipuler et utile pour tout le monde",
     "description": "<p>Vous cherchez un moyen simple de canaliser votre énergie ou de garder vos mains occupées sans déranger votre entourage ? On a conçu ce petit <strong>fidget aimanté</strong> directement dans notre atelier à Comines. C'est le genre d'objet qu'on commence à manipuler sans y penser et qu'on ne lâche plus de la journée. Grâce à ses aimants intégrés, il offre un retour tactile super satisfaisant à chaque mouvement, tout en restant particulièrement silencieux et discret. Que ce soit au bureau, en cours ou devant une série, il se glisse incognito dans le creux de la main.</p><p>Ce modèle est particulièrement adapté pour les profils TDAH ou tous ceux qui ont besoin d'un point d'ancrage sensoriel pour mieux se concentrer. Compact et robuste, il résiste sans problème aux manipulations quotidiennes les plus intenses.</p><p>Côté fabrication, on reste fidèles à nos valeurs : ce fidget est imprimé en 3D à partir de <strong>PLA biosourcé</strong>, une matière propre issue de l'amidon de maïs. C'est solide, agréable au toucher et respectueux de l'environnement. Attention tout de même à ne pas le laisser en plein soleil derrière un pare-brise ou près d'une source de chaleur intense : comme tous les objets en PLA, il n'apprécie pas les températures supérieures à 60°C !</p>",
     "stock_quantity": -1,
     "type": "variable",
@@ -130359,22 +130359,25 @@
         }
       ],
       "tags": [
-        "Satisfaisant"
+        "Satisfaisant",
+        "fidget",
+        "manipulation",
+        "tdah"
       ]
     },
     "images": [
       {
-        "id": 2820,
+        "id": 2823,
         "src": "/uploads/hero_upload_1784552725913.webp",
         "alt": "Fidget aimanté"
       },
       {
-        "id": 2821,
+        "id": 2824,
         "src": "/uploads/hero_upload_1784552725979.webp",
         "alt": "Fidget aimanté"
       },
       {
-        "id": 2822,
+        "id": 2825,
         "src": "/uploads/hero_upload_1784636422349.webp",
         "alt": "Fidget aimanté"
       }
