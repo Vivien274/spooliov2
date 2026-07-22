@@ -1090,42 +1090,42 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
             )}
 
             {/* 3D Craft Technical Badges */}
-            <div className="grid grid-cols-3 gap-3 border-t border-b border-black/5 dark:border-spoolio-border/40 py-5 mb-8 text-center select-none font-sans mt-4">
-              <div className="flex flex-col items-center justify-center p-3.5 rounded-2xl bg-black/[0.01] dark:bg-white/[0.01] border border-black/5 dark:border-white/5 shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:scale-[1.02] transition-transform">
+            <div className="grid grid-cols-3 gap-3 border-t border-b border-spoolio-border/40 py-5 mb-8 text-center select-none font-sans mt-4">
+              <div className="flex flex-col items-center justify-center p-3.5 rounded-2xl bg-white/[0.02] border border-white/5 shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:scale-[1.02] transition-transform">
                 <span className="text-xl mb-1.5" title="Temps de fabrication">⏱️</span>
-                <span className="text-[9px] font-black uppercase tracking-widest text-gray-500">Fabrication 3D</span>
-                <span className="text-xs font-black text-gray-900 dark:text-white mt-1">{printTimeString}</span>
+                <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Fabrication 3D</span>
+                <span className="text-xs font-black text-white mt-1">{printTimeString}</span>
               </div>
-              <div className="flex flex-col items-center justify-center p-3.5 rounded-2xl bg-black/[0.01] dark:bg-white/[0.01] border border-black/5 dark:border-white/5 shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:scale-[1.02] transition-transform">
+              <div className="flex flex-col items-center justify-center p-3.5 rounded-2xl bg-white/[0.02] border border-white/5 shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:scale-[1.02] transition-transform">
                 <span className="text-xl mb-1.5" title="Matériau">🌱</span>
-                <span className="text-[9px] font-black uppercase tracking-widest text-gray-500">Matériau</span>
-                <span className="text-xs font-black text-gray-900 dark:text-white mt-1">PLA Végétal</span>
+                <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Matériau</span>
+                <span className="text-xs font-black text-white mt-1">PLA Végétal</span>
               </div>
-              <div className="flex flex-col items-center justify-center p-3.5 rounded-2xl bg-black/[0.01] dark:bg-white/[0.01] border border-black/5 dark:border-white/5 shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:scale-[1.02] transition-transform">
+              <div className="flex flex-col items-center justify-center p-3.5 rounded-2xl bg-white/[0.02] border border-white/5 shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:scale-[1.02] transition-transform">
                 <span className="text-xl mb-1.5" title="Poids approximatif">⚖️</span>
-                <span className="text-[9px] font-black uppercase tracking-widest text-gray-500">Poids Estimé</span>
-                <span className="text-xs font-black text-gray-900 dark:text-white mt-1">{estimatedWeight}</span>
+                <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Poids Estimé</span>
+                <span className="text-xs font-black text-white mt-1">{estimatedWeight}</span>
               </div>
             </div>
 
             {/* Call to action with Quantity Selector */}
             <div className="flex items-center gap-4">
               {/* Quantity Selector */}
-              <div className={`flex items-center bg-black/[0.01] dark:bg-spoolio-card border border-black/5 dark:border-spoolio-border rounded-xl h-14 px-3 select-none ${isNotAvailableToBuy ? "opacity-40" : ""}`}>
+              <div className={`flex items-center bg-spoolio-card border border-spoolio-border rounded-xl h-14 px-3 select-none ${isNotAvailableToBuy ? "opacity-40" : ""}`}>
                 <button
                   disabled={isNotAvailableToBuy}
                   onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
-                  className={`w-8 h-8 flex items-center justify-center text-gray-400 ${!isNotAvailableToBuy ? "hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 cursor-pointer" : "cursor-not-allowed"} rounded-lg transition-all text-lg font-bold`}
+                  className={`w-8 h-8 flex items-center justify-center text-gray-400 ${!isNotAvailableToBuy ? "hover:text-white hover:bg-white/5 active:scale-95 cursor-pointer" : "cursor-not-allowed"} rounded-lg transition-all text-lg font-bold`}
                 >
                   -
                 </button>
-                <span className="w-10 text-center font-bold text-sm text-gray-900 dark:text-white font-sans">
+                <span className="w-10 text-center font-bold text-sm text-white font-sans">
                   {isNotAvailableToBuy ? 0 : quantity}
                 </span>
                 <button
                   disabled={isNotAvailableToBuy}
                   onClick={() => setQuantity(prev => prev + 1)}
-                  className={`w-8 h-8 flex items-center justify-center text-gray-400 ${!isNotAvailableToBuy ? "hover:text-gray-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 active:scale-95 cursor-pointer" : "cursor-not-allowed"} rounded-lg transition-all text-lg font-bold`}
+                  className={`w-8 h-8 flex items-center justify-center text-gray-400 ${!isNotAvailableToBuy ? "hover:text-white hover:bg-white/5 active:scale-95 cursor-pointer" : "cursor-not-allowed"} rounded-lg transition-all text-lg font-bold`}
                 >
                   +
                 </button>
@@ -1135,7 +1135,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               {isNotAvailableToBuy ? (
                 <button
                   disabled
-                  className="flex-1 h-14 flex items-center justify-center gap-2 text-sm font-bold text-gray-400 bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 rounded-xl cursor-not-allowed text-center no-invert"
+                  className="flex-1 h-14 flex items-center justify-center gap-2 text-sm font-bold text-gray-400 bg-white/5 border border-white/10 rounded-xl cursor-not-allowed text-center no-invert"
                 >
                   {isOutOfStock ? "Rupture de stock" : "Indisponible"}
                 </button>
@@ -1166,15 +1166,15 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
             </div>
 
             {/* Delivery Estimation & Trust Badges */}
-            <div className="mt-6 space-y-5 border-t border-black/5 dark:border-spoolio-border/40 pt-6">
+            <div className="mt-6 space-y-5 border-t border-spoolio-border/40 pt-6">
               {/* Delivery Estimation */}
-              <div className="flex items-start gap-3 text-xs text-gray-600 dark:text-gray-400 font-sans leading-relaxed bg-black/[0.01] dark:bg-[#1b1b1f]/30 p-4 rounded-2xl border border-black/5 dark:border-spoolio-border/30">
+              <div className="flex items-start gap-3 text-xs text-gray-400 font-sans leading-relaxed bg-[#1b1b1f]/30 p-4 rounded-2xl border border-spoolio-border/30">
                 <span className="text-lg shrink-0 select-none">📦</span>
                 <div>
-                  <p className="text-gray-800 dark:text-gray-300 font-bold">
+                  <p className="text-gray-300 font-bold">
                     Livraison estimée : <span className="text-[#ff4f00] font-black">{getDeliveryDateRange().minStr}</span> au <span className="text-[#ff4f00] font-black">{getDeliveryDateRange().maxStr}</span>
                   </p>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-500 mt-0.5">
+                  <p className="text-[10px] text-gray-500 mt-0.5">
                     Expédié sous 24/48h depuis notre atelier de Comines (Mondial Relay & Colissimo).
                   </p>
                 </div>
@@ -1182,15 +1182,15 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
 
               {/* Loyalty Points Credit Estimation */}
               {parseFloat(currentPrice) >= 2 && (
-                <div className="flex items-start gap-3 text-xs text-gray-600 dark:text-gray-400 font-sans leading-relaxed bg-[#ff4f00]/5 dark:bg-[#ff4f00]/5 p-4 rounded-2xl border border-[#ff4f00]/20 dark:border-[#ff4f00]/25 relative overflow-hidden group select-none transition-all duration-300 hover:border-[#ff4f00]/40">
+                <div className="flex items-start gap-3 text-xs text-gray-400 font-sans leading-relaxed bg-[#ff4f00]/5 p-4 rounded-2xl border border-[#ff4f00]/25 relative overflow-hidden group select-none transition-all duration-300 hover:border-[#ff4f00]/40">
                   {/* Background light glow */}
                   <div className="absolute top-0 right-0 w-16 h-16 rounded-full bg-[#ff4f00]/5 filter blur-[15px] pointer-events-none" />
                   <span className="text-lg shrink-0 select-none text-[#ff4f00] animate-pulse">⚡</span>
                   <div>
-                    <p className="text-gray-800 dark:text-gray-300 font-bold">
+                    <p className="text-gray-300 font-bold">
                       Carte de fidélité : <span className="text-[#ff4f00] font-black">+{Math.floor(parseFloat(currentPrice) / 2)} points</span> sur cette commande !
                     </p>
-                    <p className="text-[10px] text-gray-500 dark:text-gray-500 mt-0.5">
+                    <p className="text-[10px] text-gray-500 mt-0.5">
                       Cumule 2€ = 1 point (hors dons/livraison) et débloque tes cadeaux exclusifs à l'atelier.
                     </p>
                   </div>
@@ -1198,36 +1198,36 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               )}
 
               {/* Trust Badges Grid */}
-              <div className="grid grid-cols-2 gap-3 text-[11px] font-bold tracking-tight text-gray-700 dark:text-gray-300 font-sans">
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-black/[0.01] dark:bg-spoolio-card border border-black/5 dark:border-spoolio-border/30">
+              <div className="grid grid-cols-2 gap-3 text-[11px] font-bold tracking-tight text-gray-300 font-sans">
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-spoolio-card border border-spoolio-border/30">
                   <span className="text-base select-none">🇫🇷</span>
                   <div>
-                    <span className="block text-gray-900 dark:text-white">Made in France</span>
-                    <span className="block text-[9px] text-gray-500 dark:text-gray-500 font-normal">Hauts-de-France</span>
+                    <span className="block text-white">Made in France</span>
+                    <span className="block text-[9px] text-gray-500 font-normal">Hauts-de-France</span>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-black/[0.01] dark:bg-spoolio-card border border-black/5 dark:border-spoolio-border/30">
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-spoolio-card border border-spoolio-border/30">
                   <span className="text-base select-none">🌱</span>
                   <div>
-                    <span className="block text-gray-900 dark:text-white">PLA Biosourcé</span>
-                    <span className="block text-[9px] text-gray-500 dark:text-gray-500 font-normal">Plastique d'amidon</span>
+                    <span className="block text-white">PLA Biosourcé</span>
+                    <span className="block text-[9px] text-gray-500 font-normal">Plastique d'amidon</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-black/[0.01] dark:bg-spoolio-card border border-black/5 dark:border-spoolio-border/30">
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-spoolio-card border border-spoolio-border/30">
                   <span className="text-base select-none">🚚</span>
                   <div>
-                    <span className="block text-gray-900 dark:text-white">Livraison Suivie</span>
-                    <span className="block text-[9px] text-gray-500 dark:text-gray-500 font-normal">Relais & Domicile</span>
+                    <span className="block text-white">Livraison Suivie</span>
+                    <span className="block text-[9px] text-gray-500 font-normal">Relais & Domicile</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-black/[0.01] dark:bg-spoolio-card border border-black/5 dark:border-spoolio-border/30">
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-spoolio-card border border-spoolio-border/30">
                   <span className="text-base select-none">💳</span>
                   <div>
-                    <span className="block text-gray-900 dark:text-white">Paiement 3D Secure</span>
-                    <span className="block text-[9px] text-gray-500 dark:text-gray-500 font-normal">Stripe 100% protégé</span>
+                    <span className="block text-white">Paiement 3D Secure</span>
+                    <span className="block text-[9px] text-gray-500 font-normal">Stripe 100% protégé</span>
                   </div>
                 </div>
               </div>
