@@ -1,0 +1,79 @@
+{
+  "header": {
+    "shop": "Boutique",
+    "about": "À propos",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "admin": "Admin",
+    "cart": "Panier",
+    "search_placeholder": "Rechercher un fidget, accessoire..."
+  },
+  "footer": {
+    "description": "Fidgets sensoriels, accessoires et objets fun imprimés en 3D à Comines. 🇫🇷",
+    "rights": "Tous droits réservés.",
+    "links": {
+      "legal": "Mentions Légales",
+      "cgv": "CGV",
+      "cookies": "Cookies",
+      "returns": "Retours & Rétractation"
+    }
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "back": "Retour",
+    "save": "Enregistrer",
+    "close": "Fermer"
+  },
+  "home": {
+    "donation": {
+      "badge": "PROJET LOCAL",
+      "title": "Aider l'Atelier à s'équiper",
+      "description": "Spoolio est un projet artisanal et éco-responsable. Vous pouvez soutenir nos investissements matériels (buses neuves, plateaux d'impression, entretien des machines) en choisissant un palier d'aide.",
+      "button": "Soutenir l'Atelier"
+    },
+    "timeline": {
+      "badge": "Savoir-faire",
+      "title": "Le cycle vertueux du PLA",
+      "subtitle": "Comment le maïs local devient vos fidgets favoris",
+      "step1": {
+        "title": "Culture & Récolte",
+        "description": "Le maïs non-alimentaire est cultivé localement, sans OGM, capturant du CO₂ pendant sa croissance naturelle."
+      },
+      "step2": {
+        "title": "Amidon & Dextrose",
+        "description": "Les grains récoltés sont broyés pour en extraire l'amidon, qui est ensuite converti en dextrose (sucre simple)."
+      },
+      "step3": {
+        "title": "Polymérisation",
+        "description": "Le dextrose fermente en acide lactique, puis est polymérisé pour créer des granulés de plastique PLA biodégradables."
+      },
+      "step4": {
+        "title": "Extrusion du Fil",
+        "description": "Les granulés sont chauffés et étirés pour produire un fil calibré de 1.75 mm de diamètre, enroulé sur bobine."
+      },
+      "step5": {
+        "title": "Impression 3D",
+        "description": "Le filament est fondu à 215°C et déposé couche par couche par nos imprimantes à Comines pour former vos objets."
+      }
+    },
+    "reassurance": {
+      "local": {
+        "title": "Atelier Français",
+        "description": "Imprimé en 3D à Comines (59)"
+      },
+      "eco": {
+        "title": "100% Biosourcé",
+        "description": "Plastique végétal à base d'amidon"
+      },
+      "shipping": {
+        "title": "Envoi Rapide",
+        "description": "Expédition sous 24/48h"
+      },
+      "secure": {
+        "title": "Achat Sécurisé",
+        "description": "Paiement protégé par Stripe"
+      }
+    }
+  }
+}

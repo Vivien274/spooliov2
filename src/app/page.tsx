@@ -8,6 +8,9 @@ import ReviewsSection from "@/components/ReviewsSection";
 import { prisma } from "@/lib/prisma";
 import fs from "fs";
 import path from "path";
+import { cookies } from "next/headers";
+import fr from "@/locales/fr.json";
+import en from "@/locales/en.json";
 
 export const dynamic = "force-dynamic";
 
@@ -34,6 +37,32 @@ function getSeededProduct(productsList: any[], seed: number) {
 }
 
 export default async function Home() {
+  const cookieStore = await cookies();
+  const locale = (cookieStore.get("spoolio_locale")?.value || "fr") as "fr" | "en";
+  const translations: Record<string, any> = { fr, en };
+
+  const t = (key: string): string => {
+    const keys = key.split(".");
+    let current = translations[locale];
+    for (const k of keys) {
+      if (current && typeof current === "object" && k in current) {
+        current = current[k];
+      } else {
+        let frCurrent = fr;
+        for (const frK of keys) {
+          if (frCurrent && typeof frCurrent === "object" && frK in frCurrent) {
+            frCurrent = (frCurrent as any)[frK];
+          } else {
+            frCurrent = null as any;
+            break;
+          }
+        }
+        return typeof frCurrent === "string" ? frCurrent : key;
+      }
+    }
+    return typeof current === "string" ? current : key;
+  };
+
   let hero = DEFAULT_HERO;
   let dbReviews: any[] = [];
   let dbPrinters: any[] = [];
@@ -422,11 +451,11 @@ export default async function Home() {
             </div>
             <div className="space-y-1.5 max-w-xl">
               <h4 className="text-[23px] font-black text-white tracking-wide uppercase font-antonio flex flex-wrap items-center justify-center md:justify-start gap-2 leading-none no-invert">
-                <span>Aider l'Atelier à s'équiper</span>
-                <span className="inline-block px-2 py-0.5 rounded-full text-[8px] font-black tracking-widest bg-white/20 text-white border border-white/30 dark:bg-[#ff4f00]/20 dark:text-[#ff4f00] dark:border-[#ff4f00]/30 animate-pulse no-invert">PROJET LOCAL</span>
+                <span>{t("home.donation.title")}</span>
+                <span className="inline-block px-2 py-0.5 rounded-full text-[8px] font-black tracking-widest bg-white/20 text-white border border-white/30 dark:bg-[#ff4f00]/20 dark:text-[#ff4f00] dark:border-[#ff4f00]/30 animate-pulse no-invert">{t("home.donation.badge")}</span>
               </h4>
               <p className="text-xs text-white/90 dark:text-gray-400 leading-relaxed font-sans font-medium">
-                Spoolio est un projet artisanal et éco-responsable. Vous pouvez soutenir nos investissements matériels (buses neuves, plateaux d'impression, entretien des machines) en choisissant un palier d'aide.
+                {t("home.donation.description")}
               </p>
             </div>
           </div>
@@ -435,7 +464,7 @@ export default async function Home() {
             href="/don"
             className="relative z-10 shrink-0 h-13 px-8 rounded-xl bg-white text-[#cf3b00] hover:bg-white/95 dark:bg-[#cf3b00] dark:text-white dark:hover:bg-[#b03200] font-black text-xs uppercase tracking-wider transition-all shadow-xl shadow-black/10 dark:shadow-[#cf3b00]/25 hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
           >
-            <span>Soutenir l'Atelier</span>
+            <span>{t("home.donation.button")}</span>
             <span className="transition-transform duration-300 group-hover:translate-x-1 text-sm">&rarr;</span>
           </Link>
         </div>
@@ -513,10 +542,10 @@ export default async function Home() {
       <section className="w-full max-w-[1200px] px-4 py-12 relative z-10 border-t border-white/5">
         <div className="text-center mb-10">
           <h2 className="text-3xl font-extrabold uppercase tracking-tight text-white font-antonio">
-            Du Maïs à votre Fidget : Le cycle du PLA 🌾
+            {t("home.timeline.title")} 🌾
           </h2>
           <p className="text-xs text-gray-400 font-sans mt-2 max-w-md mx-auto leading-relaxed">
-            Découvrez les 5 étapes clés de la fabrication du plastique PLA éco-responsable que nous utilisons pour imprimer vos objets en 3D.
+            {t("home.timeline.subtitle")}
           </p>
         </div>
 
@@ -531,9 +560,9 @@ export default async function Home() {
             <div className="w-12 h-12 rounded-full bg-white dark:bg-black text-[#cf3b00] border border-[#cf3b00]/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               1
             </div>
-            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Culture & Récolte</h4>
+            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">{t("home.timeline.step1.title")}</h4>
             <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-              Le maïs non-alimentaire est cultivé localement, sans OGM, capturant du CO₂ pendant sa croissance naturelle.
+              {t("home.timeline.step1.description")}
             </p>
           </div>
 
@@ -542,9 +571,9 @@ export default async function Home() {
             <div className="w-12 h-12 rounded-full bg-white dark:bg-black text-indigo-400 border border-indigo-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               2
             </div>
-            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Amidon & Dextrose</h4>
+            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">{t("home.timeline.step2.title")}</h4>
             <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-              Les grains récoltés sont broyés pour en extraire l'amidon, qui est ensuite converti en dextrose (sucre simple).
+              {t("home.timeline.step2.description")}
             </p>
           </div>
 
@@ -553,9 +582,9 @@ export default async function Home() {
             <div className="w-12 h-12 rounded-full bg-white dark:bg-black text-purple-400 border border-purple-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               3
             </div>
-            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Polymérisation</h4>
+            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">{t("home.timeline.step3.title")}</h4>
             <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-              Le dextrose fermente en acide lactique, puis est polymérisé pour créer des granulés de plastique PLA biodégradables.
+              {t("home.timeline.step3.description")}
             </p>
           </div>
 
@@ -564,9 +593,9 @@ export default async function Home() {
             <div className="w-12 h-12 rounded-full bg-white dark:bg-black text-blue-400 border border-blue-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               4
             </div>
-            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Extrusion du Fil</h4>
+            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">{t("home.timeline.step4.title")}</h4>
             <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-              Les granulés sont chauffés et étirés pour produire un fil calibré de 1.75 mm de diamètre, enroulé sur bobine.
+              {t("home.timeline.step4.description")}
             </p>
           </div>
 
@@ -575,9 +604,9 @@ export default async function Home() {
             <div className="w-12 h-12 rounded-full bg-white dark:bg-black text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               5
             </div>
-            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Impression 3D</h4>
+            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">{t("home.timeline.step5.title")}</h4>
             <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
-              Le filament est fondu à 215°C et déposé couche par couche par nos imprimantes à Comines pour former vos objets.
+              {t("home.timeline.step5.description")}
             </p>
           </div>
 

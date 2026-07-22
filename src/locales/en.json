@@ -1,0 +1,79 @@
+{
+  "header": {
+    "shop": "Shop",
+    "about": "About",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "admin": "Admin",
+    "cart": "Cart",
+    "search_placeholder": "Search for a fidget, accessory..."
+  },
+  "footer": {
+    "description": "Sensory fidgets, accessories, and fun objects printed in 3D in Comines, France. 🇫🇷",
+    "rights": "All rights reserved.",
+    "links": {
+      "legal": "Legal Notice",
+      "cgv": "Terms & Conditions",
+      "cookies": "Cookies Policy",
+      "returns": "Returns & Cancellation"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "back": "Back",
+    "save": "Save",
+    "close": "Close"
+  },
+  "home": {
+    "donation": {
+      "badge": "LOCAL PROJECT",
+      "title": "Supporting the Workshop",
+      "description": "Spoolio is an artisanal and eco-friendly project. You can support our hardware investments (new nozzles, print sheets, printer maintenance) by choosing a support tier.",
+      "button": "Support the Workshop"
+    },
+    "timeline": {
+      "badge": "Know-how",
+      "title": "The virtuous cycle of PLA",
+      "subtitle": "How local corn becomes your favorite fidgets",
+      "step1": {
+        "title": "Culture & Harvest",
+        "description": "Non-food corn is grown locally, GMO-free, capturing CO₂ during its natural growth."
+      },
+      "step2": {
+        "title": "Starch & Dextrose",
+        "description": "Harvested grains are ground to extract starch, which is then converted into dextrose (simple sugar)."
+      },
+      "step3": {
+        "title": "Polymerization",
+        "description": "Dextrose ferments into lactic acid, then is polymerized to create biodegradable PLA plastic pellets."
+      },
+      "step4": {
+        "title": "Filament Extrusion",
+        "description": "Pellets are heated and stretched to produce a calibrated 1.75 mm diameter filament wound on a spool."
+      },
+      "step5": {
+        "title": "3D Printing",
+        "description": "The filament is melted at 215°C and deposited layer by layer by our printers in Comines to form your objects."
+      }
+    },
+    "reassurance": {
+      "local": {
+        "title": "French Workshop",
+        "description": "3D printed in Comines (Nord)"
+      },
+      "eco": {
+        "title": "100% Bio-sourced",
+        "description": "Plant-based plastic made from corn"
+      },
+      "shipping": {
+        "title": "Fast Shipping",
+        "description": "Dispatched within 24/48 hours"
+      },
+      "secure": {
+        "title": "Secure Purchase",
+        "description": "Protected payment by Stripe"
+      }
+    }
+  }
+}

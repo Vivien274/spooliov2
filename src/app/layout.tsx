@@ -3,6 +3,7 @@ import { Antonio, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import AdminToolbar from "@/components/AdminToolbar";
 import { CartProvider } from "@/context/CartContext";
+import { LanguageProvider } from "@/context/LanguageContext";
 import CartDrawer from "@/components/CartDrawer";
 import VisitorTracker from "@/components/VisitorTracker";
 import CookieBanner from "@/components/CookieBanner";
@@ -55,16 +56,18 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col">
-        <CartProvider>
-          <VisitorTracker />
-          <AdminToolbar />
-          <CartDrawer />
-          <CookieBanner />
-          <NewsletterPopup />
-          <main className="flex-1 flex flex-col">
-            {children}
-          </main>
-        </CartProvider>
+        <LanguageProvider>
+          <CartProvider>
+            <VisitorTracker />
+            <AdminToolbar />
+            <CartDrawer />
+            <CookieBanner />
+            <NewsletterPopup />
+            <main className="flex-1 flex flex-col">
+              {children}
+            </main>
+          </CartProvider>
+        </LanguageProvider>
       </body>
     </html>
   );
