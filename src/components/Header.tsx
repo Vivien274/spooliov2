@@ -123,6 +123,7 @@ export default function Header({ className = "" }: HeaderProps) {
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           className="w-10 h-10 flex items-center justify-center bg-white/5 hover:bg-white/15 text-white rounded-full border border-white/10 transition-all cursor-pointer z-50"
           title="Menu"
+          aria-label={isMobileMenuOpen ? "Fermer le menu mobile" : "Ouvrir le menu mobile"}
         >
           {isMobileMenuOpen ? (
             <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -198,6 +199,7 @@ export default function Header({ className = "" }: HeaderProps) {
           onClick={() => setIsSearchOpen(true)}
           className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors ml-2 cursor-pointer shadow-sm border border-white/5"
           title="Rechercher (Cmd+K)"
+          aria-label="Rechercher"
         >
           <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -212,6 +214,7 @@ export default function Header({ className = "" }: HeaderProps) {
           onClick={() => setIsSearchOpen(true)}
           className="flex md:hidden w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 items-center justify-center transition-all cursor-pointer border border-white/10"
           title="Rechercher"
+          aria-label="Rechercher"
         >
           <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -223,6 +226,7 @@ export default function Header({ className = "" }: HeaderProps) {
           onClick={toggleTheme}
           className="hidden md:flex w-12 h-12 items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/10 backdrop-blur-md transition-all cursor-pointer shadow-lg"
           title={theme === "dark" ? "Passer au thème clair" : "Passer au thème sombre"}
+          aria-label={theme === "dark" ? "Passer au thème clair" : "Passer au thème sombre"}
         >
           {theme === "dark" ? (
             // Sun Icon
@@ -241,6 +245,8 @@ export default function Header({ className = "" }: HeaderProps) {
         <button
           onClick={() => setIsCartOpen(true)}
           className={`relative w-12 h-12 flex items-center justify-center bg-[#ff4f00] hover:bg-[#e04500] text-white rounded-full transition-colors shadow-lg shadow-[#ff4f00]/15 cursor-pointer ${isBouncing ? "animate-bouncy-cart" : ""}`}
+          title="Ouvrir le panier"
+          aria-label="Ouvrir le panier"
         >
           <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />

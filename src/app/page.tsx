@@ -194,7 +194,7 @@ export default async function Home() {
             )}
             <Link
               href={hero.buttonLink}
-              className="mt-4 px-8 py-3 bg-[#ff4f00] hover:bg-[#e04500] text-white font-bold text-[10px] md:text-xs tracking-wider rounded-full uppercase transition-all duration-300 shadow-lg shadow-[#ff4f00]/25 hover:scale-[1.02] cursor-pointer"
+              className="mt-4 px-8 py-3 bg-[#cf3b00] hover:bg-[#b03200] text-white font-bold text-[10px] md:text-xs tracking-wider rounded-full uppercase transition-all duration-300 shadow-lg shadow-[#cf3b00]/25 hover:scale-[1.02] cursor-pointer"
             >
               {hero.buttonText}
             </Link>
@@ -238,6 +238,7 @@ export default async function Home() {
                 rel="noopener noreferrer"
                 className="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] border border-transparent flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 group/insta shadow-lg shadow-pink-500/10 no-invert"
                 title="Instagram"
+                aria-label="Rejoignez-nous sur Instagram"
               >
                 <svg className="w-5 h-5 transition-transform duration-300 group-hover/insta:rotate-12" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
@@ -251,6 +252,7 @@ export default async function Home() {
                 rel="noopener noreferrer"
                 className="w-12 h-12 rounded-xl bg-black border border-white/20 flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 group/tiktok shadow-lg shadow-white/5 hover:border-cyan-400 no-invert"
                 title="TikTok"
+                aria-label="Rejoignez-nous sur TikTok"
               >
                 <svg className="w-5 h-5 transition-transform duration-300 group-hover/tiktok:-rotate-12" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12.525.02c1.31-.03 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.21-.42-.45-.6-.7-.03 3.68-.01 7.35-.02 11.03-.09 1.58-.69 3.19-1.87 4.26-1.52 1.41-3.79 2.05-5.83 1.65-2.61-.43-4.83-2.58-5.23-5.22-.59-3.23 1.43-6.52 4.62-7.05.69-.13 1.4-.15 2.1-.06v4.08c-.76-.17-1.57-.04-2.22.38-.85.5-1.34 1.51-1.22 2.49.12 1.34 1.28 2.44 2.63 2.44 1.31.06 2.53-.94 2.65-2.24.03-3.41.01-6.83.02-10.24-.02-4.22-.01-8.43-.02-12.65z" />
@@ -264,6 +266,7 @@ export default async function Home() {
                 rel="noopener noreferrer"
                 className="w-12 h-12 rounded-xl bg-[#1877f2] border border-transparent flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 group/fb shadow-lg shadow-blue-500/10 no-invert"
                 title="Facebook"
+                aria-label="Rejoignez-nous sur Facebook"
               >
                 <svg className="w-5 h-5 transition-transform duration-300 group-hover/fb:scale-110" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
@@ -362,7 +365,7 @@ export default async function Home() {
               <h3 className="text-lg font-bold text-white uppercase tracking-tight">
                 Les Dernières Créations
               </h3>
-              <p className="text-[10px] text-gray-500 font-medium">Tout chaud sortis de nos buses d'impression à Comines</p>
+              <p className="text-[10px] text-gray-400 font-medium">Tout chaud sortis de nos buses d'impression à Comines</p>
             </div>
           </div>
           <SpoolioProductGrid filterType="latest" limit={3} showFilters={false} compact={true} />
@@ -376,7 +379,7 @@ export default async function Home() {
               <h3 className="text-lg font-bold text-white uppercase tracking-tight">
                 Nos Coups de Cœur
               </h3>
-              <p className="text-[10px] text-gray-500 font-medium">Les objets préférés et les plus populaires de la commu</p>
+              <p className="text-[10px] text-gray-400 font-medium">Les objets préférés et les plus populaires de la commu</p>
             </div>
           </div>
           <SpoolioProductGrid filterType="best-of" limit={3} showFilters={false} compact={true} />
@@ -405,7 +408,7 @@ export default async function Home() {
 
           <Link
             href="/don"
-            className="relative z-10 shrink-0 h-13 px-8 rounded-xl bg-[#ff4f00] hover:bg-[#e04500] text-white font-black text-xs uppercase tracking-wider transition-all shadow-xl shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 no-invert"
+            className="relative z-10 shrink-0 h-13 px-8 rounded-xl bg-[#cf3b00] hover:bg-[#b03200] text-white font-black text-xs uppercase tracking-wider transition-all shadow-xl shadow-[#cf3b00]/25 hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 no-invert"
           >
             <span>Soutenir l'Atelier</span>
             <span className="transition-transform duration-300 group-hover:translate-x-1 text-sm">&rarr;</span>
@@ -420,7 +423,7 @@ export default async function Home() {
               <h3 className="text-lg font-bold text-white uppercase tracking-tight">
                 Explorer Tout le Catalogue
               </h3>
-              <p className="text-[10px] text-gray-500 font-medium">Filtre par univers pour trouver ton bonheur</p>
+              <p className="text-[10px] text-gray-400 font-medium">Filtre par univers pour trouver ton bonheur</p>
             </div>
           </div>
           <SpoolioProductGrid filterType="all" limit={9} showFilters={true} />

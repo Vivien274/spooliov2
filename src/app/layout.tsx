@@ -61,7 +61,9 @@ export default function RootLayout({
           <CartDrawer />
           <CookieBanner />
           <NewsletterPopup />
-          {children}
+          <main className="flex-1 flex flex-col">
+            {children}
+          </main>
         </CartProvider>
       </body>
     </html>
