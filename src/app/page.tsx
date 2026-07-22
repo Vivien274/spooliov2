@@ -5,6 +5,7 @@ import SpoolioProductGrid from "@/components/SpoolioProductGrid";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReviewsSection from "@/components/ReviewsSection";
+import GachaponConfigurator from "@/components/GachaponConfigurator";
 import { prisma } from "@/lib/prisma";
 import fs from "fs";
 import path from "path";
@@ -396,6 +397,38 @@ export default async function Home() {
             </Link>
 
           </div>
+        </div>
+      </section>
+
+      {/* Retro Gachapon Teaser Feature Ribbon */}
+      <section className="w-full max-w-[1200px] px-4 py-6 relative z-10">
+        <div className="relative rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-[#121216] via-[#181820] to-[#0d0d11] border border-neutral-800 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl no-invert group">
+          <div className="absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-[#FF5500]/10 blur-3xl pointer-events-none" />
+          
+          <div className="flex flex-col md:flex-row items-center gap-5 text-center md:text-left z-10">
+            <div className="w-14 h-14 rounded-2xl bg-[#FF5500]/15 border border-[#FF5500]/30 flex items-center justify-center text-3xl shrink-0 shadow-md">
+              🎰
+            </div>
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#00F0FF]/15 border border-[#00F0FF]/30 text-[#00F0FF] text-[10px] font-mono font-bold uppercase tracking-wider">
+                <span>NOUVEAU • DISTRIBUTEUR RÉTRO</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-extrabold uppercase text-white font-antonio tracking-tight">
+                La Pochette Surprise Gachapon 🔮
+              </h3>
+              <p className="text-xs sm:text-sm text-neutral-400 font-sans max-w-lg">
+                Compose ton pack mystère (3, 6 ou 10 objets 3D), ajuste tes univers ou fais tourner la manivelle en Mode Chaos !
+              </p>
+            </div>
+          </div>
+
+          <Link
+            href="/pochette-surprise"
+            className="z-10 shrink-0 px-6 py-3.5 rounded-2xl bg-[#FF5500] hover:bg-[#ff661a] text-black font-extrabold text-xs uppercase tracking-wider transition-all shadow-lg shadow-[#FF5500]/20 hover:scale-[1.03] cursor-pointer flex items-center gap-2"
+          >
+            <span>TESTER LE GACHAPON</span>
+            <span className="text-base">&rarr;</span>
+          </Link>
         </div>
       </section>
 

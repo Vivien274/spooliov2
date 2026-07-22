@@ -103,7 +103,7 @@ async function fetchSingleProduct(slug: string, status: string) {
           categories: true,
         },
       }),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 800))
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 5000))
     ]) as any;
 
     if (dbProduct) {
@@ -132,7 +132,7 @@ async function fetchSingleProduct(slug: string, status: string) {
                 where: { slug },
                 select: { id: true }
               }),
-              new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 800))
+              new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 5000))
             ]) as any;
 
             if (localProduct) {
@@ -294,7 +294,7 @@ export async function PUT(
             ].filter(Boolean) as any
           }
         }),
-        new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 800))
+        new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 5000))
       ]) as any;
 
       let categoryConnect: any = { set: [] };
@@ -341,7 +341,7 @@ export async function PUT(
               categories: true
             }
           }),
-          new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 800))
+          new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 5000))
         ]) as any;
       } else {
         const newId = searchId || body.id;
@@ -374,7 +374,7 @@ export async function PUT(
               categories: true
             }
           }),
-          new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 800))
+          new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 5000))
         ]) as any;
       }
       savedInDb = true;

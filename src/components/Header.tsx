@@ -188,10 +188,18 @@ export default function Header({ className = "" }: HeaderProps) {
                   <span>Geek / Gaming</span>
                   <span className="bg-[#ff4f00] text-white text-[8px] font-extrabold px-1.5 py-0.5 rounded tracking-wide leading-none shadow-sm whitespace-nowrap no-invert">TOUT CHAUD !</span>
                 </Link>
+                <div className="h-[1px] bg-white/10 my-1" />
+                <Link href="/pochette-surprise" className="flex items-center justify-between px-3 py-2.5 rounded-xl bg-[#FF5500]/15 hover:bg-[#FF5500]/30 text-[#FF5500] hover:text-white transition-colors text-[10px] font-extrabold tracking-wider uppercase">
+                  <span className="flex items-center gap-1.5">🎰 Pochette Gachapon</span>
+                  <span className="bg-[#00F0FF] text-black text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide leading-none no-invert">FUN !</span>
+                </Link>
               </div>
             </div>
           </div>
         </div>
+        <Link href="/pochette-surprise" className="hover:text-white cursor-pointer transition-colors text-[#FF5500] font-bold flex items-center gap-1">
+          <span>🎰 Pochette Gachapon</span>
+        </Link>
         <a href="https://boussole.spoolio.fr" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">Boussole Sensorielle</a>
         <Link href="/blog" className="hover:text-white cursor-pointer transition-colors">{t("header.about")}</Link>
         <Link href="/don" className="hover:text-white cursor-pointer transition-colors text-[#ff4f00] font-bold">{t("home.donation.button")} 🧡</Link>
@@ -571,6 +579,14 @@ export default function Header({ className = "" }: HeaderProps) {
                     >
                       <span>Geek / Gaming</span>
                       <span className="bg-[#ff4f00] text-white text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide leading-none no-invert">NEW</span>
+                    </Link>
+                    <Link 
+                      href="/pochette-surprise" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3 py-2 text-xs font-bold text-[#FF5500] hover:text-white rounded-lg bg-[#FF5500]/10 border border-[#FF5500]/20 flex items-center justify-between transition-colors mt-1"
+                    >
+                      <span className="flex items-center gap-1.5">🎰 Pochette Gachapon 3D</span>
+                      <span className="bg-[#00F0FF] text-black text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide leading-none no-invert">FUN !</span>
                     </Link>
                   </div>
                 </div>

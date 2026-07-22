@@ -125,7 +125,7 @@ export default function ProductCard({ product, compact = false, priority = false
 
         {/* Tag on top left (Only if real tag is defined) */}
         {firstTag && (
-          <span className="absolute top-4 left-4 px-2.5 py-1 text-[9px] font-bold bg-black/60 text-gray-200 rounded-full backdrop-blur-sm tracking-wide z-10 no-invert">
+          <span className="absolute top-4 left-4 px-2.5 py-1 text-[9px] font-bold bg-[#f7eb12] text-black rounded-full shadow-md z-10 no-invert">
             {firstTag}
           </span>
         )}
@@ -177,15 +177,11 @@ export default function ProductCard({ product, compact = false, priority = false
           {/* Badges Overlays */}
           {/* Top-Left Badge (Only if real tag is defined) */}
           {firstTag && (
-            <span className="absolute top-4 left-4 px-3 py-1.5 text-[10px] font-semibold bg-[#2a2a30]/85 text-gray-300 rounded-full backdrop-blur-sm tracking-wide z-10 no-invert">
+            <span className="absolute top-4 left-4 px-3 py-1.5 text-[10px] font-bold bg-[#f7eb12] text-black rounded-full shadow-md z-10 no-invert">
               {firstTag}
             </span>
           )}
 
-          {/* Top-Right Price Badge */}
-          <span className="absolute top-4 right-4 px-3 py-1.5 text-[10px] font-bold bg-[#f7eb12] text-black rounded-full shadow-md z-10">
-            {formatPrice(product.price)}
-          </span>
         </div>
 
         {/* Content Container (Title, Description) with Padding */}
@@ -209,7 +205,7 @@ export default function ProductCard({ product, compact = false, priority = false
           className="w-full h-[50px] inline-flex items-center justify-center gap-2 px-4 text-xs font-bold text-white bg-[#005cff] hover:bg-[#004ecc] rounded-xl transition-colors shadow-[0_4px_10px_rgba(0,92,255,0.15)] select-none border-none cursor-pointer no-invert"
         >
           <UnicornIcon animationData={cartIconData} className="w-8 h-8 scale-[1.8]" isHovered={isButtonHovered} />
-          ACHETER
+          <span className="text-sm font-extrabold">{formatPrice(product.price)}</span>
         </div>
       </div>
     </Link>

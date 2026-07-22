@@ -103,7 +103,7 @@ async function fetchAllProducts(status: string) {
           dateCreated: 'desc',
         },
       }),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 1200))
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 5000))
     ]) as any;
 
     if (dbProducts && dbProducts.length > 0) {

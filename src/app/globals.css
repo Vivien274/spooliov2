@@ -1042,4 +1042,22 @@ html.light .donation-input::placeholder {
   color: #9ca3af !important;
 }
 
+/* Theme light overrides for segmented control and admin active tabs */
+html.light .segmented-control-container {
+  background-color: #f1f1f5 !important;
+  border-color: #e2e2e9 !important;
+}
+html.light .segmented-control-container button.variant-btn-selected {
+  background-color: #ffffff !important;
+  border-color: #ffffff !important;
+  color: #0d0d11 !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+html.light .admin-tab-active {
+  background-color: #ffffff !important;
+  color: #0d0d11 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+}
+
+
 

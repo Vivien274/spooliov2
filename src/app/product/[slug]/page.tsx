@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   try {
     const product = await Promise.race([
       prisma.product.findUnique({ where: { slug } }),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 800))
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 5000))
     ]) as any;
 
     if (product) {

@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAdminTheme } from "../AdminThemeContext";
 
+const ADMIN_BLUE = "#2F3CD9";
+
 interface DonationTier {
   id: string;
   amount: number;
@@ -111,7 +113,8 @@ export default function AdminDonationTiersPage() {
 
         <button
           onClick={() => setEditingTier({ amount: 10, title: "", subtitle: "", description: "", emoji: "🎁", color: "orange", isActive: true })}
-          className="h-12 px-6 rounded-xl bg-white hover:bg-white/95 text-black font-extrabold text-xs uppercase tracking-wider transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+          className="h-12 px-6 rounded-xl text-white font-extrabold text-xs uppercase tracking-wider transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer shadow-lg hover:brightness-105 active:brightness-95"
+          style={{ background: ADMIN_BLUE, boxShadow: `0 8px 24px rgba(47, 60, 217, 0.25)` }}
         >
           + Ajouter un palier
         </button>
@@ -159,7 +162,7 @@ export default function AdminDonationTiersPage() {
               </thead>
               <tbody className={`divide-y ${cls.divider}`}>
                 {tiers.map((tier) => (
-                  <tr key={tier.id} className="hover:bg-white/[0.01] transition-colors">
+                  <tr key={tier.id} className={`${cls.hoverRow} transition-colors`}>
                     <td className="py-4 px-4 text-center text-2xl select-none">
                       {tier.emoji}
                     </td>
@@ -217,13 +220,13 @@ export default function AdminDonationTiersPage() {
       {editingTier && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
           <div className={`w-full max-w-lg rounded-3xl border ${cls.border} ${cls.cardBg} shadow-2xl p-6 md:p-8 space-y-6 animate-scale-up`}>
-            <div className="flex justify-between items-center border-b border-white/5 pb-4">
+            <div className={`flex justify-between items-center border-b ${cls.border} pb-4`}>
               <h3 className={`text-lg font-black font-antonio uppercase tracking-widest ${cls.textMain}`}>
                 {editingTier.id ? "Modifier le Palier" : "Créer un Palier"}
               </h3>
               <button 
                 onClick={() => setEditingTier(null)}
-                className="text-gray-500 hover:text-white transition-colors cursor-pointer text-lg font-bold"
+                className="text-gray-500 hover:text-gray-800 dark:hover:text-white transition-colors cursor-pointer text-lg font-bold"
               >
                 ✕
               </button>
@@ -247,7 +250,7 @@ export default function AdminDonationTiersPage() {
                     required
                     value={editingTier.amount || ""}
                     onChange={(e) => setEditingTier(prev => ({ ...prev, amount: parseInt(e.target.value, 10) }))}
-                    className={`w-full h-11 px-3 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#ff4f00]/50 transition-colors text-xs font-bold`}
+                    className={`w-full h-11 px-3 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#2F3CD9]/50 transition-colors text-xs font-bold`}
                   />
                 </div>
 
@@ -260,7 +263,7 @@ export default function AdminDonationTiersPage() {
                     maxLength={4}
                     value={editingTier.emoji || ""}
                     onChange={(e) => setEditingTier(prev => ({ ...prev, emoji: e.target.value }))}
-                    className={`w-full h-11 px-3 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#ff4f00]/50 transition-colors text-xs text-center`}
+                    className={`w-full h-11 px-3 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#2F3CD9]/50 transition-colors text-xs text-center`}
                   />
                 </div>
 
@@ -270,7 +273,7 @@ export default function AdminDonationTiersPage() {
                   <select
                     value={editingTier.color || "orange"}
                     onChange={(e) => setEditingTier(prev => ({ ...prev, color: e.target.value }))}
-                    className={`w-full h-11 px-3 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#ff4f00]/50 transition-colors text-xs font-bold`}
+                    className={`w-full h-11 px-3 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#2F3CD9]/50 transition-colors text-xs font-bold`}
                   >
                     <option value="orange">Orange</option>
                     <option value="blue">Bleu</option>
@@ -287,7 +290,7 @@ export default function AdminDonationTiersPage() {
                   placeholder="Ex: Une Buse en Laiton"
                   value={editingTier.title || ""}
                   onChange={(e) => setEditingTier(prev => ({ ...prev, title: e.target.value }))}
-                  className={`w-full h-11 px-4 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#ff4f00]/50 transition-colors text-xs font-semibold`}
+                  className={`w-full h-11 px-4 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#2F3CD9]/50 transition-colors text-xs font-semibold`}
                 />
               </div>
 
@@ -300,7 +303,7 @@ export default function AdminDonationTiersPage() {
                   placeholder="Ex: Entretien Précision"
                   value={editingTier.subtitle || ""}
                   onChange={(e) => setEditingTier(prev => ({ ...prev, subtitle: e.target.value }))}
-                  className={`w-full h-11 px-4 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#ff4f00]/50 transition-colors text-xs font-semibold`}
+                  className={`w-full h-11 px-4 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#2F3CD9]/50 transition-colors text-xs font-semibold`}
                 />
               </div>
 
@@ -313,7 +316,7 @@ export default function AdminDonationTiersPage() {
                   placeholder="Expliquez concrètement ce que ce don finance..."
                   value={editingTier.description || ""}
                   onChange={(e) => setEditingTier(prev => ({ ...prev, description: e.target.value }))}
-                  className={`w-full p-4 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#ff4f00]/50 transition-colors text-xs font-sans leading-relaxed resize-none`}
+                  className={`w-full p-4 ${cls.inputBg} border ${cls.border} rounded-xl ${cls.textMain} outline-none focus:border-[#2F3CD9]/50 transition-colors text-xs font-sans leading-relaxed resize-none`}
                 />
               </div>
 
@@ -332,18 +335,19 @@ export default function AdminDonationTiersPage() {
               </div>
 
               {/* Actions submit */}
-              <div className="flex justify-end gap-3 border-t border-white/5 pt-4 mt-6">
+              <div className={`flex justify-end gap-3 border-t ${cls.border} pt-4 mt-6`}>
                 <button
                   type="button"
                   onClick={() => setEditingTier(null)}
-                  className={`px-4 py-2.5 rounded-xl border ${cls.border} ${cls.inputBg} hover:text-white cursor-pointer transition-colors text-xs font-bold uppercase tracking-wider`}
+                  className={`px-4 py-2.5 rounded-xl border ${cls.border} ${cls.inputBg} hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-800 dark:hover:text-white cursor-pointer transition-colors text-xs font-bold uppercase tracking-wider`}
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-6 py-2.5 rounded-xl bg-white hover:bg-white/95 text-black font-extrabold text-xs uppercase tracking-wider transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer disabled:bg-white/50"
+                  className="px-6 py-2.5 rounded-xl text-white font-extrabold text-xs uppercase tracking-wider transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer disabled:bg-gray-500 disabled:scale-100 disabled:cursor-not-allowed hover:brightness-105 active:brightness-95"
+                  style={{ background: ADMIN_BLUE, boxShadow: `0 8px 24px rgba(47, 60, 217, 0.25)` }}
                 >
                   {saving ? "Sauvegarde..." : "Enregistrer"}
                 </button>

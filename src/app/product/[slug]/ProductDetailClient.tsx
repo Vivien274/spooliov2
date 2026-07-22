@@ -904,7 +904,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                               {/* Background overlay to catch click-away events */}
                               <div className="fixed inset-0 z-40" onClick={() => setActiveDropdown(null)} />
                               
-                              <div className="absolute left-0 right-0 mt-2 max-h-60 overflow-y-auto bg-[#141418]/95 border border-spoolio-border/80 rounded-xl shadow-2xl z-50 backdrop-blur-md divide-y divide-white/5 animate-none no-scrollbar">
+                              <div className="absolute left-0 right-0 mt-2 max-h-60 overflow-y-auto bg-spoolio-card/95 border border-spoolio-border/80 rounded-xl shadow-2xl z-50 backdrop-blur-md divide-y divide-spoolio-border/30 animate-none no-scrollbar">
                                 {options.map((opt: string) => {
                                   const isOptionSelected = selectedVal === opt;
                                   const optionBg = getCssColor(opt);
@@ -957,7 +957,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                         <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
                           {decodedName}
                         </label>
-                        <div className="inline-flex bg-spoolio-card border border-spoolio-border rounded-xl p-0.5 max-w-fit select-none">
+                        <div className="segmented-control-container inline-flex bg-spoolio-card border border-spoolio-border rounded-xl p-0.5 max-w-fit select-none">
                           {sortedOptions.map((opt: string) => {
                             const isSelected = selectedVal === opt;
                             return (
@@ -987,7 +987,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                         <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
                           {decodedName}
                         </label>
-                        <div className="inline-flex bg-spoolio-card border border-spoolio-border rounded-xl p-0.5 max-w-fit select-none">
+                        <div className="segmented-control-container inline-flex bg-spoolio-card border border-spoolio-border rounded-xl p-0.5 max-w-fit select-none">
                           {options.map((opt: string) => {
                             const isSelected = selectedVal === opt;
                             return (

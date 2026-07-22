@@ -31,7 +31,7 @@ interface AdminOrder {
 }
 
 export default function AdminDashboard() {
-  const { cls } = useAdminTheme();
+  const { theme, cls } = useAdminTheme();
   const [activeTab, setActiveTab] = useState<"dashboard" | "stats" | "printers">("dashboard");
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loadingOrders, setLoadingOrders] = useState<boolean>(true);
@@ -338,11 +338,11 @@ export default function AdminDashboard() {
         </div>
         
         {/* Navigation Tabs */}
-        <div className={`flex bg-black/40 border ${cls.border} rounded-2xl p-1 shrink-0 flex-wrap gap-1`}>
+        <div className={`flex ${theme === "dark" ? "bg-black/40" : "bg-gray-200/60"} border ${cls.border} rounded-2xl p-1 shrink-0 flex-wrap gap-1`}>
           <button
             onClick={() => setActiveTab("dashboard")}
             className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
-              activeTab === "dashboard" ? "bg-white text-black shadow-md" : `text-gray-400 hover:text-white`
+              activeTab === "dashboard" ? "bg-white text-black shadow-md admin-tab-active" : `text-gray-400 hover:text-white`
             }`}
           >
             Dashboard
@@ -350,7 +350,7 @@ export default function AdminDashboard() {
           <button
             onClick={() => setActiveTab("stats")}
             className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
-              activeTab === "stats" ? "bg-white text-black shadow-md" : `text-gray-400 hover:text-white`
+              activeTab === "stats" ? "bg-white text-black shadow-md admin-tab-active" : `text-gray-400 hover:text-white`
             }`}
           >
             Visites & Analytics
@@ -358,7 +358,7 @@ export default function AdminDashboard() {
           <button
             onClick={() => setActiveTab("printers")}
             className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
-              activeTab === "printers" ? "bg-white text-black shadow-md" : `text-gray-400 hover:text-white`
+              activeTab === "printers" ? "bg-white text-black shadow-md admin-tab-active" : `text-gray-400 hover:text-white`
             }`}
           >
             État de l'Atelier 🤖
