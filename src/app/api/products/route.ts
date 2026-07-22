@@ -75,6 +75,7 @@ function mapProduct(p: any) {
     attributes: parsedAttributes,
     tags: tagsList,
     stock: typeof p.stock === 'number' ? p.stock : (typeof p.stock_quantity === 'number' ? p.stock_quantity : -1),
+    status: p.status || "publish",
   };
 }
 

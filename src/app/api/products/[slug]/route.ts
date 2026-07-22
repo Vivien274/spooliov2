@@ -297,6 +297,28 @@ export async function PUT(
         new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 800))
       ]) as any;
 
+      let categoryConnect: any = { set: [] };
+      if (body.category) {
+        try {
+          const categoryObj = await prisma.category.findFirst({
+            where: {
+              OR: [
+                { name: { equals: body.category, mode: "insensitive" } },
+                { slug: body.category.toLowerCase().replace(/\s+/g, '-').normalize("NFD").replace(/[\u0300-\u036f]/g, "") }
+              ]
+            }
+          });
+          if (categoryObj) {
+            categoryConnect = {
+              set: [],
+              connect: { id: categoryObj.id }
+            };
+          }
+        } catch (catErr: any) {
+          console.warn("Could not find matching category in DB:", catErr.message);
+        }
+      }
+
       const imagesPayload = (body.images || []).map((img: any) => ({
         src: img.src,
         alt: img.alt || ""
@@ -308,13 +330,15 @@ export async function PUT(
             where: { id: exists.id },
             data: {
               ...updateData,
+              categories: categoryConnect,
               images: {
                 deleteMany: {},
                 create: imagesPayload
               }
             },
             include: {
-              images: true
+              images: true,
+              categories: true
             }
           }),
           new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 800))
@@ -340,12 +364,14 @@ export async function PUT(
               metaTitle: updateData.metaTitle,
               metaDescription: updateData.metaDescription,
               attributes: updateData.attributes,
+              categories: categoryConnect,
               images: {
                 create: imagesPayload
               }
             },
             include: {
-              images: true
+              images: true,
+              categories: true
             }
           }),
           new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 800))
@@ -372,6 +398,7 @@ export async function PUT(
             regular_price: body.regularPrice || body.regular_price || body.price,
             sale_price: body.salePrice || body.sale_price || "",
             on_sale: body.onSale || body.on_sale || false,
+            categories: body.category ? [{ name: body.category, slug: body.category.toLowerCase().replace(/\s+/g, '-') }] : [],
             short_description: body.shortDescription || body.short_description || "",
             description: body.description || "",
             stock_quantity: body.stock,

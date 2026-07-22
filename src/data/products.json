@@ -130346,7 +130346,7 @@
     "sale_price": "",
     "on_sale": false,
     "short_description": "Coucou je suis un fidgetos",
-    "description": "C'est moi le fidget aimanté ! Je m'amuse hahaha",
+    "description": "<p>Vous cherchez un moyen simple de canaliser votre énergie ou de garder vos mains occupées sans déranger votre entourage ? On a conçu ce petit <strong>fidget aimanté</strong> directement dans notre atelier à Comines. C'est le genre d'objet qu'on commence à manipuler sans y penser et qu'on ne lâche plus de la journée. Grâce à ses aimants intégrés, il offre un retour tactile super satisfaisant à chaque mouvement, tout en restant particulièrement silencieux et discret. Que ce soit au bureau, en cours ou devant une série, il se glisse incognito dans le creux de la main.</p><p>Ce modèle est particulièrement adapté pour les profils TDAH ou tous ceux qui ont besoin d'un point d'ancrage sensoriel pour mieux se concentrer. Compact et robuste, il résiste sans problème aux manipulations quotidiennes les plus intenses.</p><p>Côté fabrication, on reste fidèles à nos valeurs : ce fidget est imprimé en 3D à partir de <strong>PLA biosourcé</strong>, une matière propre issue de l'amidon de maïs. C'est solide, agréable au toucher et respectueux de l'environnement. Attention tout de même à ne pas le laisser en plein soleil derrière un pare-brise ou près d'une source de chaleur intense : comme tous les objets en PLA, il n'apprécie pas les températures supérieures à 60°C !</p>",
     "stock_quantity": -1,
     "type": "variable",
     "status": "publish",
@@ -130375,14 +130375,16 @@
             "Couleur": "",
             "Taille": "Petit"
           },
-          "price": "4"
+          "price": "4",
+          "imageSrc": "/uploads/hero_upload_1784552725913.webp"
         },
         {
           "combination": {
             "Couleur": "",
             "Taille": "Grand"
           },
-          "price": "8"
+          "price": "8",
+          "imageSrc": "/uploads/hero_upload_1784636422349.webp"
         }
       ],
       "tags": [
@@ -130391,19 +130393,25 @@
     },
     "images": [
       {
-        "id": 2699,
+        "id": 2820,
         "src": "/uploads/hero_upload_1784552725913.webp",
         "alt": "Fidget aimanté"
       },
       {
-        "id": 2700,
+        "id": 2821,
         "src": "/uploads/hero_upload_1784552725979.webp",
         "alt": "Fidget aimanté"
       },
       {
-        "id": 1784636423329,
+        "id": 2822,
         "src": "/uploads/hero_upload_1784636422349.webp",
         "alt": "Fidget aimanté"
+      }
+    ],
+    "categories": [
+      {
+        "name": "Fidgets",
+        "slug": "fidgets"
       }
     ]
   }

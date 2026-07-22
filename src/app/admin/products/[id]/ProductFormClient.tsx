@@ -35,7 +35,7 @@ interface ProductData {
   variations: { attribute: string; values: string; price: string }[];
   attributes?: {
     attributes: { name: string; options: string[]; controlType?: string }[];
-    variationPrices: { combination: Record<string, string>; price: string }[];
+    variationPrices: { combination: Record<string, string>; price: string; imageSrc?: string }[];
   };
 }
 
@@ -130,7 +130,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
   });
   const [newTag, setNewTag] = useState("");
   const [saved, setSaved] = useState(false);
-  const [activeTab, setActiveTab] = useState<"form" | "preview">("form");
+  const [activeImageDropdownIdx, setActiveImageDropdownIdx] = useState<number | null>(null);
 
   // Predefined attributes & dynamic categories states
   const [predefinedAttributes, setPredefinedAttributes] = useState<{ id: number; name: string; values: string; controlType?: string }[]>([]);
@@ -222,6 +222,16 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                 console.error("Error parsing/normalizing product attributes in admin:", e);
               }
             }
+
+            // Extract single category name string from categories array relation
+            if (typeof normalizedProduct.category === "string" && normalizedProduct.category !== "") {
+              // Already set as a string by the api
+            } else if (normalizedProduct.categories && normalizedProduct.categories.length > 0) {
+              normalizedProduct.category = normalizedProduct.categories[0].name || "";
+            } else {
+              normalizedProduct.category = "";
+            }
+
             setForm(normalizedProduct);
           }
         } else {
@@ -355,6 +365,11 @@ export default function ProductFormClient({ productId, isNew }: Props) {
 
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [aiSeoAdvice, setAiSeoAdvice] = useState<string[]>([]);
+  const [isAiModalOpen, setIsAiModalOpen] = useState<boolean>(false);
+  const [aiUse, setAiUse] = useState<string>("");
+  const [aiTarget, setAiTarget] = useState<string>("");
+  const [aiFeatures, setAiFeatures] = useState<string>("");
+  const [aiDetails, setAiDetails] = useState<string>("");
 
   const handleGenerateDescription = async () => {
     if (!form.name.trim()) {
@@ -362,6 +377,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
       return;
     }
     setIsGenerating(true);
+    setIsAiModalOpen(false); // Close the modal upon starting generation
     try {
       const res = await fetch("/api/admin/generate-description", {
         method: "POST",
@@ -371,7 +387,11 @@ export default function ProductFormClient({ productId, isNew }: Props) {
         body: JSON.stringify({
           name: form.name,
           shortDescription: form.shortDescription,
-          category: form.category
+          category: form.category,
+          aiUse,
+          aiTarget,
+          aiFeatures,
+          aiDetails
         })
       });
       const data = await res.json();
@@ -479,23 +499,6 @@ export default function ProductFormClient({ productId, isNew }: Props) {
 
         {/* Action buttons */}
         <div className="flex items-center gap-3 shrink-0">
-          {/* Tab toggle */}
-          <div className={`flex ${cls.inputBg} border ${cls.border} rounded-xl p-1`}>
-            {(["form", "preview"] as const).map((t) => (
-              <button
-                key={t}
-                onClick={() => setActiveTab(t)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                  activeTab === t
-                    ? `${cls.cardBg} ${cls.textMain}`
-                    : `${cls.textFaint} hover:${cls.textMuted}`
-                }`}
-              >
-                {t === "form" ? "Formulaire" : "Aperçu"}
-              </button>
-            ))}
-          </div>
-
           <select
             value={form.status}
             onChange={(e) => set("status")(e.target.value)}
@@ -532,8 +535,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
         </div>
       </div>
 
-      {activeTab === "form" ? (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left column - main form */}
           <div className="lg:col-span-2 space-y-6">
 
@@ -606,7 +608,13 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                   <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Description longue</label>
                   <button
                     type="button"
-                    onClick={handleGenerateDescription}
+                    onClick={() => {
+                      if (!form.name.trim()) {
+                        alert("Veuillez saisir le nom du produit avant de lancer la génération.");
+                        return;
+                      }
+                      setIsAiModalOpen(true);
+                    }}
                     disabled={isGenerating}
                     className="flex items-center gap-1.5 text-[11px] font-bold text-white bg-white/10 hover:bg-white/15 border border-white/20 px-3 py-1.5 rounded-full transition-colors cursor-pointer disabled:opacity-50"
                   >
@@ -966,6 +974,96 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                               />
                             </div>
 
+                            {/* Image liée */}
+                            <div className="relative w-full sm:w-20 flex flex-col gap-1">
+                              <label className="text-[10px] text-white font-semibold uppercase tracking-wider">Image</label>
+                              <div className="relative">
+                                {vPrice.imageSrc ? (
+                                  <button
+                                    type="button"
+                                    onClick={() => setActiveImageDropdownIdx(activeImageDropdownIdx === vpIdx ? null : vpIdx)}
+                                    className={`relative w-9 h-9 rounded-lg overflow-hidden border ${cls.border} hover:border-[#ff4f00] transition-colors cursor-pointer`}
+                                  >
+                                    <img
+                                      src={vPrice.imageSrc}
+                                      alt="Variante"
+                                      className="object-cover w-full h-full"
+                                    />
+                                  </button>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    onClick={() => setActiveImageDropdownIdx(activeImageDropdownIdx === vpIdx ? null : vpIdx)}
+                                    className={`w-9 h-9 flex items-center justify-center rounded-lg border border-dashed ${cls.border} text-gray-500 hover:text-white hover:border-white/30 transition-colors text-xs font-bold cursor-pointer`}
+                                  >
+                                    +
+                                  </button>
+                                )}
+
+                                {activeImageDropdownIdx === vpIdx && (
+                                  <>
+                                    <div 
+                                      className="fixed inset-0 z-40" 
+                                      onClick={() => setActiveImageDropdownIdx(null)} 
+                                    />
+                                    <div className={`absolute bottom-full left-0 mb-2 z-50 w-56 max-h-48 overflow-y-auto p-2 rounded-xl border ${cls.border} ${cls.cardBg} shadow-2xl flex flex-wrap gap-2`}>
+                                      {form.images.length === 0 ? (
+                                        <p className="text-[10px] text-gray-500 w-full text-center py-2">Aucune image disponible.</p>
+                                      ) : (
+                                        <>
+                                          <button
+                                            type="button"
+                                            onClick={() => {
+                                              const vPrices = [...(form.attributes?.variationPrices || [])];
+                                              vPrices[vpIdx] = {
+                                                ...vPrices[vpIdx],
+                                                imageSrc: undefined
+                                              };
+                                              set("attributes")({
+                                                attributes: form.attributes?.attributes || [],
+                                                variationPrices: vPrices
+                                              });
+                                              setActiveImageDropdownIdx(null);
+                                            }}
+                                            className="w-full text-left text-[10px] text-red-400 hover:text-red-500 hover:bg-red-500/10 p-1.5 rounded-lg transition-colors cursor-pointer mb-1 border-none bg-transparent font-semibold"
+                                          >
+                                            ❌ Supprimer l'image
+                                          </button>
+                                          {form.images.map((img) => (
+                                            <button
+                                              key={img.id}
+                                              type="button"
+                                              onClick={() => {
+                                                const vPrices = [...(form.attributes?.variationPrices || [])];
+                                                vPrices[vpIdx] = {
+                                                  ...vPrices[vpIdx],
+                                                  imageSrc: img.src
+                                                };
+                                                set("attributes")({
+                                                  attributes: form.attributes?.attributes || [],
+                                                  variationPrices: vPrices
+                                                });
+                                                setActiveImageDropdownIdx(null);
+                                              }}
+                                              className={`relative w-10 h-10 rounded-lg overflow-hidden border cursor-pointer hover:scale-105 transition-transform ${
+                                                vPrice.imageSrc === img.src ? "border-[#ff4f00]" : "border-transparent"
+                                              }`}
+                                            >
+                                              <img
+                                                src={img.src}
+                                                alt={img.alt || "Miniature"}
+                                                className="object-cover w-full h-full"
+                                              />
+                                            </button>
+                                          ))}
+                                        </>
+                                      )}
+                                    </div>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+
                             <button
                               type="button"
                               onClick={() => {
@@ -1301,48 +1399,101 @@ export default function ProductFormClient({ productId, isNew }: Props) {
             </div>
           </div>
         </div>
-      ) : (
-        /* Preview tab */
-        <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 transition-colors`}>
-          <p className={`text-sm ${cls.textMuted} mb-6 text-center`}>Aperçu de la fiche produit telle qu'elle apparaîtra sur le site.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
-            {/* Image */}
-            <div className={`aspect-square rounded-2xl ${cls.inputBg} border ${cls.border} overflow-hidden relative`}>
-              {form.images[0] ? (
-                <Image src={form.images[0].src} alt={form.images[0].alt} fill className="object-cover" />
-              ) : (
-                <div className={`absolute inset-0 flex items-center justify-center ${cls.textFaint} text-xs`}>Aucune image</div>
-              )}
-            </div>
-            {/* Details */}
-            <div className="flex flex-col gap-4">
-              <div>
-                <p className="text-xs text-[#2F3CD9] font-bold uppercase tracking-widest mb-1">{form.category || "Catégorie"}</p>
-                <h2 className={`text-2xl font-black ${cls.textMain} font-antonio`}>{form.name || "Nom du produit"}</h2>
-                <p className={`text-sm ${cls.textMuted} mt-2 leading-relaxed`}>{form.shortDescription || "Description courte…"}</p>
-              </div>
-              <div className="flex items-baseline gap-3">
-                {form.salePrice ? (
-                  <>
-                    <span className="text-3xl font-black text-[#2F3CD9]">{form.salePrice} €</span>
-                    <span className={`text-lg ${cls.textMuted} line-through`}>{form.price} €</span>
-                  </>
-                ) : (
-                  <span className={`text-3xl font-black ${cls.textMain}`}>{form.price || "—"} {form.price && "€"}</span>
-                )}
-              </div>
-              {form.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1.5">
-                  {form.tags.map((t) => (
-                    <span key={t} className={`text-[10px] font-semibold ${theme === "dark" ? "bg-white/5 text-gray-400 border-white/10" : "bg-gray-100 text-gray-500 border-gray-200"} px-2.5 py-1 rounded-full`}>{t}</span>
-                  ))}
+
+        {isAiModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+            <div className={`${cls.cardBg} border ${cls.border} rounded-3xl w-full max-w-xl shadow-2xl overflow-hidden transition-all flex flex-col max-h-[90vh]`}>
+              {/* Header */}
+              <div className={`p-6 border-b ${cls.border} flex items-center justify-between`}>
+                <div className="flex items-center gap-2">
+                  <div className="p-2 bg-[#2F3CD9]/10 text-[#2F3CD9] rounded-xl">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className={`text-base font-black ${cls.textMain}`}>Optimisation avec l'IA</h3>
+                    <p className={`text-[11px] ${cls.textMuted}`}>Guidez l'IA pour obtenir une description humaine et percutante.</p>
+                  </div>
                 </div>
-              )}
-              <button className="w-full py-3.5 bg-[#2F3CD9] text-white font-bold rounded-xl text-sm cursor-pointer">Ajouter au panier</button>
+                <button
+                  type="button"
+                  onClick={() => setIsAiModalOpen(false)}
+                  className={`p-1.5 rounded-lg hover:${theme === "dark" ? "bg-white/10" : "bg-gray-100"} transition-colors ${cls.textMuted}`}
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Questions Form */}
+              <div className="p-6 flex-1 overflow-y-auto flex flex-col gap-4">
+                <div className="flex flex-col gap-1.5">
+                  <label className={`text-[11px] font-bold ${cls.textMuted} uppercase tracking-wider`}>1. À quoi sert ce produit ? (Usage & Utilité)</label>
+                  <textarea
+                    value={aiUse}
+                    onChange={(e) => setAiUse(e.target.value)}
+                    placeholder="Ex: Ranger des bobines de PLA verticalement, caler un smartphone sur un bureau…"
+                    rows={2}
+                    className={`w-full text-xs px-3 py-2.5 rounded-xl border ${cls.border} ${cls.inputBg} ${cls.textMain} focus:outline-none focus:border-[#2F3CD9] transition-all resize-none`}
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className={`text-[11px] font-bold ${cls.textMuted} uppercase tracking-wider`}>2. Quels sont ses principaux points forts ? (Caractéristiques clés)</label>
+                  <textarea
+                    value={aiFeatures}
+                    onChange={(e) => setAiFeatures(e.target.value)}
+                    placeholder="Ex: Stable et robuste, impression éco-responsable locale, design minimaliste et industriel…"
+                    rows={2}
+                    className={`w-full text-xs px-3 py-2.5 rounded-xl border ${cls.border} ${cls.inputBg} ${cls.textMain} focus:outline-none focus:border-[#2F3CD9] transition-all resize-none`}
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className={`text-[11px] font-bold ${cls.textMuted} uppercase tracking-wider`}>3. Pour qui est-il idéal ? (Cible / Public)</label>
+                  <textarea
+                    value={aiTarget}
+                    onChange={(e) => setAiTarget(e.target.value)}
+                    placeholder="Ex: Les makers d'impression 3D, les personnes voulant un bureau bien rangé, les geeks…"
+                    rows={2}
+                    className={`w-full text-xs px-3 py-2.5 rounded-xl border ${cls.border} ${cls.inputBg} ${cls.textMain} focus:outline-none focus:border-[#2F3CD9] transition-all resize-none`}
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className={`text-[11px] font-bold ${cls.textMuted} uppercase tracking-wider`}>4. Y a-t-il des détails spécifiques ou précautions ? (Optionnel)</label>
+                  <textarea
+                    value={aiDetails}
+                    onChange={(e) => setAiDetails(e.target.value)}
+                    placeholder="Ex: Ne pas laisser en plein soleil (>60°C), compatible avec toutes les marques de bobines standard…"
+                    rows={2}
+                    className={`w-full text-xs px-3 py-2.5 rounded-xl border ${cls.border} ${cls.inputBg} ${cls.textMain} focus:outline-none focus:border-[#2F3CD9] transition-all resize-none`}
+                  />
+                </div>
+              </div>
+
+              {/* Footer Actions */}
+              <div className={`p-6 border-t ${cls.border} flex items-center justify-end gap-3`}>
+                <button
+                  type="button"
+                  onClick={() => setIsAiModalOpen(false)}
+                  className={`px-4 py-2 text-xs font-semibold rounded-xl border ${cls.border} ${cls.textMuted} hover:${cls.textMain} hover:${theme === "dark" ? "bg-white/5" : "bg-gray-50"} transition-all cursor-pointer`}
+                >
+                  Annuler
+                </button>
+                <button
+                  type="button"
+                  onClick={handleGenerateDescription}
+                  className="px-5 py-2 text-xs font-bold text-white bg-[#2F3CD9] hover:bg-[#202bb8] rounded-xl transition-all cursor-pointer shadow-lg shadow-[#2F3CD9]/20"
+                >
+                  Générer la description 🚀
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
-  );
-}
+        )}
+      </div>
+    );
+  }

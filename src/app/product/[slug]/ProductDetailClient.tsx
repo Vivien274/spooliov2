@@ -90,6 +90,40 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
         }
       });
       setSelectedOptions(initialOptions);
+
+      // Auto-switch to initial variation image if present
+      const attrData = product.attributes as any;
+      if (attrData && attrData.variationPrices && Array.isArray(attrData.variationPrices)) {
+        const matches = attrData.variationPrices.filter((vp: any) => {
+          return Object.entries(vp.combination).every(([key, value]) => {
+            if (!value || String(value).trim() === "" || String(value).toLowerCase().includes("tous")) return true;
+            const decodedKey = decodeHtml(key).toLowerCase().trim();
+            const selectedEntry = Object.entries(initialOptions).find(([selKey]) => {
+              return decodeHtml(selKey).toLowerCase().trim() === decodedKey;
+            });
+            if (!selectedEntry) return false;
+            const selectedValue = selectedEntry[1];
+            return selectedValue && decodeHtml(String(selectedValue)).toLowerCase().trim() === decodeHtml(String(value)).toLowerCase().trim();
+          });
+        });
+
+        if (matches.length > 0) {
+          // Sort by specificity
+          matches.sort((a: any, b: any) => {
+            const aSpec = Object.values(a.combination).filter(v => v && String(v).trim() !== "").length;
+            const bSpec = Object.values(b.combination).filter(v => v && String(v).trim() !== "").length;
+            return bSpec - aSpec;
+          });
+
+          const bestMatch = matches[0];
+          if (bestMatch && bestMatch.imageSrc) {
+            const imgIdx = product.images.findIndex(img => img.src === bestMatch.imageSrc);
+            if (imgIdx !== -1) {
+              setActiveImageIndex(imgIdx);
+            }
+          }
+        }
+      }
     }
   }, [product]);
 
@@ -624,10 +658,48 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
 
                   // Helper function to update state
                   const handleSelect = (val: string) => {
-                    setSelectedOptions(prev => ({
-                      ...prev,
-                      [name]: val
-                    }));
+                    setSelectedOptions(prev => {
+                      const nextOptions = {
+                        ...prev,
+                        [name]: val
+                      };
+
+                      // Auto-switch image if variant has a mapped image
+                      const attrData = product.attributes as any;
+                      if (attrData && attrData.variationPrices && Array.isArray(attrData.variationPrices)) {
+                        const matches = attrData.variationPrices.filter((vp: any) => {
+                          return Object.entries(vp.combination).every(([key, value]) => {
+                            if (!value || String(value).trim() === "" || String(value).toLowerCase().includes("tous")) return true;
+                            const decodedKey = decodeHtml(key).toLowerCase().trim();
+                            const selectedEntry = Object.entries(nextOptions).find(([selKey]) => {
+                              return decodeHtml(selKey).toLowerCase().trim() === decodedKey;
+                            });
+                            if (!selectedEntry) return false;
+                            const selectedValue = selectedEntry[1];
+                            return selectedValue && decodeHtml(String(selectedValue)).toLowerCase().trim() === decodeHtml(String(value)).toLowerCase().trim();
+                          });
+                        });
+
+                        if (matches.length > 0) {
+                          // Sort by specificity
+                          matches.sort((a: any, b: any) => {
+                            const aSpec = Object.values(a.combination).filter(v => v && String(v).trim() !== "").length;
+                            const bSpec = Object.values(b.combination).filter(v => v && String(v).trim() !== "").length;
+                            return bSpec - aSpec;
+                          });
+
+                          const bestMatch = matches[0];
+                          if (bestMatch && bestMatch.imageSrc) {
+                            const imgIdx = product.images.findIndex(img => img.src === bestMatch.imageSrc);
+                            if (imgIdx !== -1) {
+                              setActiveImageIndex(imgIdx);
+                            }
+                          }
+                        }
+                      }
+
+                      return nextOptions;
+                    });
                   };
 
                   const controlType = attr.controlType || "default";

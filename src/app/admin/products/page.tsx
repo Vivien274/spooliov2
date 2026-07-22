@@ -24,7 +24,16 @@ export default function AdminProductsPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("Tous");
+  const [statusFilter, setStatusFilter] = useState<string>("all"); // "all" | "publish" | "draft"
   const [deletingId, setDeletingId] = useState<number | null>(null);
+
+  // Bulk Edit States
+  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [isBulkUpdating, setIsBulkUpdating] = useState<boolean>(false);
+  const [showPricePopover, setShowPricePopover] = useState<boolean>(false);
+  const [bulkPriceType, setBulkPriceType] = useState<"percentage" | "fixed">("percentage");
+  const [bulkPriceDirection, setBulkPriceDirection] = useState<"increase" | "decrease">("increase");
+  const [bulkPriceValue, setBulkPriceValue] = useState<string>("");
 
   // List of main categories
   const categoriesList = [
@@ -80,13 +89,70 @@ export default function AdminProductsPage() {
     }
   };
 
+  const toggleSelect = (id: number) => {
+    if (selectedIds.includes(id)) {
+      setSelectedIds(selectedIds.filter(x => x !== id));
+    } else {
+      setSelectedIds([...selectedIds, id]);
+    }
+  };
+
+  const toggleSelectAll = () => {
+    const filteredIds = filteredProducts.map(p => p.id);
+    const allSelected = filteredIds.every(id => selectedIds.includes(id));
+    if (allSelected) {
+      setSelectedIds(selectedIds.filter(id => !filteredIds.includes(id)));
+    } else {
+      const newSelected = Array.from(new Set([...selectedIds, ...filteredIds]));
+      setSelectedIds(newSelected);
+    }
+  };
+
+  const handleBulkAction = async (action: string, extraData?: any) => {
+    if (selectedIds.length === 0) return;
+    
+    if (action === "delete") {
+      if (!confirm(`Voulez-vous vraiment supprimer les ${selectedIds.length} produits sélectionnés ?`)) return;
+    }
+
+    setIsBulkUpdating(true);
+    try {
+      const res = await fetch("/api/admin/products", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          ids: selectedIds,
+          action,
+          ...extraData
+        })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setSelectedIds([]);
+        setShowPricePopover(false);
+        setBulkPriceValue("");
+        await fetchProducts();
+      } else {
+        alert(data.error || "Une erreur est survenue lors de l'opération.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Erreur réseau.");
+    } finally {
+      setIsBulkUpdating(false);
+    }
+  };
+
   // Dynamic filtering
   const filteredProducts = products.filter((p) => {
     const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.slug.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory =
       selectedCategory === "Tous" ||
       p.categories?.some((c: any) => c.name.toLowerCase() === selectedCategory.toLowerCase());
-    return matchesSearch && matchesCategory;
+    const matchesStatus = statusFilter === "all" || p.status === statusFilter;
+    return matchesSearch && matchesCategory && matchesStatus;
   });
 
   return (
@@ -117,17 +183,40 @@ export default function AdminProductsPage() {
 
       {/* Filters */}
       <div className="flex flex-col lg:flex-row gap-4">
-        <div className="relative flex-1">
-          <svg className={`w-4 h-4 ${cls.textMuted} absolute left-3 top-1/2 -translate-y-1/2`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Rechercher un produit par nom ou slug…"
-            className={`w-full ${cls.cardBg} border ${cls.border} rounded-xl pl-9 pr-4 py-2.5 text-sm ${cls.textMain} placeholder-gray-500 focus:outline-none transition-colors`}
-          />
+        <div className="flex flex-1 gap-2 flex-col sm:flex-row">
+          <div className="relative flex-1">
+            <svg className={`w-4 h-4 ${cls.textMuted} absolute left-3 top-1/2 -translate-y-1/2`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Rechercher un produit par nom ou slug…"
+              className={`w-full ${cls.cardBg} border ${cls.border} rounded-xl pl-9 pr-4 py-2.5 text-sm ${cls.textMain} placeholder-gray-500 focus:outline-none transition-colors`}
+            />
+          </div>
+          
+          {/* Status Filters Toggle */}
+          <div className={`flex items-center gap-1 p-1 rounded-xl border ${cls.border} ${cls.cardBg} w-fit h-fit shrink-0`}>
+            {[
+              { id: "all", label: "Tous" },
+              { id: "publish", label: "Publiés" },
+              { id: "draft", label: "Brouillons" }
+            ].map((st) => (
+              <button
+                key={st.id}
+                onClick={() => setStatusFilter(st.id)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  statusFilter === st.id
+                    ? (theme === "dark" ? "bg-white/10 text-white" : "bg-[#2F3CD9]/10 text-[#2F3CD9]")
+                    : `text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white`
+                }`}
+              >
+                {st.label}
+              </button>
+            ))}
+          </div>
         </div>
         <div className="flex gap-1.5 flex-wrap items-center">
           {categoriesList.map((cat) => (
@@ -161,15 +250,31 @@ export default function AdminProductsPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className={`border-b ${cls.border}`}>
-                  {["Produit", "Catégories", "Prix", "Stock", "SEO", "Actions"].map((h) => (
-                    <th key={h} className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-5 py-3.5 first:pl-6 last:pr-6`}>{h}</th>
+                  <th className="w-12 px-5 py-3.5 pl-6 text-left">
+                    <input
+                      type="checkbox"
+                      checked={filteredProducts.length > 0 && filteredProducts.every(p => selectedIds.includes(p.id))}
+                      onChange={toggleSelectAll}
+                      className="rounded border-gray-300 text-[#2F3CD9] focus:ring-[#2F3CD9] cursor-pointer"
+                    />
+                  </th>
+                  {["Produit", "Catégories", "Statut", "Prix", "Stock", "SEO", "Actions"].map((h) => (
+                    <th key={h} className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-5 py-3.5 last:pr-6`}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody className={`divide-y ${cls.divider}`}>
                 {filteredProducts.map((p) => (
-                  <tr key={p.id} className={`group ${cls.hoverRow} transition-colors`}>
-                    <td className="px-5 pl-6 py-4">
+                  <tr key={p.id} className={`group ${cls.hoverRow} ${selectedIds.includes(p.id) ? (theme === "dark" ? "bg-white/5" : "bg-gray-50") : ""} transition-colors`}>
+                    <td className="w-12 px-5 py-4 pl-6">
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.includes(p.id)}
+                        onChange={() => toggleSelect(p.id)}
+                        className="rounded border-gray-300 text-[#2F3CD9] focus:ring-[#2F3CD9] cursor-pointer"
+                      />
+                    </td>
+                    <td className="px-5 py-4">
                       <span className={`font-semibold ${cls.textMain}`}>{p.name}</span>
                       <a
                         href={`/product/${p.slug}`}
@@ -191,6 +296,16 @@ export default function AdminProductsPage() {
                           </span>
                         ))}
                       </div>
+                    </td>
+                    <td className="px-5 py-4">
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold leading-none ${
+                        p.status === "publish"
+                          ? (theme === "dark" ? "bg-emerald-500/10 text-emerald-400" : "bg-emerald-50 text-emerald-700")
+                          : (theme === "dark" ? "bg-white/5 text-gray-400" : "bg-gray-100 text-gray-600")
+                      }`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${p.status === "publish" ? "bg-emerald-400" : "bg-gray-400"}`} />
+                        {p.status === "publish" ? "Publié" : "Brouillon"}
+                      </span>
                     </td>
                     <td className="px-5 py-4 font-sans">
                       {p.sale_price ? (
@@ -239,6 +354,128 @@ export default function AdminProductsPage() {
           </div>
         )}
       </div>
+
+      {/* Bulk actions bar */}
+      {selectedIds.length > 0 && (
+        <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-40 ${theme === "dark" ? "bg-[#181824]/95 border-white/10 text-white" : "bg-white/95 border-gray-250 text-black"} border rounded-2xl px-6 py-3.5 flex items-center justify-between gap-6 shadow-2xl transition-all max-w-[90vw] md:max-w-2xl w-full`}>
+          <div className="flex items-center gap-3">
+            <span className={`text-[11px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${theme === "dark" ? "bg-white/10 text-white" : "bg-[#2F3CD9]/15 text-[#2F3CD9]"}`}>
+              {selectedIds.length} sélectionné{selectedIds.length !== 1 ? "s" : ""}
+            </span>
+            <button
+              onClick={() => setSelectedIds([])}
+              className={`text-[10px] font-bold ${cls.textMuted} hover:${cls.textMain} underline transition-colors cursor-pointer`}
+            >
+              Désélectionner
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2 relative">
+            {/* Status change actions */}
+            <button
+              onClick={() => handleBulkAction("status", { status: "publish" })}
+              disabled={isBulkUpdating}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold border ${theme === "dark" ? "border-emerald-500/30 text-emerald-400 bg-emerald-500/5 hover:bg-emerald-500/10" : "border-emerald-200 text-emerald-600 bg-emerald-50 hover:bg-emerald-100"} transition-all cursor-pointer disabled:opacity-50`}
+            >
+              Publier
+            </button>
+            <button
+              onClick={() => handleBulkAction("status", { status: "draft" })}
+              disabled={isBulkUpdating}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold border ${theme === "dark" ? "border-white/10 text-gray-300 hover:bg-white/5" : "border-gray-200 text-gray-600 hover:bg-gray-100"} transition-all cursor-pointer disabled:opacity-50`}
+            >
+              Brouillon
+            </button>
+
+            {/* Price change action */}
+            <div className="relative">
+              <button
+                onClick={() => setShowPricePopover(!showPricePopover)}
+                disabled={isBulkUpdating}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold border ${theme === "dark" ? "border-amber-500/30 text-amber-400 bg-amber-500/5 hover:bg-amber-500/10" : "border-amber-200 text-amber-600 bg-amber-50 hover:bg-amber-100"} transition-all cursor-pointer flex items-center gap-1 disabled:opacity-50`}
+              >
+                <span>Ajuster le prix</span>
+                <svg className={`w-3 h-3 transition-transform ${showPricePopover ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {/* Price adjustment popover */}
+              {showPricePopover && (
+                <div className={`absolute bottom-full mb-3 right-0 ${theme === "dark" ? "bg-[#181824] border-white/10 text-white" : "bg-white border-gray-200 text-black"} border rounded-2xl p-4 w-64 shadow-xl z-50 flex flex-col gap-3`}>
+                  <div className="text-xs font-bold uppercase tracking-wider text-gray-400">Modifier les prix</div>
+                  <div className="flex gap-1 bg-white/5 p-1 rounded-lg">
+                    <button
+                      onClick={() => setBulkPriceDirection("increase")}
+                      className={`flex-1 text-[10px] font-bold py-1 rounded-md transition-all cursor-pointer ${bulkPriceDirection === "increase" ? "bg-[#2F3CD9] text-white" : `${cls.textMuted} hover:text-white`}`}
+                    >
+                      Augmenter
+                    </button>
+                    <button
+                      onClick={() => setBulkPriceDirection("decrease")}
+                      className={`flex-1 text-[10px] font-bold py-1 rounded-md transition-all cursor-pointer ${bulkPriceDirection === "decrease" ? "bg-[#2F3CD9] text-white" : `${cls.textMuted} hover:text-white`}`}
+                    >
+                      Diminuer
+                    </button>
+                  </div>
+
+                  <div className="flex gap-1 bg-white/5 p-1 rounded-lg">
+                    <button
+                      onClick={() => setBulkPriceType("percentage")}
+                      className={`flex-1 text-[10px] font-bold py-1 rounded-md transition-all cursor-pointer ${bulkPriceType === "percentage" ? "bg-white/10 text-white" : `${cls.textMuted} hover:text-white`}`}
+                    >
+                      En %
+                    </button>
+                    <button
+                      onClick={() => setBulkPriceType("fixed")}
+                      className={`flex-1 text-[10px] font-bold py-1 rounded-md transition-all cursor-pointer ${bulkPriceType === "fixed" ? "bg-white/10 text-white" : `${cls.textMuted} hover:text-white`}`}
+                    >
+                      En €
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      step="any"
+                      placeholder={bulkPriceType === "percentage" ? "Ex: 10 pour 10%" : "Ex: 2.50 pour 2.50€"}
+                      value={bulkPriceValue}
+                      onChange={(e) => setBulkPriceValue(e.target.value)}
+                      className={`w-full text-xs px-2.5 py-1.5 rounded-lg border ${cls.border} ${cls.inputBg} ${cls.textMain} focus:outline-none focus:border-[#2F3CD9]`}
+                    />
+                    <button
+                      onClick={() => {
+                        const val = parseFloat(bulkPriceValue);
+                        if (isNaN(val) || val <= 0) {
+                          alert("Veuillez saisir une valeur supérieure à 0.");
+                          return;
+                        }
+                        handleBulkAction("price", {
+                          priceType: bulkPriceType,
+                          priceDirection: bulkPriceDirection,
+                          priceValue: val
+                        });
+                      }}
+                      className="px-3 py-1.5 bg-[#2F3CD9] hover:bg-[#202bb8] text-white text-xs font-bold rounded-lg transition-colors cursor-pointer"
+                    >
+                      OK
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Delete bulk action */}
+            <button
+              onClick={() => handleBulkAction("delete")}
+              disabled={isBulkUpdating}
+              className="px-3 py-1.5 bg-red-500/10 hover:bg-red-500/15 border border-red-500/30 text-red-400 hover:text-red-300 rounded-xl text-xs font-bold transition-all cursor-pointer disabled:opacity-50"
+            >
+              Supprimer
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
