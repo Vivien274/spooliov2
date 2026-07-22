@@ -292,7 +292,10 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
 
   // Neuromarketing Keyword Badge mapping
   const getKeywordBadge = () => {
-    const textToCheck = `${product.name} ${product.categories.map(c => c.name).join(" ")}`.toLowerCase();
+    const categoriesText = Array.isArray(product.categories)
+      ? product.categories.map(c => c.name || "").join(" ")
+      : "";
+    const textToCheck = `${product.name} ${categoriesText}`.toLowerCase();
     if (textToCheck.includes("goofy")) return "👀 JUGE";
     if (textToCheck.includes("marcel")) return "🐙 MARCEL";
     if (textToCheck.includes("fidget")) return "🌀 APPAREIL";
@@ -464,7 +467,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
           <Link href="/" className="hover:text-white transition-colors duration-200">
             Boutique
           </Link>
-          {product.categories && product.categories.length > 0 && (
+          {Array.isArray(product.categories) && product.categories.length > 0 && (
             <>
               <span className="text-gray-600 font-bold">/</span>
               <Link 
@@ -556,7 +559,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
           {/* Right Column: Content and Options */}
           <div className="flex flex-col">
             {/* Category tag */}
-            {product.categories.length > 0 && (
+            {Array.isArray(product.categories) && product.categories.length > 0 && (
               <span className="inline-flex items-center self-start text-[10px] font-black text-white bg-[#2F3CD9] px-2.5 py-1.5 rounded-lg uppercase tracking-widest mb-3.5 no-invert shadow-md shadow-[#2F3CD9]/10">
                 {product.categories.map(c => c.name).join(" / ")}
               </span>
