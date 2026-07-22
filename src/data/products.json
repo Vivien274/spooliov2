@@ -60,7 +60,6 @@
     "purchase_note": "",
     "categories": [
       {
-        "id": 172,
         "name": "Accessoires",
         "slug": "accessoires"
       }
@@ -103,12 +102,7 @@
     "attributes": {
       "attributes": [
         {
-          "id": 0,
           "name": "Couleur A",
-          "slug": "Couleur A",
-          "position": 0,
-          "visible": true,
-          "variation": true,
           "options": [
             "Noir",
             "Blanc",
@@ -122,15 +116,11 @@
             "Rose",
             "Argent",
             "Cuivre"
-          ]
+          ],
+          "controlType": "default"
         },
         {
-          "id": 0,
           "name": "Couleur B",
-          "slug": "Couleur B",
-          "position": 1,
-          "visible": true,
-          "variation": true,
           "options": [
             "Noir",
             "Blanc",
@@ -144,15 +134,11 @@
             "Rose",
             "Argent",
             "Cuivre"
-          ]
+          ],
+          "controlType": "default"
         },
         {
-          "id": 0,
           "name": "Couleur de la vis",
-          "slug": "Couleur de la vis",
-          "position": 2,
-          "visible": true,
-          "variation": true,
           "options": [
             "Noir",
             "Blanc",
@@ -166,32 +152,17 @@
             "Rose",
             "Argent",
             "Cuivre"
-          ]
-        },
-        {
-          "name": "Taille",
-          "options": [
-            "Petit",
-            "Grand"
-          ]
+          ],
+          "controlType": "default"
         }
       ],
       "variationPrices": [
         {
-          "combination": {
-            "Couleur A": "Noir",
-            "Couleur B": "Noir",
-            "Couleur de la vis": "Noir",
-            "Taille": "Grand"
-          },
-          "price": "15"
+          "combination": {},
+          "price": "12"
         }
       ],
-      "tags": [
-        "ULTRA PRATIQUE",
-        "Support de téléphone",
-        "support smartphone"
-      ]
+      "tags": []
     },
     "default_attributes": [],
     "variations": [

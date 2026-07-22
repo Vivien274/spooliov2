@@ -153,10 +153,13 @@ export default function CartDrawer() {
                   {/* Remove button */}
                   <button
                     onClick={() => removeFromCart(item.id)}
-                    className="w-7 h-7 text-gray-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg flex items-center justify-center transition-colors cursor-pointer text-xs remove-item-btn"
+                    className="w-8 h-8 text-gray-500 hover:text-red-400 hover:bg-red-500/10 rounded-xl flex items-center justify-center transition-colors cursor-pointer remove-item-btn"
                     title="Retirer l'article"
+                    aria-label="Retirer l'article"
                   >
-                    &times;
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
                   </button>
                 </div>
               ))}
