@@ -528,7 +528,7 @@ export default async function Home() {
 
           {/* Step 1 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-full bg-[#cf3b00]/15 text-[#cf3b00] border border-[#cf3b00]/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-full bg-black text-[#cf3b00] border border-[#cf3b00]/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               1
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Culture & Récolte</h4>
@@ -539,7 +539,7 @@ export default async function Home() {
 
           {/* Step 2 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-full bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-full bg-black text-indigo-400 border border-indigo-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               2
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Amidon & Dextrose</h4>
@@ -550,7 +550,7 @@ export default async function Home() {
 
           {/* Step 3 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-full bg-purple-500/15 text-purple-400 border border-purple-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-full bg-black text-purple-400 border border-purple-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               3
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Polymérisation</h4>
@@ -561,7 +561,7 @@ export default async function Home() {
 
           {/* Step 4 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-full bg-black text-blue-400 border border-blue-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               4
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Extrusion du Fil</h4>
@@ -572,7 +572,7 @@ export default async function Home() {
 
           {/* Step 5 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-full bg-black text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               5
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Impression 3D</h4>
