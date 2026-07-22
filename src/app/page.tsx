@@ -557,7 +557,7 @@ export default async function Home() {
 
           {/* Step 1 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-black/[0.01] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-black/10 hover:bg-black/[0.03] dark:hover:border-white/10 dark:hover:bg-white/[0.04] transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-full bg-white dark:bg-black text-[#cf3b00] border border-[#cf3b00]/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-full bg-spoolio-bg text-[#cf3b00] border border-[#cf3b00]/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               1
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">{t("home.timeline.step1.title")}</h4>
@@ -568,7 +568,7 @@ export default async function Home() {
 
           {/* Step 2 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-black/[0.01] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-black/10 hover:bg-black/[0.03] dark:hover:border-white/10 dark:hover:bg-white/[0.04] transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-full bg-white dark:bg-black text-indigo-400 border border-indigo-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-full bg-spoolio-bg text-indigo-400 border border-indigo-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               2
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">{t("home.timeline.step2.title")}</h4>
@@ -579,7 +579,7 @@ export default async function Home() {
 
           {/* Step 3 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-black/[0.01] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-black/10 hover:bg-black/[0.03] dark:hover:border-white/10 dark:hover:bg-white/[0.04] transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-full bg-white dark:bg-black text-purple-400 border border-purple-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-full bg-spoolio-bg text-purple-400 border border-purple-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               3
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">{t("home.timeline.step3.title")}</h4>
@@ -590,7 +590,7 @@ export default async function Home() {
 
           {/* Step 4 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-black/[0.01] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-black/10 hover:bg-black/[0.03] dark:hover:border-white/10 dark:hover:bg-white/[0.04] transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-full bg-white dark:bg-black text-blue-400 border border-blue-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-full bg-spoolio-bg text-blue-400 border border-blue-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               4
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">{t("home.timeline.step4.title")}</h4>
@@ -601,7 +601,7 @@ export default async function Home() {
 
           {/* Step 5 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-black/[0.01] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-black/10 hover:bg-black/[0.03] dark:hover:border-white/10 dark:hover:bg-white/[0.04] transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-full bg-white dark:bg-black text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-full bg-spoolio-bg text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               5
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">{t("home.timeline.step5.title")}</h4>
