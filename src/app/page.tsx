@@ -12,8 +12,8 @@ import path from "path";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Spoolio | Boutique d'Objets Fun Imprimés en 3D",
-  description: "Découvrez notre collection de fidgets, supports et accessoires au pixel près selon la charte graphique Spoolio V2.",
+  title: "Spoolio | Fidgets Sensoriels & Objets Fun Imprimés en 3D",
+  description: "Boutique française de fidgets sensoriels, accessoires et décoration imprimés en 3D à Comines. Conçus en PLA biodégradable à base d'amidon de maïs 🌱",
 };
 
 const DEFAULT_HERO = {
@@ -133,6 +133,31 @@ export default async function Home() {
 
   return (
     <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
+      {/* JSON-LD Structured Data Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "OnlineStore",
+            "name": "Spoolio",
+            "url": "https://spoolio.fr",
+            "logo": "https://spoolio.fr/images/logo.png",
+            "description": "Boutique d'objets fun et fidgets sensoriels imprimés en 3D en France à partir de plastique biosourcé.",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Comines",
+              "postalCode": "59560",
+              "addressCountry": "FR"
+            },
+            "sameAs": [
+              "https://www.instagram.com/spoolio.fr/",
+              "https://www.tiktok.com/@spoolio.fr",
+              "https://www.facebook.com/spoolio.fr/"
+            ]
+          })
+        }}
+      />
 
       {/* Background Decorative Blobs */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
@@ -208,6 +233,20 @@ export default async function Home() {
           <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
           <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
           <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
+        </div>
+      </section>
+
+      {/* 3.5. Brand Partners List (Discreet logos row) */}
+      <section className="w-full max-w-[1200px] px-6 py-6 md:py-8 border-b border-white/5 relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 select-none">
+        <span className="text-[9px] font-black uppercase tracking-widest text-gray-500 font-sans md:self-center shrink-0">
+          Nos partenaires filaments & machines
+        </span>
+        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-xs font-black text-white/40 tracking-widest font-sans">
+          <span className="hover:text-white/80 transition-colors cursor-default">BAMBULAB</span>
+          <span className="hover:text-white/80 transition-colors cursor-default">ESUN</span>
+          <span className="hover:text-white/80 transition-colors cursor-default">POLYTERRA</span>
+          <span className="hover:text-white/80 transition-colors cursor-default">PRUSA 3D</span>
+          <span className="hover:text-white/80 transition-colors cursor-default">SUNLU</span>
         </div>
       </section>
 
@@ -440,6 +479,81 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* 5. PLA Storytelling Timeline Section */}
+      <section className="w-full max-w-[1200px] px-4 py-12 relative z-10 border-t border-white/5">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-extrabold uppercase tracking-tight text-white font-antonio">
+            Du Maïs à votre Fidget : Le cycle du PLA 🌾
+          </h2>
+          <p className="text-xs text-gray-400 font-sans mt-2 max-w-md mx-auto leading-relaxed">
+            Découvrez les 5 étapes clés de la fabrication du plastique PLA éco-responsable que nous utilisons pour imprimer vos objets en 3D.
+          </p>
+        </div>
+
+        {/* Timeline Grid */}
+        <div className="relative grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-4 mt-8 font-sans">
+          
+          {/* Timeline Connector Line (only visible on desktop) */}
+          <div className="hidden md:block absolute top-[40px] left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-[#cf3b00]/40 via-indigo-500/20 to-emerald-500/20 z-0" />
+
+          {/* Step 1 */}
+          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-full bg-[#cf3b00]/15 text-[#cf3b00] border border-[#cf3b00]/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+              1
+            </div>
+            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Culture & Récolte</h4>
+            <p className="text-[10px] text-gray-400 leading-relaxed font-medium">
+              Le maïs non-alimentaire est cultivé localement, sans OGM, capturant du CO₂ pendant sa croissance naturelle.
+            </p>
+          </div>
+
+          {/* Step 2 */}
+          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-full bg-indigo-500/15 text-indigo-400 border border-indigo-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+              2
+            </div>
+            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Amidon & Dextrose</h4>
+            <p className="text-[10px] text-gray-400 leading-relaxed font-medium">
+              Les grains récoltés sont broyés pour en extraire l'amidon, qui est ensuite converti en dextrose (sucre simple).
+            </p>
+          </div>
+
+          {/* Step 3 */}
+          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-full bg-purple-500/15 text-purple-400 border border-purple-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+              3
+            </div>
+            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Polymérisation</h4>
+            <p className="text-[10px] text-gray-400 leading-relaxed font-medium">
+              Le dextrose fermente en acide lactique, puis est polymérisé pour créer des granulés de plastique PLA biodégradables.
+            </p>
+          </div>
+
+          {/* Step 4 */}
+          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+              4
+            </div>
+            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Extrusion du Fil</h4>
+            <p className="text-[10px] text-gray-400 leading-relaxed font-medium">
+              Les granulés sont chauffés et étirés pour produire un fil calibré de 1.75 mm de diamètre, enroulé sur bobine.
+            </p>
+          </div>
+
+          {/* Step 5 */}
+          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+              5
+            </div>
+            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Impression 3D</h4>
+            <p className="text-[10px] text-gray-400 leading-relaxed font-medium">
+              Le filament est fondu à 215°C et déposé couche par couche par nos imprimantes à Comines pour former vos objets.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
       {/* 5.5. Atelier Machines Section */}
       <section className="w-full max-w-[1200px] px-4 py-8 mb-12">
         <div className="text-center mb-8">
@@ -641,6 +755,65 @@ export default async function Home() {
               <span className="text-[10px] text-gray-400 mt-1 font-medium font-sans">Une question ?</span>
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* 8. Conversion Trust Badges Section (Bandeau de réassurance) */}
+      <section className="w-full max-w-[1200px] px-6 py-10 md:py-14 border-t border-white/5 relative z-10 font-sans select-none">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          
+          {/* Badge 1 */}
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg shrink-0">
+              🇫🇷
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Atelier Français</h4>
+              <p className="text-[10px] text-gray-400 leading-normal font-medium">
+                Objets entièrement conçus et imprimés en 3D à Comines (59).
+              </p>
+            </div>
+          </div>
+
+          {/* Badge 2 */}
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg shrink-0">
+              🌱
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider">100% Biosourcé</h4>
+              <p className="text-[10px] text-gray-400 leading-normal font-medium">
+                Fabriqué à base d'amidon de maïs, biodégradable et sans pétrole.
+              </p>
+            </div>
+          </div>
+
+          {/* Badge 3 */}
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg shrink-0">
+              📦
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Envoi Rapide</h4>
+              <p className="text-[10px] text-gray-400 leading-normal font-medium">
+                Expédition sous 48h dans des cartons protecteurs éco-conçus.
+              </p>
+            </div>
+          </div>
+
+          {/* Badge 4 */}
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg shrink-0">
+              💳
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Achat Sécurisé</h4>
+              <p className="text-[10px] text-gray-400 leading-normal font-medium">
+                Transactions chiffrées de bout en bout propulsées par Stripe.
+              </p>
+            </div>
+          </div>
+
         </div>
       </section>
 
