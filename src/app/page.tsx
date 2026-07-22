@@ -592,7 +592,7 @@ export default async function Home() {
                 </svg>
               </div>
               <span className="text-sm font-bold text-white mt-4 font-sans">Instagram</span>
-              <span className="text-[10px] text-gray-500 mt-1 font-medium font-sans">@spoolio.fr</span>
+              <span className="text-[10px] text-gray-400 mt-1 font-medium font-sans">@spoolio.fr</span>
             </a>
 
             {/* TikTok */}
@@ -608,7 +608,7 @@ export default async function Home() {
                 </svg>
               </div>
               <span className="text-sm font-bold text-white mt-4 font-sans">TikTok</span>
-              <span className="text-[10px] text-gray-500 mt-1 font-medium font-sans">@spoolio.fr</span>
+              <span className="text-[10px] text-gray-400 mt-1 font-medium font-sans">@spoolio.fr</span>
             </a>
 
             {/* Facebook */}
@@ -624,7 +624,7 @@ export default async function Home() {
                 </svg>
               </div>
               <span className="text-sm font-bold text-white mt-4 font-sans">Facebook</span>
-              <span className="text-[10px] text-gray-500 mt-1 font-medium font-sans">Spoolio</span>
+              <span className="text-[10px] text-gray-400 mt-1 font-medium font-sans">Spoolio</span>
             </a>
 
             {/* Email Contact */}
@@ -638,7 +638,7 @@ export default async function Home() {
                 </svg>
               </div>
               <span className="text-sm font-bold text-white mt-4 font-sans">Contact</span>
-              <span className="text-[10px] text-gray-500 mt-1 font-medium font-sans">Une question ?</span>
+              <span className="text-[10px] text-gray-400 mt-1 font-medium font-sans">Une question ?</span>
             </Link>
           </div>
         </div>

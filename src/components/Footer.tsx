@@ -23,7 +23,7 @@ export default function Footer({ className = "" }: FooterProps) {
             <p className="text-[11px] text-gray-400 leading-relaxed font-sans font-medium">
               Objets fun, fidgets sensoriels, supports et créations uniques imprimés en 3D à Comines. Zéro pétrole, du plastique biosourcé à base d'amidon de maïs, et beaucoup d'amusement.
             </p>
-            <div className="text-[10px] text-gray-600 font-medium">
+            <div className="text-[10px] text-gray-400 font-medium">
               &copy; {new Date().getFullYear()} Spoolio. Tous droits réservés.
             </div>
           </div>
@@ -59,7 +59,7 @@ export default function Footer({ className = "" }: FooterProps) {
                 aria-label="Rejoignez-nous sur TikTok"
               >
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12.525.02c1.31-.03c2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.21-.42-.45-.6-.7-.03 3.68-.01 7.35-.02 11.03-.09 1.58-.69 3.19-1.87 4.26-1.52 1.41-3.79 2.05-5.83 1.65-2.61-.43-4.83-2.58-5.23-5.22-.59-3.23 1.43-6.52 4.62-7.05.69-.13 1.4-.15 2.1-.06v4.08c-.76-.17-1.57-.04-2.22.38-.85.5-1.34 1.51-1.22 2.49.12 1.34 1.28 2.44 2.63 2.44 1.31.06 2.53-.94 2.65-2.24.03-3.41.01-6.83.02-10.24-.02-4.22-.01-8.43-.02-12.65z" />
+                  <path d="M12.525.02c1.31-.03 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.21-.42-.45-.6-.7-.03 3.68-.01 7.35-.02 11.03-.09 1.58-.69 3.19-1.87 4.26-1.52 1.41-3.79 2.05-5.83 1.65-2.61-.43-4.83-2.58-5.23-5.22-.59-3.23 1.43-6.52 4.62-7.05.69-.13 1.4-.15 2.1-.06v4.08c-.76-.17-1.57-.04-2.22.38-.85.5-1.34 1.51-1.22 2.49.12 1.34 1.28 2.44 2.63 2.44 1.31.06 2.53-.94 2.65-2.24.03-3.41.01-6.83.02-10.24-.02-4.22-.01-8.43-.02-12.65z" />
                 </svg>
               </a>
 
