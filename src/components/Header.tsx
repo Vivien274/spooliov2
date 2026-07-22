@@ -242,16 +242,7 @@ export default function Header({ className = "" }: HeaderProps) {
             </svg>
           )}
         </button>
-        
-        {/* Language Switcher Button */}
-        <button
-          onClick={() => setLocale(locale === "fr" ? "en" : "fr")}
-          className="hidden md:flex w-12 h-12 items-center justify-center bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/10 backdrop-blur-md transition-all cursor-pointer shadow-lg text-xs font-black uppercase tracking-wider"
-          title={locale === "fr" ? "Switch to English" : "Passer en Français"}
-          aria-label={locale === "fr" ? "Switch to English" : "Passer en Français"}
-        >
-          {locale === "fr" ? "🇬🇧 EN" : "🇫🇷 FR"}
-        </button>
+
 
         {/* Cart Button */}
         <button
@@ -628,26 +619,6 @@ export default function Header({ className = "" }: HeaderProps) {
             <div className={`sticky bottom-0 pt-4 border-t flex flex-col gap-3 mt-auto ${
               theme === "light" ? "bg-[#f7f7f9] border-black/5" : "bg-[#0d0d0f] border-white/5"
             }`}>
-              {/* Language Selector (Mobile) */}
-              <button
-                onClick={() => setLocale(locale === "fr" ? "en" : "fr")}
-                className={`w-full h-11 flex items-center justify-between px-4 rounded-xl border transition-all cursor-pointer text-xs font-semibold ${
-                  theme === "light"
-                    ? "bg-black/5 border-black/5 text-gray-800 hover:bg-black/10"
-                    : "bg-white/5 border-white/10 text-white hover:bg-white/10"
-                }`}
-                title={locale === "fr" ? "Switch to English" : "Passer en Français"}
-              >
-                <span className="flex items-center gap-2">
-                  <span>🌐</span>
-                  <span>{locale === "fr" ? "English (EN)" : "Français (FR)"}</span>
-                </span>
-                <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded ${
-                  theme === "light" ? "bg-black/10 text-gray-600" : "bg-white/10 text-gray-400"
-                }`}>
-                  {locale.toUpperCase()}
-                </span>
-              </button>
 
               {/* Theme Toggle Button */}
               <button
