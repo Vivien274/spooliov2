@@ -411,21 +411,21 @@ export default async function Home() {
         </div>
 
         {/* Donation Call-to-action Ribbon (Voyant & Premium) */}
-        <div className="relative rounded-3xl p-8 bg-gradient-to-r from-[#ff4f00]/10 via-[#131316]/90 to-[#131316]/90 border border-[#ff4f00]/30 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_0_30px_rgba(255,79,0,0.1)] backdrop-blur-md font-sans group hover:border-[#ff4f00]/50 hover:shadow-[0_0_40px_rgba(255,79,0,0.15)] transition-all duration-500 no-invert">
-          {/* Permanent Glow in Background */}
-          <div className="absolute -left-12 -top-12 w-48 h-48 rounded-full bg-[#ff4f00]/15 blur-3xl pointer-events-none animate-pulse" />
-          <div className="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-[#ff4f00]/10 blur-3xl pointer-events-none" />
+        <div className="relative rounded-3xl p-8 bg-gradient-to-r from-[#cf3b00] to-[#b03200] border border-[#cf3b00]/30 dark:bg-gradient-to-r dark:from-[#ff4f00]/10 dark:via-[#131316]/90 dark:to-[#131316]/90 dark:border-[#ff4f00]/30 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_0_30px_rgba(207,59,0,0.15)] dark:shadow-[0_0_30px_rgba(255,79,0,0.1)] backdrop-blur-md font-sans group hover:border-[#cf3b00]/50 dark:hover:border-[#ff4f00]/50 transition-all duration-500">
+          {/* Permanent Glow in Background (only dark mode) */}
+          <div className="absolute -left-12 -top-12 w-48 h-48 rounded-full bg-[#ff4f00]/15 blur-3xl pointer-events-none animate-pulse hidden dark:block" />
+          <div className="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-[#ff4f00]/10 blur-3xl pointer-events-none hidden dark:block" />
           
           <div className="relative z-10 flex flex-col md:flex-row items-center gap-5 text-center md:text-left">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#ff4f00] to-[#e04500] flex items-center justify-center shrink-0 shadow-lg shadow-[#ff4f00]/20 select-none animate-bounce">
+            <div className="w-14 h-14 rounded-2xl bg-white/20 dark:bg-gradient-to-br dark:from-[#ff4f00] dark:to-[#e04500] flex items-center justify-center shrink-0 shadow-lg shadow-black/10 dark:shadow-[#ff4f00]/20 select-none animate-bounce">
               <span className="text-2xl">🧡</span>
             </div>
             <div className="space-y-1.5 max-w-xl">
-              <h4 style={{ color: '#ffffff' }} className="text-[23px] font-black tracking-wide uppercase font-antonio flex flex-wrap items-center justify-center md:justify-start gap-2 leading-none">
+              <h4 className="text-[23px] font-black text-white tracking-wide uppercase font-antonio flex flex-wrap items-center justify-center md:justify-start gap-2 leading-none no-invert">
                 <span>Aider l'Atelier à s'équiper</span>
-                <span className="inline-block px-2 py-0.5 rounded-full text-[8px] font-black tracking-widest bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30 animate-pulse no-invert">PROJET LOCAL</span>
+                <span className="inline-block px-2 py-0.5 rounded-full text-[8px] font-black tracking-widest bg-white/20 text-white border border-white/30 dark:bg-[#ff4f00]/20 dark:text-[#ff4f00] dark:border-[#ff4f00]/30 animate-pulse no-invert">PROJET LOCAL</span>
               </h4>
-              <p style={{ color: '#9ca3af' }} className="text-xs leading-relaxed font-sans font-medium">
+              <p className="text-xs text-white/90 dark:text-gray-400 leading-relaxed font-sans font-medium">
                 Spoolio est un projet artisanal et éco-responsable. Vous pouvez soutenir nos investissements matériels (buses neuves, plateaux d'impression, entretien des machines) en choisissant un palier d'aide.
               </p>
             </div>
@@ -433,7 +433,7 @@ export default async function Home() {
 
           <Link
             href="/don"
-            className="relative z-10 shrink-0 h-13 px-8 rounded-xl bg-[#cf3b00] hover:bg-[#b03200] text-white font-black text-xs uppercase tracking-wider transition-all shadow-xl shadow-[#cf3b00]/25 hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2 no-invert"
+            className="relative z-10 shrink-0 h-13 px-8 rounded-xl bg-white text-[#cf3b00] hover:bg-white/95 dark:bg-[#cf3b00] dark:text-white dark:hover:bg-[#b03200] font-black text-xs uppercase tracking-wider transition-all shadow-xl shadow-black/10 dark:shadow-[#cf3b00]/25 hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
           >
             <span>Soutenir l'Atelier</span>
             <span className="transition-transform duration-300 group-hover:translate-x-1 text-sm">&rarr;</span>
