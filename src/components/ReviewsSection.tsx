@@ -47,10 +47,10 @@ export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) 
 
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h3 className="text-xl md:text-2xl font-black text-white font-antonio uppercase tracking-wide">
+            <h3 className="text-xl md:text-2xl font-black text-white font-antonio uppercase tracking-wide no-invert">
               Nos clients adorent Spoolio ⭐
             </h3>
-            <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-white/70 px-2 py-0.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 mt-1">
+            <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-white/70 px-2 py-0.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 mt-1 no-invert">
               Avis Vérifiés
             </span>
           </div>

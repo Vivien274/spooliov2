@@ -421,11 +421,11 @@ export default async function Home() {
               <span className="text-2xl">🧡</span>
             </div>
             <div className="space-y-1.5 max-w-xl">
-              <h4 className="text-[23px] font-black text-white tracking-wide uppercase font-antonio flex flex-wrap items-center justify-center md:justify-start gap-2 leading-none">
+              <h4 style={{ color: '#ffffff' }} className="text-[23px] font-black tracking-wide uppercase font-antonio flex flex-wrap items-center justify-center md:justify-start gap-2 leading-none">
                 <span>Aider l'Atelier à s'équiper</span>
                 <span className="inline-block px-2 py-0.5 rounded-full text-[8px] font-black tracking-widest bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30 animate-pulse no-invert">PROJET LOCAL</span>
               </h4>
-              <p className="text-xs text-gray-400 leading-relaxed font-sans font-medium">
+              <p style={{ color: '#9ca3af' }} className="text-xs leading-relaxed font-sans font-medium">
                 Spoolio est un projet artisanal et éco-responsable. Vous pouvez soutenir nos investissements matériels (buses neuves, plateaux d'impression, entretien des machines) en choisissant un palier d'aide.
               </p>
             </div>
