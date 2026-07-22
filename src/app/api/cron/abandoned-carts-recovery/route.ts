@@ -44,16 +44,16 @@ export async function GET(request: Request) {
 
     const nowSec = Math.floor(Date.now() / 1000);
     const twoHoursSec = 2 * 60 * 60;
-    const twentyFourHoursSec = 24 * 60 * 60;
+    const thirtyHoursSec = 30 * 60 * 60; // 30h window to cover 24h daily cron interval safely
 
-    // 3. Filter sessions: open, with email, created between 2h and 24h ago, and not yet recovered
+    // 3. Filter sessions: open, with email, created between 2h and 30h ago, and not yet recovered
     const abandonedSessions = sessions.filter((s: any) => {
       const email = s.customer_details?.email || s.customer_email;
       const isExpired = s.status === "expired";
       const isOpen = s.status === "open";
       
       const elapsed = nowSec - s.created;
-      const isWithinWindow = elapsed >= twoHoursSec && elapsed <= twentyFourHoursSec;
+      const isWithinWindow = elapsed >= twoHoursSec && elapsed <= thirtyHoursSec;
       const isAlreadyRecovered = s.metadata?.recovery_email_sent === "true";
 
       return isOpen && email && !isExpired && isWithinWindow && !isAlreadyRecovered;
