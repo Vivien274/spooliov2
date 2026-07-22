@@ -411,7 +411,7 @@ export default async function Home() {
         </div>
 
         {/* Donation Call-to-action Ribbon (Voyant & Premium) */}
-        <div className="relative rounded-3xl p-8 bg-gradient-to-r from-[#ff4f00]/10 via-[#131316]/90 to-[#131316]/90 border border-[#ff4f00]/30 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_0_30px_rgba(255,79,0,0.1)] backdrop-blur-md font-sans group hover:border-[#ff4f00]/50 hover:shadow-[0_0_40px_rgba(255,79,0,0.15)] transition-all duration-500">
+        <div className="relative rounded-3xl p-8 bg-gradient-to-r from-[#ff4f00]/10 via-[#131316]/90 to-[#131316]/90 border border-[#ff4f00]/30 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_0_30px_rgba(255,79,0,0.1)] backdrop-blur-md font-sans group hover:border-[#ff4f00]/50 hover:shadow-[0_0_40px_rgba(255,79,0,0.15)] transition-all duration-500 no-invert">
           {/* Permanent Glow in Background */}
           <div className="absolute -left-12 -top-12 w-48 h-48 rounded-full bg-[#ff4f00]/15 blur-3xl pointer-events-none animate-pulse" />
           <div className="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-[#ff4f00]/10 blur-3xl pointer-events-none" />
@@ -451,7 +451,7 @@ export default async function Home() {
               <img
                 src="/images/bambulab_logo.svg"
                 alt="Bambu Lab"
-                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 filter brightness-0 invert"
+                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 dark:filter dark:brightness-0 dark:invert"
               />
             </div>
 
@@ -460,7 +460,7 @@ export default async function Home() {
               <img
                 src="/images/esun_logo.jpg"
                 alt="eSun"
-                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 filter invert contrast-150"
+                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 filter grayscale dark:filter-none dark:invert"
               />
             </div>
 
@@ -469,7 +469,7 @@ export default async function Home() {
               <img
                 src="/images/polymaker_logo.png"
                 alt="Polymaker"
-                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 filter brightness-0 invert"
+                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 dark:filter dark:brightness-0 dark:invert"
               />
             </div>
 
@@ -478,7 +478,7 @@ export default async function Home() {
               <img
                 src="/images/sunlu_logo.jpg"
                 alt="Sunlu"
-                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 filter invert"
+                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 filter grayscale dark:filter-none dark:invert"
               />
             </div>
           </div>
@@ -527,56 +527,56 @@ export default async function Home() {
           <div className="hidden md:block absolute top-[40px] left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-[#cf3b00]/40 via-indigo-500/20 to-emerald-500/20 z-0" />
 
           {/* Step 1 */}
-          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-full bg-black text-[#cf3b00] border border-[#cf3b00]/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-black/[0.01] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-black/10 hover:bg-black/[0.03] dark:hover:border-white/10 dark:hover:bg-white/[0.04] transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-full bg-white dark:bg-black text-[#cf3b00] border border-[#cf3b00]/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               1
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Culture & Récolte</h4>
-            <p className="text-[10px] text-gray-400 leading-relaxed font-medium">
+            <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
               Le maïs non-alimentaire est cultivé localement, sans OGM, capturant du CO₂ pendant sa croissance naturelle.
             </p>
           </div>
 
           {/* Step 2 */}
-          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-full bg-black text-indigo-400 border border-indigo-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-black/[0.01] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-black/10 hover:bg-black/[0.03] dark:hover:border-white/10 dark:hover:bg-white/[0.04] transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-full bg-white dark:bg-black text-indigo-400 border border-indigo-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               2
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Amidon & Dextrose</h4>
-            <p className="text-[10px] text-gray-400 leading-relaxed font-medium">
+            <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
               Les grains récoltés sont broyés pour en extraire l'amidon, qui est ensuite converti en dextrose (sucre simple).
             </p>
           </div>
 
           {/* Step 3 */}
-          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-full bg-black text-purple-400 border border-purple-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-black/[0.01] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-black/10 hover:bg-black/[0.03] dark:hover:border-white/10 dark:hover:bg-white/[0.04] transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-full bg-white dark:bg-black text-purple-400 border border-purple-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               3
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Polymérisation</h4>
-            <p className="text-[10px] text-gray-400 leading-relaxed font-medium">
+            <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
               Le dextrose fermente en acide lactique, puis est polymérisé pour créer des granulés de plastique PLA biodégradables.
             </p>
           </div>
 
           {/* Step 4 */}
-          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-full bg-black text-blue-400 border border-blue-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-black/[0.01] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-black/10 hover:bg-black/[0.03] dark:hover:border-white/10 dark:hover:bg-white/[0.04] transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-full bg-white dark:bg-black text-blue-400 border border-blue-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               4
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Extrusion du Fil</h4>
-            <p className="text-[10px] text-gray-400 leading-relaxed font-medium">
+            <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
               Les granulés sont chauffés et étirés pour produire un fil calibré de 1.75 mm de diamètre, enroulé sur bobine.
             </p>
           </div>
 
           {/* Step 5 */}
-          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300 group">
-            <div className="w-12 h-12 rounded-full bg-black text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-black/[0.01] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 hover:border-black/10 hover:bg-black/[0.03] dark:hover:border-white/10 dark:hover:bg-white/[0.04] transition-all duration-300 group">
+            <div className="w-12 h-12 rounded-full bg-white dark:bg-black text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-black text-sm mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               5
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">Impression 3D</h4>
-            <p className="text-[10px] text-gray-400 leading-relaxed font-medium">
+            <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
               Le filament est fondu à 215°C et déposé couche par couche par nos imprimantes à Comines pour former vos objets.
             </p>
           </div>
