@@ -444,7 +444,7 @@ export default async function Home() {
           {/* Permanent Glow in Background (only dark mode) */}
           <div className="absolute -left-12 -top-12 w-48 h-48 rounded-full bg-[#ff4f00]/15 blur-3xl pointer-events-none animate-pulse hidden dark:block" />
           <div className="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-[#ff4f00]/10 blur-3xl pointer-events-none hidden dark:block" />
-          
+
           <div className="relative z-10 flex flex-col md:flex-row items-center gap-5 text-center md:text-left">
             <div className="w-14 h-14 rounded-2xl bg-white/20 dark:bg-gradient-to-br dark:from-[#ff4f00] dark:to-[#e04500] flex items-center justify-center shrink-0 shadow-lg shadow-black/10 dark:shadow-[#ff4f00]/20 select-none animate-bounce">
               <span className="text-2xl">🧡</span>
@@ -519,7 +519,7 @@ export default async function Home() {
             <span className="text-xl">🧩</span>
             <div className="flex flex-col">
               <h3 className="text-lg font-bold text-white uppercase tracking-tight">
-                Explorer Tout le Catalogue
+                Explorer le Catalogue
               </h3>
               <p className="text-[10px] text-gray-400 font-medium">Filtre par univers pour trouver ton bonheur</p>
             </div>
@@ -551,7 +551,7 @@ export default async function Home() {
 
         {/* Timeline Grid */}
         <div className="relative grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-4 mt-8 font-sans">
-          
+
           {/* Timeline Connector Line (only visible on desktop) */}
           <div className="hidden md:block absolute top-[40px] left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-[#cf3b00]/40 via-indigo-500/20 to-emerald-500/20 z-0" />
 
@@ -820,7 +820,7 @@ export default async function Home() {
       {/* 8. Conversion Trust Badges Section (Bandeau de réassurance) */}
       <section className="w-full max-w-[1200px] px-6 py-10 md:py-14 border-t border-white/5 relative z-10 font-sans select-none">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          
+
           {/* Badge 1 */}
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg shrink-0">

@@ -79,6 +79,13 @@ html.light .text-gray-500:not(.no-invert, .no-invert *) {
   color: #717185 !important;
 }
 
+html.light .variant-btn-selected {
+  background-color: #0d0d11 !important;
+  border-color: #0d0d11 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+}
+
 html.light .text-blue-400 {
   color: #2F3CD9 !important;
 }

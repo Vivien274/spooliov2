@@ -966,7 +966,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                                 onClick={() => handleSelect(opt)}
                                 className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                                   isSelected
-                                    ? "bg-white text-black shadow-lg shadow-white/5"
+                                    ? "bg-white text-black shadow-lg shadow-white/5 variant-btn-selected"
                                     : "text-gray-400 hover:text-white"
                                 }`}
                                 type="button"
@@ -996,7 +996,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                                 onClick={() => handleSelect(opt)}
                                 className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
                                   isSelected
-                                    ? "bg-white text-black shadow-lg shadow-white/5"
+                                    ? "bg-white text-black shadow-lg shadow-white/5 variant-btn-selected"
                                     : "text-gray-400 hover:text-white"
                                 }`}
                                 type="button"
@@ -1026,7 +1026,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                                 onClick={() => handleSelect(opt)}
                                 className={`h-10 px-4 flex items-center justify-center text-xs font-bold rounded-lg border transition-all cursor-pointer ${
                                   isSelected
-                                    ? "bg-white border-white text-black shadow-lg shadow-white/5"
+                                    ? "bg-white border-white text-black shadow-lg shadow-white/5 variant-btn-selected"
                                     : "bg-spoolio-card border-spoolio-border text-gray-300 hover:text-white"
                                 }`}
                                 type="button"
