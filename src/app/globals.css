@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --color-spoolio-bg: #000000;
+  --color-spoolio-bg: lab(8.11897% 0.811279 -12.254);
+  --color-gray-900: lab(8.11897% 0.811279 -12.254);
   --color-spoolio-card: #131316;
   --color-spoolio-border: #1f1f23;
   --color-spoolio-orange: #ff4f00;
