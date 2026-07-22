@@ -236,20 +236,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 3.5. Brand Partners List (Discreet logos row) */}
-      <section className="w-full max-w-[1200px] px-6 py-6 md:py-8 border-b border-white/5 relative z-10 flex flex-col md:flex-row items-center justify-between gap-6 select-none">
-        <span className="text-[9px] font-black uppercase tracking-widest text-gray-500 font-sans md:self-center shrink-0">
-          Nos partenaires filaments & machines
-        </span>
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-xs font-black text-white/40 tracking-widest font-sans">
-          <span className="hover:text-white/80 transition-colors cursor-default">BAMBULAB</span>
-          <span className="hover:text-white/80 transition-colors cursor-default">ESUN</span>
-          <span className="hover:text-white/80 transition-colors cursor-default">POLYTERRA</span>
-          <span className="hover:text-white/80 transition-colors cursor-default">PRUSA 3D</span>
-          <span className="hover:text-white/80 transition-colors cursor-default">SUNLU</span>
-        </div>
-      </section>
-
       {/* 4. Bento Grid Section */}
       <section className="w-full max-w-[1200px] px-4 py-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -452,6 +438,56 @@ export default async function Home() {
             <span>Soutenir l'Atelier</span>
             <span className="transition-transform duration-300 group-hover:translate-x-1 text-sm">&rarr;</span>
           </Link>
+        </div>
+
+        {/* 3.5. Brand Partners List (Discreet vector logos row under donation) */}
+        <div className="w-full py-4 border-b border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 select-none font-sans mt-4 mb-8">
+          <span className="text-[9px] font-black uppercase tracking-widest text-gray-500 font-sans md:self-center shrink-0">
+            Filaments et machines de l'atelier
+          </span>
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+            {/* Bambu Lab */}
+            <svg viewBox="0 0 100 24" className="h-5 text-white/30 hover:text-white/70 transition-colors duration-300 fill-current select-none" aria-label="Bambu Lab">
+              <g transform="translate(0, 2)">
+                <rect x="0" y="14" width="4" height="6" rx="0.5" transform="rotate(-15 0 14)" />
+                <rect x="5" y="9" width="4" height="9" rx="0.5" transform="rotate(-15 5 9)" />
+                <rect x="10" y="5" width="4" height="11" rx="0.5" transform="rotate(-10 10 5)" />
+                <rect x="15" y="2" width="4" height="12" rx="0.5" transform="rotate(-10 15 2)" />
+              </g>
+              <text x="28" y="17" className="font-extrabold text-[11px] tracking-[0.2em] font-sans">BAMBU LAB</text>
+            </svg>
+
+            {/* eSun */}
+            <svg viewBox="0 0 70 24" className="h-5 text-white/30 hover:text-white/70 transition-colors duration-300 fill-current select-none" aria-label="eSun">
+              <text x="0" y="17" className="font-black text-[12px] tracking-[0.05em] font-sans">eSUN</text>
+              <circle cx="48" cy="8" r="2.5" />
+              <path d="M48 2v2M48 12v2M42 8h2M52 8h2" stroke="currentColor" strokeWidth="1" />
+            </svg>
+
+            {/* Polyterra */}
+            <svg viewBox="0 0 105 24" className="h-5 text-white/30 hover:text-white/70 transition-colors duration-300 fill-none stroke-current select-none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-label="Polyterra">
+              <g transform="translate(0, 1)">
+                <path d="M2 18C2 18 5 15 9 15C13 15 16 18 16 18" strokeWidth="1.5" />
+                <path d="M9 2C9 2 4 6 4 11C4 14 6.5 16.5 9 16.5C11.5 16.5 14 14 14 11C14 6 9 2 9 2Z" strokeWidth="1.5" />
+                <path d="M9 2V16.5" strokeWidth="1.5" />
+              </g>
+              <text x="24" y="16" className="font-bold text-[11px] tracking-[0.15em] font-sans fill-current stroke-none">POLYTERRA</text>
+            </svg>
+
+            {/* Prusa */}
+            <svg viewBox="0 0 80 24" className="h-5 text-white/30 hover:text-white/70 transition-colors duration-300 fill-none stroke-current select-none" strokeWidth="1.8" aria-label="Prusa 3D">
+              <polygon points="12,2 22,7 22,17 12,22 2,17 2,7" />
+              <path d="M9 8h4.5a2.5 2.5 0 0 1 0 5H9V8zM9 13v3" strokeWidth="2.2" />
+              <text x="28" y="16" className="font-extrabold text-[11px] tracking-[0.2em] font-sans fill-current stroke-none">PRUSA</text>
+            </svg>
+
+            {/* Sunlu */}
+            <svg viewBox="0 0 75 24" className="h-5 text-white/30 hover:text-white/70 transition-colors duration-300 fill-current select-none" aria-label="Sunlu">
+              <text x="0" y="17" className="font-black text-[12px] tracking-[0.2em] font-sans">SUNLU</text>
+              <circle cx="62" cy="12" r="7" fill="none" stroke="currentColor" strokeWidth="1.8" />
+              <circle cx="62" cy="12" r="2.5" fill="none" stroke="currentColor" strokeWidth="1.2" />
+            </svg>
+          </div>
         </div>
 
         {/* Section 3: Tout le Catalogue */}
