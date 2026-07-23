@@ -239,7 +239,7 @@ export default async function HomePage() {
             )}
             <Link
               href={hero.buttonLink || "/boutique"}
-              className="mt-2 h-13 px-8 inline-flex items-center justify-center gap-2 bg-[#ff4f00] hover:bg-[#e04500] text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xl shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-[0.98] cursor-pointer no-invert"
+              className="mt-2 h-13 px-8 inline-flex items-center justify-center gap-2 bg-[#ff4f00] hover:bg-[#e04500] text-white font-extrabold text-xs uppercase tracking-wider rounded-full transition-all shadow-xl shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-[0.98] cursor-pointer no-invert"
             >
               {hero.buttonText || "VOIR LA CAPSULE"}
             </Link>
@@ -248,8 +248,8 @@ export default async function HomePage() {
       </section>
 
       {/* 2. Ticker Marquee */}
-      <section className="w-full bg-[#FF5500] py-3.5 overflow-hidden border-y border-[#FF5500] mb-6 shadow-md select-none">
-        <div className="flex whitespace-nowrap animate-marquee text-xs tracking-widest text-black font-extrabold uppercase gap-8 font-[family-name:var(--font-antonio)]">
+      <section className="w-full bg-spoolio-bg py-3 overflow-hidden border-y border-[#1f1f23] mb-6 select-none">
+        <div className="flex whitespace-nowrap animate-marquee text-[11px] tracking-widest text-white font-semibold gap-8 select-none font-sans">
           <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
           <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
         </div>
