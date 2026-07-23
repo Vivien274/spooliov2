@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 
 interface FooterProps {
@@ -7,6 +8,20 @@ interface FooterProps {
 }
 
 export default function Footer({ className = "" }: FooterProps) {
+  const [isLegalOpen, setIsLegalOpen] = useState<boolean>(false);
+  const legalRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (legalRef.current && !legalRef.current.contains(event.target as Node)) {
+        setIsLegalOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <footer className={`w-full border-t border-white/10 bg-[#0a0a0c] py-12 text-xs text-gray-500 relative z-10 ${className} no-invert`}>
       <div className="max-w-[1200px] mx-auto px-6 flex flex-col gap-8">
@@ -28,8 +43,8 @@ export default function Footer({ className = "" }: FooterProps) {
             </div>
           </div>
 
-          {/* Social Networks Block */}
-          <div className="flex flex-col gap-3 font-sans">
+          {/* Social Networks & Club Spoolio Block */}
+          <div className="flex flex-col md:items-end gap-3 font-sans">
             <div className="text-xs font-black text-gray-300 uppercase tracking-widest">
               Rejoins l'aventure 🚀
             </div>
@@ -81,19 +96,80 @@ export default function Footer({ className = "" }: FooterProps) {
         </div>
 
         {/* Lower Section: Legal & Navigation Links */}
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2.5 text-center text-gray-400 font-sans font-semibold">
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-center text-gray-400 font-sans font-semibold">
+          
+          {/* Newsletter Club Spoolio Link */}
+          <Link
+            href="/inscription-newsletter-spoolio"
+            className="text-blue-400 hover:text-blue-300 font-extrabold transition-all flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2F3CD9]/15 border border-[#2F3CD9]/30 hover:border-[#2F3CD9]/60 hover:bg-[#2F3CD9]/25 shadow-sm"
+          >
+            <span>Club Spoolio ✉️</span>
+          </Link>
+
           <Link href="/don" className="text-[#ff4f00] hover:underline transition-colors">Soutenir l'Atelier 🧡</Link>
           <Link href="/a-propos" className="hover:text-[#ff4f00] transition-colors">À Propos</Link>
           <Link href="/pro" className="hover:text-[#ff4f00] transition-colors">Espace Pro</Link>
           <Link href="/contact" className="hover:text-[#ff4f00] transition-colors">Contact</Link>
           <Link href="/faq" className="hover:text-[#ff4f00] transition-colors">FAQ / Questions</Link>
-          <Link href="/cookies" className="hover:text-[#ff4f00] transition-colors">Cookies & Confidentialité</Link>
-          <Link href="/mentions-legales" className="hover:text-[#ff4f00] transition-colors">Mentions Légales</Link>
-          <Link href="/cgv" className="hover:text-[#ff4f00] transition-colors">CGV</Link>
-          <Link href="/retours" className="hover:text-[#ff4f00] transition-colors">Retours</Link>
+
+          {/* Submenu for Legal Pages */}
+          <div
+            ref={legalRef}
+            className="relative inline-block text-left group"
+            onMouseEnter={() => setIsLegalOpen(true)}
+            onMouseLeave={() => setIsLegalOpen(false)}
+          >
+            <button
+              onClick={() => setIsLegalOpen(!isLegalOpen)}
+              className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer py-1"
+              aria-expanded={isLegalOpen}
+            >
+              <span>Informations Légales</span>
+              <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${isLegalOpen ? "rotate-180 text-white" : "text-gray-400 group-hover:rotate-180"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {/* Legal Dropdown Menu with zero gap bridge wrapper */}
+            <div className={`absolute bottom-full left-1/2 -translate-x-1/2 pb-2.5 z-50 ${isLegalOpen ? "block" : "hidden group-hover:block"}`}>
+              <div className="w-52 bg-[#131316]/95 border border-white/15 rounded-2xl p-2 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl flex flex-col gap-1 text-left animate-scale-up">
+                <Link
+                  href="/mentions-legales"
+                  onClick={() => setIsLegalOpen(false)}
+                  className="px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium block"
+                >
+                  Mentions Légales
+                </Link>
+                <Link
+                  href="/cgv"
+                  onClick={() => setIsLegalOpen(false)}
+                  className="px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium block"
+                >
+                  Conditions Générales (CGV)
+                </Link>
+                <Link
+                  href="/cookies"
+                  onClick={() => setIsLegalOpen(false)}
+                  className="px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium block"
+                >
+                  Cookies & Confidentialité
+                </Link>
+                <Link
+                  href="/retours"
+                  onClick={() => setIsLegalOpen(false)}
+                  className="px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium block"
+                >
+                  Politique de Retours
+                </Link>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>
     </footer>
   );
 }
+
+

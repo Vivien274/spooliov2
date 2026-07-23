@@ -130287,7 +130287,7 @@
     "description": "<p>Vous cherchez un moyen simple de canaliser votre énergie ou de garder vos mains occupées sans déranger votre entourage ? On a conçu ce petit <strong>fidget aimanté</strong> directement dans notre atelier à Comines. C'est le genre d'objet qu'on commence à manipuler sans y penser et qu'on ne lâche plus de la journée. Grâce à ses aimants intégrés, il offre un retour tactile super satisfaisant à chaque mouvement, tout en restant particulièrement silencieux et discret. Que ce soit au bureau, en cours ou devant une série, il se glisse incognito dans le creux de la main.</p><p>Ce modèle est particulièrement adapté pour les profils TDAH ou tous ceux qui ont besoin d'un point d'ancrage sensoriel pour mieux se concentrer. Compact et robuste, il résiste sans problème aux manipulations quotidiennes les plus intenses.</p><p>Côté fabrication, on reste fidèles à nos valeurs : ce fidget est imprimé en 3D à partir de <strong>PLA biosourcé</strong>, une matière propre issue de l'amidon de maïs. C'est solide, agréable au toucher et respectueux de l'environnement. Attention tout de même à ne pas le laisser en plein soleil derrière un pare-brise ou près d'une source de chaleur intense : comme tous les objets en PLA, il n'apprécie pas les températures supérieures à 60°C !</p>",
     "stock_quantity": -1,
     "type": "variable",
-    "status": "publish",
+    "status": "draft",
     "attributes": {
       "attributes": [
         {
@@ -130334,17 +130334,17 @@
     },
     "images": [
       {
-        "id": 2823,
+        "id": 2836,
         "src": "/uploads/hero_upload_1784552725913.webp",
         "alt": "Fidget aimanté"
       },
       {
-        "id": 2824,
+        "id": 2837,
         "src": "/uploads/hero_upload_1784552725979.webp",
         "alt": "Fidget aimanté"
       },
       {
-        "id": 2825,
+        "id": 2838,
         "src": "/uploads/hero_upload_1784636422349.webp",
         "alt": "Fidget aimanté"
       }
