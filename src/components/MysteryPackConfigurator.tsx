@@ -237,12 +237,12 @@ export default function MysteryPackConfigurator({
             </p>
           </div>
 
-          {/* Barre de charge / Compteur simple */}
+          {/* Barre de charge / Compteur simple (sans font-mono) */}
           <div className="flex flex-col items-end gap-1.5 self-start sm:self-auto">
-            <span className={`text-xs font-mono font-bold ${isQuotaReached ? "text-[#00FF66]" : "text-[#FF5500]"}`}>
+            <span className={`text-xs font-bold font-[family-name:var(--font-plus-jakarta)] ${isQuotaReached ? "text-[#00FF66]" : "text-[#FF5500]"}`}>
               {totalSelected} / {selectedSize} objets sélectionnés
             </span>
-            <div className="w-36 h-2 rounded-full bg-neutral-900 border border-neutral-800 overflow-hidden">
+            <div className="w-36 h-2.5 rounded-full bg-neutral-900 border border-neutral-800 overflow-hidden">
               <div
                 className="h-full rounded-full transition-all duration-300 bg-gradient-to-r from-[#FF5500] to-[#00FF66]"
                 style={{ width: `${(totalSelected / selectedSize) * 100}%` }}
@@ -257,7 +257,7 @@ export default function MysteryPackConfigurator({
             1. Choisis la taille de la pochette
           </label>
 
-          <div className="grid grid-cols-3 gap-2.5">
+          <div className="grid grid-cols-3 gap-3">
             {MYSTERY_SIZES.map((sizeOpt) => {
               const isSelected = selectedSize === sizeOpt.count;
               return (
@@ -265,21 +265,22 @@ export default function MysteryPackConfigurator({
                   key={sizeOpt.count}
                   type="button"
                   onClick={() => handleSelectSize(sizeOpt.count)}
-                  className={`relative py-3 px-3 rounded-2xl border transition-all cursor-pointer flex flex-col items-center justify-center text-center gap-1 ${
+                  className={`relative py-4 px-3 rounded-2xl border transition-all cursor-pointer flex flex-col items-center justify-center text-center gap-1 ${
                     isSelected
                       ? "bg-neutral-900 border-[#FF5500] text-white shadow-md"
                       : "bg-neutral-900/30 hover:bg-neutral-900/60 border-neutral-800 text-neutral-400 hover:text-white opacity-80 hover:opacity-100"
                   }`}
                 >
+                  {/* Badge RECOMMANDÉ & MEGA PACK agrandi */}
                   {sizeOpt.badge && (
-                    <span className="absolute -top-2.5 px-2 py-0.5 rounded-full bg-[#FF5500] text-black font-extrabold text-[8px] font-[family-name:var(--font-antonio)] uppercase tracking-wider">
+                    <span className="absolute -top-3.5 px-3 py-1 rounded-full bg-[#FF5500] text-black font-extrabold text-xs font-[family-name:var(--font-antonio)] uppercase tracking-wider shadow-md z-10 whitespace-nowrap">
                       {sizeOpt.badge}
                     </span>
                   )}
-                  <span className="text-sm sm:text-base font-bold font-[family-name:var(--font-plus-jakarta)]">
+                  <span className="text-base sm:text-lg font-bold font-[family-name:var(--font-plus-jakarta)]">
                     {sizeOpt.label}
                   </span>
-                  <span className="text-xs font-mono font-semibold text-[#00FF66]">
+                  <span className="text-xs sm:text-sm font-extrabold font-[family-name:var(--font-antonio)] text-[#00FF66]">
                     {sizeOpt.price.toFixed(2)} €
                   </span>
                 </button>
@@ -294,7 +295,7 @@ export default function MysteryPackConfigurator({
             2. Dose la répartition des catégories
           </label>
 
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-3">
             {(Object.keys(MYSTERY_CATEGORIES) as MysteryCategoryKey[]).map((catKey) => {
               const cat = MYSTERY_CATEGORIES[catKey];
               const count = distribution[catKey] || 0;
@@ -303,29 +304,29 @@ export default function MysteryPackConfigurator({
               return (
                 <div
                   key={cat.key}
-                  className="rounded-2xl p-3.5 bg-neutral-900/40 border border-neutral-800 flex items-center justify-between gap-4 transition-colors hover:border-neutral-700"
+                  className="rounded-2xl p-4 bg-neutral-900/40 border border-neutral-800 flex items-center justify-between gap-4 transition-colors hover:border-neutral-700"
                 >
                   {/* Icône + Nom à gauche */}
                   <div className="flex items-center gap-3 min-w-0">
-                    <span className="text-xl shrink-0 select-none">{cat.icon}</span>
-                    <span className="text-sm font-bold text-white truncate">
+                    <span className="text-2xl shrink-0 select-none">{cat.icon}</span>
+                    <span className="text-sm sm:text-base font-bold text-white truncate">
                       {cat.name}
                     </span>
                   </div>
 
-                  {/* Compteur Simple [ - ] COUNT [ + ] à droite */}
-                  <div className="flex items-center gap-2.5 shrink-0">
+                  {/* Compteur Simple [ - ] COUNT [ + ] agrandi */}
+                  <div className="flex items-center gap-3 shrink-0">
                     <button
                       type="button"
                       onClick={() => handleRemoveCategory(catKey)}
                       disabled={count <= 0}
-                      className="w-8 h-8 rounded-xl bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 disabled:pointer-events-none text-white font-bold text-base flex items-center justify-center cursor-pointer transition-colors"
+                      className="w-10 h-10 rounded-xl bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 disabled:pointer-events-none text-white font-bold text-xl flex items-center justify-center cursor-pointer transition-colors"
                       title="Moins"
                     >
                       -
                     </button>
 
-                    <span className="w-5 text-center font-mono font-bold text-sm text-white">
+                    <span className="w-6 text-center font-extrabold text-base font-[family-name:var(--font-plus-jakarta)] text-white">
                       {count}
                     </span>
 
@@ -333,7 +334,7 @@ export default function MysteryPackConfigurator({
                       type="button"
                       onClick={() => handleAddCategory(catKey)}
                       disabled={isMaxReached}
-                      className="w-8 h-8 rounded-xl bg-[#FF5500] hover:bg-[#ff661a] border border-[#FF5500] disabled:opacity-20 disabled:pointer-events-none text-black font-extrabold text-base flex items-center justify-center cursor-pointer transition-colors shadow-sm"
+                      className="w-10 h-10 rounded-xl bg-[#FF5500] hover:bg-[#ff661a] border border-[#FF5500] disabled:opacity-20 disabled:pointer-events-none text-black font-extrabold text-xl flex items-center justify-center cursor-pointer transition-colors shadow-sm"
                       title="Plus"
                     >
                       +
@@ -345,22 +346,17 @@ export default function MysteryPackConfigurator({
           </div>
         </div>
 
-        {/* 4. ÉTAPE 3 - ACTION BASSE */}
+        {/* 4. ÉTAPE 3 - ACTIONS (Bouton Remplir au Hasard au-dessus de l'Ajout au Panier) */}
         <div className="flex flex-col gap-3 pt-4 border-t border-neutral-800">
-          <div className="flex items-center justify-between gap-3 flex-wrap">
-            {/* Bouton discret Remplir au hasard */}
-            <button
-              type="button"
-              onClick={handleRandomFill}
-              className="text-xs font-mono font-semibold text-neutral-400 hover:text-white transition-colors flex items-center gap-1.5 cursor-pointer py-1"
-            >
-              <span>🎲 Remplir au hasard</span>
-            </button>
-
-            <span className="text-xs font-mono text-neutral-500">
-              Matière PLA Biosourcé • Fabriqué à Comines 🇫🇷
-            </span>
-          </div>
+          
+          {/* Bouton Remplir au hasard agrandi dans un bouton shadow au-dessus du panier */}
+          <button
+            type="button"
+            onClick={handleRandomFill}
+            className="w-full py-3.5 px-4 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 hover:border-neutral-600 text-neutral-200 hover:text-white font-[family-name:var(--font-antonio)] font-bold text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer"
+          >
+            <span>🎲 REMPLIR AU HASARD</span>
+          </button>
 
           {/* Gros Bouton Principal Orange Spoolio */}
           <button
@@ -380,6 +376,12 @@ export default function MysteryPackConfigurator({
             )}
           </button>
 
+          <div className="flex items-center justify-center text-center mt-1">
+            <span className="text-xs font-[family-name:var(--font-plus-jakarta)] text-neutral-500">
+              Matière PLA Biosourcé • Fabriqué à Comines 🇫🇷
+            </span>
+          </div>
+
           {/* Toast Succès */}
           <AnimatePresence>
             {isAddedSuccess && (
@@ -387,7 +389,7 @@ export default function MysteryPackConfigurator({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="p-3 rounded-xl bg-[#00FF66]/15 border border-[#00FF66]/30 text-[#00FF66] text-center font-bold text-xs font-[family-name:var(--font-plus-jakarta)] mt-1"
+                className="p-3 rounded-xl bg-[#00FF66]/15 border border-[#00FF66]/30 text-[#00FF66] text-center font-bold text-xs font-[family-name:var(--font-plus-jakarta)]"
               >
                 🎉 Pochette surprise ajoutée avec succès à ton panier !
               </motion.div>
