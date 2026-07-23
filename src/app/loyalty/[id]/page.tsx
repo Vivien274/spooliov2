@@ -303,7 +303,7 @@ export default function LoyaltyCardPage({ params }: PageProps) {
                           className="w-13 h-13 rounded-full border-2.5 border-orange-500 shadow-lg shadow-orange-500/40 overflow-hidden relative bg-slate-900 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-200"
                         >
                           {milestone.image ? (
-                            <img src={milestone.image} alt="" className="w-full h-full object-cover" />
+                            <img src={milestone.image} alt={`Cadeau Palier ${milestone.pts} points Spoolio`} className="w-full h-full object-cover" />
                           ) : (
                             <span className="text-xs font-black text-white">{milestone.pts}</span>
                           )}
@@ -312,7 +312,7 @@ export default function LoyaltyCardPage({ params }: PageProps) {
                       ) : (
                         <div className="w-13 h-13 rounded-full bg-slate-950 border border-slate-800 overflow-hidden relative shadow-inner flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-200">
                           {milestone.image ? (
-                            <img src={milestone.image} alt="" className="w-full h-full object-cover grayscale opacity-25" />
+                            <img src={milestone.image} alt={`Cadeau Verrouillé ${milestone.pts} points Spoolio`} className="w-full h-full object-cover grayscale opacity-25" />
                           ) : (
                             <span className="text-xs font-black text-slate-600">{milestone.pts}</span>
                           )}
@@ -364,7 +364,7 @@ export default function LoyaltyCardPage({ params }: PageProps) {
                     
                     {tier.image && (
                       <div className="w-9 h-9 rounded-xl border border-slate-800 overflow-hidden shrink-0 bg-slate-950">
-                        <img src={tier.image} alt="" className={`w-full h-full object-cover ${completed ? "" : "grayscale opacity-40"}`} />
+                        <img src={tier.image} alt={`Cadeau fidélité ${tier.text}`} className={`w-full h-full object-cover ${completed ? "" : "grayscale opacity-40"}`} />
                       </div>
                     )}
                     

@@ -1,12 +1,39 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import dynamic from "next/dynamic";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import MysteryPackConfigurator from "@/components/MysteryPackConfigurator";
+
+// Dynamic import for heavy interactive configurator component to optimize initial JS bundle
+const MysteryPackConfigurator = dynamic(
+  () => import("@/components/MysteryPackConfigurator"),
+  {
+    loading: () => (
+      <div className="w-full max-w-6xl mx-auto h-[520px] rounded-3xl bg-neutral-900/40 border border-neutral-800 animate-pulse flex items-center justify-center text-neutral-400 font-mono text-sm">
+        Chargement du configurateur Spoolio...
+      </div>
+    ),
+  }
+);
 
 export const metadata: Metadata = {
   title: "Pochette Surprise Spoolio 3D | Configurateur Sur-Mesure",
-  description: "Configure ta pochette surprise d'objets mystères imprimés en 3D PLA biosourcé à Comines !",
+  description:
+    "Configure ta pochette surprise d'objets mystères sensoriels et ludiques 3D en plastique biosourcé fabriqués à Comines !",
+  openGraph: {
+    title: "Pochette Surprise Spoolio 3D | Configurateur Sur-Mesure",
+    description:
+      "Configure ta pochette surprise d'objets mystères sensoriels et ludiques 3D en plastique biosourcé fabriqués à Comines !",
+    url: "https://spoolio.fr/pochette-surprise",
+    siteName: "Spoolio",
+    locale: "fr_FR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pochette Surprise Spoolio 3D | Configurateur Sur-Mesure",
+    description:
+      "Configure ta pochette surprise d'objets mystères sensoriels et ludiques 3D en plastique biosourcé fabriqués à Comines !",
+  },
 };
 
 export default function PochetteSurprisePage() {
