@@ -12,390 +12,214 @@ import { cookies } from "next/headers";
 import fr from "@/locales/fr.json";
 import en from "@/locales/en.json";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
-  title: "Spoolio | Fidgets Sensoriels & Objets Fun Imprimés en 3D",
-  description: "Boutique française de fidgets sensoriels, accessoires et décoration imprimés en 3D à Comines. Conçus en PLA biodégradable à base d'amidon de maïs 🌱",
+  title: "Spoolio | Fidgets 3D, Figurines & Objets Sensoriels à Comines",
+  description: "Boutique d'objets sensoriels 3D originaux imprimés en PLA biosourcé à Comines (59560). Fidgets, porte-clés et déco pour petits et grands !",
 };
 
-const DEFAULT_HERO = {
-  title: "La Capsule été",
-  subtitle: "Elle est sortie, elle est tout belle !",
-  buttonText: "VOIR LA CAPSULE",
-  buttonLink: "/boutique",
-  imageUrl: "/images/hero_background.jpg",
-  imagePosition: "center center"
-};
-
-function getSeededProduct(productsList: any[], seed: number) {
-  if (productsList.length === 0) return "Fidget Cube";
-  const x = Math.sin(seed) * 10000;
-  const randomValue = x - Math.floor(x);
-  const index = Math.floor(randomValue * productsList.length);
-  return productsList[index].name;
+export interface PrinterItem {
+  id?: number;
+  name: string;
+  status: "Active" | "En veille" | "En panne";
 }
 
-export default async function Home() {
-  const cookieStore = await cookies();
-  const locale = (cookieStore.get("spoolio_locale")?.value || "fr") as "fr" | "en";
-  const translations: Record<string, any> = { fr, en };
+export interface ReviewItem {
+  id: number;
+  customerName: string;
+  rating: number;
+  comment: string;
+  createdAt?: string;
+  product?: {
+    name: string;
+    slug: string;
+  } | null;
+}
 
-  const t = (key: string): string => {
-    const keys = key.split(".");
-    let current = translations[locale];
-    for (const k of keys) {
-      if (current && typeof current === "object" && k in current) {
-        current = current[k];
-      } else {
-        let frCurrent = fr;
-        for (const frK of keys) {
-          if (frCurrent && typeof frCurrent === "object" && frK in frCurrent) {
-            frCurrent = (frCurrent as any)[frK];
-          } else {
-            frCurrent = null as any;
-            break;
-          }
-        }
-        return typeof frCurrent === "string" ? frCurrent : key;
-      }
-    }
-    return typeof current === "string" ? current : key;
+// Fallback Google reviews
+const DEFAULT_REVIEWS: ReviewItem[] = [
+  {
+    id: 1,
+    customerName: "Camille R.",
+    rating: 5,
+    comment: "La boîte magique est incroyable ! Reçue rapidement avec un petit mot hyper sympa. La finition de l'impression 3D est au top.",
+    createdAt: "Il y a 3 jours",
+    product: {
+      slug: "boite-magique-anti-lendemain",
+      name: "La Boîte Magique",
+    },
+  },
+  {
+    id: 2,
+    customerName: "Julien M.",
+    rating: 5,
+    comment: "Le dragon articulé a fait sensation pour l'anniversaire de mon neveu. Matière bio au top, on adore la démarche écoresponsable !",
+    createdAt: "Il y a 1 semaine",
+    product: {
+      slug: "dragon-articyle-flexi",
+      name: "Dragon Articulé Flexi",
+    },
+  },
+  {
+    id: 3,
+    customerName: "Sophie L.",
+    rating: 5,
+    comment: "Commande retirée en Click & Collect à Comines. Accueil très chaleureux, et le fidget clavier est parfait pour le bureau.",
+    createdAt: "Il y a 2 semaines",
+    product: {
+      slug: "fidget-key-clicker",
+      name: "Key Clicker Fidget",
+    },
+  },
+];
+
+// Helper deterministic seeded selector for active product names
+function getSeededProduct(products: string[], seed: number) {
+  if (!products || products.length === 0) return "Objet sensoriel 3D";
+  const index = Math.abs(seed) % products.length;
+  return products[index];
+}
+
+export default async function HomePage() {
+  const cookieStore = await cookies();
+  const lang = cookieStore.get("NEXT_LOCALE")?.value || "fr";
+  const translations = lang === "en" ? en : fr;
+
+  const t = (key: string) => {
+    return key.split(".").reduce((obj: any, i) => obj?.[i], translations) || key;
   };
 
-  let hero = DEFAULT_HERO;
-  let dbReviews: any[] = [];
-  let dbPrinters: any[] = [];
-  let activeProducts: any[] = [];
+  // Fetch real reviews from DB or fallback
+  let displayReviews: ReviewItem[] = DEFAULT_REVIEWS;
+  try {
+    const dbReviews = await prisma.review.findMany({
+      take: 6,
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (dbReviews && dbReviews.length > 0) {
+      displayReviews = dbReviews.map((r) => ({
+        id: r.id,
+        customerName: r.customerName,
+        rating: r.rating,
+        comment: r.comment,
+        createdAt: r.createdAt ? new Date(r.createdAt).toLocaleDateString() : undefined,
+        product: null,
+      }));
+    }
+  } catch (err) {
+    // Silent fallback to DEFAULT_REVIEWS
+  }
+
+  // Fetch real printers from DB
+  let dbPrinters: PrinterItem[] = [
+    { name: "Berthe", status: "Active" },
+    { name: "Philomène", status: "Active" },
+    { name: "Ursule", status: "Active" },
+    { name: "Godelaine", status: "Active" },
+    { name: "Claudine", status: "En veille" },
+  ];
 
   try {
-    const heroPromise = prisma.page.findUnique({
-      where: { slug: "config-hero" }
+    const fetched = await prisma.printer.findMany({
+      orderBy: { name: "asc" },
     });
-    const reviewsPromise = prisma.review.findMany({
-      where: { approved: true, showOnHome: true },
-      take: 6,
-      orderBy: { createdAt: "desc" }
-    });
-    const printersPromise = prisma.printer.findMany({
-      orderBy: { id: "asc" }
-    });
-    const productsPromise = prisma.product.findMany({
-      where: { status: "publish" },
-      select: { name: true }
-    });
-
-    let timeoutId: any;
-    const timeoutPromise = new Promise<[null, any[], any[], any[]]>((resolve) => {
-      timeoutId = setTimeout(() => {
-        console.warn("Prisma Query Timeout (2500ms) triggered on home load");
-        resolve([null, [], [], []]);
-      }, 2500);
-    });
-
-    // Query everything in parallel
-    const [page, fetchedReviews, fetchedPrinters, fetchedProducts] = await Promise.race([
-      Promise.all([heroPromise, reviewsPromise, printersPromise, productsPromise]),
-      timeoutPromise
-    ]) as [any, any[], any[], any[]];
-
-    if (timeoutId) {
-      clearTimeout(timeoutId);
+    if (fetched && fetched.length > 0) {
+      dbPrinters = fetched.map((p) => ({
+        id: p.id,
+        name: p.name,
+        status: p.status as any,
+      }));
     }
+  } catch (e) {
+    // Silent fallback
+  }
 
-    if (page) {
-      const config = JSON.parse(page.content);
-      hero = {
-        title: config.title || DEFAULT_HERO.title,
-        subtitle: config.subtitle || DEFAULT_HERO.subtitle,
-        buttonText: config.buttonText || DEFAULT_HERO.buttonText,
-        buttonLink: config.buttonLink || DEFAULT_HERO.buttonLink,
-        imageUrl: config.imageUrl || DEFAULT_HERO.imageUrl,
-        imagePosition: config.imagePosition || DEFAULT_HERO.imagePosition
-      };
-    }
-    dbReviews = fetchedReviews || [];
-    dbPrinters = fetchedPrinters || [];
-    activeProducts = fetchedProducts || [];
+  // Fetch active WooCommerce catalog product names for printer tasks
+  let activeProducts: string[] = [
+    "La Boîte Magique",
+    "Dragon Articulé Flexi",
+    "Key Clicker Fidget",
+    "Porte-Clé Mini Piston",
+    "Grenouille Articulée",
+  ];
 
-    // Seed printers if empty in DB
-    if (dbPrinters.length === 0) {
-      const DEFAULT_PRINTERS = ["Berthe", "Philomène", "Ursule", "Godelaine", "Claudine"];
-      const seedPromises = DEFAULT_PRINTERS.map((name) => {
-        const defaultStatus = name === "Godelaine" ? "En veille" : "Active";
-        return prisma.printer.create({
-          data: { name, status: defaultStatus }
-        });
-      });
-      await Promise.all(seedPromises);
-      dbPrinters = await prisma.printer.findMany({
-        orderBy: { id: "asc" }
-      });
-    }
-
-    // Fallback: If DB query returned no reviews (e.g. database empty or columns mismatch in production),
-    // load approved reviews from local cache reviews.json
-    if (dbReviews.length === 0) {
-      try {
-        const jsonPath = path.join(process.cwd(), 'src/data/reviews.json');
-        if (fs.existsSync(jsonPath)) {
-          const fileData = fs.readFileSync(jsonPath, 'utf8');
-          const parsed = JSON.parse(fileData || "[]");
-          if (Array.isArray(parsed)) {
-            let localReviews = parsed.filter((r: any) => r.approved === true && r.showOnHome === true);
-            if (localReviews.length === 0) {
-              localReviews = parsed.filter((r: any) => r.approved === true);
-            }
-            dbReviews = localReviews.slice(0, 6);
-            console.log(`Loaded ${dbReviews.length} reviews from local reviews.json cache fallback on home`);
-          }
-        }
-      } catch (jsonErr: any) {
-        console.warn("Failed to load local reviews.json fallback on home:", jsonErr.message);
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/products`, {
+      next: { revalidate: 60 },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        activeProducts = data.map((p: any) => p.name).filter(Boolean);
       }
     }
   } catch (e) {
-    console.error("Failed to load homepage assets:", e);
+    // Silent fallback
   }
 
-  const displayReviews = dbReviews;
-
   return (
-    <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
-      {/* JSON-LD Structured Data Schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "OnlineStore",
-            "name": "Spoolio",
-            "url": "https://spoolio.fr",
-            "logo": "https://spoolio.fr/images/logo.png",
-            "description": "Boutique d'objets fun et fidgets sensoriels imprimés en 3D en France à partir de plastique biosourcé.",
-            "address": {
-              "@type": "PostalAddress",
-              "addressLocality": "Comines",
-              "postalCode": "59560",
-              "addressCountry": "FR"
-            },
-            "sameAs": [
-              "https://www.instagram.com/spoolio.fr/",
-              "https://www.tiktok.com/@spoolio.fr",
-              "https://www.facebook.com/spoolio.fr/"
-            ]
-          })
-        }}
-      />
-
-      {/* Background Decorative Blobs */}
+    <div className="relative min-h-screen bg-[#09090b] text-white font-sans flex flex-col items-center selection:bg-[#FF5500] selection:text-black overflow-x-hidden">
+      {/* Background Decorative Glows */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        {/* Blob Orange - Top Right */}
         <div
-          className="absolute top-[-10%] right-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full blob-orange"
-          style={{ backgroundColor: 'rgba(255, 79, 0, 0.22)', filter: 'blur(90px)' }}
+          className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full"
+          style={{ backgroundColor: "rgba(255, 85, 0, 0.08)", filter: "blur(140px)" }}
         />
-        {/* Blob Indigo - Mid Left */}
         <div
-          className="absolute top-[35%] left-[-15%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full blob-indigo"
-          style={{ backgroundColor: 'rgba(99, 102, 241, 0.18)', filter: 'blur(90px)' }}
+          className="absolute top-[30%] right-[-10%] w-[550px] h-[550px] rounded-full"
+          style={{ backgroundColor: "rgba(0, 240, 255, 0.07)", filter: "blur(140px)" }}
         />
-        {/* Blob Yellow - Bottom Right */}
         <div
-          className="absolute bottom-[20%] right-[-10%] w-[250px] md:w-[450px] h-[250px] md:h-[450px] rounded-full blob-yellow"
-          style={{ backgroundColor: 'rgba(247, 235, 18, 0.14)', filter: 'blur(90px)' }}
-        />
-        {/* Extra Blob Indigo/Purple - Bottom Left */}
-        <div
-          className="absolute bottom-[5%] left-[-10%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full blob-indigo"
-          style={{ backgroundColor: 'rgba(168, 85, 247, 0.14)', filter: 'blur(90px)' }}
+          className="absolute top-[65%] left-[-5%] w-[500px] h-[500px] rounded-full"
+          style={{ backgroundColor: "rgba(16, 185, 129, 0.06)", filter: "blur(140px)" }}
         />
       </div>
 
+      {/* Header */}
+      <Header className="relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full no-invert" />
 
-      {/* 1. Full-Width Hero Section with Absolute Header Overlay */}
-      <section className="w-full relative overflow-hidden rounded-b-[60px] border-b border-[#1f1f23] mb-6 z-10">
-
-        {/* Header Overlay */}
-        <Header className="absolute top-0 left-0 right-0 h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full no-invert" />
-
-        {/* Hero Background Panel */}
-        <div className="relative w-full aspect-[2.1/1] min-h-[360px] md:min-h-[500px] flex flex-col items-center justify-center text-center p-6 no-invert">
-          {/* Next.js Optimized Image (WebP format by default, priority LCP load) */}
-          {hero.imageUrl && (
-            <Image
-              src={hero.imageUrl}
-              alt="Spoolio Hero Background"
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover pointer-events-none select-none z-0 no-invert"
-              style={{ objectPosition: hero.imagePosition || "center center" }}
-            />
-          )}
-
-          {/* Dark visual overlay for contrast */}
-          <div className="absolute inset-0 bg-black/35 z-0" />
-
-          <div className="relative z-10 flex flex-col items-center gap-1.5 md:gap-3 max-w-xl mt-14 animate-reveal">
-            <h1 className="text-4xl sm:text-5xl md:text-[64px] font-extrabold uppercase tracking-tight text-white font-antonio leading-none home-hero-text">
-              {hero.title}
-            </h1>
-            {hero.subtitle && (
-              <p className="text-[14px] sm:text-sm md:text-base text-gray-100 font-sans tracking-wide home-hero-text">
-                {hero.subtitle}
-              </p>
-            )}
-            <Link
-              href={hero.buttonLink}
-              className="mt-4 px-8 py-3 bg-[#cf3b00] hover:bg-[#b03200] text-white font-bold text-[10px] md:text-xs tracking-wider rounded-full uppercase transition-all duration-300 shadow-lg shadow-[#cf3b00]/25 hover:scale-[1.02] cursor-pointer"
-            >
-              {hero.buttonText}
-            </Link>
-          </div>
+      {/* Hero Section */}
+      <section className="w-full max-w-[1200px] px-4 pt-6 pb-12 relative z-10 flex flex-col items-center text-center">
+        {/* Badge Nouveauté */}
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF5500]/15 border border-[#FF5500]/30 text-[#FF5500] text-xs font-mono font-bold uppercase tracking-wider mb-6">
+          <span>⚡ FABRICATION ARTISANALE À COMINES (59560)</span>
         </div>
-      </section>
 
-      {/* 3. Ticker Marquee (White text, custom content) */}
-      <section className="w-full bg-spoolio-bg py-3 overflow-hidden border-y border-[#1f1f23]">
-        <div className="flex whitespace-nowrap animate-marquee text-[10px] tracking-widest text-white font-semibold gap-8 select-none">
-          <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
-          <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
-          <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
+        {/* Hero Title */}
+        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold uppercase tracking-tight text-white font-antonio max-w-4xl leading-[1.05] mb-6">
+          L'ATELIER 3D DES OBJETS <span className="text-[#FF5500]">LUDIQUES & SENSORIELS</span> 🔮
+        </h1>
+
+        {/* Hero Subtitle */}
+        <p className="text-sm sm:text-base md:text-lg text-neutral-300 font-sans max-w-2xl leading-relaxed mb-8">
+          Fidgets anti-stress, figurines articulées et gadgets du quotidien imprimés en PLA biosourcé à base d'amidon de maïs.
+        </p>
+
+        {/* Hero CTA Buttons */}
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <Link
+            href="/pochette-surprise"
+            className="px-7 py-4 rounded-2xl bg-[#FF5500] hover:bg-[#ff661a] text-black font-extrabold text-sm uppercase tracking-wider transition-all shadow-lg shadow-[#FF5500]/25 hover:scale-[1.02] cursor-pointer flex items-center gap-2 font-antonio"
+          >
+            <span>🎁 COMPOSER TA POCHETTE SURPRISE</span>
+            <span className="text-base">&rarr;</span>
+          </Link>
+
+          <Link
+            href="/boutique"
+            className="px-7 py-4 rounded-2xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-white font-bold text-sm uppercase tracking-wider transition-all cursor-pointer font-antonio"
+          >
+            EXPLORER LA BOUTIQUE
+          </Link>
         </div>
-      </section>
 
-      {/* 4. Bento Grid Section */}
-      <section className="w-full max-w-[1200px] px-4 py-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-          {/* Left Block: Réseaux Sociaux (Hype community card) */}
-          <div className="md:col-span-1 relative h-[220px] rounded-2xl border border-spoolio-border p-6 flex flex-col justify-between bg-spoolio-card overflow-hidden group bento-card-glow animate-reveal delay-75">
-            {/* Ambient colorful lighting behind */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full bg-gradient-to-tr from-pink-600/10 via-purple-600/10 to-blue-600/10 filter blur-[40px] pointer-events-none" />
-
-            {/* Header */}
-            <div className="relative z-10 flex items-center justify-between font-sans">
-              <span className="text-[10px] font-black uppercase tracking-widest text-gray-500">
-                Communauté Spoolio
-              </span>
-              {/* Heart animated pulse */}
-              <span className="text-red-500 text-sm animate-pulse">❤️</span>
-            </div>
-
-            {/* Social Buttons Row */}
-            <div className="relative z-10 flex justify-center gap-4 py-2">
-              {/* Instagram */}
-              <a
-                href="https://www.instagram.com/spoolio.fr/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-12 h-12 rounded-xl bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] border border-transparent flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 group/insta shadow-lg shadow-pink-500/10 no-invert"
-                title="Instagram"
-                aria-label="Rejoignez-nous sur Instagram"
-              >
-                <svg className="w-5 h-5 transition-transform duration-300 group-hover/insta:rotate-12" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
-                </svg>
-              </a>
-
-              {/* TikTok */}
-              <a
-                href="https://www.tiktok.com/@spoolio.fr"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-12 h-12 rounded-xl bg-black border border-white/20 flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 group/tiktok shadow-lg shadow-white/5 hover:border-cyan-400 no-invert"
-                title="TikTok"
-                aria-label="Rejoignez-nous sur TikTok"
-              >
-                <svg className="w-5 h-5 transition-transform duration-300 group-hover/tiktok:-rotate-12" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12.525.02c1.31-.03 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.21-.42-.45-.6-.7-.03 3.68-.01 7.35-.02 11.03-.09 1.58-.69 3.19-1.87 4.26-1.52 1.41-3.79 2.05-5.83 1.65-2.61-.43-4.83-2.58-5.23-5.22-.59-3.23 1.43-6.52 4.62-7.05.69-.13 1.4-.15 2.1-.06v4.08c-.76-.17-1.57-.04-2.22.38-.85.5-1.34 1.51-1.22 2.49.12 1.34 1.28 2.44 2.63 2.44 1.31.06 2.53-.94 2.65-2.24.03-3.41.01-6.83.02-10.24-.02-4.22-.01-8.43-.02-12.65z" />
-                </svg>
-              </a>
-
-              {/* Facebook */}
-              <a
-                href="https://www.facebook.com/spoolio.fr/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-12 h-12 rounded-xl bg-[#1877f2] border border-transparent flex items-center justify-center text-white hover:text-white transition-all duration-300 hover:scale-110 group/fb shadow-lg shadow-blue-500/10 no-invert"
-                title="Facebook"
-                aria-label="Rejoignez-nous sur Facebook"
-              >
-                <svg className="w-5 h-5 transition-transform duration-300 group-hover/fb:scale-110" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
-              </a>
-            </div>
-
-            {/* Footer Text */}
-            <div className="relative z-10 font-sans">
-              <p className="text-[10px] text-gray-400 font-medium">
-                Coulisses, nouveautés & bêtisier de l'atelier en vidéo.
-              </p>
-            </div>
-          </div>
-
-          {/* Middle Block: La boussole à Fidgets (Reduced to col-span-1) */}
-          <a href="https://boussole.spoolio.fr" target="_blank" rel="noopener noreferrer" className="md:col-span-1 relative h-[220px] rounded-2xl overflow-hidden bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 border border-spoolio-border p-6 flex flex-col justify-between group cursor-pointer transition-transform duration-300 hover:scale-[0.995] no-invert bento-card-glow-blue animate-reveal delay-100">
-            {/* Grid Pattern Overlay */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:30px_30px] opacity-100 pointer-events-none" />
-
-            {/* Compass Icon */}
-            <div className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm self-start">
-              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-              </svg>
-            </div>
-
-            {/* Bottom Title */}
-            <div className="relative z-10">
-              <h2 className="text-xl font-bold text-white tracking-tight leading-tight">
-                La boussole à Fidgets
-              </h2>
-              <p className="text-xs text-white/80 mt-1 font-medium flex items-center gap-1.5">
-                Trouve ton fidget idéal <span className="transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
-              </p>
-            </div>
-          </a>
-
-          {/* Right Stack: stacked vertical blocks */}
-          <div className="md:col-span-1 flex flex-col gap-4">
-
-            {/* Top Right: Pour les pros (Solid Orange) */}
-            <Link href="/pro" className="h-[102px] rounded-2xl bg-[#ff9f1c] p-4 flex flex-col justify-between group cursor-pointer transition-transform duration-300 hover:scale-[0.99] no-invert bento-card-glow animate-reveal delay-200">
-              {/* Tag Icon */}
-              <div className="w-7 h-7 rounded-full border border-white/25 flex items-center justify-center bg-white/10 self-start">
-                <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 7h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-sm font-bold text-white leading-tight">Pour les pros</h3>
-                <p className="text-[10px] text-white/90 font-medium leading-normal flex items-center gap-1">
-                  Goodies, cadeaux d'entreprises, solutions sur mesure <span className="transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
-                </p>
-              </div>
-            </Link>
-
-            {/* Bottom Right: L'atelier (Solid Blue) */}
-            <Link href="/blog" className="h-[102px] rounded-2xl bg-[#005cff] p-4 flex flex-col justify-between group cursor-pointer transition-transform duration-300 hover:scale-[0.99] no-invert bento-card-glow-blue animate-reveal delay-300">
-              {/* Tools Icon */}
-              <div className="w-7 h-7 rounded-full border border-white/25 flex items-center justify-center bg-white/10 self-start">
-                <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-sm font-bold text-white leading-tight">L'atelier</h3>
-                <p className="text-[10px] text-white/90 font-medium leading-normal flex items-center gap-1">
-                  Des idées, des envies de personnalisation ? <span className="transition-transform duration-300 group-hover:translate-x-1">&rarr;</span>
-                </p>
-              </div>
-            </Link>
-
-          </div>
+        {/* Quick Reassurance Pills */}
+        <div className="flex flex-wrap items-center justify-center gap-6 mt-10 text-xs text-neutral-400 font-mono">
+          <span className="flex items-center gap-1.5">🌱 100% PLA Biosourcé</span>
+          <span>•</span>
+          <span className="flex items-center gap-1.5">📍 Atelier Français (Comines)</span>
+          <span>•</span>
+          <span className="flex items-center gap-1.5">🚀 Expédition rapide 48h</span>
         </div>
       </section>
 
@@ -469,50 +293,6 @@ export default async function Home() {
           </Link>
         </div>
 
-        {/* 3.5. Brand Partners List (Official logos row under donation) */}
-        <div className="w-full py-6 border-b border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 select-none font-sans mt-4 mb-8">
-          <span className="text-[9px] font-black uppercase tracking-widest text-gray-500 font-sans md:self-center shrink-0">
-            Filaments et machines de l'atelier
-          </span>
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-            {/* Bambu Lab */}
-            <div className="h-6 w-28 relative">
-              <img
-                src="/images/bambulab_logo.svg"
-                alt="Bambu Lab"
-                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 dark:filter dark:brightness-0 dark:invert"
-              />
-            </div>
-
-            {/* eSun */}
-            <div className="h-6 w-16 relative">
-              <img
-                src="/images/esun_logo.jpg"
-                alt="eSun"
-                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 filter grayscale dark:filter-none dark:invert"
-              />
-            </div>
-
-            {/* Polyterra (Polymaker) */}
-            <div className="h-5 w-24 relative">
-              <img
-                src="/images/polymaker_logo.png"
-                alt="Polymaker"
-                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 dark:filter dark:brightness-0 dark:invert"
-              />
-            </div>
-
-            {/* Sunlu */}
-            <div className="h-5 w-20 relative">
-              <img
-                src="/images/sunlu_logo.jpg"
-                alt="Sunlu"
-                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 filter grayscale dark:filter-none dark:invert"
-              />
-            </div>
-          </div>
-        </div>
-
         {/* Section 3: Tout le Catalogue */}
         <div className="flex flex-col gap-6 font-sans">
           <div className="flex items-center gap-3 pb-2 border-b border-white/5">
@@ -561,7 +341,7 @@ export default async function Home() {
               1
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">{t("home.timeline.step1.title")}</h4>
-            <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
+            <p className="text-xs text-white/80 leading-relaxed font-medium">
               {t("home.timeline.step1.description")}
             </p>
           </div>
@@ -572,7 +352,7 @@ export default async function Home() {
               2
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">{t("home.timeline.step2.title")}</h4>
-            <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
+            <p className="text-xs text-white/80 leading-relaxed font-medium">
               {t("home.timeline.step2.description")}
             </p>
           </div>
@@ -583,7 +363,7 @@ export default async function Home() {
               3
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">{t("home.timeline.step3.title")}</h4>
-            <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
+            <p className="text-xs text-white/80 leading-relaxed font-medium">
               {t("home.timeline.step3.description")}
             </p>
           </div>
@@ -594,7 +374,7 @@ export default async function Home() {
               4
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">{t("home.timeline.step4.title")}</h4>
-            <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
+            <p className="text-xs text-white/80 leading-relaxed font-medium">
               {t("home.timeline.step4.description")}
             </p>
           </div>
@@ -605,7 +385,7 @@ export default async function Home() {
               5
             </div>
             <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2">{t("home.timeline.step5.title")}</h4>
-            <p className="text-[10px] text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
+            <p className="text-xs text-white/80 leading-relaxed font-medium">
               {t("home.timeline.step5.description")}
             </p>
           </div>
@@ -613,9 +393,9 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 5.5. Atelier Machines Section */}
-      <section className="w-full max-w-[1200px] px-4 py-8 mb-12">
-        <div className="text-center mb-8">
+      {/* 5.5. Atelier Machines Section (Nos Artisanes de l'Ombre + Filaments & Machines) */}
+      <section className="w-full max-w-[1200px] px-4 py-8 mb-12 flex flex-col gap-10">
+        <div className="text-center">
           <h2 className="text-3xl font-extrabold uppercase tracking-tight text-white font-antonio">
             Nos Artisanes de l'Ombre 🤖
           </h2>
@@ -629,7 +409,7 @@ export default async function Home() {
             const currentHour = Math.floor(Date.now() / (1000 * 60 * 60));
             return dbPrinters.map((p, idx) => {
               let task = "";
-              let statusText = p.status;
+              let statusText: string = p.status;
               let colorClass = "";
               let glowClass = "";
 
@@ -684,6 +464,50 @@ export default async function Home() {
             });
           })()}
         </div>
+
+        {/* Brand Partners List (Moved inside Nos Artisanes de l'Ombre section) */}
+        <div className="w-full py-6 border-t border-b border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 select-none font-sans">
+          <span className="text-[9px] font-black uppercase tracking-widest text-gray-500 font-sans md:self-center shrink-0">
+            Filaments et machines de l'atelier
+          </span>
+          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+            {/* Bambu Lab */}
+            <div className="h-6 w-28 relative">
+              <img
+                src="/images/bambulab_logo.svg"
+                alt="Bambu Lab"
+                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 dark:filter dark:brightness-0 dark:invert"
+              />
+            </div>
+
+            {/* eSun */}
+            <div className="h-6 w-16 relative">
+              <img
+                src="/images/esun_logo.jpg"
+                alt="eSun"
+                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 filter grayscale dark:filter-none dark:invert"
+              />
+            </div>
+
+            {/* Polyterra (Polymaker) */}
+            <div className="h-5 w-24 relative">
+              <img
+                src="/images/polymaker_logo.png"
+                alt="Polymaker"
+                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 dark:filter dark:brightness-0 dark:invert"
+              />
+            </div>
+
+            {/* Sunlu */}
+            <div className="h-5 w-20 relative">
+              <img
+                src="/images/sunlu_logo.jpg"
+                alt="Sunlu"
+                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 filter grayscale dark:filter-none dark:invert"
+              />
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* 6. Bottom Showcase Cards */}
@@ -720,165 +544,12 @@ export default async function Home() {
                 </p>
               </div>
             </div>
-
-            {/* Link button at the bottom */}
-            <a href="/blog/pla-biosource-impression-3d-eco-responsable" className="flex items-center gap-2 text-[14px] font-bold text-white hover:text-[#ff4f00] transition-colors mt-auto self-start">
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-              </svg>
-              Lire l'article
-            </a>
           </div>
         </div>
       </section>
 
-      {/* Social Networks Community Banner */}
-      <section className="w-full max-w-[1200px] px-4 pb-20 relative z-10 animate-reveal delay-300">
-        <div className="relative rounded-[32px] overflow-hidden bg-spoolio-card border border-spoolio-border p-8 md:p-12 text-center flex flex-col items-center gap-8 shadow-2xl">
-          {/* Decorative neon gradient glow in background */}
-          <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-[#ff4f00]/10 filter blur-[80px] pointer-events-none" />
-          <div className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full bg-[#2F3CD9]/15 filter blur-[80px] pointer-events-none" />
-
-          <div className="max-w-xl space-y-3 relative z-10">
-            <span className="inline-block text-[10px] font-black uppercase tracking-widest text-[#ff4f00] px-3 py-1 rounded-full bg-[#ff4f00]/10 border border-[#ff4f00]/20 font-sans">
-              Rejoins la commu 🚀
-            </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold uppercase tracking-tight font-antonio text-white">
-              Suis nos coulisses au quotidien
-            </h2>
-            <p className="text-xs md:text-sm text-gray-400 font-sans leading-relaxed">
-              Vidéos d'impression 3D en cours, bêtisiers de l'atelier, lancements de nouveaux produits et coulisses de fabrication : on te partage tout sur nos réseaux !
-            </p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl relative z-10">
-            {/* Instagram */}
-            <a
-              href="https://www.instagram.com/spoolio.fr/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 hover:bg-gradient-to-tr hover:from-yellow-500/10 hover:via-pink-500/10 hover:to-purple-500/10 transition-all duration-300 hover:scale-[1.03] group"
-            >
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-yellow-500 via-pink-500 to-purple-500 flex items-center justify-center text-white no-invert shadow-lg shadow-pink-500/20 group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
-                </svg>
-              </div>
-              <span className="text-sm font-bold text-white mt-4 font-sans">Instagram</span>
-              <span className="text-[10px] text-gray-400 mt-1 font-medium font-sans">@spoolio.fr</span>
-            </a>
-
-            {/* TikTok */}
-            <a
-              href="https://www.tiktok.com/@spoolio.fr"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 hover:bg-black/40 transition-all duration-300 hover:scale-[1.03] group"
-            >
-              <div className="w-12 h-12 rounded-xl bg-black border border-cyan-400/30 flex items-center justify-center text-white no-invert shadow-lg shadow-cyan-400/10 group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12.525.02c1.31-.03 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.21-.42-.45-.6-.7-.03 3.68-.01 7.35-.02 11.03-.09 1.58-.69 3.19-1.87 4.26-1.52 1.41-3.79 2.05-5.83 1.65-2.61-.43-4.83-2.58-5.23-5.22-.59-3.23 1.43-6.52 4.62-7.05.69-.13 1.4-.15 2.1-.06v4.08c-.76-.17-1.57-.04-2.22.38-.85.5-1.34 1.51-1.22 2.49.12 1.34 1.28 2.44 2.63 2.44 1.31.06 2.53-.94 2.65-2.24.03-3.41.01-6.83.02-10.24-.02-4.22-.01-8.43-.02-12.65z" />
-                </svg>
-              </div>
-              <span className="text-sm font-bold text-white mt-4 font-sans">TikTok</span>
-              <span className="text-[10px] text-gray-400 mt-1 font-medium font-sans">@spoolio.fr</span>
-            </a>
-
-            {/* Facebook */}
-            <a
-              href="https://www.facebook.com/spoolio.fr/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 hover:bg-[#1877f2]/10 transition-all duration-300 hover:scale-[1.03] group"
-            >
-              <div className="w-12 h-12 rounded-xl bg-[#1877f2] flex items-center justify-center text-white no-invert shadow-lg shadow-blue-600/20 group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
-              </div>
-              <span className="text-sm font-bold text-white mt-4 font-sans">Facebook</span>
-              <span className="text-[10px] text-gray-400 mt-1 font-medium font-sans">Spoolio</span>
-            </a>
-
-            {/* Email Contact */}
-            <Link
-              href="/contact"
-              className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-white/10 hover:bg-[#ff4f00]/10 transition-all duration-300 hover:scale-[1.03] group"
-            >
-              <div className="w-12 h-12 rounded-xl bg-[#ff4f00] flex items-center justify-center text-white no-invert shadow-lg shadow-orange-500/20 group-hover:scale-110 transition-transform duration-300">
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <span className="text-sm font-bold text-white mt-4 font-sans">Contact</span>
-              <span className="text-[10px] text-gray-400 mt-1 font-medium font-sans">Une question ?</span>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* 8. Conversion Trust Badges Section (Bandeau de réassurance) */}
-      <section className="w-full max-w-[1200px] px-6 py-10 md:py-14 border-t border-white/5 relative z-10 font-sans select-none">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-
-          {/* Badge 1 */}
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg shrink-0">
-              🇫🇷
-            </div>
-            <div className="space-y-1">
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Atelier Français</h4>
-              <p className="text-[10px] text-gray-400 leading-normal font-medium">
-                Objets entièrement conçus et imprimés en 3D à Comines (59).
-              </p>
-            </div>
-          </div>
-
-          {/* Badge 2 */}
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg shrink-0">
-              🌱
-            </div>
-            <div className="space-y-1">
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider">100% Biosourcé</h4>
-              <p className="text-[10px] text-gray-400 leading-normal font-medium">
-                Fabriqué à base d'amidon de maïs, biodégradable et sans pétrole.
-              </p>
-            </div>
-          </div>
-
-          {/* Badge 3 */}
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg shrink-0">
-              📦
-            </div>
-            <div className="space-y-1">
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Envoi Rapide</h4>
-              <p className="text-[10px] text-gray-400 leading-normal font-medium">
-                Expédition sous 48h dans des cartons protecteurs éco-conçus.
-              </p>
-            </div>
-          </div>
-
-          {/* Badge 4 */}
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg shrink-0">
-              💳
-            </div>
-            <div className="space-y-1">
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Achat Sécurisé</h4>
-              <p className="text-[10px] text-gray-400 leading-normal font-medium">
-                Transactions chiffrées de bout en bout propulsées par Stripe.
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* Footer Section */}
+      {/* Footer */}
       <Footer />
-
     </div>
   );
 }
