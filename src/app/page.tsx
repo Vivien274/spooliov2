@@ -12,9 +12,20 @@ import { cookies } from "next/headers";
 import fr from "@/locales/fr.json";
 import en from "@/locales/en.json";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
-  title: "Spoolio | Fidgets 3D, Figurines & Objets Sensoriels à Comines",
-  description: "Boutique d'objets sensoriels 3D originaux imprimés en PLA biosourcé à Comines (59560). Fidgets, porte-clés et déco pour petits et grands !",
+  title: "Spoolio | Fidgets Sensoriels & Objets Fun Imprimés en 3D",
+  description: "Boutique française de fidgets sensoriels, accessoires et décoration imprimés en 3D à Comines. Conçus en PLA biodégradable à base d'amidon de maïs 🌱",
+};
+
+const DEFAULT_HERO = {
+  title: "La Capsule été",
+  subtitle: "Elle est sortie, elle est tout belle !",
+  buttonText: "VOIR LA CAPSULE",
+  buttonLink: "/boutique",
+  imageUrl: "/images/hero_background.jpg",
+  imagePosition: "center center"
 };
 
 export interface PrinterItem {
@@ -87,6 +98,26 @@ export default async function HomePage() {
   const t = (key: string) => {
     return key.split(".").reduce((obj: any, i) => obj?.[i], translations) || key;
   };
+
+  let hero = DEFAULT_HERO;
+  try {
+    const page = await prisma.page.findUnique({
+      where: { slug: "config-hero" }
+    });
+    if (page) {
+      const config = JSON.parse(page.content);
+      hero = {
+        title: config.title || DEFAULT_HERO.title,
+        subtitle: config.subtitle || DEFAULT_HERO.subtitle,
+        buttonText: config.buttonText || DEFAULT_HERO.buttonText,
+        buttonLink: config.buttonLink || DEFAULT_HERO.buttonLink,
+        imageUrl: config.imageUrl || DEFAULT_HERO.imageUrl,
+        imagePosition: config.imagePosition || DEFAULT_HERO.imagePosition
+      };
+    }
+  } catch (e) {
+    // Silent fallback
+  }
 
   // Fetch real reviews from DB or fallback
   let displayReviews: ReviewItem[] = DEFAULT_REVIEWS;
@@ -175,51 +206,52 @@ export default async function HomePage() {
         />
       </div>
 
-      {/* Header */}
-      <Header className="relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full no-invert" />
+      {/* 1. Full-Width Hero Section with Absolute Header Overlay */}
+      <section className="w-full relative overflow-hidden rounded-b-[60px] border-b border-[#1f1f23] mb-6 z-10">
+        {/* Header Overlay */}
+        <Header className="absolute top-0 left-0 right-0 h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full no-invert" />
 
-      {/* Hero Section */}
-      <section className="w-full max-w-[1200px] px-4 pt-6 pb-12 relative z-10 flex flex-col items-center text-center">
-        {/* Badge Nouveauté */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF5500]/15 border border-[#FF5500]/30 text-[#FF5500] text-xs font-mono font-bold uppercase tracking-wider mb-6">
-          <span>⚡ FABRICATION ARTISANALE À COMINES (59560)</span>
+        {/* Hero Background Panel */}
+        <div className="relative w-full aspect-[2.1/1] min-h-[360px] md:min-h-[500px] flex flex-col items-center justify-center text-center p-6 no-invert">
+          {hero.imageUrl && (
+            <Image
+              src={hero.imageUrl}
+              alt="Spoolio Hero Background"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover pointer-events-none select-none z-0 no-invert"
+              style={{ objectPosition: hero.imagePosition || "center center" }}
+            />
+          )}
+
+          {/* Dark visual overlay for contrast */}
+          <div className="absolute inset-0 bg-black/35 z-0" />
+
+          <div className="relative z-10 flex flex-col items-center gap-1.5 md:gap-3 max-w-xl mt-14 animate-reveal font-sans">
+            <h1 className="text-4xl sm:text-5xl md:text-[64px] font-extrabold uppercase tracking-tight text-white font-antonio leading-none home-hero-text">
+              {hero.title}
+            </h1>
+            {hero.subtitle && (
+              <p className="text-[14px] sm:text-sm md:text-base text-gray-100 font-sans tracking-wide home-hero-text">
+                {hero.subtitle}
+              </p>
+            )}
+            <Link
+              href={hero.buttonLink || "/boutique"}
+              className="mt-2 h-13 px-8 inline-flex items-center justify-center gap-2 bg-[#ff4f00] hover:bg-[#e04500] text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xl shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-[0.98] cursor-pointer no-invert"
+            >
+              {hero.buttonText || "VOIR LA CAPSULE"}
+            </Link>
+          </div>
         </div>
+      </section>
 
-        {/* Hero Title */}
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold uppercase tracking-tight text-white font-antonio max-w-4xl leading-[1.05] mb-6">
-          L'ATELIER 3D DES OBJETS <span className="text-[#FF5500]">LUDIQUES & SENSORIELS</span> 🔮
-        </h1>
-
-        {/* Hero Subtitle */}
-        <p className="text-sm sm:text-base md:text-lg text-neutral-300 font-sans max-w-2xl leading-relaxed mb-8">
-          Fidgets anti-stress, figurines articulées et gadgets du quotidien imprimés en PLA biosourcé à base d'amidon de maïs.
-        </p>
-
-        {/* Hero CTA Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          <Link
-            href="/pochette-surprise"
-            className="px-7 py-4 rounded-2xl bg-[#FF5500] hover:bg-[#ff661a] text-black font-extrabold text-sm uppercase tracking-wider transition-all shadow-lg shadow-[#FF5500]/25 hover:scale-[1.02] cursor-pointer flex items-center gap-2 font-antonio"
-          >
-            <span>🎁 COMPOSER TA POCHETTE SURPRISE</span>
-            <span className="text-base">&rarr;</span>
-          </Link>
-
-          <Link
-            href="/boutique"
-            className="px-7 py-4 rounded-2xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-white font-bold text-sm uppercase tracking-wider transition-all cursor-pointer font-antonio"
-          >
-            EXPLORER LA BOUTIQUE
-          </Link>
-        </div>
-
-        {/* Quick Reassurance Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-6 mt-10 text-xs text-neutral-400 font-mono">
-          <span className="flex items-center gap-1.5">🌱 100% PLA Biosourcé</span>
-          <span>•</span>
-          <span className="flex items-center gap-1.5">📍 Atelier Français (Comines)</span>
-          <span>•</span>
-          <span className="flex items-center gap-1.5">🚀 Expédition rapide 48h</span>
+      {/* 2. Ticker Marquee */}
+      <section className="w-full bg-spoolio-bg py-3 overflow-hidden border-b border-[#1f1f23] mb-6">
+        <div className="flex whitespace-nowrap animate-marquee text-[10px] tracking-widest text-white font-semibold gap-8 select-none font-sans">
+          <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
+          <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
         </div>
       </section>
 
@@ -331,7 +363,6 @@ export default async function HomePage() {
 
         {/* Timeline Grid */}
         <div className="relative grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-4 mt-8 font-sans">
-
           {/* Timeline Connector Line (only visible on desktop) */}
           <div className="hidden md:block absolute top-[40px] left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-[#cf3b00]/40 via-indigo-500/20 to-emerald-500/20 z-0" />
 
@@ -389,7 +420,6 @@ export default async function HomePage() {
               {t("home.timeline.step5.description")}
             </p>
           </div>
-
         </div>
       </section>
 
