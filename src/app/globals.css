@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-spoolio-bg: #000000;
@@ -39,6 +40,58 @@ html.light {
   --color-spoolio-card: #ffffff;
   --color-spoolio-border: #e2e2e9;
 }
+
+/* Pochette Configurator Light Mode Overrides */
+html.light .bento-left-card {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #e5e7eb !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light .bento-right-card {
+  background-color: #ffffff !important;
+  border-color: #e5e7eb !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light .bento-badge {
+  background-color: #f3f4f6 !important;
+  border-color: #e5e7eb !important;
+  color: #1f2937 !important;
+}
+
+html.light .size-tab-unselected {
+  background-color: #f9fafb !important;
+  border-color: #e5e7eb !important;
+  color: #374151 !important;
+}
+
+html.light .size-tab-unselected .price-tag {
+  color: #059669 !important;
+}
+
+html.light .category-card {
+  background-color: #f9fafb !important;
+  border-color: #e5e7eb !important;
+}
+
+html.light .btn-minus {
+  background-color: #e5e7eb !important;
+  border-color: #d1d5db !important;
+  color: #111827 !important;
+}
+
+html.light .btn-random {
+  background-color: #f3f4f6 !important;
+  border-color: #e5e7eb !important;
+  color: #1f2937 !important;
+}
+
+html.light .reassurance-card {
+  background-color: #ffffff !important;
+  border-color: #e5e7eb !important;
+}
+
 
 /* .no-invert elements: preserve their original colors — don't touch text or bg */
 html.light .no-invert {

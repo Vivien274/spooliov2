@@ -59,6 +59,11 @@ export default function Header({ className = "" }: HeaderProps) {
   useEffect(() => {
     // Sync theme state on component mount
     const isLight = document.documentElement.classList.contains("light");
+    if (isLight) {
+      document.documentElement.classList.remove("dark");
+    } else {
+      document.documentElement.classList.add("dark");
+    }
     setTheme(isLight ? "light" : "dark");
   }, []);
 
@@ -120,17 +125,22 @@ export default function Header({ className = "" }: HeaderProps) {
   const toggleTheme = () => {
     if (theme === "dark") {
       document.documentElement.classList.add("light");
+      document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
       setTheme("light");
     } else {
       document.documentElement.classList.remove("light");
+      document.documentElement.classList.add("dark");
       localStorage.setItem("theme", "dark");
       setTheme("dark");
     }
   };
 
   const cleanClassName = isSticky
-    ? className.replace(/\bno-invert\b/g, "").trim()
+    ? className
+        .replace(/\b(relative|static|absolute|h-\w+)\b/g, "")
+        .replace(/\bno-invert\b/g, "")
+        .trim()
     : className;
 
   const headerJsx = (
