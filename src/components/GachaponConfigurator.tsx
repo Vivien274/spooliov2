@@ -72,37 +72,28 @@ export const GACHAPON_SIZES: GachaponSizeOption[] = [
   },
 ];
 
-// Rich colorful stock inside the glass dome (gravity stacked towards bottom)
-const GLOBE_BACKGROUND_STOCK = [
-  // Bottom Floor (Lowest level in circular dome)
-  { id: "s1", x: -40, y: 32, color: "#00F0FF", icon: "🐉", rotate: -15 },
-  { id: "s2", x: -26, y: 36, color: "#FF5500", icon: "⌨️", rotate: 22 },
-  { id: "s3", x: -12, y: 38, color: "#00FF66", icon: "🗝️", rotate: -8 },
-  { id: "s4", x: 2, y: 38, color: "#B026FF", icon: "🎲", rotate: 30 },
-  { id: "s5", x: 16, y: 37, color: "#FFD700", icon: "🌟", rotate: -25 },
-  { id: "s6", x: 30, y: 34, color: "#FF69B4", icon: "🦄", rotate: 18 },
-  { id: "s7", x: 42, y: 28, color: "#00F0FF", icon: "🐉", rotate: -10 },
-
-  // Level 2 (Mid-bottom gravity stack)
-  { id: "s8", x: -34, y: 18, color: "#B026FF", icon: "🎲", rotate: 10 },
-  { id: "s9", x: -20, y: 22, color: "#00FF66", icon: "🗝️", rotate: -30 },
-  { id: "s10", x: -6, y: 24, color: "#FF5500", icon: "⌨️", rotate: 14 },
-  { id: "s11", x: 8, y: 24, color: "#00F0FF", icon: "🐉", rotate: -12 },
-  { id: "s12", x: 22, y: 22, color: "#FF69B4", icon: "💖", rotate: 35 },
-  { id: "s13", x: 35, y: 16, color: "#FFD700", icon: "✨", rotate: -5 },
-
-  // Level 3 (Center stack)
-  { id: "s14", x: -28, y: 4, color: "#FF5500", icon: "⌨️", rotate: -18 },
-  { id: "s15", x: -14, y: 7, color: "#00F0FF", icon: "🐉", rotate: 25 },
-  { id: "s16", x: 0, y: 9, color: "#FFD700", icon: "⭐", rotate: -10 },
-  { id: "s17", x: 14, y: 8, color: "#B026FF", icon: "🎲", rotate: 40 },
-  { id: "s18", x: 28, y: 4, color: "#00FF66", icon: "🗝️", rotate: -22 },
-
-  // Level 4 (Upper stack)
-  { id: "s19", x: -20, y: -9, color: "#00FF66", icon: "🗝️", rotate: 8 },
-  { id: "s20", x: -6, y: -7, color: "#B026FF", icon: "🎲", rotate: -35 },
-  { id: "s21", x: 8, y: -6, color: "#FF5500", icon: "⌨️", rotate: 15 },
-  { id: "s22", x: 22, y: -10, color: "#00F0FF", icon: "🐉", rotate: -14 },
+// Rich colorful stock inside the glass jar (gravity-pooled at bottom)
+const JAR_STOCK_BALLS = [
+  { id: "b1", cat: "figurines", color: "#00F0FF", icon: "🐉" },
+  { id: "b2", cat: "fidgets", color: "#FF5500", icon: "⌨️" },
+  { id: "b3", cat: "gadgets", color: "#00FF66", icon: "🗝️" },
+  { id: "b4", cat: "jeux", color: "#B026FF", icon: "🎲" },
+  { id: "b5", cat: "figurines", color: "#00F0FF", icon: "🐉" },
+  { id: "b6", cat: "fidgets", color: "#FF5500", icon: "⌨️" },
+  { id: "b7", cat: "gadgets", color: "#00FF66", icon: "🗝️" },
+  { id: "b8", cat: "jeux", color: "#B026FF", icon: "🎲" },
+  { id: "b9", cat: "figurines", color: "#00F0FF", icon: "🦄" },
+  { id: "b10", cat: "fidgets", color: "#FF5500", icon: "🌟" },
+  { id: "b11", cat: "gadgets", color: "#00FF66", icon: "🗝️" },
+  { id: "b12", cat: "jeux", color: "#B026FF", icon: "🎲" },
+  { id: "b13", cat: "figurines", color: "#00F0FF", icon: "🐉" },
+  { id: "b14", cat: "fidgets", color: "#FF5500", icon: "⌨️" },
+  { id: "b15", cat: "gadgets", color: "#00FF66", icon: "✨" },
+  { id: "b16", cat: "jeux", color: "#B026FF", icon: "🎲" },
+  { id: "b17", cat: "figurines", color: "#00F0FF", icon: "🐉" },
+  { id: "b18", cat: "fidgets", color: "#FF5500", icon: "💖" },
+  { id: "b19", cat: "gadgets", color: "#00FF66", icon: "🗝️" },
+  { id: "b20", cat: "jeux", color: "#B026FF", icon: "⭐" },
 ];
 
 export interface GachaponConfiguratorProps {
@@ -157,7 +148,7 @@ export default function GachaponConfigurator({
     return GACHAPON_SIZES.find((s) => s.count === selectedSize) || GACHAPON_SIZES[1];
   }, [selectedSize]);
 
-  // User's selected capsules list (dispensed out into tray)
+  // User's selected capsules list (dispensed into output tray)
   const selectedCapsulesList = useMemo(() => {
     const list: InternalCapsule[] = [];
     let idx = 0;
@@ -218,7 +209,7 @@ export default function GachaponConfigurator({
     setIsAddedSuccess(false);
   };
 
-  // Trigger crank rotation & globe shake animation
+  // Trigger 360° crank spin & globe shake animation
   const triggerCrankAndShake = () => {
     setCrankRotation((prev) => prev + 360);
     setIsShaking(true);
@@ -378,143 +369,128 @@ export default function GachaponConfigurator({
             </div>
           </div>
 
-          {/* COLONNE CENTRE (5 cols) : LE GACHAPON - PROPORTIONS 70% GLOBE & SOCLE ÉTROI UNDERNEATH */}
+          {/* COLONNE CENTRE (5 cols) : LE GACHAPON (Bocal Cylindrique Vitré Glassmorphism) */}
           <div className="lg:col-span-5 flex flex-col items-center">
             <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 text-center mb-3">
               Le Gachapon
             </h3>
 
-            {/* RETRO GACHAPON MACHINE VERTICAL STRUCTURE */}
-            <div className="relative flex flex-col items-center w-full max-w-[360px]">
+            {/* STRUCTURE EN GELULE / BOCAL CYLINDRIQUE VITRÉ MODERNE */}
+            <div className="relative flex flex-col items-center w-full max-w-[320px]">
               
-              {/* 1. COUVERCLE SUPÉRIEUR (Posé juste au-dessus du réservoir vitré) */}
-              <div className="w-48 sm:w-56 h-10 rounded-t-full bg-gradient-to-b from-[#ff3b3b] via-[#d91e1e] to-[#aa0d0d] border-t-2 border-x-2 border-white/30 shadow-md relative z-20 flex items-center justify-center">
-                {/* Top Knob Handle */}
-                <div className="w-8 h-3.5 -mt-5 rounded-t-full bg-gradient-to-b from-[#ff5c5c] to-[#990a0a] border-t border-white/40 shadow-inner" />
-                {/* Lid Highlight */}
-                <div className="absolute top-1 left-4 w-12 h-2 rounded-full bg-white/25 blur-[1px]" />
-              </div>
+              {/* 1. COUVERCLE METALLIQUE SOMBRE DISCRET */}
+              <div className="w-36 h-3 rounded-t-xl bg-neutral-800 border-t border-x border-neutral-700 shadow-sm z-20" />
 
-              {/* 2. RÉSERVOIR VITRÉ GÉANT (~70% DE LA HAUTEUR TOTALE DE LA MACHINE) */}
+              {/* 2. BOCAL CYLINDRIQUE VITRÉ ELEGANT (Fond sombre translucide, border 1px neutral-700, backdrop-blur) */}
               <motion.div
-                animate={isShaking ? { x: [-3, 3, -3, 3, 0], y: [-2, 2, -2, 2, 0] } : {}}
+                animate={isShaking ? { x: [-2, 2, -2, 2, 0], y: [-1, 1, -1, 1, 0] } : {}}
                 transition={{ duration: 0.4 }}
-                className="relative w-80 h-80 sm:w-[350px] sm:h-[350px] rounded-full bg-gradient-to-b from-white/25 via-white/5 to-black/80 border-4 border-white/30 shadow-[inset_0_0_40px_rgba(255,255,255,0.2)] backdrop-blur-sm overflow-hidden flex items-center justify-center -mt-2 z-10"
+                className="relative w-full h-[320px] rounded-[32px] bg-[#000000]/60 border border-neutral-700 shadow-xl backdrop-blur-md overflow-hidden flex flex-col justify-end p-4 z-10"
               >
-                {/* Glass curved highlights */}
-                <div className="absolute top-5 left-8 w-36 h-18 rounded-full bg-white/35 blur-sm rotate-[-30deg] pointer-events-none z-30" />
-                <div className="absolute bottom-6 right-8 w-24 h-12 rounded-full bg-white/10 blur-md pointer-events-none z-30" />
+                {/* Light glass sheen highlight */}
+                <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-white/10 to-transparent pointer-events-none z-20" />
+                <div className="absolute top-4 left-4 w-20 h-40 bg-white/5 rounded-full blur-md rotate-[-15deg] pointer-events-none z-20" />
 
-                {/* CAPSULES STACKED AT BOTTOM (GRAVITÉ NATURELLE AU FOND DU GLOBE) */}
-                {GLOBE_BACKGROUND_STOCK.map((item) => (
-                  <motion.div
-                    key={item.id}
-                    animate={isShaking ? { y: [0, -6, 0, -3, 0], rotate: [item.rotate, item.rotate + 15, item.rotate] } : {}}
-                    transition={{ duration: 0.4 }}
-                    className="absolute w-12 h-12 rounded-full flex items-center justify-center shadow-md border border-white/25 z-10 opacity-95"
-                    style={{
-                      transform: `translate(${item.x * 3.0}px, ${item.y * 3.0}px) rotate(${item.rotate}deg)`,
-                      background: `radial-gradient(circle at 35% 35%, ${item.color}, #09090b 80%)`,
-                    }}
-                  >
-                    {/* Seam line */}
-                    <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1px] bg-black/40" />
-                    {/* Top shine */}
-                    <div className="absolute top-1 left-2 w-3.5 h-1.5 rounded-full bg-white/40 blur-[1px]" />
-                    {/* Icon */}
-                    <span className="relative z-10 text-base select-none opacity-90">{item.icon}</span>
-                  </motion.div>
-                ))}
+                {/* INNER CONTAINER FOR BALLS (flex flex-wrap-reverse align-content-flex-start to pool strictly at BOTTOM) */}
+                <div className="w-full flex flex-wrap-reverse align-content-flex-start justify-center gap-2.5 p-2 relative z-10">
+                  {JAR_STOCK_BALLS.map((item) => (
+                    <motion.div
+                      key={item.id}
+                      animate={isShaking ? { y: [0, -4, 0, -2, 0] } : {}}
+                      transition={{ duration: 0.4 }}
+                      className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-xs shadow-md border border-white/20 select-none shrink-0"
+                      style={{
+                        background: `radial-gradient(circle at 35% 35%, ${item.color}, #09090b 80%)`,
+                      }}
+                    >
+                      {/* Seam line */}
+                      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1px] bg-black/40" />
+                      {/* Glossy shine */}
+                      <div className="absolute top-1 left-1.5 w-2.5 h-1.5 rounded-full bg-white/40 blur-[0.5px]" />
+                      {/* Icon */}
+                      <span className="relative z-10 opacity-90">{item.icon}</span>
+                    </motion.div>
+                  ))}
+                </div>
               </motion.div>
 
-              {/* 3. SOCLE ROUGE ÉTROC STRICTEMENT SOUS LE RÉSERVOIR VITRÉ (Ne déborde pas latéralement) */}
-              <div className="w-60 sm:w-64 bg-gradient-to-b from-[#e62222] via-[#c91818] to-[#990c0c] border-2 border-[#b31414] rounded-b-3xl shadow-2xl p-3 sm:p-4 -mt-5 z-20 flex flex-col items-center relative">
-                {/* Decorative Collar Trim */}
-                <div className="w-[104%] h-2.5 bg-gradient-to-r from-[#ab0e0e] via-[#e62222] to-[#ab0e0e] rounded-full border-t border-white/20 shadow-md -mt-4 mb-3" />
+              {/* 3. SOCLE COMPACT ARRONDI AVEC MANIVELLE & BAC DE SORTIE */}
+              <div className="w-full rounded-2xl bg-neutral-900/90 border border-neutral-800 p-4 mt-3 shadow-md flex flex-col items-center gap-3 z-20">
+                
+                {/* MANIVELLE AU CENTRE DU SOCLE BAS */}
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-2.5">
+                    <motion.button
+                      type="button"
+                      onClick={handleChaosMode}
+                      disabled={isSpinning}
+                      animate={{ rotate: crankRotation }}
+                      transition={{ type: "spring", stiffness: 140, damping: 14 }}
+                      className="w-12 h-12 rounded-full bg-gradient-to-b from-neutral-700 via-neutral-800 to-neutral-950 border border-neutral-600 shadow-md flex items-center justify-center cursor-pointer hover:border-[#FF5500] transition-colors active:scale-95 group relative shrink-0"
+                      title="Tourner la manivelle"
+                    >
+                      <div className="w-6 h-6 rounded-full bg-[#FF5500] text-black font-extrabold flex items-center justify-center text-xs shadow-inner">
+                        🔄
+                      </div>
+                    </motion.button>
 
-                {/* 4. METALLIC SILVER FRONT PANEL WITH CRANK */}
-                <div className="w-36 sm:w-40 bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400 border-2 border-slate-400/80 rounded-xl p-2 shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(0,0,0,0.5)] flex flex-col items-center relative mb-3">
-                  
-                  {/* Coin Slot Accent */}
-                  <div className="w-12 h-2 rounded-full bg-slate-700 border border-slate-500 mb-1 flex items-center justify-center">
-                    <div className="w-6 h-0.5 rounded-full bg-slate-900" />
+                    <div className="flex flex-col">
+                      <button
+                        type="button"
+                        onClick={handleChaosMode}
+                        disabled={isSpinning}
+                        className="text-xs font-mono font-bold text-white hover:text-[#FF5500] transition-colors text-left cursor-pointer"
+                      >
+                        🎲 TOURNER
+                      </button>
+                      <span className="text-[10px] text-neutral-400 font-mono">
+                        Mode Chaos
+                      </span>
+                    </div>
                   </div>
 
-                  {/* ROTATING 360° METALLIC LEVER CRANK */}
-                  <motion.button
-                    type="button"
-                    onClick={handleChaosMode}
-                    disabled={isSpinning}
-                    animate={{ rotate: crankRotation }}
-                    transition={{ type: "spring", stiffness: 140, damping: 14 }}
-                    className="w-14 h-14 rounded-full bg-gradient-to-b from-slate-300 via-slate-400 to-slate-600 border-3 border-slate-400 shadow-md flex items-center justify-center cursor-pointer hover:border-slate-100 transition-all active:scale-95 group relative my-0.5"
-                    title="Clique la manivelle (Mode Chaos)"
-                  >
-                    {/* Central Shaft */}
-                    <div className="w-7 h-7 rounded-full bg-gradient-to-b from-slate-600 to-slate-800 border border-slate-400 shadow-inner flex items-center justify-center">
-                      {/* Metallic Crank Lever Bar */}
-                      <div className="w-10 h-3 rounded-full bg-gradient-to-r from-slate-300 via-slate-100 to-slate-400 border border-slate-500 shadow-sm transform rotate-45 group-hover:scale-105 transition-transform flex items-center justify-between px-0.5">
-                        <div className="w-1.5 h-1.5 rounded-full bg-slate-600" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-slate-600" />
-                      </div>
-                    </div>
-                  </motion.button>
-
-                  {/* Action Button */}
-                  <button
-                    type="button"
-                    onClick={handleChaosMode}
-                    disabled={isSpinning}
-                    className="text-[9px] font-mono font-bold text-slate-800 hover:text-black uppercase tracking-wider cursor-pointer"
-                  >
-                    🎲 TOURNER
-                  </button>
-                </div>
-
-                {/* 5. BAC DE RÉCEPTION TOUT EN BAS (CAPSULES TOMBENT UNE PAR UNE) */}
-                <div className="w-full bg-[#7a0909] border-2 border-[#5c0505] rounded-xl p-2 flex flex-col gap-1.5 shadow-inner">
-                  <div className="flex items-center justify-between text-[11px] font-mono text-white/90 px-1">
-                    <span className="font-bold uppercase tracking-wide">Bac de réception</span>
-                    <span className={`font-bold ${isQuotaReached ? "text-[#00FF66]" : "text-[#FFCC00]"}`}>
-                      {totalSelected} / {selectedSize}
+                  {/* Jauge d'état claire */}
+                  <div className="px-3 py-1 rounded-full bg-neutral-950 border border-neutral-800 font-mono text-[11px] text-neutral-300">
+                    <span className={`font-bold ${isQuotaReached ? "text-[#00FF66]" : "text-[#FF5500]"}`}>
+                      {totalSelected} / {selectedSize} capsules prêtes
                     </span>
                   </div>
+                </div>
 
-                  {/* Output Tray Slots */}
-                  <div className="w-full min-h-[44px] rounded-lg bg-black/80 border border-black/50 p-2 flex items-center justify-center gap-1.5 flex-wrap overflow-hidden">
-                    {selectedCapsulesList.length === 0 ? (
-                      <span className="text-[10px] text-neutral-400 font-mono italic">
-                        Bac vide... Tourne ou dose
-                      </span>
-                    ) : (
-                      <AnimatePresence>
-                        {selectedCapsulesList.map((cap, i) => {
-                          const catCfg = GACHAPON_CATEGORIES[cap.category];
-                          return (
-                            <motion.div
-                              key={`tray-${cap.id}`}
-                              initial={{ y: -35, opacity: 0, scale: 0.2, rotate: -40 }}
-                              animate={{ y: 0, opacity: 1, scale: 1, rotate: 0 }}
-                              exit={{ y: 20, opacity: 0, scale: 0.2 }}
-                              transition={{
-                                type: "spring",
-                                stiffness: 280,
-                                damping: 16,
-                                delay: i * 0.12, // Falls one by one in sequence
-                              }}
-                              className="w-7 h-7 rounded-full flex items-center justify-center text-xs border border-white/30 shadow-md shrink-0"
-                              style={{
-                                background: `radial-gradient(circle at 35% 35%, ${catCfg.color}, #09090b 85%)`,
-                              }}
-                              title={`${catCfg.name}`}
-                            >
-                              <span>{catCfg.icon}</span>
-                            </motion.div>
-                          );
-                        })}
-                      </AnimatePresence>
-                    )}
-                  </div>
+                {/* BAC DE SORTIE RECEPTACLE (CAPSULES SLIDE INTO TRAY ONE BY ONE) */}
+                <div className="w-full min-h-[44px] rounded-xl bg-neutral-950 border border-neutral-800 p-2 flex items-center justify-center gap-1.5 flex-wrap overflow-hidden">
+                  {selectedCapsulesList.length === 0 ? (
+                    <span className="text-[10px] text-neutral-500 font-mono italic">
+                      Bac de sortie vide... Choisis tes capsules
+                    </span>
+                  ) : (
+                    <AnimatePresence>
+                      {selectedCapsulesList.map((cap, i) => {
+                        const catCfg = GACHAPON_CATEGORIES[cap.category];
+                        return (
+                          <motion.div
+                            key={`tray-${cap.id}`}
+                            initial={{ y: -30, opacity: 0, scale: 0.2, rotate: -20 }}
+                            animate={{ y: 0, opacity: 1, scale: 1, rotate: 0 }}
+                            exit={{ y: 20, opacity: 0, scale: 0.2 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 280,
+                              damping: 16,
+                              delay: i * 0.1, // Slide into tray 1-by-1
+                            }}
+                            className="w-7 h-7 rounded-full flex items-center justify-center text-xs border border-white/30 shadow-md shrink-0"
+                            style={{
+                              background: `radial-gradient(circle at 35% 35%, ${catCfg.color}, #09090b 85%)`,
+                            }}
+                            title={`${catCfg.name}`}
+                          >
+                            <span>{catCfg.icon}</span>
+                          </motion.div>
+                        );
+                      })}
+                    </AnimatePresence>
+                  )}
                 </div>
 
               </div>
