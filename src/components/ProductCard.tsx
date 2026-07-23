@@ -130,14 +130,14 @@ export default function ProductCard({ product, compact = false, priority = false
           </span>
         )}
 
-        {/* Floating Glassmorphic Overlay at Bottom (Nom du produit + Tag Prix sur la droite) */}
+        {/* Floating Glassmorphic Overlay at Bottom (Nom du produit + Tag Prix Transparent Bordure Blanche) */}
         <div className="absolute bottom-3 left-3 right-3 p-3 sm:p-3.5 bg-black/65 backdrop-blur-md border border-white/15 rounded-2xl shadow-xl flex items-center justify-between gap-3 z-10 no-invert transition-transform group-hover:translate-y-[-2px]">
           <h3 className="text-xs sm:text-sm font-bold text-white leading-tight line-clamp-1 font-[family-name:var(--font-plus-jakarta)] min-w-0">
             {product.name}
           </h3>
 
-          {/* Tag Prix sur la droite */}
-          <span className="px-3 py-1 bg-[#f7eb12] text-black font-extrabold text-xs sm:text-sm font-[family-name:var(--font-antonio)] rounded-full shadow-md shrink-0">
+          {/* Tag Prix avec bordure blanche et texte blanc sans fond */}
+          <span className="px-2.5 py-0.5 border border-white/40 text-white font-extrabold text-xs sm:text-sm font-[family-name:var(--font-antonio)] rounded-full shrink-0">
             {formatPrice(product.price)}
           </span>
         </div>
@@ -151,7 +151,7 @@ export default function ProductCard({ product, compact = false, priority = false
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={tiltStyle}
-      className="group relative flex flex-col justify-between h-full bg-spoolio-card border border-spoolio-border rounded-[30px] overflow-hidden transition-all duration-300 hover:border-white shadow-lg shadow-black/30 card-holographic"
+      className="group relative flex flex-col justify-between h-full bg-spoolio-card border border-[#1f1f23] rounded-[30px] overflow-hidden transition-all duration-300 hover:border-white shadow-lg shadow-black/30 card-holographic"
     >
       <div className="flex flex-col">
         {/* Image Container with square aspect ratio - flush with edges */}
