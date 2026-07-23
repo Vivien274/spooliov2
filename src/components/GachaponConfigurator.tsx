@@ -72,6 +72,43 @@ export const GACHAPON_SIZES: GachaponSizeOption[] = [
   },
 ];
 
+// Rich colorful stock inside the glass dome (representing full machine stock)
+const GLOBE_BACKGROUND_STOCK = [
+  // Layer 1 (Bottom floor)
+  { id: "s1", x: -38, y: 34, color: "#00F0FF", icon: "🐉", rotate: -15 },
+  { id: "s2", x: -24, y: 36, color: "#FF5500", icon: "⌨️", rotate: 22 },
+  { id: "s3", x: -10, y: 38, color: "#00FF66", icon: "🗝️", rotate: -8 },
+  { id: "s4", x: 5, y: 38, color: "#B026FF", icon: "🎲", rotate: 30 },
+  { id: "s5", x: 20, y: 36, color: "#FFD700", icon: "🌟", rotate: -25 },
+  { id: "s6", x: 35, y: 33, color: "#FF69B4", icon: "🦄", rotate: 18 },
+  
+  // Layer 2 (Lower mid)
+  { id: "s7", x: -32, y: 20, color: "#B026FF", icon: "🎲", rotate: 10 },
+  { id: "s8", x: -18, y: 22, color: "#00FF66", icon: "🗝️", rotate: -30 },
+  { id: "s9", x: -4, y: 24, color: "#FF5500", icon: "⌨️", rotate: 14 },
+  { id: "s10", x: 10, y: 23, color: "#00F0FF", icon: "🐉", rotate: -12 },
+  { id: "s11", x: 25, y: 21, color: "#FF69B4", icon: "💖", rotate: 35 },
+  { id: "s12", x: 36, y: 17, color: "#FFD700", icon: "✨", rotate: -5 },
+
+  // Layer 3 (Center)
+  { id: "s13", x: -26, y: 6, color: "#FF5500", icon: "⌨️", rotate: -18 },
+  { id: "s14", x: -12, y: 8, color: "#00F0FF", icon: "🐉", rotate: 25 },
+  { id: "s15", x: 2, y: 9, color: "#FFD700", icon: "⭐", rotate: -10 },
+  { id: "s16", x: 16, y: 8, color: "#B026FF", icon: "🎲", rotate: 40 },
+  { id: "s17", x: 30, y: 5, color: "#00FF66", icon: "🗝️", rotate: -22 },
+
+  // Layer 4 (Upper mid)
+  { id: "s18", x: -20, y: -7, color: "#00FF66", icon: "🗝️", rotate: 8 },
+  { id: "s19", x: -6, y: -6, color: "#B026FF", icon: "🎲", rotate: -35 },
+  { id: "s20", x: 8, y: -5, color: "#FF5500", icon: "⌨️", rotate: 15 },
+  { id: "s21", x: 22, y: -8, color: "#00F0FF", icon: "🐉", rotate: -14 },
+
+  // Layer 5 (Top dome layer)
+  { id: "s22", x: -12, y: -20, color: "#FF69B4", icon: "🔮", rotate: 12 },
+  { id: "s23", x: 0, y: -19, color: "#FFD700", icon: "⚡", rotate: -20 },
+  { id: "s24", x: 12, y: -21, color: "#00F0FF", icon: "🐉", rotate: 28 },
+];
+
 export interface GachaponConfiguratorProps {
   onAddToCart?: (config: {
     size: number;
@@ -84,9 +121,6 @@ export interface GachaponConfiguratorProps {
 interface InternalCapsule {
   id: string;
   category: GachaponCategoryKey;
-  x: number;
-  y: number;
-  rotate: number;
 }
 
 export default function GachaponConfigurator({
@@ -126,40 +160,17 @@ export default function GachaponConfigurator({
     return GACHAPON_SIZES.find((s) => s.count === selectedSize) || GACHAPON_SIZES[1];
   }, [selectedSize]);
 
-  // Gravity-stacked positions pooling naturally at bottom of globe
-  const visualCapsules = useMemo(() => {
+  // User's selected capsules list (dispensed out into tray)
+  const selectedCapsulesList = useMemo(() => {
     const list: InternalCapsule[] = [];
     let idx = 0;
-    
-    // Dome gravity stacking presets pooling at floor
-    const gravityPresets = [
-      // Floor (bottom row)
-      { x: -32, y: 30, rotate: -20 },
-      { x: -16, y: 34, rotate: 12 },
-      { x: 0, y: 36, rotate: -6 },
-      { x: 16, y: 34, rotate: 28 },
-      { x: 32, y: 30, rotate: -16 },
-      // Row 2 (middle floor)
-      { x: -24, y: 16, rotate: 10 },
-      { x: -8, y: 18, rotate: -28 },
-      { x: 8, y: 18, rotate: 20 },
-      { x: 24, y: 16, rotate: -12 },
-      // Row 3 (top level of pile)
-      { x: -14, y: 2, rotate: -4 },
-      { x: 0, y: 4, rotate: 35 },
-      { x: 14, y: 2, rotate: -18 },
-    ];
 
     (Object.keys(distribution) as GachaponCategoryKey[]).forEach((cat) => {
       const count = distribution[cat] || 0;
       for (let i = 0; i < count; i++) {
-        const preset = gravityPresets[idx % gravityPresets.length];
         list.push({
           id: `${cat}-${i}-${idx}`,
           category: cat,
-          x: preset.x,
-          y: preset.y,
-          rotate: preset.rotate + (idx * 6),
         });
         idx++;
       }
@@ -308,7 +319,7 @@ export default function GachaponConfigurator({
           </div>
 
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-900 border border-neutral-800 font-mono text-xs text-neutral-300 self-start sm:self-auto">
-            <span>Quota :</span>
+            <span>Sélection :</span>
             <span className={`font-bold ${isQuotaReached ? "text-[#00FF66]" : "text-[#FF5500]"}`}>
               {totalSelected} / {selectedSize} capsules
             </span>
@@ -363,87 +374,60 @@ export default function GachaponConfigurator({
             </div>
           </div>
 
-          {/* COLONNE CENTRE (5 cols) : LE GACHAPON RETRO ROUGE TRADITIONNEL */}
+          {/* COLONNE CENTRE (5 cols) : LE GACHAPON AVEC RESERVOIR GÉANT ET BASE COMPACTE */}
           <div className="lg:col-span-5 flex flex-col items-center">
             <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 text-center mb-3">
               Le Gachapon
             </h3>
 
-            {/* RETRO RED GACHAPON MACHINE STRUCTURE */}
-            <div className="relative flex flex-col items-center w-full max-w-[320px]">
+            {/* RETRO RED GACHAPON MACHINE STRUCTURE WITH ENLARGED GLOBE & COMPACT BASE */}
+            <div className="relative flex flex-col items-center w-full max-w-[340px]">
               
-              {/* 1. RED TOP CAP / LIDE DOME */}
-              <div className="w-44 h-11 rounded-t-full bg-gradient-to-b from-[#ff3b3b] via-[#d91e1e] to-[#aa0d0d] border-t-2 border-x-2 border-white/30 shadow-md relative z-20 flex items-center justify-center">
+              {/* 1. RED TOP CAP / LID DOME */}
+              <div className="w-48 h-10 rounded-t-full bg-gradient-to-b from-[#ff3b3b] via-[#d91e1e] to-[#aa0d0d] border-t-2 border-x-2 border-white/30 shadow-md relative z-20 flex items-center justify-center">
                 {/* Top Knob Handle */}
-                <div className="w-8 h-3.5 -mt-5 rounded-t-full bg-gradient-to-b from-[#ff5c5c] to-[#990a0a] border-t border-white/40 shadow-inner" />
+                <div className="w-8 h-3 -mt-4 rounded-t-full bg-gradient-to-b from-[#ff5c5c] to-[#990a0a] border-t border-white/40 shadow-inner" />
                 {/* Lid Highlight */}
                 <div className="absolute top-1 left-4 w-12 h-2 rounded-full bg-white/25 blur-[1px]" />
               </div>
 
-              {/* 2. SPHERICAL CLEAR GLASS GLOBE */}
-              <div className="relative w-72 h-72 rounded-full bg-gradient-to-b from-white/20 via-white/5 to-black/75 border-4 border-white/30 shadow-[inset_0_0_35px_rgba(255,255,255,0.15)] backdrop-blur-sm overflow-hidden flex items-center justify-center -mt-2 z-10">
+              {/* 2. ENLARGED SPHERICAL CLEAR GLASS GLOBE FULL OF SURPRISE BALLS */}
+              <div className="relative w-80 h-80 sm:w-88 sm:h-88 rounded-full bg-gradient-to-b from-white/25 via-white/5 to-black/75 border-4 border-white/30 shadow-[inset_0_0_35px_rgba(255,255,255,0.2)] backdrop-blur-sm overflow-hidden flex items-center justify-center -mt-2 z-10">
                 {/* Glass curved highlights */}
-                <div className="absolute top-4 left-6 w-28 h-14 rounded-full bg-white/30 blur-sm rotate-[-30deg] pointer-events-none z-20" />
-                <div className="absolute bottom-6 right-8 w-16 h-8 rounded-full bg-white/10 blur-md pointer-events-none z-20" />
+                <div className="absolute top-5 left-8 w-32 h-16 rounded-full bg-white/35 blur-sm rotate-[-30deg] pointer-events-none z-30" />
+                <div className="absolute bottom-6 right-8 w-20 h-10 rounded-full bg-white/10 blur-md pointer-events-none z-30" />
 
-                {/* Empty state prompt */}
-                {visualCapsules.length === 0 && (
-                  <div className="text-center text-neutral-400 text-xs font-mono p-4 z-20">
-                    Réservoir vide<br />Ajoute des capsules à droite
+                {/* FULL RESERVOIR OF COLORFUL GACHAPON STOCK BALLS */}
+                {GLOBE_BACKGROUND_STOCK.map((item) => (
+                  <div
+                    key={item.id}
+                    className="absolute w-11 h-11 rounded-full flex items-center justify-center shadow-md border border-white/25 z-10 opacity-95"
+                    style={{
+                      transform: `translate(${item.x * 2.8}px, ${item.y * 2.8}px) rotate(${item.rotate}deg)`,
+                      background: `radial-gradient(circle at 35% 35%, ${item.color}, #09090b 80%)`,
+                    }}
+                  >
+                    {/* Seam line */}
+                    <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1px] bg-black/40" />
+                    {/* Top shine */}
+                    <div className="absolute top-1 left-2 w-3 h-1.5 rounded-full bg-white/40 blur-[1px]" />
+                    {/* Icon */}
+                    <span className="relative z-10 text-sm select-none opacity-90">{item.icon}</span>
                   </div>
-                )}
-
-                {/* Capsules stacked inside globe (gravity effect) */}
-                <AnimatePresence>
-                  {visualCapsules.map((cap) => {
-                    const catCfg = GACHAPON_CATEGORIES[cap.category];
-                    return (
-                      <motion.div
-                        key={cap.id}
-                        initial={{ y: -160, opacity: 0, scale: 0.3 }}
-                        animate={{
-                          x: cap.x * 2.3,
-                          y: cap.y * 2.3, // Stacks towards floor
-                          rotate: cap.rotate,
-                          opacity: 1,
-                          scale: 1,
-                        }}
-                        exit={{ y: 160, opacity: 0, scale: 0.3 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 260,
-                          damping: 17,
-                        }}
-                        className="absolute w-12 h-12 rounded-full flex items-center justify-center shadow-lg border border-white/30 z-10"
-                        style={{
-                          background: `radial-gradient(circle at 35% 35%, ${catCfg.color}, #09090b 80%)`,
-                        }}
-                      >
-                        {/* Seam line */}
-                        <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1px] bg-black/40" />
-                        {/* Top shine */}
-                        <div className="absolute top-1 left-2 w-3.5 h-1.5 rounded-full bg-white/40 blur-[1px]" />
-                        {/* Icon */}
-                        <span className="relative z-10 text-base select-none">
-                          {catCfg.icon}
-                        </span>
-                      </motion.div>
-                    );
-                  })}
-                </AnimatePresence>
+                ))}
               </div>
 
-              {/* 3. RETRO RED MACHINE BODY BASE */}
-              <div className="w-full bg-gradient-to-b from-[#e62222] via-[#c91818] to-[#990c0c] border-2 border-[#b31414] rounded-b-3xl shadow-2xl p-4 sm:p-5 -mt-6 z-20 flex flex-col items-center relative">
+              {/* 3. COMPACT RETRO RED MACHINE BODY BASE */}
+              <div className="w-[85%] bg-gradient-to-b from-[#e62222] via-[#c91818] to-[#990c0c] border-2 border-[#b31414] rounded-b-3xl shadow-xl p-3 sm:p-4 -mt-5 z-20 flex flex-col items-center relative">
                 {/* Decorative Collar Trim */}
-                <div className="w-[104%] h-3 bg-gradient-to-r from-[#ab0e0e] via-[#e62222] to-[#ab0e0e] rounded-full border-t border-white/20 shadow-md -mt-5 mb-4" />
+                <div className="w-[105%] h-2.5 bg-gradient-to-r from-[#ab0e0e] via-[#e62222] to-[#ab0e0e] rounded-full border-t border-white/20 shadow-md -mt-4 mb-3" />
 
-                {/* 4. EMBOSSED SILVER METALLIC FRONT PANEL */}
-                <div className="w-48 bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400 border-2 border-slate-400/80 rounded-2xl p-3 shadow-[inset_0_2px_6px_rgba(255,255,255,0.8),0_4px_10px_rgba(0,0,0,0.5)] flex flex-col items-center relative mb-4">
+                {/* 4. COMPACT EMBOSSED SILVER METALLIC FRONT PANEL */}
+                <div className="w-40 bg-gradient-to-b from-slate-200 via-slate-300 to-slate-400 border-2 border-slate-400/80 rounded-xl p-2 shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(0,0,0,0.5)] flex flex-col items-center relative mb-3">
                   
                   {/* Coin Slot Accent */}
-                  <div className="w-16 h-3 rounded-full bg-slate-700 border border-slate-500 mb-2 flex items-center justify-center">
-                    <div className="w-8 h-1 rounded-full bg-slate-900" />
+                  <div className="w-12 h-2 rounded-full bg-slate-700 border border-slate-500 mb-1 flex items-center justify-center">
+                    <div className="w-6 h-0.5 rounded-full bg-slate-900" />
                   </div>
 
                   {/* METALLIC ROTARY CRANK LEVER */}
@@ -453,15 +437,15 @@ export default function GachaponConfigurator({
                     disabled={isSpinning}
                     animate={{ rotate: crankRotation }}
                     transition={{ type: "spring", stiffness: 150, damping: 14 }}
-                    className="w-20 h-20 rounded-full bg-gradient-to-b from-slate-300 via-slate-400 to-slate-600 border-4 border-slate-400 shadow-xl flex items-center justify-center cursor-pointer hover:border-slate-100 transition-all active:scale-95 group relative my-1"
+                    className="w-14 h-14 rounded-full bg-gradient-to-b from-slate-300 via-slate-400 to-slate-600 border-3 border-slate-400 shadow-md flex items-center justify-center cursor-pointer hover:border-slate-100 transition-all active:scale-95 group relative my-0.5"
                     title="Clique la manivelle (Mode Chaos)"
                   >
                     {/* Central Shaft */}
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-b from-slate-600 to-slate-800 border-2 border-slate-400 shadow-inner flex items-center justify-center">
+                    <div className="w-7 h-7 rounded-full bg-gradient-to-b from-slate-600 to-slate-800 border border-slate-400 shadow-inner flex items-center justify-center">
                       {/* Metallic Crank Lever Bar */}
-                      <div className="w-14 h-4 rounded-full bg-gradient-to-r from-slate-300 via-slate-100 to-slate-400 border border-slate-500 shadow-md transform rotate-45 group-hover:scale-105 transition-transform flex items-center justify-between px-1">
-                        <div className="w-2 h-2 rounded-full bg-slate-600" />
-                        <div className="w-2 h-2 rounded-full bg-slate-600" />
+                      <div className="w-10 h-3 rounded-full bg-gradient-to-r from-slate-300 via-slate-100 to-slate-400 border border-slate-500 shadow-sm transform rotate-45 group-hover:scale-105 transition-transform flex items-center justify-between px-0.5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-slate-600" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-slate-600" />
                       </div>
                     </div>
                   </motion.button>
@@ -471,42 +455,43 @@ export default function GachaponConfigurator({
                     type="button"
                     onClick={handleChaosMode}
                     disabled={isSpinning}
-                    className="mt-1 text-[10px] font-mono font-bold text-slate-800 hover:text-black uppercase tracking-wider cursor-pointer"
+                    className="text-[9px] font-mono font-bold text-slate-800 hover:text-black uppercase tracking-wider cursor-pointer"
                   >
                     🎲 MODE CHAOS
                   </button>
                 </div>
 
-                {/* 5. RED TRAY CHUTE AT BOTTOM */}
-                <div className="w-full bg-[#800909] border-2 border-[#610505] rounded-2xl p-2.5 flex flex-col gap-2 shadow-inner">
-                  <div className="flex items-center justify-between text-xs font-mono text-white/90 px-1">
-                    <span className="font-bold text-[11px] uppercase tracking-wide">Bac de sortie</span>
+                {/* 5. RED TRAY CHUTE AT BOTTOM (DISPENSED OUTSIDE OUTPUT AREA) */}
+                <div className="w-full bg-[#7a0909] border-2 border-[#5c0505] rounded-xl p-2 flex flex-col gap-1.5 shadow-inner">
+                  <div className="flex items-center justify-between text-[11px] font-mono text-white/90 px-1">
+                    <span className="font-bold uppercase tracking-wide">Bac de sortie</span>
                     <span className={`font-bold ${isQuotaReached ? "text-[#00FF66]" : "text-[#FFCC00]"}`}>
                       {totalSelected} / {selectedSize} capsules
                     </span>
                   </div>
 
-                  {/* Output Tray Slots */}
-                  <div className="w-full min-h-[42px] rounded-xl bg-black/70 border border-black/40 p-2 flex items-center justify-center gap-1.5 flex-wrap">
-                    {visualCapsules.length === 0 ? (
-                      <span className="text-[11px] text-neutral-400 font-mono italic">
-                        Bac de sortie vide...
+                  {/* Output Tray Slots (Showing user's selected capsules dispensed out) */}
+                  <div className="w-full min-h-[42px] rounded-lg bg-black/80 border border-black/50 p-2 flex items-center justify-center gap-1.5 flex-wrap">
+                    {selectedCapsulesList.length === 0 ? (
+                      <span className="text-[10px] text-neutral-400 font-mono italic">
+                        Bac de sortie vide... Choisis tes capsules
                       </span>
                     ) : (
                       <AnimatePresence>
-                        {visualCapsules.map((cap, i) => {
+                        {selectedCapsulesList.map((cap, i) => {
                           const catCfg = GACHAPON_CATEGORIES[cap.category];
                           return (
                             <motion.div
                               key={`tray-${cap.id}`}
-                              initial={{ scale: 0, y: -10 }}
-                              animate={{ scale: 1, y: 0 }}
-                              exit={{ scale: 0, y: 10 }}
-                              transition={{ delay: i * 0.02 }}
+                              initial={{ scale: 0, y: -15, rotate: -30 }}
+                              animate={{ scale: 1, y: 0, rotate: 0 }}
+                              exit={{ scale: 0, y: 15 }}
+                              transition={{ type: "spring", stiffness: 300, damping: 18, delay: i * 0.03 }}
                               className="w-7 h-7 rounded-full flex items-center justify-center text-xs border border-white/30 shadow-md shrink-0"
                               style={{
                                 background: `radial-gradient(circle at 35% 35%, ${catCfg.color}, #09090b 85%)`,
                               }}
+                              title={`${catCfg.name}`}
                             >
                               <span>{catCfg.icon}</span>
                             </motion.div>
