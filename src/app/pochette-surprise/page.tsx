@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import GachaponConfigurator from "@/components/GachaponConfigurator";
+import MysteryPackConfigurator from "@/components/MysteryPackConfigurator";
 
 export const metadata: Metadata = {
-  title: "Pochette Surprise Gachapon 3D | Spoolio",
-  description: "Distributeur rétro Gachapon 3D à Comines. Configure ta pochette surprise d'objets mystères imprimés en PLA biosourcé !",
+  title: "Pochette Surprise Spoolio 3D | Configurateur Sur-Mesure",
+  description: "Configure ta pochette surprise d'objets mystères imprimés en 3D PLA biosourcé à Comines !",
 };
 
-export default function GachaponPage() {
+export default function PochetteSurprisePage() {
   return (
     <div className="relative min-h-screen bg-[#09090b] text-white font-sans flex flex-col items-center selection:bg-[#FF5500] selection:text-black overflow-x-hidden">
       {/* Background Decorative Glows */}
@@ -39,27 +39,27 @@ export default function GachaponPage() {
             Boutique
           </Link>
           <span>/</span>
-          <span className="text-[#FF5500] font-bold">Pochette Surprise Gachapon</span>
+          <span className="text-[#FF5500] font-bold">Pochette Surprise Spoolio</span>
         </div>
 
         {/* Hero Title & Presentation Banner */}
         <div className="text-center max-w-2xl mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF5500]/15 border border-[#FF5500]/30 text-[#FF5500] text-xs font-mono font-bold uppercase tracking-wider mb-3">
-            <span>🎰 NOUVEAUTÉ RETRO SPOOLIO V2</span>
+            <span>🎁 CONCEPT SPOOLIO V2</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold uppercase tracking-tight text-white font-antonio mb-3">
-            POCHETTE SURPRISE GACHAPON 🔮
+          <h1 className="text-4xl sm:text-5xl font-extrabold uppercase tracking-tight text-white font-[family-name:var(--font-antonio)] mb-3">
+            POCHETTE SURPRISE 3D ⚡
           </h1>
-          <p className="text-sm sm:text-base text-neutral-300 font-sans leading-relaxed">
-            Compose ton pack mystère d'objets sensoriels 3D originaux. Ajuste tes univers préférés (figurines, fidgets, gadgets, jeux) ou tente ta chance avec le <strong className="text-[#FF5500]">Mode Chaos</strong> !
+          <p className="text-sm sm:text-base text-neutral-300 font-[family-name:var(--font-plus-jakarta)] leading-relaxed">
+            Compose ton pack sur-mesure d'objets mystères sensoriels et ludiques 3D. Sélectionne le nombre d'objets, dose tes univers préférés ou tente le <strong className="text-[#FF5500]">Remplissage Aléatoire</strong> !
           </p>
         </div>
 
-        {/* Dedicated Gachapon Configurator Component */}
-        <GachaponConfigurator className="w-full mb-12" />
+        {/* Dedicated Bento Mystery Pack Configurator Component */}
+        <MysteryPackConfigurator className="w-full mb-12" />
 
         {/* Reassurance Badges Row */}
-        <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 border-t border-neutral-800 text-center font-sans">
+        <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 border-t border-neutral-800 text-center font-[family-name:var(--font-plus-jakarta)]">
           <div className="p-4 rounded-2xl bg-neutral-900/60 border border-neutral-800 flex flex-col items-center gap-2">
             <span className="text-2xl">🌱</span>
             <span className="text-xs font-bold text-white uppercase tracking-wide">
@@ -71,22 +71,22 @@ export default function GachaponPage() {
           </div>
 
           <div className="p-4 rounded-2xl bg-neutral-900/60 border border-neutral-800 flex flex-col items-center gap-2">
-            <span className="text-2xl">🇫🇷</span>
+            <span className="text-2xl">⚡</span>
             <span className="text-xs font-bold text-white uppercase tracking-wide">
-              Fabriqué à Comines (59)
+              Sélection Sur-Mesure
             </span>
             <span className="text-[11px] text-neutral-400">
-              Conçu et expédié depuis notre atelier dans le Nord.
+              Dose librement tes figurines, fidgets et gadgets préférés.
             </span>
           </div>
 
           <div className="p-4 rounded-2xl bg-neutral-900/60 border border-neutral-800 flex flex-col items-center gap-2">
-            <span className="text-2xl">⚡</span>
+            <span className="text-2xl">📍</span>
             <span className="text-xs font-bold text-white uppercase tracking-wide">
-              Expédition Rapide 24-48h
+              Atelier Français (59560)
             </span>
             <span className="text-[11px] text-neutral-400">
-              Chaque pochette est emballée avec amour et rapidité.
+              Fabrication artisanale & expédition soignée depuis Comines.
             </span>
           </div>
         </div>
