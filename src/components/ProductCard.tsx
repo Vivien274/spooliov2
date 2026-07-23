@@ -93,7 +93,7 @@ export default function ProductCard({ product, compact = false, priority = false
   // Plain text short description
   const cleanDescription = product.short_description
     ? decodeHtml(product.short_description.replace(/<[^>]*>/g, ""))
-    : "La mini-boîte qui sauve tes soirées (et tes lendemains). Bouchons d'oreille, cachet du matin.";
+    : "Objet sensoriel 3D imprimé en PLA biosourcé à Comines.";
 
   if (compact) {
     return (
@@ -102,7 +102,7 @@ export default function ProductCard({ product, compact = false, priority = false
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         style={tiltStyle}
-        className="group relative flex flex-col aspect-square w-full bg-spoolio-card border border-spoolio-border rounded-[30px] overflow-hidden transition-all duration-300 hover:border-white shadow-lg shadow-black/30 card-holographic"
+        className="group relative flex flex-col aspect-square w-full bg-spoolio-card border border-spoolio-border rounded-[28px] overflow-hidden transition-all duration-300 hover:border-white shadow-lg shadow-black/30 card-holographic"
       >
         {/* Full Image background */}
         {hasImage ? (
@@ -125,21 +125,31 @@ export default function ProductCard({ product, compact = false, priority = false
 
         {/* Tag on top left (Only if real tag is defined) */}
         {firstTag && (
-          <span className="absolute top-4 left-4 px-2.5 py-1 text-[9px] font-bold bg-[#f7eb12] text-black rounded-full shadow-md z-10 no-invert">
+          <span className="absolute top-3.5 left-3.5 px-2.5 py-1 text-[9px] font-bold bg-[#f7eb12] text-black rounded-full shadow-md z-10 no-invert">
             {firstTag}
           </span>
         )}
 
         {/* Price Tag on top right */}
-        <span className="absolute top-4 right-4 px-2.5 py-1 text-[9px] font-black bg-[#f7eb12] text-black rounded-full shadow-md z-10">
+        <span className="absolute top-3.5 right-3.5 px-2.5 py-1 text-[9px] font-black bg-[#f7eb12] text-black rounded-full shadow-md z-10">
           {formatPrice(product.price)}
         </span>
 
-        {/* Bottom Glass Overlay for Title */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-black/50 backdrop-blur-md border-t border-white/10 flex items-center z-10 no-invert">
-          <h3 className="text-[13px] md:text-[14px] font-bold text-white leading-tight line-clamp-1">
-            {product.name}
-          </h3>
+        {/* Floating Glassmorphic Overlay at Bottom (Largeur réduite, aspect flottant, arrondi) */}
+        <div className="absolute bottom-3 left-3 right-3 p-3 sm:p-3.5 bg-black/60 backdrop-blur-md border border-white/15 rounded-2xl shadow-xl flex items-center justify-between gap-2.5 z-10 no-invert transition-transform group-hover:translate-y-[-2px]">
+          <div className="flex flex-col min-w-0">
+            <h3 className="text-xs sm:text-sm font-bold text-white leading-tight line-clamp-1 font-[family-name:var(--font-plus-jakarta)]">
+              {product.name}
+            </h3>
+            <p className="text-[10px] sm:text-[11px] text-neutral-300 font-medium line-clamp-1 mt-0.5 font-[family-name:var(--font-plus-jakarta)]">
+              {cleanDescription}
+            </p>
+          </div>
+
+          {/* Action Circle Icon */}
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-black flex items-center justify-center font-bold text-xs shrink-0 shadow-md group-hover:scale-105 transition-transform">
+            🛒
+          </div>
         </div>
       </Link>
     );
@@ -185,7 +195,7 @@ export default function ProductCard({ product, compact = false, priority = false
         </div>
 
         {/* Content Container (Title, Description) with Padding */}
-        <div className="flex flex-col gap-3 p-6 pb-0">
+        <div className="flex flex-col gap-3 p-6 pb-0 font-[family-name:var(--font-plus-jakarta)]">
           {/* Title */}
           <h3 className="text-[18px] font-bold text-white transition-colors duration-200">
             {product.name}
