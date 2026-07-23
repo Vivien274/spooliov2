@@ -57,48 +57,57 @@ export interface GachaponSizeOption {
 export const GACHAPON_SIZES: GachaponSizeOption[] = [
   {
     count: 3,
-    label: "3 Capsules",
+    label: "3 Objets",
     price: 12.90,
-    pricePerUnit: "4,30 € / u",
+    pricePerUnit: "4,30 € / objet",
   },
   {
     count: 6,
-    label: "6 Capsules",
+    label: "6 Objets",
     price: 21.90,
-    pricePerUnit: "3,65 € / u",
+    pricePerUnit: "3,65 € / objet",
     badge: "RECOMMANDÉ 🔥",
   },
   {
     count: 10,
-    label: "10 Capsules",
+    label: "10 Objets",
     price: 34.90,
-    pricePerUnit: "3,49 € / u",
+    pricePerUnit: "3,49 € / objet",
     badge: "MEGA PACK ⚡",
   },
 ];
 
-// Rich colorful stock inside the glass jar (gravity-pooled at bottom)
-const JAR_STOCK_BALLS = [
-  { id: "b1", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉" },
-  { id: "b2", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "⌨️" },
-  { id: "b3", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️" },
-  { id: "b4", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲" },
-  { id: "b5", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉" },
-  { id: "b6", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "⌨️" },
-  { id: "b7", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️" },
-  { id: "b8", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲" },
-  { id: "b9", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🦄" },
-  { id: "b10", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "🌟" },
-  { id: "b11", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️" },
-  { id: "b12", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲" },
-  { id: "b13", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉" },
-  { id: "b14", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "⌨️" },
-  { id: "b15", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "✨" },
-  { id: "b16", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲" },
-  { id: "b17", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉" },
-  { id: "b18", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "💖" },
-  { id: "b19", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️" },
-  { id: "b20", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "⭐" },
+// Organic natural heap of surprise balls resting naturally at bottom of glass jar
+const ORGANIC_JAR_STOCK = [
+  // Layer 1 (Bottom floor base scatter)
+  { id: "b1", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉", x: -106, y: 15, rotate: -24 },
+  { id: "b2", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "⌨️", x: -62, y: 10, rotate: 14 },
+  { id: "b3", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️", x: -18, y: 8, rotate: -8 },
+  { id: "b4", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲", x: 26, y: 9, rotate: 28 },
+  { id: "b5", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉", x: 70, y: 13, rotate: -15 },
+  { id: "b6", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "⌨️", x: 108, y: 19, rotate: 32 },
+
+  // Layer 2 (Resting in hollows)
+  { id: "b7", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️", x: -84, y: 46, rotate: -30 },
+  { id: "b8", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲", x: -40, y: 44, rotate: 10 },
+  { id: "b9", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🦄", x: 4, y: 42, rotate: -18 },
+  { id: "b10", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "🌟", x: 48, y: 45, rotate: 22 },
+  { id: "b11", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️", x: 90, y: 50, rotate: -8 },
+
+  // Layer 3 (Mid heap)
+  { id: "b12", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲", x: -62, y: 80, rotate: 18 },
+  { id: "b13", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉", x: -18, y: 78, rotate: -12 },
+  { id: "b14", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "⌨️", x: 26, y: 79, rotate: 35 },
+  { id: "b15", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "✨", x: 68, y: 84, rotate: -25 },
+
+  // Layer 4 (Upper heap)
+  { id: "b16", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲", x: -38, y: 114, rotate: -5 },
+  { id: "b17", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉", x: 6, y: 112, rotate: 20 },
+  { id: "b18", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "💖", x: 46, y: 118, rotate: -16 },
+
+  // Layer 5 (Peak top)
+  { id: "b19", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️", x: -16, y: 148, rotate: 12 },
+  { id: "b20", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "⭐", x: 24, y: 152, rotate: -28 },
 ];
 
 /** Modern Premium Dual-Shell Japanese Gachapon Capsule Component */
@@ -326,7 +335,7 @@ export default function GachaponConfigurator({
           slug: "pochette-surprise-gachapon",
           price: currentSizeObj.price.toFixed(2),
           selectedOptions: {
-            "Taille de la pochette": `${selectedSize} surprises`,
+            "Taille de la pochette": `${selectedSize} objets`,
             "Composition": summaryText,
           },
           image: "/images/hero_background.jpg",
@@ -347,22 +356,22 @@ export default function GachaponConfigurator({
       {/* Outer Bento Card - Clean Dark Aesthetic */}
       <div className="rounded-3xl bg-[#09090b] border border-neutral-800 p-6 md:p-8 shadow-2xl">
         
-        {/* Header Title */}
+        {/* Header Title with Original Antonio & Plus Jakarta Fonts */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-neutral-800">
           <div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white flex items-center gap-3">
+            <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-antonio)] font-bold uppercase tracking-wide text-white flex items-center gap-3">
               <span>Distributeur Gachapon</span>
               <span className="text-2xl">🎰</span>
             </h2>
-            <p className="text-xs sm:text-sm text-neutral-400 font-medium mt-1">
+            <p className="text-xs sm:text-sm font-[family-name:var(--font-plus-jakarta)] text-neutral-400 font-medium mt-1">
               Configure ta pochette sur-mesure d'objets mystères 3D
             </p>
           </div>
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-900 border border-neutral-800 font-mono text-xs text-neutral-300 self-start sm:self-auto">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-900 border border-neutral-800 font-[family-name:var(--font-plus-jakarta)] text-xs text-neutral-300 self-start sm:self-auto">
             <span>Sélection :</span>
             <span className={`font-bold ${isQuotaReached ? "text-[#00FF66]" : "text-[#FF5500]"}`}>
-              {totalSelected} / {selectedSize} capsules
+              {totalSelected} / {selectedSize} objets
             </span>
           </div>
         </div>
@@ -372,8 +381,8 @@ export default function GachaponConfigurator({
           
           {/* COLONNE GAUCHE (3 cols) : ÉTAPE 1 - TAILLE */}
           <div className="lg:col-span-3 flex flex-col gap-4">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 flex items-center gap-2">
-              <span className="w-5 h-5 rounded-full bg-neutral-800 text-white text-[11px] flex items-center justify-center font-bold">1</span>
+            <h3 className="text-xs font-[family-name:var(--font-antonio)] font-bold uppercase tracking-wider text-neutral-400 flex items-center gap-2">
+              <span className="w-5 h-5 rounded-full bg-neutral-800 text-white text-[11px] flex items-center justify-center font-bold font-[family-name:var(--font-plus-jakarta)]">1</span>
               Étape 1 : Choisir la taille
             </h3>
 
@@ -392,20 +401,20 @@ export default function GachaponConfigurator({
                     }`}
                   >
                     {sizeOpt.badge && (
-                      <span className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full bg-[#FF5500] text-black font-extrabold text-[9px] uppercase tracking-wider">
+                      <span className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full bg-[#FF5500] text-black font-extrabold text-[9px] font-[family-name:var(--font-antonio)] uppercase tracking-wider">
                         {sizeOpt.badge}
                       </span>
                     )}
 
-                    <div className="text-sm font-bold text-white mb-0.5">
+                    <div className="text-base font-bold font-[family-name:var(--font-antonio)] tracking-wide text-white mb-0.5">
                       {sizeOpt.label}
                     </div>
                     
                     <div className="flex items-center justify-between mt-2">
-                      <span className="text-base font-extrabold text-[#00FF66] font-mono">
+                      <span className="text-lg font-extrabold text-[#00FF66] font-[family-name:var(--font-antonio)]">
                         {sizeOpt.price.toFixed(2)} €
                       </span>
-                      <span className="text-[11px] font-mono text-neutral-400">
+                      <span className="text-[11px] font-[family-name:var(--font-plus-jakarta)] text-neutral-400">
                         {sizeOpt.pricePerUnit}
                       </span>
                     </div>
@@ -417,7 +426,7 @@ export default function GachaponConfigurator({
 
           {/* COLONNE CENTRE (5 cols) : LE GACHAPON (Bocal Cylindrique Vitré Glassmorphism) */}
           <div className="lg:col-span-5 flex flex-col items-center">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 text-center mb-3">
+            <h3 className="text-xs font-[family-name:var(--font-antonio)] font-bold uppercase tracking-wider text-neutral-400 text-center mb-3">
               Le Gachapon
             </h3>
 
@@ -437,19 +446,23 @@ export default function GachaponConfigurator({
                 <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-white/10 to-transparent pointer-events-none z-20" />
                 <div className="absolute top-4 left-4 w-20 h-40 bg-white/5 rounded-full blur-md rotate-[-15deg] pointer-events-none z-20" />
 
-                {/* INNER CONTAINER FOR BALLS (flex wrap-reverse gravity stack) */}
-                <div className="w-full flex flex-wrap-reverse align-content-flex-start justify-center gap-2.5 p-2 relative z-10">
-                  {JAR_STOCK_BALLS.map((item) => (
+                {/* INNER CONTAINER FOR BALLS (ORGANIC SCATTERED HEAP AT BOTTOM) */}
+                <div className="absolute inset-0 flex items-end justify-center pb-5 z-10 pointer-events-none">
+                  {ORGANIC_JAR_STOCK.map((item) => (
                     <motion.div
                       key={item.id}
-                      animate={isShaking ? { y: [0, -4, 0, -2, 0] } : {}}
+                      animate={isShaking ? { y: [0, -6, 0, -3, 0], x: [0, 2, -2, 0] } : {}}
                       transition={{ duration: 0.4 }}
-                      className="shrink-0"
+                      className="absolute"
+                      style={{
+                        transform: `translate(${item.x}px, ${-item.y}px) rotate(${item.rotate}deg)`,
+                      }}
                     >
                       <ModernGachaponCapsule
                         colorStart={item.colorStart}
                         colorEnd={item.colorEnd}
                         icon={item.icon}
+                        sizeClass="w-9 h-9 sm:w-10 sm:h-10"
                       />
                     </motion.div>
                   ))}
@@ -481,20 +494,20 @@ export default function GachaponConfigurator({
                         type="button"
                         onClick={handleChaosMode}
                         disabled={isSpinning}
-                        className="text-xs font-mono font-bold text-white hover:text-[#FF5500] transition-colors text-left cursor-pointer"
+                        className="text-xs font-[family-name:var(--font-antonio)] font-bold text-white hover:text-[#FF5500] transition-colors text-left uppercase tracking-wider cursor-pointer"
                       >
                         🎲 TOURNER
                       </button>
-                      <span className="text-[10px] text-neutral-400 font-mono">
+                      <span className="text-[10px] text-neutral-400 font-[family-name:var(--font-plus-jakarta)]">
                         Mode Chaos
                       </span>
                     </div>
                   </div>
 
                   {/* Jauge d'état claire */}
-                  <div className="px-3 py-1 rounded-full bg-neutral-950 border border-neutral-800 font-mono text-[11px] text-neutral-300">
+                  <div className="px-3 py-1 rounded-full bg-neutral-950 border border-neutral-800 font-[family-name:var(--font-plus-jakarta)] text-[11px] text-neutral-300">
                     <span className={`font-bold ${isQuotaReached ? "text-[#00FF66]" : "text-[#FF5500]"}`}>
-                      {totalSelected} / {selectedSize} capsules prêtes
+                      {totalSelected} / {selectedSize} objets prêts
                     </span>
                   </div>
                 </div>
@@ -502,8 +515,8 @@ export default function GachaponConfigurator({
                 {/* BAC DE SORTIE RECEPTACLE (ALIGNEMENT DES VRAIES MINI CAPSULES DANS LE BAC) */}
                 <div className="w-full min-h-[46px] rounded-xl bg-neutral-950 border border-neutral-800 p-2 flex items-center justify-center gap-2 flex-wrap overflow-hidden">
                   {selectedCapsulesList.length === 0 ? (
-                    <span className="text-[10px] text-neutral-500 font-mono italic">
-                      Bac de sortie vide... Choisis tes capsules
+                    <span className="text-[10px] text-neutral-500 font-[family-name:var(--font-plus-jakarta)] italic">
+                      Bac de sortie vide... Choisis tes objets
                     </span>
                   ) : (
                     <AnimatePresence>
@@ -542,8 +555,8 @@ export default function GachaponConfigurator({
 
           {/* COLONNE DROITE (4 cols) : ÉTAPE 2 - DOSAGE ÉPURÉ & PANIER */}
           <div className="lg:col-span-4 flex flex-col gap-4">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 flex items-center gap-2">
-              <span className="w-5 h-5 rounded-full bg-neutral-800 text-white text-[11px] flex items-center justify-center font-bold">2</span>
+            <h3 className="text-xs font-[family-name:var(--font-antonio)] font-bold uppercase tracking-wider text-neutral-400 flex items-center gap-2">
+              <span className="w-5 h-5 rounded-full bg-neutral-800 text-white text-[11px] flex items-center justify-center font-bold font-[family-name:var(--font-plus-jakarta)]">2</span>
               Étape 2 : Doser les catégories
             </h3>
 
@@ -561,7 +574,7 @@ export default function GachaponConfigurator({
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       <span className="text-lg shrink-0">{cat.icon}</span>
-                      <span className="text-sm font-bold text-white truncate">
+                      <span className="text-sm font-bold font-[family-name:var(--font-plus-jakarta)] text-white truncate">
                         {cat.name}
                       </span>
                     </div>
@@ -577,7 +590,7 @@ export default function GachaponConfigurator({
                         -
                       </button>
 
-                      <span className="w-5 text-center font-mono font-bold text-sm text-white">
+                      <span className="w-5 text-center font-[family-name:var(--font-plus-jakarta)] font-bold text-sm text-white">
                         {count}
                       </span>
 
@@ -601,7 +614,7 @@ export default function GachaponConfigurator({
 
             {/* Quota Progress Bar */}
             <div className="p-3 rounded-xl bg-neutral-900/30 border border-neutral-800 flex flex-col gap-1.5">
-              <div className="flex justify-between items-center text-xs font-mono">
+              <div className="flex justify-between items-center text-xs font-[family-name:var(--font-plus-jakarta)]">
                 <span className="text-neutral-400">Progression</span>
                 <span className={isQuotaReached ? "text-[#00FF66] font-bold" : "text-[#FF5500]"}>
                   {totalSelected} / {selectedSize}
@@ -620,7 +633,7 @@ export default function GachaponConfigurator({
               type="button"
               onClick={handleAddToCart}
               disabled={!isQuotaReached}
-              className={`w-full py-3.5 px-5 rounded-xl font-extrabold text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer mt-1 ${
+              className={`w-full py-3.5 px-5 rounded-xl font-extrabold font-[family-name:var(--font-antonio)] text-base uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer mt-1 ${
                 isQuotaReached
                   ? "bg-[#FF5500] hover:bg-[#ff661a] text-black shadow-lg shadow-[#FF5500]/20 hover:scale-[1.02]"
                   : "bg-neutral-800 text-neutral-500 border border-neutral-700 cursor-not-allowed"
@@ -629,7 +642,7 @@ export default function GachaponConfigurator({
               {isQuotaReached ? (
                 <span>INJECTER AU PANIER ({currentSizeObj.price.toFixed(2)} €) 🛒</span>
               ) : (
-                <span>CHOISIS ENCORE {remainingCount} CAPSULE(S)...</span>
+                <span>CHOISIS ENCORE {remainingCount} OBJET(S)...</span>
               )}
             </button>
 
@@ -640,9 +653,9 @@ export default function GachaponConfigurator({
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="p-3 rounded-xl bg-[#00FF66]/15 border border-[#00FF66]/30 text-[#00FF66] text-center font-bold text-xs"
+                  className="p-3 rounded-xl bg-[#00FF66]/15 border border-[#00FF66]/30 text-[#00FF66] text-center font-bold text-xs font-[family-name:var(--font-plus-jakarta)]"
                 >
-                  🎉 Pochette ajoutée à ton panier !
+                  🎉 Pochette de {selectedSize} objets ajoutée à ton panier !
                 </motion.div>
               )}
             </AnimatePresence>
