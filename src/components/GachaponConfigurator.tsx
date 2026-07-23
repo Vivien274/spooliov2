@@ -20,29 +20,29 @@ export const GACHAPON_CATEGORIES: Record<GachaponCategoryKey, GachaponCategoryCo
     key: "figurines",
     name: "Figurines & Animaux",
     icon: "🐉",
-    colorStart: "#00F0FF",
+    colorStart: "#00F0FF", // Cyan / Bleu Électrique
     colorEnd: "#0077FF",
   },
   fidgets: {
     key: "fidgets",
     name: "Fidgets & Stimulation",
     icon: "⌨️",
-    colorStart: "#FF5500",
+    colorStart: "#FF5500", // Orange Spoolio
     colorEnd: "#FF8800",
   },
   gadgets: {
     key: "gadgets",
     name: "Porte-clés & Gadgets",
     icon: "🗝️",
-    colorStart: "#00FF66",
+    colorStart: "#00FF66", // Vert Fluo Lime
     colorEnd: "#009933",
   },
   jeux: {
     key: "jeux",
     name: "Mini-jeux & Déco",
     icon: "🎲",
-    colorStart: "#B026FF",
-    colorEnd: "#6600CC",
+    colorStart: "#10B981", // Vert Menthe / Émeraude
+    colorEnd: "#059669",
   },
 };
 
@@ -78,36 +78,43 @@ export const GACHAPON_SIZES: GachaponSizeOption[] = [
 ];
 
 // Organic natural heap of surprise balls resting naturally at bottom of glass jar
-const ORGANIC_JAR_STOCK = [
+const ORGANIC_JAR_STOCK: Array<{
+  id: string;
+  cat: GachaponCategoryKey;
+  icon: string;
+  x: number;
+  y: number;
+  rotate: number;
+}> = [
   // Layer 1 (Bottom floor base scatter)
-  { id: "b1", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉", x: -106, y: 15, rotate: -24 },
-  { id: "b2", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "⌨️", x: -62, y: 10, rotate: 14 },
-  { id: "b3", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️", x: -18, y: 8, rotate: -8 },
-  { id: "b4", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲", x: 26, y: 9, rotate: 28 },
-  { id: "b5", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉", x: 70, y: 13, rotate: -15 },
-  { id: "b6", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "⌨️", x: 108, y: 19, rotate: 32 },
+  { id: "b1", cat: "figurines", icon: "🐉", x: -106, y: 15, rotate: -24 },
+  { id: "b2", cat: "fidgets", icon: "⌨️", x: -62, y: 10, rotate: 14 },
+  { id: "b3", cat: "gadgets", icon: "🗝️", x: -18, y: 8, rotate: -8 },
+  { id: "b4", cat: "jeux", icon: "🎲", x: 26, y: 9, rotate: 28 },
+  { id: "b5", cat: "figurines", icon: "🐉", x: 70, y: 13, rotate: -15 },
+  { id: "b6", cat: "fidgets", icon: "⌨️", x: 108, y: 19, rotate: 32 },
 
   // Layer 2 (Resting in hollows)
-  { id: "b7", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️", x: -84, y: 46, rotate: -30 },
-  { id: "b8", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲", x: -40, y: 44, rotate: 10 },
-  { id: "b9", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🦄", x: 4, y: 42, rotate: -18 },
-  { id: "b10", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "🌟", x: 48, y: 45, rotate: 22 },
-  { id: "b11", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️", x: 90, y: 50, rotate: -8 },
+  { id: "b7", cat: "gadgets", icon: "🗝️", x: -84, y: 46, rotate: -30 },
+  { id: "b8", cat: "jeux", icon: "🎲", x: -40, y: 44, rotate: 10 },
+  { id: "b9", cat: "figurines", icon: "🦄", x: 4, y: 42, rotate: -18 },
+  { id: "b10", cat: "fidgets", icon: "🌟", x: 48, y: 45, rotate: 22 },
+  { id: "b11", cat: "gadgets", icon: "🗝️", x: 90, y: 50, rotate: -8 },
 
   // Layer 3 (Mid heap)
-  { id: "b12", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲", x: -62, y: 80, rotate: 18 },
-  { id: "b13", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉", x: -18, y: 78, rotate: -12 },
-  { id: "b14", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "⌨️", x: 26, y: 79, rotate: 35 },
-  { id: "b15", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "✨", x: 68, y: 84, rotate: -25 },
+  { id: "b12", cat: "jeux", icon: "🎲", x: -62, y: 80, rotate: 18 },
+  { id: "b13", cat: "figurines", icon: "🐉", x: -18, y: 78, rotate: -12 },
+  { id: "b14", cat: "fidgets", icon: "⌨️", x: 26, y: 79, rotate: 35 },
+  { id: "b15", cat: "gadgets", icon: "✨", x: 68, y: 84, rotate: -25 },
 
   // Layer 4 (Upper heap)
-  { id: "b16", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲", x: -38, y: 114, rotate: -5 },
-  { id: "b17", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉", x: 6, y: 112, rotate: 20 },
-  { id: "b18", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "💖", x: 46, y: 118, rotate: -16 },
+  { id: "b16", cat: "jeux", icon: "🎲", x: -38, y: 114, rotate: -5 },
+  { id: "b17", cat: "figurines", icon: "🐉", x: 6, y: 112, rotate: 20 },
+  { id: "b18", cat: "fidgets", icon: "💖", x: 46, y: 118, rotate: -16 },
 
   // Layer 5 (Peak top)
-  { id: "b19", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️", x: -16, y: 148, rotate: 12 },
-  { id: "b20", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "⭐", x: 24, y: 152, rotate: -28 },
+  { id: "b19", cat: "gadgets", icon: "🗝️", x: -16, y: 148, rotate: 12 },
+  { id: "b20", cat: "jeux", icon: "⭐", x: 24, y: 152, rotate: -28 },
 ];
 
 /** Modern Premium Dual-Shell Japanese Gachapon Capsule Component */
@@ -356,7 +363,7 @@ export default function GachaponConfigurator({
       {/* Outer Bento Card - Clean Dark Aesthetic */}
       <div className="rounded-3xl bg-[#09090b] border border-neutral-800 p-6 md:p-8 shadow-2xl">
         
-        {/* Header Title with Original Antonio & Plus Jakarta Fonts */}
+        {/* Header Title */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-neutral-800">
           <div>
             <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-antonio)] font-bold uppercase tracking-wide text-white flex items-center gap-3">
@@ -401,12 +408,12 @@ export default function GachaponConfigurator({
                     }`}
                   >
                     {sizeOpt.badge && (
-                      <span className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full bg-[#FF5500] text-black font-extrabold text-[9px] font-[family-name:var(--font-antonio)] uppercase tracking-wider">
+                      <span className="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full bg-[#FF5500] text-black font-extrabold text-[9px] font-[family-name:var(--font-plus-jakarta)] uppercase tracking-wider">
                         {sizeOpt.badge}
                       </span>
                     )}
 
-                    <div className="text-base font-bold font-[family-name:var(--font-antonio)] tracking-wide text-white mb-0.5">
+                    <div className="text-base font-bold font-[family-name:var(--font-plus-jakarta)] text-white mb-0.5">
                       {sizeOpt.label}
                     </div>
                     
@@ -448,24 +455,27 @@ export default function GachaponConfigurator({
 
                 {/* INNER CONTAINER FOR BALLS (ORGANIC SCATTERED HEAP AT BOTTOM) */}
                 <div className="absolute inset-0 flex items-end justify-center pb-5 z-10 pointer-events-none">
-                  {ORGANIC_JAR_STOCK.map((item) => (
-                    <motion.div
-                      key={item.id}
-                      animate={isShaking ? { y: [0, -6, 0, -3, 0], x: [0, 2, -2, 0] } : {}}
-                      transition={{ duration: 0.4 }}
-                      className="absolute"
-                      style={{
-                        transform: `translate(${item.x}px, ${-item.y}px) rotate(${item.rotate}deg)`,
-                      }}
-                    >
-                      <ModernGachaponCapsule
-                        colorStart={item.colorStart}
-                        colorEnd={item.colorEnd}
-                        icon={item.icon}
-                        sizeClass="w-9 h-9 sm:w-10 sm:h-10"
-                      />
-                    </motion.div>
-                  ))}
+                  {ORGANIC_JAR_STOCK.map((item) => {
+                    const catCfg = GACHAPON_CATEGORIES[item.cat];
+                    return (
+                      <motion.div
+                        key={item.id}
+                        animate={isShaking ? { y: [0, -6, 0, -3, 0], x: [0, 2, -2, 0] } : {}}
+                        transition={{ duration: 0.4 }}
+                        className="absolute"
+                        style={{
+                          transform: `translate(${item.x}px, ${-item.y}px) rotate(${item.rotate}deg)`,
+                        }}
+                      >
+                        <ModernGachaponCapsule
+                          colorStart={catCfg.colorStart}
+                          colorEnd={catCfg.colorEnd}
+                          icon={item.icon}
+                          sizeClass="w-9 h-9 sm:w-10 sm:h-10"
+                        />
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </motion.div>
 
