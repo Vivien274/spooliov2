@@ -130,26 +130,16 @@ export default function ProductCard({ product, compact = false, priority = false
           </span>
         )}
 
-        {/* Price Tag on top right */}
-        <span className="absolute top-3.5 right-3.5 px-2.5 py-1 text-[9px] font-black bg-[#f7eb12] text-black rounded-full shadow-md z-10">
-          {formatPrice(product.price)}
-        </span>
+        {/* Floating Glassmorphic Overlay at Bottom (Nom du produit + Tag Prix sur la droite) */}
+        <div className="absolute bottom-3 left-3 right-3 p-3 sm:p-3.5 bg-black/65 backdrop-blur-md border border-white/15 rounded-2xl shadow-xl flex items-center justify-between gap-3 z-10 no-invert transition-transform group-hover:translate-y-[-2px]">
+          <h3 className="text-xs sm:text-sm font-bold text-white leading-tight line-clamp-1 font-[family-name:var(--font-plus-jakarta)] min-w-0">
+            {product.name}
+          </h3>
 
-        {/* Floating Glassmorphic Overlay at Bottom (Largeur réduite, aspect flottant, arrondi) */}
-        <div className="absolute bottom-3 left-3 right-3 p-3 sm:p-3.5 bg-black/60 backdrop-blur-md border border-white/15 rounded-2xl shadow-xl flex items-center justify-between gap-2.5 z-10 no-invert transition-transform group-hover:translate-y-[-2px]">
-          <div className="flex flex-col min-w-0">
-            <h3 className="text-xs sm:text-sm font-bold text-white leading-tight line-clamp-1 font-[family-name:var(--font-plus-jakarta)]">
-              {product.name}
-            </h3>
-            <p className="text-[10px] sm:text-[11px] text-neutral-300 font-medium line-clamp-1 mt-0.5 font-[family-name:var(--font-plus-jakarta)]">
-              {cleanDescription}
-            </p>
-          </div>
-
-          {/* Action Circle Icon */}
-          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white text-black flex items-center justify-center font-bold text-xs shrink-0 shadow-md group-hover:scale-105 transition-transform">
-            🛒
-          </div>
+          {/* Tag Prix sur la droite */}
+          <span className="px-3 py-1 bg-[#f7eb12] text-black font-extrabold text-xs sm:text-sm font-[family-name:var(--font-antonio)] rounded-full shadow-md shrink-0">
+            {formatPrice(product.price)}
+          </span>
         </div>
       </Link>
     );
