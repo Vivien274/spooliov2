@@ -62,6 +62,26 @@ export default function Header({ className = "" }: HeaderProps) {
     setTheme(isLight ? "light" : "dark");
   }, []);
 
+  // Re-sync theme state whenever mobile menu is opened
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      const isLight = document.documentElement.classList.contains("light");
+      setTheme(isLight ? "light" : "dark");
+    }
+  }, [isMobileMenuOpen]);
+
+  // Prevent background body scrolling when mobile drawer or search modal is open
+  useEffect(() => {
+    if (isMobileMenuOpen || isSearchOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen, isSearchOpen]);
+
   // Keyboard shortcut for search modale (Cmd+K / Ctrl+K)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -271,8 +291,8 @@ export default function Header({ className = "" }: HeaderProps) {
       </div>
 
       {/* Global Search Dialog Modal */}
-      {isSearchOpen && (
-        <div className="fixed inset-0 z-[20000] flex items-start justify-center p-4 sm:p-10 md:p-20 font-sans select-none no-invert">
+      {mounted && isSearchOpen && createPortal(
+        <div className="fixed inset-0 z-[999999] flex items-start justify-center p-4 sm:p-10 md:p-20 font-sans select-none no-invert">
           {/* Backdrop blur overlay */}
           <div 
             onClick={() => setIsSearchOpen(false)}
@@ -468,12 +488,13 @@ export default function Header({ className = "" }: HeaderProps) {
               )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
-      {/* Mobile Drawer Navigation Menu */}
-      {isMobileMenuOpen && (
-        <div className="fixed top-0 left-0 w-screen h-screen z-[15000] flex md:hidden font-sans select-none">
+      {/* Mobile Drawer Navigation Menu (Portaled to document.body) */}
+      {mounted && isMobileMenuOpen && createPortal(
+        <div className="fixed inset-0 z-[999999] flex md:hidden font-sans select-none">
           {/* Backdrop overlay */}
           <div 
             onClick={() => setIsMobileMenuOpen(false)}
@@ -481,31 +502,24 @@ export default function Header({ className = "" }: HeaderProps) {
           />
 
           {/* Drawer menu content (slide-in from left) */}
-          <div className={`relative w-[300px] max-w-full h-screen border-r flex flex-col justify-between p-6 shadow-2xl z-10 transition-all duration-300 animate-slide-in ${
-            theme === "light" 
-              ? "bg-[#f7f7f9] border-gray-200 text-black" 
-              : "bg-[#0d0d0f] border-[#1f1f23] text-white"
-          }`}>
+          <div className="relative w-[320px] max-w-[85vw] h-full border-r flex flex-col justify-between p-6 shadow-2xl z-10 transition-all duration-300 animate-slide-in mobile-drawer-bg">
             {/* Scrollable navigation container */}
             <div className="flex-1 overflow-y-auto pr-1 flex flex-col gap-6 select-none no-scrollbar pb-6">
               {/* Logo & close row */}
-              <div className={`flex items-center justify-between pb-4 border-b ${theme === "light" ? "border-black/5" : "border-white/5"}`}>
+              <div className="flex items-center justify-between pb-4 border-b mobile-drawer-border">
                 <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="relative z-50 flex items-center gap-2">
                   <Image
                     src="/images/logo.png"
                     alt="Spoolio Logo"
                     width={110}
                     height={32}
-                    className="h-8 w-auto object-contain"
+                    className="h-8 w-auto object-contain mobile-drawer-logo"
                   />
                 </Link>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors ${
-                    theme === "light"
-                      ? "bg-black/5 text-gray-700 hover:text-black hover:bg-black/10"
-                      : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10"
-                  }`}
+                  className="w-8 h-8 flex items-center justify-center rounded-full transition-colors cursor-pointer mobile-drawer-close"
+                  aria-label="Fermer le menu"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -517,36 +531,36 @@ export default function Header({ className = "" }: HeaderProps) {
               <nav className="flex flex-col gap-5">
                 {/* Categories title */}
                 <div>
-                  <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest block mb-3">
+                  <span className="text-[10px] font-black uppercase tracking-widest block mb-3 mobile-drawer-header">
                     {t("header.shop")} (Catégories)
                   </span>
                   <div className="flex flex-col gap-2">
                     <Link 
                       href="/boutique" 
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-3 py-2 text-xs font-bold text-gray-200 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                      className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
                     >
                       <span>{t("header.shop")} - Tous</span>
-                      <span className="text-gray-600">→</span>
+                      <span className="mobile-drawer-arrow">→</span>
                     </Link>
                     <Link 
                       href="/categorie/Accessoires" 
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                      className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
                     >
                       <span>Accessoires</span>
                     </Link>
                     <Link 
                       href="/categorie/Animaux & Figurines" 
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                      className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
                     >
                       <span>Animaux & Figurines</span>
                     </Link>
                     <Link 
                       href="/categorie/Fidgets" 
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                      className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
                     >
                       <span>Fidgets</span>
                       <span className="bg-red-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide leading-none no-invert">HOT</span>
@@ -554,28 +568,28 @@ export default function Header({ className = "" }: HeaderProps) {
                     <Link 
                       href="/categorie/Décoration" 
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                      className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
                     >
                       <span>Décoration</span>
                     </Link>
                     <Link 
                       href="/categorie/Jeux & activités" 
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                      className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
                     >
                       <span>Jeux & activités</span>
                     </Link>
                     <Link 
                       href="/categorie/Porte clés" 
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                      className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
                     >
                       <span>Porte clés</span>
                     </Link>
                     <Link 
                       href="/categorie/Geek %2F Gaming" 
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-3 py-2 text-xs font-bold text-gray-300 hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors"
+                      className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
                     >
                       <span>Geek / Gaming</span>
                       <span className="bg-[#ff4f00] text-white text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide leading-none no-invert">NEW</span>
@@ -583,7 +597,7 @@ export default function Header({ className = "" }: HeaderProps) {
                     <Link 
                       href="/pochette-surprise" 
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-3 py-2 text-xs font-bold text-white hover:text-white rounded-lg hover:bg-white/5 flex items-center justify-between transition-colors mt-1"
+                      className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mt-1 mobile-drawer-link"
                     >
                       <span className="flex items-center gap-1.5">🎁 Les pochettes surprise</span>
                       <span className="bg-[#00F0FF] text-black text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide leading-none no-invert">FUN !</span>
@@ -592,8 +606,8 @@ export default function Header({ className = "" }: HeaderProps) {
                 </div>
 
                 {/* Others title */}
-                <div className="pt-2 border-t border-white/5">
-                  <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest block mb-3">
+                <div className="pt-2 border-t mobile-drawer-border">
+                  <span className="text-[10px] font-black uppercase tracking-widest block mb-3 mobile-drawer-header">
                     Découvrir
                   </span>
                   <div className="flex flex-col gap-2">
@@ -601,28 +615,28 @@ export default function Header({ className = "" }: HeaderProps) {
                       href="https://boussole.spoolio.fr" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="px-3 py-2 text-xs font-bold text-gray-200 hover:text-white rounded-lg hover:bg-white/5 block transition-colors"
+                      className="px-3 py-2 text-xs font-bold rounded-lg block transition-colors mobile-drawer-link"
                     >
                       🧩 Boussole Sensorielle
                     </a>
                     <Link 
                       href="/pro" 
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-3 py-2 text-xs font-bold text-gray-200 hover:text-white rounded-lg hover:bg-white/5 block transition-colors"
+                      className="px-3 py-2 text-xs font-bold rounded-lg block transition-colors mobile-drawer-link"
                     >
                       💼 Spoolio pour les pros
                     </Link>
                     <Link 
                       href="/blog" 
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-3 py-2 text-xs font-bold text-gray-200 hover:text-white rounded-lg hover:bg-white/5 block transition-colors"
+                      className="px-3 py-2 text-xs font-bold rounded-lg block transition-colors mobile-drawer-link"
                     >
                       📝 {t("header.about")} (Blog)
                     </Link>
                     <Link 
                       href="/don" 
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-3 py-2 text-xs font-bold text-[#ff4f00] hover:text-white rounded-lg hover:bg-white/5 block transition-colors"
+                      className="px-3 py-2 text-xs font-bold rounded-lg block transition-colors text-[#ff4f00] hover:text-[#ff4f00]"
                     >
                       🧡 {t("home.donation.button")}
                     </Link>
@@ -632,18 +646,12 @@ export default function Header({ className = "" }: HeaderProps) {
             </div>
 
             {/* Sticky Bottom Area */}
-            <div className={`sticky bottom-0 pt-4 border-t flex flex-col gap-3 mt-auto ${
-              theme === "light" ? "bg-[#f7f7f9] border-black/5" : "bg-[#0d0d0f] border-white/5"
-            }`}>
+            <div className="sticky bottom-0 pt-4 border-t flex flex-col gap-3 mt-auto mobile-drawer-bg mobile-drawer-border">
 
               {/* Theme Toggle Button */}
               <button
                 onClick={toggleTheme}
-                className={`w-full h-11 flex items-center justify-between px-4 rounded-xl border transition-all cursor-pointer text-xs font-semibold ${
-                  theme === "light"
-                    ? "bg-black/5 border-black/5 text-gray-800 hover:bg-black/10"
-                    : "bg-white/5 border-white/10 text-white hover:bg-white/10"
-                }`}
+                className="w-full h-11 flex items-center justify-between px-4 rounded-xl border transition-all cursor-pointer text-xs font-semibold mobile-drawer-btn"
                 title={theme === "dark" ? "Passer au thème clair" : "Passer au thème sombre"}
               >
                 <span className="flex items-center gap-2">
@@ -663,23 +671,20 @@ export default function Header({ className = "" }: HeaderProps) {
                     </>
                   )}
                 </span>
-                <span className={`text-[9px] font-black uppercase px-2 py-0.5 rounded ${
-                  theme === "light" ? "bg-black/10 text-gray-600" : "bg-white/10 text-gray-400"
-                }`}>
+                <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded mobile-drawer-badge">
                   ACTIF
                 </span>
               </button>
 
               {/* Bottom contact signature */}
-              <div className={`text-[10px] flex justify-between items-center pb-2 ${
-                theme === "light" ? "text-gray-500" : "text-gray-600"
-              }`}>
+              <div className="text-[10px] flex justify-between items-center pb-2 mobile-drawer-header">
                 <span>Spoolio V2 - Fait avec passion</span>
                 <span className="text-[8px] opacity-40">v2.0</span>
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </header>
   );

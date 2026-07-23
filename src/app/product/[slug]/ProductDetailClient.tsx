@@ -508,38 +508,38 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-[1200px] w-full mx-auto px-6 py-12">
+      <main className="flex-1 max-w-[1200px] w-full mx-auto px-6 py-6 lg:py-12">
         {/* Breadcrumb Navigation (Fil d'Ariane) */}
-        <nav className="flex items-center flex-wrap gap-2 text-xs font-semibold text-gray-400 mb-8 font-sans select-none">
-          <Link href="/" className="hover:text-white transition-colors duration-200">
+        <nav className="flex items-center gap-1.5 text-[11px] lg:text-xs font-semibold text-gray-400 mb-3 lg:mb-8 font-sans select-none overflow-hidden whitespace-nowrap">
+          <Link href="/" className="hover:text-white transition-colors shrink-0">
             Accueil
           </Link>
-          <span className="text-gray-600 font-bold">/</span>
-          <Link href="/" className="hover:text-white transition-colors duration-200">
+          <span className="text-gray-600 font-bold shrink-0">/</span>
+          <Link href="/" className="hover:text-white transition-colors shrink-0">
             Boutique
           </Link>
           {Array.isArray(product.categories) && product.categories.length > 0 && (
             <>
-              <span className="text-gray-600 font-bold">/</span>
+              <span className="text-gray-600 font-bold shrink-0">/</span>
               <Link 
                 href={`/categorie/${encodeURIComponent(product.categories[0].name)}`} 
-                className="text-gray-400 hover:text-white transition-colors duration-200"
+                className="text-gray-400 hover:text-white transition-colors shrink-0 max-w-[100px] sm:max-w-none truncate"
               >
                 {product.categories[0].name}
               </Link>
             </>
           )}
-          <span className="text-gray-600 font-bold">/</span>
-          <span className="text-white font-black truncate max-w-[200px] md:max-w-xs">
+          <span className="text-gray-600 font-bold shrink-0">/</span>
+          <span className="text-white font-bold truncate">
             {product.name}
           </span>
         </nav>
 
         {/* 2-Column Product Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-16">
           {/* Left Column: Image Container with zoom aspect-ratio & thumbnails */}
           <div className="flex flex-col">
-            <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-black/40 border border-spoolio-border p-2 animate-none">
+            <div className="relative w-screen lg:w-full left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 aspect-square rounded-none lg:rounded-2xl overflow-hidden bg-black/40 border-0 lg:border lg:border-spoolio-border p-0 lg:p-2">
               <div
                 onClick={() => setIsLightboxOpen(true)}
                 onTouchStart={onTouchStart}
@@ -548,7 +548,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                 onMouseMove={handleMouseMove}
                 onMouseEnter={() => setIsZooming(true)}
                 onMouseLeave={() => setIsZooming(false)}
-                className="relative w-full h-full rounded-xl overflow-hidden bg-spoolio-card cursor-zoom-in select-none touch-pan-y group/gallery"
+                className="relative w-full h-full rounded-none lg:rounded-xl overflow-hidden bg-spoolio-card cursor-zoom-in select-none touch-pan-y group/gallery"
               >
                 {hasImage ? (
                   <div

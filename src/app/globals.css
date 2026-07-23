@@ -1059,5 +1059,86 @@ html.light .admin-tab-active {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
 }
 
+/* Mobile Drawer Theme Rules */
+.mobile-drawer-bg {
+  background-color: #0d0d0f;
+  color: #ffffff;
+  border-color: #1f1f23;
+}
+html.light .mobile-drawer-bg {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #e5e7eb !important;
+}
+
+.mobile-drawer-link {
+  color: #e5e7eb;
+}
+html.light .mobile-drawer-link {
+  color: #0f172a !important;
+}
+html.light .mobile-drawer-link:hover {
+  background-color: #f1f5f9 !important;
+  color: #000000 !important;
+}
+
+.mobile-drawer-header {
+  color: #6b7280;
+}
+html.light .mobile-drawer-header {
+  color: #64748b !important;
+}
+
+.mobile-drawer-arrow {
+  color: #4b5563;
+}
+html.light .mobile-drawer-arrow {
+  color: #94a3b8 !important;
+}
+
+.mobile-drawer-border {
+  border-color: rgba(255, 255, 255, 0.05);
+}
+html.light .mobile-drawer-border {
+  border-color: #e5e7eb !important;
+}
+
+.mobile-drawer-btn {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+html.light .mobile-drawer-btn {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 !important;
+}
+
+.mobile-drawer-close {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #9ca3af;
+}
+html.light .mobile-drawer-close {
+  background-color: #f1f5f9 !important;
+  color: #334155 !important;
+}
+
+.mobile-drawer-badge {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #9ca3af;
+}
+html.light .mobile-drawer-badge {
+  background-color: #e2e8f0 !important;
+  color: #475569 !important;
+}
+
+.mobile-drawer-logo {
+  filter: none;
+}
+html.light .mobile-drawer-logo {
+  filter: invert(1) !important;
+}
+
+
 
 
