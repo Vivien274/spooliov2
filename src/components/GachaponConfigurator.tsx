@@ -96,6 +96,45 @@ const JAR_STOCK_BALLS = [
   { id: "b20", cat: "jeux", color: "#B026FF", icon: "⭐" },
 ];
 
+/** Modern Bi-Color Dual-Shell Japanese Gachapon Capsule Component */
+function ModernGachaponCapsule({
+  color,
+  icon,
+  sizeClass = "w-8 h-8 sm:w-9 sm:h-9",
+}: {
+  color: string;
+  icon: string;
+  sizeClass?: string;
+}) {
+  return (
+    <div
+      className={`relative ${sizeClass} rounded-full overflow-hidden flex items-center justify-center border border-white/30 select-none shrink-0 shadow-md`}
+      style={{
+        boxShadow: `0 4px 12px ${color}35, inset 0 1px 2px rgba(255,255,255,0.5)`,
+      }}
+    >
+      {/* Top Shell: Frosted Semi-Translucent Glass Half */}
+      <div className="absolute top-0 inset-x-0 h-[48%] bg-white/30 backdrop-blur-[1px] border-b border-black/20 z-0" />
+      
+      {/* Bottom Shell: Rich Vibrant Color */}
+      <div
+        className="absolute bottom-0 inset-x-0 h-[52%] z-0"
+        style={{
+          backgroundColor: color,
+        }}
+      />
+
+      {/* Top Specular Arc Highlight */}
+      <div className="absolute top-1 left-1.5 w-2.5 h-1 rounded-full bg-white/60 blur-[0.5px] z-10 pointer-events-none" />
+
+      {/* Category Icon */}
+      <span className="relative z-20 text-xs sm:text-sm drop-shadow-sm select-none">
+        {icon}
+      </span>
+    </div>
+  );
+}
+
 export interface GachaponConfiguratorProps {
   onAddToCart?: (config: {
     size: number;
@@ -381,7 +420,7 @@ export default function GachaponConfigurator({
               {/* 1. COUVERCLE METALLIQUE SOMBRE DISCRET */}
               <div className="w-36 h-3 rounded-t-xl bg-neutral-800 border-t border-x border-neutral-700 shadow-sm z-20" />
 
-              {/* 2. BOCAL CYLINDRIQUE VITRÉ ELEGANT (Fond sombre translucide, border 1px neutral-700, backdrop-blur) */}
+              {/* 2. BOCAL CYLINDRIQUE VITRÉ ELEGANT */}
               <motion.div
                 animate={isShaking ? { x: [-2, 2, -2, 2, 0], y: [-1, 1, -1, 1, 0] } : {}}
                 transition={{ duration: 0.4 }}
@@ -391,24 +430,16 @@ export default function GachaponConfigurator({
                 <div className="absolute top-0 left-0 right-0 h-28 bg-gradient-to-b from-white/10 to-transparent pointer-events-none z-20" />
                 <div className="absolute top-4 left-4 w-20 h-40 bg-white/5 rounded-full blur-md rotate-[-15deg] pointer-events-none z-20" />
 
-                {/* INNER CONTAINER FOR BALLS (flex flex-wrap-reverse align-content-flex-start to pool strictly at BOTTOM) */}
+                {/* INNER CONTAINER FOR BALLS (flex wrap-reverse gravity stack) */}
                 <div className="w-full flex flex-wrap-reverse align-content-flex-start justify-center gap-2.5 p-2 relative z-10">
                   {JAR_STOCK_BALLS.map((item) => (
                     <motion.div
                       key={item.id}
                       animate={isShaking ? { y: [0, -4, 0, -2, 0] } : {}}
                       transition={{ duration: 0.4 }}
-                      className="w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-xs shadow-md border border-white/20 select-none shrink-0"
-                      style={{
-                        background: `radial-gradient(circle at 35% 35%, ${item.color}, #09090b 80%)`,
-                      }}
+                      className="shrink-0"
                     >
-                      {/* Seam line */}
-                      <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1px] bg-black/40" />
-                      {/* Glossy shine */}
-                      <div className="absolute top-1 left-1.5 w-2.5 h-1.5 rounded-full bg-white/40 blur-[0.5px]" />
-                      {/* Icon */}
-                      <span className="relative z-10 opacity-90">{item.icon}</span>
+                      <ModernGachaponCapsule color={item.color} icon={item.icon} />
                     </motion.div>
                   ))}
                 </div>
@@ -477,15 +508,11 @@ export default function GachaponConfigurator({
                               type: "spring",
                               stiffness: 280,
                               damping: 16,
-                              delay: i * 0.1, // Slide into tray 1-by-1
+                              delay: i * 0.1,
                             }}
-                            className="w-7 h-7 rounded-full flex items-center justify-center text-xs border border-white/30 shadow-md shrink-0"
-                            style={{
-                              background: `radial-gradient(circle at 35% 35%, ${catCfg.color}, #09090b 85%)`,
-                            }}
-                            title={`${catCfg.name}`}
+                            className="shrink-0"
                           >
-                            <span>{catCfg.icon}</span>
+                            <ModernGachaponCapsule color={catCfg.color} icon={catCfg.icon} sizeClass="w-7 h-7" />
                           </motion.div>
                         );
                       })}
