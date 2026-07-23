@@ -11,7 +11,8 @@ export interface GachaponCategoryConfig {
   key: GachaponCategoryKey;
   name: string;
   icon: string;
-  color: string;
+  colorStart: string;
+  colorEnd: string;
 }
 
 export const GACHAPON_CATEGORIES: Record<GachaponCategoryKey, GachaponCategoryConfig> = {
@@ -19,25 +20,29 @@ export const GACHAPON_CATEGORIES: Record<GachaponCategoryKey, GachaponCategoryCo
     key: "figurines",
     name: "Figurines & Animaux",
     icon: "🐉",
-    color: "#00F0FF",
+    colorStart: "#00F0FF",
+    colorEnd: "#0077FF",
   },
   fidgets: {
     key: "fidgets",
     name: "Fidgets & Stimulation",
     icon: "⌨️",
-    color: "#FF5500",
+    colorStart: "#FF5500",
+    colorEnd: "#FF8800",
   },
   gadgets: {
     key: "gadgets",
     name: "Porte-clés & Gadgets",
     icon: "🗝️",
-    color: "#00FF66",
+    colorStart: "#00FF66",
+    colorEnd: "#009933",
   },
   jeux: {
     key: "jeux",
     name: "Mini-jeux & Déco",
     icon: "🎲",
-    color: "#B026FF",
+    colorStart: "#B026FF",
+    colorEnd: "#6600CC",
   },
 };
 
@@ -74,58 +79,60 @@ export const GACHAPON_SIZES: GachaponSizeOption[] = [
 
 // Rich colorful stock inside the glass jar (gravity-pooled at bottom)
 const JAR_STOCK_BALLS = [
-  { id: "b1", cat: "figurines", color: "#00F0FF", icon: "🐉" },
-  { id: "b2", cat: "fidgets", color: "#FF5500", icon: "⌨️" },
-  { id: "b3", cat: "gadgets", color: "#00FF66", icon: "🗝️" },
-  { id: "b4", cat: "jeux", color: "#B026FF", icon: "🎲" },
-  { id: "b5", cat: "figurines", color: "#00F0FF", icon: "🐉" },
-  { id: "b6", cat: "fidgets", color: "#FF5500", icon: "⌨️" },
-  { id: "b7", cat: "gadgets", color: "#00FF66", icon: "🗝️" },
-  { id: "b8", cat: "jeux", color: "#B026FF", icon: "🎲" },
-  { id: "b9", cat: "figurines", color: "#00F0FF", icon: "🦄" },
-  { id: "b10", cat: "fidgets", color: "#FF5500", icon: "🌟" },
-  { id: "b11", cat: "gadgets", color: "#00FF66", icon: "🗝️" },
-  { id: "b12", cat: "jeux", color: "#B026FF", icon: "🎲" },
-  { id: "b13", cat: "figurines", color: "#00F0FF", icon: "🐉" },
-  { id: "b14", cat: "fidgets", color: "#FF5500", icon: "⌨️" },
-  { id: "b15", cat: "gadgets", color: "#00FF66", icon: "✨" },
-  { id: "b16", cat: "jeux", color: "#B026FF", icon: "🎲" },
-  { id: "b17", cat: "figurines", color: "#00F0FF", icon: "🐉" },
-  { id: "b18", cat: "fidgets", color: "#FF5500", icon: "💖" },
-  { id: "b19", cat: "gadgets", color: "#00FF66", icon: "🗝️" },
-  { id: "b20", cat: "jeux", color: "#B026FF", icon: "⭐" },
+  { id: "b1", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉" },
+  { id: "b2", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "⌨️" },
+  { id: "b3", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️" },
+  { id: "b4", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲" },
+  { id: "b5", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉" },
+  { id: "b6", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "⌨️" },
+  { id: "b7", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️" },
+  { id: "b8", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲" },
+  { id: "b9", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🦄" },
+  { id: "b10", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "🌟" },
+  { id: "b11", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️" },
+  { id: "b12", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲" },
+  { id: "b13", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉" },
+  { id: "b14", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "⌨️" },
+  { id: "b15", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "✨" },
+  { id: "b16", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "🎲" },
+  { id: "b17", cat: "figurines", colorStart: "#00F0FF", colorEnd: "#0077FF", icon: "🐉" },
+  { id: "b18", cat: "fidgets", colorStart: "#FF5500", colorEnd: "#FF8800", icon: "💖" },
+  { id: "b19", cat: "gadgets", colorStart: "#00FF66", colorEnd: "#009933", icon: "🗝️" },
+  { id: "b20", cat: "jeux", colorStart: "#B026FF", colorEnd: "#6600CC", icon: "⭐" },
 ];
 
-/** Modern Bi-Color Dual-Shell Japanese Gachapon Capsule Component */
+/** Modern Premium Dual-Shell Japanese Gachapon Capsule Component */
 function ModernGachaponCapsule({
-  color,
+  colorStart,
+  colorEnd,
   icon,
   sizeClass = "w-8 h-8 sm:w-9 sm:h-9",
 }: {
-  color: string;
+  colorStart: string;
+  colorEnd: string;
   icon: string;
   sizeClass?: string;
 }) {
   return (
     <div
-      className={`relative ${sizeClass} rounded-full overflow-hidden flex items-center justify-center border border-white/30 select-none shrink-0 shadow-md`}
+      className={`relative ${sizeClass} rounded-full overflow-hidden flex items-center justify-center border border-white/35 select-none shrink-0 shadow-md group`}
       style={{
-        boxShadow: `0 4px 12px ${color}35, inset 0 1px 2px rgba(255,255,255,0.5)`,
+        boxShadow: `0 4px 10px ${colorStart}40, inset 0 -3px 6px rgba(0,0,0,0.35), inset 0 2px 4px rgba(255,255,255,0.7)`,
       }}
     >
-      {/* Top Shell: Frosted Semi-Translucent Glass Half */}
-      <div className="absolute top-0 inset-x-0 h-[48%] bg-white/30 backdrop-blur-[1px] border-b border-black/20 z-0" />
+      {/* Top Shell: Frosted Translucent Glass Half */}
+      <div className="absolute top-0 inset-x-0 h-[48%] bg-white/35 backdrop-blur-[1px] border-b border-black/25 z-0" />
       
-      {/* Bottom Shell: Rich Vibrant Color */}
+      {/* Bottom Shell: Rich Saturated Filament Gradient */}
       <div
         className="absolute bottom-0 inset-x-0 h-[52%] z-0"
         style={{
-          backgroundColor: color,
+          background: `linear-gradient(to right, ${colorStart}, ${colorEnd})`,
         }}
       />
 
       {/* Top Specular Arc Highlight */}
-      <div className="absolute top-1 left-1.5 w-2.5 h-1 rounded-full bg-white/60 blur-[0.5px] z-10 pointer-events-none" />
+      <div className="absolute top-0.5 left-1.5 w-3 h-1.5 rounded-full bg-white/70 blur-[0.5px] z-10 pointer-events-none" />
 
       {/* Category Icon */}
       <span className="relative z-20 text-xs sm:text-sm drop-shadow-sm select-none">
@@ -439,7 +446,11 @@ export default function GachaponConfigurator({
                       transition={{ duration: 0.4 }}
                       className="shrink-0"
                     >
-                      <ModernGachaponCapsule color={item.color} icon={item.icon} />
+                      <ModernGachaponCapsule
+                        colorStart={item.colorStart}
+                        colorEnd={item.colorEnd}
+                        icon={item.icon}
+                      />
                     </motion.div>
                   ))}
                 </div>
@@ -488,8 +499,8 @@ export default function GachaponConfigurator({
                   </div>
                 </div>
 
-                {/* BAC DE SORTIE RECEPTACLE (CAPSULES SLIDE INTO TRAY ONE BY ONE) */}
-                <div className="w-full min-h-[44px] rounded-xl bg-neutral-950 border border-neutral-800 p-2 flex items-center justify-center gap-1.5 flex-wrap overflow-hidden">
+                {/* BAC DE SORTIE RECEPTACLE (ALIGNEMENT DES VRAIES MINI CAPSULES DANS LE BAC) */}
+                <div className="w-full min-h-[46px] rounded-xl bg-neutral-950 border border-neutral-800 p-2 flex items-center justify-center gap-2 flex-wrap overflow-hidden">
                   {selectedCapsulesList.length === 0 ? (
                     <span className="text-[10px] text-neutral-500 font-mono italic">
                       Bac de sortie vide... Choisis tes capsules
@@ -501,18 +512,23 @@ export default function GachaponConfigurator({
                         return (
                           <motion.div
                             key={`tray-${cap.id}`}
-                            initial={{ y: -30, opacity: 0, scale: 0.2, rotate: -20 }}
+                            initial={{ y: -25, opacity: 0, scale: 0.3, rotate: -20 }}
                             animate={{ y: 0, opacity: 1, scale: 1, rotate: 0 }}
-                            exit={{ y: 20, opacity: 0, scale: 0.2 }}
+                            exit={{ y: 20, opacity: 0, scale: 0.3 }}
                             transition={{
                               type: "spring",
-                              stiffness: 280,
-                              damping: 16,
-                              delay: i * 0.1,
+                              stiffness: 300,
+                              damping: 18,
+                              delay: i * 0.08,
                             }}
                             className="shrink-0"
                           >
-                            <ModernGachaponCapsule color={catCfg.color} icon={catCfg.icon} sizeClass="w-7 h-7" />
+                            <ModernGachaponCapsule
+                              colorStart={catCfg.colorStart}
+                              colorEnd={catCfg.colorEnd}
+                              icon={catCfg.icon}
+                              sizeClass="w-7 h-7 sm:w-8 sm:h-8"
+                            />
                           </motion.div>
                         );
                       })}
@@ -524,15 +540,15 @@ export default function GachaponConfigurator({
             </div>
           </div>
 
-          {/* COLONNE DROITE (4 cols) : ÉTAPE 2 - DOSAGE & PANIER */}
-          <div className="lg:col-span-4 flex flex-col gap-5">
+          {/* COLONNE DROITE (4 cols) : ÉTAPE 2 - DOSAGE ÉPURÉ & PANIER */}
+          <div className="lg:col-span-4 flex flex-col gap-4">
             <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 flex items-center gap-2">
               <span className="w-5 h-5 rounded-full bg-neutral-800 text-white text-[11px] flex items-center justify-center font-bold">2</span>
               Étape 2 : Doser les catégories
             </h3>
 
-            {/* Category Rows */}
-            <div className="flex flex-col gap-3">
+            {/* Category Rows (Épurées: Icône + Nom à gauche | +/- à droite) */}
+            <div className="flex flex-col gap-2.5">
               {(Object.keys(GACHAPON_CATEGORIES) as GachaponCategoryKey[]).map((catKey) => {
                 const cat = GACHAPON_CATEGORIES[catKey];
                 const count = distribution[catKey] || 0;
@@ -541,10 +557,10 @@ export default function GachaponConfigurator({
                 return (
                   <div
                     key={cat.key}
-                    className="rounded-2xl p-3.5 bg-neutral-900/40 border border-neutral-800 flex items-center justify-between gap-3"
+                    className="rounded-xl p-3 bg-neutral-900/40 border border-neutral-800 flex items-center justify-between gap-3"
                   >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <span className="text-xl shrink-0">{cat.icon}</span>
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="text-lg shrink-0">{cat.icon}</span>
                       <span className="text-sm font-bold text-white truncate">
                         {cat.name}
                       </span>
@@ -556,12 +572,12 @@ export default function GachaponConfigurator({
                         type="button"
                         onClick={() => handleRemoveCapsule(catKey)}
                         disabled={count <= 0}
-                        className="w-8 h-8 rounded-lg bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-25 disabled:pointer-events-none text-white font-bold text-base flex items-center justify-center cursor-pointer transition-colors"
+                        className="w-7 h-7 rounded-lg bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 disabled:pointer-events-none text-white font-bold text-sm flex items-center justify-center cursor-pointer transition-colors"
                       >
                         -
                       </button>
 
-                      <span className="w-6 text-center font-mono font-bold text-sm text-white">
+                      <span className="w-5 text-center font-mono font-bold text-sm text-white">
                         {count}
                       </span>
 
@@ -569,10 +585,10 @@ export default function GachaponConfigurator({
                         type="button"
                         onClick={() => handleAddCapsule(catKey)}
                         disabled={isMaxReached}
-                        className="w-8 h-8 rounded-lg border disabled:opacity-25 disabled:pointer-events-none text-black font-bold text-base flex items-center justify-center cursor-pointer transition-colors"
+                        className="w-7 h-7 rounded-lg border disabled:opacity-20 disabled:pointer-events-none text-black font-bold text-sm flex items-center justify-center cursor-pointer transition-colors shadow-sm"
                         style={{
-                          backgroundColor: cat.color,
-                          borderColor: cat.color,
+                          backgroundColor: cat.colorEnd,
+                          borderColor: cat.colorEnd,
                         }}
                       >
                         +
@@ -584,7 +600,7 @@ export default function GachaponConfigurator({
             </div>
 
             {/* Quota Progress Bar */}
-            <div className="p-3 rounded-2xl bg-neutral-900/30 border border-neutral-800 flex flex-col gap-2">
+            <div className="p-3 rounded-xl bg-neutral-900/30 border border-neutral-800 flex flex-col gap-1.5">
               <div className="flex justify-between items-center text-xs font-mono">
                 <span className="text-neutral-400">Progression</span>
                 <span className={isQuotaReached ? "text-[#00FF66] font-bold" : "text-[#FF5500]"}>
@@ -604,7 +620,7 @@ export default function GachaponConfigurator({
               type="button"
               onClick={handleAddToCart}
               disabled={!isQuotaReached}
-              className={`w-full py-4 px-6 rounded-2xl font-extrabold text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer mt-2 ${
+              className={`w-full py-3.5 px-5 rounded-xl font-extrabold text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer mt-1 ${
                 isQuotaReached
                   ? "bg-[#FF5500] hover:bg-[#ff661a] text-black shadow-lg shadow-[#FF5500]/20 hover:scale-[1.02]"
                   : "bg-neutral-800 text-neutral-500 border border-neutral-700 cursor-not-allowed"
