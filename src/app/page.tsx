@@ -189,7 +189,7 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="relative min-h-screen bg-[#09090b] text-white font-sans flex flex-col items-center selection:bg-[#FF5500] selection:text-black overflow-x-hidden">
+    <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
       {/* Background Decorative Glows */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <div
@@ -248,8 +248,8 @@ export default async function HomePage() {
       </section>
 
       {/* 2. Ticker Marquee */}
-      <section className="w-full bg-spoolio-bg py-3 overflow-hidden border-b border-[#1f1f23] mb-6">
-        <div className="flex whitespace-nowrap animate-marquee text-[10px] tracking-widest text-white font-semibold gap-8 select-none font-sans">
+      <section className="w-full bg-[#FF5500] py-3.5 overflow-hidden border-y border-[#FF5500] mb-6 shadow-md select-none">
+        <div className="flex whitespace-nowrap animate-marquee text-xs tracking-widest text-black font-extrabold uppercase gap-8 font-[family-name:var(--font-antonio)]">
           <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
           <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
         </div>
