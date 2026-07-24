@@ -266,7 +266,7 @@ export default function BoussoleSensoriellePage() {
 
   return (
     <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center overflow-x-hidden">
-      <Header />
+      <Header className="relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full" />
 
       {/* Hero Header */}
       <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-12 md:py-16 flex flex-col justify-center relative z-10">

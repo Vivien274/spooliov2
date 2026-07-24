@@ -11,7 +11,9 @@ interface HeaderProps {
   className?: string;
 }
 
-export default function Header({ className = "" }: HeaderProps) {
+export default function Header({ 
+  className = "relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full" 
+}: HeaderProps) {
   const { locale, setLocale, t } = useTranslation();
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
