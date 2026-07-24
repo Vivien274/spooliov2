@@ -230,7 +230,7 @@ export default function Header({ className = "" }: HeaderProps) {
         <Link href="/pochette-surprise" className="hover:opacity-80 cursor-pointer transition-colors text-white font-bold flex items-center gap-1">
           <span>Les pochettes surprise</span>
         </Link>
-        <a href="https://boussole.spoolio.fr" target="_blank" rel="noopener noreferrer" className="hover:text-white cursor-pointer transition-colors">Boussole Sensorielle</a>
+        <Link href="/boussole-sensorielle" className="hover:text-white cursor-pointer transition-colors">Boussole Sensorielle</Link>
         <Link href="/blog" className="hover:text-white cursor-pointer transition-colors">{t("header.about")}</Link>
         <Link href="/don" className="hover:text-white cursor-pointer transition-colors text-[#ff4f00] font-bold">{t("home.donation.button")} 🧡</Link>
 
@@ -621,14 +621,13 @@ export default function Header({ className = "" }: HeaderProps) {
                     Découvrir
                   </span>
                   <div className="flex flex-col gap-2">
-                    <a 
-                      href="https://boussole.spoolio.fr" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
+                    <Link 
+                      href="/boussole-sensorielle" 
+                      onClick={() => setIsMobileMenuOpen(false)}
                       className="px-3 py-2 text-xs font-bold rounded-lg block transition-colors mobile-drawer-link"
                     >
                       🧩 Boussole Sensorielle
-                    </a>
+                    </Link>
                     <Link 
                       href="/pro" 
                       onClick={() => setIsMobileMenuOpen(false)}
