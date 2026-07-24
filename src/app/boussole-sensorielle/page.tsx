@@ -317,7 +317,7 @@ export default function BoussoleSensoriellePage() {
                 transition-all duration-300 cursor-pointer
                 ${
                   activeTab === 'compass'
-                    ? 'bg-[#FF5500] text-black font-extrabold shadow-lg shadow-[#FF5500]/25'
+                    ? 'bg-[#005cff] text-white font-extrabold shadow-lg shadow-[#005cff]/25'
                     : 'text-neutral-400 hover:text-white'
                 }
               `}

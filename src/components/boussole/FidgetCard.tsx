@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ShoppingCart, Keyboard, Infinity as InfinityIcon, Puzzle, Waves } from 'lucide-react';
 import { FidgetProduct } from '@/types/boussole';
 
@@ -13,91 +14,100 @@ const categoryMeta = {
   cliquer: {
     label: 'Cliquer',
     icon: Keyboard,
-    colorClass: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
   },
   manipuler: {
     label: 'Manipuler',
     icon: InfinityIcon,
-    colorClass: 'bg-pink-500/20 text-pink-300 border-pink-500/30',
   },
   resoudre: {
     label: 'Résoudre',
     icon: Puzzle,
-    colorClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30',
   },
   caresser: {
     label: 'Caresser',
     icon: Waves,
-    colorClass: 'bg-amber-400/20 text-amber-200 border-amber-400/30',
   },
 };
 
 export default function FidgetCard({ product }: FidgetCardProps) {
+  const [tiltStyle, setTiltStyle] = useState<React.CSSProperties>({});
+
   const meta = categoryMeta[product.category] || {
     label: product.category,
     icon: Puzzle,
-    colorClass: 'bg-slate-700/50 text-slate-300 border-slate-600',
   };
   const IconComponent = meta.icon;
 
-  // Direct internal route in SpoolioV2
   const productUrl = `/product/${product.id}`;
 
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const card = e.currentTarget;
+    const box = card.getBoundingClientRect();
+    const x = e.clientX - box.left - box.width / 2;
+    const y = e.clientY - box.top - box.height / 2;
+    
+    const rotateX = -(y / (box.height / 2)) * 6;
+    const rotateY = (x / (box.width / 2)) * 6;
+    
+    setTiltStyle({
+      transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`,
+      transition: "transform 0.05s ease-out",
+      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4)"
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setTiltStyle({
+      transform: "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
+      transition: "transform 0.5s ease"
+    });
+  };
+
   return (
-    <article
-      className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-[#131316] transition-all duration-300 hover:border-neutral-300 dark:hover:border-neutral-700 hover:shadow-xl"
+    <Link
+      href={productUrl}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={tiltStyle}
+      className="group relative flex flex-col justify-between h-full bg-spoolio-card border border-[#1f1f23] rounded-[30px] overflow-hidden transition-all duration-300 hover:border-white shadow-lg shadow-black/30 card-holographic"
     >
-      {/* Product Image Container */}
-      <div className="relative aspect-4/3 w-full overflow-hidden bg-neutral-100 dark:bg-neutral-900">
-        {/* Category Pill Tag */}
-        <div className="absolute top-4 left-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold backdrop-blur-md transition-all duration-300 group-hover:scale-105 shadow-md select-none bg-white/90 dark:bg-black/80 border-neutral-200 dark:border-neutral-800 text-neutral-800 dark:text-neutral-200">
-          <IconComponent className="w-3.5 h-3.5" />
-          <span>{meta.label}</span>
+      <div className="flex flex-col">
+        {/* Image Container with square aspect ratio */}
+        <div className="relative w-full aspect-square bg-black/20 border-b border-spoolio-border/30 overflow-hidden">
+          {/* Top-Left Yellow Tag Badge (Spoolio.fr style) */}
+          <div className="absolute top-4 left-4 px-3 py-1.5 text-[10px] font-bold bg-[#f7eb12] text-black rounded-full shadow-md z-10 no-invert flex items-center gap-1.5">
+            <IconComponent className="w-3.5 h-3.5" />
+            <span>{meta.label}</span>
+          </div>
+
+          {/* Product Image */}
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            loading="lazy"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05] no-invert"
+          />
         </div>
 
-        {/* Price Tag */}
-        <div className="absolute top-4 right-4 z-10 px-3 py-1.5 rounded-full bg-[#FF5500] text-black font-black text-sm shadow-md select-none">
-          {product.price}
-        </div>
+        {/* Content Container (Title, Description) */}
+        <div className="flex flex-col gap-2.5 p-6 pb-0 font-[family-name:var(--font-plus-jakarta)]">
+          <h3 className="text-[18px] font-bold text-white transition-colors duration-200 group-hover:text-[#005cff]">
+            {product.name}
+          </h3>
 
-        {/* Product Image */}
-        <img
-          src={product.imageUrl}
-          alt={product.name}
-          loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-        />
-
-        {/* Image overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-[#131316] via-transparent to-transparent opacity-60" />
-      </div>
-
-      {/* Product Details */}
-      <div className="flex flex-col flex-grow p-6">
-        <h3 className="text-xl font-bold text-neutral-900 dark:text-white leading-tight tracking-wide group-hover:text-[#FF5500] transition-colors duration-200">
-          {product.name}
-        </h3>
-
-        <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400 flex-grow">
-          {product.description}
-        </p>
-
-        {/* Fixed SpoolioV2 Product Route Button */}
-        <div className="mt-6">
-          <Link
-            href={productUrl}
-            className="
-              relative flex items-center justify-center gap-2.5 w-full py-3.5 px-6 rounded-2xl
-              font-extrabold text-sm tracking-wider uppercase transition-all duration-300 select-none
-              bg-[#FF5500] hover:bg-[#ff661a] text-black shadow-lg hover:shadow-[#FF5500]/25 active:scale-95
-              border border-amber-300
-            "
-          >
-            <ShoppingCart className="w-4 h-4" />
-            <span>Personnaliser &amp; Acheter</span>
-          </Link>
+          <p className="text-[14px] text-gray-400 line-clamp-2 leading-relaxed">
+            {product.description}
+          </p>
         </div>
       </div>
-    </article>
+
+      {/* Blue Action Button (Spoolio.fr style) */}
+      <div className="p-6 pt-5">
+        <div className="w-full h-[50px] inline-flex items-center justify-center gap-2 px-4 text-sm font-extrabold text-white bg-[#005cff] hover:bg-[#004ecc] rounded-xl transition-colors shadow-[0_4px_10px_rgba(0,92,255,0.2)] select-none cursor-pointer no-invert">
+          <ShoppingCart className="w-4 h-4" />
+          <span>Personnaliser &amp; Acheter • {product.price}</span>
+        </div>
+      </div>
+    </Link>
   );
 }

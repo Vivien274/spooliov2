@@ -206,7 +206,7 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
 
           <button
             onClick={() => setStep(1)}
-            className="inline-flex items-center gap-2 py-4 px-8 rounded-2xl bg-[#FF5500] hover:bg-[#ff661a] text-black font-extrabold text-base uppercase tracking-wider shadow-lg hover:shadow-[#FF5500]/25 transition-all cursor-pointer active:scale-95 border border-amber-300"
+            className="inline-flex items-center gap-2 py-4 px-8 rounded-2xl bg-[#005cff] hover:bg-[#004ecc] text-white font-extrabold text-base uppercase tracking-wider shadow-lg hover:shadow-[#005cff]/25 transition-all cursor-pointer active:scale-95 border border-blue-400"
           >
             <span>Démarrer le Test (30 secondes)</span>
             <ArrowRight className="w-5 h-5" />
@@ -377,7 +377,7 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
                   {/* Fixed product CTA route to SpoolioV2 product page */}
                   <Link
                     href={`/product/${product.id}`}
-                    className="w-full py-3 px-4 rounded-xl bg-[#FF5500] hover:bg-[#ff661a] text-black font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-all border border-amber-300"
+                    className="w-full py-3 px-4 rounded-xl bg-[#005cff] hover:bg-[#004ecc] text-white font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-all border border-blue-400"
                   >
                     <ShoppingCart className="w-4 h-4" />
                     <span>Personnaliser &amp; Acheter</span>
