@@ -136,7 +136,20 @@ export default function ProductFormClient({ productId, isNew }: Props) {
   });
   const [newTag, setNewTag] = useState("");
   const [saved, setSaved] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [activeImageDropdownIdx, setActiveImageDropdownIdx] = useState<number | null>(null);
+
+  const slugify = (str: string): string => {
+    if (!str) return "";
+    return str
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-")
+      .replace(/[^a-z0-9-]/g, "")
+      .replace(/-+/g, "-");
+  };
 
   // Predefined attributes & dynamic categories states
   const [predefinedAttributes, setPredefinedAttributes] = useState<{ id: number; name: string; values: string; controlType?: string }[]>([]);
@@ -473,6 +486,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
       return;
     }
 
+    setIsSaving(true);
     try {
       const res = await fetch(`/api/products/${targetId}`, {
         method: "PUT",
@@ -498,6 +512,8 @@ export default function ProductFormClient({ productId, isNew }: Props) {
     } catch (err: any) {
       console.error("Save error:", err);
       alert(`Erreur réseau lors de la sauvegarde : ${err.message}`);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -552,26 +568,38 @@ export default function ProductFormClient({ productId, isNew }: Props) {
           </select>
 
           <button
+            type="button"
+            disabled={isSaving}
             onClick={handleSave}
             className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition-all cursor-pointer ${
-              saved
+              isSaving
+                ? "bg-[#2F3CD9] text-white opacity-90 cursor-wait shadow-md"
+                : saved
                 ? "bg-emerald-500 text-white"
                 : "bg-white text-black hover:bg-white/90 shadow-lg shadow-white/5"
             }`}
           >
-            {saved ? (
+            {isSaving ? (
+              <>
+                <svg className="w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                <span>Sauvegarde en cours...</span>
+              </>
+            ) : saved ? (
               <>
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                 </svg>
-                Sauvegardé
+                <span>Sauvegardé</span>
               </>
             ) : (
               <>
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
                 </svg>
-                Sauvegarder
+                <span>Sauvegarder</span>
               </>
             )}
           </button>
@@ -593,9 +621,9 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                 value={form.name}
                 onChange={(v) => {
                   set("name")(v);
-                  set("slug")(v.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, ""));
+                  set("slug")(slugify(v));
                 }}
-                placeholder="Ex: Badge NFC Goofy"
+                placeholder="Ex: Fidget Iris Mécanique"
                 inputBg={cls.inputBg} border={cls.border} textMain={cls.textMain} textMuted={cls.textMuted}
               />
               <div className="flex flex-col gap-1.5">
@@ -1051,18 +1079,40 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                     ) : (
                       <div className="flex flex-col gap-3.5">
                         {(form.attributes?.attributes || []).map((attr, aIdx) => (
-                          <div key={aIdx} className={`flex flex-col gap-2 pb-3 border-b ${cls.border} last:border-0 last:pb-0`}>
-                            <div className="flex items-start justify-between w-full">
-                              <div className="flex flex-col gap-1">
-                                <span className={`text-xs font-bold ${cls.textMain}`}>{attr.name}</span>
-                                <div className="flex flex-wrap gap-1">
-                                  {attr.options.map((opt) => (
-                                    <span key={opt} className={`text-[10px] px-2 py-0.5 rounded bg-white/5 text-gray-400 border border-white/5`}>
-                                      {opt}
-                                    </span>
-                                  ))}
-                                </div>
+                          <div key={aIdx} className={`flex flex-col gap-3 p-3.5 rounded-2xl border ${cls.border} ${theme === "dark" ? "bg-white/[0.02]" : "bg-gray-50"}`}>
+                            {/* Header row: Editable Name & Delete */}
+                            <div className="flex items-center justify-between gap-3 flex-wrap">
+                              <div className="flex items-center gap-2 flex-1 min-w-[220px]">
+                                <span className={`text-xs font-bold ${cls.textMuted} shrink-0 uppercase tracking-wider`}>Nom :</span>
+                                <input
+                                  type="text"
+                                  value={attr.name}
+                                  onChange={(e) => {
+                                    const newName = e.target.value;
+                                    const oldName = attr.name;
+                                    const newAttrs = [...(form.attributes?.attributes || [])];
+                                    newAttrs[aIdx] = { ...newAttrs[aIdx], name: newName };
+
+                                    // Rename key in variationPrices combinations if changed
+                                    const newVarPrices = (form.attributes?.variationPrices || []).map((vp) => {
+                                      const combination = { ...vp.combination };
+                                      if (oldName in combination && oldName !== newName) {
+                                        combination[newName] = combination[oldName];
+                                        delete combination[oldName];
+                                      }
+                                      return { ...vp, combination };
+                                    });
+
+                                    set("attributes")({
+                                      attributes: newAttrs,
+                                      variationPrices: newVarPrices
+                                    });
+                                  }}
+                                  placeholder="Nom de l'attribut (ex: Couleur, Taille)"
+                                  className={`px-3 py-1.5 text-xs font-bold border rounded-xl ${cls.inputBg} ${cls.border} ${cls.textMain} focus:outline-none focus:border-[#2F3CD9]/50 flex-1`}
+                                />
                               </div>
+
                               <button
                                 type="button"
                                 onClick={() => {
@@ -1072,14 +1122,39 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                                     variationPrices: form.attributes?.variationPrices || []
                                   });
                                 }}
-                                className="text-red-400 hover:text-red-500 transition-colors text-[10px] cursor-pointer"
+                                className="text-red-400 hover:text-red-500 transition-colors text-xs font-bold cursor-pointer shrink-0"
                               >
                                 Supprimer
                               </button>
                             </div>
                             
-                            <div className="flex items-center gap-2">
-                              <span className={`text-[10px] ${cls.textMuted}`}>Affichage :</span>
+                            {/* Editable Options / Values line */}
+                            <div className="flex flex-col gap-1.5">
+                              <label className={`text-[11px] font-bold ${cls.textMuted} uppercase tracking-wider`}>
+                                Valeurs / Options (séparées par des virgules) :
+                              </label>
+                              <input
+                                type="text"
+                                value={attr.options.join(", ")}
+                                onChange={(e) => {
+                                  const optionsStr = e.target.value;
+                                  const newOptions = optionsStr.split(",").map(s => s.trim());
+                                  const newAttrs = [...(form.attributes?.attributes || [])];
+                                  newAttrs[aIdx] = { ...newAttrs[aIdx], options: newOptions };
+
+                                  set("attributes")({
+                                    attributes: newAttrs,
+                                    variationPrices: form.attributes?.variationPrices || []
+                                  });
+                                }}
+                                placeholder="Ex: Rouge, Bleu, Vert, Jaune"
+                                className={`px-3 py-1.5 text-xs border rounded-xl ${cls.inputBg} ${cls.border} ${cls.textMain} focus:outline-none focus:border-[#2F3CD9]/50`}
+                              />
+                            </div>
+
+                            {/* Control Type Selector */}
+                            <div className="flex items-center gap-2 pt-1">
+                              <span className={`text-[10px] font-semibold ${cls.textMuted}`}>Affichage :</span>
                               <select
                                 value={attr.controlType || "default"}
                                 onChange={(e) => {
@@ -1090,7 +1165,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                                     variationPrices: form.attributes?.variationPrices || []
                                   });
                                 }}
-                                className={`h-7 text-[10px] border rounded-lg px-2 bg-spoolio-card ${cls.border} ${cls.textMain} outline-none focus:border-[#ff4f00] cursor-pointer`}
+                                className={`h-8 text-[11px] border rounded-lg px-2 bg-spoolio-card ${cls.border} ${cls.textMain} outline-none focus:border-[#2F3CD9]/50 cursor-pointer`}
                               >
                                 <option value="default">Défaut (automatique)</option>
                                 <option value="color_swatch">Color Swatch (Bobine de couleur)</option>
