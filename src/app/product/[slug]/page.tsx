@@ -1,5 +1,6 @@
 import ProductDetailClient from "./ProductDetailClient";
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { prisma } from '@/lib/prisma';
 import fs from 'fs';
 import path from 'path';
@@ -11,6 +12,14 @@ interface PageProps {
 // Dynamically generate metadata for SEO from MySQL data or local JSON fallback
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
+
+  if (slug === "clicker-mecanique-sur-mesure") {
+    return {
+      title: "Créateur de Clicker 3D Sur-Mesure | Spoolio",
+      description: "Personnalisez votre clicker mécanique 3D sur-mesure avec vos couleurs, formes, switchs et symboles.",
+    };
+  }
+
   let productName = "";
   let productDesc = "";
   let found = false;
@@ -75,5 +84,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
+
+  if (slug === "clicker-mecanique-sur-mesure") {
+    redirect("/createur-cliqueur");
+  }
+
   return <ProductDetailClient slug={slug} />;
 }

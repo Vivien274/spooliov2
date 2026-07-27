@@ -101,6 +101,10 @@ export default function CartDrawer() {
                         <Link href="/tombola" onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
                           {item.name}
                         </Link>
+                      ) : item.slug === "clicker-mecanique-sur-mesure" ? (
+                        <Link href="/createur-cliqueur" onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
+                          {item.name}
+                        </Link>
                       ) : item.productId < 0 ? (
                         <span>{item.name}</span>
                       ) : (

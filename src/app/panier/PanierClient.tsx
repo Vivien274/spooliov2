@@ -346,7 +346,11 @@ export default function PanierClient() {
                 {/* Info & Options */}
                 <div className="flex-1 flex flex-col min-w-0">
                   <h4 className="text-sm font-extrabold text-white truncate">
-                    {item.productId < 0 ? (
+                    {item.slug === "clicker-mecanique-sur-mesure" ? (
+                      <Link href="/createur-cliqueur" className="hover:text-[#ff4f00] transition-colors">
+                        {item.name}
+                      </Link>
+                    ) : item.productId < 0 ? (
                       <span>{item.name}</span>
                     ) : (
                       <Link href={`/product/${item.slug}`} className="hover:text-[#ff4f00] transition-colors">
