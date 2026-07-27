@@ -308,10 +308,10 @@ export async function PUT(
         new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 15000))
       ]) as any;
 
-      let categoryConnect: any = { set: [] };
+      let categoryObj: any = null;
       if (body.category) {
         try {
-          const categoryObj = await prisma.category.findFirst({
+          categoryObj = await prisma.category.findFirst({
             where: {
               OR: [
                 { name: { equals: body.category, mode: "insensitive" } },
@@ -319,16 +319,18 @@ export async function PUT(
               ]
             }
           });
-          if (categoryObj) {
-            categoryConnect = {
-              set: [],
-              connect: { id: categoryObj.id }
-            };
-          }
         } catch (catErr: any) {
           console.warn("Could not find matching category in DB:", catErr.message);
         }
       }
+
+      const categoryUpdate = categoryObj
+        ? { set: [{ id: categoryObj.id }] }
+        : { set: [] };
+
+      const categoryCreate = categoryObj
+        ? { connect: [{ id: categoryObj.id }] }
+        : undefined;
 
       const imagesPayload = (body.images || []).map((img: any) => ({
         src: img.src,
@@ -341,7 +343,7 @@ export async function PUT(
             where: { id: exists.id },
             data: {
               ...updateData,
-              categories: categoryConnect,
+              categories: categoryUpdate,
               images: {
                 deleteMany: {},
                 create: imagesPayload
@@ -363,7 +365,7 @@ export async function PUT(
               name: updateData.name || "Produit sans nom",
               slug: body.slug || slug,
               price: updateData.price || "0.00",
-              regularPrice: updateData.regularPrice || body.regularPrice || body.price,
+              regularPrice: updateData.regularPrice || body.regularPrice || body.price || "0.00",
               salePrice: updateData.salePrice,
               onSale: updateData.onSale,
               shortDescription: updateData.shortDescription,
@@ -380,7 +382,7 @@ export async function PUT(
               sensorySize: updateData.sensorySize,
               sensoryCategory: updateData.sensoryCategory,
               sensoryProfiles: updateData.sensoryProfiles,
-              categories: categoryConnect,
+              categories: categoryCreate,
               images: {
                 create: imagesPayload
               }
