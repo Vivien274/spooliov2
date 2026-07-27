@@ -40,20 +40,29 @@ export async function POST(request: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Create unique filename
-    const fileExtension = file.name.split(".").pop() || "jpg";
-    const filename = `hero_upload_${Date.now()}.${fileExtension}`;
-    const uploadDir = path.join(process.cwd(), "public/uploads");
+    let imageUrl = "";
 
-    // Ensure uploads directory exists
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
+    try {
+      // Create unique filename
+      const fileExtension = file.name.split(".").pop() || "jpg";
+      const filename = `hero_upload_${Date.now()}.${fileExtension}`;
+      const uploadDir = path.join(process.cwd(), "public/uploads");
+
+      // Ensure uploads directory exists
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+
+      const filePath = path.join(uploadDir, filename);
+      fs.writeFileSync(filePath, buffer);
+      imageUrl = `/uploads/${filename}`;
+    } catch (fsErr: any) {
+      console.warn("Local disk write failed (Vercel serverless read-only environment). Fallback to Base64 Data URL:", fsErr.message);
+      const mimeType = file.type || "image/webp";
+      const base64 = buffer.toString("base64");
+      imageUrl = `data:${mimeType};base64,${base64}`;
     }
 
-    const filePath = path.join(uploadDir, filename);
-    fs.writeFileSync(filePath, buffer);
-
-    const imageUrl = `/uploads/${filename}`;
     return NextResponse.json({ success: true, imageUrl });
   } catch (err: any) {
     console.error("Upload error:", err);
