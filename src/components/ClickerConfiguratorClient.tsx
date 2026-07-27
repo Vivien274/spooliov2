@@ -346,15 +346,15 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
             
             {/* Top Bar Status */}
             <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-20">
-              <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-400 bg-black/40 border border-white/10 px-3 py-1 rounded-full flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#ff4f00] animate-ping" />
+              <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-400 bg-black/50 border border-white/10 px-3 py-1 rounded-full flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                 Aperçu 3D Interactif
               </span>
 
               <button
                 type="button"
                 onClick={() => playClickSound(switchType.id)}
-                className="text-xs font-bold text-amber-400 bg-amber-400/10 hover:bg-amber-400/20 border border-amber-400/30 px-3 py-1 rounded-full transition-colors cursor-pointer flex items-center gap-1.5"
+                className="text-xs font-bold text-neutral-200 bg-neutral-800/90 hover:bg-neutral-700 border border-neutral-700 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer flex items-center gap-1.5 shadow"
               >
                 🔊 Tester le son ({switchType.name.split(' ')[0]})
               </button>
@@ -438,7 +438,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                         onClick={() => handleKeyClick(slotIdx)}
                         className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl transition-all duration-100 cursor-pointer flex items-center justify-center select-none group border ${
                           isSelectedInCustom
-                            ? "ring-4 ring-[#ff4f00] ring-offset-2 ring-offset-black z-30 scale-105"
+                            ? "ring-4 ring-white ring-offset-2 ring-offset-black z-30 scale-105"
                             : "border-white/20 hover:scale-102"
                         }`}
                         style={{
@@ -495,7 +495,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
           <div className="p-4 rounded-2xl bg-neutral-900/60 border border-neutral-800 text-xs text-neutral-300 space-y-2 font-mono">
             <div className="flex items-center justify-between text-neutral-400 border-b border-neutral-800 pb-2">
               <span>RÉSUMÉ CONFIGURATION</span>
-              <span className="text-[#ff4f00] font-bold">{selectedShape.keyCount} Touche(s)</span>
+              <span className="text-white font-bold">{selectedShape.keyCount} Touche(s)</span>
             </div>
             <div className="grid grid-cols-2 gap-2 text-[11px]">
               <div>Boîtier: <strong className="text-white">{caseColor.name}</strong></div>
@@ -515,7 +515,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
           {/* STEP 1 : Forme & Nombre de Touches */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-[#ff4f00] text-black font-black text-xs flex items-center justify-center">1</span>
+              <span className="w-6 h-6 rounded-full bg-white text-black font-black text-xs flex items-center justify-center shadow-sm">1</span>
               <h3 className="text-sm font-bold uppercase tracking-wider text-white">Forme &amp; Nombre de Touches</h3>
             </div>
 
@@ -529,12 +529,12 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                     onClick={() => setSelectedShape(shape)}
                     className={`relative p-3 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between h-24 ${
                       isSelected
-                        ? "bg-[#ff4f00]/10 border-[#ff4f00] text-white ring-1 ring-[#ff4f00]"
+                        ? "bg-white/10 border-white text-white ring-1 ring-white/30 shadow-md"
                         : "bg-neutral-900/60 border-neutral-800 text-neutral-300 hover:border-neutral-700"
                     }`}
                   >
                     {shape.badge && (
-                      <span className="absolute top-2 right-2 text-[9px] font-extrabold bg-[#ff4f00] text-white px-1.5 py-0.5 rounded-md">
+                      <span className="absolute top-2 right-2 text-[9px] font-extrabold bg-neutral-800 text-neutral-300 border border-neutral-700 px-1.5 py-0.5 rounded-md">
                         {shape.badge}
                       </span>
                     )}
@@ -542,7 +542,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                       <div className="text-xs font-bold">{shape.name}</div>
                       <div className="text-[10px] text-neutral-400">{shape.keyCount} switch(s)</div>
                     </div>
-                    <div className="text-xs font-black text-[#ff4f00]">
+                    <div className="text-xs font-black text-white">
                       {shape.price.toFixed(2)} €
                     </div>
                   </button>
@@ -556,7 +556,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-[#ff4f00] text-black font-black text-xs flex items-center justify-center">2</span>
+                <span className="w-6 h-6 rounded-full bg-white text-black font-black text-xs flex items-center justify-center shadow-sm">2</span>
                 <h3 className="text-sm font-bold uppercase tracking-wider text-white">Couleur du Boîtier 3D</h3>
               </div>
               <span className="text-xs font-bold text-neutral-300">{caseColor.name}</span>
@@ -571,7 +571,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                     type="button"
                     onClick={() => setCaseColor(c)}
                     className={`relative aspect-square rounded-xl transition-all cursor-pointer flex items-center justify-center border ${
-                      isSelected ? "ring-2 ring-[#ff4f00] ring-offset-2 ring-offset-black scale-105 border-white" : "border-white/10 hover:scale-102"
+                      isSelected ? "ring-2 ring-white ring-offset-2 ring-offset-black scale-105 border-white shadow-md" : "border-white/10 hover:scale-102"
                     }`}
                     style={{ backgroundColor: c.hex }}
                     title={c.name}
@@ -590,7 +590,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-[#ff4f00] text-black font-black text-xs flex items-center justify-center">3</span>
+                <span className="w-6 h-6 rounded-full bg-white text-black font-black text-xs flex items-center justify-center shadow-sm">3</span>
                 <h3 className="text-sm font-bold uppercase tracking-wider text-white">Switchs Mécaniques</h3>
               </div>
               <span className="text-xs text-neutral-400">{switchType.soundLabel}</span>
@@ -609,7 +609,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                     }}
                     className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
                       isSelected
-                        ? "bg-[#ff4f00]/10 border-[#ff4f00] text-white ring-1 ring-[#ff4f00]"
+                        ? "bg-white/10 border-white text-white ring-1 ring-white/30 shadow-md"
                         : "bg-neutral-900/60 border-neutral-800 text-neutral-300 hover:border-neutral-700"
                     }`}
                   >
@@ -635,17 +635,17 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
           <div className="space-y-4 p-4 rounded-2xl bg-neutral-900/40 border border-neutral-800">
             <div className="flex items-center justify-between flex-wrap gap-2">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-[#ff4f00] text-black font-black text-xs flex items-center justify-center">4</span>
+                <span className="w-6 h-6 rounded-full bg-white text-black font-black text-xs flex items-center justify-center shadow-sm">4</span>
                 <h3 className="text-sm font-bold uppercase tracking-wider text-white">Couleurs &amp; Gravures des Touches</h3>
               </div>
 
               {/* Mode Toggle */}
-              <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl border border-neutral-800 text-[10px] font-bold">
+              <div className="flex items-center gap-1 bg-black/50 p-1 rounded-xl border border-neutral-800 text-[10px] font-bold">
                 <button
                   type="button"
                   onClick={() => setKeycapMode("all")}
                   className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
-                    keycapMode === "all" ? "bg-[#ff4f00] text-white" : "text-neutral-400 hover:text-white"
+                    keycapMode === "all" ? "bg-white text-black font-bold shadow-sm" : "text-neutral-400 hover:text-white"
                   }`}
                 >
                   Toutes identiques
@@ -654,7 +654,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                   type="button"
                   onClick={() => setKeycapMode("custom")}
                   className={`px-2.5 py-1 rounded-lg transition-colors cursor-pointer ${
-                    keycapMode === "custom" ? "bg-[#ff4f00] text-white" : "text-neutral-400 hover:text-white"
+                    keycapMode === "custom" ? "bg-white text-black font-bold shadow-sm" : "text-neutral-400 hover:text-white"
                   }`}
                 >
                   Touche par touche 🎨
@@ -676,7 +676,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                       onClick={() => setActiveKeyIndex(slotIdx)}
                       className={`px-3 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-1.5 border ${
                         isSelected
-                          ? "bg-[#ff4f00] text-white border-[#ff4f00] shadow"
+                          ? "bg-white text-black border-white shadow-md font-extrabold"
                           : "bg-neutral-800 text-neutral-300 border-neutral-700 hover:border-neutral-600"
                       }`}
                     >
@@ -711,7 +711,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                         }
                       }}
                       className={`relative aspect-square rounded-xl transition-all cursor-pointer flex items-center justify-center border ${
-                        isSelected ? "ring-2 ring-[#ff4f00] ring-offset-2 ring-offset-black scale-105 border-white z-10" : "border-white/10 hover:scale-102"
+                        isSelected ? "ring-2 ring-white ring-offset-2 ring-offset-black scale-105 border-white z-10 shadow-md" : "border-white/10 hover:scale-102"
                       }`}
                       style={{ backgroundColor: color.hex }}
                       title={color.name}
@@ -747,7 +747,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                       }}
                       className={`h-9 rounded-xl border text-xs transition-all cursor-pointer flex items-center justify-center ${
                         isSelected
-                          ? "bg-[#ff4f00]/20 border-[#ff4f00] text-white ring-1 ring-[#ff4f00]"
+                          ? "bg-white/15 border-white text-white ring-1 ring-white/40 shadow-md font-bold"
                           : "bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white"
                       }`}
                       title={icon.name}
@@ -764,7 +764,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
           {/* STEP 5 : Option Porte-Clés / Dragonne */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-[#ff4f00] text-black font-black text-xs flex items-center justify-center">5</span>
+              <span className="w-6 h-6 rounded-full bg-white text-black font-black text-xs flex items-center justify-center shadow-sm">5</span>
               <h3 className="text-sm font-bold uppercase tracking-wider text-white">Attache &amp; Porte-Clés</h3>
             </div>
 
@@ -778,7 +778,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                     onClick={() => setAttachment(att)}
                     className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex items-center justify-between ${
                       isSelected
-                        ? "bg-[#ff4f00]/10 border-[#ff4f00] text-white ring-1 ring-[#ff4f00]"
+                        ? "bg-white/10 border-white text-white ring-1 ring-white/30 shadow-md"
                         : "bg-neutral-900/60 border-neutral-800 text-neutral-300 hover:border-neutral-700"
                     }`}
                   >
@@ -786,7 +786,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                       <span className="text-lg">{att.icon}</span>
                       <span className="text-xs font-bold">{att.name}</span>
                     </div>
-                    <span className="text-xs font-mono text-[#ff4f00]">
+                    <span className="text-xs font-mono text-neutral-300">
                       {att.price > 0 ? `+${att.price.toFixed(2)}€` : "Gratuit"}
                     </span>
                   </button>

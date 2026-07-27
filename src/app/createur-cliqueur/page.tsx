@@ -58,7 +58,7 @@ export default function CreateurCliqueurPage() {
       <main className="w-full max-w-[1200px] px-4 py-8 relative z-10 flex flex-col items-center">
         {/* Hero Title & Presentation Banner */}
         <div className="text-center max-w-2xl mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF5500]/15 border border-[#FF5500]/30 text-[#FF5500] text-xs font-mono font-bold uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-800/80 border border-neutral-700 text-neutral-300 text-xs font-mono font-bold uppercase tracking-wider mb-3">
             <span>⌨️ STUDIO Fidget Mécanique</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold uppercase tracking-tight text-white font-[family-name:var(--font-antonio)] mb-3">
