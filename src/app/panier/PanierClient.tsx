@@ -330,6 +330,8 @@ export default function PanierClient() {
                     <span className="select-none">🌾</span>
                   ) : item.productId === -2 ? (
                     <span className="select-none">☕</span>
+                  ) : (item.slug === "clicker-mecanique-sur-mesure" || !item.image) && (!item.image || item.image.includes("clicker-sur-mesure-thumb.jpg")) ? (
+                    <span className="select-none">⌨️</span>
                   ) : item.image ? (
                     <Image
                       src={item.image}
@@ -339,7 +341,7 @@ export default function PanierClient() {
                       className="object-cover no-invert"
                     />
                   ) : (
-                    <div className="absolute inset-0 bg-white/5" />
+                    <span className="select-none">⌨️</span>
                   )}
                 </div>
 

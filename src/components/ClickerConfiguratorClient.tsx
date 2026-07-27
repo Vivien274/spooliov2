@@ -431,13 +431,17 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
       "Attache": attachment.name,
     };
 
+    const cartImage = (galleryList && galleryList.length > 0 && galleryList[0]?.src)
+      ? galleryList[0].src
+      : "";
+
     addToCart({
       productId: 99881, // Dedicated Virtual Product ID for Custom Clicker
       name: `Clicker Mécanique Sur-Mesure (${selectedShape.name})`,
       slug: "clicker-mecanique-sur-mesure",
       price: totalPrice.toFixed(2),
       selectedOptions,
-      image: "https://spoolio.fr/images/products/clicker-sur-mesure-thumb.jpg",
+      image: cartImage,
     }, 1, true);
   };
 
