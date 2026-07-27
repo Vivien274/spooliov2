@@ -7,7 +7,7 @@ export interface FidgetProduct {
   price: string;
   wooCommerceUrl: string;
   imageUrl: string;
-  noiseLevel: 'silent' | 'low' | 'medium' | 'high';
+  noiseLevel: 'silent' | 'low' | 'medium' | 'high' | string | number;
   size: 'pocket' | 'medium' | 'large';
   profiles: Array<'tdah' | 'anxiety' | 'autism' | 'focus'>;
 }

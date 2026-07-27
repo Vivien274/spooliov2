@@ -18156,13 +18156,14 @@
     },
     "show_in_sensory_compass": true,
     "showInSensoryCompass": true,
-    "sensory_noise_level": "silent",
+    "sensory_noise_level": "1",
     "sensory_size": "pocket",
     "sensory_category": "manipuler",
     "sensory_profiles": [
       "anxiety",
       "autism"
-    ]
+    ],
+    "sensoryNoiseLevel": "1"
   },
   {
     "id": 11738,
@@ -18761,13 +18762,14 @@
     },
     "show_in_sensory_compass": true,
     "showInSensoryCompass": true,
-    "sensory_noise_level": "high",
+    "sensory_noise_level": "9",
     "sensory_size": "pocket",
     "sensory_category": "cliquer",
     "sensory_profiles": [
       "anxiety",
       "focus"
-    ]
+    ],
+    "sensoryNoiseLevel": "9"
   },
   {
     "id": 11684,
@@ -32101,13 +32103,14 @@
     },
     "show_in_sensory_compass": true,
     "showInSensoryCompass": true,
-    "sensory_noise_level": "silent",
+    "sensory_noise_level": "1",
     "sensory_size": "medium",
     "sensory_category": "manipuler",
     "sensory_profiles": [
       "anxiety",
       "autism"
-    ]
+    ],
+    "sensoryNoiseLevel": "1"
   },
   {
     "id": 11057,
@@ -33048,14 +33051,15 @@
     },
     "show_in_sensory_compass": true,
     "showInSensoryCompass": true,
-    "sensory_noise_level": "silent",
+    "sensory_noise_level": "2",
     "sensory_size": "pocket",
     "sensory_category": "manipuler",
     "sensory_profiles": [
       "tdah",
       "focus",
       "autism"
-    ]
+    ],
+    "sensoryNoiseLevel": "2"
   },
   {
     "id": 11051,
@@ -33988,13 +33992,14 @@
     },
     "show_in_sensory_compass": true,
     "showInSensoryCompass": true,
-    "sensory_noise_level": "low",
+    "sensory_noise_level": "5",
     "sensory_size": "medium",
     "sensory_category": "resoudre",
     "sensory_profiles": [
       "focus",
       "tdah"
-    ]
+    ],
+    "sensoryNoiseLevel": "5"
   },
   {
     "id": 11035,
@@ -36222,13 +36227,14 @@
     },
     "show_in_sensory_compass": true,
     "showInSensoryCompass": true,
-    "sensory_noise_level": "silent",
+    "sensory_noise_level": "1",
     "sensory_size": "pocket",
     "sensory_category": "caresser",
     "sensory_profiles": [
       "anxiety",
       "autism"
-    ]
+    ],
+    "sensoryNoiseLevel": "1"
   },
   {
     "id": 10955,
@@ -56758,13 +56764,14 @@
     },
     "show_in_sensory_compass": true,
     "showInSensoryCompass": true,
-    "sensory_noise_level": "high",
+    "sensory_noise_level": "9",
     "sensory_size": "pocket",
     "sensory_category": "cliquer",
     "sensory_profiles": [
       "tdah",
       "focus"
-    ]
+    ],
+    "sensoryNoiseLevel": "9"
   },
   {
     "id": 10090,
@@ -70960,13 +70967,14 @@
     },
     "show_in_sensory_compass": true,
     "showInSensoryCompass": true,
-    "sensory_noise_level": "high",
+    "sensory_noise_level": "8",
     "sensory_size": "pocket",
     "sensory_category": "cliquer",
     "sensory_profiles": [
       "anxiety",
       "focus"
-    ]
+    ],
+    "sensoryNoiseLevel": "8"
   },
   {
     "id": 9663,
@@ -130407,12 +130415,13 @@
     ],
     "show_in_sensory_compass": true,
     "showInSensoryCompass": false,
-    "sensory_noise_level": "high",
+    "sensory_noise_level": "8",
     "sensory_size": "pocket",
     "sensory_category": "cliquer",
     "sensory_profiles": [
       "tdah",
       "focus"
-    ]
+    ],
+    "sensoryNoiseLevel": "8"
   }
 ]

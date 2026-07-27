@@ -8,6 +8,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import UnicornIcon from "@/components/UnicornIcon";
 import { useCart } from "@/context/CartContext";
+import { parseNoiseLevel, formatNoiseLevelText } from "@/lib/sensoryUtils";
 import cartIconData from "@/components/shopping bag.json";
 
 interface ProductDetailClientProps {
@@ -1273,11 +1274,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                       Bruit :
                     </span>
                     <span className="text-xs font-black text-white">
-                      {((product as any).sensory_noise_level || (product as any).sensoryNoiseLevel) === "silent"
-                        ? "Silencieux (0 bruit)"
-                        : ((product as any).sensory_noise_level || (product as any).sensoryNoiseLevel) === "low"
-                        ? "Faible (Murmure)"
-                        : "Clic franc & sonore"}
+                      {formatNoiseLevelText(parseNoiseLevel((product as any).sensory_noise_level || (product as any).sensoryNoiseLevel))}
                     </span>
                   </div>
 

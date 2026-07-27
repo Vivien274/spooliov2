@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useAdminTheme } from "../../AdminThemeContext";
 import WysiwygEditor from "@/components/WysiwygEditor";
+import { parseNoiseLevel, formatNoiseLevelText } from "@/lib/sensoryUtils";
 
 const CATEGORIES = [
   "Accessoires & Petits Objets",
@@ -637,29 +638,28 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                 <div className="flex flex-col gap-2.5 sm:col-span-2 bg-white/5 border border-white/10 p-4 rounded-2xl">
                   <div className="flex items-center justify-between">
                     <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider flex items-center gap-2`}>
-                      <span>🔊 Niveau de Bruit :</span>
-                      <span className="font-extrabold text-[#ff4f00]">
-                        {form.sensoryNoiseLevel === "silent" ? "🤫 Silencieux (0 bruit - Cours / Réunion)" : form.sensoryNoiseLevel === "low" ? "🔉 Faible (Discret / Murmure mécanique)" : "💥 Satisfaisant (Clic franc & sonore)"}
-                      </span>
+                      <span>🔊 Niveau de Bruit (Crans de 1 à 10) :</span>
                     </label>
+                    <span className="font-extrabold text-sm text-[#ff4f00]">
+                      {formatNoiseLevelText(parseNoiseLevel(form.sensoryNoiseLevel))}
+                    </span>
                   </div>
                   <input
                     type="range"
-                    min="0"
-                    max="2"
+                    min="1"
+                    max="10"
                     step="1"
-                    value={form.sensoryNoiseLevel === "high" ? 2 : form.sensoryNoiseLevel === "low" ? 1 : 0}
+                    value={parseNoiseLevel(form.sensoryNoiseLevel)}
                     onChange={(e) => {
-                      const val = Number(e.target.value);
-                      const level = val === 2 ? "high" : val === 1 ? "low" : "silent";
-                      setForm(prev => ({ ...prev, sensoryNoiseLevel: level }));
+                      const val = e.target.value;
+                      setForm(prev => ({ ...prev, sensoryNoiseLevel: val }));
                     }}
                     className="w-full h-2.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#ff4f00]"
                   />
-                  <div className="flex justify-between text-[11px] font-semibold text-neutral-400 px-1 pt-1 select-none">
-                    <span className="cursor-pointer hover:text-white" onClick={() => setForm(prev => ({ ...prev, sensoryNoiseLevel: "silent" }))}>🤫 0 Bruit (Silencieux)</span>
-                    <span className="cursor-pointer hover:text-white" onClick={() => setForm(prev => ({ ...prev, sensoryNoiseLevel: "low" }))}>🔉 Discret</span>
-                    <span className="cursor-pointer hover:text-white" onClick={() => setForm(prev => ({ ...prev, sensoryNoiseLevel: "high" }))}>💥 Clic franc</span>
+                  <div className="flex justify-between text-[10px] font-bold text-neutral-400 px-1 pt-1 select-none">
+                    <span className="cursor-pointer hover:text-white" onClick={() => setForm(prev => ({ ...prev, sensoryNoiseLevel: "1" }))}>1 (Silencieux)</span>
+                    <span className="cursor-pointer hover:text-white" onClick={() => setForm(prev => ({ ...prev, sensoryNoiseLevel: "5" }))}>5 (Clic doux)</span>
+                    <span className="cursor-pointer hover:text-white" onClick={() => setForm(prev => ({ ...prev, sensoryNoiseLevel: "10" }))}>10 (Ultra sonore)</span>
                   </div>
                 </div>
 
