@@ -361,30 +361,60 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
             </div>
 
             {/* Main Interactive Clicker Preview Box */}
-            <div className="relative my-8 py-4 flex items-center justify-center">
+            <div className="relative my-10 py-4 flex items-center justify-center select-none">
               
-              {/* Chain Attachment Visualizer */}
-              {attachment.id !== "none" && (
-                <div className="absolute -right-14 top-1/2 -translate-y-1/2 flex items-center pointer-events-none z-0 opacity-80">
-                  <div className="w-12 h-3 border-t-2 border-b-2 border-dashed border-neutral-400/60 rounded-full animate-pulse" />
-                  <span className="text-xl -ml-1">{attachment.icon}</span>
-                </div>
-              )}
-
               {/* 3D Printed Case Box */}
               <div
-                className="relative rounded-2xl p-4 transition-all duration-500 shadow-2xl border border-white/10 flex items-center justify-center"
+                className="relative rounded-2xl p-4.5 transition-all duration-500 shadow-2xl border border-white/10 flex items-center justify-center"
                 style={{
                   backgroundColor: caseColor.hex,
-                  boxShadow: `0 20px 40px -10px ${caseColor.hex}40, inset 0 2px 4px rgba(255,255,255,0.2), 0 8px 16px rgba(0,0,0,0.8)`
+                  boxShadow: `0 24px 48px -12px ${caseColor.hex}50, inset 0 2px 4px rgba(255,255,255,0.25), 0 10px 20px rgba(0,0,0,0.85)`
                 }}
               >
+                {/* 3D Printed Anse Loop (Anse intégrée au boîtier PLA comme sur Bambu Slicer) */}
+                <div
+                  className={`absolute pointer-events-none transition-all duration-500 border border-white/20 shadow-md ${
+                    selectedShape.id === "square_2x2"
+                      ? "-bottom-4.5 left-1/2 -translate-x-1/2 w-[70%] h-5 rounded-b-xl"
+                      : selectedShape.id === "shape_t"
+                      ? "-bottom-4.5 left-1/2 -translate-x-1/2 w-[40%] h-5 rounded-b-xl"
+                      : "-left-4.5 top-1/2 -translate-y-1/2 h-[65%] w-5 rounded-l-xl"
+                  }`}
+                  style={{
+                    backgroundColor: caseColor.hex,
+                    boxShadow: `0 4px 12px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.3)`
+                  }}
+                >
+                  {/* Hollow Center Hole of the Anse */}
+                  <div className="absolute inset-1.5 rounded-md bg-neutral-950/90 shadow-inner border border-black/60" />
+
+                  {/* Chain Attachment Visualizer hooked right into the Anse Hole */}
+                  {attachment.id !== "none" && (
+                    <div
+                      className={`absolute flex items-center pointer-events-none z-0 transition-all duration-500 ${
+                        selectedShape.id === "square_2x2" || selectedShape.id === "shape_t"
+                          ? "top-full left-1/2 -translate-x-1/2 flex-col pt-1"
+                          : "right-full top-1/2 -translate-y-1/2 flex-row-reverse pr-1"
+                      }`}
+                    >
+                      <div
+                        className={`border-dashed border-neutral-300/80 animate-pulse ${
+                          selectedShape.id === "square_2x2" || selectedShape.id === "shape_t"
+                            ? "h-10 w-2 border-l-2 border-r-2"
+                            : "w-10 h-2 border-t-2 border-b-2"
+                        }`}
+                      />
+                      <span className="text-2xl drop-shadow-md">{attachment.icon}</span>
+                    </div>
+                  )}
+                </div>
+
                 {/* 3D Case Bevel Ring */}
                 <div className="absolute inset-0 rounded-2xl border-2 border-white/15 pointer-events-none" />
 
                 {/* Keycaps Grid Layout */}
                 <div
-                  className={`grid gap-3 ${selectedShape.gridTemplate} relative z-10`}
+                  className={`grid gap-3.5 ${selectedShape.gridTemplate} relative z-10`}
                   style={{
                     gridTemplateRows: `repeat(${selectedShape.rows}, minmax(0, 1fr))`,
                     gridTemplateColumns: `repeat(${selectedShape.cols}, minmax(0, 1fr))`,
