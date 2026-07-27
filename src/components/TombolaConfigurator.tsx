@@ -388,8 +388,8 @@ export default function TombolaConfigurator() {
             disabled={selectedTickets.length === 0}
             className={`w-full py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-xl no-invert ${
               selectedTickets.length > 0
-                ? "bg-[#ff4f00] hover:bg-[#e04500] text-white shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-[0.98]"
-                : "bg-white/10 text-gray-500 cursor-not-allowed border border-white/5"
+                ? "tombola-btn-active bg-[#ff4f00] hover:bg-[#e04500] text-white shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-[0.98]"
+                : "tombola-btn-disabled bg-white/10 text-gray-500 cursor-not-allowed border border-white/5"
             }`}
           >
             <span>Ajouter au panier</span>
