@@ -104,7 +104,7 @@ export default function CartDrawer() {
                           {item.name}
                         </Link>
                       ) : item.slug === "clicker-mecanique-sur-mesure" ? (
-                        <Link href="/createur-cliqueur" onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
+                        <Link href={item.selectedOptions._configUrl || "/createur-cliqueur"} onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
                           {item.name}
                         </Link>
                       ) : item.productId < 0 ? (
@@ -119,12 +119,25 @@ export default function CartDrawer() {
                     {/* Selected Options list */}
                     {Object.keys(item.selectedOptions).length > 0 && (
                       <div className="flex flex-wrap gap-x-2 gap-y-0.5 mt-1">
-                        {Object.entries(item.selectedOptions).map(([key, val]) => (
-                          <span key={key} className="text-[9px] font-bold text-gray-500 font-sans uppercase">
-                            {key}: <span className="text-gray-300">{val}</span>
-                          </span>
-                        ))}
+                        {Object.entries(item.selectedOptions)
+                          .filter(([key]) => !key.startsWith("_"))
+                          .map(([key, val]) => (
+                            <span key={key} className="text-[9px] font-bold text-gray-500 font-sans uppercase">
+                              {key}: <span className="text-gray-300">{val}</span>
+                            </span>
+                          ))}
                       </div>
+                    )}
+
+                    {/* Edit Custom Clicker Link */}
+                    {item.slug === "clicker-mecanique-sur-mesure" && (
+                      <Link
+                        href={item.selectedOptions._configUrl || "/createur-cliqueur"}
+                        onClick={() => setIsCartOpen(false)}
+                        className="inline-flex items-center gap-1 text-[10px] font-bold text-[#ff4f00] hover:underline mt-1.5"
+                      >
+                        <span>✏️ Modifier ma création 3D</span>
+                      </Link>
                     )}
 
                     {/* Quantity and Price */}

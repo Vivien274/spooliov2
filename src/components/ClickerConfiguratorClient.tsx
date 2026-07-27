@@ -228,8 +228,61 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
   const [switchType, setSwitchType] = useState<SwitchOption>(SWITCHES[0]); // Clicky Bleu
   const [attachment, setAttachment] = useState<AttachmentOption>(ATTACHMENTS[0]); // Chain by default
 
-  // Fetch Admin Config on mount
+  // Fetch Admin Config & URL Preset on mount
   useEffect(() => {
+    // 1. Check URL for preset configuration (?cfg=...)
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const cfgRaw = params.get("cfg");
+      if (cfgRaw) {
+        try {
+          const jsonStr = atob(decodeURIComponent(cfgRaw));
+          const parsed = JSON.parse(jsonStr);
+
+          if (parsed.shape) {
+            const foundShape = SHAPES.find((s) => s.id === parsed.shape);
+            if (foundShape) setSelectedShape(foundShape);
+          }
+          if (parsed.caseColor) {
+            const foundColor = CASE_COLORS.find((c) => c.id === parsed.caseColor);
+            if (foundColor) setCaseColor(foundColor);
+          }
+          if (parsed.switchType) {
+            const foundSwitch = SWITCHES.find((s) => s.id === parsed.switchType);
+            if (foundSwitch) setSwitchType(foundSwitch);
+          }
+          if (parsed.attachment) {
+            const foundAtt = ATTACHMENTS.find((a) => a.id === parsed.attachment);
+            if (foundAtt) setAttachment(foundAtt);
+          }
+          if (parsed.keycapMode) {
+            setKeycapMode(parsed.keycapMode);
+          }
+          if (parsed.globalKeycapColor) {
+            const foundColor = KEYCAP_COLORS.find((c) => c.id === parsed.globalKeycapColor);
+            if (foundColor) setGlobalKeycapColor(foundColor);
+          }
+          if (parsed.globalIcon) {
+            const foundIcon = ICONS.find((i) => i.id === parsed.globalIcon);
+            if (foundIcon) setGlobalIcon(foundIcon);
+          }
+          if (parsed.keyConfigs && typeof parsed.keyConfigs === "object") {
+            const restored: Record<number, { color: ColorOption; icon: IconOption }> = {};
+            Object.entries(parsed.keyConfigs).forEach(([k, v]: [string, any]) => {
+              const slotIdx = parseInt(k, 10);
+              const col = KEYCAP_COLORS.find((c) => c.id === v.color) || KEYCAP_COLORS[0];
+              const ico = ICONS.find((i) => i.id === v.icon) || ICONS[0];
+              restored[slotIdx] = { color: col, icon: ico };
+            });
+            setKeyConfigs(restored);
+          }
+        } catch (err) {
+          console.error("Error restoring clicker config from URL parameter:", err);
+        }
+      }
+    }
+
+    // 2. Fetch Admin Config
     fetch("/api/admin/clicker-config")
       .then((res) => res.json())
       .then((data) => {
@@ -423,12 +476,31 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
       return `Touche #${i + 1} (${color} - ${icon})`;
     }).join(", ");
 
+    const configObj = {
+      shape: selectedShape.id,
+      caseColor: caseColor.id,
+      switchType: switchType.id,
+      attachment: attachment.id,
+      keycapMode,
+      globalKeycapColor: globalKeycapColor.id,
+      globalIcon: globalIcon.id,
+      keyConfigs: Object.fromEntries(
+        Object.entries(keyConfigs).map(([k, v]) => [
+          k,
+          { color: v.color.id, icon: v.icon.id }
+        ])
+      )
+    };
+    const encodedConfig = encodeURIComponent(btoa(JSON.stringify(configObj)));
+    const configUrl = `/createur-cliqueur?cfg=${encodedConfig}`;
+
     const selectedOptions: Record<string, string> = {
       "Forme": selectedShape.name,
       "Couleur Boîtier": caseColor.name,
       "Switchs": switchType.name,
       "Touches": keycapMode === "all" ? `${globalKeycapColor.name} (${globalIcon.symbol || 'Vierge'})` : keyDetails,
       "Attache": attachment.name,
+      "_configUrl": configUrl,
     };
 
     const cartImage = (galleryList && galleryList.length > 0 && galleryList[0]?.src)

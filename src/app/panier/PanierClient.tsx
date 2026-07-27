@@ -349,7 +349,7 @@ export default function PanierClient() {
                 <div className="flex-1 flex flex-col min-w-0">
                   <h4 className="text-sm font-extrabold text-white truncate">
                     {item.slug === "clicker-mecanique-sur-mesure" ? (
-                      <Link href="/createur-cliqueur" className="hover:text-[#ff4f00] transition-colors">
+                      <Link href={item.selectedOptions._configUrl || "/createur-cliqueur"} className="hover:text-[#ff4f00] transition-colors">
                         {item.name}
                       </Link>
                     ) : item.productId < 0 ? (
@@ -363,12 +363,24 @@ export default function PanierClient() {
                   
                   {Object.keys(item.selectedOptions).length > 0 && (
                     <div className="flex flex-wrap gap-x-2 gap-y-0.5 mt-1">
-                      {Object.entries(item.selectedOptions).map(([key, val]) => (
-                        <span key={key} className="text-[10px] font-bold text-gray-500 font-sans uppercase">
-                          {key}: <span className="text-gray-300">{val}</span>
-                        </span>
-                      ))}
+                      {Object.entries(item.selectedOptions)
+                        .filter(([key]) => !key.startsWith("_"))
+                        .map(([key, val]) => (
+                          <span key={key} className="text-[10px] font-bold text-gray-500 font-sans uppercase">
+                            {key}: <span className="text-gray-300">{val}</span>
+                          </span>
+                        ))}
                     </div>
+                  )}
+
+                  {/* Edit Custom Clicker Link */}
+                  {item.slug === "clicker-mecanique-sur-mesure" && (
+                    <Link
+                      href={item.selectedOptions._configUrl || "/createur-cliqueur"}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-[#ff4f00] hover:underline mt-2 w-fit bg-[#ff4f00]/10 border border-[#ff4f00]/20 px-2.5 py-1 rounded-lg transition-colors"
+                    >
+                      <span>✏️ Modifier ma création 3D</span>
+                    </Link>
                   )}
 
                   {/* Quantity controls */}
