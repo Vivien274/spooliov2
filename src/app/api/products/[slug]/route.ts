@@ -305,7 +305,7 @@ export async function PUT(
             ].filter(Boolean) as any
           }
         }),
-        new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 5000))
+        new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 15000))
       ]) as any;
 
       let categoryConnect: any = { set: [] };
@@ -352,7 +352,7 @@ export async function PUT(
               categories: true
             }
           }),
-          new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 5000))
+          new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 15000))
         ]) as any;
       } else {
         const newId = searchId || body.id;
@@ -375,6 +375,11 @@ export async function PUT(
               metaTitle: updateData.metaTitle,
               metaDescription: updateData.metaDescription,
               attributes: updateData.attributes,
+              showInSensoryCompass: updateData.showInSensoryCompass,
+              sensoryNoiseLevel: updateData.sensoryNoiseLevel,
+              sensorySize: updateData.sensorySize,
+              sensoryCategory: updateData.sensoryCategory,
+              sensoryProfiles: updateData.sensoryProfiles,
               categories: categoryConnect,
               images: {
                 create: imagesPayload
@@ -385,12 +390,16 @@ export async function PUT(
               categories: true
             }
           }),
-          new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 5000))
+          new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 15000))
         ]) as any;
       }
       savedInDb = true;
     } catch (dbErr: any) {
-      console.warn("Prisma saving failed or timed out, using fallback writing to products.json:", dbErr.message);
+      console.warn("Prisma saving failed or timed out:", dbErr.message);
+      if (!updatedProduct) {
+        // Fallback error details for caller
+        throw dbErr;
+      }
     }
 
     try {
@@ -428,18 +437,18 @@ export async function PUT(
             parsed.push(mappedForJson);
           }
 
-          fs.writeFileSync(jsonPath, JSON.stringify(parsed, null, 2), "utf8");
-          console.log("Successfully wrote product to products.json fallback!");
+          try {
+            fs.writeFileSync(jsonPath, JSON.stringify(parsed, null, 2), "utf8");
+          } catch (writeErr: any) {
+            console.warn("Local products.json write bypassed (serverless read-only environment):", writeErr.message);
+          }
           if (!updatedProduct) {
             updatedProduct = mappedForJson;
           }
         }
       }
     } catch (jsonErr: any) {
-      console.error("Failed to write fallback to products.json:", jsonErr.message);
-      if (!savedInDb) {
-        throw new Error("Impossible d'enregistrer le produit en base de données ni dans products.json.");
-      }
+      console.warn("Local JSON fallback bypassed:", jsonErr.message);
     }
 
     return NextResponse.json({ success: true, product: updatedProduct });

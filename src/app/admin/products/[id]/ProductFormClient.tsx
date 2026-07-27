@@ -471,7 +471,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
         setTimeout(() => setSaved(false), 2500);
       } else {
         const errorData = await res.json();
-        alert(`Erreur lors de la sauvegarde : ${errorData.error || 'Erreur inconnue'}`);
+        alert(`Erreur lors de la sauvegarde : ${errorData.error || 'Erreur'}${errorData.details ? ` (${errorData.details})` : ''}`);
       }
     } catch (err: any) {
       console.error("Save error:", err);
