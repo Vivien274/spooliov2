@@ -196,9 +196,6 @@ export default function TombolaConfigurator() {
               <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
                 La case gagnante est la n° {config.winnerTicket} !
               </h2>
-              <p className="text-xs text-gray-300">
-                Tirage au sort officiel validé le {config.winnerDrawnAt}. Merci à tous les participants !
-              </p>
             </div>
           </div>
         </div>
@@ -208,7 +205,7 @@ export default function TombolaConfigurator() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
         
         {/* Left Column: Lot à Gagner Card (Encart) */}
-        <div className="lg:col-span-7 bg-[#131316]/90 border border-white/10 rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden backdrop-blur-xl shadow-2xl group">
+        <div className="lg:col-span-7 tombola-card bg-[#131316]/90 border border-white/10 rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden backdrop-blur-xl shadow-2xl group">
           {/* Neon Background Accents */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-[#ff4f00]/15 rounded-full filter blur-3xl pointer-events-none group-hover:bg-[#ff4f00]/25 transition-all duration-700" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#00F0FF]/15 rounded-full filter blur-3xl pointer-events-none" />
@@ -219,7 +216,7 @@ export default function TombolaConfigurator() {
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff4f00]/20 border border-[#ff4f00]/40 text-[#ff4f00] text-xs font-black uppercase tracking-wider">
                 <span>🎁</span> Lot à gagner
               </span>
-              <div className="flex items-center gap-2 bg-white/5 px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300 font-mono">
+              <div className="flex items-center gap-2 tombola-inner-box bg-white/5 px-3 py-1 rounded-full border border-white/10 text-xs text-gray-300 font-mono">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
                 <span>{config.status === "drawn" ? "Tirage terminé" : "Tirage en cours"}</span>
               </div>
@@ -245,12 +242,12 @@ export default function TombolaConfigurator() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             
             {/* Value Tag Overlay */}
-            <div className="absolute bottom-4 left-4 bg-black/70 backdrop-blur-md px-4 py-2 rounded-xl border border-white/15">
+            <div className="absolute bottom-4 left-4 bg-black/70 backdrop-blur-md px-4 py-2 rounded-xl border border-white/15 no-invert">
               <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Valeur du lot</span>
               <span className="text-xl font-black text-white">{config.estimatedValue.toFixed(2)} €</span>
             </div>
 
-            <div className="absolute bottom-4 right-4 bg-[#ff4f00] text-white px-3 py-1.5 rounded-lg text-xs font-extrabold shadow-lg">
+            <div className="absolute bottom-4 right-4 bg-[#ff4f00] text-white px-3 py-1.5 rounded-lg text-xs font-extrabold shadow-lg no-invert">
               {config.totalCases} cases seulement !
             </div>
           </div>
@@ -263,7 +260,7 @@ export default function TombolaConfigurator() {
                 <span className="text-gray-300">Progression des réservations</span>
                 <span className="text-[#ff4f00] font-mono font-black">{totalReservedCount} / {config.totalCases} cases ({progressPercent}%)</span>
               </div>
-              <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/5">
+              <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/5 tombola-inner-box">
                 <div
                   className="h-full bg-gradient-to-r from-[#ff4f00] to-[#00F0FF] rounded-full transition-all duration-500 shadow-[0_0_12px_#ff4f00]"
                   style={{ width: `${progressPercent}%` }}
@@ -272,28 +269,28 @@ export default function TombolaConfigurator() {
             </div>
 
             {/* Countdown Box */}
-            <div className="bg-black/40 border border-white/10 rounded-xl p-3 sm:p-4 flex items-center justify-between flex-wrap gap-2">
+            <div className="tombola-inner-box bg-black/40 border border-white/10 rounded-xl p-3 sm:p-4 flex items-center justify-between flex-wrap gap-2">
               <div className="flex items-center gap-2 text-xs font-bold text-gray-300">
                 <span className="text-lg">⏳</span>
                 <span>Fin du tirage dans :</span>
               </div>
               <div className="flex items-center gap-1.5 font-mono font-bold text-white text-sm">
-                <div className="bg-white/10 px-2.5 py-1 rounded-lg border border-white/10">
+                <div className="tombola-badge-pill bg-white/10 px-2.5 py-1 rounded-lg border border-white/10">
                   <span>{String(timeLeft.days).padStart(2, "0")}</span>
                   <span className="text-[9px] text-gray-400 ml-1">j</span>
                 </div>
                 <span>:</span>
-                <div className="bg-white/10 px-2.5 py-1 rounded-lg border border-white/10">
+                <div className="tombola-badge-pill bg-white/10 px-2.5 py-1 rounded-lg border border-white/10">
                   <span>{String(timeLeft.hours).padStart(2, "0")}</span>
                   <span className="text-[9px] text-gray-400 ml-1">h</span>
                 </div>
                 <span>:</span>
-                <div className="bg-white/10 px-2.5 py-1 rounded-lg border border-white/10">
+                <div className="tombola-badge-pill bg-white/10 px-2.5 py-1 rounded-lg border border-white/10">
                   <span>{String(timeLeft.minutes).padStart(2, "0")}</span>
                   <span className="text-[9px] text-gray-400 ml-1">m</span>
                 </div>
                 <span>:</span>
-                <div className="bg-white/10 px-2.5 py-1 rounded-lg border border-white/10 text-[#ff4f00]">
+                <div className="tombola-badge-pill bg-white/10 px-2.5 py-1 rounded-lg border border-white/10 text-[#ff4f00]">
                   <span>{String(timeLeft.seconds).padStart(2, "0")}</span>
                   <span className="text-[9px] text-gray-400 ml-1">s</span>
                 </div>
@@ -303,14 +300,14 @@ export default function TombolaConfigurator() {
         </div>
 
         {/* Right Column: Ticket Price Configurator & Selection Panel */}
-        <div className="lg:col-span-5 bg-[#131316]/90 border border-white/10 rounded-3xl p-6 sm:p-8 flex flex-col justify-between backdrop-blur-xl shadow-2xl">
+        <div className="lg:col-span-5 tombola-card bg-[#131316]/90 border border-white/10 rounded-3xl p-6 sm:p-8 flex flex-col justify-between backdrop-blur-xl shadow-2xl">
           <div>
             <h3 className="text-xl font-extrabold text-white tracking-tight mb-4 flex items-center gap-2">
               <span>🎟️</span> Choisir mes tickets
             </h3>
 
             {/* Single Fixed Price per Ticket */}
-            <div className="mb-6 bg-black/40 p-4 rounded-2xl border border-white/10 flex items-center justify-between">
+            <div className="mb-6 tombola-inner-box bg-black/40 p-4 rounded-2xl border border-white/10 flex items-center justify-between">
               <div>
                 <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block">
                   Tarif unique de la case
@@ -329,7 +326,7 @@ export default function TombolaConfigurator() {
               <button
                 type="button"
                 onClick={handleRandomPick}
-                className="flex-1 py-2 px-3 bg-white/5 hover:bg-white/10 text-white rounded-xl text-xs font-bold border border-white/10 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                className="flex-1 py-2 px-3 tombola-inner-box bg-white/5 hover:bg-white/10 text-white rounded-xl text-xs font-bold border border-white/10 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <span>🎲</span> Case au hasard
               </button>
@@ -345,7 +342,7 @@ export default function TombolaConfigurator() {
             </div>
 
             {/* Summary Box */}
-            <div className="bg-black/50 rounded-2xl p-4 border border-white/10 mb-6 flex flex-col gap-3">
+            <div className="tombola-inner-box bg-black/50 rounded-2xl p-4 border border-white/10 mb-6 flex flex-col gap-3">
               <div className="flex justify-between items-center text-xs font-bold">
                 <span className="text-gray-400">Cases sélectionnées :</span>
                 <span className="text-white font-mono">{selectedTickets.length} ticket(s)</span>
@@ -389,7 +386,7 @@ export default function TombolaConfigurator() {
             type="button"
             onClick={handleAddToCart}
             disabled={selectedTickets.length === 0}
-            className={`w-full py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-xl ${
+            className={`w-full py-4 rounded-2xl font-black text-sm uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-xl no-invert ${
               selectedTickets.length > 0
                 ? "bg-[#ff4f00] hover:bg-[#e04500] text-white shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-[0.98]"
                 : "bg-white/10 text-gray-500 cursor-not-allowed border border-white/5"
@@ -411,8 +408,8 @@ export default function TombolaConfigurator() {
         </defs>
       </svg>
 
-      {/* Grid 1 to 40 Interactive Section */}
-      <div className="bg-[#131316]/90 border border-white/10 rounded-3xl p-6 sm:p-10 backdrop-blur-xl shadow-2xl flex flex-col gap-6">
+      {/* Grid 1 to N Interactive Section */}
+      <div className="tombola-card bg-[#131316]/90 border border-white/10 rounded-3xl p-6 sm:p-10 backdrop-blur-xl shadow-2xl flex flex-col gap-6">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
           <div>
             <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
@@ -426,7 +423,7 @@ export default function TombolaConfigurator() {
           {/* Grid Legend */}
           <div className="flex items-center gap-4 text-xs font-bold flex-wrap">
             <div className="flex items-center gap-1.5">
-              <span className="w-3.5 h-3.5 rounded-md bg-white/10 border border-white/20" />
+              <span className="w-3.5 h-3.5 rounded-md tombola-inner-box bg-white/10 border border-white/20" />
               <span className="text-gray-300">Disponible</span>
             </div>
             <div className="flex items-center gap-1.5">
@@ -434,7 +431,7 @@ export default function TombolaConfigurator() {
               <span className="text-white">Sélectionné</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="relative w-3.5 h-3.5 rounded-md bg-red-950/80 border border-red-800/80 flex items-center justify-center">
+              <span className="relative w-3.5 h-3.5 rounded-md tombola-grid-btn-reserved bg-red-950/80 border border-red-800/80 flex items-center justify-center">
                 <svg className="w-full h-full text-red-500" viewBox="0 0 20 20" fill="none" style={{ filter: "url(#pencil-rough)" }}>
                   <path d="M 2,18 L 18,2 M 3,15 L 17,4 M 2,2 L 18,18 M 4,3 L 16,17" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
                 </svg>
@@ -458,10 +455,10 @@ export default function TombolaConfigurator() {
                 onClick={() => handleToggleCase(num)}
                 className={`relative aspect-square rounded-2xl font-mono font-black text-base sm:text-lg flex flex-col items-center justify-center transition-all duration-200 select-none border overflow-hidden ${
                   isReserved
-                    ? "bg-red-950/20 text-gray-500 border-red-900/30 cursor-not-allowed opacity-80"
+                    ? "tombola-grid-btn-reserved bg-red-950/20 text-gray-500 border-red-900/30 cursor-not-allowed opacity-80"
                     : isSelected
-                    ? "bg-[#ff4f00] text-white border-[#ff4f00] shadow-[0_0_18px_rgba(255,79,0,0.6)] scale-105 z-10 cursor-pointer"
-                    : "bg-white/5 text-white border-white/10 hover:bg-white/15 hover:border-white/30 hover:scale-105 cursor-pointer"
+                    ? "no-invert bg-[#ff4f00] text-white border-[#ff4f00] shadow-[0_0_18px_rgba(255,79,0,0.6)] scale-105 z-10 cursor-pointer"
+                    : "tombola-grid-btn bg-white/5 text-white border-white/10 hover:bg-white/15 hover:border-white/30 hover:scale-105 cursor-pointer"
                 }`}
               >
                 {/* Simple & Small Hand-Drawn Pen Cross Overlay */}

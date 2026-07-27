@@ -92,6 +92,48 @@ html.light .reassurance-card {
   border-color: #e5e7eb !important;
 }
 
+/* Tombola Light Mode Overrides */
+html.light .tombola-card {
+  background-color: #ffffff !important;
+  border-color: #e5e7eb !important;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light .tombola-inner-box {
+  background-color: #f8f9fa !important;
+  border-color: #e5e7eb !important;
+  color: #111827 !important;
+}
+
+html.light .tombola-inner-box span:not(.no-invert, .no-invert *) {
+  color: #374151 !important;
+}
+
+html.light .tombola-grid-btn {
+  background-color: #f3f4f6 !important;
+  border-color: #e5e7eb !important;
+  color: #1f2937 !important;
+}
+
+html.light .tombola-grid-btn:hover {
+  background-color: #e5e7eb !important;
+  border-color: #d1d5db !important;
+  color: #111827 !important;
+}
+
+html.light .tombola-grid-btn-reserved {
+  background-color: #fef2f2 !important;
+  border-color: #fecaca !important;
+  color: #991b1b !important;
+}
+
+html.light .tombola-badge-pill {
+  background-color: #ffffff !important;
+  border-color: #e5e7eb !important;
+  color: #1f2937 !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+}
+
 
 /* .no-invert elements: preserve their original colors — don't touch text or bg */
 html.light .no-invert {

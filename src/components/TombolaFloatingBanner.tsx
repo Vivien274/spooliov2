@@ -36,7 +36,7 @@ export default function TombolaFloatingBanner() {
         </button>
       ) : (
         /* Expanded side banner card */
-        <div className="relative w-[280px] sm:w-[310px] bg-[#131316]/95 backdrop-blur-xl border border-white/10 hover:border-[#ff4f00]/40 rounded-3xl p-5 shadow-[0_10px_35px_rgba(0,0,0,0.8)] transition-all duration-300 group overflow-hidden">
+        <div className="relative w-[280px] sm:w-[310px] tombola-card bg-[#131316]/95 backdrop-blur-xl border border-white/10 hover:border-[#ff4f00]/40 rounded-3xl p-5 shadow-[0_10px_35px_rgba(0,0,0,0.8)] transition-all duration-300 group overflow-hidden">
           {/* Subtle Background Glow */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#ff4f00]/15 rounded-full filter blur-2xl pointer-events-none group-hover:bg-[#ff4f00]/25 transition-colors" />
 
