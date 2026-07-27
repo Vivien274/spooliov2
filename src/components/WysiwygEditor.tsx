@@ -9,6 +9,93 @@ interface WysiwygEditorProps {
   theme?: "dark" | "light";
 }
 
+export function isMarkdownText(text: string): boolean {
+  if (!text) return false;
+  return (
+    /^#{1,4}\s+/m.test(text) ||
+    /\*\*.+?\*\*/.test(text) ||
+    /__[^\s]+?__/.test(text) ||
+    /^[-*•]\s+/m.test(text) ||
+    /^\d+\.\s+/m.test(text)
+  );
+}
+
+export function convertMarkdownToHtml(md: string): string {
+  if (!md) return "";
+
+  // Normalize lines
+  const lines = md.replace(/\r\n/g, "\n").split("\n");
+  const result: string[] = [];
+  let inList = false;
+
+  for (let i = 0; i < lines.length; i++) {
+    const rawLine = lines[i];
+    const trimmed = rawLine.trim();
+
+    if (!trimmed) {
+      if (inList) {
+        result.push("</ul>");
+        inList = false;
+      }
+      continue;
+    }
+
+    // Inline formatting: **bold**, *italic*
+    let inline = rawLine
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+      .replace(/__(.*?)__/g, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/g, "<em>$1</em>")
+      .replace(/_(.*?)_/g, "<em>$1</em>");
+
+    const trimmedInline = inline.trim();
+
+    // H3 / H4
+    if (/^###+\s+/.test(trimmedInline)) {
+      if (inList) { result.push("</ul>"); inList = false; }
+      const content = trimmedInline.replace(/^###+\s+/, "");
+      result.push(`<h3>${content}</h3>`);
+      continue;
+    }
+
+    // H2 / H1
+    if (/^#\s+|^##\s+/.test(trimmedInline)) {
+      if (inList) { result.push("</ul>"); inList = false; }
+      const content = trimmedInline.replace(/^#\s+|^##\s+/, "");
+      result.push(`<h2>${content}</h2>`);
+      continue;
+    }
+
+    // Unordered lists (- item, * item, • item)
+    if (/^[-*•]\s+/.test(trimmedInline)) {
+      if (!inList) {
+        result.push("<ul class='list-disc pl-5 space-y-1'>");
+        inList = true;
+      }
+      const content = trimmedInline.replace(/^[-*•]\s+/, "");
+      result.push(`<li>${content}</li>`);
+      continue;
+    }
+
+    // Ordered lists (1. item, 2. item)
+    if (/^\d+\.\s+/.test(trimmedInline)) {
+      if (inList) { result.push("</ul>"); inList = false; }
+      const content = trimmedInline.replace(/^\d+\.\s+/, "");
+      result.push(`<p>${content}</p>`);
+      continue;
+    }
+
+    // Regular paragraph
+    if (inList) { result.push("</ul>"); inList = false; }
+    result.push(`<p>${inline}</p>`);
+  }
+
+  if (inList) {
+    result.push("</ul>");
+  }
+
+  return result.join("");
+}
+
 export default function WysiwygEditor({
   value,
   onChange,
@@ -61,6 +148,27 @@ export default function WysiwygEditor({
     }
   };
 
+  const handleFormatMarkdown = () => {
+    if (editorRef.current) {
+      const currentText = editorRef.current.innerText || editorRef.current.textContent || "";
+      if (currentText.trim()) {
+        const formatted = convertMarkdownToHtml(currentText);
+        editorRef.current.innerHTML = formatted;
+        handleInput();
+      }
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent) => {
+    const pastedText = e.clipboardData.getData("text/plain");
+    if (pastedText && isMarkdownText(pastedText)) {
+      e.preventDefault();
+      const formattedHtml = convertMarkdownToHtml(pastedText);
+      document.execCommand("insertHTML", false, formattedHtml);
+      handleInput();
+    }
+  };
+
   // Styles dynamically adjusted to admin theme
   const containerBg = theme === "dark" ? "bg-[#0b0b0f] border-white/10" : "bg-gray-50 border-gray-200";
   const toolbarBg = theme === "dark" ? "bg-[#14141c] border-white/10" : "bg-gray-100 border-gray-200";
@@ -77,7 +185,7 @@ export default function WysiwygEditor({
           type="button"
           onClick={() => execCmd("formatBlock", "p")}
           className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${btnBg}`}
-          title="Texte Normal"
+          title="Texte Normal (P)"
         >
           P
         </button>
@@ -169,11 +277,21 @@ export default function WysiwygEditor({
         {/* Separator */}
         <div className={`w-[1px] h-5 ${theme === "dark" ? "bg-white/10" : "bg-gray-300"}`} />
 
+        {/* Format Gemini / Markdown */}
+        <button
+          type="button"
+          onClick={handleFormatMarkdown}
+          className="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-[#2F3CD9]/20 hover:bg-[#2F3CD9]/40 text-[#2F3CD9] border border-[#2F3CD9]/30 transition-all cursor-pointer flex items-center gap-1"
+          title="Convertir automatiquement le texte Gemini / Markdown en HTML propre"
+        >
+          <span>🪄 Formater Gemini / Markdown</span>
+        </button>
+
         {/* Clear format */}
         <button
           type="button"
           onClick={() => execCmd("removeFormat")}
-          className={`p-1.5 rounded-lg transition-all cursor-pointer ${btnBg}`}
+          className={`p-1.5 rounded-lg transition-all cursor-pointer ml-auto ${btnBg}`}
           title="Effacer la mise en forme"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -194,6 +312,7 @@ export default function WysiwygEditor({
           ref={editorRef}
           contentEditable
           onInput={handleInput}
+          onPaste={handlePaste}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           className={`w-full min-h-[140px] focus:outline-none text-sm leading-relaxed wysiwyg-editor-area ${editorText}`}
