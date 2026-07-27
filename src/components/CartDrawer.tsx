@@ -97,7 +97,11 @@ export default function CartDrawer() {
                   {/* Info & Options */}
                   <div className="flex-1 flex flex-col min-w-0">
                     <h4 className="text-xs font-bold text-white truncate">
-                      {item.productId < 0 ? (
+                      {item.slug === "tombola" ? (
+                        <Link href="/tombola" onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
+                          {item.name}
+                        </Link>
+                      ) : item.productId < 0 ? (
                         <span>{item.name}</span>
                       ) : (
                         <Link href={`/product/${item.slug}`} onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">

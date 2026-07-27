@@ -232,7 +232,7 @@ export default function Header({
         <Link href="/pochette-surprise" className="hover:opacity-80 cursor-pointer transition-colors text-white font-bold flex items-center gap-1">
           <span>Les pochettes surprise</span>
         </Link>
-        <Link href="/boussole-sensorielle" className="hover:text-white cursor-pointer transition-colors">Boussole Sensorielle</Link>
+        <Link href="/boussole-sensorielle" className="hover:text-[#ff4f00] cursor-pointer transition-colors">Boussole Sensorielle</Link>
         <Link href="/blog" className="hover:text-white cursor-pointer transition-colors">{t("header.about")}</Link>
         <Link href="/don" className="hover:text-white cursor-pointer transition-colors text-[#ff4f00] font-bold">{t("home.donation.button")} 🧡</Link>
 
