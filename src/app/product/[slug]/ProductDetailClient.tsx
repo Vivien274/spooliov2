@@ -352,7 +352,6 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
   const imageAlt = product.images[0]?.alt || product.name;
   const hasImage = !!imageUrl;
 
-  // Neuromarketing Keyword Badge mapping
   const getKeywordBadge = () => {
     const categoriesText = Array.isArray(product.categories)
       ? product.categories.map(c => c.name || "").join(" ")
@@ -360,7 +359,6 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
     const textToCheck = `${product.name} ${categoriesText}`.toLowerCase();
     if (textToCheck.includes("goofy")) return "👀 JUGE";
     if (textToCheck.includes("marcel")) return "🐙 MARCEL";
-    if (textToCheck.includes("fidget")) return "🌀 APPAREIL";
     if (textToCheck.includes("clavier")) return "⌨️ CLICK";
     if (textToCheck.includes("nfc")) return "📱 SCAN";
     return null;
