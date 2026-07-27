@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import { useTranslation } from "@/context/LanguageContext";
+import MotionNavigationMenu from "@/components/MotionNavigationMenu";
 
 interface HeaderProps {
   className?: string;
@@ -183,67 +184,18 @@ export default function Header({
         />
       </Link>
 
-      {/* Central Search Pill Menu with Glassmorphism */}
-      <div className="hidden md:flex items-center gap-6 px-6 py-2.5 bg-white/10 backdrop-blur-md border border-white/10 rounded-full text-[12px] font-semibold text-white/90 select-none shadow-lg">
-        <div className="relative group/menu flex items-center gap-1 hover:text-white cursor-pointer transition-colors py-1.5">
-          <Link href="/boutique" className="flex items-center gap-1">
-            <span>{t("header.shop")}</span>
-            <svg className="w-3 h-3 text-white/70 transition-transform duration-200 group-hover/menu:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-            </svg>
-          </Link>
- 
-          {/* Dropdown Menu Wrapper (Continuous hover area) */}
-          <div className="absolute top-[80%] left-1/2 -translate-x-1/2 pt-4 w-68 opacity-0 invisible group-hover/menu:opacity-100 group-hover/menu:visible transition-all duration-300 transform scale-95 group-hover/menu:scale-100 z-50 cursor-default">
-            <div className="bg-[#131316]/95 backdrop-blur-lg border border-[#1f1f23] rounded-2xl p-3 shadow-2xl text-white/80">
-              <div className="flex flex-col gap-1">
-                <Link href="/categorie/Accessoires" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
-                  <span>Accessoires</span>
-                </Link>
-                <Link href="/categorie/Animaux & Figurines" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
-                  <span>Animaux & Figurines</span>
-                </Link>
-                <Link href="/categorie/Fidgets" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
-                  <span>Fidgets</span>
-                  <span className="bg-red-600 text-white text-[8px] font-extrabold px-1.5 py-0.5 rounded tracking-wide leading-none shadow-sm no-invert">HOT !</span>
-                </Link>
-                <Link href="/categorie/Décoration" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
-                  <span>Décoration</span>
-                </Link>
-                <Link href="/categorie/Jeux & activités" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
-                  <span>Jeux & activités</span>
-                </Link>
-                <Link href="/categorie/Porte clés" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
-                  <span>Porte clés</span>
-                </Link>
-                <Link href="/categorie/Geek %2F Gaming" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 hover:text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
-                  <span>Geek / Gaming</span>
-                  <span className="bg-[#ff4f00] text-white text-[8px] font-extrabold px-1.5 py-0.5 rounded tracking-wide leading-none shadow-sm whitespace-nowrap no-invert">TOUT CHAUD !</span>
-                </Link>
-                <div className="h-[1px] bg-white/10 my-1" />
-                <Link href="/pochette-surprise" className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-white/10 text-white transition-colors text-[10px] font-bold tracking-wider uppercase">
-                  <span className="flex items-center gap-1.5">🎁 Les pochettes surprise</span>
-                  <span className="bg-[#00F0FF] text-black text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide leading-none no-invert">FUN !</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-        <Link href="/pochette-surprise" className="hover:opacity-80 cursor-pointer transition-colors text-white font-bold flex items-center gap-1">
-          <span>Les pochettes surprise</span>
-        </Link>
-        <Link href="/boussole-sensorielle" className="hover:text-[#ff4f00] cursor-pointer transition-colors">Boussole Sensorielle</Link>
-        <Link href="/blog" className="hover:text-white cursor-pointer transition-colors">{t("header.about")}</Link>
-        <Link href="/don" className="hover:text-white cursor-pointer transition-colors text-[#ff4f00] font-bold">{t("home.donation.button")} 🧡</Link>
+      {/* Central Motion Navigation Menu with Morphing Dropdowns & Sliding Pill */}
+      <div className="hidden md:flex items-center gap-3">
+        <MotionNavigationMenu />
 
         {/* Search magnifier bubble */}
         <button 
           onClick={() => setIsSearchOpen(true)}
-          className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors ml-2 cursor-pointer shadow-sm border border-white/5"
+          className="w-10 h-10 rounded-full bg-white/10 dark:bg-white/10 light:bg-gray-100 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer shadow-sm border border-white/10 light:border-gray-200"
           title="Rechercher (Cmd+K)"
           aria-label="Rechercher"
         >
-          <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-4 h-4 text-white dark:text-white light:text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </button>
