@@ -376,11 +376,32 @@ export default function ProductFormClient({ productId, isNew }: Props) {
   const set = <K extends keyof ProductData>(key: K) => (value: ProductData[K]) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
-  const addTag = () => {
-    if (newTag.trim() && !form.tags.includes(newTag.trim())) {
-      set("tags")([...form.tags, newTag.trim()]);
-      setNewTag("");
+  const addTag = (rawInput?: string) => {
+    const textToProcess = rawInput !== undefined ? rawInput : newTag;
+    if (!textToProcess || !textToProcess.trim()) return;
+
+    // Split by commas, semicolons, pipes, or newlines
+    const candidateTags = textToProcess
+      .split(/[,;\n|]+/)
+      .map(t => t.trim().replace(/^["']|["']$/g, ""))
+      .filter(t => t.length > 0);
+
+    if (candidateTags.length === 0) return;
+
+    const updatedTags = [...form.tags];
+    let addedCount = 0;
+
+    for (const tag of candidateTags) {
+      if (!updatedTags.some(t => t.toLowerCase() === tag.toLowerCase())) {
+        updatedTags.push(tag);
+        addedCount++;
+      }
     }
+
+    if (addedCount > 0) {
+      set("tags")(updatedTags);
+    }
+    setNewTag("");
   };
 
   const removeTag = (tag: string) => set("tags")(form.tags.filter((t) => t !== tag));
@@ -1364,7 +1385,14 @@ export default function ProductFormClient({ productId, isNew }: Props) {
               icon={<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>}
               cardBg={cls.cardBg} border={cls.border} textMain={cls.textMain}
             >
-              <p className={`text-xs ${cls.textMuted}`}>Les tags permettent aux clients de naviguer et filtrer les produits.</p>
+              <div className="flex flex-col gap-1.5">
+                <p className={`text-xs ${cls.textMuted}`}>Les tags permettent aux clients de naviguer et filtrer les produits.</p>
+                <div className="p-2.5 rounded-xl bg-[#2F3CD9]/10 border border-[#2F3CD9]/30 text-[11px] text-[#2F3CD9] font-medium flex items-start gap-2">
+                  <span className="text-base">✨</span>
+                  <span><strong>Astuce rapide :</strong> Collez directement toute votre liste de tags séparés par des virgules ou retours à la ligne, ils seront <strong>découpés et créés automatiquement !</strong></span>
+                </div>
+              </div>
+
               <div className="flex flex-wrap gap-2">
                 {form.tags.map((tag) => (
                   <span
@@ -1380,16 +1408,31 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                   </span>
                 ))}
               </div>
+
               <div className="flex gap-2">
                 <input
                   value={newTag}
-                  onChange={(e) => setNewTag(e.target.value)}
+                  onChange={(e) => {
+                    const val = e.target.value;
+                    if (val.includes(",") || val.includes(";") || val.includes("\n") || val.includes("|")) {
+                      addTag(val);
+                    } else {
+                      setNewTag(val);
+                    }
+                  }}
+                  onPaste={(e) => {
+                    const pastedText = e.clipboardData.getData("text");
+                    if (pastedText && (pastedText.includes(",") || pastedText.includes(";") || pastedText.includes("\n") || pastedText.includes("|"))) {
+                      e.preventDefault();
+                      addTag(pastedText);
+                    }
+                  }}
                   onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addTag())}
-                  placeholder="Ajouter un tag…"
-                  className={`flex-1 ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-sm ${cls.textMain} placeholder-gray-400 focus:outline-none focus:border-white/30 transition-colors`}
+                  placeholder="Coller ou saisir des tags (ex: tag1, tag2, tag3)…"
+                  className={`flex-1 ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-sm ${cls.textMain} placeholder-gray-400 focus:outline-none focus:border-[#2F3CD9]/50 transition-colors`}
                 />
                 <button
-                  onClick={addTag}
+                  onClick={() => addTag()}
                   className="px-4 py-2.5 bg-white text-black hover:bg-white/90 text-xs font-bold rounded-xl transition-all cursor-pointer shadow-md shadow-white/5"
                 >
                   Ajouter
