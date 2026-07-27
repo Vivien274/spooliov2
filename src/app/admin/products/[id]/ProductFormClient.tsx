@@ -879,7 +879,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
 
               {/* Media grid (Photos + Vidéos) */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {form.images.map((img) => {
+                {form.images.map((img, idx) => {
                   const isVid = img.src && (
                     img.src.endsWith(".mp4") ||
                     img.src.endsWith(".webm") ||
@@ -887,9 +887,43 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                     img.src.includes("youtube.com") ||
                     img.src.includes("youtu.be")
                   );
+                  const isCover = idx === 0;
+
+                  const setAsCover = (index: number) => {
+                    if (index === 0) return;
+                    setForm(prev => {
+                      const newImages = [...prev.images];
+                      const [selected] = newImages.splice(index, 1);
+                      newImages.unshift(selected);
+                      return { ...prev, images: newImages };
+                    });
+                  };
+
+                  const moveMedia = (from: number, to: number) => {
+                    if (to < 0 || to >= form.images.length) return;
+                    setForm(prev => {
+                      const newImages = [...prev.images];
+                      const [moved] = newImages.splice(from, 1);
+                      newImages.splice(to, 0, moved);
+                      return { ...prev, images: newImages };
+                    });
+                  };
 
                   return (
-                    <div key={img.id} className={`relative aspect-square rounded-xl overflow-hidden ${cls.inputBg} border ${cls.border} group`}>
+                    <div
+                      key={img.id}
+                      className={`relative aspect-square rounded-xl overflow-hidden ${cls.inputBg} border transition-all group ${
+                        isCover ? "border-[#ff4f00] ring-2 ring-[#ff4f00]/30 shadow-md" : cls.border
+                      }`}
+                    >
+                      {/* Cover Badge */}
+                      {isCover && (
+                        <span className="absolute top-2 left-2 px-2 py-0.5 text-[9px] font-extrabold bg-[#ff4f00] text-white rounded-full shadow-lg z-20 uppercase tracking-widest flex items-center gap-1 no-invert">
+                          ⭐ Couverture
+                        </span>
+                      )}
+
+                      {/* Thumbnail Content */}
                       {isVid ? (
                         <div className="w-full h-full relative flex items-center justify-center bg-black">
                           <video src={img.src} muted className="object-cover w-full h-full opacity-60" />
@@ -900,17 +934,63 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                       ) : (
                         <Image src={img.src} alt={img.alt || "Média"} fill className="object-cover" />
                       )}
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          removeImage(img.id);
-                        }}
-                        className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer border-transparent z-10"
-                      >
-                        <svg className="w-6 h-6 text-red-500 hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                      </button>
+
+                      {/* Hover Action Overlay */}
+                      <div className="absolute inset-0 bg-black/75 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-between p-2 z-10 select-none">
+                        {/* Top bar overlay: Set Cover or Cover indicator */}
+                        {!isCover ? (
+                          <button
+                            type="button"
+                            onClick={() => setAsCover(idx)}
+                            className="w-full py-1 text-[10px] font-bold bg-[#ff4f00] hover:bg-[#e04500] text-white rounded-lg transition-colors cursor-pointer shadow flex items-center justify-center gap-1"
+                          >
+                            <span>⭐ Image de couverture</span>
+                          </button>
+                        ) : (
+                          <span className="text-[10px] font-black text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30">
+                            Image principale
+                          </span>
+                        )}
+
+                        {/* Center overlay: Delete button */}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            removeImage(img.id);
+                          }}
+                          className="p-1.5 rounded-full bg-red-500/20 hover:bg-red-500/40 text-red-400 hover:text-red-300 transition-all cursor-pointer"
+                          title="Supprimer ce média"
+                        >
+                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+
+                        {/* Bottom bar overlay: Move Left / Move Right */}
+                        <div className="flex items-center gap-1.5">
+                          {idx > 0 && (
+                            <button
+                              type="button"
+                              onClick={() => moveMedia(idx, idx - 1)}
+                              className="px-2 py-0.5 text-[9px] font-bold bg-white/10 hover:bg-white/20 text-white rounded transition-colors cursor-pointer"
+                              title="Déplacer vers la gauche"
+                            >
+                              ◀
+                            </button>
+                          )}
+                          {idx < form.images.length - 1 && (
+                            <button
+                              type="button"
+                              onClick={() => moveMedia(idx, idx + 1)}
+                              className="px-2 py-0.5 text-[9px] font-bold bg-white/10 hover:bg-white/20 text-white rounded transition-colors cursor-pointer"
+                              title="Déplacer vers la droite"
+                            >
+                              ▶
+                            </button>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   );
                 })}
