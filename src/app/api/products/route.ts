@@ -4,6 +4,8 @@ import fs from 'fs';
 import path from 'path';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
 
 function decodeHtml(str: string): string {
   if (!str) return "";
@@ -76,6 +78,11 @@ function mapProduct(p: any) {
     tags: tagsList,
     stock: typeof p.stock === 'number' ? p.stock : (typeof p.stock_quantity === 'number' ? p.stock_quantity : -1),
     status: p.status || "publish",
+    show_in_sensory_compass: !!(p.showInSensoryCompass || p.show_in_sensory_compass),
+    sensory_noise_level: p.sensoryNoiseLevel || p.sensory_noise_level || "silent",
+    sensory_size: p.sensorySize || p.sensory_size || "pocket",
+    sensory_category: p.sensoryCategory || p.sensory_category || "manipuler",
+    sensory_profiles: p.sensoryProfiles ? (typeof p.sensoryProfiles === "string" ? p.sensoryProfiles.split(",").map((s: string) => s.trim()) : p.sensoryProfiles) : [],
   };
 }
 
@@ -88,23 +95,20 @@ async function fetchAllProducts(status: string) {
   // 1. Try Prisma Database client first (with a timeout race)
   try {
     console.log(`Attempting Prisma Database fetch with status filter: ${status}...`);
-    const dbProducts = await Promise.race([
-      prisma.product.findMany({
-        where: status === 'all' ? {} : {
-          status: {
-            in: ['publish', '']
-          }
-        },
-        include: {
-          images: true,
-          categories: true,
-        },
-        orderBy: {
-          dateCreated: 'desc',
-        },
-      }),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 5000))
-    ]) as any;
+    const dbProducts = await prisma.product.findMany({
+      where: status === 'all' ? {} : {
+        status: {
+          in: ['publish', '']
+        }
+      },
+      include: {
+        images: true,
+        categories: true,
+      },
+      orderBy: {
+        dateCreated: 'desc',
+      },
+    });
 
     if (dbProducts && dbProducts.length > 0) {
       console.log("Successfully fetched products from Prisma Database.");
@@ -207,5 +211,47 @@ export async function GET(request: Request) {
         date_created: new Date().toISOString()
       }))
     );
+  }
+}
+
+export async function PATCH(request: Request) {
+  try {
+    const body = await request.json();
+    const { productId, showInSensoryCompass } = body;
+    if (!productId) {
+      return NextResponse.json({ error: "productId requis" }, { status: 400 });
+    }
+
+    if (prisma) {
+      try {
+        await prisma.product.update({
+          where: { id: Number(productId) },
+          data: { showInSensoryCompass: Boolean(showInSensoryCompass) },
+        });
+      } catch (err: any) {
+        console.warn("Prisma PATCH failed:", err.message);
+      }
+    }
+
+    try {
+      const jsonPath = path.join(process.cwd(), "src/data/products.json");
+      if (fs.existsSync(jsonPath)) {
+        const fileData = fs.readFileSync(jsonPath, "utf8");
+        const parsed = JSON.parse(fileData);
+        if (Array.isArray(parsed)) {
+          const matchIdx = parsed.findIndex((p: any) => Number(p.id) === Number(productId));
+          if (matchIdx !== -1) {
+            parsed[matchIdx].show_in_sensory_compass = Boolean(showInSensoryCompass);
+            parsed[matchIdx].showInSensoryCompass = Boolean(showInSensoryCompass);
+            fs.writeFileSync(jsonPath, JSON.stringify(parsed, null, 2), "utf8");
+          }
+        }
+      }
+    } catch (e) {}
+
+    return NextResponse.json({ success: true, showInSensoryCompass: Boolean(showInSensoryCompass) });
+  } catch (error: any) {
+    console.error("PATCH /api/products error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

@@ -218,10 +218,17 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
       }
 
       // 4. Mechanism match (15 pts)
-      const categoryMap = { click: 'cliquer', flow: 'manipuler', touch: 'caresser', solve: 'resoudre' };
-      if (answers.gesture && product.category === categoryMap[answers.gesture]) {
-        rawScore += 15;
-        matchReasons.push("Correspond à ton geste préféré");
+      if (answers.gesture) {
+        const cat = product.category;
+        if (
+          (answers.gesture === 'click' && (cat === 'cliquer' || cat === 'presser')) ||
+          (answers.gesture === 'flow' && (cat === 'manipuler' || cat === 'tourner')) ||
+          (answers.gesture === 'touch' && (cat === 'caresser' || cat === 'presser')) ||
+          (answers.gesture === 'solve' && (cat === 'resoudre' || cat === 'tourner'))
+        ) {
+          rawScore += 15;
+          matchReasons.push("Correspond à ton geste préféré");
+        }
       }
 
       // 5. Size match (10 pts)

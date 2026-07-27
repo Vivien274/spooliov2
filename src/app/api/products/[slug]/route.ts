@@ -74,6 +74,12 @@ function mapProduct(p: any) {
     attributes: parsedAttributes,
     tags: tagsList,
     stock: typeof p.stock === 'number' ? p.stock : (typeof p.stock_quantity === 'number' ? p.stock_quantity : -1),
+    status: p.status || "publish",
+    show_in_sensory_compass: !!(p.showInSensoryCompass || p.show_in_sensory_compass),
+    sensory_noise_level: p.sensoryNoiseLevel || p.sensory_noise_level || "silent",
+    sensory_size: p.sensorySize || p.sensory_size || "pocket",
+    sensory_category: p.sensoryCategory || p.sensory_category || "manipuler",
+    sensory_profiles: p.sensoryProfiles ? (typeof p.sensoryProfiles === "string" ? p.sensoryProfiles.split(",").map((s: string) => s.trim()) : p.sensoryProfiles) : [],
   };
 }
 
@@ -257,6 +263,11 @@ export async function PUT(
       seoScore: typeof body.seoScore === 'number' ? body.seoScore : 0,
       metaTitle: body.metaTitle || null,
       metaDescription: body.metaDescription || null,
+      showInSensoryCompass: typeof body.showInSensoryCompass === 'boolean' ? body.showInSensoryCompass : (body.show_in_sensory_compass || false),
+      sensoryNoiseLevel: body.sensoryNoiseLevel || body.sensory_noise_level || null,
+      sensorySize: body.sensorySize || body.sensory_size || null,
+      sensoryCategory: body.sensoryCategory || body.sensory_category || null,
+      sensoryProfiles: Array.isArray(body.sensoryProfiles) ? body.sensoryProfiles.join(',') : (body.sensoryProfiles || null),
     };
 
     let attributesObj: any = { attributes: [], variationPrices: [] };

@@ -139,19 +139,17 @@ export default function Header({
     }
   };
 
-  const cleanClassName = isSticky
-    ? className
-        .replace(/\b(relative|static|absolute|h-\w+)\b/g, "")
-        .replace(/\bno-invert\b/g, "")
-        .trim()
-    : className;
-
-  const headerJsx = (
-    <header className={`${cleanClassName} ${
+  return (
+    <header className={`sticky top-0 z-[99999] w-full transition-all duration-300 ${
       isSticky 
-        ? "fixed top-0 left-0 right-0 !max-w-none h-16 md:h-20 bg-[#131316]/90 backdrop-blur-md border-b border-white/10 shadow-2xl px-6 md:px-12 z-[99999] flex items-center justify-between transition-all duration-300 animate-slide-down"
-        : ""
+        ? "bg-[#131316]/90 dark:bg-[#131316]/90 light:bg-white/95 backdrop-blur-md border-b border-white/10 light:border-gray-200 shadow-xl" 
+        : "bg-transparent border-b border-transparent"
     }`}>
+      <div className={`mx-auto w-full flex items-center justify-between transition-all duration-300 ${
+        isSticky
+          ? "h-16 md:h-20 px-6 md:px-12 max-w-7xl"
+          : "h-24 px-6 max-w-[1200px]"
+      }`}>
       {/* Mobile Burger Button (left on mobile) */}
       <div className="flex md:hidden mr-2">
         <button
@@ -649,12 +647,7 @@ export default function Header({
         </div>,
         document.body
       )}
+      </div>
     </header>
   );
-
-  if (isSticky && mounted) {
-    return createPortal(headerJsx, document.body);
-  }
-
-  return headerJsx;
 }

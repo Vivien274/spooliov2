@@ -27,7 +27,34 @@ const categoryMeta = {
     label: 'Caresser',
     icon: Waves,
   },
+  tourner: {
+    label: 'Tourner',
+    icon: InfinityIcon,
+  },
+  presser: {
+    label: 'Presser',
+    icon: Keyboard,
+  },
 };
+
+function stripHtmlAndDecode(str: string): string {
+  if (!str) return "";
+  return str
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&#039;/g, "'")
+    .replace(/&rsquo;/g, "’")
+    .replace(/&lsquo;/g, "‘")
+    .replace(/&rdquo;/g, "”")
+    .replace(/&ldquo;/g, "“")
+    .replace(/&nbsp;/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
 export default function FidgetCard({ product }: FidgetCardProps) {
   const [tiltStyle, setTiltStyle] = useState<React.CSSProperties>({});
@@ -38,7 +65,9 @@ export default function FidgetCard({ product }: FidgetCardProps) {
   };
   const IconComponent = meta.icon;
 
-  const productUrl = `/product/${product.id}`;
+  const productUrl = product.slug
+    ? `/product/${product.slug}`
+    : (product.wooCommerceUrl || `/product/${product.id}`);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const card = e.currentTarget;
@@ -92,11 +121,11 @@ export default function FidgetCard({ product }: FidgetCardProps) {
         {/* Content Container (Title, Description) */}
         <div className="flex flex-col gap-2.5 p-6 pb-0 font-[family-name:var(--font-plus-jakarta)]">
           <h3 className="text-[18px] font-bold text-white transition-colors duration-200 group-hover:text-[#005cff]">
-            {product.name}
+            {stripHtmlAndDecode(product.name)}
           </h3>
 
           <p className="text-[14px] text-gray-400 line-clamp-2 leading-relaxed">
-            {product.description}
+            {stripHtmlAndDecode(product.description)}
           </p>
         </div>
       </div>

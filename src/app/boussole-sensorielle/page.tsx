@@ -164,6 +164,8 @@ const categoryHeadings = {
   manipuler: '🌀 Pour t\'occuper les mains de façon fluide :',
   resoudre: '🧩 Un défi logique pour canaliser ton attention :',
   caresser: '🌿 Un retour tactile doux et apaisant :',
+  tourner: '⚙️ Un mouvement de rotation continu :',
+  presser: '✊ Une sensation de pression apaisante :',
 };
 
 type AppTab = 'compass' | 'profiler' | 'digital' | 'breathing';
@@ -174,12 +176,55 @@ export default function BoussoleSensoriellePage() {
   const [virtualClicks, setVirtualClicks] = useState<number>(0);
   const [clickScale, setClickScale] = useState<boolean>(false);
 
+  const [fidgetProducts, setFidgetProducts] = useState<FidgetProduct[]>([]);
+  const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(true);
+
   const [stats, setStats] = useState({
     clicks: 0,
     pops: 0,
     twangs: 0,
     breathingSeconds: 0
   });
+
+  // Fetch live products enabled for Boussole Sensorielle from API
+  useEffect(() => {
+    const fetchLiveSensoryProducts = async () => {
+      setIsLoadingProducts(true);
+      try {
+        const res = await fetch('/api/products?status=all', { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            const boussoleItems = data.filter((p: any) => Boolean(p.show_in_sensory_compass || p.showInSensoryCompass));
+            
+            const mappedLive: FidgetProduct[] = boussoleItems.map((p: any) => ({
+              id: String(p.id || p.slug),
+              slug: p.slug,
+              name: p.name,
+              category: (p.sensory_category || p.sensoryCategory || 'manipuler') as SensoryCategory,
+              description: p.short_description || p.shortDescription || p.description || '',
+              price: typeof p.price === 'number' ? `${p.price}€` : (String(p.price).includes('€') ? p.price : `${p.price}€`),
+              wooCommerceUrl: `/product/${p.slug}`,
+              imageUrl: p.images?.[0]?.src || '/images/figma_keychains.jpg',
+              noiseLevel: p.sensory_noise_level || p.sensoryNoiseLevel || 'silent',
+              size: p.sensory_size || p.sensorySize || 'pocket',
+              profiles: Array.isArray(p.sensory_profiles) && p.sensory_profiles.length > 0
+                ? p.sensory_profiles
+                : (p.sensory_profiles ? String(p.sensory_profiles).split(',').map((s: string) => s.trim()) : ['tdah', 'focus'])
+            }));
+
+            setFidgetProducts(mappedLive);
+          }
+        }
+      } catch (e) {
+        console.warn("Erreur chargement produits Boussole dynamique:", e);
+      } finally {
+        setIsLoadingProducts(false);
+      }
+    };
+
+    fetchLiveSensoryProducts();
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -261,8 +306,8 @@ export default function BoussoleSensoriellePage() {
   };
 
   const filteredProducts = selectedCategory
-    ? products.filter((p) => p.category === selectedCategory)
-    : products;
+    ? fidgetProducts.filter((p) => p.category === selectedCategory)
+    : fidgetProducts;
 
   return (
     <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center overflow-x-hidden">
@@ -375,11 +420,25 @@ export default function BoussoleSensoriellePage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                {filteredProducts.map((product) => (
-                  <FidgetCard key={product.id} product={product} />
-                ))}
-              </div>
+              {isLoadingProducts ? (
+                <div className="text-center py-12 text-neutral-400 font-medium animate-pulse">
+                  Chargement des fidgets sélectionnés...
+                </div>
+              ) : filteredProducts.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                  {filteredProducts.map((product) => (
+                    <FidgetCard key={product.id} product={product} />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12 bg-neutral-900/60 rounded-3xl border border-neutral-800 p-8 max-w-xl mx-auto space-y-3">
+                  <span className="text-3xl">🧭</span>
+                  <h3 className="text-lg font-bold text-white">Aucun fidget activé dans la Boussole</h3>
+                  <p className="text-xs text-neutral-400 leading-relaxed">
+                    Activez vos produits depuis l&apos;administration (colonne 🧭 Boussole ou fiche produit) pour les afficher ici.
+                  </p>
+                </div>
+              )}
             </section>
           </div>
         )}
@@ -387,7 +446,7 @@ export default function BoussoleSensoriellePage() {
         {/* Tab 2: Profiler Quiz */}
         {activeTab === 'profiler' && (
           <section className="animate-fade-in">
-            <FidgetProfiler products={products} />
+            <FidgetProfiler products={fidgetProducts} />
           </section>
         )}
 

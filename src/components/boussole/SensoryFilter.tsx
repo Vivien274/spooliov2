@@ -6,7 +6,6 @@ import { SensoryCategory } from '@/types/boussole';
 
 interface FilterOption {
   category: SensoryCategory;
-  emoji: string;
   label: string;
   description: string;
   icon: React.ComponentType<{ className?: string }>;
@@ -18,7 +17,6 @@ interface FilterOption {
 const filterOptions: FilterOption[] = [
   {
     category: 'cliquer',
-    emoji: '⌨️',
     label: 'Cliquer en boucle',
     description: 'Bruits mécaniques, résistance physique',
     icon: Keyboard,
@@ -28,7 +26,6 @@ const filterOptions: FilterOption[] = [
   },
   {
     category: 'manipuler',
-    emoji: '🐍',
     label: 'Manipuler à l\'infini',
     description: 'Objets articulés, mouvements fluides',
     icon: InfinityIcon,
@@ -38,7 +35,6 @@ const filterOptions: FilterOption[] = [
   },
   {
     category: 'resoudre',
-    emoji: '🧩',
     label: 'Résoudre un défi',
     description: 'Mécanismes complexes, boîtes secrètes',
     icon: Puzzle,
@@ -48,7 +44,6 @@ const filterOptions: FilterOption[] = [
   },
   {
     category: 'caresser',
-    emoji: '🌿',
     label: 'Caresser une texture',
     description: 'Surfaces ondulées, douces ou rugueuses',
     icon: Waves,
@@ -80,31 +75,28 @@ export default function SensoryFilter({
               onClick={() => onSelectCategory(isActive ? null : option.category)}
               aria-pressed={isActive}
               className={`
-                group relative flex flex-col items-center justify-between p-5 rounded-2xl border-2 text-center
+                group relative flex flex-col items-center justify-between p-6 rounded-3xl border-2 text-center
                 bg-white dark:bg-[#131316] transition-all duration-300 ease-out cursor-pointer select-none
                 outline-hidden focus-visible:ring-3 focus-visible:ring-blue-500
                 active:scale-95 sm:hover:-translate-y-1 text-neutral-900 dark:text-white
                 ${isActive ? `${option.activeColorClass} ${option.shadowClass}` : option.colorClass}
               `}
             >
-              {/* Top Accent Icon & Emoji */}
-              <div className="flex items-center justify-between w-full mb-4">
-                <span className="text-2xl" role="img" aria-hidden="true">
-                  {option.emoji}
-                </span>
+              {/* Top Picto Container (Enlarged 2x) */}
+              <div className="flex items-center justify-center mb-3">
                 <div
                   className={`
-                    p-2 rounded-xl border transition-colors duration-300
-                    ${isActive ? 'bg-transparent border-current' : 'bg-neutral-100 dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 group-hover:border-current'}
+                    p-3.5 rounded-2xl border transition-all duration-300
+                    ${isActive ? 'bg-transparent border-current scale-110' : 'bg-neutral-100 dark:bg-neutral-900/80 border-neutral-200 dark:border-neutral-800 group-hover:border-current group-hover:scale-110'}
                   `}
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className="w-10 h-10 stroke-[1.75]" />
                 </div>
               </div>
 
               {/* Text content */}
-              <div className="flex flex-col items-center mt-2">
-                <h3 className="font-bold text-lg tracking-wide group-hover:scale-[1.02] transition-transform duration-200">
+              <div className="flex flex-col items-center mt-1">
+                <h3 className="font-bold text-base sm:text-lg tracking-wide group-hover:scale-[1.02] transition-transform duration-200">
                   {option.label}
                 </h3>
                 <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-2 leading-relaxed">

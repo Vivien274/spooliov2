@@ -28,7 +28,7 @@ if (typeof window === 'undefined') {
   }
 
   // Persist prisma client on global object to avoid pool saturation in dev
-  if (!globalForPrisma.prisma || !(globalForPrisma.prisma as any).order || !(globalForPrisma.prisma as any).page || !(globalForPrisma.prisma as any).review || !(globalForPrisma.prisma as any).printer) {
+  if (!globalForPrisma.prisma || !(globalForPrisma.prisma as any).order || !(globalForPrisma.prisma as any).page || !(globalForPrisma.prisma as any).review || !(globalForPrisma.prisma as any).printer || !(globalForPrisma.prisma as any).tombola) {
     console.log(`[Database] Initializing single database connection pool for Supabase...`);
     globalForPrisma.prisma = new PrismaClient({
       log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
@@ -37,6 +37,14 @@ if (typeof window === 'undefined') {
           url: databaseUrl
         }
       }
+    });
+  }
+
+  // Force reset if schema models updated in dev
+  if (process.env.NODE_ENV === 'development') {
+    globalForPrisma.prisma = new PrismaClient({
+      log: ['error'],
+      datasources: { db: { url: databaseUrl } }
     });
   }
 

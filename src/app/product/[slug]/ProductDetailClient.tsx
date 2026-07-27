@@ -706,15 +706,27 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
             />
 
             {/* Print Settings Options (Dynamic attributes) */}
-            {attributesList && attributesList.length > 0 && (
-              <div className="flex flex-col gap-6 mb-8">
-                {attributesList.map((attr: any) => {
-                  const name = attr.name;
-                  const rawOptions = attr.options || [];
-                  const options = Array.from(new Set<string>(rawOptions.map((opt: string) => opt.replace(/\u00a0/g, ' ').trim())));
-                  const selectedVal = selectedOptions[name];
-                  const decodedName = decodeHtml(name);
-                  const nameLower = name.toLowerCase();
+            {(() => {
+              const selectableAttributes = attributesList.filter((attr: any) => {
+                const n = (attr.name || "").toLowerCase().trim();
+                if (n === "personnalisable" || n.includes("personnalisable")) return false;
+                if (attr.variation === false || attr.variation === "false" || attr.isVariation === false) return false;
+                return true;
+              });
+
+              if (!selectableAttributes || selectableAttributes.length === 0) return null;
+
+              return (
+                <div className="flex flex-col gap-6 mb-8">
+                  {selectableAttributes.map((attr: any) => {
+                    const name = attr.name;
+                    const nameLower = (name || "").toLowerCase().trim();
+                    if (nameLower === "personnalisable" || nameLower.includes("personnalisable")) return null;
+
+                    const rawOptions = attr.options || [];
+                    const options = Array.from(new Set<string>(rawOptions.map((opt: string) => opt.replace(/\u00a0/g, ' ').trim())));
+                    const selectedVal = selectedOptions[name];
+                    const decodedName = decodeHtml(name);
 
                   // Helper function to update state
                   const handleSelect = (val: string) => {
@@ -1087,7 +1099,8 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                   );
                 })}
               </div>
-            )}
+            );
+          })()}
 
             {/* 3D Craft Technical Badges */}
             <div className="grid grid-cols-3 gap-3 border-t border-b border-spoolio-border/40 py-5 mb-8 text-center select-none font-sans mt-4">
@@ -1164,6 +1177,123 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                 </button>
               )}
             </div>
+
+            {/* Encart Fidget Sensoriel (Boussole Info - Style Néon & Fort Contraste Sombre) */}
+            {Boolean((product as any).show_in_sensory_compass || (product as any).showInSensoryCompass) && (
+              <div className="mt-5 p-6 rounded-3xl bg-[#16141d] border border-purple-500/30 shadow-xl shadow-purple-950/40 font-sans">
+                <div className="flex items-center justify-between border-b border-purple-500/20 pb-4 mb-4">
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-2xl animate-pulse">🧭</span>
+                    <div>
+                      <h3 className="text-base font-extrabold text-white tracking-wide uppercase">
+                        Fidget Sensoriel Spoolio
+                      </h3>
+                      <p className="text-xs text-purple-300/90 font-medium">
+                        Évaluation sensorielle &amp; ergonomique
+                      </p>
+                    </div>
+                  </div>
+                  <Link
+                    href="/boussole-sensorielle"
+                    className="text-[11px] font-bold text-purple-200 hover:text-white bg-purple-500/20 hover:bg-purple-500/40 border border-purple-500/40 px-3 py-1.5 rounded-full transition-all flex items-center gap-1"
+                  >
+                    <span>Boussole</span>
+                    <span>→</span>
+                  </Link>
+                </div>
+
+                {/* Sensory Attributes Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                  {/* Bruit */}
+                  <div className="p-3.5 rounded-2xl bg-[#22202c] border border-purple-500/25 flex flex-col gap-1.5 shadow-sm">
+                    <span className="text-[10px] font-black text-purple-300 uppercase tracking-widest">
+                      Bruit :
+                    </span>
+                    <span className="text-xs font-black text-white">
+                      {((product as any).sensory_noise_level || (product as any).sensoryNoiseLevel) === "silent"
+                        ? "Silencieux (0 bruit)"
+                        : ((product as any).sensory_noise_level || (product as any).sensoryNoiseLevel) === "low"
+                        ? "Faible (Murmure)"
+                        : "Clic franc & sonore"}
+                    </span>
+                  </div>
+
+                  {/* Compacité */}
+                  <div className="p-3.5 rounded-2xl bg-[#22202c] border border-purple-500/25 flex flex-col gap-1.5 shadow-sm">
+                    <span className="text-[10px] font-black text-purple-300 uppercase tracking-widest">
+                      Format :
+                    </span>
+                    <span className="text-xs font-black text-white">
+                      {((product as any).sensory_size || (product as any).sensorySize) === "pocket"
+                        ? "Format Poche (1 main)"
+                        : ((product as any).sensory_size || (product as any).sensorySize) === "medium"
+                        ? "Moyen / Bureau"
+                        : "Grand Format"}
+                    </span>
+                  </div>
+
+                  {/* Manipulation */}
+                  <div className="p-3.5 rounded-2xl bg-[#22202c] border border-purple-500/25 flex flex-col gap-1.5 shadow-sm">
+                    <span className="text-[10px] font-black text-purple-300 uppercase tracking-widest">
+                      Action :
+                    </span>
+                    <span className="text-xs font-black text-[#ff4f00] capitalize">
+                      {(() => {
+                        const cat = (product as any).sensory_category || (product as any).sensoryCategory || "manipuler";
+                        const map: Record<string, string> = {
+                          cliquer: "Cliquer",
+                          manipuler: "Manipuler",
+                          resoudre: "Résoudre",
+                          caresser: "Caresser",
+                          tourner: "Tourner",
+                          presser: "Presser",
+                        };
+                        return map[cat] || cat;
+                      })()}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Profils ciblés Badges */}
+                {(() => {
+                  const rawProfiles = (product as any).sensory_profiles || (product as any).sensoryProfiles;
+                  const profilesList = Array.isArray(rawProfiles)
+                    ? rawProfiles
+                    : (typeof rawProfiles === 'string' ? rawProfiles.split(',').map((s: string) => s.trim()) : []);
+
+                  if (profilesList.length === 0) return null;
+
+                  const profileLabels: Record<string, { label: string; icon: string }> = {
+                    tdah: { label: "TDAH & Besoins Moteurs", icon: "⚡" },
+                    anxiety: { label: "Anxiété & Anti-Stress", icon: "🧘" },
+                    focus: { label: "Focus & Concentration", icon: "🎯" },
+                    autism: { label: "Stimulation Sensorielle TSA", icon: "🧠" },
+                  };
+
+                  return (
+                    <div className="flex flex-col gap-2 pt-2 border-t border-purple-500/20">
+                      <span className="text-[10px] font-bold text-purple-300 uppercase tracking-wider">
+                        Recommandé pour les profils :
+                      </span>
+                      <div className="flex flex-wrap gap-2">
+                        {profilesList.map((prof: string) => {
+                          const info = profileLabels[prof] || { label: prof, icon: "✨" };
+                          return (
+                            <span
+                              key={prof}
+                              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-purple-500/20 text-purple-200 border border-purple-500/40"
+                            >
+                              <span>{info.icon}</span>
+                              <span>{info.label}</span>
+                            </span>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            )}
 
             {/* Delivery Estimation & Trust Badges */}
             <div className="mt-6 space-y-5 border-t border-spoolio-border/40 pt-6">

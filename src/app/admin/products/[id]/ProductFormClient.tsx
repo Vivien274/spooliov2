@@ -31,6 +31,11 @@ interface ProductData {
   stock: number;
   metaTitle: string;
   metaDescription: string;
+  showInSensoryCompass?: boolean;
+  sensoryNoiseLevel?: string;
+  sensorySize?: string;
+  sensoryCategory?: string;
+  sensoryProfiles?: string[];
   images: { id: number; src: string; alt: string }[];
   variations: { attribute: string; values: string; price: string }[];
   attributes?: {
@@ -231,6 +236,19 @@ export default function ProductFormClient({ productId, isNew }: Props) {
             } else {
               normalizedProduct.category = "";
             }
+
+            // Normalize sensory fields for Admin Form hydration
+            normalizedProduct.showInSensoryCompass = typeof normalizedProduct.showInSensoryCompass === "boolean"
+              ? normalizedProduct.showInSensoryCompass
+              : Boolean(normalizedProduct.show_in_sensory_compass);
+            normalizedProduct.sensoryNoiseLevel = normalizedProduct.sensoryNoiseLevel || normalizedProduct.sensory_noise_level || "silent";
+            normalizedProduct.sensorySize = normalizedProduct.sensorySize || normalizedProduct.sensory_size || "pocket";
+            normalizedProduct.sensoryCategory = normalizedProduct.sensoryCategory || normalizedProduct.sensory_category || "manipuler";
+            normalizedProduct.sensoryProfiles = Array.isArray(normalizedProduct.sensoryProfiles) && normalizedProduct.sensoryProfiles.length > 0
+              ? normalizedProduct.sensoryProfiles
+              : (normalizedProduct.sensory_profiles
+                  ? (Array.isArray(normalizedProduct.sensory_profiles) ? normalizedProduct.sensory_profiles : String(normalizedProduct.sensory_profiles).split(',').map((s: string) => s.trim()))
+                  : []);
 
             setForm(normalizedProduct);
           }
@@ -585,6 +603,156 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                     ))
                   )}
                 </select>
+              </div>
+            </SectionCard>
+
+            {/* 🧭 Boussole Sensorielle & Critères Fidgets */}
+            <SectionCard
+              title="🧭 Boussole Sensorielle & Critères Fidgets"
+              icon={<span className="text-lg">🧭</span>}
+              cardBg={cls.cardBg} border={cls.border} textMain={cls.textMain}
+            >
+              {/* Checkbox Visibilité */}
+              <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/10">
+                <input
+                  type="checkbox"
+                  id="showInSensoryCompass"
+                  checked={!!form.showInSensoryCompass}
+                  onChange={(e) => setForm(prev => ({ ...prev, showInSensoryCompass: e.target.checked }))}
+                  className="w-5 h-5 accent-[#ff4f00] rounded cursor-pointer"
+                />
+                <label htmlFor="showInSensoryCompass" className="flex flex-col cursor-pointer">
+                  <span className={`text-sm font-bold ${cls.textMain}`}>Afficher ce produit dans la Boussole Sensorielle 🧭</span>
+                  <span className={`text-xs ${cls.textMuted}`}>Active la recommandation interactive pour les visiteurs cherchant des fidgets</span>
+                </label>
+              </div>
+
+              {/* Critères Sensoriels */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-2">
+
+                {/* Niveau de Bruit (Barre de Slide) */}
+                <div className="flex flex-col gap-2.5 sm:col-span-2 bg-white/5 border border-white/10 p-4 rounded-2xl">
+                  <div className="flex items-center justify-between">
+                    <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider flex items-center gap-2`}>
+                      <span>🔊 Niveau de Bruit :</span>
+                      <span className="font-extrabold text-[#ff4f00]">
+                        {form.sensoryNoiseLevel === "silent" ? "🤫 Silencieux (0 bruit - Cours / Réunion)" : form.sensoryNoiseLevel === "low" ? "🔉 Faible (Discret / Murmure mécanique)" : "💥 Satisfaisant (Clic franc & sonore)"}
+                      </span>
+                    </label>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="2"
+                    step="1"
+                    value={form.sensoryNoiseLevel === "high" ? 2 : form.sensoryNoiseLevel === "low" ? 1 : 0}
+                    onChange={(e) => {
+                      const val = Number(e.target.value);
+                      const level = val === 2 ? "high" : val === 1 ? "low" : "silent";
+                      setForm(prev => ({ ...prev, sensoryNoiseLevel: level }));
+                    }}
+                    className="w-full h-2.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#ff4f00]"
+                  />
+                  <div className="flex justify-between text-[11px] font-semibold text-neutral-400 px-1 pt-1 select-none">
+                    <span className="cursor-pointer hover:text-white" onClick={() => setForm(prev => ({ ...prev, sensoryNoiseLevel: "silent" }))}>🤫 0 Bruit (Silencieux)</span>
+                    <span className="cursor-pointer hover:text-white" onClick={() => setForm(prev => ({ ...prev, sensoryNoiseLevel: "low" }))}>🔉 Discret</span>
+                    <span className="cursor-pointer hover:text-white" onClick={() => setForm(prev => ({ ...prev, sensoryNoiseLevel: "high" }))}>💥 Clic franc</span>
+                  </div>
+                </div>
+
+                {/* Compacité / Format (Segmented Control) */}
+                <div className="flex flex-col gap-2 sm:col-span-2">
+                  <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Compacité / Format 📏</label>
+                  <div className="grid grid-cols-3 gap-2 p-1.5 bg-white/5 border border-white/10 rounded-2xl">
+                    {[
+                      { id: "pocket", icon: "📏", label: "Poche / Porte-clé", sub: "1 main discret" },
+                      { id: "medium", icon: "🖥️", label: "Moyen / Bureau", sub: "Main complète" },
+                      { id: "large", icon: "🤲", label: "Grand Format", sub: "Deux mains" },
+                    ].map((item) => {
+                      const isSelected = (form.sensorySize || "pocket") === item.id;
+                      return (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => setForm(prev => ({ ...prev, sensorySize: item.id }))}
+                          className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl transition-all cursor-pointer text-center select-none ${
+                            isSelected
+                              ? "bg-[#ff4f00] text-white font-extrabold shadow-md shadow-[#ff4f00]/30"
+                              : "text-neutral-400 hover:text-white hover:bg-white/5 font-medium"
+                          }`}
+                        >
+                          <span className="text-xs sm:text-sm font-bold">{item.icon} {item.label}</span>
+                          <span className="text-[10px] opacity-80 mt-0.5">{item.sub}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Type de manipulation (Segmented Control) */}
+                <div className="flex flex-col gap-2 sm:col-span-2">
+                  <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Type de manipulation sensorielle 🤲</label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 p-1.5 bg-white/5 border border-white/10 rounded-2xl">
+                    {[
+                      { id: "cliquer", icon: "🎯", label: "Cliquer" },
+                      { id: "manipuler", icon: "🌀", label: "Manipuler" },
+                      { id: "resoudre", icon: "🧩", label: "Résoudre" },
+                      { id: "caresser", icon: "🌿", label: "Caresser" },
+                      { id: "tourner", icon: "⚙️", label: "Tourner" },
+                      { id: "presser", icon: "✊", label: "Presser" },
+                    ].map((item) => {
+                      const isSelected = (form.sensoryCategory || "manipuler") === item.id;
+                      return (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => setForm(prev => ({ ...prev, sensoryCategory: item.id }))}
+                          className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl transition-all cursor-pointer text-xs font-bold select-none ${
+                            isSelected
+                              ? "bg-[#2F3CD9] text-white font-extrabold shadow-md shadow-[#2F3CD9]/30"
+                              : "text-neutral-400 hover:text-white hover:bg-white/5"
+                          }`}
+                        >
+                          <span>{item.icon}</span>
+                          <span>{item.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Profils & Besoins */}
+                <div className="flex flex-col gap-2 sm:col-span-2">
+                  <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Besoins & Profils ciblés 🧠</label>
+                  <div className="flex flex-wrap gap-3">
+                    {[
+                      { id: "tdah", label: "TDAH (Hyperactivité & Besoins moteurs)" },
+                      { id: "anxiety", label: "Anxiété & Anti-stress" },
+                      { id: "focus", label: "Focus & Concentration intense" },
+                      { id: "autism", label: "Autisme & Stimulation sensorielle (TSA)" },
+                    ].map((profile) => {
+                      const currentProfiles = Array.isArray(form.sensoryProfiles) ? form.sensoryProfiles : [];
+                      const isChecked = currentProfiles.includes(profile.id);
+
+                      return (
+                        <label key={profile.id} className="flex items-center gap-2 text-xs cursor-pointer select-none bg-white/5 border border-white/10 px-3 py-2 rounded-xl hover:bg-white/10">
+                          <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={(e) => {
+                              const updated = e.target.checked
+                                ? [...currentProfiles, profile.id]
+                                : currentProfiles.filter((p: string) => p !== profile.id);
+                              setForm(prev => ({ ...prev, sensoryProfiles: updated }));
+                            }}
+                            className="w-4 h-4 accent-[#ff4f00] rounded"
+                          />
+                          <span className={cls.textMain}>{profile.label}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
             </SectionCard>
 

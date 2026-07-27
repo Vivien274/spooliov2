@@ -54,6 +54,11 @@ model Product {
   images            ProductImage[]
   attributes        String?        @db.Text
   reviews           Review[]
+  showInSensoryCompass Boolean      @default(false)
+  sensoryNoiseLevel String?
+  sensorySize       String?
+  sensoryCategory   String?
+  sensoryProfiles   String?
 }
 
 model BlogPost {

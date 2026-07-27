@@ -17632,7 +17632,7 @@
     "tax_status": "taxable",
     "tax_class": "",
     "manage_stock": false,
-    "stock_quantity": null,
+    "stock_quantity": 10,
     "backorders": "no",
     "backorders_allowed": false,
     "backordered": false,
@@ -17657,7 +17657,6 @@
     "purchase_note": "",
     "categories": [
       {
-        "id": 64,
         "name": "Fidgets",
         "slug": "fidgets"
       }
@@ -17672,98 +17671,54 @@
     ],
     "images": [
       {
-        "id": 11749,
-        "date_created": "2026-01-15T11:07:11",
-        "date_created_gmt": "2026-01-15T09:07:11",
-        "date_modified": "2026-01-15T11:07:11",
-        "date_modified_gmt": "2026-01-15T09:07:11",
+        "id": 1498,
         "src": "/images/imported/Spoolio-St-Valentin-fidget-coeur-3.webp",
-        "name": "Spoolio St Valentin fidget coeur 3",
-        "alt": "Spoolio St Valentin fidget coeur 3",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-3.webp?w=2048&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-3.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-3.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-3.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-3.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-3.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-3.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2048px) 100vw, 2048px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-3.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio St Valentin fidget coeur 3"
       },
       {
-        "id": 11747,
-        "date_created": "2026-01-15T11:07:00",
-        "date_created_gmt": "2026-01-15T09:07:00",
-        "date_modified": "2026-01-15T11:07:00",
-        "date_modified_gmt": "2026-01-15T09:07:00",
+        "id": 1499,
         "src": "/images/imported/Spoolio-St-Valentin-fidget-coeur-1.webp",
-        "name": "Spoolio St Valentin fidget coeur 1",
-        "alt": "Spoolio St Valentin fidget coeur 1",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-1.webp?w=2048&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-1.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-1.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-1.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-1.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-1.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-1.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2048px) 100vw, 2048px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-1.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio St Valentin fidget coeur 1"
       },
       {
-        "id": 11748,
-        "date_created": "2026-01-15T11:07:06",
-        "date_created_gmt": "2026-01-15T09:07:06",
-        "date_modified": "2026-01-15T11:07:06",
-        "date_modified_gmt": "2026-01-15T09:07:06",
+        "id": 1500,
         "src": "/images/imported/Spoolio-St-Valentin-fidget-coeur-2.webp",
-        "name": "Spoolio St Valentin fidget coeur 2",
-        "alt": "Spoolio St Valentin fidget coeur 2",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-2.webp?w=2048&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-2.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-2.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-2.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-2.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-2.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-2.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2048px) 100vw, 2048px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-2.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio St Valentin fidget coeur 2"
       },
       {
-        "id": 11750,
-        "date_created": "2026-01-15T11:07:19",
-        "date_created_gmt": "2026-01-15T09:07:19",
-        "date_modified": "2026-01-15T11:07:19",
-        "date_modified_gmt": "2026-01-15T09:07:19",
+        "id": 1501,
         "src": "/images/imported/Spoolio-St-Valentin-fidget-coeur-4.webp",
-        "name": "Spoolio St Valentin fidget coeur 4",
-        "alt": "Spoolio St Valentin fidget coeur 4",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-4.webp?w=2048&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-4.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-4.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-4.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-4.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-4.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-4.webp?resize=1200%2C800&ssl=1 1200w",
-        "sizes": "(max-width: 2048px) 100vw, 2048px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-4.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio St Valentin fidget coeur 4"
       },
       {
-        "id": 11751,
-        "date_created": "2026-01-15T11:07:24",
-        "date_created_gmt": "2026-01-15T09:07:24",
-        "date_modified": "2026-01-15T11:07:24",
-        "date_modified_gmt": "2026-01-15T09:07:24",
+        "id": 1502,
         "src": "/images/imported/Spoolio-St-Valentin-fidget-coeur-5.webp",
-        "name": "Spoolio St Valentin fidget coeur 5",
-        "alt": "Spoolio St Valentin fidget coeur 5",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-5.webp?w=1365&ssl=1 1365w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-5.webp?resize=683%2C1024&ssl=1 683w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-5.webp?resize=768%2C1152&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-5.webp?resize=1024%2C1536&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-5.webp?resize=640%2C960&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-5.webp?resize=400%2C600&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-5.webp?resize=1200%2C1800&ssl=1 1200w",
-        "sizes": "(max-width: 1365px) 100vw, 1365px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-5.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio St Valentin fidget coeur 5"
       },
       {
-        "id": 11752,
-        "date_created": "2026-01-15T11:07:30",
-        "date_created_gmt": "2026-01-15T09:07:30",
-        "date_modified": "2026-01-15T11:07:30",
-        "date_modified_gmt": "2026-01-15T09:07:30",
+        "id": 1503,
         "src": "/images/imported/Spoolio-St-Valentin-fidget-coeur-6.webp",
-        "name": "Spoolio St Valentin fidget coeur 6",
-        "alt": "Spoolio St Valentin fidget coeur 6",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-6.webp?w=1365&ssl=1 1365w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-6.webp?resize=683%2C1024&ssl=1 683w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-6.webp?resize=768%2C1152&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-6.webp?resize=1024%2C1536&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-6.webp?resize=640%2C960&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-6.webp?resize=400%2C600&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-6.webp?resize=1200%2C1800&ssl=1 1200w",
-        "sizes": "(max-width: 1365px) 100vw, 1365px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2026/01/Spoolio-St-Valentin-fidget-coeur-6.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio St Valentin fidget coeur 6"
       }
     ],
-    "attributes": [
-      {
-        "id": 8,
-        "name": "Personnalisable",
-        "slug": "pa_personnalisable",
-        "position": 0,
-        "visible": true,
-        "variation": false,
-        "options": [
-          "Non",
-          "Oui"
-        ]
-      }
-    ],
+    "attributes": {
+      "attributes": [
+        {
+          "id": 8,
+          "name": "Personnalisable",
+          "slug": "pa_personnalisable",
+          "position": 0,
+          "visible": true,
+          "variation": false,
+          "options": [
+            "Non",
+            "Oui"
+          ]
+        }
+      ],
+      "variationPrices": [],
+      "tags": []
+    },
     "default_attributes": [],
     "variations": [],
     "grouped_products": [],
@@ -18192,7 +18147,16 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true,
+    "sensory_noise_level": "silent",
+    "sensory_size": "pocket",
+    "sensory_category": "manipuler",
+    "sensory_profiles": [
+      "anxiety",
+      "autism"
+    ]
   },
   {
     "id": 11738,
@@ -18788,7 +18752,16 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true,
+    "sensory_noise_level": "high",
+    "sensory_size": "pocket",
+    "sensory_category": "cliquer",
+    "sensory_profiles": [
+      "anxiety",
+      "focus"
+    ]
   },
   {
     "id": 11684,
@@ -32119,7 +32092,16 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true,
+    "sensory_noise_level": "silent",
+    "sensory_size": "medium",
+    "sensory_category": "manipuler",
+    "sensory_profiles": [
+      "anxiety",
+      "autism"
+    ]
   },
   {
     "id": 11057,
@@ -33057,7 +33039,17 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true,
+    "sensory_noise_level": "silent",
+    "sensory_size": "pocket",
+    "sensory_category": "manipuler",
+    "sensory_profiles": [
+      "tdah",
+      "focus",
+      "autism"
+    ]
   },
   {
     "id": 11051,
@@ -33987,7 +33979,16 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true,
+    "sensory_noise_level": "low",
+    "sensory_size": "medium",
+    "sensory_category": "resoudre",
+    "sensory_profiles": [
+      "focus",
+      "tdah"
+    ]
   },
   {
     "id": 11035,
@@ -36212,7 +36213,16 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true,
+    "sensory_noise_level": "silent",
+    "sensory_size": "pocket",
+    "sensory_category": "caresser",
+    "sensory_profiles": [
+      "anxiety",
+      "autism"
+    ]
   },
   {
     "id": 10955,
@@ -56739,7 +56749,16 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true,
+    "sensory_noise_level": "high",
+    "sensory_size": "pocket",
+    "sensory_category": "cliquer",
+    "sensory_profiles": [
+      "tdah",
+      "focus"
+    ]
   },
   {
     "id": 10090,
@@ -70932,7 +70951,16 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true,
+    "sensory_noise_level": "high",
+    "sensory_size": "pocket",
+    "sensory_category": "cliquer",
+    "sensory_profiles": [
+      "anxiety",
+      "focus"
+    ]
   },
   {
     "id": 9663,
@@ -88308,7 +88336,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true
   },
   {
     "id": 8805,
@@ -109357,7 +109387,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true
   },
   {
     "id": 7933,
@@ -110295,7 +110327,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true
   },
   {
     "id": 7765,
@@ -117837,7 +117871,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true
   },
   {
     "id": 7334,
@@ -119652,7 +119688,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true
   },
   {
     "id": 7314,
@@ -119897,7 +119935,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true
   },
   {
     "id": 7309,
@@ -124034,7 +124074,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true
   },
   {
     "id": 7212,
@@ -129690,7 +129732,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": true
   },
   {
     "id": 6882,
@@ -130354,6 +130398,15 @@
         "name": "Fidgets",
         "slug": "fidgets"
       }
+    ],
+    "show_in_sensory_compass": true,
+    "showInSensoryCompass": false,
+    "sensory_noise_level": "high",
+    "sensory_size": "pocket",
+    "sensory_category": "cliquer",
+    "sensory_profiles": [
+      "tdah",
+      "focus"
     ]
   }
 ]

@@ -50,7 +50,7 @@ export default function AdminProductsPage() {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/products?status=all");
+      const res = await fetch("/api/products?status=all", { cache: "no-store" });
       if (res.ok) {
         const data = await res.json();
         setProducts(data || []);
@@ -258,7 +258,7 @@ export default function AdminProductsPage() {
                       className="rounded border-gray-300 text-[#2F3CD9] focus:ring-[#2F3CD9] cursor-pointer"
                     />
                   </th>
-                  {["Produit", "Catégories", "Statut", "Prix", "Stock", "SEO", "Actions"].map((h) => (
+                  {["Produit", "Catégories", "Statut", "Boussole", "Prix", "Stock", "SEO", "Actions"].map((h) => (
                     <th key={h} className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-5 py-3.5 last:pr-6`}>{h}</th>
                   ))}
                 </tr>
@@ -306,6 +306,33 @@ export default function AdminProductsPage() {
                         <span className={`w-1.5 h-1.5 rounded-full ${p.status === "publish" ? "bg-emerald-400" : "bg-gray-400"}`} />
                         {p.status === "publish" ? "Publié" : "Brouillon"}
                       </span>
+                    </td>
+                    <td className="px-5 py-4">
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          const newValue = !p.show_in_sensory_compass;
+                          setProducts((prev) => prev.map((item) => item.id === p.id ? { ...item, show_in_sensory_compass: newValue } : item));
+                          try {
+                            await fetch("/api/products", {
+                              method: "PATCH",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify({ productId: p.id, showInSensoryCompass: newValue }),
+                            });
+                          } catch (e) {
+                            console.error("Failed to toggle boussole:", e);
+                          }
+                        }}
+                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-extrabold transition-all cursor-pointer ${
+                          p.show_in_sensory_compass
+                            ? "bg-purple-500/20 text-purple-400 border border-purple-500/40 shadow-sm"
+                            : "bg-white/5 text-gray-400 border border-white/10 hover:text-gray-200"
+                        }`}
+                        title={p.show_in_sensory_compass ? "Désactiver de la Boussole" : "Activer dans la Boussole"}
+                      >
+                        <span>🧭</span>
+                        <span>{p.show_in_sensory_compass ? "Actif" : "Off"}</span>
+                      </button>
                     </td>
                     <td className="px-5 py-4 font-sans">
                       {p.sale_price ? (
