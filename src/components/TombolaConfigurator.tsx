@@ -33,7 +33,7 @@ const DEFAULT_CONFIG: TombolaConfig = {
   winnerDrawnAt: null,
 };
 
-const INITIAL_RESERVED = [3, 12, 19, 24, 27, 33, 38]; // Initial mock reserved slots
+const INITIAL_RESERVED: number[] = []; // Default clean empty grid
 
 export default function TombolaConfigurator() {
   const { addToCart, setIsCartOpen } = useCart();
@@ -42,7 +42,7 @@ export default function TombolaConfigurator() {
   const [config, setConfig] = useState<TombolaConfig>(DEFAULT_CONFIG);
   const [ticketPrice, setTicketPrice] = useState<number>(2.00); // 1€ or 2€
   const [selectedTickets, setSelectedTickets] = useState<number[]>([]);
-  const [reservedTickets, setReservedTickets] = useState<number[]>(INITIAL_RESERVED);
+  const [reservedTickets, setReservedTickets] = useState<number[]>([]);
   const [isClient, setIsClient] = useState<boolean>(false);
   const [addedToast, setAddedToast] = useState<boolean>(false);
 

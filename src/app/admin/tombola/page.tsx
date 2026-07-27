@@ -47,7 +47,7 @@ export default function AdminTombolaPage() {
 
   // State
   const [config, setConfig] = useState<TombolaConfig>(DEFAULT_CONFIG);
-  const [reservedTickets, setReservedTickets] = useState<number[]>([3, 12, 19, 24, 27, 33, 38]);
+  const [reservedTickets, setReservedTickets] = useState<number[]>([]);
   const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
   const [isClient, setIsClient] = useState<boolean>(false);
 
