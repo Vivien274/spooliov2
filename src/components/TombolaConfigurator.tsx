@@ -49,26 +49,42 @@ export default function TombolaConfigurator() {
   // Countdown timer calculation
   const [timeLeft, setTimeLeft] = useState({ days: 4, hours: 18, minutes: 42, seconds: 15 });
 
-  // Hydrate config & reserved tickets from localStorage on mount
+  // Hydrate config & reserved tickets from API & localStorage on mount
   useEffect(() => {
     setIsClient(true);
-    try {
-      const savedConfig = localStorage.getItem("spoolio_tombola_config");
-      if (savedConfig) {
-        const parsed = JSON.parse(savedConfig);
-        setConfig(parsed);
-        if (parsed.ticketPrice) setTicketPrice(parsed.ticketPrice);
-      }
-      const saved = localStorage.getItem("spoolio_tombola_reserved");
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) {
-          setReservedTickets(parsed);
+
+    const fetchTombolaData = async () => {
+      try {
+        const res = await fetch("/api/tombola");
+        const data = await res.json();
+        if (data.success && data.tombola) {
+          setConfig(data.tombola);
+          if (data.tombola.ticketPrice) setTicketPrice(data.tombola.ticketPrice);
+          if (Array.isArray(data.reservedTickets)) {
+            setReservedTickets(data.reservedTickets);
+          }
         }
+      } catch (err) {
+        console.warn("Erreur API Tombola, utilisation fallback local:", err);
+        try {
+          const savedConfig = localStorage.getItem("spoolio_tombola_config");
+          if (savedConfig) {
+            const parsed = JSON.parse(savedConfig);
+            setConfig(parsed);
+            if (parsed.ticketPrice) setTicketPrice(parsed.ticketPrice);
+          }
+          const saved = localStorage.getItem("spoolio_tombola_reserved");
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed)) {
+              setReservedTickets(parsed);
+            }
+          }
+        } catch (e) {}
       }
-    } catch (e) {
-      console.error("Erreur chargement tombola storage:", e);
-    }
+    };
+
+    fetchTombolaData();
   }, []);
 
   // Update countdown timer
@@ -85,13 +101,23 @@ export default function TombolaConfigurator() {
     return () => clearInterval(timer);
   }, []);
 
-  // Save reserved tickets
-  const saveReserved = (updated: number[]) => {
+  // Save reserved tickets to DB & localStorage
+  const saveReserved = async (newTickets: number[]) => {
+    const updated = Array.from(new Set([...reservedTickets, ...newTickets])).sort((a, b) => a - b);
     setReservedTickets(updated);
+
     try {
       localStorage.setItem("spoolio_tombola_reserved", JSON.stringify(updated));
-    } catch (e) {
-      console.error("Erreur sauvegarde tombola storage:", e);
+    } catch (e) {}
+
+    try {
+      await fetch("/api/tombola", {
+        method: "POST",
+        headers: { "Content-[#ff4f00]": "application/json", "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "reserve", newTickets }),
+      });
+    } catch (err) {
+      console.error("Erreur sauvegarde BDD reserve:", err);
     }
   };
 
@@ -147,9 +173,8 @@ export default function TombolaConfigurator() {
       );
     });
 
-    // Mark as reserved locally for visual feedback
-    const newReserved = Array.from(new Set([...reservedTickets, ...selectedTickets]));
-    saveReserved(newReserved);
+    // Mark as reserved locally & in DB for visual feedback
+    saveReserved(selectedTickets);
 
     // Show confirmation feedback
     setSelectedTickets([]);

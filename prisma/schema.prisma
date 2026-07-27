@@ -149,3 +149,22 @@ model LoyaltyCard {
 
   @@map("loyalty_cards")
 }
+
+model Tombola {
+  id              String    @id @default(uuid())
+  title           String
+  description     String    @db.Text
+  image           String    @db.Text
+  estimatedValue  Float     @default(85.00)
+  endDate         String    @default("")
+  totalCases      Int       @default(40)
+  ticketPrice     Float     @default(2.00)
+  status          String    @default("active") // active | ended | drawn
+  reservedTickets Json      @default("[]") // Array of ticket numbers [1, 5, 12]
+  winnerTicket    Int?
+  winnerDrawnAt   String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@map("tombolas")
+}

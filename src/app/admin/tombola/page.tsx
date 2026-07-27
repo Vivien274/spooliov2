@@ -56,24 +56,37 @@ export default function AdminTombolaPage() {
   const [drawDisplayNumber, setDrawDisplayNumber] = useState<number | null>(null);
   const [showWinnerModal, setShowWinnerModal] = useState<boolean>(false);
 
-  // Load configuration from localStorage
+  // Load configuration from API & localStorage
   useEffect(() => {
     setIsClient(true);
-    try {
-      const savedConfig = localStorage.getItem("spoolio_tombola_config");
-      if (savedConfig) {
-        setConfig(JSON.parse(savedConfig));
-      }
-      const savedReserved = localStorage.getItem("spoolio_tombola_reserved");
-      if (savedReserved) {
-        const parsed = JSON.parse(savedReserved);
-        if (Array.isArray(parsed)) {
-          setReservedTickets(parsed);
+    const fetchAdminData = async () => {
+      try {
+        const res = await fetch("/api/tombola");
+        const data = await res.json();
+        if (data.success && data.tombola) {
+          setConfig(data.tombola);
+          if (Array.isArray(data.reservedTickets)) {
+            setReservedTickets(data.reservedTickets);
+          }
         }
+      } catch (err) {
+        console.warn("Erreur API Admin Tombola, utilisation fallback local:", err);
+        try {
+          const savedConfig = localStorage.getItem("spoolio_tombola_config");
+          if (savedConfig) {
+            setConfig(JSON.parse(savedConfig));
+          }
+          const savedReserved = localStorage.getItem("spoolio_tombola_reserved");
+          if (savedReserved) {
+            const parsed = JSON.parse(savedReserved);
+            if (Array.isArray(parsed)) {
+              setReservedTickets(parsed);
+            }
+          }
+        } catch (e) {}
       }
-    } catch (e) {
-      console.error("Erreur chargement admin tombola:", e);
-    }
+    };
+    fetchAdminData();
   }, []);
 
   // Handle image file upload & dynamic WebP conversion via HTML Canvas
@@ -118,15 +131,23 @@ export default function AdminTombolaPage() {
     reader.readAsDataURL(file);
   };
 
-  // Save configuration
-  const handleSaveConfig = (e: React.FormEvent) => {
+  // Save configuration to BDD & localStorage
+  const handleSaveConfig = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       localStorage.setItem("spoolio_tombola_config", JSON.stringify(config));
+    } catch (err) {}
+
+    try {
+      await fetch("/api/tombola", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "updateConfig", config }),
+      });
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err) {
-      console.error("Erreur sauvegarde tombola config:", err);
+      console.error("Erreur sauvegarde BDD config:", err);
     }
   };
 
@@ -143,10 +164,11 @@ export default function AdminTombolaPage() {
     // Pick random winning ticket among reserved/sold tickets
     const randomIndex = Math.floor(Math.random() * reservedTickets.length);
     const winningTicket = reservedTickets[randomIndex];
+    const drawnAt = new Date().toLocaleString("fr-FR");
 
     // Roulette counter animation (cycles fast for 3.5 seconds)
     let counter = 0;
-    const interval = setInterval(() => {
+    const interval = setInterval(async () => {
       counter++;
       const randomDisplay = reservedTickets[Math.floor(Math.random() * reservedTickets.length)];
       setDrawDisplayNumber(randomDisplay);
@@ -161,18 +183,29 @@ export default function AdminTombolaPage() {
           ...config,
           status: "drawn",
           winnerTicket: winningTicket,
-          winnerDrawnAt: new Date().toLocaleString("fr-FR"),
+          winnerDrawnAt: drawnAt,
         };
         setConfig(updatedConfig);
+
         try {
           localStorage.setItem("spoolio_tombola_config", JSON.stringify(updatedConfig));
         } catch (e) {}
+
+        try {
+          await fetch("/api/tombola", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ action: "draw", winnerTicket: winningTicket, winnerDrawnAt: drawnAt }),
+          });
+        } catch (err) {
+          console.error("Erreur enregistrement BDD tirage:", err);
+        }
       }
     }, 100);
   };
 
   // Reset to new Tombola session
-  const handleResetNewTombola = () => {
+  const handleResetNewTombola = async () => {
     if (!confirm("Voulez-vous vraiment réinitialiser la tombola et démarrer une nouvelle session ?")) return;
 
     const newConfig: TombolaConfig = {
@@ -184,10 +217,21 @@ export default function AdminTombolaPage() {
     };
     setConfig(newConfig);
     setReservedTickets([]);
+
     try {
       localStorage.setItem("spoolio_tombola_config", JSON.stringify(newConfig));
       localStorage.setItem("spoolio_tombola_reserved", JSON.stringify([]));
     } catch (e) {}
+
+    try {
+      await fetch("/api/tombola", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "reset", config: newConfig }),
+      });
+    } catch (err) {
+      console.error("Erreur reset BDD:", err);
+    }
   };
 
   // Stats calculation
