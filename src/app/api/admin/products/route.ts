@@ -77,6 +77,11 @@ export async function GET(req: Request) {
           })),
           attributes: attributesObj,
           variations: [],
+          showInSensoryCompass: !!p.showInSensoryCompass,
+          sensoryNoiseLevel: p.sensoryNoiseLevel || "1",
+          sensorySize: p.sensorySize || "pocket",
+          sensoryCategory: p.sensoryCategory || "manipuler",
+          sensoryProfiles: p.sensoryProfiles ? (typeof p.sensoryProfiles === "string" ? p.sensoryProfiles.split(",").map((s: string) => s.trim()) : p.sensoryProfiles) : [],
         };
 
         return NextResponse.json({ product });
@@ -135,6 +140,11 @@ export async function GET(req: Request) {
               })),
               attributes: attributesObj,
               variations: [],
+              showInSensoryCompass: !!(match.showInSensoryCompass || match.show_in_sensory_compass),
+              sensoryNoiseLevel: match.sensoryNoiseLevel || match.sensory_noise_level || "1",
+              sensorySize: match.sensorySize || match.sensory_size || "pocket",
+              sensoryCategory: match.sensoryCategory || match.sensory_category || "manipuler",
+              sensoryProfiles: match.sensoryProfiles || match.sensory_profiles || [],
             };
 
             return NextResponse.json({ product });
