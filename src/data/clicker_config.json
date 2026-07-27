@@ -1,0 +1,275 @@
+{
+  "shapes": [
+    {
+      "id": "square_2x2",
+      "name": "4 Touches Carré",
+      "keyCount": 4,
+      "price": 6,
+      "active": true,
+      "badge": "🔥 Best-Seller"
+    },
+    {
+      "id": "line_4",
+      "name": "4 Touches en Ligne",
+      "keyCount": 4,
+      "price": 6,
+      "active": true
+    },
+    {
+      "id": "shape_t",
+      "name": "4 Touches en T",
+      "keyCount": 4,
+      "price": 6,
+      "active": true,
+      "badge": "Original"
+    },
+    {
+      "id": "line_7",
+      "name": "7 Touches en Ligne",
+      "keyCount": 7,
+      "price": 9,
+      "active": true,
+      "badge": "⚡ Fidget Extra"
+    },
+    {
+      "id": "trio",
+      "name": "3 Touches en Ligne",
+      "keyCount": 3,
+      "price": 5,
+      "active": true
+    },
+    {
+      "id": "duo",
+      "name": "2 Touches en Ligne",
+      "keyCount": 2,
+      "price": 4,
+      "active": true
+    },
+    {
+      "id": "mono",
+      "name": "1 Touche",
+      "keyCount": 1,
+      "price": 3,
+      "active": true
+    },
+    {
+      "id": "grid_3x3",
+      "name": "9 Touches Carré",
+      "keyCount": 9,
+      "price": 13,
+      "active": true,
+      "badge": "⚡ Max Fidget"
+    }
+  ],
+  "colors": [
+    {
+      "id": "noir",
+      "name": "Noir",
+      "hex": "#18181b",
+      "inStock": true
+    },
+    {
+      "id": "blanc",
+      "name": "Blanc",
+      "hex": "#f4f4f5",
+      "inStock": true
+    },
+    {
+      "id": "orange",
+      "name": "Orange vif",
+      "hex": "#ff4f00",
+      "inStock": true
+    },
+    {
+      "id": "bleu_nuit",
+      "name": "Bleu marine",
+      "hex": "#1e3a8a",
+      "inStock": true
+    },
+    {
+      "id": "violet",
+      "name": "Violet",
+      "hex": "#7c3aed",
+      "inStock": true
+    },
+    {
+      "id": "vert",
+      "name": "Vert Menthe",
+      "hex": "#10b981",
+      "inStock": true
+    },
+    {
+      "id": "jaune",
+      "name": "Jaune Soleil",
+      "hex": "#eab308",
+      "inStock": true
+    },
+    {
+      "id": "glow",
+      "name": "Phosphorescent",
+      "hex": "#a3e635",
+      "inStock": true
+    },
+    {
+      "id": "bleu_clair",
+      "name": "Bleu",
+      "hex": "#0091ff",
+      "inStock": true
+    },
+    {
+      "id": "gris_clair",
+      "name": "Gris clair",
+      "hex": "#b8b8b8",
+      "inStock": true
+    },
+    {
+      "id": "rouge",
+      "name": "Rouge",
+      "hex": "#FF0000",
+      "inStock": true
+    },
+    {
+      "id": "vert_gazon",
+      "name": "Vert gazon",
+      "hex": "#04d600",
+      "inStock": true
+    },
+    {
+      "id": "beige_marron_clair__1785165414263",
+      "name": "Beige (marron clair)",
+      "hex": "#e1d5a8",
+      "inStock": true
+    },
+    {
+      "id": "rose_1785166728598",
+      "name": "Rose",
+      "hex": "#e84fcc",
+      "inStock": true
+    }
+  ],
+  "switches": [
+    {
+      "id": "blue",
+      "name": "Clicky Bleu",
+      "badge": "Populaire",
+      "soundLabel": "🔊 Clic Aigu",
+      "desc": "Clic aigu, franc et très satisfaisant",
+      "inStock": false
+    },
+    {
+      "id": "brown",
+      "name": "Tactile Marron",
+      "badge": "Bureau",
+      "soundLabel": "🔉 Clic Net",
+      "desc": "Bosse tactile nette sans bruit aigu fort",
+      "inStock": false
+    },
+    {
+      "id": "red",
+      "name": "Linéaire Rouge",
+      "badge": "Discrétion",
+      "soundLabel": "🤫 Discret",
+      "desc": "Enfoncement ultra fluide et très silencieux",
+      "inStock": true
+    }
+  ],
+  "icons": [
+    {
+      "id": "blank",
+      "name": "Vierge",
+      "symbol": "",
+      "active": true
+    },
+    {
+      "id": "spiral",
+      "name": "Spirale",
+      "symbol": "🌀",
+      "active": true
+    },
+    {
+      "id": "heart",
+      "name": "Cœur",
+      "symbol": "❤️",
+      "active": true
+    },
+    {
+      "id": "star",
+      "name": "Étoile",
+      "symbol": "⭐",
+      "active": true
+    },
+    {
+      "id": "flash",
+      "name": "Éclair",
+      "symbol": "⚡",
+      "active": true
+    },
+    {
+      "id": "smile",
+      "name": "Smiley",
+      "symbol": "😊",
+      "active": true
+    },
+    {
+      "id": "fire",
+      "name": "Flamme",
+      "symbol": "🔥",
+      "active": true
+    },
+    {
+      "id": "controller",
+      "name": "Manette",
+      "symbol": "🎛️",
+      "active": true
+    },
+    {
+      "id": "gamepad",
+      "name": "Arcade",
+      "symbol": "🎮",
+      "active": true
+    },
+    {
+      "id": "music",
+      "name": "Note de Musique",
+      "symbol": "🎵",
+      "active": true
+    }
+  ],
+  "attachments": [
+    {
+      "id": "chain",
+      "name": "Chaînette à Billes Inox",
+      "price": 0.5,
+      "icon": "⛓️",
+      "inStock": true
+    },
+    {
+      "id": "clip",
+      "name": "Mousqueton Métal Premium",
+      "price": 0.8,
+      "icon": "🪝",
+      "inStock": true
+    },
+    {
+      "id": "lanyard",
+      "name": "Dragonne de Poignet Souple",
+      "price": 1.5,
+      "icon": "🎗️",
+      "inStock": false
+    },
+    {
+      "id": "ring",
+      "name": "Anneau Porte-Clés Renforcé",
+      "price": 0.5,
+      "icon": "🔑",
+      "inStock": true
+    },
+    {
+      "id": "none",
+      "name": "Sans attache (Usage Bureau)",
+      "price": 0,
+      "icon": "🚫",
+      "inStock": true
+    }
+  ]
+}

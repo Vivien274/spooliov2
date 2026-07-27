@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ClickerGalleryClient from "@/components/ClickerGalleryClient";
 
 // Dynamic import for heavy interactive configurator component
 const ClickerConfiguratorClient = dynamic(
@@ -71,6 +72,9 @@ export default function CreateurCliqueurPage() {
 
         {/* Dedicated Clicker Configurator Client */}
         <ClickerConfiguratorClient className="w-full mb-12" />
+
+        {/* Dynamic Photo Gallery of Real Creations */}
+        <ClickerGalleryClient />
 
         {/* Reassurance Badges Row */}
         <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 border-t border-neutral-800 text-center font-[family-name:var(--font-plus-jakarta)]">

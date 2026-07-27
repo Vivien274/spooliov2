@@ -574,6 +574,14 @@ export default function Header({
                   </span>
                   <div className="flex flex-col gap-2">
                     <Link 
+                      href="/createur-cliqueur" 
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link text-[#ff4f00]"
+                    >
+                      <span>⌨️ Créateur de Clicker 3D</span>
+                      <span className="bg-purple-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide leading-none no-invert">SUR-MESURE</span>
+                    </Link>
+                    <Link 
                       href="/boussole-sensorielle" 
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="px-3 py-2 text-xs font-bold rounded-lg block transition-colors mobile-drawer-link"

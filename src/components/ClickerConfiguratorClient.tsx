@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { useCart } from "@/context/CartContext";
+import AnimateDigits from "@/components/ui/AnimateDigits";
+import ModernBentoGallery, { GalleryItem } from "@/components/ui/ModernBentoGallery";
 
 // Color Definition Type
 interface ColorOption {
@@ -103,12 +105,13 @@ interface LayoutShape {
   gridTemplate: string;
   validIndices: number[]; // Indices of active keys in grid
   badge?: string;
+  active?: boolean;
 }
 
 const SHAPES: LayoutShape[] = [
   {
     id: "mono",
-    name: "Mono (1 Touche)",
+    name: "1 Touche",
     keyCount: 1,
     price: 4.90,
     rows: 1,
@@ -118,7 +121,7 @@ const SHAPES: LayoutShape[] = [
   },
   {
     id: "duo",
-    name: "Duo (2 Touches)",
+    name: "2 Touches en Ligne",
     keyCount: 2,
     price: 6.90,
     rows: 1,
@@ -128,7 +131,7 @@ const SHAPES: LayoutShape[] = [
   },
   {
     id: "trio",
-    name: "Trio (3 Touches)",
+    name: "3 Touches en Ligne",
     keyCount: 3,
     price: 7.90,
     rows: 1,
@@ -138,7 +141,7 @@ const SHAPES: LayoutShape[] = [
   },
   {
     id: "square_2x2",
-    name: "Carré 2x2 (4 Touches)",
+    name: "4 Touches Carré",
     keyCount: 4,
     price: 9.90,
     rows: 2,
@@ -148,19 +151,40 @@ const SHAPES: LayoutShape[] = [
     badge: "🔥 Best-Seller"
   },
   {
+    id: "line_4",
+    name: "4 Touches en Ligne",
+    keyCount: 4,
+    price: 9.90,
+    rows: 1,
+    cols: 4,
+    gridTemplate: "grid-cols-4",
+    validIndices: [0, 1, 2, 3]
+  },
+  {
     id: "shape_t",
-    name: "Forme T (4 Touches)",
+    name: "4 Touches en T",
     keyCount: 4,
     price: 9.90,
     rows: 2,
     cols: 3,
     gridTemplate: "grid-cols-3",
-    validIndices: [0, 1, 2, 4], // T layout
+    validIndices: [1, 3, 4, 5], // T layout: top-center (1), bottom-left (3), bottom-center (4), bottom-right (5)
     badge: "Original"
   },
   {
+    id: "line_7",
+    name: "7 Touches en Ligne",
+    keyCount: 7,
+    price: 14.90,
+    rows: 1,
+    cols: 7,
+    gridTemplate: "grid-cols-7",
+    validIndices: [0, 1, 2, 3, 4, 5, 6],
+    badge: "⚡ Fidget Extra"
+  },
+  {
     id: "grid_3x3",
-    name: "Mega 3x3 (9 Touches)",
+    name: "9 Touches Carré",
     keyCount: 9,
     price: 16.90,
     rows: 3,
@@ -180,19 +204,106 @@ interface AttachmentOption {
 }
 
 const ATTACHMENTS: AttachmentOption[] = [
-  { id: "chain", name: "Chaînette à billes Inox", price: 0.50, icon: "🔗" },
-  { id: "carabiner", name: "Attache Mousqueton Noir", price: 1.00, icon: "🪝" },
+  { id: "chain", name: "Chaînette à Billes Inox", price: 0.50, icon: "⛓️" },
+  { id: "clip", name: "Mousqueton Métal Premium", price: 1.00, icon: "🪝" },
+  { id: "lanyard", name: "Dragonne de Poignet Souple", price: 1.50, icon: "🎗️" },
+  { id: "ring", name: "Anneau Porte-Clés Renforcé", price: 0.50, icon: "🔑" },
   { id: "none", name: "Sans attache (Usage Bureau)", price: 0.00, icon: "🚫" },
 ];
 
 export default function ClickerConfiguratorClient({ className = "" }: { className?: string }) {
   const { addToCart } = useCart();
 
+  // Dynamic Lists with fallback to defaults
+  const [shapesList, setShapesList] = useState<LayoutShape[]>(SHAPES);
+  const [attachmentsList, setAttachmentsList] = useState<AttachmentOption[]>(ATTACHMENTS);
+  const [switchesList, setSwitchesList] = useState<SwitchOption[]>(SWITCHES);
+  const [iconsList, setIconsList] = useState<IconOption[]>(ICONS);
+  const [colorsList, setColorsList] = useState<ColorOption[]>(CASE_COLORS);
+  const [galleryList, setGalleryList] = useState<GalleryItem[]>([]);
+
   // State
-  const [selectedShape, setSelectedShape] = useState<LayoutShape>(SHAPES[3]); // Carré 2x2 by default
+  const [selectedShape, setSelectedShape] = useState<LayoutShape>(SHAPES[0]); // 1 Touche par défaut
   const [caseColor, setCaseColor] = useState<ColorOption>(CASE_COLORS[0]); // Noir Mat
   const [switchType, setSwitchType] = useState<SwitchOption>(SWITCHES[0]); // Clicky Bleu
   const [attachment, setAttachment] = useState<AttachmentOption>(ATTACHMENTS[0]); // Chain by default
+
+  // Fetch Admin Config on mount
+  useEffect(() => {
+    fetch("/api/admin/clicker-config")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.shapes && Array.isArray(data.shapes)) {
+          const updatedShapes = SHAPES.map((baseShape) => {
+            const adminCfg = data.shapes.find((s: any) => s.id === baseShape.id);
+            if (adminCfg) {
+              const numPrice = typeof adminCfg.price === "number" ? adminCfg.price : parseFloat(adminCfg.price);
+              return {
+                ...baseShape,
+                price: !isNaN(numPrice) && numPrice >= 0 ? numPrice : baseShape.price,
+                name: adminCfg.name || baseShape.name,
+                active: adminCfg.active !== false,
+              };
+            }
+            return baseShape;
+          })
+          .filter((s) => s.active !== false)
+          .sort((a, b) => a.keyCount - b.keyCount);
+
+          setShapesList(updatedShapes);
+          const currentUpdated = updatedShapes.find(s => s.id === selectedShape.id);
+          if (currentUpdated) setSelectedShape(currentUpdated);
+        }
+
+        if (data.attachments && Array.isArray(data.attachments)) {
+          const updatedAtts = ATTACHMENTS.map((baseAtt) => {
+            const adminCfg = data.attachments.find((a: any) => a.id === baseAtt.id);
+            if (adminCfg) {
+              const numPrice = typeof adminCfg.price === "number" ? adminCfg.price : parseFloat(adminCfg.price);
+              return {
+                ...baseAtt,
+                price: !isNaN(numPrice) && numPrice >= 0 ? numPrice : baseAtt.price,
+                name: adminCfg.name || baseAtt.name,
+                inStock: adminCfg.inStock !== false,
+              };
+            }
+            return baseAtt;
+          }).filter((a: any) => a.inStock !== false);
+
+          setAttachmentsList(updatedAtts);
+          const currentAtt = updatedAtts.find(a => a.id === attachment.id);
+          if (currentAtt) setAttachment(currentAtt);
+        }
+
+        if (data.switches && Array.isArray(data.switches)) {
+          const available = SWITCHES.filter((sw) => {
+            const adminCfg = data.switches.find((s: any) => s.id === sw.id);
+            return !adminCfg || adminCfg.inStock !== false;
+          });
+          if (available.length > 0) setSwitchesList(available);
+        }
+
+        if (data.icons && Array.isArray(data.icons)) {
+          const available = data.icons.filter((i: any) => i.active !== false);
+          if (available.length > 0) setIconsList(available);
+        }
+
+        if (data.colors && Array.isArray(data.colors)) {
+          const availableColors = data.colors.filter((c: any) => c.inStock !== false);
+          if (availableColors.length > 0) setColorsList(availableColors);
+        }
+      })
+      .catch((e) => console.error("Error loading clicker dynamic config:", e));
+
+    fetch("/api/admin/clicker-gallery")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setGalleryList(data);
+        }
+      })
+      .catch((e) => console.error("Error loading gallery:", e));
+  }, []);
 
   // Keycap customization mode: "all" or "custom"
   const [keycapMode, setKeycapMode] = useState<"all" | "custom">("all");
@@ -300,7 +411,9 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
   };
 
   // Total price calculation
-  const totalPrice = selectedShape.price + attachment.price;
+  const shapePrice = typeof selectedShape.price === "number" ? selectedShape.price : parseFloat(selectedShape.price) || 0;
+  const attachmentPrice = typeof attachment.price === "number" ? attachment.price : parseFloat(attachment.price) || 0;
+  const totalPrice = shapePrice + attachmentPrice;
 
   // Add custom clicker to cart
   const handleAddToCart = () => {
@@ -363,67 +476,31 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
             {/* Main Interactive Clicker Preview Box */}
             <div className="relative my-10 py-4 flex items-center justify-center select-none">
               
-              {/* 3D Printed Case Box */}
-              <div
-                className="relative rounded-2xl p-4.5 transition-all duration-500 shadow-2xl border border-white/10 flex items-center justify-center"
-                style={{
-                  backgroundColor: caseColor.hex,
-                  boxShadow: `0 24px 48px -12px ${caseColor.hex}50, inset 0 2px 4px rgba(255,255,255,0.25), 0 10px 20px rgba(0,0,0,0.85)`
-                }}
-              >
-                {/* 3D Printed Anse Loop (Anse intégrée au boîtier PLA comme sur Bambu Slicer) */}
-                <div
-                  className={`absolute pointer-events-none transition-all duration-500 border border-white/20 shadow-md ${
-                    selectedShape.id === "square_2x2"
-                      ? "-bottom-4.5 left-1/2 -translate-x-1/2 w-[70%] h-5 rounded-b-xl"
-                      : selectedShape.id === "shape_t"
-                      ? "-bottom-4.5 left-1/2 -translate-x-1/2 w-[40%] h-5 rounded-b-xl"
-                      : "-left-4.5 top-1/2 -translate-y-1/2 h-[65%] w-5 rounded-l-xl"
-                  }`}
-                  style={{
-                    backgroundColor: caseColor.hex,
-                    boxShadow: `0 4px 12px rgba(0,0,0,0.6), inset 0 1px 2px rgba(255,255,255,0.3)`
-                  }}
-                >
-                  {/* Hollow Center Hole of the Anse */}
-                  <div className="absolute inset-1.5 rounded-md bg-neutral-950/90 shadow-inner border border-black/60" />
-
-                  {/* Chain Attachment Visualizer hooked right into the Anse Hole */}
-                  {attachment.id !== "none" && (
-                    <div
-                      className={`absolute flex items-center pointer-events-none z-0 transition-all duration-500 ${
-                        selectedShape.id === "square_2x2" || selectedShape.id === "shape_t"
-                          ? "top-full left-1/2 -translate-x-1/2 flex-col pt-1"
-                          : "right-full top-1/2 -translate-y-1/2 flex-row-reverse pr-1"
-                      }`}
-                    >
-                      <div
-                        className={`border-dashed border-neutral-300/80 animate-pulse ${
-                          selectedShape.id === "square_2x2" || selectedShape.id === "shape_t"
-                            ? "h-10 w-2 border-l-2 border-r-2"
-                            : "w-10 h-2 border-t-2 border-b-2"
-                        }`}
-                      />
-                      <span className="text-2xl drop-shadow-md">{attachment.icon}</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* 3D Case Bevel Ring */}
-                <div className="absolute inset-0 rounded-2xl border-2 border-white/15 pointer-events-none" />
-
+              {/* 3D Printed Case Container */}
+              <div className="relative p-2 flex items-center justify-center transition-all duration-500">
+                
                 {/* Keycaps Grid Layout */}
                 <div
-                  className={`grid gap-3.5 ${selectedShape.gridTemplate} relative z-10`}
+                  className={`grid gap-3.5 ${selectedShape.gridTemplate} relative z-10 p-2`}
                   style={{
                     gridTemplateRows: `repeat(${selectedShape.rows}, minmax(0, 1fr))`,
                     gridTemplateColumns: `repeat(${selectedShape.cols}, minmax(0, 1fr))`,
                   }}
                 >
                   {Array.from({ length: selectedShape.rows * selectedShape.cols }).map((_, slotIdx) => {
+                    const isLargeLine = selectedShape.cols >= 5;
+                    const keySizeClass = isLargeLine
+                      ? "w-10 h-10 sm:w-14 sm:h-14"
+                      : "w-16 h-16 sm:w-20 sm:h-20";
+
+                    // Empty slots (0 and 2) for shape_t: Completely transparent
+                    if (selectedShape.id === "shape_t" && (slotIdx === 0 || slotIdx === 2)) {
+                      return <div key={slotIdx} className={`${keySizeClass} opacity-0 pointer-events-none p-1.5`} />;
+                    }
+
                     const isValid = selectedShape.validIndices.includes(slotIdx);
                     if (!isValid) {
-                      return <div key={slotIdx} className="w-16 h-16 opacity-0 pointer-events-none" />;
+                      return <div key={slotIdx} className={`${keySizeClass} opacity-0 pointer-events-none p-1.5`} />;
                     }
 
                     const color = getKeyColor(slotIdx);
@@ -432,50 +509,55 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                     const isSelectedInCustom = keycapMode === "custom" && activeKeyIndex === slotIdx;
 
                     return (
-                      <button
+                      <div
                         key={slotIdx}
-                        type="button"
-                        onClick={() => handleKeyClick(slotIdx)}
-                        className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl transition-all duration-100 cursor-pointer flex items-center justify-center select-none group border ${
-                          isSelectedInCustom
-                            ? "ring-4 ring-white ring-offset-2 ring-offset-black z-30 scale-105"
-                            : "border-white/20 hover:scale-102"
-                        }`}
-                        style={{
-                          backgroundColor: color.hex,
-                          transform: isPressed ? "translateY(5px) scale(0.95)" : "translateY(0px)",
-                          boxShadow: isPressed
-                            ? "0 2px 4px rgba(0,0,0,0.6), inset 0 3px 6px rgba(0,0,0,0.5)"
-                            : `0 8px 0 ${color.hex}88, 0 12px 16px rgba(0,0,0,0.6), inset 0 2px 2px rgba(255,255,255,0.4)`
-                        }}
+                        className="p-1.5 rounded-2xl border border-white/15 shadow-lg transition-all"
+                        style={{ backgroundColor: caseColor.hex }}
                       >
-                        {/* Keycap Top Dish Bevel */}
-                        <div
-                          className="absolute inset-1.5 rounded-xl border border-white/20 pointer-events-none flex items-center justify-center"
+                        <button
+                          type="button"
+                          onClick={() => handleKeyClick(slotIdx)}
+                          className={`relative ${keySizeClass} rounded-2xl transition-all duration-100 cursor-pointer flex items-center justify-center select-none group border ${
+                            isSelectedInCustom
+                              ? "ring-4 ring-white ring-offset-2 ring-offset-black z-30 scale-105"
+                              : "border-white/20 hover:scale-102"
+                          }`}
                           style={{
-                            background: `linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(0,0,0,0.15) 100%)`
+                            backgroundColor: color.hex,
+                            transform: isPressed ? "translateY(5px) scale(0.95)" : "translateY(0px)",
+                            boxShadow: isPressed
+                              ? "0 2px 4px rgba(0,0,0,0.6), inset 0 3px 6px rgba(0,0,0,0.5)"
+                              : `0 8px 0 ${color.hex}88, 0 12px 16px rgba(0,0,0,0.6), inset 0 2px 2px rgba(255,255,255,0.4)`
                           }}
                         >
-                          {/* Symbol / Legend */}
-                          {icon.symbol ? (
-                            <span className="text-xl sm:text-2xl drop-shadow-md select-none">
-                              {icon.symbol}
-                            </span>
-                          ) : (
-                            <span className="w-2.5 h-2.5 rounded-full bg-white/30 border border-white/20" />
+                          {/* Keycap Top Dish Bevel */}
+                          <div
+                            className="absolute inset-1.5 rounded-xl border border-white/20 pointer-events-none flex items-center justify-center"
+                            style={{
+                              background: `linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(0,0,0,0.15) 100%)`
+                            }}
+                          >
+                            {/* Symbol / Legend */}
+                            {icon.symbol ? (
+                              <span className="text-xl sm:text-2xl drop-shadow-md select-none">
+                                {icon.symbol}
+                              </span>
+                            ) : (
+                              <span className="w-2.5 h-2.5 rounded-full bg-white/30 border border-white/20" />
+                            )}
+                          </div>
+
+                          {/* Glow indicator if phosphorescent */}
+                          {color.isGlow && (
+                            <div className="absolute inset-0 rounded-2xl bg-lime-400/20 animate-pulse pointer-events-none" />
                           )}
-                        </div>
 
-                        {/* Glow indicator if phosphorescent */}
-                        {color.isGlow && (
-                          <div className="absolute inset-0 rounded-2xl bg-lime-400/20 animate-pulse pointer-events-none" />
-                        )}
-
-                        {/* Click feedback wave */}
-                        {isPressed && (
-                          <div className="absolute inset-0 rounded-2xl bg-white/40 animate-ping pointer-events-none" />
-                        )}
-                      </button>
+                          {/* Click feedback wave */}
+                          {isPressed && (
+                            <div className="absolute inset-0 rounded-2xl bg-white/40 animate-ping pointer-events-none" />
+                          )}
+                        </button>
+                      </div>
                     );
                   })}
                 </div>
@@ -520,30 +602,36 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-              {SHAPES.map((shape) => {
+              {shapesList.map((shape) => {
                 const isSelected = selectedShape.id === shape.id;
                 return (
                   <button
                     key={shape.id}
                     type="button"
                     onClick={() => setSelectedShape(shape)}
-                    className={`relative p-3 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between h-24 ${
+                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between min-h-26 ${
                       isSelected
                         ? "bg-white/10 border-white text-white ring-1 ring-white/30 shadow-md"
                         : "bg-neutral-900/60 border-neutral-800 text-neutral-300 hover:border-neutral-700"
                     }`}
                   >
-                    {shape.badge && (
-                      <span className="absolute top-2 right-2 text-[9px] font-extrabold bg-neutral-800 text-neutral-300 border border-neutral-700 px-1.5 py-0.5 rounded-md">
-                        {shape.badge}
-                      </span>
-                    )}
                     <div>
-                      <div className="text-xs font-bold">{shape.name}</div>
-                      <div className="text-[10px] text-neutral-400">{shape.keyCount} switch(s)</div>
+                      <div className="flex items-start justify-between gap-1.5 mb-1">
+                        <div className="text-xs font-bold leading-snug">
+                          {shape.name.split(" (")[0]}
+                        </div>
+                        {shape.badge && (
+                          <span className="shrink-0 text-[9px] font-extrabold bg-neutral-800 text-neutral-300 border border-neutral-700 px-1.5 py-0.5 rounded-md">
+                            {shape.badge}
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-[11px] text-neutral-400 font-medium">
+                        {shape.keyCount} {shape.keyCount > 1 ? "Touches" : "Touche"}
+                      </div>
                     </div>
-                    <div className="text-xs font-black text-white">
-                      {shape.price.toFixed(2)} €
+                    <div className="text-xs font-black text-white pt-2">
+                      {(Number(shape.price) || 0).toFixed(2)} €
                     </div>
                   </button>
                 );
@@ -563,11 +651,11 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
             </div>
 
             <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
-              {CASE_COLORS.map((c) => {
-                const isSelected = caseColor.id === c.id;
+              {colorsList.map((c, idx) => {
+                const isSelected = caseColor.id === c.id || (caseColor.hex.toLowerCase() === c.hex.toLowerCase() && caseColor.name === c.name);
                 return (
                   <button
-                    key={c.id}
+                    key={`${c.id}-${idx}`}
                     type="button"
                     onClick={() => setCaseColor(c)}
                     className={`relative aspect-square rounded-xl transition-all cursor-pointer flex items-center justify-center border ${
@@ -597,7 +685,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-              {SWITCHES.map((sw) => {
+              {switchesList.map((sw) => {
                 const isSelected = switchType.id === sw.id;
                 return (
                   <button
@@ -692,13 +780,13 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
             <div className="space-y-1.5">
               <label className="text-xs text-neutral-400 font-mono">Couleur de touche :</label>
               <div className="grid grid-cols-6 sm:grid-cols-11 gap-1.5">
-                {KEYCAP_COLORS.map((color) => {
+                {colorsList.map((color, idx) => {
                   const activeColor = keycapMode === "all" ? globalKeycapColor : getKeyColor(activeKeyIndex);
-                  const isSelected = activeColor.id === color.id;
+                  const isSelected = activeColor.id === color.id || (activeColor.hex.toLowerCase() === color.hex.toLowerCase() && activeColor.name === color.name);
 
                   return (
                     <button
-                      key={color.id}
+                      key={`${color.id}-${idx}`}
                       type="button"
                       onClick={() => {
                         if (keycapMode === "all") {
@@ -727,7 +815,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
             <div className="space-y-1.5 pt-2">
               <label className="text-xs text-neutral-400 font-mono">Motif / Symbole gravé :</label>
               <div className="grid grid-cols-5 sm:grid-cols-10 gap-1.5">
-                {ICONS.map((icon) => {
+                {iconsList.map((icon) => {
                   const activeIcon = keycapMode === "all" ? globalIcon : getKeyIcon(activeKeyIndex);
                   const isSelected = activeIcon.id === icon.id;
 
@@ -769,7 +857,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-              {ATTACHMENTS.map((att) => {
+              {attachmentsList.map((att) => {
                 const isSelected = attachment.id === att.id;
                 return (
                   <button
@@ -787,7 +875,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                       <span className="text-xs font-bold">{att.name}</span>
                     </div>
                     <span className="text-xs font-mono text-neutral-300">
-                      {att.price > 0 ? `+${att.price.toFixed(2)}€` : "Gratuit"}
+                      {(Number(att.price) || 0) > 0 ? `+${(Number(att.price) || 0).toFixed(2)}€` : "Gratuit"}
                     </span>
                   </button>
                 );
@@ -801,10 +889,8 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
              ========================================================================= */}
           <div className="pt-4 border-t border-neutral-800 flex items-center justify-between gap-4 flex-wrap">
             <div>
-              <div className="text-xs text-neutral-400 uppercase font-mono">Prix Total Personnalisé</div>
-              <div className="text-3xl font-black text-white font-[family-name:var(--font-antonio)]">
-                {totalPrice.toFixed(2)} €
-              </div>
+              <div className="text-xs text-neutral-400 uppercase font-mono mb-1">Prix Total Personnalisé</div>
+              <AnimateDigits value={totalPrice} className="text-3xl sm:text-4xl text-white font-[family-name:var(--font-antonio)]" />
             </div>
 
             <button
@@ -819,6 +905,12 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
         </div>
 
       </div>
+
+      {/* MODERN BENTO IMAGE GALLERY */}
+      <div className="mt-16 pt-12 border-t border-neutral-800/80">
+        <ModernBentoGallery items={galleryList} />
+      </div>
+
     </div>
   );
 }

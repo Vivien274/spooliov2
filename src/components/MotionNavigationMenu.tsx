@@ -285,6 +285,32 @@ export default function MotionNavigationMenu() {
                   </Link>
 
                   <Link
+                    href="/createur-cliqueur"
+                    className="group tombola-inner-box bg-white/5 dark:bg-white/5 light:bg-gray-50 p-4 rounded-2xl border border-white/10 dark:border-white/10 light:border-gray-200 hover:border-purple-400/50 transition-all flex flex-col justify-between"
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="p-2 rounded-xl bg-purple-500/20 text-purple-400">
+                          <Gamepad2 className="w-5 h-5" />
+                        </div>
+                        <span className="bg-purple-500/20 text-purple-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase no-invert">
+                          🎨 SUR-MESURE
+                        </span>
+                      </div>
+                      <h4 className="text-sm font-black text-white dark:text-white light:text-gray-900 group-hover:text-purple-400 transition-colors">
+                        Créateur de Clicker 3D
+                      </h4>
+                      <p className="text-xs text-gray-400 dark:text-gray-400 light:text-gray-600">
+                        Personnalise ton boîtier, tes switchs et tes gravures de touches en 3D.
+                      </p>
+                    </div>
+                    <div className="mt-3 flex items-center justify-between text-xs font-bold text-purple-400">
+                      <span>Créer mon clicker</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    </div>
+                  </Link>
+
+                  <Link
                     href="/tombola"
                     className="group col-span-2 tombola-inner-box bg-gradient-to-r from-amber-500/15 via-amber-500/5 to-transparent p-4 rounded-2xl border border-amber-500/30 hover:border-amber-400/60 transition-all flex items-center justify-between"
                   >
