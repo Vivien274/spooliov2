@@ -329,13 +329,16 @@ export default function ProductFormClient({ productId, isNew }: Props) {
   const uploadImage = async (file: File) => {
     setIsUploadingImage(true);
     try {
-      const webpBlob = await convertToWebP(file);
-      const webpFile = new File([webpBlob], `${file.name.split(".")[0] || "image"}_optimized.webp`, {
-        type: "image/webp"
-      });
+      let fileToUpload = file;
+      if (file.type.startsWith("image/")) {
+        const webpBlob = await convertToWebP(file);
+        fileToUpload = new File([webpBlob], `${file.name.split(".")[0] || "image"}_optimized.webp`, {
+          type: "image/webp"
+        });
+      }
 
       const formData = new FormData();
-      formData.append("file", webpFile);
+      formData.append("file", fileToUpload);
 
       const res = await fetch("/api/admin/upload", {
         method: "POST",
@@ -347,7 +350,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
         const newImage = {
           id: Date.now() + Math.floor(Math.random() * 1000),
           src: data.imageUrl,
-          alt: form.name || "Image produit"
+          alt: form.name || "Média produit"
         };
         setForm(prev => ({ ...prev, images: [...prev.images, newImage] }));
       } else {
@@ -355,8 +358,8 @@ export default function ProductFormClient({ productId, isNew }: Props) {
         alert(`Erreur d'upload : ${data.error || 'Erreur inconnue'}`);
       }
     } catch (err: any) {
-      console.error("Upload image error:", err);
-      alert(`Erreur lors du traitement de l'image : ${err.message}`);
+      console.error("Upload media error:", err);
+      alert(`Erreur lors du traitement du média : ${err.message}`);
     } finally {
       setIsUploadingImage(false);
     }
@@ -806,10 +809,10 @@ export default function ProductFormClient({ productId, isNew }: Props) {
               </div>
             </SectionCard>
 
-            {/* 3. Photos */}
+            {/* 3. Photos & Vidéos */}
             <SectionCard
-              title="Photos"
-              icon={<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>}
+              title="Photos & Vidéos"
+              icon={<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>}
               cardBg={cls.cardBg} border={cls.border} textMain={cls.textMain}
             >
               {/* Hidden file input */}
@@ -821,28 +824,47 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                   files.forEach(uploadImage);
                 }}
                 multiple
-                accept="image/*"
+                accept="image/*,video/*,.mp4,.webm,.mov"
                 className="hidden"
               />
 
-              {/* Image grid */}
+              {/* Media grid (Photos + Vidéos) */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {form.images.map((img) => (
-                  <div key={img.id} className={`relative aspect-square rounded-xl overflow-hidden ${cls.inputBg} border ${cls.border} group`}>
-                    <Image src={img.src} alt={img.alt} fill className="object-cover" />
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        removeImage(img.id);
-                      }}
-                      className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer border-transparent"
-                    >
-                      <svg className="w-6 h-6 text-red-500 hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                  </div>
-                ))}
+                {form.images.map((img) => {
+                  const isVid = img.src && (
+                    img.src.endsWith(".mp4") ||
+                    img.src.endsWith(".webm") ||
+                    img.src.endsWith(".mov") ||
+                    img.src.includes("youtube.com") ||
+                    img.src.includes("youtu.be")
+                  );
+
+                  return (
+                    <div key={img.id} className={`relative aspect-square rounded-xl overflow-hidden ${cls.inputBg} border ${cls.border} group`}>
+                      {isVid ? (
+                        <div className="w-full h-full relative flex items-center justify-center bg-black">
+                          <video src={img.src} muted className="object-cover w-full h-full opacity-60" />
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                            <span className="text-xl">🎥</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <Image src={img.src} alt={img.alt || "Média"} fill className="object-cover" />
+                      )}
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          removeImage(img.id);
+                        }}
+                        className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer border-transparent z-10"
+                      >
+                        <svg className="w-6 h-6 text-red-500 hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </button>
+                    </div>
+                  );
+                })}
                 
                 {/* Drag and Drop dropzone slot */}
                 <div
@@ -869,24 +891,42 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                       <svg className="w-6 h-6 animate-spin text-[#2F3CD9]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                       </svg>
-                      <span className="text-[10px] font-semibold text-[#2F3CD9]">Optimisation...</span>
+                      <span className="text-[10px] font-semibold text-[#2F3CD9]">Téléversement...</span>
                     </div>
                   ) : (
                     <>
-                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      <span className="text-[10px] font-semibold text-center px-2">Drag & Drop ou Clic</span>
+                      <span className="text-xl">🎥 📸</span>
+                      <span className="text-[10px] font-semibold text-center px-2">Photos &amp; Vidéos</span>
                     </>
                   )}
                 </div>
               </div>
-              <p className={`text-[11px] ${cls.textFaint} flex items-center gap-1.5 mt-2`}>
-                <svg className="w-3.5 h-3.5 text-[#2F3CD9]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                Les images sont automatiquement optimisées et converties en format WebP côté client à l'upload.
-              </p>
+
+              <div className="flex flex-wrap items-center justify-between gap-2 mt-3 pt-3 border-t border-white/5">
+                <p className={`text-[11px] ${cls.textFaint} flex items-center gap-1.5`}>
+                  <svg className="w-3.5 h-3.5 text-[#2F3CD9]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  Accepte les fichiers images (PNG, JPG, WebP) et les vidéos (MP4, WebM, MOV).
+                </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const videoUrl = prompt("Saisissez l'URL de la vidéo (ex: https://.../demo.mp4 ou YouTube) :");
+                    if (videoUrl && videoUrl.trim()) {
+                      const newMedia = {
+                        id: Date.now() + Math.floor(Math.random() * 1000),
+                        src: videoUrl.trim(),
+                        alt: form.name || "Vidéo démonstration"
+                      };
+                      setForm(prev => ({ ...prev, images: [...prev.images, newMedia] }));
+                    }
+                  }}
+                  className="text-[11px] font-bold text-[#ff4f00] hover:underline cursor-pointer flex items-center gap-1"
+                >
+                  <span>+ Ajouter par URL (Vidéo / Image)</span>
+                </button>
+              </div>
             </SectionCard>
 
             {/* 4. Prix & Type */}

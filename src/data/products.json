@@ -17699,6 +17699,12 @@
         "id": 1503,
         "src": "/images/imported/Spoolio-St-Valentin-fidget-coeur-6.webp",
         "alt": "Spoolio St Valentin fidget coeur 6"
+      },
+      {
+        "id": 99999,
+        "src": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+        "name": "Vidéo Démonstration Fidget Cœur",
+        "alt": "Démonstration vidéo du Fidget Cœur"
       }
     ],
     "attributes": {

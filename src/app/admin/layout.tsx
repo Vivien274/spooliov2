@@ -172,9 +172,9 @@ function AdminShell({ children }: { children: React.ReactNode }) {
     };
 
     fetchCounts();
-    const interval = setInterval(fetchCounts, 30000);
+    const interval = setInterval(fetchCounts, 60000); // 60s quiet interval
     return () => clearInterval(interval);
-  }, [pathname]);
+  }, []); // Run once on admin shell mount
 
   if (pathname === "/admin/login") {
     return <>{children}</>;

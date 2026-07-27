@@ -14,6 +14,22 @@ interface ProductDetailClientProps {
   slug: string;
 }
 
+export function isVideoMedia(src?: string): boolean {
+  if (!src) return false;
+  const clean = src.toLowerCase().split("?")[0];
+  return (
+    clean.endsWith(".mp4") ||
+    clean.endsWith(".webm") ||
+    clean.endsWith(".mov") ||
+    clean.endsWith(".m4v") ||
+    clean.endsWith(".ogg") ||
+    clean.includes("youtube.com") ||
+    clean.includes("youtu.be") ||
+    clean.includes("vimeo.com") ||
+    src.startsWith("data:video/")
+  );
+}
+
 export default function ProductDetailClient({ slug }: ProductDetailClientProps) {
   const { addToCart } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
@@ -551,22 +567,55 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                 className="relative w-full h-full rounded-none lg:rounded-xl overflow-hidden bg-spoolio-card cursor-zoom-in select-none touch-pan-y group/gallery"
               >
                 {hasImage ? (
-                  <div
-                    className="w-full h-full relative transition-transform duration-300 ease-out"
-                    style={{
-                      transformOrigin: isZooming ? `${zoomPos.x}% ${zoomPos.y}%` : "center center",
-                      transform: isZooming ? "scale(2.2)" : "scale(1)",
-                    }}
-                  >
-                    <Image
-                      src={product.images[activeImageIndex]?.src || imageUrl}
-                      alt={product.images[activeImageIndex]?.alt || imageAlt}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-cover no-invert"
-                      priority
-                    />
-                  </div>
+                  (() => {
+                    const activeSrc = product.images[activeImageIndex]?.src || imageUrl;
+                    const activeAlt = product.images[activeImageIndex]?.alt || imageAlt;
+                    const isVid = isVideoMedia(activeSrc);
+
+                    if (isVid) {
+                      return (
+                        <div className="w-full h-full relative flex items-center justify-center bg-black">
+                          {activeSrc.includes("youtube.com") || activeSrc.includes("youtu.be") ? (
+                            <iframe
+                              src={activeSrc.replace("watch?v=", "embed/")}
+                              className="w-full h-full border-0 rounded-none lg:rounded-xl"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            />
+                          ) : (
+                            <video
+                              src={activeSrc}
+                              controls
+                              autoPlay
+                              loop
+                              muted
+                              playsInline
+                              className="w-full h-full object-cover rounded-none lg:rounded-xl no-invert"
+                            />
+                          )}
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <div
+                        className="w-full h-full relative transition-transform duration-300 ease-out"
+                        style={{
+                          transformOrigin: isZooming ? `${zoomPos.x}% ${zoomPos.y}%` : "center center",
+                          transform: isZooming ? "scale(2.2)" : "scale(1)",
+                        }}
+                      >
+                        <Image
+                          src={activeSrc}
+                          alt={activeAlt}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 50vw"
+                          className="object-cover no-invert"
+                          priority
+                        />
+                      </div>
+                    );
+                  })()
                 ) : (
                   <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-600">
                     <svg className="w-16 h-16 mb-2 text-spoolio-border" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -585,8 +634,8 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                         setActiveImageIndex(prev => (prev === 0 ? product.images.length - 1 : prev - 1));
                       }}
                       className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/70 border border-white/10 hover:border-white/20 text-white flex items-center justify-center transition-all opacity-0 group-hover/gallery:opacity-100 hidden md:flex z-20 active:scale-95"
-                      title="Image précédente"
-                      aria-label="Image précédente"
+                      title="Média précédent"
+                      aria-label="Média précédent"
                     >
                       <svg className="w-5 h-5 -translate-x-px" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
@@ -598,8 +647,8 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                         setActiveImageIndex(prev => (prev === product.images.length - 1 ? 0 : prev + 1));
                       }}
                       className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/70 border border-white/10 hover:border-white/20 text-white flex items-center justify-center transition-all opacity-0 group-hover/gallery:opacity-100 hidden md:flex z-20 active:scale-95"
-                      title="Image suivante"
-                      aria-label="Image suivante"
+                      title="Média suivant"
+                      aria-label="Média suivant"
                     >
                       <svg className="w-5 h-5 translate-x-px" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
@@ -627,25 +676,39 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
             {/* Thumbnail Grid */}
             {product.images.length > 1 && (
               <div className="flex gap-3 mt-4 overflow-x-auto pb-2 select-none no-scrollbar">
-                {product.images.map((img, idx) => (
-                  <button
-                    key={`${img.id}-${idx}`}
-                    onClick={() => setActiveImageIndex(idx)}
-                    className={`relative w-20 h-20 rounded-xl overflow-hidden bg-spoolio-card border transition-all shrink-0 cursor-pointer ${
-                      activeImageIndex === idx
-                        ? "border-white scale-105 shadow-md shadow-white/5"
-                        : "border-spoolio-border hover:border-white/40 opacity-70 hover:opacity-100"
-                    }`}
-                  >
-                    <Image
-                      src={img.src}
-                      alt={img.alt || img.name}
-                      fill
-                      sizes="80px"
-                      className="object-cover no-invert"
-                    />
-                  </button>
-                ))}
+                {product.images.map((img, idx) => {
+                  const isVid = isVideoMedia(img.src);
+                  return (
+                    <button
+                      key={`${img.id}-${idx}`}
+                      onClick={() => setActiveImageIndex(idx)}
+                      className={`relative w-20 h-20 rounded-xl overflow-hidden bg-spoolio-card border transition-all shrink-0 cursor-pointer ${
+                        activeImageIndex === idx
+                          ? "border-white scale-105 shadow-md shadow-white/5"
+                          : "border-spoolio-border hover:border-white/40 opacity-70 hover:opacity-100"
+                      }`}
+                    >
+                      {isVid ? (
+                        <div className="w-full h-full relative flex items-center justify-center bg-black/70">
+                          <video src={img.src} muted preload="metadata" className="w-full h-full object-cover opacity-60" />
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                            <svg className="w-7 h-7 text-white drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                        </div>
+                      ) : (
+                        <Image
+                          src={img.src}
+                          alt={img.alt || img.name}
+                          fill
+                          sizes="80px"
+                          className="object-cover no-invert"
+                        />
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -1693,18 +1756,39 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               &times;
             </button>
 
-            {/* Main Lightbox Image */}
+            {/* Main Lightbox Image / Video */}
             <div
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-4xl aspect-square md:aspect-[4/3] rounded-2xl overflow-hidden bg-black flex items-center justify-center cursor-default"
             >
-              <Image
-                src={product.images[activeImageIndex]?.src}
-                alt={product.images[activeImageIndex]?.alt || "Product image"}
-                fill
-                sizes="(max-width: 1200px) 100vw, 1200px"
-                className="object-contain"
-              />
+              {(() => {
+                const lightboxSrc = product.images[activeImageIndex]?.src;
+                const isVid = isVideoMedia(lightboxSrc);
+
+                if (isVid) {
+                  return (
+                    <video
+                      src={lightboxSrc}
+                      controls
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  );
+                }
+
+                return (
+                  <Image
+                    src={lightboxSrc}
+                    alt={product.images[activeImageIndex]?.alt || "Product image"}
+                    fill
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                    className="object-contain"
+                  />
+                );
+              })()}
 
               {/* Previous Button */}
               {product.images.length > 1 && (

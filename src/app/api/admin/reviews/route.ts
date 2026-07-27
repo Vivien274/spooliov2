@@ -33,7 +33,6 @@ export async function GET() {
     let reviews: any[] = [];
 
     try {
-      console.log("Fetching reviews from Prisma Database...");
       reviews = await withTimeout(prisma.review.findMany({
         include: {
           product: {

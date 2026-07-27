@@ -29,10 +29,10 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validate that file is an image
-    if (!file.type.startsWith("image/")) {
+    // Validate that file is an image or video
+    if (!file.type.startsWith("image/") && !file.type.startsWith("video/")) {
       return NextResponse.json(
-        { error: "Le fichier doit être une image." },
+        { error: "Le fichier doit être une image ou une vidéo." },
         { status: 400 }
       );
     }
