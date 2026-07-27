@@ -721,23 +721,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               </span>
             )}
 
-            {/* Product Tags */}
-            {product.tags && product.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mb-3 select-none">
-                {product.tags.map((tag: any, idx: number) => {
-                  const tagName = typeof tag === 'object' ? tag.name : tag;
-                  if (!tagName) return null;
-                  return (
-                    <span
-                      key={idx}
-                      className="text-[9px] font-extrabold px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-gray-400 uppercase tracking-widest no-invert"
-                    >
-                      #{tagName}
-                    </span>
-                  );
-                })}
-              </div>
-            )}
+
 
             <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mb-4">
               {product.name}
@@ -1444,6 +1428,30 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               <span className="text-sm font-bold text-[#ff4f00]">PLA Bio 🇫🇷 Comines</span>
             </div>
           </div>
+
+          {/* Dedicated Tags Zone inside Specifications */}
+          {product.tags && product.tags.length > 0 && (
+            <div className="mt-6 p-5 rounded-2xl bg-spoolio-card border border-spoolio-border/40 flex flex-col gap-3 font-sans">
+              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                <span>🏷️</span>
+                <span>Tags & Mots-clés associés :</span>
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {product.tags.map((tag: any, idx: number) => {
+                  const tagName = typeof tag === 'object' ? tag.name : tag;
+                  if (!tagName) return null;
+                  return (
+                    <span
+                      key={idx}
+                      className="text-xs font-extrabold px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-colors uppercase tracking-wider select-none"
+                    >
+                      #{tagName}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </section>
 
         {/* Blue Gift Promo Banner */}
