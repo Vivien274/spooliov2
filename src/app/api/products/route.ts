@@ -57,13 +57,41 @@ function mapProduct(p: any) {
       : [];
   }
 
+  // Calculate effective non-zero price
+  let rawPrice = String(p.price || "").trim();
+  let rawRegPrice = String(p.regularPrice || p.regular_price || p.price || "").trim();
+
+  const isPriceZero = !rawPrice || rawPrice === "0" || rawPrice === "0.00" || rawPrice === "0,00" || parseFloat(rawPrice) === 0;
+
+  if (isPriceZero) {
+    if (parsedAttributes && Array.isArray(parsedAttributes.variationPrices)) {
+      const validVarPrices = parsedAttributes.variationPrices
+        .map((vp: any) => parseFloat(vp.price))
+        .filter((priceNum: number) => !isNaN(priceNum) && priceNum > 0);
+
+      if (validVarPrices.length > 0) {
+        rawPrice = Math.min(...validVarPrices).toString();
+        if (!rawRegPrice || rawRegPrice === "0" || rawRegPrice === "0.00" || parseFloat(rawRegPrice) === 0) {
+          rawRegPrice = rawPrice;
+        }
+      }
+    }
+  }
+
+  if (!rawPrice || rawPrice === "0" || rawPrice === "0.00" || parseFloat(rawPrice) === 0) {
+    rawPrice = "4.00";
+    if (!rawRegPrice || rawRegPrice === "0" || rawRegPrice === "0.00" || parseFloat(rawRegPrice) === 0) {
+      rawRegPrice = "4.00";
+    }
+  }
+
   return {
     id: p.id,
     name: decodeHtml(p.name),
     slug: p.slug,
     permalink: p.permalink,
-    price: p.price || "4.00",
-    regular_price: p.regularPrice || p.regular_price || p.price || "4.00",
+    price: rawPrice,
+    regular_price: rawRegPrice,
     sale_price: p.salePrice || p.sale_price || "",
     on_sale: !!(p.onSale || p.on_sale),
     categories: (p.categories || []).map((c: any) => ({

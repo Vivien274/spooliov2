@@ -38,9 +38,9 @@ function mapProduct(p: any) {
       const parsed = typeof p.attributes === 'string' ? JSON.parse(p.attributes) : p.attributes;
       if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
         tagsList = parsed.tags || [];
-        parsedAttributes = parsed; // Keep the whole parsed object (with variationPrices) instead of throwing it away
-      } else if (Array.isArray(parsed)) {
         parsedAttributes = parsed;
+      } else if (Array.isArray(parsed)) {
+        parsedAttributes = { attributes: parsed, variationPrices: [] };
       }
     } catch (e) {
       console.warn("Could not parse attributes/tags JSON:", e);
@@ -54,13 +54,41 @@ function mapProduct(p: any) {
       : [];
   }
 
+  // Calculate effective non-zero price
+  let rawPrice = String(p.price || "").trim();
+  let rawRegPrice = String(p.regularPrice || p.regular_price || p.price || "").trim();
+
+  const isPriceZero = !rawPrice || rawPrice === "0" || rawPrice === "0.00" || rawPrice === "0,00" || parseFloat(rawPrice) === 0;
+
+  if (isPriceZero) {
+    if (parsedAttributes && Array.isArray(parsedAttributes.variationPrices)) {
+      const validVarPrices = parsedAttributes.variationPrices
+        .map((vp: any) => parseFloat(vp.price))
+        .filter((priceNum: number) => !isNaN(priceNum) && priceNum > 0);
+
+      if (validVarPrices.length > 0) {
+        rawPrice = Math.min(...validVarPrices).toString();
+        if (!rawRegPrice || rawRegPrice === "0" || rawRegPrice === "0.00" || parseFloat(rawRegPrice) === 0) {
+          rawRegPrice = rawPrice;
+        }
+      }
+    }
+  }
+
+  if (!rawPrice || rawPrice === "0" || rawPrice === "0.00" || parseFloat(rawPrice) === 0) {
+    rawPrice = "4.00";
+    if (!rawRegPrice || rawRegPrice === "0" || rawRegPrice === "0.00" || parseFloat(rawRegPrice) === 0) {
+      rawRegPrice = "4.00";
+    }
+  }
+
   return {
     id: p.id,
     name: decodeHtml(p.name),
     slug: p.slug,
     permalink: p.permalink,
-    price: p.price || "4.00",
-    regular_price: p.regularPrice || p.regular_price || p.price || "4.00",
+    price: rawPrice,
+    regular_price: rawRegPrice,
     sale_price: p.salePrice || p.sale_price || "",
     on_sale: !!(p.onSale || p.on_sale),
     categories: (p.categories || []).map((c: any) => ({
@@ -88,134 +116,62 @@ async function fetchSingleProduct(slug: string, status: string) {
   const consumerKey = process.env.WC_CONSUMER_KEY;
   const consumerSecret = process.env.WC_CONSUMER_SECRET;
 
-  // 1. Try Prisma Database client first (with a timeout race)
   try {
-    console.log(`Attempting Prisma Database fetch for slug: ${slug} with status filter: ${status}...`);
-    // Prisma where condition based on status
     const whereCond = status === 'all'
       ? { slug }
-      : {
-          slug,
-          status: {
-            in: ['publish', '']
-          }
-        };
+      : { slug, status: { in: ['publish', ''] } };
 
-    const dbProduct = await Promise.race([
-      prisma.product.findFirst({
-        where: whereCond,
-        include: {
-          images: true,
-          categories: true,
-        },
-      }),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 5000))
-    ]) as any;
+    const dbProduct = await prisma.product.findFirst({
+      where: whereCond,
+      include: { images: true, categories: true },
+    });
 
-    if (dbProduct) {
-      console.log("Successfully fetched product from Prisma Database.");
-      return mapProduct(dbProduct);
-    }
+    if (dbProduct) return mapProduct(dbProduct);
   } catch (e: any) {
-    console.warn("Prisma query failed or timed out for single product:", e.message);
+    console.warn("Prisma query failed:", e.message);
   }
 
-  // 2. Try Local JSON file fallback next (to support local admin modifications)
   try {
     const jsonPath = path.join(process.cwd(), 'src/data/products.json');
     if (fs.existsSync(jsonPath)) {
-      console.log("Attempting Local products.json fetch...");
       const fileData = fs.readFileSync(jsonPath, 'utf8');
       const parsed = JSON.parse(fileData);
       if (Array.isArray(parsed)) {
         const match = parsed.find(p => p.slug === slug);
         if (match && (status === 'all' || match.status === 'publish' || !match.status)) {
-          console.log("Successfully fetched product from Local products.json.");
           const mapped = mapProduct(match);
           try {
-            const localProduct = await Promise.race([
-              prisma.product.findFirst({
-                where: { slug },
-                select: { id: true }
-              }),
-              new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 5000))
-            ]) as any;
-
-            if (localProduct) {
-              console.log(`Overwriting JSON product ID ${mapped.id} with local database ID ${localProduct.id}`);
-              mapped.id = localProduct.id;
+            const dbProduct = await prisma.product.findFirst({ where: { slug: match.slug } });
+            if (dbProduct) {
+              if (dbProduct.price) mapped.price = dbProduct.price;
+              if (dbProduct.regularPrice) mapped.regular_price = dbProduct.regularPrice;
             }
-          } catch (dbErr: any) {
-            console.warn("Failed checking local product ID for JSON mapped product:", dbErr.message);
+          } catch (e) {
+            console.warn("Failed to overlay DB data on local JSON product:", e);
           }
           return mapped;
         }
       }
     }
   } catch (e: any) {
-    console.warn("Failed to load local products.json:", e.message);
+    console.warn("Local JSON query failed:", e.message);
   }
 
-  // 3. Fallback to WooCommerce REST API (if not found locally)
   if (wcUrl && consumerKey && consumerSecret) {
     try {
-      console.log(`Attempting WooCommerce API fetch for slug: ${slug}...`);
       const auth = Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64');
       const response = await fetch(`${wcUrl.replace(/\/$/, '')}/wp-json/wc/v3/products?slug=${slug}`, {
-        headers: {
-          'Authorization': `Basic ${auth}`,
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Authorization': `Basic ${auth}`, 'Content-Type': 'application/json' },
         next: { revalidate: 60 }
       });
       if (response.ok) {
         const data = await response.json();
-        if (Array.isArray(data) && data.length > 0) {
-          console.log("Successfully fetched product from WooCommerce API.");
-          const match = data[0];
-          if (status === 'all' || match.status === 'publish' || !match.status) {
-            const mapped = mapProduct(match);
-            try {
-              const localProduct = await prisma.product.findFirst({
-                where: { slug },
-                select: { id: true }
-              });
-              if (localProduct) {
-                console.log(`Overwriting WooCommerce product ID ${mapped.id} with local database ID ${localProduct.id}`);
-                mapped.id = localProduct.id;
-              }
-            } catch (dbErr: any) {
-              console.warn("Failed checking local product ID for WooCommerce mapped product:", dbErr.message);
-            }
-            return mapped;
-          }
-        }
+        if (Array.isArray(data) && data.length > 0) return mapProduct(data[0]);
       }
     } catch (e: any) {
-      console.warn("Failed fetching single product from WooCommerce API:", e.message);
+      console.warn("WooCommerce API fetch failed:", e.message);
     }
   }
-
-  // 4. Fallback Mockup Data
-  console.log("Using Mockup Data fallback for slug...");
-  const mockProducts = Array.from({ length: 8 }).map((_, i) => ({
-    id: i + 1,
-    name: "Mini-boîte de survie",
-    slug: `mini-boite-de-survie-${i + 1}`,
-    permalink: `/product/mini-boite-de-survie-${i + 1}`,
-    price: "5.00",
-    regular_price: "5.00",
-    sale_price: "",
-    on_sale: false,
-    categories: [{ id: 14, name: "Accessoires", slug: "accessoires" }],
-    images: [{ id: 100 + i, src: "/images/figma_keychains.jpg", name: "Mini-boîte de survie", alt: "Mini-boîte de survie" }],
-    short_description: "La mini-boîte qui sauve tes soirées (et tes lendemains). Bouchons d'oreille, cachet du matin.",
-    description: "",
-    date_created: new Date().toISOString()
-  }));
-
-  const match = mockProducts.find(p => p.slug === slug);
-  if (match) return match;
   return null;
 }
 
@@ -228,16 +184,10 @@ export async function GET(
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status') || 'publish';
     const product = await fetchSingleProduct(slug, status);
-    if (!product) {
-      return NextResponse.json({ error: 'Product not found' }, { status: 404 });
-    }
+    if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     return NextResponse.json(product);
   } catch (error: any) {
-    console.error(`Fatal error in single product API route for slug ${slug}:`, error);
-    return NextResponse.json(
-      { error: 'Failed to load product details', details: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to load product' }, { status: 500 });
   }
 }
 
@@ -250,9 +200,31 @@ export async function PUT(
     const body = await request.json();
     const numericId = parseInt(slug);
     
+    let attributesObj: any = { attributes: [], variationPrices: [] };
+    if (body.attributes) {
+      try {
+        attributesObj = typeof body.attributes === 'string' ? JSON.parse(body.attributes) : body.attributes;
+        if (Array.isArray(attributesObj)) attributesObj = { attributes: attributesObj, variationPrices: [] };
+      } catch (e) {
+        console.warn("Could not parse incoming body attributes:", e);
+      }
+    }
+    if (body.tags) attributesObj.tags = body.tags;
+
+    let effectivePrice = String(body.price || "").trim();
+    if (!effectivePrice || effectivePrice === "0" || effectivePrice === "0.00" || effectivePrice === "0,00" || parseFloat(effectivePrice) === 0) {
+      if (attributesObj && Array.isArray(attributesObj.variationPrices)) {
+        const validVarPrices = attributesObj.variationPrices
+          .map((vp: any) => parseFloat(vp.price))
+          .filter((p: number) => !isNaN(p) && p > 0);
+        if (validVarPrices.length > 0) effectivePrice = Math.min(...validVarPrices).toString();
+      }
+    }
+
     const updateData: any = {
       name: body.name,
-      price: body.price,
+      price: effectivePrice || "0.00",
+      regularPrice: body.regularPrice || effectivePrice || "0.00",
       salePrice: body.salePrice || null,
       onSale: body.onSale || false,
       shortDescription: body.shortDescription || null,
@@ -268,27 +240,8 @@ export async function PUT(
       sensorySize: body.sensorySize || body.sensory_size || null,
       sensoryCategory: body.sensoryCategory || body.sensory_category || null,
       sensoryProfiles: Array.isArray(body.sensoryProfiles) ? body.sensoryProfiles.join(',') : (body.sensoryProfiles || null),
+      attributes: JSON.stringify(attributesObj)
     };
-
-    let attributesObj: any = { attributes: [], variationPrices: [] };
-    if (body.attributes) {
-      try {
-        attributesObj = typeof body.attributes === 'string'
-          ? JSON.parse(body.attributes)
-          : body.attributes;
-        if (Array.isArray(attributesObj)) {
-          attributesObj = { attributes: attributesObj, variationPrices: [] };
-        }
-      } catch (e) {
-        console.warn("Could not parse incoming body attributes:", e);
-      }
-    }
-
-    if (body.tags) {
-      attributesObj.tags = body.tags;
-    }
-
-    updateData.attributes = JSON.stringify(attributesObj);
 
     let updatedProduct = null;
     let savedInDb = false;
