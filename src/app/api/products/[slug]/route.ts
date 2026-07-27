@@ -42,6 +42,15 @@ function mapProduct(p: any) {
       } else if (Array.isArray(parsed)) {
         parsedAttributes = { attributes: parsed, variationPrices: [] };
       }
+
+      if (parsedAttributes && Array.isArray(parsedAttributes.attributes)) {
+        parsedAttributes.attributes = parsedAttributes.attributes.map((attr: any) => ({
+          ...attr,
+          options: Array.isArray(attr.options)
+            ? [...attr.options].sort((a: string, b: string) => String(a).localeCompare(String(b), 'fr', { sensitivity: 'base', numeric: true }))
+            : attr.options
+        }));
+      }
     } catch (e) {
       console.warn("Could not parse attributes/tags JSON:", e);
     }

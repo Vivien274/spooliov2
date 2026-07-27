@@ -770,7 +770,8 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                     if (nameLower === "personnalisable" || nameLower.includes("personnalisable")) return null;
 
                     const rawOptions = attr.options || [];
-                    const options = Array.from(new Set<string>(rawOptions.map((opt: string) => opt.replace(/\u00a0/g, ' ').trim())));
+                    const options = Array.from(new Set<string>(rawOptions.map((opt: string) => opt.replace(/\u00a0/g, ' ').trim())))
+                      .sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base', numeric: true }));
                     const selectedVal = selectedOptions[name];
                     const decodedName = decodeHtml(name);
 

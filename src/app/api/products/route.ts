@@ -41,9 +41,18 @@ function mapProduct(p: any) {
       const parsed = typeof p.attributes === 'string' ? JSON.parse(p.attributes) : p.attributes;
       if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
         tagsList = parsed.tags || [];
-        parsedAttributes = parsed; // Keep the whole parsed object (with variationPrices) instead of throwing it away
-      } else if (Array.isArray(parsed)) {
         parsedAttributes = parsed;
+      } else if (Array.isArray(parsed)) {
+        parsedAttributes = { attributes: parsed, variationPrices: [] };
+      }
+
+      if (parsedAttributes && Array.isArray(parsedAttributes.attributes)) {
+        parsedAttributes.attributes = parsedAttributes.attributes.map((attr: any) => ({
+          ...attr,
+          options: Array.isArray(attr.options)
+            ? [...attr.options].sort((a: string, b: string) => String(a).localeCompare(String(b), 'fr', { sensitivity: 'base', numeric: true }))
+            : attr.options
+        }));
       }
     } catch (e) {
       console.warn("Could not parse attributes/tags JSON:", e);
