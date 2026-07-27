@@ -49,38 +49,45 @@ export default function TombolaConfigurator() {
   // Countdown timer calculation
   const [timeLeft, setTimeLeft] = useState({ days: 4, hours: 18, minutes: 42, seconds: 15 });
 
-  // Hydrate config & reserved tickets from API & localStorage on mount
+  // Hydrate config & reserved tickets: prioritize local edits to prevent overwriting user modifications
   useEffect(() => {
     setIsClient(true);
 
     const fetchTombolaData = async () => {
+      let hasLocalConfig = false;
+      try {
+        const savedConfig = localStorage.getItem("spoolio_tombola_config");
+        if (savedConfig) {
+          const parsed = JSON.parse(savedConfig);
+          setConfig(parsed);
+          if (parsed.ticketPrice) setTicketPrice(parsed.ticketPrice);
+          hasLocalConfig = true;
+        }
+        const saved = localStorage.getItem("spoolio_tombola_reserved");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) {
+            setReservedTickets(parsed);
+          }
+        }
+      } catch (e) {}
+
       try {
         const res = await fetch("/api/tombola");
         const data = await res.json();
         if (data.success && data.tombola) {
-          setConfig(data.tombola);
-          if (data.tombola.ticketPrice) setTicketPrice(data.tombola.ticketPrice);
-          if (Array.isArray(data.reservedTickets)) {
-            setReservedTickets(data.reservedTickets);
+          // If user hasn't customized locally yet, use DB tombola
+          if (!hasLocalConfig) {
+            setConfig(data.tombola);
+            if (data.tombola.ticketPrice) setTicketPrice(data.tombola.ticketPrice);
+          }
+          // Merge reserved tickets from DB
+          if (Array.isArray(data.reservedTickets) && data.reservedTickets.length > 0) {
+            setReservedTickets((prev) => Array.from(new Set([...prev, ...data.reservedTickets])).sort((a, b) => a - b));
           }
         }
       } catch (err) {
-        console.warn("Erreur API Tombola, utilisation fallback local:", err);
-        try {
-          const savedConfig = localStorage.getItem("spoolio_tombola_config");
-          if (savedConfig) {
-            const parsed = JSON.parse(savedConfig);
-            setConfig(parsed);
-            if (parsed.ticketPrice) setTicketPrice(parsed.ticketPrice);
-          }
-          const saved = localStorage.getItem("spoolio_tombola_reserved");
-          if (saved) {
-            const parsed = JSON.parse(saved);
-            if (Array.isArray(parsed)) {
-              setReservedTickets(parsed);
-            }
-          }
-        } catch (e) {}
+        console.warn("API Tombola indisponible, conservation des données locales");
       }
     };
 

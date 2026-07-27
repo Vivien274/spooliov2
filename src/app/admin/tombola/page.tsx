@@ -56,34 +56,39 @@ export default function AdminTombolaPage() {
   const [drawDisplayNumber, setDrawDisplayNumber] = useState<number | null>(null);
   const [showWinnerModal, setShowWinnerModal] = useState<boolean>(false);
 
-  // Load configuration from API & localStorage
+  // Load configuration: prioritize local storage edits to protect user updates
   useEffect(() => {
     setIsClient(true);
     const fetchAdminData = async () => {
+      let hasLocalConfig = false;
+      try {
+        const savedConfig = localStorage.getItem("spoolio_tombola_config");
+        if (savedConfig) {
+          setConfig(JSON.parse(savedConfig));
+          hasLocalConfig = true;
+        }
+        const savedReserved = localStorage.getItem("spoolio_tombola_reserved");
+        if (savedReserved) {
+          const parsed = JSON.parse(savedReserved);
+          if (Array.isArray(parsed)) {
+            setReservedTickets(parsed);
+          }
+        }
+      } catch (e) {}
+
       try {
         const res = await fetch("/api/tombola");
         const data = await res.json();
         if (data.success && data.tombola) {
-          setConfig(data.tombola);
-          if (Array.isArray(data.reservedTickets)) {
-            setReservedTickets(data.reservedTickets);
+          if (!hasLocalConfig) {
+            setConfig(data.tombola);
+          }
+          if (Array.isArray(data.reservedTickets) && data.reservedTickets.length > 0) {
+            setReservedTickets((prev) => Array.from(new Set([...prev, ...data.reservedTickets])).sort((a, b) => a - b));
           }
         }
       } catch (err) {
-        console.warn("Erreur API Admin Tombola, utilisation fallback local:", err);
-        try {
-          const savedConfig = localStorage.getItem("spoolio_tombola_config");
-          if (savedConfig) {
-            setConfig(JSON.parse(savedConfig));
-          }
-          const savedReserved = localStorage.getItem("spoolio_tombola_reserved");
-          if (savedReserved) {
-            const parsed = JSON.parse(savedReserved);
-            if (Array.isArray(parsed)) {
-              setReservedTickets(parsed);
-            }
-          }
-        } catch (e) {}
+        console.warn("API Admin Tombola indisponible, conservation des données locales");
       }
     };
     fetchAdminData();
