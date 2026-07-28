@@ -81,7 +81,7 @@ export default function RootLayout({
       className={`${antonio.variable} ${plusJakarta.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <head>
+      <body className="min-h-full flex flex-col">
         <Script
           id="theme-initializer"
           strategy="beforeInteractive"
@@ -102,8 +102,6 @@ export default function RootLayout({
             `
           }}
         />
-      </head>
-      <body className="min-h-full flex flex-col">
         <LanguageProvider>
           <CartProvider>
             <VisitorTracker />
