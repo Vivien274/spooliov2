@@ -116,6 +116,18 @@ export default function LinkHubClient({ initialProfile, initialLinks, isPreview 
   const [copiedToast, setCopiedToast] = useState<boolean>(false);
 
   useEffect(() => {
+    if (initialProfile) {
+      setProfile(initialProfile);
+    }
+  }, [initialProfile]);
+
+  useEffect(() => {
+    if (initialLinks) {
+      setLinks(initialLinks);
+    }
+  }, [initialLinks]);
+
+  useEffect(() => {
     if (!initialLinks) {
       fetch("/api/links")
         .then((res) => res.json())

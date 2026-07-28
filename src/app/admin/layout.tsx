@@ -116,7 +116,6 @@ const navSections: NavSection[] = [
       {
         label: "Tombolas",
         href: "/admin/tombola",
-        badge: "NOUVEAU",
         icon: (
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
@@ -135,7 +134,6 @@ const navSections: NavSection[] = [
       {
         label: "Hub de Liens",
         href: "/admin/liens",
-        badge: "LINKTREE",
         icon: (
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
@@ -183,6 +181,40 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   const { theme, toggleTheme, cls } = useAdminTheme();
   const [newOrdersCount, setNewOrdersCount] = useState<number>(0);
   const [pendingReviewsCount, setPendingReviewsCount] = useState<number>(0);
+
+  // Collapsible sidebar states
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+  const [isMobileOpen, setIsMobileOpen] = useState<boolean>(false);
+
+  // Load saved collapsed preference on mount & handle auto-collapse on small screens
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("spoolio_admin_sidebar_collapsed");
+      if (saved !== null) {
+        setIsCollapsed(saved === "true");
+      } else if (window.innerWidth < 1280) {
+        setIsCollapsed(true);
+      }
+    } catch (e) {}
+
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setIsCollapsed(true);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleCollapse = () => {
+    setIsCollapsed((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem("spoolio_admin_sidebar_collapsed", String(next));
+      } catch (e) {}
+      return next;
+    });
+  };
 
   useEffect(() => {
     let title = "ADMIN · Spoolio";
@@ -268,31 +300,65 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className={`min-h-screen ${cls.pageBg} ${cls.textMain} flex font-sans transition-colors duration-300`}>
+    <div className={`min-h-screen ${cls.pageBg} ${cls.textMain} flex font-sans transition-colors duration-300 relative select-none`}>
+      {/* Mobile Drawer Backdrop */}
+      {isMobileOpen && (
+        <div
+          onClick={() => setIsMobileOpen(false)}
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[999] md:hidden"
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className={`w-64 shrink-0 ${cls.sidebarBg} border-r ${cls.border} flex flex-col transition-colors duration-300 max-h-screen sticky top-0`}>
-        {/* Logo */}
-        <div className={`h-16 flex items-center gap-3 px-5 border-b ${cls.border} shrink-0`}>
-          <Image
-            src="/images/logo.png"
-            alt="Spoolio"
-            width={95}
-            height={28}
-            className={`h-7 w-auto object-contain ${theme === "light" ? "invert" : ""}`}
-          />
-          <span
-            className="text-[9px] font-black tracking-[0.25em] uppercase text-white px-2 py-0.5 rounded-full"
-            style={{ background: ADMIN_BLUE }}
+      <aside
+        className={`fixed md:sticky top-0 z-[1000] h-screen ${isCollapsed ? "w-20" : "w-64"} shrink-0 ${cls.sidebarBg} border-r ${cls.border} flex flex-col transition-all duration-300 max-h-screen ${
+          isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+        }`}
+      >
+        {/* Logo & Toggle Row */}
+        <div className={`h-16 flex items-center ${isCollapsed ? "justify-center px-2" : "justify-between px-5"} border-b ${cls.border} shrink-0`}>
+          {!isCollapsed && (
+            <Link href="/admin" className="flex items-center gap-3">
+              <Image
+                src="/images/logo.png"
+                alt="Spoolio"
+                width={95}
+                height={28}
+                className={`h-7 w-auto object-contain ${theme === "light" ? "invert" : ""}`}
+              />
+              <span
+                className="text-[9px] font-black tracking-[0.25em] uppercase text-white px-2 py-0.5 rounded-full"
+                style={{ background: ADMIN_BLUE }}
+              >
+                ADMIN
+              </span>
+            </Link>
+          )}
+
+          {/* Collapse Toggle Button */}
+          <button
+            onClick={toggleCollapse}
+            className={`p-2 rounded-xl transition-all cursor-pointer ${
+              theme === "dark" ? "hover:bg-white/10 text-gray-400 hover:text-white" : "hover:bg-gray-200 text-gray-600 hover:text-black"
+            }`}
+            title={isCollapsed ? "Agrandir la barre latérale" : "Réduire la barre latérale"}
           >
-            ADMIN
-          </span>
+            <svg
+              className={`w-5 h-5 transition-transform duration-300 ${isCollapsed ? "rotate-180" : ""}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+            </svg>
+          </button>
         </div>
 
         {/* Nav Sections */}
         <nav className="flex-1 px-3 py-4 space-y-5 overflow-y-auto custom-scrollbar">
           {navSections.map((section, secIdx) => (
             <div key={secIdx} className="space-y-1">
-              {section.title && (
+              {section.title && !isCollapsed && (
                 <div className={`px-3 text-[10px] font-extrabold uppercase tracking-widest ${theme === "dark" ? "text-neutral-500" : "text-gray-400"} pb-1 select-none`}>
                   {section.title}
                 </div>
@@ -302,7 +368,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                   item.href === "/admin"
                     ? pathname === "/admin"
                     : pathname.startsWith(item.href);
-                
+
                 let badgeValue = item.badge;
                 if (item.label === "Commandes" && newOrdersCount > 0) {
                   badgeValue = String(newOrdersCount);
@@ -317,25 +383,27 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                   <div key={item.href} className="flex flex-col gap-1">
                     <Link
                       href={item.href}
-                      className={`flex items-center justify-between gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all duration-200 group ${
+                      onClick={() => setIsMobileOpen(false)}
+                      title={isCollapsed ? item.label : undefined}
+                      className={`flex items-center ${isCollapsed ? "justify-center px-0 py-2.5" : "justify-between px-3 py-2"} rounded-xl text-xs font-semibold transition-all duration-200 group ${
                         isActive
                           ? "bg-[#2F3CD9]/15 border border-[#2F3CD9]/30"
                           : `${cls.textMuted} hover:${cls.textMain} ${theme === "dark" ? "hover:bg-white/5" : "hover:bg-gray-100"}`
                       }`}
                       style={isActive ? { color: activeColor } : {}}
                     >
-                      <span className="flex items-center gap-2.5">
-                        <span style={isActive ? { color: activeColor } : {}}>{item.icon}</span>
-                        {item.label}
+                      <span className="flex items-center gap-3">
+                        <span className="text-base" style={isActive ? { color: activeColor } : {}}>{item.icon}</span>
+                        {!isCollapsed && <span>{item.label}</span>}
                       </span>
                       {badgeValue && (
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-500 text-white animate-pulse">
+                        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-red-500 text-white animate-pulse ${isCollapsed ? "absolute top-1 right-1" : ""}`}>
                           {badgeValue}
                         </span>
                       )}
                     </Link>
 
-                    {item.subItems && isParentActive && (
+                    {item.subItems && isParentActive && !isCollapsed && (
                       <div className={`flex flex-col gap-1 pl-8 pr-2 py-1 border-l ml-4 ${theme === "dark" ? "border-white/10" : "border-gray-200"}`}>
                         {item.subItems.map((sub) => {
                           const isSubActive = pathname === sub.href;
@@ -343,6 +411,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                             <Link
                               key={sub.href}
                               href={sub.href}
+                              onClick={() => setIsMobileOpen(false)}
                               className={`text-[11px] py-1 px-2 rounded-lg transition-all ${
                                 isSubActive
                                   ? `font-bold ${theme === "dark" ? "text-white bg-white/10" : "text-black bg-gray-200"}`
@@ -363,36 +432,40 @@ function AdminShell({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* Sidebar footer */}
-        <div className={`p-4 border-t ${cls.border} flex flex-col gap-1`}>
+        <div className={`p-3 border-t ${cls.border} flex flex-col gap-1`}>
           <button
             onClick={toggleTheme}
-            className={`flex items-center gap-2 text-xs font-semibold px-3 py-2 rounded-xl transition-all cursor-pointer w-full ${cls.textMuted} ${theme === "dark" ? "hover:text-white hover:bg-white/5" : "hover:text-gray-900 hover:bg-gray-100"}`}
+            title={theme === "dark" ? "Passer au thème clair" : "Passer au thème sombre"}
+            className={`flex items-center ${isCollapsed ? "justify-center px-0 py-2.5" : "gap-2 px-3 py-2"} text-xs font-semibold rounded-xl transition-all cursor-pointer w-full ${cls.textMuted} ${theme === "dark" ? "hover:text-white hover:bg-white/5" : "hover:text-gray-900 hover:bg-gray-100"}`}
           >
             {theme === "dark" ? (
               <>
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 7a5 5 0 100 10 5 5 0 000-10z" />
                 </svg>
-                Thème clair
+                {!isCollapsed && <span>Thème clair</span>}
               </>
             ) : (
               <>
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
-                Thème sombre
+                {!isCollapsed && <span>Thème sombre</span>}
               </>
             )}
           </button>
+
           <Link
             href="/"
-            className={`flex items-center gap-2 text-xs px-3 py-2 rounded-xl transition-colors ${cls.textMuted} ${theme === "dark" ? "hover:text-white hover:bg-white/5" : "hover:text-gray-900 hover:bg-gray-100"}`}
+            title="Voir le site public"
+            className={`flex items-center ${isCollapsed ? "justify-center px-0 py-2.5" : "gap-2 px-3 py-2"} text-xs rounded-xl transition-colors ${cls.textMuted} ${theme === "dark" ? "hover:text-white hover:bg-white/5" : "hover:text-gray-900 hover:bg-gray-100"}`}
           >
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Voir le site
+            {!isCollapsed && <span>Voir le site</span>}
           </Link>
+
           <button
             onClick={async () => {
               try {
@@ -401,12 +474,13 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                 window.location.href = "/admin/login";
               } catch (e) {}
             }}
-            className="flex items-center gap-2 text-xs px-3 py-2 rounded-xl transition-colors cursor-pointer w-full text-red-500 hover:bg-red-500/10 font-semibold"
+            title="Déconnexion"
+            className={`flex items-center ${isCollapsed ? "justify-center px-0 py-2.5" : "gap-2 px-3 py-2"} text-xs rounded-xl transition-colors cursor-pointer w-full text-red-500 hover:bg-red-500/10 font-semibold`}
           >
-            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
-            Déconnexion
+            {!isCollapsed && <span>Déconnexion</span>}
           </button>
         </div>
       </aside>
@@ -414,16 +488,33 @@ function AdminShell({ children }: { children: React.ReactNode }) {
       {/* Main content */}
       <div className={`flex-1 flex flex-col min-w-0 ${cls.pageBg} transition-colors duration-300`}>
         {/* Top bar */}
-        <header className={`h-16 ${cls.sidebarBg} border-b ${cls.border} flex items-center justify-between px-6 shrink-0 transition-colors duration-300`}>
-          <div className={`text-sm ${cls.textMuted} font-medium`}>
-            <span className={cls.textFaint}>admin.spoolio.fr</span>
-            <span className={`${cls.textFaint} mx-2`}>/</span>
-            <span className={`${cls.textMain} capitalize font-semibold`}>
-              {pathname === "/admin"
-                ? "Dashboard"
-                : pathname.split("/").filter(Boolean).slice(1).join(" / ")}
-            </span>
+        <header className={`h-16 ${cls.sidebarBg} border-b ${cls.border} flex items-center justify-between px-4 sm:px-6 shrink-0 transition-colors duration-300`}>
+          <div className="flex items-center gap-3">
+            {/* Mobile Burger Toggle Button */}
+            <button
+              onClick={() => setIsMobileOpen(!isMobileOpen)}
+              className={`p-2 rounded-xl border md:hidden cursor-pointer ${
+                theme === "dark" ? "bg-white/5 border-white/10 text-white" : "bg-gray-100 border-gray-200 text-black"
+              }`}
+              aria-label="Toggle mobile menu"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
+              </svg>
+            </button>
+
+            {/* Breadcrumb Path */}
+            <div className={`text-xs sm:text-sm ${cls.textMuted} font-medium truncate`}>
+              <span className={cls.textFaint}>admin.spoolio.fr</span>
+              <span className={`${cls.textFaint} mx-1.5`}>/</span>
+              <span className={`${cls.textMain} capitalize font-bold`}>
+                {pathname === "/admin"
+                  ? "Dashboard"
+                  : pathname.split("/").filter(Boolean).slice(1).join(" / ")}
+              </span>
+            </div>
           </div>
+
           <div className="flex items-center gap-3">
             {/* Theme toggle */}
             <button
@@ -446,12 +537,12 @@ function AdminShell({ children }: { children: React.ReactNode }) {
               )}
             </button>
 
-            <div className={`flex items-center gap-2 text-xs ${cls.textMuted} ${cls.statusBg} rounded-full px-3 py-1.5 border`}>
+            <div className={`hidden sm:flex items-center gap-2 text-xs ${cls.textMuted} ${cls.statusBg} rounded-full px-3 py-1.5 border`}>
               <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               En ligne
             </div>
             <div
-              className="w-8 h-8 rounded-full flex items-center justify-center text-white font-black text-xs"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-white font-black text-xs shrink-0"
               style={{ background: ADMIN_BLUE }}
             >
               A
@@ -460,7 +551,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
         </header>
 
         {/* Page content */}
-        <main className="flex-1 overflow-auto p-6">
+        <main className="flex-1 overflow-auto p-4 sm:p-6">
           {children}
         </main>
       </div>

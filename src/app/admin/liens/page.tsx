@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useAdminTheme } from "../AdminThemeContext";
 import LinkHubClient, { LinkItem, HubProfile } from "@/components/LinkHubClient";
-import { Plus, Trash2, ArrowUp, ArrowDown, Eye, EyeOff, Sparkles, Check, ExternalLink, Save } from "lucide-react";
+import { Plus, Trash2, ArrowUp, ArrowDown, Eye, EyeOff, Sparkles, Check, ExternalLink, Save, Pencil, X } from "lucide-react";
 
 export default function AdminLinksPage() {
   const { cls } = useAdminTheme();
@@ -176,11 +176,8 @@ export default function AdminLinksPage() {
         </div>
       )}
 
-      {/* Main Grid: Left Config Panel & Right Mobile Live Preview */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
-        {/* LEFT COLUMN: EDITING TABS & FORMS (7 Cols) */}
-        <div className="lg:col-span-7 space-y-6">
+      {/* EDITING TABS & FORMS */}
+      <div className="max-w-5xl mx-auto space-y-6">
           
           {/* Navigation Tabs */}
           <div className="flex items-center gap-2 border-b border-gray-800 pb-2">
@@ -302,90 +299,211 @@ export default function AdminLinksPage() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-xs text-gray-400 font-mono">
                   <span>LIENS ACTIFS ({links.length})</span>
-                  <span>Glisser / Réordonner</span>
+                  <span>Réordonner &amp; Éditer</span>
                 </div>
 
-                {links.map((link, idx) => (
-                  <div
-                    key={link.id}
-                    className={`p-4 rounded-2xl border ${cls.border} ${cls.inputBg} flex items-center justify-between gap-3 transition-all ${
-                      !link.isPublished ? "opacity-50 grayscale" : ""
-                    }`}
-                  >
-                    {/* Left Info */}
-                    <div className="flex items-center gap-3 min-w-0">
-                      <span className="w-8 h-8 rounded-xl bg-black/40 border border-white/10 flex items-center justify-center text-base shrink-0">
-                        {link.icon || "🔗"}
-                      </span>
+                {links.map((link, idx) => {
+                  const isEditing = editingLinkId === link.id;
 
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className={`text-xs font-bold ${cls.textMain} truncate`}>
-                            {link.title}
-                          </span>
-                          {link.badge && (
-                            <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-white/10 text-neutral-300 font-mono">
-                              {link.badge}
-                            </span>
-                          )}
+                  if (isEditing) {
+                    return (
+                      <div
+                        key={link.id}
+                        className={`p-5 rounded-2xl border-2 border-[#ff4f00] bg-neutral-900/90 space-y-4 shadow-xl animate-fadeIn`}
+                      >
+                        <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                          <h4 className="text-xs font-black uppercase tracking-wider text-[#ff4f00] flex items-center gap-2">
+                            <Pencil className="w-4 h-4" />
+                            <span>Édition du lien : {link.title}</span>
+                          </h4>
+                          <button
+                            type="button"
+                            onClick={() => setEditingLinkId(null)}
+                            className="p-1 text-gray-400 hover:text-white rounded-lg hover:bg-white/10"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
                         </div>
-                        <p className="text-[11px] text-gray-400 truncate">
-                          {link.url}
-                        </p>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <div>
+                            <label className="text-[11px] text-gray-400 font-mono block mb-1">Titre du Lien *</label>
+                            <input
+                              type="text"
+                              value={link.title}
+                              onChange={(e) => {
+                                const updated = links.map((l) => l.id === link.id ? { ...l, title: e.target.value } : l);
+                                setLinks(updated);
+                              }}
+                              className={`w-full px-3 py-2 text-xs rounded-xl border ${cls.border} ${cls.inputBg} focus:outline-none focus:border-[#ff4f00]`}
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] text-gray-400 font-mono block mb-1">URL de destination *</label>
+                            <input
+                              type="text"
+                              value={link.url}
+                              onChange={(e) => {
+                                const updated = links.map((l) => l.id === link.id ? { ...l, url: e.target.value } : l);
+                                setLinks(updated);
+                              }}
+                              className={`w-full px-3 py-2 text-xs rounded-xl border ${cls.border} ${cls.inputBg} focus:outline-none focus:border-[#ff4f00]`}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                          <div>
+                            <label className="text-[11px] text-gray-400 font-mono block mb-1">Sous-titre / Description</label>
+                            <input
+                              type="text"
+                              value={link.subtitle || ""}
+                              onChange={(e) => {
+                                const updated = links.map((l) => l.id === link.id ? { ...l, subtitle: e.target.value } : l);
+                                setLinks(updated);
+                              }}
+                              className={`w-full px-3 py-2 text-xs rounded-xl border ${cls.border} ${cls.inputBg} focus:outline-none focus:border-[#ff4f00]`}
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] text-gray-400 font-mono block mb-1">Badge (Optionnel)</label>
+                            <input
+                              type="text"
+                              value={link.badge || ""}
+                              onChange={(e) => {
+                                const updated = links.map((l) => l.id === link.id ? { ...l, badge: e.target.value } : l);
+                                setLinks(updated);
+                              }}
+                              className={`w-full px-3 py-2 text-xs rounded-xl border ${cls.border} ${cls.inputBg} focus:outline-none focus:border-[#ff4f00]`}
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] text-gray-400 font-mono block mb-1">Style Visuel</label>
+                            <select
+                              value={link.style || "normal"}
+                              onChange={(e: any) => {
+                                const updated = links.map((l) => l.id === link.id ? { ...l, style: e.target.value } : l);
+                                setLinks(updated);
+                              }}
+                              className={`w-full px-3 py-2 text-xs rounded-xl border ${cls.border} ${cls.inputBg} focus:outline-none focus:border-[#ff4f00]`}
+                            >
+                              <option value="normal">Normal (Noir Mat)</option>
+                              <option value="glow">Néon Glow Orange</option>
+                              <option value="pulse">Violet Pulsant</option>
+                              <option value="highlight">Ambre Mis en avant</option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center justify-end gap-2 pt-2">
+                          <button
+                            type="button"
+                            onClick={() => setEditingLinkId(null)}
+                            className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shadow-lg"
+                          >
+                            <Check className="w-3.5 h-3.5" />
+                            <span>Terminer l'édition</span>
+                          </button>
+                        </div>
                       </div>
-                    </div>
+                    );
+                  }
 
-                    {/* Right Actions & Clicks readout */}
-                    <div className="flex items-center gap-2 shrink-0">
-                      {/* Click Counter */}
-                      <span className="text-[11px] font-mono text-gray-400 bg-black/30 px-2 py-1 rounded-lg border border-white/5">
-                        👁️ {link.clicks || 0} clics
-                      </span>
+                  return (
+                    <div
+                      key={link.id}
+                      className={`p-4 rounded-2xl border ${cls.border} ${cls.inputBg} flex items-center justify-between gap-3 transition-all ${
+                        !link.isPublished ? "opacity-50 grayscale" : ""
+                      }`}
+                    >
+                      {/* Left Info */}
+                      <div className="flex items-center gap-3 min-w-0">
+                        <span className="w-8 h-8 rounded-xl bg-black/40 border border-white/10 flex items-center justify-center text-base shrink-0">
+                          {link.icon || "🔗"}
+                        </span>
 
-                      {/* Reorder Buttons */}
-                      <div className="flex items-center gap-0.5">
+                        <div className="min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className={`text-xs font-bold ${cls.textMain} truncate`}>
+                              {link.title}
+                            </span>
+                            {link.badge && (
+                              <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-white/10 text-neutral-300 font-mono">
+                                {link.badge}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-[11px] text-gray-400 truncate">
+                            {link.url}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Right Actions & Clicks readout */}
+                      <div className="flex items-center gap-2 shrink-0">
+                        {/* Click Counter */}
+                        <span className="text-[11px] font-mono text-gray-400 bg-black/30 px-2 py-1 rounded-lg border border-white/5">
+                          👁️ {link.clicks || 0} clics
+                        </span>
+
+                        {/* Reorder Buttons */}
+                        <div className="flex items-center gap-0.5">
+                          <button
+                            type="button"
+                            disabled={idx === 0}
+                            onClick={() => handleMoveLink(idx, "up")}
+                            className="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 disabled:opacity-30 text-gray-300 flex items-center justify-center cursor-pointer"
+                          >
+                            <ArrowUp className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            disabled={idx === links.length - 1}
+                            onClick={() => handleMoveLink(idx, "down")}
+                            className="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 disabled:opacity-30 text-gray-300 flex items-center justify-center cursor-pointer"
+                          >
+                            <ArrowDown className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+
+                        {/* Edit Button */}
                         <button
                           type="button"
-                          disabled={idx === 0}
-                          onClick={() => handleMoveLink(idx, "up")}
-                          className="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 disabled:opacity-30 text-gray-300 flex items-center justify-center cursor-pointer"
+                          onClick={() => setEditingLinkId(link.id)}
+                          className="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 border border-blue-500/30 flex items-center justify-center cursor-pointer"
+                          title="Éditer ce lien"
                         >
-                          <ArrowUp className="w-3.5 h-3.5" />
+                          <Pencil className="w-3.5 h-3.5" />
                         </button>
+
+                        {/* Toggle Visibility */}
                         <button
                           type="button"
-                          disabled={idx === links.length - 1}
-                          onClick={() => handleMoveLink(idx, "down")}
-                          className="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 disabled:opacity-30 text-gray-300 flex items-center justify-center cursor-pointer"
+                          onClick={() => handleTogglePublish(link.id)}
+                          className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors cursor-pointer ${
+                            link.isPublished ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30" : "bg-gray-800 text-gray-500"
+                          }`}
+                          title={link.isPublished ? "Lien visible (Publié)" : "Lien masqué"}
                         >
-                          <ArrowDown className="w-3.5 h-3.5" />
+                          {link.isPublished ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                        </button>
+
+                        {/* Delete */}
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteLink(link.id)}
+                          className="w-8 h-8 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30 flex items-center justify-center cursor-pointer"
+                          title="Supprimer le lien"
+                        >
+                          <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
-
-                      {/* Toggle Visibility */}
-                      <button
-                        type="button"
-                        onClick={() => handleTogglePublish(link.id)}
-                        className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors cursor-pointer ${
-                          link.isPublished ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30" : "bg-gray-800 text-gray-500"
-                        }`}
-                        title={link.isPublished ? "Lien visible (Publié)" : "Lien masqué"}
-                      >
-                        {link.isPublished ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-                      </button>
-
-                      {/* Delete */}
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteLink(link.id)}
-                        className="w-8 h-8 rounded-xl bg-red-500/20 text-red-400 hover:bg-red-500/30 border border-red-500/30 flex items-center justify-center cursor-pointer"
-                        title="Supprimer le lien"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
             </div>
@@ -493,33 +611,6 @@ export default function AdminLinksPage() {
               </div>
             </div>
           )}
-
-        </div>
-
-        {/* RIGHT COLUMN: LIVE MOBILE PREVIEW (5 Cols) */}
-        <div className="lg:col-span-5 sticky top-24 space-y-3">
-          <div className="flex items-center justify-between text-xs font-mono text-gray-400">
-            <span>📱 APERÇU MOBILE EN DIRECT</span>
-            <span className="text-[#ff4f00] font-bold">Aperçu temps réel</span>
-          </div>
-
-          {/* Phone Shell */}
-          <div className="relative mx-auto w-full max-w-[340px] h-[640px] rounded-[40px] border-4 border-neutral-800 bg-[#0d0d10] shadow-2xl overflow-hidden flex flex-col ring-1 ring-white/10">
-            {/* Phone Speaker Notch */}
-            <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-4 bg-neutral-900 rounded-full z-50 flex items-center justify-center">
-              <div className="w-8 h-1 rounded-full bg-neutral-700" />
-            </div>
-
-            {/* Rendered LinkHubClient inside Frame */}
-            <div className="w-full h-full overflow-y-auto pt-4">
-              <LinkHubClient
-                initialProfile={profile}
-                initialLinks={links.filter((l) => l.isPublished !== false)}
-                isPreview={true}
-              />
-            </div>
-          </div>
-        </div>
 
       </div>
 
