@@ -29,8 +29,8 @@ export default function HomeLoader({ onComplete }: { onComplete?: () => void }) 
     } catch (e) {}
 
     // Animate progress smoothly from 0 to 100
-    const duration = 4500; // 4.5 seconds total for easy previewing
-    const intervalTime = 30;
+    const duration = 1200; // Fast loader duration
+    const intervalTime = 20;
     const totalSteps = duration / intervalTime;
     let step = 0;
 
