@@ -21,7 +21,7 @@
       "url": "https://www.spoolio.fr/boutique",
       "icon": "🛒",
       "badge": "",
-      "style": "normal",
+      "style": "highlight",
       "isPublished": true,
       "order": 1,
       "clicks": 189

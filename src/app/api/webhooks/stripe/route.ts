@@ -219,6 +219,39 @@ export async function POST(request: Request) {
           console.error("[Webhook Database Error] Failed to write order to database:", dbErr.message);
         }
 
+        // Auto-reserve purchased Tombola tickets in database grid
+        try {
+          const parsedItems = JSON.parse(itemsSummary || "[]");
+          const tombolaTicketNumbers: number[] = [];
+          for (const item of parsedItems) {
+            const nameStr = (item.name || "").toLowerCase();
+            const match = nameStr.match(/case[^\d]*#?(\d+)/i) || nameStr.match(/tombola[^\d]*#?(\d+)/i);
+            if (match && match[1]) {
+              const num = parseInt(match[1], 10);
+              if (!isNaN(num)) tombolaTicketNumbers.push(num);
+            }
+          }
+          if (tombolaTicketNumbers.length > 0) {
+            const activeTombola = await prisma.tombola.findFirst({ orderBy: { createdAt: "desc" } });
+            if (activeTombola) {
+              let currentReserved: number[] = [];
+              try {
+                currentReserved = typeof activeTombola.reservedTickets === "string"
+                  ? JSON.parse(activeTombola.reservedTickets)
+                  : (Array.isArray(activeTombola.reservedTickets) ? (activeTombola.reservedTickets as any) : []);
+              } catch (e) {}
+              const updatedReserved = Array.from(new Set([...currentReserved, ...tombolaTicketNumbers])).sort((a, b) => a - b);
+              await prisma.tombola.update({
+                where: { id: activeTombola.id },
+                data: { reservedTickets: JSON.stringify(updatedReserved) }
+              });
+              console.log(`[Stripe Webhook] Tombola tickets reserved automatically:`, tombolaTicketNumbers);
+            }
+          }
+        } catch (tombolaErr: any) {
+          console.error("[Tombola Webhook Sync Error]:", tombolaErr.message);
+        }
+
         // Cache order in local JSON file
         try {
           const jsonPath = path.join(process.cwd(), 'src/data/orders.json');

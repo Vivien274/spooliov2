@@ -121,7 +121,37 @@ export default function MotionNavigationMenu() {
               
               {/* DROPDOWN TAB 1: BOUTIQUE */}
               {activeTab === "boutique" && (
-                <div className="grid grid-cols-12 gap-6">
+                <div className="space-y-4">
+                  {/* Full-width Top Banner: Voir toute la boutique */}
+                  <Link
+                    href="/boutique"
+                    className="group flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-[#2F3CD9]/30 via-[#ff4f00]/20 to-[#FF8800]/20 hover:from-[#2F3CD9]/45 hover:via-[#ff4f00]/30 hover:to-[#FF8800]/30 border border-white/15 dark:border-white/15 light:border-gray-200 shadow-md transition-all duration-300"
+                  >
+                    <div className="flex items-center gap-3.5">
+                      <div className="p-2.5 rounded-xl bg-[#2F3CD9] text-white shadow-md group-hover:scale-110 transition-transform no-invert">
+                        <ShoppingBag className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h4 className="text-xs font-black text-white dark:text-white light:text-gray-900 group-hover:text-[#ff4f00] transition-colors">
+                            Voir toute la boutique
+                          </h4>
+                          <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-[#ff4f00] text-white no-invert">
+                            CATALOGUE COMPLET 🛍️
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-gray-300 dark:text-gray-300 light:text-gray-600 font-medium">
+                          Explorez l'ensemble de nos créations 3D, fidgets sensoriels, packs &amp; nouveautés
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1 text-xs font-extrabold text-[#ff4f00] group-hover:translate-x-1 transition-transform pr-2">
+                      <span>Voir tout</span>
+                      <ArrowUpRight className="w-4 h-4" />
+                    </div>
+                  </Link>
+
+                  <div className="grid grid-cols-12 gap-6">
                   {/* Featured Left Card */}
                   <div className="col-span-5 tombola-inner-box bg-gradient-to-br from-[#ff4f00]/20 via-[#ff4f00]/10 to-transparent p-5 rounded-2xl border border-[#ff4f00]/30 flex flex-col justify-between relative overflow-hidden group">
                     <div className="space-y-2">
@@ -228,6 +258,7 @@ export default function MotionNavigationMenu() {
                     </Link>
                   </div>
                 </div>
+              </div>
               )}
 
               {/* DROPDOWN TAB 2: EXPÉRIENCES & JEUX */}
