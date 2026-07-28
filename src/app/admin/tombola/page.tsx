@@ -239,6 +239,28 @@ export default function AdminTombolaPage() {
     }
   };
 
+  // Reset Reserved Tickets only
+  const handleResetReservedTickets = async () => {
+    if (!confirm("Voulez-vous vraiment réinitialiser toutes les cases prises / raturées pour remettre la grille à zéro ?")) return;
+
+    setReservedTickets([]);
+    try {
+      localStorage.removeItem("spoolio_tombola_reserved");
+    } catch (e) {}
+
+    try {
+      await fetch("/api/tombola", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "reset_reserved" }),
+      });
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
+    } catch (err) {
+      console.error("Erreur réinitialisation cases prises:", err);
+    }
+  };
+
   // Stats calculation
   const totalRevenue = (reservedTickets.length * config.ticketPrice).toFixed(2);
   const fillRate = Math.round((reservedTickets.length / config.totalCases) * 100);
@@ -264,7 +286,7 @@ export default function AdminTombolaPage() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
           <Link
             href="/tombola"
             target="_blank"
@@ -272,6 +294,13 @@ export default function AdminTombolaPage() {
           >
             <span>👁️ Voir la page publique</span>
           </Link>
+          <button
+            onClick={handleResetReservedTickets}
+            className="px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-xs font-bold rounded-xl transition-all border border-amber-500/30 cursor-pointer"
+            title="Remettre la grille de cases à zéro sans changer les infos de la tombola"
+          >
+            🧹 Vider les cases raturées ({reservedTickets.length})
+          </button>
           <button
             onClick={handleResetNewTombola}
             className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 text-xs font-bold rounded-xl transition-all border border-red-500/30 cursor-pointer"

@@ -184,6 +184,18 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true, tombola: updated });
     }
 
+    // ACTION: Reset Reserved Tickets (Admin or Clean Start)
+    if (action === "reset_reserved" || action === "clear_reserved") {
+      const updated = await prisma.tombola.update({
+        where: { id: activeTombola.id },
+        data: {
+          reservedTickets: JSON.stringify([]),
+        },
+      });
+
+      return NextResponse.json({ success: true, tombola: updated, reservedTickets: [] });
+    }
+
     // ACTION: Reset / Start New Tombola (Admin)
     if (action === "reset") {
       const newTombola = await prisma.tombola.create({

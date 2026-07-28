@@ -36,7 +36,7 @@ const DEFAULT_CONFIG: TombolaConfig = {
 const INITIAL_RESERVED: number[] = []; // Default clean empty grid
 
 export default function TombolaConfigurator() {
-  const { addToCart, setIsCartOpen } = useCart();
+  const { addToCart, setIsCartOpen, cartItems } = useCart();
 
   // State management
   const [config, setConfig] = useState<TombolaConfig>(DEFAULT_CONFIG);
@@ -49,50 +49,37 @@ export default function TombolaConfigurator() {
   // Countdown timer calculation
   const [timeLeft, setTimeLeft] = useState({ days: 4, hours: 18, minutes: 42, seconds: 15 });
 
-  // Hydrate config & reserved tickets: prioritize local edits to prevent overwriting user modifications
+  // Hydrate config & reserved tickets from DB
   useEffect(() => {
     setIsClient(true);
 
     const fetchTombolaData = async () => {
-      let hasLocalConfig = false;
-      try {
-        const savedConfig = localStorage.getItem("spoolio_tombola_config");
-        if (savedConfig) {
-          const parsed = JSON.parse(savedConfig);
-          setConfig(parsed);
-          if (parsed.ticketPrice) setTicketPrice(parsed.ticketPrice);
-          hasLocalConfig = true;
-        }
-        const saved = localStorage.getItem("spoolio_tombola_reserved");
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed)) {
-            setReservedTickets(parsed);
-          }
-        }
-      } catch (e) {}
-
       try {
         const res = await fetch("/api/tombola");
         const data = await res.json();
         if (data.success && data.tombola) {
-          // If user hasn't customized locally yet, use DB tombola
-          if (!hasLocalConfig) {
-            setConfig(data.tombola);
-            if (data.tombola.ticketPrice) setTicketPrice(data.tombola.ticketPrice);
-          }
-          // Merge reserved tickets from DB
-          if (Array.isArray(data.reservedTickets) && data.reservedTickets.length > 0) {
-            setReservedTickets((prev) => Array.from(new Set([...prev, ...data.reservedTickets])).sort((a, b) => a - b));
+          setConfig(data.tombola);
+          if (data.tombola.ticketPrice) setTicketPrice(data.tombola.ticketPrice);
+          if (Array.isArray(data.reservedTickets)) {
+            setReservedTickets(data.reservedTickets);
           }
         }
       } catch (err) {
-        console.warn("API Tombola indisponible, conservation des données locales");
+        console.warn("API Tombola indisponible");
       }
     };
 
     fetchTombolaData();
   }, []);
+
+  // Compute ticket numbers currently in user's active cart
+  const cartTicketNumbers = useMemo(() => {
+    if (!cartItems || !Array.isArray(cartItems)) return [];
+    return cartItems
+      .filter((item: any) => item.slug === "tombola" && item.selectedOptions && item.selectedOptions["Case"])
+      .map((item: any) => parseInt(item.selectedOptions["Case"].replace("#", ""), 10))
+      .filter((n: number) => !isNaN(n));
+  }, [cartItems]);
 
   // Update countdown timer
   useEffect(() => {
@@ -108,30 +95,9 @@ export default function TombolaConfigurator() {
     return () => clearInterval(timer);
   }, []);
 
-  // Save reserved tickets to DB & localStorage
-  const saveReserved = async (newTickets: number[]) => {
-    const updated = Array.from(new Set([...reservedTickets, ...newTickets])).sort((a, b) => a - b);
-    setReservedTickets(updated);
-
-    try {
-      localStorage.setItem("spoolio_tombola_reserved", JSON.stringify(updated));
-    } catch (e) {}
-
-    try {
-      await fetch("/api/tombola", {
-        method: "POST",
-        headers: { "Content-[#ff4f00]": "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify({ action: "reserve", newTickets }),
-      });
-    } catch (err) {
-      console.error("Erreur sauvegarde BDD reserve:", err);
-    }
-  };
-
-  // Toggle grid case selection
-  const handleToggleCase = (num: number) => {
-    if (reservedTickets.includes(num)) return; // Already sold
-
+  // Toggle ticket selection
+  const handleTicketClick = (num: number) => {
+    if (reservedTickets.includes(num)) return;
     if (selectedTickets.includes(num)) {
       setSelectedTickets(selectedTickets.filter((n) => n !== num));
     } else {
@@ -142,7 +108,7 @@ export default function TombolaConfigurator() {
   // Quick random pick
   const handleRandomPick = () => {
     const available = Array.from({ length: config.totalCases }, (_, i) => i + 1).filter(
-      (n) => !reservedTickets.includes(n) && !selectedTickets.includes(n)
+      (n) => !reservedTickets.includes(n) && !selectedTickets.includes(n) && !cartTicketNumbers.includes(n)
     );
     if (available.length === 0) return;
     const randomIndex = Math.floor(Math.random() * available.length);
@@ -179,9 +145,6 @@ export default function TombolaConfigurator() {
         false
       );
     });
-
-    // Mark as reserved locally & in DB for visual feedback
-    saveReserved(selectedTickets);
 
     // Show confirmation feedback
     setSelectedTickets([]);
@@ -390,7 +353,7 @@ export default function TombolaConfigurator() {
                       #{num}
                       <button
                         type="button"
-                        onClick={() => handleToggleCase(num)}
+                        onClick={() => handleTicketClick(num)}
                         className="hover:text-white transition-colors cursor-pointer"
                       >
                         &times;
@@ -478,18 +441,21 @@ export default function TombolaConfigurator() {
           {Array.from({ length: config.totalCases }, (_, i) => i + 1).map((num) => {
             const isReserved = reservedTickets.includes(num);
             const isSelected = selectedTickets.includes(num);
+            const isInCart = cartTicketNumbers.includes(num);
 
             return (
               <button
                 key={num}
                 type="button"
                 disabled={isReserved}
-                onClick={() => handleToggleCase(num)}
+                onClick={() => handleTicketClick(num)}
                 className={`relative aspect-square rounded-2xl font-mono font-black text-base sm:text-lg flex flex-col items-center justify-center transition-all duration-200 select-none border overflow-hidden ${
                   isReserved
                     ? "tombola-grid-btn-reserved bg-red-950/20 text-gray-500 border-red-900/30 cursor-not-allowed opacity-80"
                     : isSelected
                     ? "no-invert bg-[#ff4f00] text-white border-[#ff4f00] shadow-[0_0_18px_rgba(255,79,0,0.6)] scale-105 z-10 cursor-pointer"
+                    : isInCart
+                    ? "bg-amber-500/20 text-amber-300 border-amber-500/50 shadow-md cursor-pointer"
                     : "tombola-grid-btn bg-white/5 text-white border-white/10 hover:bg-white/15 hover:border-white/30 hover:scale-105 cursor-pointer"
                 }`}
               >
@@ -526,11 +492,15 @@ export default function TombolaConfigurator() {
 
                 {isReserved ? (
                   <span className="text-[8px] font-sans text-red-400/80 font-bold tracking-tighter uppercase leading-none mt-0.5 relative z-10">
-                    PRIS
+                    Vendu
+                  </span>
+                ) : isInCart ? (
+                  <span className="text-[7px] font-sans text-amber-400 font-bold tracking-tighter uppercase leading-none mt-0.5 relative z-10">
+                    Panier
                   </span>
                 ) : isSelected ? (
-                  <span className="text-[9px] font-sans text-white font-extrabold uppercase leading-none mt-0.5 relative z-10">
-                    RÉSERVÉ
+                  <span className="text-[8px] font-sans text-white font-black tracking-tighter uppercase leading-none mt-0.5 relative z-10">
+                    Choisi
                   </span>
                 ) : (
                   <span className="text-[8px] font-sans text-gray-500 group-hover:text-gray-300 leading-none mt-0.5 relative z-10">
