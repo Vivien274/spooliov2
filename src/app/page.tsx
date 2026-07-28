@@ -246,34 +246,50 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 3. Static Reassurance Bar (Directly below Marquee) */}
-      <section className="w-full bg-white dark:bg-[#0c0c0e] border-b border-gray-200 dark:border-neutral-800/80 text-gray-900 dark:text-white py-3 px-4 mb-8 select-none">
-        <div className="max-w-[1200px] mx-auto flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[11px] sm:text-xs font-mono text-gray-700 dark:text-gray-300">
-          <span className="flex items-center gap-1.5">
-            <span>🌱</span>
-            <strong className="text-gray-900 dark:text-white font-extrabold">PLA Biosourcé</strong>
-          </span>
+      {/* 3. Discreet Bento Reassurance Grid (Directly below Marquee) */}
+      <section className="w-full max-w-[1200px] mx-auto px-4 my-6 select-none">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          <div className="bento-reassurance-item flex items-center gap-3 p-3 sm:py-3.5 sm:px-4 rounded-2xl bg-white/70 dark:bg-[#0e0e12]/80 backdrop-blur-md border border-gray-200/70 dark:border-neutral-800/80 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:border-emerald-500/30 dark:hover:border-emerald-500/30 hover:shadow-md transition-all duration-300 group">
+            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/15 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
+              🌱
+            </div>
+            <div className="flex flex-col min-w-0">
+              <span className="text-[10px] uppercase tracking-wider font-mono text-gray-500 dark:text-gray-400 font-semibold">Écoresponsable</span>
+              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">PLA Biosourcé</strong>
+            </div>
+          </div>
 
-          <span className="hidden sm:inline text-gray-300 dark:text-white/30">•</span>
+          <div className="bento-reassurance-item flex items-center gap-3 p-3 sm:py-3.5 sm:px-4 rounded-2xl bg-white/70 dark:bg-[#0e0e12]/80 backdrop-blur-md border border-gray-200/70 dark:border-neutral-800/80 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:border-blue-500/30 dark:hover:border-blue-500/30 hover:shadow-md transition-all duration-300 group">
+            <div className="w-8 h-8 rounded-xl bg-blue-500/10 dark:bg-blue-500/15 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
+              🇫🇷
+            </div>
+            <div className="flex flex-col min-w-0">
+              <span className="text-[10px] uppercase tracking-wider font-mono text-gray-500 dark:text-gray-400 font-semibold">Artisanal</span>
+              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">Fait Main à Comines</strong>
+            </div>
+          </div>
 
-          <span className="flex items-center gap-1.5">
-            <span>🇫🇷</span>
-            <strong className="text-gray-900 dark:text-white font-extrabold">Fait Main à Comines</strong>
-          </span>
+          <div className="bento-reassurance-item flex items-center gap-3 p-3 sm:py-3.5 sm:px-4 rounded-2xl bg-white/70 dark:bg-[#0e0e12]/80 backdrop-blur-md border border-gray-200/70 dark:border-neutral-800/80 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:border-orange-500/30 dark:hover:border-orange-500/30 hover:shadow-md transition-all duration-300 group">
+            <div className="w-8 h-8 rounded-xl bg-orange-500/10 dark:bg-orange-500/15 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
+              ⚡
+            </div>
+            <div className="flex flex-col min-w-0">
+              <span className="text-[10px] uppercase tracking-wider font-mono text-gray-500 dark:text-gray-400 font-semibold">Livraison</span>
+              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">Expédition 24/48h</strong>
+            </div>
+          </div>
 
-          <span className="hidden sm:inline text-gray-300 dark:text-white/30">•</span>
-
-          <span className="flex items-center gap-1.5">
-            <span>⚡</span>
-            <strong className="text-gray-900 dark:text-white font-extrabold">Expédition 24/48h</strong>
-          </span>
-
-          <span className="hidden sm:inline text-gray-300 dark:text-white/30">•</span>
-
-          <span className="flex items-center gap-1.5">
-            <span className="flex text-amber-500 dark:text-amber-400">★★★★★</span>
-            <strong className="text-gray-900 dark:text-white font-extrabold">4.9 / 5.0</strong>
-          </span>
+          <div className="bento-reassurance-item flex items-center gap-3 p-3 sm:py-3.5 sm:px-4 rounded-2xl bg-white/70 dark:bg-[#0e0e12]/80 backdrop-blur-md border border-gray-200/70 dark:border-neutral-800/80 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:border-amber-500/30 dark:hover:border-amber-500/30 hover:shadow-md transition-all duration-300 group">
+            <div className="w-8 h-8 rounded-xl bg-amber-500/10 dark:bg-amber-500/15 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
+              ⭐
+            </div>
+            <div className="flex flex-col min-w-0">
+              <span className="text-[10px] uppercase tracking-wider font-mono text-amber-500 font-bold flex items-center gap-1">
+                <span>★★★★★</span>
+              </span>
+              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">4.9 / 5.0 (Avis)</strong>
+            </div>
+          </div>
         </div>
       </section>
 

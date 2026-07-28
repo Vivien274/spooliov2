@@ -496,6 +496,63 @@ export default function BoussoleSensoriellePage() {
             </div>
           </div>
         </section>
+
+        {/* SEO Information & Educational Block */}
+        <section className="mt-16 border-t border-neutral-800/80 pt-12 max-w-4xl mx-auto w-full text-left space-y-8 select-none">
+          <div className="text-center space-y-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-violet-500/30 bg-violet-500/10 text-xs font-semibold text-violet-400">
+              <Brain className="w-3.5 h-3.5" />
+              <span>Guide &amp; Stimulation Sensorielle</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              Tout savoir sur la Boussole Sensorielle &amp; les Fidgets TDAH
+            </h2>
+            <p className="text-xs sm:text-sm text-neutral-400 max-w-2xl mx-auto leading-relaxed">
+              Découvrez comment la stimulation tactile et visuelle aide à canaliser l&apos;attention, apaiser le stress et répondre aux besoins d&apos;auto-stimulation (stimming).
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-neutral-900/60 border border-neutral-800/80 p-6 rounded-3xl space-y-3">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <span className="text-lg">🎯</span> Qu&apos;est-ce que la Boussole Sensorielle ?
+              </h3>
+              <p className="text-xs text-neutral-300 leading-relaxed">
+                La <strong>Boussole Sensorielle Spoolio</strong> est un outil interactif conçu pour vous aider à identifier précisément vos besoins d&apos;auto-stimulation au quotidien. Que vous recherchiez une sensation tactile forte (clic mécanique), un mouvement continu apaisant ou un moment de respiration guidée, notre boussole vous oriente vers les objets et exercices les plus adaptés.
+              </p>
+            </div>
+
+            <div className="bg-neutral-900/60 border border-neutral-800/80 p-6 rounded-3xl space-y-3">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <span className="text-lg">🧠</span> Fidgets 3D, TDAH, TSA &amp; Anxiété
+              </h3>
+              <p className="text-xs text-neutral-300 leading-relaxed">
+                Les fidgets sensoriels ne sont pas de simples jouets : pour les personnes neuroatypiques (TDAH, spectre de l&apos;autisme, hypersensibilité) ou sujettes au stress, manipuler un objet physique permet d&apos;occuper le canal moteur secondaire. Cela libère de la charge mentale, améliore la concentration en cours ou en réunion et aide à réguler les surcharges sensorielles.
+              </p>
+            </div>
+
+            <div className="bg-neutral-900/60 border border-neutral-800/80 p-6 rounded-3xl space-y-3">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <span className="text-lg">⚙️</span> 4 Profils de Stimulation Adaptés
+              </h3>
+              <ul className="text-xs text-neutral-300 space-y-2 leading-relaxed">
+                <li>• <strong className="text-white">Cliquer :</strong> Pour les amateurs de retours tactiles francs et auditifs (switches mécaniques).</li>
+                <li>• <strong className="text-white">Manipuler :</strong> Des mouvements infinis et silencieux (cubes articulés, bagues rotatives, torsions).</li>
+                <li>• <strong className="text-white">Caresser &amp; Masser :</strong> Des textures d&apos;acupression apaisantes et stimulantes.</li>
+                <li>• <strong className="text-white">Résoudre :</strong> Engrenages et casse-têtes pour mobiliser la logique et l&apos;attention.</li>
+              </ul>
+            </div>
+
+            <div className="bg-neutral-900/60 border border-neutral-800/80 p-6 rounded-3xl space-y-3">
+              <h3 className="text-base font-bold text-white flex items-center gap-2">
+                <span className="text-lg">🌱</span> Écoresponsables &amp; Fabriqués en France 🇫🇷
+              </h3>
+              <p className="text-xs text-neutral-300 leading-relaxed">
+                Tous nos fidgets physiques Spoolio sont imprimés en 3D dans notre atelier à Comines (Nord de la France) à partir de <strong>PLA biosourcé</strong> (plastique végétal issu d&apos;amidon de maïs, 100% sans pétrole). Fabriqués sur commande avec passion pour vous offrir des objets durables, originaux et agréables à manipuler.
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
 
       <Footer />
