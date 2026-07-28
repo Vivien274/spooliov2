@@ -528,13 +528,48 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
   const videoMediaIndex = product?.images?.findIndex(img => isVideoMedia(img.src)) ?? -1;
   const hasVideoMedia = videoMediaIndex !== -1;
 
-  // Sensory noise level calculation (derived from DB sensory field, "Bruit" attribute, or description)
+  // Sensory noise level calculation (strictly restricted to Fidgets & products with noise level property)
   const getSensoryNoiseInfo = () => {
-    if (!product) return { level: 1, label: "Discret / Silencieux", description: "Idéal pour réunions & cours 🔇" };
+    if (!product) return null;
 
-    // 1. Check DB sensory_noise_level or sensoryNoiseLevel field first!
+    // 1. Check Categories (must contain "fidget")
+    const categoryNames = Array.isArray(product.categories)
+      ? product.categories.map((c) => (c.name || "").toLowerCase())
+      : [];
+    const isFidgetCategory = categoryNames.some((cat) => cat.includes("fidget"));
+
+    // 2. Check Name (must contain explicit fidget product types)
+    const nameLower = (product.name || "").toLowerCase();
+    const isFidgetName =
+      nameLower.includes("fidget") ||
+      nameLower.includes("clicker") ||
+      nameLower.includes("cliqueur") ||
+      nameLower.includes("spinner") ||
+      nameLower.includes("bague");
+
+    // 3. Check DB sensory_noise_level property
     const rawSensoryLevel = (product as any).sensory_noise_level ?? (product as any).sensoryNoiseLevel;
-    if (rawSensoryLevel !== undefined && rawSensoryLevel !== null && rawSensoryLevel !== "") {
+    const hasRawSensoryLevel =
+      rawSensoryLevel !== undefined &&
+      rawSensoryLevel !== null &&
+      rawSensoryLevel !== "" &&
+      rawSensoryLevel !== "none" &&
+      rawSensoryLevel !== "null";
+
+    // 4. Check explicit "Bruit" attribute from product attributes list
+    const noiseAttr = attributesList?.find((attr: any) => {
+      const n = (attr.name || "").toLowerCase().trim();
+      return n.includes("bruit") || n.includes("sonore") || n.includes("noise");
+    });
+    const hasNoiseAttr = Boolean(noiseAttr && noiseAttr.options && noiseAttr.options.length > 0);
+
+    // If NONE of these 4 strict conditions are met, it is NOT a fidget -> RETURN NULL!
+    if (!isFidgetCategory && !isFidgetName && !hasRawSensoryLevel && !hasNoiseAttr) {
+      return null;
+    }
+
+    // 1. Process DB sensory_noise_level property if explicitly present
+    if (hasRawSensoryLevel) {
       const parsed = parseNoiseLevel(rawSensoryLevel);
       if (parsed <= 3) {
         return { level: 1, label: "Discret / Silencieux", description: `Silencieux (${parsed}/10 - 0 dB) 🔇` };
@@ -545,13 +580,8 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
       return { level: 3, label: "Clic ASMR", description: `Stimulation sonore & tactile (${parsed}/10) 🔊` };
     }
 
-    // 2. Check explicit "Bruit" attribute from product attributes list
-    const noiseAttr = attributesList?.find((attr: any) => {
-      const n = (attr.name || "").toLowerCase().trim();
-      return n.includes("bruit") || n.includes("sonore") || n.includes("noise");
-    });
-
-    if (noiseAttr && noiseAttr.options && noiseAttr.options.length > 0) {
+    // 2. Process explicit "Bruit" attribute
+    if (hasNoiseAttr && noiseAttr) {
       const valStr = String(noiseAttr.options[0]).toLowerCase().trim();
       const parsed = parseNoiseLevel(valStr);
       if (parsed <= 3 || valStr.includes("silenc") || valStr.includes("discret")) {
@@ -563,14 +593,11 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
       return { level: 2, label: "Bruit Modéré", description: "Frottement fluide & satisfaisant 🔕" };
     }
 
-    // 3. Fallback to product keyword / description detection
-    const nameLower = (product.name || "").toLowerCase();
-    const descLower = ((product.description || "") + (product.short_description || "")).toLowerCase();
-    
-    if (nameLower.includes("clicker") || descLower.includes("switch") || descLower.includes("clic")) {
+    // 3. Fallback classification for fidgets based on product name keywords
+    if (nameLower.includes("clicker") || nameLower.includes("cliqueur") || nameLower.includes("switch")) {
       return { level: 3, label: "Clic ASMR", description: "Stimulation tactile & sonore forte 🔊" };
     }
-    if (nameLower.includes("spinner") || nameLower.includes("engrenage") || descLower.includes("roulement")) {
+    if (nameLower.includes("spinner") || nameLower.includes("engrenage")) {
       return { level: 2, label: "Bruit Modéré", description: "Frottement fluide & satisfaisant 🔕" };
     }
     return { level: 1, label: "Discret / Silencieux", description: "Idéal pour réunions & cours 🔇" };
@@ -834,34 +861,36 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               )}
             </div>
 
-            {/* Sensory Noise Level Gauge */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 mb-6 font-sans">
-              <div className="flex items-center gap-2 text-xs font-bold text-white">
-                <span className="text-base">{noiseInfo.level === 3 ? "🔊" : noiseInfo.level === 2 ? "🔕" : "🔇"}</span>
-                <span className="uppercase tracking-wider">Niveau Sonore :</span>
-                <span className="text-[#ff4f00] font-black">{noiseInfo.label}</span>
-              </div>
-              
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <div className="flex items-center gap-1 w-24">
-                  {[1, 2, 3].map((bar) => (
-                    <div
-                      key={bar}
-                      className={`h-2 flex-1 rounded-full transition-all ${
-                        bar <= noiseInfo.level
-                          ? noiseInfo.level === 3
-                            ? "bg-[#ff4f00] shadow-[0_0_8px_rgba(255,79,0,0.6)]"
-                            : noiseInfo.level === 2
-                            ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]"
-                            : "bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]"
-                          : "bg-white/10"
-                      }`}
-                    />
-                  ))}
+            {/* Sensory Noise Level Gauge (Fidgets Only) */}
+            {noiseInfo && (
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 mb-6 font-sans">
+                <div className="flex items-center gap-2 text-xs font-bold text-white">
+                  <span className="text-base">{noiseInfo.level === 3 ? "🔊" : noiseInfo.level === 2 ? "🔕" : "🔇"}</span>
+                  <span className="uppercase tracking-wider">Niveau Sonore :</span>
+                  <span className="text-[#ff4f00] font-black">{noiseInfo.label}</span>
                 </div>
-                <span className="text-[10px] text-neutral-400 font-medium">({noiseInfo.description})</span>
+                
+                <div className="flex items-center gap-2 w-full sm:w-auto">
+                  <div className="flex items-center gap-1 w-24">
+                    {[1, 2, 3].map((bar) => (
+                      <div
+                        key={bar}
+                        className={`h-2 flex-1 rounded-full transition-all ${
+                          bar <= noiseInfo.level
+                            ? noiseInfo.level === 3
+                              ? "bg-[#ff4f00] shadow-[0_0_8px_rgba(255,79,0,0.6)]"
+                              : noiseInfo.level === 2
+                              ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]"
+                              : "bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]"
+                            : "bg-white/10"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <span className="text-[10px] text-neutral-400 font-medium">({noiseInfo.description})</span>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Short Description */}
             <div

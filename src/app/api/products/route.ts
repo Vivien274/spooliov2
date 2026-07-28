@@ -116,9 +116,9 @@ function mapProduct(p: any) {
     stock: typeof p.stock === 'number' ? p.stock : (typeof p.stock_quantity === 'number' ? p.stock_quantity : -1),
     status: p.status || "publish",
     show_in_sensory_compass: !!(p.showInSensoryCompass || p.show_in_sensory_compass),
-    sensory_noise_level: p.sensoryNoiseLevel || p.sensory_noise_level || "silent",
-    sensory_size: p.sensorySize || p.sensory_size || "pocket",
-    sensory_category: p.sensoryCategory || p.sensory_category || "manipuler",
+    sensory_noise_level: p.sensoryNoiseLevel || p.sensory_noise_level || null,
+    sensory_size: p.sensorySize || p.sensory_size || null,
+    sensory_category: p.sensoryCategory || p.sensory_category || null,
     sensory_profiles: p.sensoryProfiles ? (typeof p.sensoryProfiles === "string" ? p.sensoryProfiles.split(",").map((s: string) => s.trim()) : p.sensoryProfiles) : [],
   };
 }
