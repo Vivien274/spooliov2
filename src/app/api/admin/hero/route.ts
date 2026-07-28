@@ -5,12 +5,56 @@ import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
+export interface HeroSlide {
+  id: number;
+  badge: string;
+  title: string;
+  subtitle: string;
+  buttonText: string;
+  buttonLink: string;
+  image: string;
+  accentColor: string;
+}
+
+const DEFAULT_SLIDES: HeroSlide[] = [
+  {
+    id: 1,
+    badge: "🌀 COLLECTION FIDGETS",
+    title: "LA FOLIE DES FIDGETS SENSORIELS ⚡",
+    subtitle: "Décompresser, toucher, cliquer : découvrez nos créations 3D originales faites main en France 🌱",
+    buttonText: "DÉCOUVRIR LA BOUTIQUE",
+    buttonLink: "/boutique",
+    image: "/images/hero_background.jpg",
+    accentColor: "#ff4f00",
+  },
+  {
+    id: 2,
+    badge: "⌨️ SUR-MESURE & ASMR",
+    title: "CRÉE TON CLICKER 3D SUR-MESURE 🎨",
+    subtitle: "Choisis tes couleurs de switch, le nombre de touches et la finition de ton fidget clicker",
+    buttonText: "CRÉER MON CLICKER",
+    buttonLink: "/createur-cliqueur",
+    image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    accentColor: "#2F3CD9",
+  },
+  {
+    id: 3,
+    badge: "🎁 ÉDITIONS LIMITÉES",
+    title: "LA POCHETTE SURPRISE SPOOLIO 📦",
+    subtitle: "Un assortiment mystère d'objets funs & fidgets 3D inédits dès 10.00€",
+    buttonText: "VOIR LES POCHETTES",
+    buttonLink: "/pochette-surprise",
+    image: "/images/imported/PochetteM-1.png",
+    accentColor: "#FF7700",
+  },
+];
+
 const DEFAULT_HERO = {
   topBadgeText: "🟢 ATELIER EN ACTION (COMINES 🇫🇷) • PLA BIOSOURCÉ",
-  title: "L'IMPRESSION 3D QUI A DU PUNCH 🌀",
-  subtitle: "Objets funs, fidgets sensoriels TDAH & clickers sur-mesure faits main en France avec du plastique biosourcé 🌱",
-  buttonText: "🛠️ CRÉER MON CLICKER 3D",
-  buttonLink: "/createur-cliqueur",
+  title: "LA FOLIE DES FIDGETS SENSORIELS ⚡",
+  subtitle: "Décompresser, toucher, cliquer : découvrez nos créations 3D originales faites main en France 🌱",
+  buttonText: "DÉCOUVRIR LA BOUTIQUE",
+  buttonLink: "/boutique",
   secondaryButtonText: "🛍️ VOIR LA BOUTIQUE",
   secondaryButtonLink: "/boutique",
   cardBadge: "🔥 PRODUIT STAR 3D",
@@ -20,7 +64,8 @@ const DEFAULT_HERO = {
   cardLink: "/createur-cliqueur",
   cardImage: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
   imageUrl: "/images/hero_background.jpg",
-  imagePosition: "center center"
+  imagePosition: "center center",
+  slides: DEFAULT_SLIDES,
 };
 
 // GET: Retrieve hero configuration
@@ -57,6 +102,9 @@ export async function GET() {
       try {
         const parsed = JSON.parse(page.content);
         config = { ...DEFAULT_HERO, ...parsed };
+        if (!config.slides || !Array.isArray(config.slides) || config.slides.length === 0) {
+          config.slides = DEFAULT_SLIDES;
+        }
       } catch {
         config = DEFAULT_HERO;
       }
@@ -85,19 +133,18 @@ export async function POST(request: Request) {
 
     const payload = await request.json();
 
-    if (!payload.title || !payload.buttonText || !payload.buttonLink) {
-      return NextResponse.json(
-        { error: "Veuillez remplir les champs obligatoires (Titre principal, Bouton et Lien)." },
-        { status: 400 }
-      );
-    }
+    const slidesToSave = Array.isArray(payload.slides) && payload.slides.length > 0
+      ? payload.slides
+      : DEFAULT_SLIDES;
+
+    const firstSlide = slidesToSave[0] || DEFAULT_SLIDES[0];
 
     const configString = JSON.stringify({
       topBadgeText: payload.topBadgeText || DEFAULT_HERO.topBadgeText,
-      title: payload.title,
-      subtitle: payload.subtitle || "",
-      buttonText: payload.buttonText,
-      buttonLink: payload.buttonLink,
+      title: firstSlide.title || payload.title || DEFAULT_HERO.title,
+      subtitle: firstSlide.subtitle || payload.subtitle || "",
+      buttonText: firstSlide.buttonText || payload.buttonText || DEFAULT_HERO.buttonText,
+      buttonLink: firstSlide.buttonLink || payload.buttonLink || DEFAULT_HERO.buttonLink,
       secondaryButtonText: payload.secondaryButtonText || DEFAULT_HERO.secondaryButtonText,
       secondaryButtonLink: payload.secondaryButtonLink || DEFAULT_HERO.secondaryButtonLink,
       cardBadge: payload.cardBadge || DEFAULT_HERO.cardBadge,
@@ -106,8 +153,9 @@ export async function POST(request: Request) {
       cardTags: payload.cardTags || DEFAULT_HERO.cardTags,
       cardLink: payload.cardLink || DEFAULT_HERO.cardLink,
       cardImage: payload.cardImage || DEFAULT_HERO.cardImage,
-      imageUrl: payload.imageUrl || DEFAULT_HERO.imageUrl,
-      imagePosition: payload.imagePosition || "center center"
+      imageUrl: firstSlide.image || payload.imageUrl || DEFAULT_HERO.imageUrl,
+      imagePosition: payload.imagePosition || "center center",
+      slides: slidesToSave
     });
 
     await prisma.page.upsert({
@@ -123,9 +171,9 @@ export async function POST(request: Request) {
       }
     });
 
-    console.log("[Admin Update] Configuration Hero mise à jour !");
+    console.log("[Admin Update] Configuration Hero Slider mise à jour !");
 
-    return NextResponse.json({ success: true, message: "Configuration Hero enregistrée." });
+    return NextResponse.json({ success: true, message: "Configuration du Slider Hero enregistrée." });
   } catch (e: any) {
     return NextResponse.json(
       { error: e.message || "Erreur lors de l'enregistrement de la configuration Hero." },

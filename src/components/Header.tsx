@@ -178,7 +178,9 @@ export default function Header({
           width={130}
           height={38}
           priority
-          className="h-10 w-auto object-contain"
+          className={`h-10 w-auto object-contain transition-all ${
+            isSticky && theme === "light" ? "filter invert" : ""
+          }`}
         />
       </Link>
 

@@ -6,6 +6,7 @@ import AnimatedHero from "@/components/AnimatedHero";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReviewsSection from "@/components/ReviewsSection";
+import HomeLoader from "@/components/HomeLoader";
 import { prisma } from "@/lib/prisma";
 import fs from "fs";
 import path from "path";
@@ -184,6 +185,9 @@ export default async function HomePage() {
 
   return (
     <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
+      {/* React Home Loading Screen */}
+      <HomeLoader />
+
       {/* Background Decorative Glows */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <div
@@ -203,42 +207,73 @@ export default async function HomePage() {
       {/* 1. Full-Width Animated Hero Section */}
       <AnimatedHero {...(hero as any)} />
 
-      {/* 2. Sleek Minimalist White Text Marquee */}
-      <section className="hero-marquee-section w-full bg-neutral-900 dark:bg-[#08080a] py-3.5 overflow-hidden border-y border-neutral-800 dark:border-[#1f1f23] mb-8 select-none">
-        <div className="flex whitespace-nowrap animate-marquee text-xs uppercase tracking-widest text-white font-extrabold gap-8 select-none font-sans items-center">
+      {/* 2. Sleek Minimalist Text Marquee */}
+      <section className="hero-marquee-section w-full bg-gray-100 dark:bg-[#08080a] py-3.5 overflow-hidden border-y border-gray-200 dark:border-neutral-800 text-gray-900 dark:text-white select-none">
+        <div className="flex whitespace-nowrap animate-marquee text-xs uppercase tracking-widest text-gray-900 dark:text-white font-extrabold gap-8 select-none font-sans items-center">
           {[1, 2, 3].map((loop) => (
             <div key={loop} className="flex items-center gap-8 shrink-0">
-              <span className="flex items-center gap-2 text-white">
+              <span className="flex items-center gap-2 text-gray-900 dark:text-white">
                 <span>🌱</span>
-                <span>PLA BIOSOURCÉ À BASE DE MAÏS</span>
+                <span>PLA BIOSOURCÉ</span>
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
 
-              <span className="flex items-center gap-2 text-white">
+              <span className="flex items-center gap-2 text-gray-900 dark:text-white">
                 <span>⚡</span>
                 <span>ZÉRO SURSTOCK • FABRICATION À LA COMMANDE</span>
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
 
-              <span className="flex items-center gap-2 text-white">
+              <span className="flex items-center gap-2 text-gray-900 dark:text-white">
                 <span>🇫🇷</span>
                 <span>FAIT MAIN À COMINES (NORD)</span>
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
 
-              <span className="flex items-center gap-2 text-white">
+              <span className="flex items-center gap-2 text-gray-900 dark:text-white">
                 <span>⌨️</span>
                 <span>CLICKERS 3D CUSTOMISABLES</span>
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
 
-              <span className="flex items-center gap-2 text-white">
+              <span className="flex items-center gap-2 text-gray-900 dark:text-white">
                 <span>🎁</span>
                 <span>POCHETTES SURPRISE DÈS 10.00€</span>
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* 3. Static Reassurance Bar (Directly below Marquee) */}
+      <section className="w-full bg-white dark:bg-[#0c0c0e] border-b border-gray-200 dark:border-neutral-800/80 text-gray-900 dark:text-white py-3 px-4 mb-8 select-none">
+        <div className="max-w-[1200px] mx-auto flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[11px] sm:text-xs font-mono text-gray-700 dark:text-gray-300">
+          <span className="flex items-center gap-1.5">
+            <span>🌱</span>
+            <strong className="text-gray-900 dark:text-white font-extrabold">PLA Biosourcé</strong>
+          </span>
+
+          <span className="hidden sm:inline text-gray-300 dark:text-white/30">•</span>
+
+          <span className="flex items-center gap-1.5">
+            <span>🇫🇷</span>
+            <strong className="text-gray-900 dark:text-white font-extrabold">Fait Main à Comines</strong>
+          </span>
+
+          <span className="hidden sm:inline text-gray-300 dark:text-white/30">•</span>
+
+          <span className="flex items-center gap-1.5">
+            <span>⚡</span>
+            <strong className="text-gray-900 dark:text-white font-extrabold">Expédition 24/48h</strong>
+          </span>
+
+          <span className="hidden sm:inline text-gray-300 dark:text-white/30">•</span>
+
+          <span className="flex items-center gap-1.5">
+            <span className="flex text-amber-500 dark:text-amber-400">★★★★★</span>
+            <strong className="text-gray-900 dark:text-white font-extrabold">4.9 / 5.0</strong>
+          </span>
         </div>
       </section>
 

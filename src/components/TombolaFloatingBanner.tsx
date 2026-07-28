@@ -12,7 +12,39 @@ export default function TombolaFloatingBanner() {
 
   useEffect(() => {
     setIsClient(true);
+    try {
+      // Check 24-hour dismissal timestamp
+      const dismissedUntil = localStorage.getItem("spoolio_tombola_dismissed_until");
+      if (dismissedUntil) {
+        const untilTimestamp = parseInt(dismissedUntil, 10);
+        if (!isNaN(untilTimestamp) && Date.now() < untilTimestamp) {
+          setIsVisible(false);
+        }
+      }
+
+      // Check session minimized state
+      const savedMinimized = sessionStorage.getItem("spoolio_tombola_minimized");
+      if (savedMinimized === "true") {
+        setIsMinimized(true);
+      }
+    } catch (e) {}
   }, []);
+
+  const handleClose = () => {
+    setIsVisible(false);
+    try {
+      // Hide popup for 24 hours (86,400,000 ms)
+      const dismissUntil = Date.now() + 24 * 60 * 60 * 1000;
+      localStorage.setItem("spoolio_tombola_dismissed_until", String(dismissUntil));
+    } catch (e) {}
+  };
+
+  const handleMinimize = (minimized: boolean) => {
+    setIsMinimized(minimized);
+    try {
+      sessionStorage.setItem("spoolio_tombola_minimized", String(minimized));
+    } catch (e) {}
+  };
 
   // Do not render on /tombola page or in /admin area
   if (!isClient || !isVisible || pathname.startsWith("/tombola") || pathname.startsWith("/admin")) {
@@ -24,7 +56,7 @@ export default function TombolaFloatingBanner() {
       {isMinimized ? (
         /* Minimized floating button */
         <button
-          onClick={() => setIsMinimized(false)}
+          onClick={() => handleMinimize(false)}
           className="group relative flex items-center gap-2 bg-[#131316]/95 hover:bg-[#18181b] border border-[#ff4f00]/40 text-white px-4 py-3 rounded-full shadow-[0_0_20px_rgba(255,79,0,0.3)] transition-all duration-300 hover:scale-105 cursor-pointer backdrop-blur-md"
           title="Ouvrir la Tombola Spoolio"
         >
@@ -49,16 +81,16 @@ export default function TombolaFloatingBanner() {
 
             <div className="flex items-center gap-1">
               <button
-                onClick={() => setIsMinimized(true)}
+                onClick={() => handleMinimize(true)}
                 className="w-6 h-6 rounded-full bg-white/5 hover:bg-white/15 text-gray-400 hover:text-white flex items-center justify-center text-xs transition-colors cursor-pointer"
                 title="Réduire"
               >
                 _
               </button>
               <button
-                onClick={() => setIsVisible(false)}
+                onClick={handleClose}
                 className="w-6 h-6 rounded-full bg-white/5 hover:bg-white/15 text-gray-400 hover:text-white flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
-                title="Fermer"
+                title="Fermer (Masquer 24h)"
               >
                 &times;
               </button>

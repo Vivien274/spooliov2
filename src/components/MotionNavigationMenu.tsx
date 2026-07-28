@@ -51,7 +51,7 @@ export default function MotionNavigationMenu() {
   return (
     <div className="relative hidden lg:flex items-center" onMouseLeave={handleMouseLeave}>
       {/* Navigation Pills Bar */}
-      <nav className="relative flex items-center gap-1 p-1.5 bg-white/10 dark:bg-white/10 light:bg-gray-100/80 backdrop-blur-xl border border-white/15 dark:border-white/15 light:border-gray-200 rounded-full shadow-lg">
+      <nav className="relative flex items-center gap-1 p-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full shadow-lg">
         {MENU_ITEMS.map((item) => {
           const isSelected = activeTab === item.id;
           const isHovered = hoveredTab === item.id;
@@ -66,7 +66,7 @@ export default function MotionNavigationMenu() {
               {(isHovered || isSelected) && (
                 <motion.div
                   layoutId="motion-nav-pill"
-                  className="absolute inset-0 bg-white/20 dark:bg-white/20 light:bg-white rounded-full shadow-sm"
+                  className="absolute inset-0 bg-white/20 rounded-full shadow-sm"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
@@ -75,19 +75,19 @@ export default function MotionNavigationMenu() {
               {item.href && !item.hasDropdown ? (
                 <Link
                   href={item.href}
-                  className="relative z-10 flex items-center gap-1.5 text-xs font-bold text-white dark:text-white light:text-gray-900 tracking-wide"
+                  className="relative z-10 flex items-center gap-1.5 text-xs font-bold text-white tracking-wide"
                 >
                   <span>{item.label}</span>
                 </Link>
               ) : (
-                <div className="relative z-10 flex items-center gap-1.5 text-xs font-bold text-white dark:text-white light:text-gray-900 tracking-wide">
+                <div className="relative z-10 flex items-center gap-1.5 text-xs font-bold text-white tracking-wide">
                   <span>{item.label}</span>
                   {item.hasDropdown && (
                     <motion.div
                       animate={{ rotate: isSelected ? 180 : 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <ChevronDown className="w-3.5 h-3.5 opacity-70" />
+                      <ChevronDown className="w-3.5 h-3.5 text-white opacity-80" />
                     </motion.div>
                   )}
                 </div>
