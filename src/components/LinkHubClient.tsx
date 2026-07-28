@@ -41,7 +41,7 @@ interface LinkHubClientProps {
 const DEFAULT_PROFILE: HubProfile = {
   title: "Spoolio 🌀",
   subtitle: "Impression 3D & Objets Fidgets Sensoriels TDAH 🇫🇷",
-  avatar: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+  avatar: "https://ugc.production.linktr.ee/fdb01a4c-7a6f-4109-92fc-331e44f5bb26_Frame-294.png",
   verifiedBadge: true,
   socials: {
     tiktok: "https://www.tiktok.com/@spoolio_3d",
