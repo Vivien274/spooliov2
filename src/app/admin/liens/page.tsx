@@ -456,6 +456,17 @@ export default function AdminLinksPage() {
                     </div>
 
                     <div>
+                      <label className="text-[11px] text-gray-400 block mb-1">Facebook</label>
+                      <input
+                        type="url"
+                        value={profile.socials?.facebook || ""}
+                        onChange={(e) => setProfile({ ...profile, socials: { ...profile.socials, facebook: e.target.value } })}
+                        placeholder="https://facebook.com/spoolio.fr"
+                        className={`w-full px-3 py-2 text-xs rounded-xl border ${cls.border} ${cls.inputBg}`}
+                      />
+                    </div>
+
+                    <div>
                       <label className="text-[11px] text-gray-400 block mb-1">YouTube</label>
                       <input
                         type="url"

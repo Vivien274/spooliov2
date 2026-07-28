@@ -8,6 +8,7 @@
     "socials": {
       "tiktok": "https://www.tiktok.com/@spoolio.fr",
       "instagram": "https://www.instagram.com/spoolio.fr",
+      "facebook": "https://www.facebook.com/spoolio.fr",
       "youtube": "",
       "email": "contact@spoolio.fr"
     }
@@ -35,7 +36,7 @@
       "style": "glow",
       "isPublished": true,
       "order": 2,
-      "clicks": 142
+      "clicks": 143
     },
     {
       "id": "link-pochette",
@@ -47,7 +48,7 @@
       "style": "pulse",
       "isPublished": true,
       "order": 3,
-      "clicks": 98
+      "clicks": 99
     },
     {
       "id": "link-tombola",
