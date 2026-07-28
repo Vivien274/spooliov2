@@ -127,11 +127,60 @@ html.light .tombola-grid-btn-reserved {
   color: #991b1b !important;
 }
 
+/* Tombola Badge Pill */
 html.light .tombola-badge-pill {
   background-color: #ffffff !important;
   border-color: #e5e7eb !important;
   color: #1f2937 !important;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04) !important;
+}
+
+/* =========================================================================
+   Hero & Aurora Card Light Mode Perfect Contrast Overrides
+   ========================================================================= */
+html.light .hero-status-badge {
+  background-color: #e5e7eb !important;
+  border-color: #d1d5db !important;
+  color: #111827 !important;
+}
+html.light .hero-status-badge span {
+  color: #111827 !important;
+}
+
+html.light .hero-secondary-btn {
+  background-color: #e5e7eb !important;
+  border-color: #d1d5db !important;
+  color: #111827 !important;
+}
+html.light .hero-secondary-btn span {
+  color: #111827 !important;
+}
+
+html.light .hero-rating-text {
+  color: #1f2937 !important;
+}
+
+html.light .hero-card-tag {
+  background-color: #f3f4f6 !important;
+  border-color: #e5e7eb !important;
+  color: #111827 !important;
+}
+
+html.light .hero-card-in-stock {
+  background-color: #d1fae5 !important;
+  border-color: #6ee7b7 !important;
+  color: #065f46 !important;
+}
+html.light .hero-card-in-stock span {
+  color: #065f46 !important;
+}
+
+html.light .hero-marquee-section {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+}
+html.light .hero-marquee-section span {
+  color: #ffffff !important;
 }
 
 html.light .tombola-btn-disabled {

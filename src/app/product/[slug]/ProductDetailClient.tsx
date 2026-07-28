@@ -56,6 +56,29 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState<boolean>(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
+  // Real-time Manufacturing & Cut-off Countdown State
+  const [timeLeft, setTimeLeft] = useState<{ hours: number; minutes: number; seconds: number }>({ hours: 4, minutes: 28, seconds: 15 });
+
+  useEffect(() => {
+    const updateTimer = () => {
+      const now = new Date();
+      const target = new Date();
+      target.setHours(17, 0, 0, 0); // 17:00 cut-off time for today's print queue
+      if (now > target) {
+        target.setDate(target.getDate() + 1);
+      }
+      const diff = Math.max(0, target.getTime() - now.getTime());
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      setTimeLeft({ hours, minutes, seconds });
+    };
+
+    updateTimer();
+    const interval = setInterval(updateTimer, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   // States for interactive zoom effect (loupe)
   const [zoomPos, setZoomPos] = useState<{ x: number; y: number }>({ x: 50, y: 50 });
   const [isZooming, setIsZooming] = useState<boolean>(false);
@@ -501,6 +524,59 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
     return { minStr, maxStr };
   };
 
+  // Check if video is present in product gallery
+  const videoMediaIndex = product?.images?.findIndex(img => isVideoMedia(img.src)) ?? -1;
+  const hasVideoMedia = videoMediaIndex !== -1;
+
+  // Sensory noise level calculation (derived from DB sensory field, "Bruit" attribute, or description)
+  const getSensoryNoiseInfo = () => {
+    if (!product) return { level: 1, label: "Discret / Silencieux", description: "Idéal pour réunions & cours 🔇" };
+
+    // 1. Check DB sensory_noise_level or sensoryNoiseLevel field first!
+    const rawSensoryLevel = (product as any).sensory_noise_level ?? (product as any).sensoryNoiseLevel;
+    if (rawSensoryLevel !== undefined && rawSensoryLevel !== null && rawSensoryLevel !== "") {
+      const parsed = parseNoiseLevel(rawSensoryLevel);
+      if (parsed <= 3) {
+        return { level: 1, label: "Discret / Silencieux", description: `Silencieux (${parsed}/10 - 0 dB) 🔇` };
+      }
+      if (parsed <= 6) {
+        return { level: 2, label: "Bruit Modéré", description: `Frottement fluide (${parsed}/10) 🔕` };
+      }
+      return { level: 3, label: "Clic ASMR", description: `Stimulation sonore & tactile (${parsed}/10) 🔊` };
+    }
+
+    // 2. Check explicit "Bruit" attribute from product attributes list
+    const noiseAttr = attributesList?.find((attr: any) => {
+      const n = (attr.name || "").toLowerCase().trim();
+      return n.includes("bruit") || n.includes("sonore") || n.includes("noise");
+    });
+
+    if (noiseAttr && noiseAttr.options && noiseAttr.options.length > 0) {
+      const valStr = String(noiseAttr.options[0]).toLowerCase().trim();
+      const parsed = parseNoiseLevel(valStr);
+      if (parsed <= 3 || valStr.includes("silenc") || valStr.includes("discret")) {
+        return { level: 1, label: "Discret / Silencieux", description: "Idéal pour réunions & cours 🔇" };
+      }
+      if (parsed >= 7 || valStr.includes("asmr") || valStr.includes("clic") || valStr.includes("fort")) {
+        return { level: 3, label: "Clic ASMR", description: "Stimulation tactile & sonore forte 🔊" };
+      }
+      return { level: 2, label: "Bruit Modéré", description: "Frottement fluide & satisfaisant 🔕" };
+    }
+
+    // 3. Fallback to product keyword / description detection
+    const nameLower = (product.name || "").toLowerCase();
+    const descLower = ((product.description || "") + (product.short_description || "")).toLowerCase();
+    
+    if (nameLower.includes("clicker") || descLower.includes("switch") || descLower.includes("clic")) {
+      return { level: 3, label: "Clic ASMR", description: "Stimulation tactile & sonore forte 🔊" };
+    }
+    if (nameLower.includes("spinner") || nameLower.includes("engrenage") || descLower.includes("roulement")) {
+      return { level: 2, label: "Bruit Modéré", description: "Frottement fluide & satisfaisant 🔕" };
+    }
+    return { level: 1, label: "Discret / Silencieux", description: "Idéal pour réunions & cours 🔇" };
+  };
+  const noiseInfo = getSensoryNoiseInfo();
+
   const handleAddToCartClick = () => {
     if (!product || isNotAvailableToBuy) return;
     addToCart({
@@ -669,6 +745,21 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                     </span>
                   )}
                 </div>
+
+                {/* Floating "Voir en mouvement" Video Action Button */}
+                {hasVideoMedia && activeImageIndex !== videoMediaIndex && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveImageIndex(videoMediaIndex);
+                    }}
+                    type="button"
+                    className="absolute bottom-4 left-4 z-20 inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/85 hover:bg-[#ff4f00] text-white text-xs font-black uppercase tracking-wider border border-white/20 hover:border-[#ff4f00] backdrop-blur-md shadow-2xl transition-all hover:scale-105 active:scale-95 group/vbtn cursor-pointer"
+                  >
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#ff4f00] group-hover/vbtn:bg-white animate-ping" />
+                    <span>🎬 VOIR EN MOUVEMENT</span>
+                  </button>
+                )}
               </div>
             </div>
 
@@ -721,14 +812,12 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               </span>
             )}
 
-
-
             <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mb-4">
               {product.name}
             </h1>
 
             {/* Price section */}
-            <div className="flex items-baseline gap-4 mb-6">
+            <div className="flex items-baseline gap-4 mb-4">
               {product.on_sale && !activePriceInfo.isVariation ? (
                 <>
                   <span className="text-2xl font-black text-[#ff4f00]">
@@ -743,6 +832,35 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                   {formatPrice(currentPrice)}€
                 </span>
               )}
+            </div>
+
+            {/* Sensory Noise Level Gauge */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 mb-6 font-sans">
+              <div className="flex items-center gap-2 text-xs font-bold text-white">
+                <span className="text-base">{noiseInfo.level === 3 ? "🔊" : noiseInfo.level === 2 ? "🔕" : "🔇"}</span>
+                <span className="uppercase tracking-wider">Niveau Sonore :</span>
+                <span className="text-[#ff4f00] font-black">{noiseInfo.label}</span>
+              </div>
+              
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <div className="flex items-center gap-1 w-24">
+                  {[1, 2, 3].map((bar) => (
+                    <div
+                      key={bar}
+                      className={`h-2 flex-1 rounded-full transition-all ${
+                        bar <= noiseInfo.level
+                          ? noiseInfo.level === 3
+                            ? "bg-[#ff4f00] shadow-[0_0_8px_rgba(255,79,0,0.6)]"
+                            : noiseInfo.level === 2
+                            ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]"
+                            : "bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]"
+                          : "bg-white/10"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <span className="text-[10px] text-neutral-400 font-medium">({noiseInfo.description})</span>
+              </div>
             </div>
 
             {/* Short Description */}
@@ -1224,6 +1342,26 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                 </button>
               )}
             </div>
+
+            {/* Atelier Manufacturing & Shipping Countdown Timer */}
+            {!isNotAvailableToBuy && (
+              <div className="mt-3.5 p-3.5 rounded-2xl bg-gradient-to-r from-[#ff4f00]/10 via-[#0e0e12] to-[#ff4f00]/10 border border-[#ff4f00]/30 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs font-sans shadow-lg select-none">
+                <div className="flex items-center gap-2 text-[#ff4f00] font-bold">
+                  <span className="w-2 h-2 rounded-full bg-[#ff4f00] animate-ping shrink-0" />
+                  <span className="uppercase tracking-wider text-[10px] sm:text-[11px] text-neutral-200">
+                    Impression à l'atelier aujourd'hui :
+                  </span>
+                </div>
+                <div className="flex items-center gap-1 font-mono font-black text-white text-xs">
+                  <span className="text-neutral-400 font-sans text-[11px]">Reste</span>
+                  <span className="bg-black/60 px-2 py-0.5 rounded-md border border-white/10">{String(timeLeft.hours).padStart(2, "0")}h</span>
+                  <span className="text-[#ff4f00]">:</span>
+                  <span className="bg-black/60 px-2 py-0.5 rounded-md border border-white/10">{String(timeLeft.minutes).padStart(2, "0")}m</span>
+                  <span className="text-[#ff4f00]">:</span>
+                  <span className="bg-[#ff4f00]/20 text-[#ff4f00] px-2 py-0.5 rounded-md border border-[#ff4f00]/40 font-bold">{String(timeLeft.seconds).padStart(2, "0")}s</span>
+                </div>
+              </div>
+            )}
 
             {/* Encart Fidget Sensoriel (Boussole Info - Style Néon & Fort Contraste Sombre) */}
             {Boolean((product as any).show_in_sensory_compass || (product as any).showInSensoryCompass) && (
