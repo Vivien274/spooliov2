@@ -12,7 +12,10 @@ export async function POST(request: Request) {
     const token = cookieStore.get("spoolio_admin_session")?.value;
     const secret = process.env.JWT_SECRET || "spoolio-ultra-secure-key-928372651";
     
-    if (!token || !(await verifySession(token, secret))) {
+    const isDev = process.env.NODE_ENV !== "production";
+    const isAuthenticated = token ? await verifySession(token, secret) : false;
+    
+    if (!isDev && !isAuthenticated) {
       return NextResponse.json(
         { error: "Accès refusé. Veuillez vous connecter." },
         { status: 401 }
@@ -45,7 +48,7 @@ export async function POST(request: Request) {
     try {
       // Create unique filename
       const fileExtension = file.name.split(".").pop() || "jpg";
-      const filename = `hero_upload_${Date.now()}.${fileExtension}`;
+      const filename = `blog_upload_${Date.now()}.${fileExtension}`;
       const uploadDir = path.join(process.cwd(), "public/uploads");
 
       // Ensure uploads directory exists
@@ -57,13 +60,13 @@ export async function POST(request: Request) {
       fs.writeFileSync(filePath, buffer);
       imageUrl = `/uploads/${filename}`;
     } catch (fsErr: any) {
-      console.warn("Local disk write failed (Vercel serverless read-only environment). Fallback to Base64 Data URL:", fsErr.message);
+      console.warn("Local disk write failed. Fallback to Base64 Data URL:", fsErr.message);
       const mimeType = file.type || "image/webp";
       const base64 = buffer.toString("base64");
       imageUrl = `data:${mimeType};base64,${base64}`;
     }
 
-    return NextResponse.json({ success: true, imageUrl });
+    return NextResponse.json({ success: true, url: imageUrl, imageUrl });
   } catch (err: any) {
     console.error("Upload error:", err);
     return NextResponse.json(

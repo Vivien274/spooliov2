@@ -18,6 +18,7 @@ import {
   Palette,
   Info,
   Building2,
+  BookOpen,
 } from "lucide-react";
 
 interface MenuItem {
@@ -372,6 +373,31 @@ export default function MotionNavigationMenu() {
                         Partenariats, impressions sur-mesure et commandes pros.
                       </p>
                     </div>
+                  </Link>
+
+                  <Link
+                    href="/blog"
+                    className="group col-span-2 tombola-inner-box bg-gradient-to-r from-purple-500/15 via-purple-500/5 to-transparent p-4 rounded-2xl border border-purple-500/30 hover:border-purple-400/60 transition-all flex items-center justify-between"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="p-2.5 rounded-xl bg-purple-500/20 text-purple-400">
+                        <BookOpen className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h4 className="text-sm font-black text-white dark:text-white light:text-gray-900 group-hover:text-purple-400 transition-colors">
+                            Le Blog Spoolio
+                          </h4>
+                          <span className="bg-purple-500/20 text-purple-400 text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase no-invert">
+                            📖 ARTICLES & GUIDES
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-400 dark:text-gray-400 light:text-gray-600">
+                          Guides fidgets, conseils concentration, ASMR et coulisses de l'impression 3D.
+                        </p>
+                      </div>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-purple-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </Link>
                 </div>
               )}
