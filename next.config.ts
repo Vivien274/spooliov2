@@ -21,6 +21,12 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "*.linktr.ee",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };

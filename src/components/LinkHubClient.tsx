@@ -102,6 +102,7 @@ export default function LinkHubClient({ initialProfile, initialLinks, isPreview 
                 src={profile.avatar || "/images/imported/Spoolio_Kit-Festival-16-scaled.webp"}
                 alt={profile.title || "Spoolio Links"}
                 fill
+                unoptimized
                 className="object-cover"
                 priority
               />
