@@ -1,18 +1,30 @@
 {
   "profile": {
-    "title": "Spoolio 🌀",
+    "title": "Spoolio.fr",
     "subtitle": "Impression 3D & Objets Fidgets Sensoriels TDAH 🇫🇷",
-    "avatar": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "avatar": "https://ugc.production.linktr.ee/fdb01a4c-7a6f-4109-92fc-331e44f5bb26_Frame-294.png",
     "verifiedBadge": true,
     "theme": "spoolio-dark",
     "socials": {
-      "tiktok": "https://www.tiktok.com/@spoolio_3d",
+      "tiktok": "https://www.tiktok.com/@spoolio.fr",
       "instagram": "https://www.instagram.com/spoolio.fr",
-      "youtube": "https://www.youtube.com/@spoolio3d",
+      "youtube": "",
       "email": "contact@spoolio.fr"
     }
   },
   "links": [
+    {
+      "id": "link-boutique",
+      "title": "🛍️ La Boutique Officielle Spoolio",
+      "subtitle": "Découvre toute notre collection d'objets imprimés en France",
+      "url": "https://www.spoolio.fr/boutique",
+      "icon": "🛒",
+      "badge": "",
+      "style": "normal",
+      "isPublished": true,
+      "order": 1,
+      "clicks": 189
+    },
     {
       "id": "link-clicker",
       "title": "⌨️ Créateur de Clicker 3D Sur-Mesure",
@@ -22,7 +34,7 @@
       "badge": "🔥 BEST-SELLER",
       "style": "glow",
       "isPublished": true,
-      "order": 1,
+      "order": 2,
       "clicks": 142
     },
     {
@@ -34,7 +46,7 @@
       "badge": "✨ NOUVEAU",
       "style": "pulse",
       "isPublished": true,
-      "order": 2,
+      "order": 3,
       "clicks": 98
     },
     {
@@ -46,7 +58,7 @@
       "badge": "⚡ JEU CONCOURS",
       "style": "highlight",
       "isPublished": true,
-      "order": 3,
+      "order": 4,
       "clicks": 76
     },
     {
@@ -58,20 +70,8 @@
       "badge": "🧠 GUIDAGE",
       "style": "normal",
       "isPublished": true,
-      "order": 4,
-      "clicks": 54
-    },
-    {
-      "id": "link-boutique",
-      "title": "🛍️ La Boutique Officielle Spoolio",
-      "subtitle": "Découvre toute notre collection d'objets imprimés en France",
-      "url": "https://www.spoolio.fr/boutique",
-      "icon": "🛒",
-      "badge": "",
-      "style": "normal",
-      "isPublished": true,
       "order": 5,
-      "clicks": 189
+      "clicks": 54
     },
     {
       "id": "link-reviews",
