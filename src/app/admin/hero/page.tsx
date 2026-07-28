@@ -8,10 +8,19 @@ import { useAdminTheme } from "../AdminThemeContext";
 const ADMIN_BLUE = "#2F3CD9";
 
 interface HeroConfig {
+  topBadgeText?: string;
   title: string;
   subtitle: string;
   buttonText: string;
   buttonLink: string;
+  secondaryButtonText?: string;
+  secondaryButtonLink?: string;
+  cardBadge?: string;
+  cardTitle?: string;
+  cardPrice?: string;
+  cardTags?: string;
+  cardLink?: string;
+  cardImage?: string;
   imageUrl: string;
   imagePosition?: string;
 }
@@ -19,16 +28,27 @@ interface HeroConfig {
 export default function HeroCustomizerPage() {
   const { cls, theme } = useAdminTheme();
   const [heroConfig, setHeroConfig] = useState<HeroConfig>({
-    title: "",
-    subtitle: "",
-    buttonText: "",
-    buttonLink: "",
-    imageUrl: "",
+    topBadgeText: "🟢 ATELIER EN ACTION (COMINES 🇫🇷) • PLA BIOSOURCÉ",
+    title: "L'IMPRESSION 3D QUI A DU PUNCH 🌀",
+    subtitle: "Objets funs, fidgets sensoriels TDAH & clickers sur-mesure faits main en France avec du plastique biosourcé 🌱",
+    buttonText: "🛠️ CRÉER MON CLICKER 3D",
+    buttonLink: "/createur-cliqueur",
+    secondaryButtonText: "🛍️ VOIR LA BOUTIQUE",
+    secondaryButtonLink: "/boutique",
+    cardBadge: "🔥 PRODUIT STAR 3D",
+    cardTitle: "⌨️ Fidget Clicker 3D Custom",
+    cardPrice: "À partir de 3.00€",
+    cardTags: "🎨 12 Couleurs PLA • ⚡ 1 à 9 Touches • 🌱 PLA Biosourcé",
+    cardLink: "/createur-cliqueur",
+    cardImage: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    imageUrl: "/images/hero_background.jpg",
     imagePosition: "center center",
   });
+
   const [loadingHero, setLoadingHero] = useState<boolean>(true);
   const [savingHero, setSavingHero] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
+  const [uploadingCard, setUploadingCard] = useState<boolean>(false);
   const [heroSuccess, setHeroSuccess] = useState<string | null>(null);
   const [heroError, setHeroError] = useState<string | null>(null);
 
@@ -38,14 +58,9 @@ export default function HeroCustomizerPage() {
       const res = await fetch("/api/admin/hero");
       if (res.ok) {
         const data = await res.json();
-        setHeroConfig(data.config || {
-          title: "",
-          subtitle: "",
-          buttonText: "",
-          buttonLink: "",
-          imageUrl: "",
-          imagePosition: "center center"
-        });
+        if (data.config) {
+          setHeroConfig((prev) => ({ ...prev, ...data.config }));
+        }
       }
     } catch (e) {
       console.error("Failed to load hero configuration:", e);
@@ -58,11 +73,13 @@ export default function HeroCustomizerPage() {
     fetchHeroConfig();
   }, []);
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, targetField: "imageUrl" | "cardImage") => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    setUploading(true);
+    if (targetField === "imageUrl") setUploading(true);
+    else setUploadingCard(true);
+
     setHeroError(null);
     setHeroSuccess(null);
     
@@ -76,7 +93,7 @@ export default function HeroCustomizerPage() {
       });
       const data = await res.json();
       if (res.ok) {
-        setHeroConfig(prev => ({ ...prev, imageUrl: data.imageUrl }));
+        setHeroConfig(prev => ({ ...prev, [targetField]: data.imageUrl }));
         setHeroSuccess("Image téléversée avec succès !");
       } else {
         setHeroError(data.error || "Erreur de téléversement.");
@@ -85,6 +102,7 @@ export default function HeroCustomizerPage() {
       setHeroError("Impossible d'uploader l'image.");
     } finally {
       setUploading(false);
+      setUploadingCard(false);
     }
   };
 
@@ -101,7 +119,7 @@ export default function HeroCustomizerPage() {
         body: JSON.stringify(heroConfig),
       });
       if (res.ok) {
-        setHeroSuccess("Configuration enregistrée avec succès !");
+        setHeroSuccess("Configuration du Hero enregistrée avec succès !");
       } else {
         const data = await res.json();
         setHeroError(data.error || "Erreur lors de la sauvegarde.");
@@ -114,7 +132,7 @@ export default function HeroCustomizerPage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 font-sans">
+    <div className="max-w-6xl mx-auto space-y-8 font-sans pb-16">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
@@ -122,9 +140,9 @@ export default function HeroCustomizerPage() {
               &larr; Retour Dashboard
             </Link>
           </div>
-          <h1 className={`text-3xl font-black font-antonio uppercase tracking-tight ${cls.textMain}`}>Personnalisation Accueil 🎨</h1>
+          <h1 className={`text-3xl font-black font-antonio uppercase tracking-tight ${cls.textMain}`}>Personnalisation Hero Accueil 🎨</h1>
           <p className={`text-sm ${cls.textMuted} mt-1`}>
-            Personnalisez la bannière principale (Hero) affichée en haut de votre page d'accueil.
+            Personnalisez tous les textes, boutons, badges et images de la section Hero principale.
           </p>
         </div>
       </div>
@@ -133,8 +151,8 @@ export default function HeroCustomizerPage() {
         {/* Left Form */}
         <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 md:p-8 space-y-6 transition-colors duration-300`}>
           <div>
-            <h3 className={`text-base font-bold ${cls.textMain} uppercase tracking-widest font-antonio`}>Réglages Hero</h3>
-            <p className={`text-xs ${cls.textMuted} mt-0.5`}>Modifiez le texte, le bouton et l'image de fond du Hero.</p>
+            <h3 className={`text-base font-bold ${cls.textMain} uppercase tracking-widest font-antonio`}>Éditeur du Hero</h3>
+            <p className={`text-xs ${cls.textMuted} mt-0.5`}>Modifiez le texte principal, les boutons et la carte produit star.</p>
           </div>
 
           {loadingHero ? (
@@ -143,113 +161,207 @@ export default function HeroCustomizerPage() {
             </div>
           ) : (
             <form onSubmit={handleSaveHero} className="space-y-4 text-xs font-sans">
-              <div className="flex flex-col gap-1.5">
-                <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
-                  Titre Principal *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={heroConfig.title}
-                  onChange={(e) => setHeroConfig({ ...heroConfig, title: e.target.value })}
-                  placeholder="Ex: La Capsule été"
-                  className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#2F3CD9]`}
-                />
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
-                  Sous-titre / Description
-                </label>
-                <input
-                  type="text"
-                  value={heroConfig.subtitle}
-                  onChange={(e) => setHeroConfig({ ...heroConfig, subtitle: e.target.value })}
-                  placeholder="Ex: Elle est sortie, elle est tout belle !"
-                  className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#2F3CD9]`}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              
+              {/* SECTION 1: EN-TÊTE PRINCIPAL */}
+              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+                <h4 className="text-xs font-bold text-[#ff4f00] uppercase tracking-wider">1. En-tête Principal (Gauche)</h4>
+                
                 <div className="flex flex-col gap-1.5">
                   <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
-                    Texte du Bouton *
+                    Pastille Statut Atelier (Haut)
+                  </label>
+                  <input
+                    type="text"
+                    value={heroConfig.topBadgeText || ""}
+                    onChange={(e) => setHeroConfig({ ...heroConfig, topBadgeText: e.target.value })}
+                    placeholder="Ex: 🟢 ATELIER EN ACTION (COMINES 🇫🇷) • PLA BIOSOURCÉ"
+                    className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#2F3CD9]`}
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                    Titre Principal *
                   </label>
                   <input
                     type="text"
                     required
-                    value={heroConfig.buttonText}
-                    onChange={(e) => setHeroConfig({ ...heroConfig, buttonText: e.target.value })}
-                    placeholder="Ex: VOIR LA CAPSULE"
+                    value={heroConfig.title}
+                    onChange={(e) => setHeroConfig({ ...heroConfig, title: e.target.value })}
+                    placeholder="Ex: L'IMPRESSION 3D QUI A DU PUNCH 🌀"
                     className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#2F3CD9]`}
                   />
                 </div>
+
                 <div className="flex flex-col gap-1.5">
                   <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
-                    Lien du Bouton *
+                    Sous-titre / Description
                   </label>
-                  <input
-                    type="text"
-                    required
-                    value={heroConfig.buttonLink}
-                    onChange={(e) => setHeroConfig({ ...heroConfig, buttonLink: e.target.value })}
-                    placeholder="Ex: /boutique"
-                    className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#2F3CD9]`}
+                  <textarea
+                    rows={2}
+                    value={heroConfig.subtitle}
+                    onChange={(e) => setHeroConfig({ ...heroConfig, subtitle: e.target.value })}
+                    placeholder="Ex: Objets funs, fidgets sensoriels TDAH..."
+                    className={`p-3 border rounded-xl outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#2F3CD9]`}
                   />
                 </div>
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
-                  Image de Fond *
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    required
-                    value={heroConfig.imageUrl}
-                    onChange={(e) => setHeroConfig({ ...heroConfig, imageUrl: e.target.value })}
-                    placeholder="Ex: /images/hero_background.jpg"
-                    className={`flex-1 h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#2F3CD9]`}
-                  />
-                  <label className="h-10 px-4 bg-white hover:bg-white/90 disabled:bg-white/40 text-black text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer shrink-0 shadow-md shadow-white/5">
+              {/* SECTION 2: BOUTONS CTA */}
+              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+                <h4 className="text-xs font-bold text-[#ff4f00] uppercase tracking-wider">2. Boutons d'Action (CTA)</h4>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="flex flex-col gap-1.5">
+                    <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                      Bouton Principal *
+                    </label>
                     <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={handleImageUpload}
-                      disabled={uploading}
+                      type="text"
+                      required
+                      value={heroConfig.buttonText}
+                      onChange={(e) => setHeroConfig({ ...heroConfig, buttonText: e.target.value })}
+                      placeholder="Ex: 🛠️ CRÉER MON CLICKER 3D"
+                      className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
                     />
-                    {uploading ? "..." : "Uploader"}
-                  </label>
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                      Lien Bouton Principal *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={heroConfig.buttonLink}
+                      onChange={(e) => setHeroConfig({ ...heroConfig, buttonLink: e.target.value })}
+                      placeholder="Ex: /createur-cliqueur"
+                      className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
+                    />
+                  </div>
                 </div>
-                <span className={`text-[10px] ${cls.textFaint} mt-0.5 leading-normal`}>
-                  Sélectionnez une image sur votre ordinateur ou indiquez une URL absolue.
-                </span>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="flex flex-col gap-1.5">
+                    <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                      Bouton Secondaire
+                    </label>
+                    <input
+                      type="text"
+                      value={heroConfig.secondaryButtonText || ""}
+                      onChange={(e) => setHeroConfig({ ...heroConfig, secondaryButtonText: e.target.value })}
+                      placeholder="Ex: 🛍️ VOIR LA BOUTIQUE"
+                      className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                      Lien Bouton Secondaire
+                    </label>
+                    <input
+                      type="text"
+                      value={heroConfig.secondaryButtonLink || ""}
+                      onChange={(e) => setHeroConfig({ ...heroConfig, secondaryButtonLink: e.target.value })}
+                      placeholder="Ex: /boutique"
+                      className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
-                  Positionnement de l'image *
-                </label>
-                <select
-                  value={heroConfig.imagePosition || "center center"}
-                  onChange={(e) => setHeroConfig({ ...heroConfig, imagePosition: e.target.value })}
-                  className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#2F3CD9] cursor-pointer`}
-                >
-                  <option value="center center">Centré (Milieu)</option>
-                  <option value="top center">Haut Centré</option>
-                  <option value="bottom center">Bas Centré</option>
-                  <option value="center left">Milieu Gauche</option>
-                  <option value="center right">Milieu Droite</option>
-                  <option value="top left">Haut Gauche</option>
-                  <option value="top right">Haut Droite</option>
-                  <option value="bottom left">Bas Gauche</option>
-                  <option value="bottom right">Bas Droite</option>
-                </select>
-                <span className={`text-[10px] ${cls.textFaint} mt-0.5 leading-normal`}>
-                  Définit la zone d'ancrage de l'image de fond (utile si l'image est recadrée).
-                </span>
+              {/* SECTION 3: CARTE PRODUIT STAR (DROITE) */}
+              <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+                <h4 className="text-xs font-bold text-[#ff4f00] uppercase tracking-wider">3. Carte Produit Star (Droite)</h4>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="flex flex-col gap-1.5">
+                    <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                      Badge Carte
+                    </label>
+                    <input
+                      type="text"
+                      value={heroConfig.cardBadge || ""}
+                      onChange={(e) => setHeroConfig({ ...heroConfig, cardBadge: e.target.value })}
+                      placeholder="Ex: 🔥 PRODUIT STAR 3D"
+                      className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1.5">
+                    <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                      Prix de la Carte
+                    </label>
+                    <input
+                      type="text"
+                      value={heroConfig.cardPrice || ""}
+                      onChange={(e) => setHeroConfig({ ...heroConfig, cardPrice: e.target.value })}
+                      placeholder="Ex: À partir de 3.00€"
+                      className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                    Titre Produit Carte
+                  </label>
+                  <input
+                    type="text"
+                    value={heroConfig.cardTitle || ""}
+                    onChange={(e) => setHeroConfig({ ...heroConfig, cardTitle: e.target.value })}
+                    placeholder="Ex: ⌨️ Fidget Clicker 3D Custom"
+                    className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                    Puces Produit (Séparées par des puces •)
+                  </label>
+                  <input
+                    type="text"
+                    value={heroConfig.cardTags || ""}
+                    onChange={(e) => setHeroConfig({ ...heroConfig, cardTags: e.target.value })}
+                    placeholder="Ex: 🎨 12 Couleurs PLA • ⚡ 1 à 9 Touches • 🌱 PLA Biosourcé"
+                    className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                    Lien de la Carte
+                  </label>
+                  <input
+                    type="text"
+                    value={heroConfig.cardLink || ""}
+                    onChange={(e) => setHeroConfig({ ...heroConfig, cardLink: e.target.value })}
+                    placeholder="Ex: /createur-cliqueur"
+                    className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className={`text-[9px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                    Image du Produit Carte
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={heroConfig.cardImage || ""}
+                      onChange={(e) => setHeroConfig({ ...heroConfig, cardImage: e.target.value })}
+                      placeholder="Ex: /images/imported/Spoolio_Kit-Festival-16-scaled.webp"
+                      className={`flex-1 h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
+                    />
+                    <label className="h-10 px-4 bg-white hover:bg-white/90 disabled:bg-white/40 text-black text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer shrink-0">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => handleImageUpload(e, "cardImage")}
+                        disabled={uploadingCard}
+                      />
+                      {uploadingCard ? "..." : "Uploader"}
+                    </label>
+                  </div>
+                </div>
               </div>
 
               {heroSuccess && (
@@ -267,49 +379,43 @@ export default function HeroCustomizerPage() {
               <button
                 type="submit"
                 disabled={savingHero}
-                className="w-full h-11 flex items-center justify-center text-black bg-white hover:bg-white/90 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-md shadow-white/5 disabled:opacity-50"
+                className="w-full h-12 flex items-center justify-center text-white bg-[#ff4f00] hover:bg-[#e04500] text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-lg shadow-[#ff4f00]/20 disabled:opacity-50"
               >
-                {savingHero ? "Sauvegarde..." : "Enregistrer la configuration"}
+                {savingHero ? "Sauvegarde..." : "Enregistrer Toute la Configuration Hero"}
               </button>
             </form>
           )}
         </div>
 
-        {/* Right Live Preview Box */}
+        {/* Right Live Preview Info Box */}
         <div className="space-y-4">
-          <h4 className={`text-xs font-bold uppercase tracking-wider ${cls.textFaint}`}>Prévisualisation en direct (Mode Sombre)</h4>
-          <div className="relative overflow-hidden rounded-3xl border border-spoolio-border bg-[#0d0d11] aspect-[1.8/1] w-full p-6 flex flex-col items-center justify-center text-center shadow-2xl">
-            {/* Dynamic Background Image */}
-            <div 
-              className="absolute inset-0 bg-cover transition-all duration-300 no-invert"
-              style={{ 
-                backgroundImage: `url('${heroConfig.imageUrl || "/images/hero_background.jpg"}')`,
-                backgroundPosition: heroConfig.imagePosition || "center center"
-              }}
-            />
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-black/40 z-0" />
-
-            {/* Banner content */}
-            <div className="relative z-10 flex flex-col items-center gap-1.5 md:gap-3 max-w-sm">
-              <h1 className="text-xl md:text-3xl font-extrabold uppercase tracking-tight text-white font-antonio leading-none">
-                {heroConfig.title || "Titre du Hero"}
-              </h1>
-              <p className="text-[10px] md:text-xs text-gray-200 leading-normal">
-                {heroConfig.subtitle || "Description du hero"}
-              </p>
-              <button className="mt-2 px-5 py-2 bg-[#ff4f00] text-white font-bold text-[8px] md:text-[10px] tracking-wider rounded-full uppercase cursor-default select-none shadow-md">
-                {heroConfig.buttonText || "Bouton"}
-              </button>
-            </div>
-          </div>
+          <h4 className={`text-xs font-bold uppercase tracking-wider ${cls.textFaint}`}>Récapitulatif de la Configuration</h4>
           
-          {/* Note */}
-          <div className="p-4 rounded-2xl bg-black/10 border border-white/5 text-[10px] text-gray-400 leading-relaxed font-sans flex gap-2">
-            <span className="text-yellow-500 text-sm">💡</span>
-            <p>
-              <strong>Conseil de design :</strong> Utilisez une image de fond sombre ou peu saturée pour que vos titres blancs restent parfaitement lisibles sans dénaturer l'esthétique du site.
-            </p>
+          <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 space-y-4 text-xs font-mono`}>
+            <div>
+              <span className="text-[#ff4f00] font-bold">Pastille : </span>
+              <span className="text-gray-300">{heroConfig.topBadgeText}</span>
+            </div>
+            <div>
+              <span className="text-[#ff4f00] font-bold">Titre : </span>
+              <span className="text-white font-extrabold">{heroConfig.title}</span>
+            </div>
+            <div>
+              <span className="text-[#ff4f00] font-bold">Sous-titre : </span>
+              <span className="text-gray-400">{heroConfig.subtitle}</span>
+            </div>
+            <div>
+              <span className="text-[#ff4f00] font-bold">Bouton Principal : </span>
+              <span className="text-emerald-400">{heroConfig.buttonText} ({heroConfig.buttonLink})</span>
+            </div>
+            <div>
+              <span className="text-[#ff4f00] font-bold">Bouton Secondaire : </span>
+              <span className="text-cyan-400">{heroConfig.secondaryButtonText} ({heroConfig.secondaryButtonLink})</span>
+            </div>
+            <div>
+              <span className="text-[#ff4f00] font-bold">Produit Star Carte : </span>
+              <span className="text-purple-300">{heroConfig.cardTitle} — {heroConfig.cardPrice}</span>
+            </div>
           </div>
         </div>
       </div>

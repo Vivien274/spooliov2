@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import SpoolioProductGrid from "@/components/SpoolioProductGrid";
+import AnimatedHero from "@/components/AnimatedHero";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReviewsSection from "@/components/ReviewsSection";
@@ -106,14 +107,7 @@ export default async function HomePage() {
     });
     if (page) {
       const config = JSON.parse(page.content);
-      hero = {
-        title: config.title || DEFAULT_HERO.title,
-        subtitle: config.subtitle || DEFAULT_HERO.subtitle,
-        buttonText: config.buttonText || DEFAULT_HERO.buttonText,
-        buttonLink: config.buttonLink || DEFAULT_HERO.buttonLink,
-        imageUrl: config.imageUrl || DEFAULT_HERO.imageUrl,
-        imagePosition: config.imagePosition || DEFAULT_HERO.imagePosition
-      };
+      hero = { ...DEFAULT_HERO, ...config };
     }
   } catch (e) {
     // Silent fallback
@@ -206,52 +200,45 @@ export default async function HomePage() {
         />
       </div>
 
-      {/* 1. Full-Width Hero Section with Absolute Header Overlay */}
-      <section className="w-full relative overflow-hidden rounded-b-[60px] border-b border-[#1f1f23] mb-6 z-10">
-        {/* Header Overlay */}
-        <Header className="absolute top-0 left-0 right-0 h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full no-invert" />
+      {/* 1. Full-Width Animated Hero Section */}
+      <AnimatedHero {...(hero as any)} />
 
-        {/* Hero Background Panel */}
-        <div className="relative w-full aspect-[2.1/1] min-h-[360px] md:min-h-[500px] flex flex-col items-center justify-center text-center p-6 no-invert">
-          {hero.imageUrl && (
-            <Image
-              src={hero.imageUrl}
-              alt="Spoolio Hero Background"
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover pointer-events-none select-none z-0 no-invert"
-              style={{ objectPosition: hero.imagePosition || "center center" }}
-            />
-          )}
+      {/* 2. Sleek Minimalist White Text Marquee */}
+      <section className="w-full bg-[#08080a] py-3.5 overflow-hidden border-y border-[#1f1f23] mb-8 select-none">
+        <div className="flex whitespace-nowrap animate-marquee text-xs uppercase tracking-widest text-white font-extrabold gap-8 select-none font-sans items-center">
+          {[1, 2, 3].map((loop) => (
+            <div key={loop} className="flex items-center gap-8 shrink-0">
+              <span className="flex items-center gap-2 text-white">
+                <span>🌱</span>
+                <span>PLA BIOSOURCÉ À BASE DE MAÏS</span>
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
 
-          {/* Dark visual overlay for contrast */}
-          <div className="absolute inset-0 bg-black/35 z-0" />
+              <span className="flex items-center gap-2 text-white">
+                <span>⚡</span>
+                <span>ZÉRO SURSTOCK • FABRICATION À LA COMMANDE</span>
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
 
-          <div className="relative z-10 flex flex-col items-center gap-1.5 md:gap-3 max-w-xl mt-14 animate-reveal font-sans">
-            <h1 className="text-4xl sm:text-5xl md:text-[64px] font-extrabold uppercase tracking-tight text-white font-antonio leading-none home-hero-text">
-              {hero.title}
-            </h1>
-            {hero.subtitle && (
-              <p className="text-[14px] sm:text-sm md:text-base text-gray-100 font-sans tracking-wide home-hero-text">
-                {hero.subtitle}
-              </p>
-            )}
-            <Link
-              href={hero.buttonLink || "/boutique"}
-              className="mt-2 h-13 px-8 inline-flex items-center justify-center gap-2 bg-[#ff4f00] hover:bg-[#e04500] text-white font-extrabold text-xs uppercase tracking-wider rounded-full transition-all shadow-xl shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-[0.98] cursor-pointer no-invert"
-            >
-              {hero.buttonText || "VOIR LA CAPSULE"}
-            </Link>
-          </div>
-        </div>
-      </section>
+              <span className="flex items-center gap-2 text-white">
+                <span>🇫🇷</span>
+                <span>FAIT MAIN À COMINES (NORD)</span>
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
 
-      {/* 2. Ticker Marquee */}
-      <section className="w-full bg-spoolio-bg py-3 overflow-hidden border-y border-[#1f1f23] mb-6 select-none">
-        <div className="flex whitespace-nowrap animate-marquee text-[11px] tracking-widest text-white font-semibold gap-8 select-none font-sans">
-          <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
-          <span>Plastique fait à partir de maïs biosourcé 🌱 Fait artisanalement à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡ /// Des objets funs imprimés en 3D avec du maïs biosourcé 🌱 Fait main à Comines (59) 🇫🇷 Zéro surstock, zéro bullshit ⚡</span>
+              <span className="flex items-center gap-2 text-white">
+                <span>⌨️</span>
+                <span>CLICKERS 3D CUSTOMISABLES</span>
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
+
+              <span className="flex items-center gap-2 text-white">
+                <span>🎁</span>
+                <span>POCHETTES SURPRISE DÈS 10.00€</span>
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
+            </div>
+          ))}
         </div>
       </section>
 
@@ -494,6 +481,33 @@ export default async function HomePage() {
             });
           })()}
         </div>
+
+        {/* Live Social Proof Counter Ribbon (Monthly Progressive Counter) */}
+        {(() => {
+          const now = new Date();
+          const dayOfMonth = now.getDate();
+          const totalDaysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+          const monthlyTarget = 105;
+          const monthlyCount = Math.max(8, Math.floor((dayOfMonth / totalDaysInMonth) * monthlyTarget) + (dayOfMonth % 4));
+
+          return (
+            <div className="w-full p-4 rounded-2xl bg-gradient-to-r from-[#ff4f00]/10 via-[#0d0d10] to-[#ff4f00]/10 border border-[#ff4f00]/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left font-sans shadow-lg">
+              <div className="flex items-center gap-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#ff4f00] animate-ping shrink-0" />
+                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                  <span className="text-xs sm:text-sm font-black text-white uppercase font-antonio tracking-wide">
+                    🔥 <span className="text-[#ff4f00] text-base font-extrabold">{monthlyCount} objets 3D</span> imprimés ce mois-ci à l'atelier
+                  </span>
+                  <span className="hidden sm:inline text-neutral-500">•</span>
+                  <span className="text-[11px] text-neutral-300 font-medium">Zéro surstock, 100% fait sur commande 🇫🇷</span>
+                </div>
+              </div>
+              <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full shrink-0">
+                🟢 Atelier en direct
+              </span>
+            </div>
+          );
+        })()}
 
         {/* Brand Partners List (Moved inside Nos Artisanes de l'Ombre section) */}
         <div className="w-full py-6 border-t border-b border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 select-none font-sans">

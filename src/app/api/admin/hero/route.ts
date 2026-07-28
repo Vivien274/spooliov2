@@ -6,10 +6,19 @@ import { cookies } from "next/headers";
 export const dynamic = "force-dynamic";
 
 const DEFAULT_HERO = {
-  title: "La Capsule été",
-  subtitle: "Elle est sortie, elle est tout belle !",
-  buttonText: "VOIR LA CAPSULE",
-  buttonLink: "/boutique",
+  topBadgeText: "🟢 ATELIER EN ACTION (COMINES 🇫🇷) • PLA BIOSOURCÉ",
+  title: "L'IMPRESSION 3D QUI A DU PUNCH 🌀",
+  subtitle: "Objets funs, fidgets sensoriels TDAH & clickers sur-mesure faits main en France avec du plastique biosourcé 🌱",
+  buttonText: "🛠️ CRÉER MON CLICKER 3D",
+  buttonLink: "/createur-cliqueur",
+  secondaryButtonText: "🛍️ VOIR LA BOUTIQUE",
+  secondaryButtonLink: "/boutique",
+  cardBadge: "🔥 PRODUIT STAR 3D",
+  cardTitle: "⌨️ Fidget Clicker 3D Custom",
+  cardPrice: "À partir de 3.00€",
+  cardTags: "🎨 12 Couleurs PLA • ⚡ 1 à 9 Touches • 🌱 PLA Biosourcé",
+  cardLink: "/createur-cliqueur",
+  cardImage: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
   imageUrl: "/images/hero_background.jpg",
   imagePosition: "center center"
 };
@@ -29,7 +38,6 @@ export async function GET() {
 
     if (!page) {
       try {
-        // Create default settings row in DB, but with a timeout fallback
         const createPromise = prisma.page.create({
           data: {
             title: "Configuration Hero Accueil",
@@ -47,7 +55,8 @@ export async function GET() {
     let config = DEFAULT_HERO;
     if (page) {
       try {
-        config = JSON.parse(page.content);
+        const parsed = JSON.parse(page.content);
+        config = { ...DEFAULT_HERO, ...parsed };
       } catch {
         config = DEFAULT_HERO;
       }
@@ -74,22 +83,31 @@ export async function POST(request: Request) {
       );
     }
 
-    const { title, subtitle, buttonText, buttonLink, imageUrl, imagePosition } = await request.json();
+    const payload = await request.json();
 
-    if (!title || !buttonText || !buttonLink || !imageUrl) {
+    if (!payload.title || !payload.buttonText || !payload.buttonLink) {
       return NextResponse.json(
-        { error: "Veuillez remplir tous les champs obligatoires (Titre, Texte du bouton, Lien et URL Image)." },
+        { error: "Veuillez remplir les champs obligatoires (Titre principal, Bouton et Lien)." },
         { status: 400 }
       );
     }
 
     const configString = JSON.stringify({
-      title,
-      subtitle: subtitle || "",
-      buttonText,
-      buttonLink,
-      imageUrl,
-      imagePosition: imagePosition || "center center"
+      topBadgeText: payload.topBadgeText || DEFAULT_HERO.topBadgeText,
+      title: payload.title,
+      subtitle: payload.subtitle || "",
+      buttonText: payload.buttonText,
+      buttonLink: payload.buttonLink,
+      secondaryButtonText: payload.secondaryButtonText || DEFAULT_HERO.secondaryButtonText,
+      secondaryButtonLink: payload.secondaryButtonLink || DEFAULT_HERO.secondaryButtonLink,
+      cardBadge: payload.cardBadge || DEFAULT_HERO.cardBadge,
+      cardTitle: payload.cardTitle || DEFAULT_HERO.cardTitle,
+      cardPrice: payload.cardPrice || DEFAULT_HERO.cardPrice,
+      cardTags: payload.cardTags || DEFAULT_HERO.cardTags,
+      cardLink: payload.cardLink || DEFAULT_HERO.cardLink,
+      cardImage: payload.cardImage || DEFAULT_HERO.cardImage,
+      imageUrl: payload.imageUrl || DEFAULT_HERO.imageUrl,
+      imagePosition: payload.imagePosition || "center center"
     });
 
     await prisma.page.upsert({
