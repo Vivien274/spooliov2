@@ -1,0 +1,89 @@
+{
+  "profile": {
+    "title": "Spoolio 🌀",
+    "subtitle": "Impression 3D & Objets Fidgets Sensoriels TDAH 🇫🇷",
+    "avatar": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "verifiedBadge": true,
+    "theme": "spoolio-dark",
+    "socials": {
+      "tiktok": "https://www.tiktok.com/@spoolio_3d",
+      "instagram": "https://www.instagram.com/spoolio.fr",
+      "youtube": "https://www.youtube.com/@spoolio3d",
+      "email": "contact@spoolio.fr"
+    }
+  },
+  "links": [
+    {
+      "id": "link-clicker",
+      "title": "⌨️ Créateur de Clicker 3D Sur-Mesure",
+      "subtitle": "Personnalise ton fidget clicker 3D avec 1 à 9 touches & tes gravures",
+      "url": "https://www.spoolio.fr/createur-cliqueur",
+      "icon": "⌨️",
+      "badge": "🔥 BEST-SELLER",
+      "style": "glow",
+      "isPublished": true,
+      "order": 1,
+      "clicks": 142
+    },
+    {
+      "id": "link-pochette",
+      "title": "🎲 Pochette Surprise Spoolio",
+      "subtitle": "Déballe ta pochette mystère remplie d'objets 3D et fidgets !",
+      "url": "https://www.spoolio.fr/pochette-surprise",
+      "icon": "🎁",
+      "badge": "✨ NOUVEAU",
+      "style": "pulse",
+      "isPublished": true,
+      "order": 2,
+      "clicks": 98
+    },
+    {
+      "id": "link-tombola",
+      "title": "🎟️ Grand Jeu Concours & Tombola",
+      "subtitle": "Tente de gagner le pack Mega Fidget 3D pour 2€ !",
+      "url": "https://www.spoolio.fr/tombola",
+      "icon": "🎟️",
+      "badge": "⚡ JEU CONCOURS",
+      "style": "highlight",
+      "isPublished": true,
+      "order": 3,
+      "clicks": 76
+    },
+    {
+      "id": "link-boussole",
+      "title": "🧭 Boussole Sensorielle TDAH",
+      "subtitle": "Trouve l'objet fidget parfait selon ton profil sensoriel",
+      "url": "https://www.spoolio.fr/boussole-sensorielle",
+      "icon": "🧭",
+      "badge": "🧠 GUIDAGE",
+      "style": "normal",
+      "isPublished": true,
+      "order": 4,
+      "clicks": 54
+    },
+    {
+      "id": "link-boutique",
+      "title": "🛍️ La Boutique Officielle Spoolio",
+      "subtitle": "Découvre toute notre collection d'objets imprimés en France",
+      "url": "https://www.spoolio.fr/boutique",
+      "icon": "🛒",
+      "badge": "",
+      "style": "normal",
+      "isPublished": true,
+      "order": 5,
+      "clicks": 189
+    },
+    {
+      "id": "link-reviews",
+      "title": "⭐ Avis Clients Certifiés (4.9/5)",
+      "subtitle": "Découvre ce que la communauté pense de nos créations 3D",
+      "url": "https://www.spoolio.fr/#avis",
+      "icon": "⭐",
+      "badge": "99% SATISFAIT",
+      "style": "normal",
+      "isPublished": true,
+      "order": 6,
+      "clicks": 41
+    }
+  ]
+}
