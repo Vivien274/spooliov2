@@ -35,6 +35,22 @@ const DEFAULT_CONFIG: TombolaConfig = {
 
 const INITIAL_RESERVED: number[] = []; // Default clean empty grid
 
+function calculateTimeLeft(endDateStr?: string) {
+  if (!endDateStr) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  const targetTime = new Date(endDateStr).getTime();
+  if (isNaN(targetTime)) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
+  const diff = targetTime - Date.now();
+  if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+  return { days, hours, minutes, seconds };
+}
+
 export default function TombolaConfigurator() {
   const { addToCart, setIsCartOpen, cartItems } = useCart();
 
@@ -46,12 +62,20 @@ export default function TombolaConfigurator() {
   const [isClient, setIsClient] = useState<boolean>(false);
   const [addedToast, setAddedToast] = useState<boolean>(false);
 
-  // Countdown timer calculation
-  const [timeLeft, setTimeLeft] = useState({ days: 4, hours: 18, minutes: 42, seconds: 15 });
-
-  // Hydrate config & reserved tickets from DB
+  // Hydrate config & reserved tickets from DB / localStorage
   useEffect(() => {
     setIsClient(true);
+
+    try {
+      const savedConfig = localStorage.getItem("spoolio_tombola_config");
+      if (savedConfig) {
+        const parsed = JSON.parse(savedConfig);
+        if (parsed && parsed.title) {
+          setConfig((prev) => ({ ...prev, ...parsed }));
+          if (parsed.ticketPrice) setTicketPrice(parsed.ticketPrice);
+        }
+      }
+    } catch (e) {}
 
     const fetchTombolaData = async () => {
       try {
@@ -72,6 +96,19 @@ export default function TombolaConfigurator() {
     fetchTombolaData();
   }, []);
 
+  // Countdown timer calculation based on real config.endDate
+  const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft(config.endDate));
+
+  useEffect(() => {
+    const updateCountdown = () => {
+      setTimeLeft(calculateTimeLeft(config.endDate));
+    };
+
+    updateCountdown();
+    const timer = setInterval(updateCountdown, 1000);
+    return () => clearInterval(timer);
+  }, [config.endDate]);
+
   // Compute ticket numbers currently in user's active cart
   const cartTicketNumbers = useMemo(() => {
     if (!cartItems || !Array.isArray(cartItems)) return [];
@@ -80,20 +117,6 @@ export default function TombolaConfigurator() {
       .map((item: any) => parseInt(item.selectedOptions["Case"].replace("#", ""), 10))
       .filter((n: number) => !isNaN(n));
   }, [cartItems]);
-
-  // Update countdown timer
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev.seconds > 0) return { ...prev, seconds: prev.seconds - 1 };
-        if (prev.minutes > 0) return { ...prev, minutes: prev.minutes - 1, seconds: 59 };
-        if (prev.hours > 0) return { ...prev, hours: prev.hours - 1, minutes: 59, seconds: 59 };
-        if (prev.days > 0) return { ...prev, days: prev.days - 1, hours: 23, minutes: 59, seconds: 59 };
-        return prev;
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
 
   // Toggle ticket selection
   const handleTicketClick = (num: number) => {
