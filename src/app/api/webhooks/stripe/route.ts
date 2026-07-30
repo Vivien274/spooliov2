@@ -225,14 +225,32 @@ export async function POST(request: Request) {
           const tombolaTicketNumbers: number[] = [];
           for (const item of parsedItems) {
             const nameStr = (item.name || "").toLowerCase();
-            const match = nameStr.match(/case[^\d]*#?(\d+)/i) || nameStr.match(/tombola[^\d]*#?(\d+)/i);
-            if (match && match[1]) {
-              const num = parseInt(match[1], 10);
-              if (!isNaN(num)) tombolaTicketNumbers.push(num);
+            // Matches "case #12", "case 12", "ticket #12", "tombola #12", "#12" etc.
+            const matches = nameStr.matchAll(/(?:case|ticket|tombola|\b)?\s*#?(\d{1,3})/gi);
+            for (const match of matches) {
+              if (match && match[1]) {
+                const num = parseInt(match[1], 10);
+                if (!isNaN(num) && num > 0 && num <= 200) tombolaTicketNumbers.push(num);
+              }
             }
           }
           if (tombolaTicketNumbers.length > 0) {
-            const activeTombola = await prisma.tombola.findFirst({ orderBy: { createdAt: "desc" } });
+            let activeTombola = await prisma.tombola.findFirst({ orderBy: { createdAt: "desc" } });
+            if (!activeTombola) {
+              activeTombola = await prisma.tombola.create({
+                data: {
+                  title: "Mega Pack Fidget & Impression 3D Spoolio",
+                  description: "Tente ta chance de remporter un lot exclusif !",
+                  image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+                  estimatedValue: 85.00,
+                  endDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().slice(0, 16),
+                  totalCases: 40,
+                  ticketPrice: 2.00,
+                  status: "active",
+                  reservedTickets: JSON.stringify([]),
+                },
+              });
+            }
             if (activeTombola) {
               let currentReserved: number[] = [];
               try {

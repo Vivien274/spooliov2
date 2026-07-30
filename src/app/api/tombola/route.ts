@@ -115,7 +115,7 @@ export async function POST(request: Request) {
 
     // ACTION: Reserve tickets (Client or Admin)
     if (action === "reserve") {
-      const { newTickets } = body; // Array of ticket numbers e.g. [5, 14]
+      const { newTickets } = body; // Array of ticket numbers e.g. [5, 14, 12]
       if (!Array.isArray(newTickets) || newTickets.length === 0) {
         return NextResponse.json({ success: false, error: "Aucun ticket fourni" }, { status: 400 });
       }
@@ -132,6 +132,74 @@ export async function POST(request: Request) {
       const updatedReserved = Array.from(new Set([...currentReserved, ...newTickets])).sort(
         (a, b) => a - b
       );
+
+      const updated = await prisma.tombola.update({
+        where: { id: activeTombola.id },
+        data: {
+          reservedTickets: JSON.stringify(updatedReserved),
+        },
+      });
+
+      return NextResponse.json({
+        success: true,
+        reservedTickets: updatedReserved,
+      });
+    }
+
+    // ACTION: Toggle ticket reserved status (Admin direct click)
+    if (action === "toggle_ticket") {
+      const { ticketNumber } = body;
+      const num = parseInt(ticketNumber, 10);
+      if (isNaN(num)) {
+        return NextResponse.json({ success: false, error: "Numéro de ticket invalide" }, { status: 400 });
+      }
+
+      let currentReserved: number[] = [];
+      try {
+        if (typeof activeTombola.reservedTickets === "string") {
+          currentReserved = JSON.parse(activeTombola.reservedTickets);
+        } else if (Array.isArray(activeTombola.reservedTickets)) {
+          currentReserved = activeTombola.reservedTickets as any;
+        }
+      } catch (e) {}
+
+      let updatedReserved: number[];
+      if (currentReserved.includes(num)) {
+        updatedReserved = currentReserved.filter((t) => t !== num);
+      } else {
+        updatedReserved = [...currentReserved, num].sort((a, b) => a - b);
+      }
+
+      const updated = await prisma.tombola.update({
+        where: { id: activeTombola.id },
+        data: {
+          reservedTickets: JSON.stringify(updatedReserved),
+        },
+      });
+
+      return NextResponse.json({
+        success: true,
+        reservedTickets: updatedReserved,
+      });
+    }
+
+    // ACTION: Release tickets (Admin)
+    if (action === "release") {
+      const { ticketsToRelease } = body;
+      if (!Array.isArray(ticketsToRelease)) {
+        return NextResponse.json({ success: false, error: "Liste de tickets invalide" }, { status: 400 });
+      }
+
+      let currentReserved: number[] = [];
+      try {
+        if (typeof activeTombola.reservedTickets === "string") {
+          currentReserved = JSON.parse(activeTombola.reservedTickets);
+        } else if (Array.isArray(activeTombola.reservedTickets)) {
+          currentReserved = activeTombola.reservedTickets as any;
+        }
+      } catch (e) {}
+
+      const updatedReserved = currentReserved.filter((t) => !ticketsToRelease.includes(t));
 
       const updated = await prisma.tombola.update({
         where: { id: activeTombola.id },

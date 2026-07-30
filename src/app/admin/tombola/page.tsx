@@ -48,6 +48,7 @@ export default function AdminTombolaPage() {
   // State
   const [config, setConfig] = useState<TombolaConfig>(DEFAULT_CONFIG);
   const [reservedTickets, setReservedTickets] = useState<number[]>([]);
+  const [manualTicketsInput, setManualTicketsInput] = useState<string>("");
   const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
   const [isClient, setIsClient] = useState<boolean>(false);
 
@@ -55,6 +56,81 @@ export default function AdminTombolaPage() {
   const [isDrawing, setIsDrawing] = useState<boolean>(false);
   const [drawDisplayNumber, setDrawDisplayNumber] = useState<number | null>(null);
   const [showWinnerModal, setShowWinnerModal] = useState<boolean>(false);
+
+  // Toggle individual ticket reservation on click
+  const handleToggleTicket = async (num: number) => {
+    let updated: number[];
+    if (reservedTickets.includes(num)) {
+      updated = reservedTickets.filter((t) => t !== num);
+    } else {
+      updated = [...reservedTickets, num].sort((a, b) => a - b);
+    }
+    setReservedTickets(updated);
+
+    try {
+      localStorage.setItem("spoolio_tombola_reserved", JSON.stringify(updated));
+    } catch (e) {}
+
+    try {
+      const res = await fetch("/api/tombola", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "toggle_ticket", ticketNumber: num }),
+      });
+      const data = await res.json();
+      if (data.success && Array.isArray(data.reservedTickets)) {
+        setReservedTickets(data.reservedTickets);
+        try {
+          localStorage.setItem("spoolio_tombola_reserved", JSON.stringify(data.reservedTickets));
+        } catch (e) {}
+      }
+    } catch (err) {
+      console.error("Erreur toggle ticket BDD:", err);
+    }
+  };
+
+  // Bulk add manual tickets (ex: "5, 12, 14")
+  const handleManualAddTickets = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!manualTicketsInput.trim()) return;
+
+    const parsedNumbers = manualTicketsInput
+      .split(/[\s,;]+/)
+      .map((str) => parseInt(str.replace("#", ""), 10))
+      .filter((n) => !isNaN(n) && n > 0 && n <= config.totalCases);
+
+    if (parsedNumbers.length === 0) {
+      alert("Aucun numéro de case valide détecté.");
+      return;
+    }
+
+    const updated = Array.from(new Set([...reservedTickets, ...parsedNumbers])).sort((a, b) => a - b);
+    setReservedTickets(updated);
+
+    try {
+      localStorage.setItem("spoolio_tombola_reserved", JSON.stringify(updated));
+    } catch (e) {}
+
+    try {
+      const res = await fetch("/api/tombola", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "reserve", newTickets: parsedNumbers }),
+      });
+      const data = await res.json();
+      if (data.success && Array.isArray(data.reservedTickets)) {
+        setReservedTickets(data.reservedTickets);
+        try {
+          localStorage.setItem("spoolio_tombola_reserved", JSON.stringify(data.reservedTickets));
+        } catch (e) {}
+      }
+      setSaveSuccess(true);
+      setManualTicketsInput("");
+      setTimeout(() => setSaveSuccess(false), 3000);
+    } catch (err) {
+      console.error("Erreur réservation manuelle BDD:", err);
+    }
+  };
 
   // Load configuration: prioritize local storage edits to protect user updates
   useEffect(() => {
@@ -601,35 +677,75 @@ export default function AdminTombolaPage() {
             </div>
           </div>
 
-          {/* Reserved Grid Mini-Map */}
-          <div className="bg-[#18181b] border border-gray-800 rounded-3xl p-6 space-y-4">
-            <div className="flex justify-between items-center">
-              <h3 className="text-xs font-bold text-gray-300 uppercase">
-                Grille des cases réservées ({reservedTickets.length} / {config.totalCases})
-              </h3>
+          {/* Interactive Grid & Manual Tickets Entry */}
+          <div className="bg-[#18181b] border border-gray-800 rounded-3xl p-6 space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-800 pb-3">
+              <div>
+                <h3 className="text-xs font-bold text-gray-300 uppercase">
+                  Grille des cases ({reservedTickets.length} / {config.totalCases} vendues)
+                </h3>
+                <p className="text-[11px] text-gray-400">
+                  💡 Cliquez directement sur n&apos;importe quel numéro pour le réserver ou le libérer en 1 clic.
+                </p>
+              </div>
+              <span className="text-[10px] font-extrabold text-[#ff4f00] uppercase bg-[#ff4f00]/10 px-2.5 py-1 rounded-full border border-[#ff4f00]/30 shrink-0">
+                Mode Interactif ⚡
+              </span>
             </div>
 
-            <div className="grid grid-cols-5 sm:grid-cols-8 gap-1.5 max-h-48 overflow-y-auto pr-1">
+            {/* Interactive Grid buttons */}
+            <div className="grid grid-cols-5 sm:grid-cols-8 gap-1.5 max-h-56 overflow-y-auto pr-1">
               {Array.from({ length: config.totalCases }, (_, i) => i + 1).map((num) => {
                 const isSold = reservedTickets.includes(num);
                 const isWinner = config.winnerTicket === num;
 
                 return (
-                  <div
+                  <button
                     key={num}
-                    className={`aspect-square rounded-lg text-xs font-mono font-bold flex items-center justify-center border ${
+                    type="button"
+                    onClick={() => handleToggleTicket(num)}
+                    title={isSold ? `Case #${num} vendue - Cliquez pour libérer` : `Case #${num} disponible - Cliquez pour réserver`}
+                    className={`aspect-square rounded-lg text-xs font-mono font-bold flex flex-col items-center justify-center border transition-all cursor-pointer select-none hover:scale-105 active:scale-95 ${
                       isWinner
                         ? "bg-amber-500 text-black border-amber-400 shadow-lg font-black animate-pulse"
                         : isSold
-                        ? "bg-red-950/40 text-red-400 border-red-900/50"
-                        : "bg-white/5 text-gray-500 border-gray-800"
+                        ? "bg-red-950/60 text-red-400 border-red-800/80 shadow-inner hover:bg-red-900/80"
+                        : "bg-white/5 text-gray-400 border-gray-800 hover:bg-white/15 hover:text-white hover:border-gray-600"
                     }`}
                   >
-                    #{num}
-                  </div>
+                    <span>#{num}</span>
+                    <span className="text-[7px] font-sans font-extrabold uppercase mt-0.5">
+                      {isSold ? "Prise" : "Libre"}
+                    </span>
+                  </button>
                 );
               })}
             </div>
+
+            {/* Bulk Manual Add Form */}
+            <form onSubmit={handleManualAddTickets} className="pt-3 border-t border-gray-800 space-y-2">
+              <label className="text-[11px] font-bold text-gray-300 uppercase block">
+                ✍️ Saisie manuelle de numéros vendus
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={manualTicketsInput}
+                  onChange={(e) => setManualTicketsInput(e.target.value)}
+                  placeholder="ex: 5, 12, 14 ou 5 12 14"
+                  className="flex-1 bg-black/60 border border-gray-700 rounded-xl px-3 py-2 text-xs font-mono text-white placeholder-gray-500 focus:outline-none focus:border-[#ff4f00]"
+                />
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-[#ff4f00] hover:bg-[#e04500] text-white text-xs font-bold rounded-xl transition-all shadow-md cursor-pointer shrink-0"
+                >
+                  Marquer comme vendues 🎟️
+                </button>
+              </div>
+              <p className="text-[10px] text-gray-500">
+                Saisissez plusieurs numéros séparés par des virgules ou des espaces.
+              </p>
+            </form>
           </div>
         </div>
       </div>
