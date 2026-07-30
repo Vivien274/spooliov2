@@ -675,155 +675,160 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                     ))
                   )}
                 </select>
-              </div>
-            </SectionCard>
+                {(() => {
+                  const isFidgetCat = (form.category || "").toLowerCase().includes("fidget");
+                  if (!isFidgetCat) return null;
 
-            {/* 🧭 Boussole Sensorielle & Critères Fidgets */}
-            <SectionCard
-              title="🧭 Boussole Sensorielle & Critères Fidgets"
-              icon={<span className="text-lg">🧭</span>}
-              cardBg={cls.cardBg} border={cls.border} textMain={cls.textMain}
-            >
-              {/* Checkbox Visibilité */}
-              <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/10">
-                <input
-                  type="checkbox"
-                  id="showInSensoryCompass"
-                  checked={!!form.showInSensoryCompass}
-                  onChange={(e) => setForm(prev => ({ ...prev, showInSensoryCompass: e.target.checked }))}
-                  className="w-5 h-5 accent-[#ff4f00] rounded cursor-pointer"
-                />
-                <label htmlFor="showInSensoryCompass" className="flex flex-col cursor-pointer">
-                  <span className={`text-sm font-bold ${cls.textMain}`}>Afficher ce produit dans la Boussole Sensorielle 🧭</span>
-                  <span className={`text-xs ${cls.textMuted}`}>Active la recommandation interactive pour les visiteurs cherchant des fidgets</span>
-                </label>
-              </div>
-
-              {/* Critères Sensoriels */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-2">
-
-                {/* Niveau de Bruit (Barre de Slide) */}
-                <div className="flex flex-col gap-2.5 sm:col-span-2 bg-white/5 border border-white/10 p-4 rounded-2xl">
-                  <div className="flex items-center justify-between">
-                    <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider flex items-center gap-2`}>
-                      <span>🔊 Niveau de Bruit (Crans de 1 à 10) :</span>
+              return (
+                <SectionCard
+                  title="Boussole Sensorielle & Critères Fidgets"
+                  icon={<span className="text-lg">🧭</span>}
+                  cardBg={cls.cardBg} border={cls.border} textMain={cls.textMain}
+                >
+                  {/* Checkbox Visibilité */}
+                  <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/10">
+                    <input
+                      type="checkbox"
+                      id="showInSensoryCompass"
+                      checked={!!form.showInSensoryCompass}
+                      onChange={(e) => setForm(prev => ({ ...prev, showInSensoryCompass: e.target.checked }))}
+                      className="w-5 h-5 accent-[#ff4f00] rounded cursor-pointer"
+                    />
+                    <label htmlFor="showInSensoryCompass" className="flex flex-col cursor-pointer">
+                      <span className={`text-sm font-bold ${cls.textMain}`}>Afficher ce produit dans la Boussole Sensorielle 🧭</span>
+                      <span className={`text-xs ${cls.textMuted}`}>Active la recommandation interactive pour les visiteurs cherchant des fidgets</span>
                     </label>
-                    <span className="font-extrabold text-sm text-[#ff4f00]">
-                      {formatNoiseLevelText(parseNoiseLevel(form.sensoryNoiseLevel))}
-                    </span>
                   </div>
-                  <input
-                    type="range"
-                    min="1"
-                    max="10"
-                    step="1"
-                    value={parseNoiseLevel(form.sensoryNoiseLevel)}
-                    onChange={(e) => {
-                      const val = e.target.value;
-                      setForm(prev => ({ ...prev, sensoryNoiseLevel: val }));
-                    }}
-                    className="w-full h-2.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#ff4f00]"
-                  />
-                  <div className="flex justify-between text-[10px] font-bold text-neutral-400 px-1 pt-1 select-none">
-                    <span className="cursor-pointer hover:text-white" onClick={() => setForm(prev => ({ ...prev, sensoryNoiseLevel: "1" }))}>1 (Silencieux)</span>
-                    <span className="cursor-pointer hover:text-white" onClick={() => setForm(prev => ({ ...prev, sensoryNoiseLevel: "5" }))}>5 (Clic doux)</span>
-                    <span className="cursor-pointer hover:text-white" onClick={() => setForm(prev => ({ ...prev, sensoryNoiseLevel: "10" }))}>10 (Ultra sonore)</span>
-                  </div>
-                </div>
 
-                {/* Compacité / Format (Segmented Control) */}
-                <div className="flex flex-col gap-2 sm:col-span-2">
-                  <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Compacité / Format 📏</label>
-                  <div className="grid grid-cols-3 gap-2 p-1.5 bg-white/5 border border-white/10 rounded-2xl">
-                    {[
-                      { id: "pocket", icon: "📏", label: "Poche / Porte-clé", sub: "1 main discret" },
-                      { id: "medium", icon: "🖥️", label: "Moyen / Bureau", sub: "Main complète" },
-                      { id: "large", icon: "🤲", label: "Grand Format", sub: "Deux mains" },
-                    ].map((item) => {
-                      const isSelected = (form.sensorySize || "pocket") === item.id;
-                      return (
-                        <button
-                          key={item.id}
-                          type="button"
-                          onClick={() => setForm(prev => ({ ...prev, sensorySize: item.id }))}
-                          className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl transition-all cursor-pointer text-center select-none ${
-                            isSelected
-                              ? "bg-[#ff4f00] text-white font-extrabold shadow-md shadow-[#ff4f00]/30"
-                              : "text-neutral-400 hover:text-white hover:bg-white/5 font-medium"
-                          }`}
-                        >
-                          <span className="text-xs sm:text-sm font-bold">{item.icon} {item.label}</span>
-                          <span className="text-[10px] opacity-80 mt-0.5">{item.sub}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
+                  {/* Critères Sensoriels */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mt-2">
 
-                {/* Type de manipulation (Segmented Control) */}
-                <div className="flex flex-col gap-2 sm:col-span-2">
-                  <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Type de manipulation sensorielle 🤲</label>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 p-1.5 bg-white/5 border border-white/10 rounded-2xl">
-                    {[
-                      { id: "cliquer", icon: "🎯", label: "Cliquer" },
-                      { id: "manipuler", icon: "🌀", label: "Manipuler" },
-                      { id: "resoudre", icon: "🧩", label: "Résoudre" },
-                      { id: "caresser", icon: "🌿", label: "Caresser" },
-                      { id: "tourner", icon: "⚙️", label: "Tourner" },
-                      { id: "presser", icon: "✊", label: "Presser" },
-                    ].map((item) => {
-                      const isSelected = (form.sensoryCategory || "manipuler") === item.id;
-                      return (
-                        <button
-                          key={item.id}
-                          type="button"
-                          onClick={() => setForm(prev => ({ ...prev, sensoryCategory: item.id }))}
-                          className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl transition-all cursor-pointer text-xs font-bold select-none ${
-                            isSelected
-                              ? "bg-[#2F3CD9] text-white font-extrabold shadow-md shadow-[#2F3CD9]/30"
-                              : "text-neutral-400 hover:text-white hover:bg-white/5"
-                          }`}
-                        >
-                          <span>{item.icon}</span>
-                          <span>{item.label}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Profils & Besoins */}
-                <div className="flex flex-col gap-2 sm:col-span-2">
-                  <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Besoins & Profils ciblés 🧠</label>
-                  <div className="flex flex-wrap gap-3">
-                    {[
-                      { id: "tdah", label: "TDAH (Hyperactivité & Besoins moteurs)" },
-                      { id: "anxiety", label: "Anxiété & Anti-stress" },
-                      { id: "focus", label: "Focus & Concentration intense" },
-                      { id: "autism", label: "Autisme & Stimulation sensorielle (TSA)" },
-                    ].map((profile) => {
-                      const currentProfiles = Array.isArray(form.sensoryProfiles) ? form.sensoryProfiles : [];
-                      const isChecked = currentProfiles.includes(profile.id);
-
-                      return (
-                        <label key={profile.id} className="flex items-center gap-2 text-xs cursor-pointer select-none bg-white/5 border border-white/10 px-3 py-2 rounded-xl hover:bg-white/10">
-                          <input
-                            type="checkbox"
-                            checked={isChecked}
-                            onChange={(e) => {
-                              const updated = e.target.checked
-                                ? [...currentProfiles, profile.id]
-                                : currentProfiles.filter((p: string) => p !== profile.id);
-                              setForm(prev => ({ ...prev, sensoryProfiles: updated }));
-                            }}
-                            className="w-4 h-4 accent-[#ff4f00] rounded"
-                          />
-                          <span className={cls.textMain}>{profile.label}</span>
+                    {/* Niveau de Bruit (Barre de Slide) */}
+                    <div className="flex flex-col gap-2.5 sm:col-span-2 bg-white/5 border border-white/10 p-4 rounded-2xl">
+                      <div className="flex items-center justify-between">
+                        <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider flex items-center gap-2`}>
+                          <span>🔊 Niveau de Bruit (Crans de 1 à 10) :</span>
                         </label>
-                      );
-                    })}
+                        <span className="font-extrabold text-sm text-[#ff4f00]">
+                          {formatNoiseLevelText(parseNoiseLevel(form.sensoryNoiseLevel))}
+                        </span>
+                      </div>
+                      <input
+                        type="range"
+                        min="1"
+                        max="10"
+                        step="1"
+                        value={parseNoiseLevel(form.sensoryNoiseLevel)}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setForm(prev => ({ ...prev, sensoryNoiseLevel: val }));
+                        }}
+                        className="w-full h-2.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#ff4f00]"
+                      />
+                      <div className="flex justify-between text-[10px] font-bold text-neutral-400 px-1 pt-1 select-none">
+                        <span className="cursor-pointer hover:text-white" onClick={() => setForm(prev => ({ ...prev, sensoryNoiseLevel: "1" }))}>1 (Silencieux)</span>
+                        <span className="cursor-pointer hover:text-white" onClick={() => setForm(prev => ({ ...prev, sensoryNoiseLevel: "5" }))}>5 (Clic doux)</span>
+                        <span className="cursor-pointer hover:text-white" onClick={() => setForm(prev => ({ ...prev, sensoryNoiseLevel: "10" }))}>10 (Ultra sonore)</span>
+                      </div>
+                    </div>
+
+                    {/* Compacité / Format (Segmented Control) */}
+                    <div className="flex flex-col gap-2 sm:col-span-2">
+                      <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Compacité / Format 📏</label>
+                      <div className="grid grid-cols-3 gap-2 p-1.5 bg-white/5 border border-white/10 rounded-2xl">
+                        {[
+                          { id: "pocket", icon: "📏", label: "Poche / Porte-clé", sub: "1 main discret" },
+                          { id: "medium", icon: "🖥️", label: "Moyen / Bureau", sub: "Main complète" },
+                          { id: "large", icon: "🤲", label: "Grand Format", sub: "Deux mains" },
+                        ].map((item) => {
+                          const isSelected = (form.sensorySize || "pocket") === item.id;
+                          return (
+                            <button
+                              key={item.id}
+                              type="button"
+                              onClick={() => setForm(prev => ({ ...prev, sensorySize: item.id }))}
+                              className={`flex flex-col items-center justify-center py-2.5 px-3 rounded-xl transition-all cursor-pointer text-center select-none ${
+                                isSelected
+                                  ? "bg-[#ff4f00] text-white font-extrabold shadow-md shadow-[#ff4f00]/30"
+                                  : "text-neutral-400 hover:text-white hover:bg-white/5 font-medium"
+                              }`}
+                            >
+                              <span className="text-xs sm:text-sm font-bold">{item.icon} {item.label}</span>
+                              <span className="text-[10px] opacity-80 mt-0.5">{item.sub}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Type de manipulation (Segmented Control) */}
+                    <div className="flex flex-col gap-2 sm:col-span-2">
+                      <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Type de manipulation sensorielle 🤲</label>
+                      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 p-1.5 bg-white/5 border border-white/10 rounded-2xl">
+                        {[
+                          { id: "cliquer", icon: "🎯", label: "Cliquer" },
+                          { id: "manipuler", icon: "🌀", label: "Manipuler" },
+                          { id: "resoudre", icon: "🧩", label: "Résoudre" },
+                          { id: "tourner", icon: "🔄", label: "Tourner / Spinner" },
+                          { id: "presser", icon: "🧽", label: "Presser / Antistress" },
+                          { id: "toucher", icon: "✨", label: "Toucher / Texture" },
+                        ].map((item) => {
+                          const isSelected = (form.sensoryCategory || "cliquer") === item.id;
+                          return (
+                            <button
+                              key={item.id}
+                              type="button"
+                              onClick={() => setForm(prev => ({ ...prev, sensoryCategory: item.id }))}
+                              className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl transition-all cursor-pointer text-xs font-bold select-none ${
+                                isSelected
+                                  ? "bg-[#2F3CD9] text-white font-extrabold shadow-md shadow-[#2F3CD9]/30"
+                                  : "text-neutral-400 hover:text-white hover:bg-white/5"
+                              }`}
+                            >
+                              <span>{item.icon}</span>
+                              <span>{item.label}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Profils & Besoins */}
+                    <div className="flex flex-col gap-2 sm:col-span-2">
+                      <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Besoins & Profils ciblés 🧠</label>
+                      <div className="flex flex-wrap gap-3">
+                        {[
+                          { id: "tdah", label: "TDAH (Hyperactivité & Besoins moteurs)" },
+                          { id: "anxiety", label: "Anxiété & Anti-stress" },
+                          { id: "focus", label: "Focus & Concentration intense" },
+                          { id: "autism", label: "Autisme & Stimulation sensorielle (TSA)" },
+                        ].map((profile) => {
+                          const currentProfiles = Array.isArray(form.sensoryProfiles) ? form.sensoryProfiles : [];
+                          const isChecked = currentProfiles.includes(profile.id);
+
+                          return (
+                            <label key={profile.id} className="flex items-center gap-2 text-xs cursor-pointer select-none bg-white/5 border border-white/10 px-3 py-2 rounded-xl hover:bg-white/10">
+                              <input
+                                type="checkbox"
+                                checked={isChecked}
+                                onChange={(e) => {
+                                  const updated = e.target.checked
+                                    ? [...currentProfiles, profile.id]
+                                    : currentProfiles.filter((p: string) => p !== profile.id);
+                                  setForm(prev => ({ ...prev, sensoryProfiles: updated }));
+                                }}
+                                className="w-4 h-4 accent-[#ff4f00] rounded"
+                              />
+                              <span className={cls.textMain}>{profile.label}</span>
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </SectionCard>
+              );
+            })()}
               </div>
             </SectionCard>
 
@@ -1490,11 +1495,11 @@ export default function ProductFormClient({ productId, isNew }: Props) {
               )}
 
               <div className="flex flex-col gap-4 pt-4 border-t border-white/5">
-                {/* Toggle Gérer les stocks */}
+                {/* Toggle Limiter le stock */}
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col gap-0.5">
-                    <span className={`text-xs font-semibold ${cls.textMain} uppercase tracking-wider`}>Gérer les stocks de ce produit</span>
-                    <span className={`text-[11px] ${cls.textMuted}`}>Activer pour saisir une quantité de stock limitée.</span>
+                    <span className={`text-xs font-semibold ${cls.textMain} uppercase tracking-wider`}>Stock limité à XX exemplaires</span>
+                    <span className={`text-[11px] ${cls.textMuted}`}>Par défaut, le produit est fabriqué à la demande. Cochez cette case pour imposer une limite exacte.</span>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
                     <input
@@ -1502,9 +1507,9 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                       checked={form.stock >= 0}
                       onChange={(e) => {
                         if (e.target.checked) {
-                          set("stock")(10); // default to 10 in stock
+                          set("stock")(10); // default limited quantity
                         } else {
-                          set("stock")(-1); // default to unlimited / available
+                          set("stock")(-1); // fabricated on demand / unlimited
                         }
                       }}
                       className="sr-only peer"
@@ -1513,24 +1518,25 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                   </label>
                 </div>
 
-                {/* If stock tracking is enabled (stock >= 0) */}
+                {/* If stock limit is enabled (stock >= 0) */}
                 {form.stock >= 0 ? (
                   <InputField
-                    label="Quantité en stock"
+                    label="Nombre d'exemplaires maximum"
                     value={String(form.stock)}
                     onChange={(v) => set("stock")(parseInt(v) || 0)}
                     type="number"
+                    placeholder="Ex: 5"
                     inputBg={cls.inputBg}
                     border={cls.border}
                     textMain={cls.textMain}
                     textMuted={cls.textMuted}
                   />
                 ) : (
-                  /* If stock tracking is disabled (stock < 0) */
+                  /* If on-demand / unlimited (stock < 0) */
                   <div className="flex items-center justify-between pt-2 border-t border-white/5">
                     <div className="flex flex-col gap-0.5">
                       <span className={`text-xs font-semibold ${cls.textMain} uppercase tracking-wider`}>Disponible à la vente</span>
-                      <span className={`text-[11px] ${cls.textMuted}`}>Si désactivé, le produit sera marqué comme indisponible mais restera visible.</span>
+                      <span className={`text-[11px] ${cls.textMuted}`}>Fabriqué à la demande. Décocher pour marquer le produit comme temporairement indisponible.</span>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input
@@ -1540,7 +1546,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                           if (e.target.checked) {
                             set("stock")(-1); // available
                           } else {
-                            set("stock")(-2); // unavailable
+                            set("stock")(0); // mark unavailable
                           }
                         }}
                         className="sr-only peer"
