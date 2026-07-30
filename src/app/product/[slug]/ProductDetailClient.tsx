@@ -15,21 +15,13 @@ interface ProductDetailClientProps {
   slug: string;
 }
 
-export function isVideoMedia(src?: string): boolean {
-  if (!src) return false;
-  const clean = src.toLowerCase().split("?")[0];
-  return (
-    clean.endsWith(".mp4") ||
-    clean.endsWith(".webm") ||
-    clean.endsWith(".mov") ||
-    clean.endsWith(".m4v") ||
-    clean.endsWith(".ogg") ||
-    clean.includes("youtube.com") ||
-    clean.includes("youtu.be") ||
-    clean.includes("vimeo.com") ||
-    src.startsWith("data:video/")
-  );
-}
+import {
+  isVideoMedia,
+  isYouTubeUrl,
+  getYouTubeEmbedUrl,
+  getYouTubeThumbnail
+} from "@/lib/mediaUtils";
+export { isVideoMedia };
 
 export default function ProductDetailClient({ slug }: ProductDetailClientProps) {
   const { addToCart } = useCart();
@@ -675,12 +667,13 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                     const isVid = isVideoMedia(activeSrc);
 
                     if (isVid) {
+                      const ytEmbedUrl = isYouTubeUrl(activeSrc) ? getYouTubeEmbedUrl(activeSrc) : null;
                       return (
                         <div className="w-full h-full relative flex items-center justify-center bg-black">
-                          {activeSrc.includes("youtube.com") || activeSrc.includes("youtu.be") ? (
+                          {ytEmbedUrl ? (
                             <iframe
-                              src={activeSrc.replace("watch?v=", "embed/")}
-                              className="w-full h-full border-0 rounded-none lg:rounded-xl"
+                              src={ytEmbedUrl}
+                              className="w-full h-full border-0 rounded-none lg:rounded-xl pointer-events-auto"
                               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                               allowFullScreen
                             />
@@ -795,6 +788,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               <div className="flex gap-3 mt-4 overflow-x-auto pb-2 select-none no-scrollbar">
                 {product.images.map((img, idx) => {
                   const isVid = isVideoMedia(img.src);
+                  const ytThumb = isYouTubeUrl(img.src) ? getYouTubeThumbnail(img.src) : null;
                   return (
                     <button
                       key={`${img.id}-${idx}`}
@@ -807,7 +801,11 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                     >
                       {isVid ? (
                         <div className="w-full h-full relative flex items-center justify-center bg-black/70">
-                          <video src={img.src} muted preload="metadata" className="w-full h-full object-cover opacity-60" />
+                          {ytThumb ? (
+                            <Image src={ytThumb} alt={img.alt || img.name} fill sizes="80px" unoptimized className="object-cover opacity-80 no-invert" />
+                          ) : (
+                            <video src={img.src} muted preload="metadata" className="w-full h-full object-cover opacity-60" />
+                          )}
                           <div className="absolute inset-0 flex items-center justify-center bg-black/30">
                             <svg className="w-7 h-7 text-white drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
                               <path d="M8 5v14l11-7z" />

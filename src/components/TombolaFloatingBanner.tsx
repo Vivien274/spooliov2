@@ -9,6 +9,17 @@ export default function TombolaFloatingBanner() {
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [isMinimized, setIsMinimized] = useState<boolean>(false);
   const [isClient, setIsClient] = useState<boolean>(false);
+  const [tombolaConfig, setTombolaConfig] = useState<{
+    title: string;
+    estimatedValue: number;
+    totalCases: number;
+    status: string;
+  }>({
+    title: "Mega Pack Fidget & Impression 3D Spoolio",
+    estimatedValue: 85.0,
+    totalCases: 40,
+    status: "active",
+  });
 
   useEffect(() => {
     setIsClient(true);
@@ -27,7 +38,36 @@ export default function TombolaFloatingBanner() {
       if (savedMinimized === "true") {
         setIsMinimized(true);
       }
+
+      // Check saved tombola config from admin
+      const savedConfig = localStorage.getItem("spoolio_tombola_config");
+      if (savedConfig) {
+        const parsed = JSON.parse(savedConfig);
+        if (parsed && parsed.title) {
+          setTombolaConfig({
+            title: parsed.title,
+            estimatedValue: parsed.estimatedValue ?? 85,
+            totalCases: parsed.totalCases ?? 40,
+            status: parsed.status || "active",
+          });
+        }
+      }
     } catch (e) {}
+
+    // Fetch active tombola data configured in Admin
+    fetch("/api/tombola")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.tombola) {
+          setTombolaConfig({
+            title: data.tombola.title || "Mega Pack Fidget & Impression 3D Spoolio",
+            estimatedValue: data.tombola.estimatedValue ?? 85,
+            totalCases: data.tombola.totalCases ?? 40,
+            status: data.tombola.status || "active",
+          });
+        }
+      })
+      .catch((e) => console.warn("Failed to fetch tombola config for floating banner:", e));
   }, []);
 
   const handleClose = () => {
@@ -107,7 +147,7 @@ export default function TombolaFloatingBanner() {
             </div>
 
             <p className="text-xs text-gray-300 leading-relaxed font-medium">
-              Réserve ta case de 1 à 40 et tente de remporter le <strong className="text-white">Mega Pack Fidget 3D (85€)</strong> !
+              Réserve ta case de 1 à {tombolaConfig.totalCases} et tente de remporter : <strong className="text-white">{tombolaConfig.title}{tombolaConfig.estimatedValue ? ` (${tombolaConfig.estimatedValue}€)` : ""}</strong> !
             </p>
 
             <div className="pt-2">

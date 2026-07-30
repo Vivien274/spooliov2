@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useAdminTheme } from "../../AdminThemeContext";
 import WysiwygEditor from "@/components/WysiwygEditor";
 import { parseNoiseLevel, formatNoiseLevelText } from "@/lib/sensoryUtils";
+import { isVideoMedia, isYouTubeUrl, getYouTubeThumbnail } from "@/lib/mediaUtils";
 
 const CATEGORIES = [
   "Accessoires & Petits Objets",
@@ -341,6 +342,20 @@ export default function ProductFormClient({ productId, isNew }: Props) {
   };
 
   const uploadImage = async (file: File) => {
+    // Maximum direct upload size limit for serverless HTTP POST requests (4.5MB)
+    const MAX_FILE_SIZE_MB = 4.5;
+    if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      const fileSizeMB = (file.size / (1024 * 1024)).toFixed(1);
+      alert(
+        `⚠️ Fichier trop volumineux (${fileSizeMB} Mo)\n\n` +
+        `Pour des raisons de limites serveur (Vercel / Next.js), le téléversement direct est limité à ${MAX_FILE_SIZE_MB} Mo par fichier.\n\n` +
+        `Solutions pour votre vidéo :\n` +
+        `1. Compressez la vidéo sous ${MAX_FILE_SIZE_MB} Mo (ex: avec Handbrake, CapCut ou Clideo — une vidéo web courte 720p pèse généralement 2-3 Mo).\n` +
+        `2. Ou hébergez la vidéo sur YouTube, Cloudinary, Vercel Blob ou un Drive, puis utilisez l'option "+ Ajouter par URL".`
+      );
+      return;
+    }
+
     setIsUploadingImage(true);
     try {
       let fileToUpload = file;
@@ -359,8 +374,15 @@ export default function ProductFormClient({ productId, isNew }: Props) {
         body: formData
       });
 
-      if (res.ok) {
-        const data = await res.json();
+      const responseText = await res.text();
+      let data: any = null;
+      try {
+        data = JSON.parse(responseText);
+      } catch {
+        // Response wasn't valid JSON (e.g. plain text or HTML error from server proxy)
+      }
+
+      if (res.ok && data?.imageUrl) {
         const newImage = {
           id: Date.now() + Math.floor(Math.random() * 1000),
           src: data.imageUrl,
@@ -368,8 +390,15 @@ export default function ProductFormClient({ productId, isNew }: Props) {
         };
         setForm(prev => ({ ...prev, images: [...prev.images, newImage] }));
       } else {
-        const data = await res.json();
-        alert(`Erreur d'upload : ${data.error || 'Erreur inconnue'}`);
+        let errorMsg = data?.error;
+        if (!errorMsg) {
+          if (res.status === 413 || responseText.includes("Request Entity Too Large")) {
+            errorMsg = "Le fichier dépasse la limite serveur de 4,5 Mo pour l'import direct. Veuillez la compresser sous 4 Mo ou utiliser l'option '+ Ajouter par URL'.";
+          } else {
+            errorMsg = `Erreur serveur (${res.status}) : ${responseText.slice(0, 150) || 'Erreur inconnue'}`;
+          }
+        }
+        alert(`Erreur d'upload : ${errorMsg}`);
       }
     } catch (err: any) {
       console.error("Upload media error:", err);
@@ -880,13 +909,8 @@ export default function ProductFormClient({ productId, isNew }: Props) {
               {/* Media grid (Photos + Vidéos) */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {form.images.map((img, idx) => {
-                  const isVid = img.src && (
-                    img.src.endsWith(".mp4") ||
-                    img.src.endsWith(".webm") ||
-                    img.src.endsWith(".mov") ||
-                    img.src.includes("youtube.com") ||
-                    img.src.includes("youtu.be")
-                  );
+                  const isVid = isVideoMedia(img.src);
+                  const ytThumb = isYouTubeUrl(img.src) ? getYouTubeThumbnail(img.src) : null;
                   const isCover = idx === 0;
 
                   const setAsCover = (index: number) => {
@@ -926,8 +950,12 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                       {/* Thumbnail Content */}
                       {isVid ? (
                         <div className="w-full h-full relative flex items-center justify-center bg-black">
-                          <video src={img.src} muted className="object-cover w-full h-full opacity-60" />
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                          {ytThumb ? (
+                            <Image src={ytThumb} alt={img.alt || "Vidéo YouTube"} fill unoptimized className="object-cover opacity-75" />
+                          ) : (
+                            <video src={img.src} muted className="object-cover w-full h-full opacity-60" />
+                          )}
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/30">
                             <span className="text-xl">🎥</span>
                           </div>
                         </div>

@@ -32,6 +32,15 @@ export async function POST(request: Request) {
       );
     }
 
+    // Validate max file size (4.5 MB - serverless request limit)
+    const MAX_FILE_SIZE = 4.5 * 1024 * 1024;
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json(
+        { error: `Le fichier est trop volumineux (${(file.size / (1024 * 1024)).toFixed(1)} Mo). L'importation directe en ligne est limitée à 4,5 Mo. Veuillez la compresser sous 4 Mo ou utiliser l'ajout par URL.` },
+        { status: 413 }
+      );
+    }
+
     // Validate that file is an image or video
     if (!file.type.startsWith("image/") && !file.type.startsWith("video/")) {
       return NextResponse.json(
