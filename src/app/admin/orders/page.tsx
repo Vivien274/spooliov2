@@ -804,6 +804,8 @@ export default function AdminOrdersPage() {
             </div>
           </div>
         </div>
+      )}
+
       {/* Create Manual Order Popup Modal */}
       {showCreateModal && (
         <div
