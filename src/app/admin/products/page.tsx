@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAdminTheme } from "../AdminThemeContext";
+import { computeSeoScore } from "@/lib/seoUtils";
 
 const ADMIN_BLUE = "#2F3CD9";
 
@@ -350,7 +351,7 @@ export default function AdminProductsPage() {
                       </span>
                     </td>
                     <td className="px-5 py-4">
-                      <SeoScoreBadge score={p.seoScore || 65} />
+                      <SeoScoreBadge score={computeSeoScore(p)} />
                     </td>
                     <td className="px-5 pr-6 py-4">
                       <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">

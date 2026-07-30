@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import fs from 'fs';
 import path from 'path';
+import { computeSeoScore } from '@/lib/seoUtils';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -110,6 +111,11 @@ function mapProduct(p: any) {
     images: images.length > 0 ? images : [{ id: 1, src: "/images/figma_keychains.jpg", name: decodeHtml(p.name), alt: p.name }],
     short_description: p.shortDescription || p.short_description || "",
     description: p.description || "",
+    metaTitle: p.metaTitle || p.meta_title || "",
+    metaDescription: p.metaDescription || p.meta_description || "",
+    meta_title: p.metaTitle || p.meta_title || "",
+    meta_description: p.metaDescription || p.meta_description || "",
+    seoScore: computeSeoScore(p),
     date_created: p.dateCreated ? new Date(p.dateCreated).toISOString() : (p.date_created ? new Date(p.date_created).toISOString() : null),
     attributes: parsedAttributes,
     tags: tagsList,

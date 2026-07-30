@@ -8,6 +8,7 @@ import { useAdminTheme } from "../../AdminThemeContext";
 import WysiwygEditor from "@/components/WysiwygEditor";
 import { parseNoiseLevel, formatNoiseLevelText } from "@/lib/sensoryUtils";
 import { isVideoMedia, isYouTubeUrl, getYouTubeThumbnail } from "@/lib/mediaUtils";
+import { computeSeoScore } from "@/lib/seoUtils";
 
 const CATEGORIES = [
   "Accessoires & Petits Objets",
@@ -100,17 +101,6 @@ function TextareaField({ label, value, onChange, placeholder, rows = 4, inputBg,
       />
     </div>
   );
-}
-
-function computeSeoScore(data: ProductData): number {
-  let score = 0;
-  if (data.name.length >= 10) score += 15;
-  if (data.shortDescription.length >= 50) score += 15;
-  if (data.description.length >= 200) score += 20;
-  if (data.metaTitle.length >= 30 && data.metaTitle.length <= 60) score += 20;
-  if (data.metaDescription.length >= 100 && data.metaDescription.length <= 160) score += 20;
-  if (data.tags.length >= 3) score += 10;
-  return score;
 }
 
 export default function ProductFormClient({ productId, isNew }: Props) {
