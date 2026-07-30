@@ -42,6 +42,28 @@ export default function AdminOrdersPage() {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [proposingSlots, setProposingSlots] = useState<Record<string, string>>({});
   const [pickupLoading, setPickupLoading] = useState<string | null>(null);
+  const [resendingEmail, setResendingEmail] = useState<string | null>(null);
+
+  const handleResendEmail = async (orderId: string, email: string) => {
+    setResendingEmail(orderId);
+    try {
+      const res = await fetch("/api/admin/orders/resend-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId, targetEmail: email }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert(`✅ ${data.message || "Email renvoyé avec succès !"}`);
+      } else {
+        alert(`⚠️ ${data.error || "Erreur lors du renvoi de l'email."}`);
+      }
+    } catch (e) {
+      alert("Erreur réseau lors de l'envoi.");
+    } finally {
+      setResendingEmail(null);
+    }
+  };
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -649,6 +671,17 @@ export default function AdminOrdersPage() {
                     </a>
                   </div>
                 )}
+
+                <button
+                  onClick={() => {
+                    const customEmail = prompt("Renvoyer l'email de confirmation à cette adresse :", selectedOrder.email);
+                    if (customEmail) handleResendEmail(selectedOrder.id, customEmail.trim());
+                  }}
+                  disabled={resendingEmail === selectedOrder.id}
+                  className="px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500 hover:text-white font-bold text-[10px] uppercase tracking-wider transition-all cursor-pointer shrink-0"
+                >
+                  {resendingEmail === selectedOrder.id ? "Envoi..." : "Renvoyer l'email 📧"}
+                </button>
 
                 {/* Status action buttons */}
                 <div className="flex gap-2 items-center ml-auto" onClick={(e) => e.stopPropagation()}>

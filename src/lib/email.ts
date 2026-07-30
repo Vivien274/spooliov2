@@ -34,9 +34,8 @@ export async function sendOrderConfirmationEmail({
     // Determine sender address: look for RESEND_EMAIL_FROM first
     const fromAddress = process.env.RESEND_EMAIL_FROM || process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
     
-    // In Resend sandbox mode (using onboarding@resend.dev), you can only send emails to the account owner
-    // We let the developer force a recipient for testing in preview/dev env
-    const recipient = process.env.RESEND_TO_EMAIL || customerEmail;
+    // Recipient address: use actual customerEmail in priority
+    const recipient = customerEmail || process.env.RESEND_TO_EMAIL;
 
     const trackingUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://v2.spoolio.fr'}/suivi?id=${orderId}&email=${encodeURIComponent(customerEmail)}`;
 
