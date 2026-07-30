@@ -64,6 +64,72 @@ export default function AdminOrdersPage() {
       setResendingEmail(null);
     }
   };
+  const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
+  const [createLoading, setCreateLoading] = useState<boolean>(false);
+  const [newCustomerName, setNewCustomerName] = useState<string>("");
+  const [newCustomerEmail, setNewCustomerEmail] = useState<string>("");
+  const [newCustomerPhone, setNewCustomerPhone] = useState<string>("");
+  const [newTombolaCases, setNewTombolaCases] = useState<string>("");
+  const [newItemName, setNewItemName] = useState<string>("");
+  const [newTotal, setNewTotal] = useState<string>("6.00");
+  const [newSendEmail, setNewSendEmail] = useState<boolean>(true);
+
+  const handleCreateManualOrder = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCustomerEmail.trim()) {
+      alert("Veuillez saisir l'email du client.");
+      return;
+    }
+
+    setCreateLoading(true);
+
+    let itemName = newItemName.trim();
+    if (!itemName) {
+      if (newTombolaCases.trim()) {
+        itemName = `Ticket Tombola Spoolio - Cases #${newTombolaCases.trim()}`;
+      } else {
+        itemName = "Achat Boutique Spoolio";
+      }
+    }
+
+    const casesCount = newTombolaCases.split(/[\s,;]+/).filter(Boolean).length;
+    const quantity = casesCount > 0 ? casesCount : 1;
+
+    try {
+      const res = await fetch("/api/admin/orders/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customerName: newCustomerName,
+          customerEmail: newCustomerEmail,
+          customerPhone: newCustomerPhone,
+          items: [{ name: itemName, quantity, price: (parseFloat(newTotal) / (quantity || 1)).toFixed(2) }],
+          total: parseFloat(newTotal) || 0,
+          shippingMethod: "tombola",
+          sendEmail: newSendEmail
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        alert(`✅ ${data.message}`);
+        setShowCreateModal(false);
+        setNewCustomerName("");
+        setNewCustomerEmail("");
+        setNewCustomerPhone("");
+        setNewTombolaCases("");
+        setNewItemName("");
+        setNewTotal("6.00");
+        fetchOrders();
+      } else {
+        alert(`⚠️ ${data.error || "Erreur lors de la création."}`);
+      }
+    } catch (err) {
+      alert("Erreur réseau lors de la création.");
+    } finally {
+      setCreateLoading(false);
+    }
+  };
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -316,7 +382,14 @@ export default function AdminOrdersPage() {
             {orders.length} commandes au total · {orders.filter(o => o.status === "attente_impression").length} nouvelles à imprimer
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap items-center">
+          <button
+            onClick={() => setShowCreateModal(true)}
+            className="text-xs px-4 py-2 border border-emerald-500/40 bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500 hover:text-black rounded-xl font-bold transition-all cursor-pointer shadow-md flex items-center gap-1.5"
+          >
+            <span>➕</span>
+            <span>Créer une commande</span>
+          </button>
           <button
             onClick={handleExportBoxtalCSV}
             className="text-xs px-4 py-2 border border-blue-500/30 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white rounded-xl font-bold transition-all cursor-pointer"
@@ -327,7 +400,7 @@ export default function AdminOrdersPage() {
             onClick={fetchOrders}
             className={`text-xs px-4 py-2 border ${cls.border} ${cls.inputBg} rounded-xl hover:text-white cursor-pointer transition-colors`}
           >
-            Rafraîchir les commandes 🔄
+            Rafraîchir 🔄
           </button>
         </div>
       </div>
@@ -729,6 +802,133 @@ export default function AdminOrdersPage() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      {/* Create Manual Order Popup Modal */}
+      {showCreateModal && (
+        <div
+          onClick={() => setShowCreateModal(false)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-fade-in"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={`relative w-full max-w-lg ${cls.cardBg} border ${cls.border} rounded-3xl overflow-hidden shadow-2xl space-y-6 p-6 sm:p-8`}
+          >
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <div>
+                <span className="text-[10px] uppercase font-extrabold text-emerald-400 tracking-wider">
+                  Saisie d&apos;une commande client
+                </span>
+                <h3 className="text-xl font-black font-antonio text-white mt-0.5 uppercase">
+                  ➕ Nouvelle Commande Manuelle
+                </h3>
+              </div>
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateManualOrder} className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-gray-300 uppercase">Nom du client</label>
+                <input
+                  type="text"
+                  value={newCustomerName}
+                  onChange={(e) => setNewCustomerName(e.target.value)}
+                  placeholder="ex: Jean Dupont"
+                  className="w-full bg-black/50 border border-gray-700 rounded-xl px-4 py-2.5 text-sm font-semibold text-white focus:outline-none focus:border-[#ff4f00]"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-gray-300 uppercase">
+                  Adresse Email du client <span className="text-red-400">*</span>
+                </label>
+                <input
+                  type="email"
+                  value={newCustomerEmail}
+                  onChange={(e) => setNewCustomerEmail(e.target.value)}
+                  placeholder="ex: client@gmail.com"
+                  className="w-full bg-black/50 border border-gray-700 rounded-xl px-4 py-2.5 text-sm font-semibold text-white focus:outline-none focus:border-[#ff4f00]"
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-gray-300 uppercase">Téléphone (optionnel)</label>
+                  <input
+                    type="text"
+                    value={newCustomerPhone}
+                    onChange={(e) => setNewCustomerPhone(e.target.value)}
+                    placeholder="06 12 34 56 78"
+                    className="w-full bg-black/50 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#ff4f00]"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-gray-300 uppercase">Montant Total Payé (€)</label>
+                  <input
+                    type="number"
+                    step="0.5"
+                    value={newTotal}
+                    onChange={(e) => setNewTotal(e.target.value)}
+                    placeholder="6.00"
+                    className="w-full bg-black/50 border border-gray-700 rounded-xl px-4 py-2.5 text-sm font-mono font-bold text-emerald-400 focus:outline-none focus:border-[#ff4f00]"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1 bg-amber-500/10 border border-amber-500/20 rounded-2xl p-3.5">
+                <label className="text-xs font-bold text-amber-300 uppercase flex items-center gap-1">
+                  <span>🎟️</span> Cases de Tombola (ex: 5, 12, 14)
+                </label>
+                <input
+                  type="text"
+                  value={newTombolaCases}
+                  onChange={(e) => setNewTombolaCases(e.target.value)}
+                  placeholder="5, 12, 14"
+                  className="w-full bg-black/60 border border-amber-500/30 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white focus:outline-none focus:border-amber-400"
+                />
+                <p className="text-[10px] text-gray-400 mt-1">
+                  Si vous saisissez des numéros, ces cases seront réservées en grille et l&apos;article sera libellé automatiquement.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 pt-2">
+                <input
+                  type="checkbox"
+                  id="sendEmailCheck"
+                  checked={newSendEmail}
+                  onChange={(e) => setNewSendEmail(e.target.checked)}
+                  className="w-4 h-4 accent-[#ff4f00] rounded cursor-pointer"
+                />
+                <label htmlFor="sendEmailCheck" className="text-xs font-bold text-gray-300 cursor-pointer">
+                  Envoyer immédiatement un e-mail de confirmation au client 📧
+                </label>
+              </div>
+
+              <div className="pt-3 flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowCreateModal(false)}
+                  className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-gray-300 font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer"
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  disabled={createLoading}
+                  className="flex-1 py-3 bg-[#ff4f00] hover:bg-[#e04500] text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-lg flex items-center justify-center gap-2"
+                >
+                  {createLoading ? "Création..." : "Valider & Enregistrer ✓"}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
