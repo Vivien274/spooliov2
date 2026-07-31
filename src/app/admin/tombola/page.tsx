@@ -19,6 +19,14 @@ export interface TombolaConfig {
   winnerDrawnAt?: string | null;
 }
 
+export interface TicketBuyerInfo {
+  caseNumber: number;
+  customerName: string;
+  email: string;
+  orderId: string;
+  date: string;
+}
+
 const DEFAULT_CONFIG: TombolaConfig = {
   id: "tombola-1",
   title: "Mega Pack Fidget & Impression 3D Spoolio",
@@ -48,6 +56,7 @@ export default function AdminTombolaPage() {
   // State
   const [config, setConfig] = useState<TombolaConfig>(DEFAULT_CONFIG);
   const [reservedTickets, setReservedTickets] = useState<number[]>([]);
+  const [ticketBuyers, setTicketBuyers] = useState<Record<number, TicketBuyerInfo>>({});
   const [manualTicketsInput, setManualTicketsInput] = useState<string>("");
   const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
   const [isClient, setIsClient] = useState<boolean>(false);
@@ -165,6 +174,43 @@ export default function AdminTombolaPage() {
         }
       } catch (err) {
         console.warn("API Admin Tombola indisponible, conservation des données locales");
+      }
+
+      // Fetch orders to map tombola ticket buyers
+      try {
+        const resOrders = await fetch("/api/admin/orders");
+        if (resOrders.ok) {
+          const dataOrders = await resOrders.json();
+          const orders = dataOrders.orders || [];
+          const buyersMap: Record<number, TicketBuyerInfo> = {};
+          
+          for (const o of orders) {
+            const items = Array.isArray(o.items) ? o.items : [];
+            for (const item of items) {
+              const nameStr = (item.name || "").toLowerCase();
+              if (nameStr.includes("tombola") || nameStr.includes("ticket") || nameStr.includes("case")) {
+                const matches = nameStr.matchAll(/(?:case|ticket|tombola)\s*#?\s*(\d{1,3})/gi);
+                for (const match of matches) {
+                  if (match && match[1]) {
+                    const num = parseInt(match[1], 10);
+                    if (!isNaN(num) && num > 0 && num <= 200) {
+                      buyersMap[num] = {
+                        caseNumber: num,
+                        customerName: o.customerName || "Client Spoolio",
+                        email: o.email || "",
+                        orderId: o.id,
+                        date: o.createdAt
+                      };
+                    }
+                  }
+                }
+              }
+            }
+          }
+          setTicketBuyers(buyersMap);
+        }
+      } catch (e) {
+        console.warn("Could not fetch orders for tombola buyers mapping:", e);
       }
     };
     fetchAdminData();
@@ -698,24 +744,31 @@ export default function AdminTombolaPage() {
               {Array.from({ length: config.totalCases }, (_, i) => i + 1).map((num) => {
                 const isSold = reservedTickets.includes(num);
                 const isWinner = config.winnerTicket === num;
+                const buyer = ticketBuyers[num];
+
+                const tooltip = buyer
+                  ? `Case #${num} - Achetée par ${buyer.customerName} (${buyer.email}) - Cmd ${buyer.orderId}`
+                  : (isSold ? `Case #${num} réservée manuellement (ou sans commande) - Cliquez pour libérer` : `Case #${num} disponible - Cliquez pour réserver`);
 
                 return (
                   <button
                     key={num}
                     type="button"
                     onClick={() => handleToggleTicket(num)}
-                    title={isSold ? `Case #${num} vendue - Cliquez pour libérer` : `Case #${num} disponible - Cliquez pour réserver`}
+                    title={tooltip}
                     className={`aspect-square rounded-lg text-xs font-mono font-bold flex flex-col items-center justify-center border transition-all cursor-pointer select-none hover:scale-105 active:scale-95 ${
                       isWinner
                         ? "bg-amber-500 text-black border-amber-400 shadow-lg font-black animate-pulse"
                         : isSold
-                        ? "bg-red-950/60 text-red-400 border-red-800/80 shadow-inner hover:bg-red-900/80"
+                        ? buyer
+                          ? "bg-emerald-950/80 text-emerald-300 border-emerald-700/80 shadow-inner hover:bg-emerald-900/90"
+                          : "bg-red-950/60 text-red-400 border-red-800/80 shadow-inner hover:bg-red-900/80"
                         : "bg-white/5 text-gray-400 border-gray-800 hover:bg-white/15 hover:text-white hover:border-gray-600"
                     }`}
                   >
                     <span>#{num}</span>
                     <span className="text-[7px] font-sans font-extrabold uppercase mt-0.5">
-                      {isSold ? "Prise" : "Libre"}
+                      {isSold ? (buyer ? "Vendue" : "Manuelle") : "Libre"}
                     </span>
                   </button>
                 );
@@ -747,6 +800,66 @@ export default function AdminTombolaPage() {
               </p>
             </form>
           </div>
+
+          {/* Reserved Tickets & Buyers Detail Table */}
+          {reservedTickets.length > 0 && (
+            <div className="bg-[#18181b] border border-gray-800 rounded-3xl p-6 space-y-4">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="text-xs font-bold text-gray-300 uppercase">
+                    📋 Liste des propriétaires des cases ({reservedTickets.length})
+                  </h3>
+                  <p className="text-[11px] text-gray-400">
+                    Les cases vertes sont associées à une commande client valide.
+                  </p>
+                </div>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left">
+                  <thead>
+                    <tr className="border-b border-gray-800 text-gray-500 font-bold uppercase text-[10px]">
+                      <th className="py-2 px-3">Case</th>
+                      <th className="py-2 px-3">Acheteur</th>
+                      <th className="py-2 px-3">Email</th>
+                      <th className="py-2 px-3">Commande</th>
+                      <th className="py-2 px-3 text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-800/60 font-sans">
+                    {reservedTickets.map((num) => {
+                      const buyer = ticketBuyers[num];
+                      return (
+                        <tr key={num} className="hover:bg-white/[0.02]">
+                          <td className="py-2.5 px-3 font-mono font-black text-amber-400">
+                            #{num}
+                          </td>
+                          <td className="py-2.5 px-3 font-bold text-white">
+                            {buyer ? buyer.customerName : <span className="text-gray-500 italic">Réservation manuelle</span>}
+                          </td>
+                          <td className="py-2.5 px-3 text-gray-400 select-all">
+                            {buyer ? buyer.email : "—"}
+                          </td>
+                          <td className="py-2.5 px-3 font-mono text-gray-400">
+                            {buyer ? buyer.orderId : "—"}
+                          </td>
+                          <td className="py-2.5 px-3 text-right">
+                            <button
+                              type="button"
+                              onClick={() => handleToggleTicket(num)}
+                              className="text-[10px] font-bold text-red-400 hover:text-red-300 bg-red-500/10 border border-red-500/20 px-2 py-1 rounded-lg transition-colors cursor-pointer"
+                            >
+                              Libérer
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

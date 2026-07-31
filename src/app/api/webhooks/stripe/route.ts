@@ -225,12 +225,14 @@ export async function POST(request: Request) {
           const tombolaTicketNumbers: number[] = [];
           for (const item of parsedItems) {
             const nameStr = (item.name || "").toLowerCase();
-            // Matches "case #12", "case 12", "ticket #12", "tombola #12", "#12" etc.
-            const matches = nameStr.matchAll(/(?:case|ticket|tombola|\b)?\s*#?(\d{1,3})/gi);
-            for (const match of matches) {
-              if (match && match[1]) {
-                const num = parseInt(match[1], 10);
-                if (!isNaN(num) && num > 0 && num <= 200) tombolaTicketNumbers.push(num);
+            // ONLY match if item is explicitly a Tombola ticket or case
+            if (nameStr.includes("tombola") || nameStr.includes("ticket") || nameStr.includes("case")) {
+              const matches = nameStr.matchAll(/(?:case|ticket|tombola)\s*#?\s*(\d{1,3})/gi);
+              for (const match of matches) {
+                if (match && match[1]) {
+                  const num = parseInt(match[1], 10);
+                  if (!isNaN(num) && num > 0 && num <= 200) tombolaTicketNumbers.push(num);
+                }
               }
             }
           }
