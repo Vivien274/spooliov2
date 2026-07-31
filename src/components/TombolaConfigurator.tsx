@@ -25,7 +25,7 @@ const DEFAULT_CONFIG: TombolaConfig = {
     "Tente ta chance de remporter un lot exclusif composé d'objets fidgets sensoriels TDAH, de figurines 3D et d'un porte-clés NFC Spoolio !",
   image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
   estimatedValue: 85.00,
-  endDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().slice(0, 16),
+  endDate: "2026-12-31T23:59",
   totalCases: 40,
   ticketPrice: 2.00,
   status: "active",
@@ -61,6 +61,7 @@ export default function TombolaConfigurator() {
   const [reservedTickets, setReservedTickets] = useState<number[]>([]);
   const [isClient, setIsClient] = useState<boolean>(false);
   const [addedToast, setAddedToast] = useState<boolean>(false);
+  const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number; minutes: number; seconds: number }>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   // Hydrate config & reserved tickets from DB / localStorage
   useEffect(() => {
@@ -95,9 +96,6 @@ export default function TombolaConfigurator() {
 
     fetchTombolaData();
   }, []);
-
-  // Countdown timer calculation based on real config.endDate
-  const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft(config.endDate));
 
   useEffect(() => {
     const updateCountdown = () => {
@@ -294,22 +292,22 @@ export default function TombolaConfigurator() {
               </div>
               <div className="flex items-center gap-1.5 font-mono font-bold text-white text-sm">
                 <div className="tombola-badge-pill bg-white/10 px-2.5 py-1 rounded-lg border border-white/10">
-                  <span>{String(timeLeft.days).padStart(2, "0")}</span>
+                  <span suppressHydrationWarning>{String(timeLeft.days).padStart(2, "0")}</span>
                   <span className="text-[9px] text-gray-400 ml-1">j</span>
                 </div>
                 <span>:</span>
                 <div className="tombola-badge-pill bg-white/10 px-2.5 py-1 rounded-lg border border-white/10">
-                  <span>{String(timeLeft.hours).padStart(2, "0")}</span>
+                  <span suppressHydrationWarning>{String(timeLeft.hours).padStart(2, "0")}</span>
                   <span className="text-[9px] text-gray-400 ml-1">h</span>
                 </div>
                 <span>:</span>
                 <div className="tombola-badge-pill bg-white/10 px-2.5 py-1 rounded-lg border border-white/10">
-                  <span>{String(timeLeft.minutes).padStart(2, "0")}</span>
+                  <span suppressHydrationWarning>{String(timeLeft.minutes).padStart(2, "0")}</span>
                   <span className="text-[9px] text-gray-400 ml-1">m</span>
                 </div>
                 <span>:</span>
                 <div className="tombola-badge-pill bg-white/10 px-2.5 py-1 rounded-lg border border-white/10 text-[#ff4f00]">
-                  <span>{String(timeLeft.seconds).padStart(2, "0")}</span>
+                  <span suppressHydrationWarning>{String(timeLeft.seconds).padStart(2, "0")}</span>
                   <span className="text-[9px] text-gray-400 ml-1">s</span>
                 </div>
               </div>
