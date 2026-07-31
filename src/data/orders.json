@@ -1,1 +1,42 @@
-[]
+[
+  {
+    "id": "SP-51776",
+    "stripeSession": "cs_live_b1yncd9mQqbL8xn02EybIcLR9UoUEvbTSdvMWOlA76QUy5YnPG4WeJ4n8e",
+    "email": "lauradepoppe@gmail.com",
+    "customerName": "Laura De Poppe",
+    "customerPhone": null,
+    "shippingAddress": null,
+    "trackingNumber": null,
+    "items": "[{\"name\":\"Pochette Surprise Spoolio (10 objets) (Taille de la pochette: 10 objets, Composition: 3x Figurines, 4x Fidgets, 1x Porte-clés, 2x Mini-jeux)\",\"quantity\":1,\"price\":\"20.00\"},{\"name\":\"Pochette Surprise Spoolio (10 objets) (Taille de la pochette: 10 objets, Composition: 2x Figurines, 4x Fidgets, 2x Porte-clés, 2x Mini-jeux)\",\"quantity\":1,\"price\":\"20.00\"}]",
+    "total": 40,
+    "shippingCost": 4.9,
+    "shippingMethod": "home",
+    "status": "attente_impression",
+    "relayDetails": null,
+    "pickupSlotRequested": null,
+    "pickupSlotConfirmed": null,
+    "pickupStatus": null,
+    "createdAt": "2026-07-31T18:13:28.167Z",
+    "updatedAt": "2026-07-31T18:13:28.167Z"
+  },
+  {
+    "id": "SP-M71090",
+    "stripeSession": "manual_SP-M71090",
+    "email": "lucascyclo59150@icloud.com",
+    "customerName": "Lucas",
+    "customerPhone": null,
+    "shippingAddress": "Achat Tombola",
+    "trackingNumber": null,
+    "items": "[{\"name\":\"Ticket Tombola Spoolio - Cases #5, 12, 14\",\"quantity\":3,\"price\":\"2.00\"}]",
+    "total": 6,
+    "shippingCost": 0,
+    "shippingMethod": "tombola",
+    "status": "expedie",
+    "relayDetails": null,
+    "pickupSlotRequested": null,
+    "pickupSlotConfirmed": null,
+    "pickupStatus": null,
+    "createdAt": "2026-07-30T13:10:20.252Z",
+    "updatedAt": "2026-07-30T13:10:20.252Z"
+  }
+]

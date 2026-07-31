@@ -6,6 +6,18 @@ import { useAdminTheme } from "./AdminThemeContext";
 
 const ADMIN_BLUE = "#2F3CD9";
 
+function parseItemName(fullName: string) {
+  if (!fullName) return { mainName: "Article", options: [] };
+  const match = fullName.match(/^(.*?)(?:\s*\((.*?)\))?$/);
+  if (!match) return { mainName: fullName, options: [] };
+  const mainName = match[1].trim();
+  const optionsRaw = match[2];
+  const options = optionsRaw 
+    ? optionsRaw.split(",").map(o => o.trim()).filter(Boolean)
+    : [];
+  return { mainName, options };
+}
+
 interface AdminOrder {
   id: string;
   stripeSession?: string;
@@ -484,12 +496,49 @@ export default function AdminDashboard() {
                             </span>
                           )}
                         </td>
-                        <td className="py-4 px-4 max-w-[200px]">
-                          {(o.items || []).map((item, idx) => (
-                            <div key={idx} className={`text-gray-300 truncate`} title={item.name}>
-                              {item.quantity}x {item.name}
-                            </div>
-                          ))}
+                        <td className="py-4 px-4 min-w-[220px]">
+                          <div className="space-y-1.5">
+                            {(o.items || []).slice(0, 3).map((item, idx) => {
+                              const { mainName, options } = parseItemName(item.name);
+                              const isDonation = mainName.toLowerCase().includes("don de soutien");
+                              const isTombola = mainName.toLowerCase().includes("tombola") || mainName.toLowerCase().includes("ticket");
+                              
+                              return (
+                                <div key={idx} className="flex flex-col gap-0.5">
+                                  <div className="flex items-center gap-1.5">
+                                    <span className={`inline-flex items-center justify-center font-mono font-black text-[10px] px-1.5 py-0.5 rounded-md shrink-0 ${
+                                      isDonation 
+                                        ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
+                                        : isTombola
+                                        ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                                        : "bg-[#ff4f00]/15 text-[#ff4f00] border border-[#ff4f00]/25"
+                                    }`}>
+                                      x{item.quantity}
+                                    </span>
+                                    <span className="font-bold text-gray-100 text-xs truncate max-w-[180px]" title={mainName}>
+                                      {isDonation && "❤️ "}
+                                      {isTombola && "🎟️ "}
+                                      {mainName}
+                                    </span>
+                                  </div>
+                                  {options.length > 0 && (
+                                    <div className="flex flex-wrap gap-1 pl-6">
+                                      {options.map((opt, optIdx) => (
+                                        <span key={optIdx} className="text-[9px] font-mono bg-white/[0.06] border border-white/10 text-gray-300 px-1.5 py-0.2 rounded-md">
+                                          {opt}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
+                            {o.items && o.items.length > 3 && (
+                              <div className="text-[#ff4f00] font-bold text-[10px] mt-1 pl-1">
+                                + {o.items.length - 3} autre(s)...
+                              </div>
+                            )}
+                          </div>
                         </td>
                         <td className="py-4 px-4">
                           <span className={`block font-bold ${cls.textMain}`}>

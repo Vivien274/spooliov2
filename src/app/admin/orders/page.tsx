@@ -9,7 +9,21 @@ const ADMIN_BLUE = "#2F3CD9";
 interface OrderItem {
   name: string;
   quantity: number;
+  price?: string | number;
 }
+
+function parseItemName(fullName: string) {
+  if (!fullName) return { mainName: "Article", options: [] };
+  const match = fullName.match(/^(.*?)(?:\s*\((.*?)\))?$/);
+  if (!match) return { mainName: fullName, options: [] };
+  const mainName = match[1].trim();
+  const optionsRaw = match[2];
+  const options = optionsRaw 
+    ? optionsRaw.split(",").map(o => o.trim()).filter(Boolean)
+    : [];
+  return { mainName, options };
+}
+
 
 interface Order {
   id: string;
@@ -487,17 +501,49 @@ export default function AdminOrdersPage() {
                       <span className={`block font-bold ${cls.textMain}`}>{o.customerName || "—"}</span>
                       <span className={`block text-[10px] ${cls.textFaint}`}>{o.email}</span>
                     </td>
-                    <td className="px-5 py-5 min-w-[200px]">
-                      {(o.items || []).slice(0, 3).map((item, idx) => (
-                        <div key={idx} className="text-gray-300">
-                          {item.quantity}x {item.name}
-                        </div>
-                      ))}
-                      {o.items && o.items.length > 3 && (
-                        <div className="text-[#ff4f00] font-bold text-[10px] mt-0.5">
-                          + {o.items.length - 3} autre(s) article(s)...
-                        </div>
-                      )}
+                    <td className="px-5 py-5 min-w-[240px]">
+                      <div className="space-y-1.5">
+                        {(o.items || []).slice(0, 3).map((item, idx) => {
+                          const { mainName, options } = parseItemName(item.name);
+                          const isDonation = mainName.toLowerCase().includes("don de soutien");
+                          const isTombola = mainName.toLowerCase().includes("tombola") || mainName.toLowerCase().includes("ticket");
+                          
+                          return (
+                            <div key={idx} className="flex flex-col gap-0.5">
+                              <div className="flex items-center gap-1.5">
+                                <span className={`inline-flex items-center justify-center font-mono font-black text-[10px] px-1.5 py-0.5 rounded-md shrink-0 ${
+                                  isDonation 
+                                    ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
+                                    : isTombola
+                                    ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                                    : "bg-[#ff4f00]/15 text-[#ff4f00] border border-[#ff4f00]/25"
+                                }`}>
+                                  x{item.quantity}
+                                </span>
+                                <span className="font-bold text-gray-100 text-xs truncate max-w-[220px]" title={mainName}>
+                                  {isDonation && "❤️ "}
+                                  {isTombola && "🎟️ "}
+                                  {mainName}
+                                </span>
+                              </div>
+                              {options.length > 0 && (
+                                <div className="flex flex-wrap gap-1 pl-6">
+                                  {options.map((opt, optIdx) => (
+                                    <span key={optIdx} className="text-[9px] font-mono bg-white/[0.06] border border-white/10 text-gray-300 px-1.5 py-0.2 rounded-md">
+                                      {opt}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                        {o.items && o.items.length > 3 && (
+                          <div className="text-[#ff4f00] font-bold text-[10px] mt-1 pl-1">
+                            + {o.items.length - 3} autre(s) article(s)...
+                          </div>
+                        )}
+                      </div>
                     </td>
                     <td className="px-5 py-5 min-w-[180px] no-invert">
                       <span className={`block font-semibold ${cls.textMain}`}>
@@ -687,24 +733,92 @@ export default function AdminOrdersPage() {
 
               {/* Items List */}
               <div>
-                <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block mb-2">Articles commandés</span>
-                <div className="border border-white/5 rounded-2xl overflow-hidden">
-                  <table className="w-full text-xs font-sans text-left border-collapse">
-                    <thead>
-                      <tr className="bg-white/[0.02] text-gray-500 border-b border-white/5">
-                        <th className="p-3">Objet</th>
-                        <th className="p-3 text-right">Quantité</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-white/5">
-                      {(selectedOrder.items || []).map((item, idx) => (
-                        <tr key={idx} className="hover:bg-white/[0.01]">
-                          <td className="p-3 font-bold text-white">{item.name}</td>
-                          <td className="p-3 text-right text-gray-300 font-mono font-bold">{item.quantity}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[10px] uppercase font-bold tracking-wider text-gray-400">
+                    Articles commandés ({selectedOrder.items?.reduce((acc, i) => acc + (i.quantity || 1), 0) || 0})
+                  </span>
+                  <span className="text-xs font-semibold text-gray-500 font-mono">
+                    {selectedOrder.items?.length || 0} produit(s) distinct(s)
+                  </span>
+                </div>
+                <div className="space-y-2.5">
+                  {(selectedOrder.items || []).map((item, idx) => {
+                    const { mainName, options } = parseItemName(item.name);
+                    const isDonation = mainName.toLowerCase().includes("don de soutien");
+                    const isTombola = mainName.toLowerCase().includes("tombola") || mainName.toLowerCase().includes("ticket");
+                    const unitPrice = item.price ? parseFloat(String(item.price)) : null;
+                    const totalPrice = unitPrice ? unitPrice * item.quantity : null;
+
+                    return (
+                      <div 
+                        key={idx} 
+                        className="bg-white/[0.02] border border-white/10 hover:border-white/20 transition-all rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm"
+                      >
+                        <div className="flex items-start gap-3">
+                          {/* Quantity pill */}
+                          <div className={`mt-0.5 inline-flex items-center justify-center font-mono font-black text-xs px-2.5 py-1 rounded-xl shrink-0 ${
+                            isDonation 
+                              ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
+                              : isTombola
+                              ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                              : "bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30"
+                          }`}>
+                            x{item.quantity}
+                          </div>
+
+                          {/* Product Details */}
+                          <div className="space-y-1">
+                            <div className="text-sm font-bold text-white flex items-center gap-1.5">
+                              {isDonation && "❤️"}
+                              {isTombola && "🎟️"}
+                              {!isDonation && !isTombola && "📦"}
+                              <span>{mainName}</span>
+                            </div>
+
+                            {/* Option badges */}
+                            {options.length > 0 ? (
+                              <div className="flex flex-wrap gap-1.5 pt-0.5">
+                                {options.map((opt, optIdx) => {
+                                  const [key, val] = opt.includes(":") ? opt.split(":") : [null, opt];
+                                  return (
+                                    <span 
+                                      key={optIdx} 
+                                      className="inline-flex items-center gap-1 text-[10px] font-medium bg-black/60 border border-white/10 px-2 py-0.5 rounded-lg text-gray-300"
+                                    >
+                                      {key ? (
+                                        <>
+                                          <span className="text-gray-400 font-semibold">{key.trim()}:</span>
+                                          <span className="text-white font-bold">{val.trim()}</span>
+                                        </>
+                                      ) : (
+                                        <span className="text-gray-200">{opt}</span>
+                                      )}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+                            ) : (
+                              <div className="text-[11px] text-gray-500 italic">Article standard</div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Price details */}
+                        {totalPrice !== null && (
+                          <div className="text-right shrink-0 border-t sm:border-t-0 border-white/5 pt-2 sm:pt-0">
+                            <div className="text-sm font-black font-mono text-white">
+                              {totalPrice.toFixed(2)}€
+                            </div>
+                            {item.quantity > 1 && (
+                              <div className="text-[10px] text-gray-500 font-mono">
+                                ({unitPrice?.toFixed(2)}€ / un.)
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
