@@ -116,6 +116,22 @@ export default function AdminDashboard() {
       ],
       cta: "Modérer les avis",
     },
+    {
+      title: "SEO Pages Principales 🎯",
+      description: "Optimiser les métadonnées Google (Title, Description, OpenGraph) pour l'accueil, la boutique, la tombola...",
+      href: "/admin/seo",
+      icon: (
+        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      ),
+      color: "#10b981",
+      stats: [
+        { label: "Pages gérées", value: "9" },
+        { label: "Aperçu SERP", value: "En direct" },
+      ],
+      cta: "Gérer le SEO",
+    },
   ];
 
   const handleExportBoxtalCSV = () => {

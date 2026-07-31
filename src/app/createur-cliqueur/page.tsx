@@ -16,26 +16,11 @@ const ClickerConfiguratorClient = dynamic(
   }
 );
 
-export const metadata: Metadata = {
-  title: "Créateur de Clicker Sur-Mesure | Spoolio 3D",
-  description:
-    "Créez et personnalisez votre clicker mécanique 3D sur-mesure : forme, switchs, couleurs des touches et attache porte-clés. Fabriqué en PLA biosourcé à Comines !",
-  openGraph: {
-    title: "Créateur de Clicker Sur-Mesure | Spoolio 3D",
-    description:
-      "Créez et personnalisez votre clicker mécanique 3D sur-mesure : forme, switchs, couleurs des touches et attache porte-clés. Fabriqué en PLA biosourcé à Comines !",
-    url: "https://spoolio.fr/createur-cliqueur",
-    siteName: "Spoolio",
-    locale: "fr_FR",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Créateur de Clicker Sur-Mesure | Spoolio 3D",
-    description:
-      "Créez et personnalisez votre clicker mécanique 3D sur-mesure : forme, switchs, couleurs des touches et attache porte-clés. Fabriqué en PLA biosourcé à Comines !",
-  },
-};
+import { getPageSeoMetadata } from "@/lib/seoPages";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return getPageSeoMetadata("createur-cliqueur");
+}
 
 export default function CreateurCliqueurPage() {
   return (

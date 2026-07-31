@@ -2,12 +2,11 @@ import { Metadata } from "next";
 import LinkHubClient from "@/components/LinkHubClient";
 import fs from "fs";
 import path from "path";
+import { getPageSeoMetadata } from "@/lib/seoPages";
 
-export const metadata: Metadata = {
-  title: "Spoolio 🌀 - Hub de Liens & Reseaux Sociaux",
-  description:
-    "Retrouvez tous les liens officiels de Spoolio : Créateur de Clickers 3D sur-mesure, Pochette Surprise, Tombola, Boutique en ligne et réseaux sociaux !",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return getPageSeoMetadata("liens");
+}
 
 function getInitialLinksData() {
   try {

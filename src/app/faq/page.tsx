@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { getPageSeoMetadata } from "@/lib/seoPages";
 
-export const metadata: Metadata = {
-  title: "FAQ | Vos questions sur Spoolio 3D",
-  description: "Retrouvez les réponses aux questions les plus fréquentes à propos des objets imprimés en 3D, livraisons, paiements et retours.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return getPageSeoMetadata("faq");
+}
+
+import JsonLdScript from "@/components/JsonLdScript";
+import { getFaqJsonLd } from "@/lib/jsonLd";
 
 export default function FAQPage() {
   const faqSections = [
@@ -94,6 +97,7 @@ export default function FAQPage() {
 
   return (
     <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
+      <JsonLdScript data={getFaqJsonLd(faqSections)} id="faq-page-jsonld" />
       
       {/* Background Decorative Blobs */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">

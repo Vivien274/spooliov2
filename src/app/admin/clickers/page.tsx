@@ -250,10 +250,7 @@ export default function AdminClickersPage() {
     });
   };
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
+  const uploadImageFile = async (file: File): Promise<string | null> => {
     setIsUploading(true);
     try {
       const formData = new FormData();
@@ -264,19 +261,67 @@ export default function AdminClickersPage() {
         body: formData,
       });
 
-      const data = await res.json();
-      if (data.url || data.path || data.src) {
-        const url = data.url || data.path || data.src;
-        setNewPhotoUrl(url);
-        if (!newPhotoTitle) {
-          setNewPhotoTitle(file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " "));
-        }
+      const responseText = await res.text();
+      let data: any = null;
+      try {
+        data = JSON.parse(responseText);
+      } catch (e) {}
+
+      if (res.ok && (data?.url || data?.imageUrl || data?.src)) {
+        return data.url || data.imageUrl || data.src;
+      } else {
+        const errorMsg = data?.error || (res.status === 413 ? "Fichier trop volumineux (max 4.5 Mo)." : "Erreur lors du téléversement de l'image.");
+        alert(`⚠️ Échec de l'upload : ${errorMsg}`);
+        return null;
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Image upload failed:", err);
+      alert("⚠️ Erreur réseau lors de l'envoi de l'image.");
+      return null;
     } finally {
       setIsUploading(false);
     }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    setIsUploading(true);
+    let successCount = 0;
+    const newItems: GalleryItem[] = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const url = await uploadImageFile(file);
+      if (url) {
+        successCount++;
+        const rawName = file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+        const title = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+        newItems.push({
+          id: Date.now() + i + Math.floor(Math.random() * 1000),
+          src: url,
+          title: title || "Création Clicker Spoolio 3D",
+          caption: "Réalisation personnalisée sur-mesure imprimée en 3D",
+        });
+      }
+    }
+
+    if (newItems.length > 0) {
+      setGalleryItems((prev) => {
+        const updated = [...newItems, ...prev];
+        fetch("/api/admin/clicker-gallery", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(updated),
+        });
+        return updated;
+      });
+      alert(`🎉 ${successCount} photo${successCount > 1 ? "s" : ""} téléversée${successCount > 1 ? "s" : ""} et ajoutée${successCount > 1 ? "s" : ""} à la galerie !`);
+    }
+
+    setIsUploading(false);
+    e.target.value = "";
   };
 
   const handleAddIcon = () => {
@@ -813,21 +858,47 @@ export default function AdminClickersPage() {
 
             {/* File Upload Zone */}
             <div className="flex items-center gap-4 flex-wrap pb-2 border-b border-white/5">
-              <label className="px-4 py-2.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-bold border border-neutral-700 cursor-pointer transition-colors flex items-center gap-2">
-                <span>📁 Sélectionner / Uploader un fichier image</span>
+              <label className="px-4 py-2.5 rounded-xl bg-[#2F3CD9] hover:bg-[#202bb8] text-white text-xs font-bold border border-indigo-500/30 cursor-pointer transition-all flex items-center gap-2 shadow-md hover:scale-105">
+                <span>📁 Sélectionner des photos (choix multiple)</span>
                 <input
                   type="file"
                   accept="image/*"
+                  multiple
                   onChange={handleFileUpload}
                   className="hidden"
                 />
               </label>
               {isUploading && (
                 <span className="text-xs text-amber-400 font-mono animate-pulse">
-                  Upload en cours...
+                  ⏳ Téléversement des photos en cours...
                 </span>
               )}
             </div>
+
+            {/* Thumbnail Preview Box */}
+            {newPhotoUrl && (
+              <div className="flex items-center gap-4 p-3 bg-black/40 border border-emerald-500/30 rounded-2xl animate-fade-in">
+                <div className="relative w-16 h-16 rounded-xl overflow-hidden border border-emerald-500/50 shrink-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={newPhotoUrl} alt="Aperçu" className="w-full h-full object-cover" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <span className="text-xs font-bold text-emerald-400 block truncate">
+                    ✅ Image téléversée et prête !
+                  </span>
+                  <span className="text-[11px] text-gray-400 font-mono block truncate">
+                    {newPhotoUrl}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setNewPhotoUrl("")}
+                  className="px-2.5 py-1 text-xs font-bold bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg hover:bg-red-500/30 cursor-pointer"
+                >
+                  Effacer
+                </button>
+              </div>
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <input

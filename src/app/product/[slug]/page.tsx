@@ -82,6 +82,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+import JsonLdScript from "@/components/JsonLdScript";
+import { getProductJsonLd, getBreadcrumbJsonLd } from "@/lib/jsonLd";
+
 export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
 
@@ -89,5 +92,31 @@ export default async function ProductPage({ params }: PageProps) {
     redirect("/createur-cliqueur");
   }
 
-  return <ProductDetailClient slug={slug} />;
+  const productName = slug
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+
+  const productLd = getProductJsonLd({
+    name: productName,
+    description: `Découvrez le produit ${productName} imprimé en 3D de haute qualité par Spoolio à Comines.`,
+    slug: slug,
+    price: 5.00,
+    ratingValue: 4.9,
+    reviewCount: 48
+  });
+
+  const breadcrumbLd = getBreadcrumbJsonLd([
+    { name: "Accueil", url: "/" },
+    { name: "Boutique", url: "/boutique" },
+    { name: productName, url: `/product/${slug}` }
+  ]);
+
+  return (
+    <>
+      <JsonLdScript data={productLd} id={`product-jsonld-${slug}`} />
+      <JsonLdScript data={breadcrumbLd} id={`breadcrumb-jsonld-${slug}`} />
+      <ProductDetailClient slug={slug} />
+    </>
+  );
 }

@@ -70,17 +70,25 @@ export const metadata: Metadata = {
   },
 };
 
+import JsonLdScript from "@/components/JsonLdScript";
+import { getOrganizationJsonLd } from "@/lib/jsonLd";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const organizationLd = getOrganizationJsonLd();
+
   return (
     <html
       lang="fr"
       className={`${antonio.variable} ${plusJakarta.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <JsonLdScript data={organizationLd} id="spoolio-organization-jsonld" />
+      </head>
       <body className="min-h-full flex flex-col">
         <Script
           id="theme-initializer"

@@ -1,0 +1,65 @@
+{
+  "home": {
+    "title": "Spoolio | Fidgets Sensoriels & Objets Fun Imprimés en 3D",
+    "description": "Boutique française de fidgets sensoriels, accessoires et décoration imprimés en 3D à Comines. Conçus en PLA biodégradable à base d'amidon de maïs 🌱",
+    "keywords": "fidgets 3d, impression 3d france, fidgets tdah, spoolio, comines, pla eco responsable",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "boutique": {
+    "title": "La Boutique Spoolio | Objets Fun & Utiles Imprimés en 3D",
+    "description": "Parcourez notre collection d'objets uniques imprimés en 3D de qualité. Fidgets, décoration insolite et gadgets fun fabriqués localement en PLA biodégradable.",
+    "keywords": "boutique 3d, fidget spinner, jouet anti stress, porte clefs 3d, deco originale",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "tombola": {
+    "title": "Tombola Spoolio 🎟️ | Tente ta chance et gagne des lots 3D exclusifs",
+    "description": "Participe à la Tombola Spoolio ! Choisis tes cases sur la grille et tente de remporter un pack complet de fidgets sensoriels et créations 3D.",
+    "keywords": "tombola 3d, jeu concours spoolio, lot fidgets, tirage au sort 3d",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "boussole-sensorielle": {
+    "title": "Boussole Sensorielle TDAH & Autisme | Spoolio",
+    "description": "Trouvez le fidget parfait selon vos besoins sensoriels (besoin de pression, de bruit, de mouvement ou de stimulation visuelle).",
+    "keywords": "boussole sensorielle, fidget tdah, autisme, besoins sensoriels, anti stress",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "pochette-surprise": {
+    "title": "Pochette Surprise Spoolio 🎁 | Mystère & Fidgets 3D",
+    "description": "Craquez pour la Pochette Surprise Spoolio ! Recevez un assortiment mystère d'objets imprimés en 3D à prix réduit.",
+    "keywords": "pochette surprise, blind box 3d, mystere fidget, box cadeau 3d",
+    "ogImage": "/images/pochette-kraft.jpg",
+    "noIndex": false
+  },
+  "createur-cliqueur": {
+    "title": "Créateur de Cliqueur Personnalisé 🖱️ | Spoolio",
+    "description": "Concevez votre cliqueur Fidget sur-mesure ! Choisissez les couleurs, le type de switch mécanique et le fini pour une expérience sensorielle unique.",
+    "keywords": "cliqueur 3d, fidget switch mecanique, cliqueur personnalise, clicky fidget",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "a-propos": {
+    "title": "À Propos de Spoolio | Fabrication Artisanale 3D en France 🇫🇷",
+    "description": "Découvrez l'histoire de Spoolio, atelier d'impression 3D basé à Comines. Notre mission : concevoir des objets sensoriels et utiles respectueux de l'environnement.",
+    "keywords": "histoire spoolio, impression 3d comines, fabricant français 3d, pla biodégradable",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "liens": {
+    "title": "Hub de Liens Spoolio 🔗 | TikTok, Insta, Boutique & Offres",
+    "description": "Retrouvez tous les liens officiels de Spoolio : TikTok, Instagram, boutique en ligne, boussole sensorielle et réseaux sociaux.",
+    "keywords": "spoolio tiktok, instagram spoolio, liens spoolio, linktree spoolio",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "faq": {
+    "title": "Foire Aux Questions (FAQ) | Livraison, Matériaux & Garanties Spoolio",
+    "description": "Des questions sur la livraison Colissimo / Mondial Relay, les matériaux PLA ou le suivi de commande ? Retrouvez toutes les réponses dans notre FAQ.",
+    "keywords": "faq spoolio, livraison mondial relay, materiau pla, questions impression 3d",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  }
+}

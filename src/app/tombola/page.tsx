@@ -15,26 +15,11 @@ const TombolaConfigurator = dynamic(
   }
 );
 
-export const metadata: Metadata = {
-  title: "Tombola Spoolio 3D | Tente ta chance et gagne des lots exclusifs",
-  description:
-    "Participe à la grande Tombola Spoolio ! Réserve tes numéros de 1 à 40 et tente de remporter le Mega Pack Fidget & Impression 3D fabriqué en France à Comines.",
-  openGraph: {
-    title: "Tombola Spoolio 3D | Tente ta chance et gagne des lots exclusifs",
-    description:
-      "Participe à la grande Tombola Spoolio ! Réserve tes numéros de 1 à 40 et tente de remporter le Mega Pack Fidget & Impression 3D fabriqué en France à Comines.",
-    url: "https://spoolio.fr/tombola",
-    siteName: "Spoolio",
-    locale: "fr_FR",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Tombola Spoolio 3D | Tente ta chance et gagne des lots exclusifs",
-    description:
-      "Participe à la grande Tombola Spoolio ! Réserve tes numéros de 1 à 40 et tente de remporter le Mega Pack Fidget & Impression 3D !",
-  },
-};
+import { getPageSeoMetadata } from "@/lib/seoPages";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return getPageSeoMetadata("tombola");
+}
 
 export default function TombolaPage() {
   return (

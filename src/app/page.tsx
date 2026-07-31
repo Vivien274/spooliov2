@@ -13,13 +13,13 @@ import path from "path";
 import { cookies } from "next/headers";
 import fr from "@/locales/fr.json";
 import en from "@/locales/en.json";
+import { getPageSeoMetadata } from "@/lib/seoPages";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "Spoolio | Fidgets Sensoriels & Objets Fun Imprimés en 3D",
-  description: "Boutique française de fidgets sensoriels, accessoires et décoration imprimés en 3D à Comines. Conçus en PLA biodégradable à base d'amidon de maïs 🌱",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return getPageSeoMetadata("home");
+}
 
 const DEFAULT_HERO = {
   title: "La Capsule été",

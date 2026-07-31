@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { getPageSeoMetadata } from "@/lib/seoPages";
 
-export const metadata: Metadata = {
-  title: "À Propos de Spoolio | L'Histoire & Nos Valeurs",
-  description: "Découvrez l'aventure de Spoolio, notre atelier 3D à Comines, notre équipe familiale et nos valeurs écoresponsables.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return getPageSeoMetadata("a-propos");
+}
 
 export default function AboutPage() {
   return (

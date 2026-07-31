@@ -70,35 +70,15 @@ export default function ModernBentoGallery({
               <div className="absolute inset-0 bg-neutral-950">
                 <img
                   src={item.src}
-                  alt={item.title}
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                  alt="Création Clicker Spoolio 3D"
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/30 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-40 group-hover:opacity-20 transition-opacity duration-300" />
               </div>
 
-              {/* Top Badge Tag */}
-              <div className="absolute top-3 left-3 z-10">
-                <span className="text-[10px] font-extrabold bg-black/60 backdrop-blur-md text-white border border-white/20 px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">
-                  Exemple #{idx + 1}
-                </span>
-              </div>
-
-              {/* Bottom Details Bar */}
-              <div className="absolute bottom-0 inset-x-0 p-4 sm:p-5 z-10 flex items-end justify-between gap-3">
-                <div className="space-y-1">
-                  <h4 className="text-sm sm:text-base font-bold text-white leading-snug group-hover:text-[#ff4f00] transition-colors">
-                    {item.title}
-                  </h4>
-                  {item.caption && (
-                    <p className="text-xs text-neutral-300 line-clamp-1 font-medium opacity-90">
-                      {item.caption}
-                    </p>
-                  )}
-                </div>
-
-                <div className="p-2.5 rounded-xl bg-white/10 group-hover:bg-[#ff4f00] text-white transition-all transform group-hover:scale-110 shrink-0 backdrop-blur-md">
-                  <Maximize2 className="w-4 h-4" />
-                </div>
+              {/* Expand Icon Picto (Bottom Right) */}
+              <div className="absolute bottom-3 right-3 z-10 p-2.5 rounded-2xl bg-black/60 backdrop-blur-md border border-white/10 group-hover:bg-[#ff4f00] text-white transition-all transform group-hover:scale-110 shadow-lg">
+                <Maximize2 className="w-4 h-4" />
               </div>
             </motion.div>
           );
@@ -119,18 +99,13 @@ export default function ModernBentoGallery({
               initial={{ scale: 0.94, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.94, opacity: 0 }}
-              className="relative max-w-4xl w-full bg-neutral-900 rounded-3xl border border-white/20 p-4 sm:p-6 overflow-hidden shadow-2xl space-y-4"
+              className="relative max-w-5xl w-full bg-neutral-900 rounded-3xl border border-white/20 p-3 sm:p-4 overflow-hidden shadow-2xl space-y-3"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between border-b border-neutral-800 pb-3">
-                <div className="flex items-center gap-2">
-                  <span className="p-1.5 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00]">
-                    <Sparkles className="w-4 h-4" />
-                  </span>
-                  <h4 className="text-base font-bold text-white">
-                    {selectedItem.title}
-                  </h4>
-                </div>
+              <div className="flex items-center justify-between px-2 pt-1">
+                <span className="text-xs font-mono font-bold text-neutral-400">
+                  Aperçu Haute Définition
+                </span>
                 <button
                   type="button"
                   onClick={() => setSelectedItem(null)}
@@ -140,20 +115,13 @@ export default function ModernBentoGallery({
                 </button>
               </div>
 
-              <div className="relative aspect-video rounded-2xl overflow-hidden bg-black/90 flex items-center justify-center">
+              <div className="relative aspect-16/10 rounded-2xl overflow-hidden bg-black/90 flex items-center justify-center">
                 <img
                   src={selectedItem.src}
-                  alt={selectedItem.title}
+                  alt="Aperçu Clicker"
                   className="w-full h-full object-contain"
                 />
               </div>
-
-              {selectedItem.caption && (
-                <div className="text-xs text-neutral-300 leading-relaxed font-medium bg-neutral-950 p-3.5 rounded-2xl border border-neutral-800 flex items-start gap-2">
-                  <span className="text-[#ff4f00] font-bold">ℹ️</span>
-                  <span>{selectedItem.caption}</span>
-                </div>
-              )}
             </motion.div>
           </motion.div>
         )}

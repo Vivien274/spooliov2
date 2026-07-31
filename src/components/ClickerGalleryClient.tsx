@@ -54,24 +54,14 @@ export default function ClickerGalleryClient({ initialItems = [] }: { initialIte
             <div className="relative aspect-4/3 w-full bg-neutral-950 overflow-hidden">
               <img
                 src={item.src}
-                alt={item.title}
+                alt="Création Clicker Spoolio 3D"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-40 group-hover:opacity-20 transition-opacity" />
               
-              <span className="absolute bottom-2.5 right-2.5 text-[11px] font-bold text-white bg-black/60 backdrop-blur border border-white/10 px-2 py-0.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className="absolute bottom-2.5 right-2.5 text-[11px] font-bold text-white bg-black/70 backdrop-blur border border-white/10 px-2.5 py-1 rounded-xl opacity-80 group-hover:opacity-100 transition-all group-hover:scale-105">
                 🔍 Agrandir
               </span>
-            </div>
-
-            {/* Content */}
-            <div className="p-4 space-y-1">
-              <h3 className="text-xs font-bold text-white group-hover:text-neutral-200 transition-colors">
-                {item.title}
-              </h3>
-              <p className="text-[11px] text-neutral-400 leading-snug line-clamp-2">
-                {item.caption}
-              </p>
             </div>
           </div>
         ))}
