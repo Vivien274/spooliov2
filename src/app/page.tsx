@@ -213,6 +213,12 @@ export default async function HomePage() {
           {[1, 2, 3].map((loop) => (
             <div key={loop} className="flex items-center gap-8 shrink-0">
               <span className="flex items-center gap-2 text-gray-900 dark:text-white">
+                <span>🚚</span>
+                <span>LIVRAISON OFFERTE DÈS 40€</span>
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
+
+              <span className="flex items-center gap-2 text-gray-900 dark:text-white">
                 <span>🌱</span>
                 <span>PLA BIOSOURCÉ</span>
               </span>
@@ -271,11 +277,11 @@ export default async function HomePage() {
 
           <div className="bento-reassurance-item flex items-center gap-3 p-3 sm:py-3.5 sm:px-4 rounded-2xl bg-white/70 dark:bg-[#0e0e12]/80 backdrop-blur-md border border-gray-200/70 dark:border-neutral-800/80 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:border-orange-500/30 dark:hover:border-orange-500/30 hover:shadow-md transition-all duration-300 group">
             <div className="w-8 h-8 rounded-xl bg-orange-500/10 dark:bg-orange-500/15 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
-              ⚡
+              🚚
             </div>
             <div className="flex flex-col min-w-0">
               <span className="text-[10px] uppercase tracking-wider font-mono text-gray-500 dark:text-gray-400 font-semibold">Livraison</span>
-              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">Expédition 24/48h</strong>
+              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">Offerte dès 40€ (24/48h)</strong>
             </div>
           </div>
 
