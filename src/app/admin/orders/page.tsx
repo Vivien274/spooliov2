@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAdminTheme } from "../AdminThemeContext";
+import { getItemProductUrl, parseItemName } from "@/lib/orderUtils";
 
 const ADMIN_BLUE = "#2F3CD9";
 
@@ -10,18 +11,7 @@ interface OrderItem {
   name: string;
   quantity: number;
   price?: string | number;
-}
-
-function parseItemName(fullName: string) {
-  if (!fullName) return { mainName: "Article", options: [] };
-  const match = fullName.match(/^(.*?)(?:\s*\((.*?)\))?$/);
-  if (!match) return { mainName: fullName, options: [] };
-  const mainName = match[1].trim();
-  const optionsRaw = match[2];
-  const options = optionsRaw 
-    ? optionsRaw.split(",").map(o => o.trim()).filter(Boolean)
-    : [];
-  return { mainName, options };
+  slug?: string;
 }
 
 
@@ -520,11 +510,29 @@ export default function AdminOrdersPage() {
                                 }`}>
                                   x{item.quantity}
                                 </span>
-                                <span className="font-bold text-gray-100 text-xs truncate max-w-[220px]" title={mainName}>
-                                  {isDonation && "❤️ "}
-                                  {isTombola && "🎟️ "}
-                                  {mainName}
-                                </span>
+                                {getItemProductUrl(item) ? (
+                                  <Link
+                                    href={getItemProductUrl(item)!}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={(e) => e.stopPropagation()}
+                                    className="font-bold text-gray-100 hover:text-[#ff4f00] hover:underline text-xs truncate max-w-[220px] inline-flex items-center gap-1 group"
+                                    title={`Ouvrir la fiche produit pour ${mainName}`}
+                                  >
+                                    <span>
+                                      {isDonation && "❤️ "}
+                                      {isTombola && "🎟️ "}
+                                      {mainName}
+                                    </span>
+                                    <span className="text-[9px] text-gray-400 group-hover:text-[#ff4f00]">↗</span>
+                                  </Link>
+                                ) : (
+                                  <span className="font-bold text-gray-100 text-xs truncate max-w-[220px]" title={mainName}>
+                                    {isDonation && "❤️ "}
+                                    {isTombola && "🎟️ "}
+                                    {mainName}
+                                  </span>
+                                )}
                               </div>
                               {options.length > 0 && (
                                 <div className="flex flex-wrap gap-1 pl-6">
@@ -772,7 +780,20 @@ export default function AdminOrdersPage() {
                               {isDonation && "❤️"}
                               {isTombola && "🎟️"}
                               {!isDonation && !isTombola && "📦"}
-                              <span>{mainName}</span>
+                              {getItemProductUrl(item) ? (
+                                <Link
+                                  href={getItemProductUrl(item)!}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="hover:text-[#ff4f00] hover:underline transition-colors inline-flex items-center gap-1 group"
+                                  title="Ouvrir la fiche produit sur le site"
+                                >
+                                  <span>{mainName}</span>
+                                  <span className="text-xs text-gray-400 group-hover:text-[#ff4f00]">↗</span>
+                                </Link>
+                              ) : (
+                                <span>{mainName}</span>
+                              )}
                             </div>
 
                             {/* Option badges */}

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles, Star, ShieldCheck, Zap, Layers, RefreshCw, ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
 
 export interface HeroSlide {
@@ -16,39 +16,47 @@ export interface HeroSlide {
   buttonLink: string;
   image: string;
   accentColor: string;
+  tag?: string;
+  price?: string;
 }
 
-const HERO_SLIDES: HeroSlide[] = [
+const SHOWCASE_ITEMS: HeroSlide[] = [
   {
     id: 1,
-    badge: "🌀 COLLECTION FIDGETS",
-    title: "LA FOLIE DES FIDGETS SENSORIELS ⚡",
-    subtitle: "Décompresser, toucher, cliquer : découvrez nos créations 3D originales faites main en France 🌱",
-    buttonText: "DÉCOUVRIR LA BOUTIQUE",
-    buttonLink: "/boutique",
-    image: "/images/hero_background.jpg",
+    badge: "⌨️ STUDIO CLICKER 3D",
+    title: "Clicker Mécanique Sur-Mesure",
+    subtitle: "Personnalise les couleurs de touches, le switch et l'attache porte-clés pour un rendu ASMR unique.",
+    buttonText: "CONCEVOIR MON CLICKER",
+    buttonLink: "/createur-cliqueur",
+    image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
     accentColor: "#ff4f00",
+    tag: "🔥 Star de TikTok",
+    price: "dès 5.00€"
   },
   {
     id: 2,
-    badge: "⌨️ SUR-MESURE & ASMR",
-    title: "CRÉE TON CLICKER 3D SUR-MESURE 🎨",
-    subtitle: "Choisis tes couleurs de switch, le nombre de touches et la finition de ton fidget clicker",
-    buttonText: "CRÉER MON CLICKER",
-    buttonLink: "/createur-cliqueur",
-    image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
-    accentColor: "#2F3CD9",
+    badge: "🌀 PACKS SENSORIELS TDAH",
+    title: "Fidgets & Objets Tactiles",
+    subtitle: "Conçus pour canaliser l'anxiété et stimuler les sens. PLA biodégradable d'amidon de maïs 🌱",
+    buttonText: "DÉCOUVRIR LA BOUTIQUE",
+    buttonLink: "/boutique",
+    image: "/images/hero_background.jpg",
+    accentColor: "#00f0ff",
+    tag: "🌱 PLA Biosourcé",
+    price: "dès 4.50€"
   },
   {
     id: 3,
-    badge: "🎁 ÉDITIONS LIMITÉES",
-    title: "LA POCHETTE SURPRISE SPOOLIO 📦",
-    subtitle: "Un assortiment mystère d'objets funs & fidgets 3D inédits dès 10.00€",
+    badge: "🎁 MYSTÈRE & CADEAU",
+    title: "La Pochette Surprise Spoolio",
+    subtitle: "Craquez pour un assortiment mystère d'objets 3D et fidgets inédits fabriqués à Comines.",
     buttonText: "VOIR LES POCHETTES",
     buttonLink: "/pochette-surprise",
     image: "/images/imported/PochetteM-1.png",
-    accentColor: "#FF7700",
-  },
+    accentColor: "#10b981",
+    tag: "🎁 Best Seller",
+    price: "dès 10.00€"
+  }
 ];
 
 export interface AnimatedHeroProps {
@@ -58,165 +66,258 @@ export interface AnimatedHeroProps {
   subtitle?: string;
   buttonText?: string;
   buttonLink?: string;
-  secondaryButtonText?: string;
-  secondaryButtonLink?: string;
-  cardBadge?: string;
-  cardTitle?: string;
-  cardPrice?: string;
-  cardTags?: string;
-  cardLink?: string;
-  cardImage?: string;
-  imageUrl?: string;
-  imagePosition?: string;
 }
 
-export default function AnimatedHero({ slides }: AnimatedHeroProps) {
-  const activeSlides = slides && slides.length > 0 ? slides : HERO_SLIDES;
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
+export default function AnimatedHero({
+  slides,
+  topBadgeText,
+  title,
+  subtitle,
+  buttonText,
+  buttonLink
+}: AnimatedHeroProps = {}) {
+  const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isPaused, setIsPaused] = useState<boolean>(false);
 
-  // Reset index if slides list length changes
-  useEffect(() => {
-    if (currentIndex >= activeSlides.length) {
-      setCurrentIndex(0);
-    }
-  }, [activeSlides.length, currentIndex]);
+  const showcaseItems = slides && slides.length > 0 ? slides : SHOWCASE_ITEMS;
 
-  // Auto-advance slides every 5 seconds unless paused
   useEffect(() => {
     if (isPaused) return;
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % activeSlides.length);
-    }, 5200);
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % showcaseItems.length);
+    }, 4800);
+    return () => clearInterval(interval);
+  }, [isPaused, showcaseItems.length]);
 
-    return () => clearInterval(timer);
-  }, [isPaused, activeSlides.length]);
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % activeSlides.length);
-  };
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + activeSlides.length) % activeSlides.length);
-  };
-
-  const currentSlide = activeSlides[currentIndex] || activeSlides[0] || HERO_SLIDES[0];
+  const activeItem = showcaseItems[activeIndex] || showcaseItems[0];
 
   return (
     <div className="w-full relative z-10 select-none no-invert">
-      
       {/* =========================================================================
-          HERO CAROUSEL CONTAINER (FULL BLEED SLIDER BANNER)
+          NEXT-GEN HERO CONTAINER
          ========================================================================= */}
       <section
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
-        className="w-full relative overflow-hidden rounded-b-[36px] sm:rounded-b-[56px] border-b border-neutral-800 bg-[#08080a] text-white h-[calc(80dvh-44px)] min-h-[460px] md:h-[580px] lg:h-[620px] flex flex-col justify-between"
+        className="w-full relative overflow-hidden rounded-b-[36px] sm:rounded-b-[56px] border-b border-neutral-800/80 bg-[#070709] text-white min-h-[640px] lg:min-h-[680px] flex flex-col justify-between"
       >
-        {/* Header Overlay */}
+        {/* Header Navigation Overlay */}
         <Header className="absolute top-0 left-0 right-0 h-20 sm:h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full no-invert" />
 
-        {/* Dynamic Background Image Animation */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentSlide.id}
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.7, ease: "easeInOut" }}
-            className="absolute inset-0 z-0"
-          >
-            <Image
-              src={currentSlide.image}
-              alt={currentSlide.title}
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover opacity-35 filter contrast-125 saturate-125"
-            />
-            {/* Radial Dark Overlay Gradients */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#08080a] via-[#08080a]/75 to-[#08080a]/40 z-10" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#08080a_85%)] z-10" />
-            
-            {/* Dynamic Accent Color Glow */}
-            <div
-              className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full filter blur-[140px] pointer-events-none z-10 opacity-30 transition-colors duration-700"
-              style={{ backgroundColor: currentSlide.accentColor }}
-            />
-          </motion.div>
-        </AnimatePresence>
-
-        {/* HERO CENTERED SLIDE CONTENT */}
-        <div className="relative z-20 w-full flex-1 flex flex-col items-center justify-center pt-20 sm:pt-24 pb-20 sm:pb-24 px-5 sm:px-12 max-w-[850px] mx-auto text-center">
-          
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide.id}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4 }}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.2}
-              onDragEnd={(_, { offset, velocity }) => {
-                const swipeThreshold = 50;
-                if (offset.x < -swipeThreshold || velocity.x < -200) {
-                  handleNext();
-                } else if (offset.x > swipeThreshold || velocity.x > 200) {
-                  handlePrev();
-                }
-              }}
-              className="flex flex-col items-center text-center space-y-3.5 sm:space-y-5 w-full cursor-grab active:cursor-grabbing touch-pan-y"
-            >
-              {/* Slide Badge */}
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-[9px] sm:text-xs font-mono font-black text-white tracking-wider shadow-lg">
-                <span>{currentSlide.badge}</span>
-              </div>
-
-              {/* Slide Title */}
-              <h1 className="text-2xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white font-[family-name:var(--font-antonio)] leading-[1.05] sm:leading-[1.02] drop-shadow-[0_10px_25px_rgba(0,0,0,0.8)] px-2">
-                {currentSlide.title}
-              </h1>
-
-              {/* Slide Subtitle */}
-              <p className="text-xs sm:text-base md:text-lg text-neutral-200 font-sans font-medium tracking-wide leading-relaxed max-w-xl px-2">
-                {currentSlide.subtitle}
-              </p>
-
-              {/* Slide CTA Button */}
-              <div className="pt-2 sm:pt-3 w-full sm:w-auto flex justify-center">
-                <Link
-                  href={currentSlide.buttonLink}
-                  className="no-invert w-full sm:w-auto h-11 sm:h-15 px-7 sm:px-10 inline-flex items-center justify-center gap-2 sm:gap-2.5 bg-gradient-to-r from-[#ff4f00] to-[#FF7700] hover:from-[#e04500] hover:to-[#ff4f00] text-white font-black text-xs sm:text-sm uppercase tracking-wider rounded-full transition-all shadow-[0_10px_35px_rgba(255,79,0,0.45)] hover:shadow-[0_15px_45px_rgba(255,79,0,0.65)] hover:scale-[1.03] active:scale-[0.98] cursor-pointer border border-white/20 group"
-                >
-                  <span className="text-white font-black tracking-wider">{currentSlide.buttonText}</span>
-                  <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-
-              {/* Dots Indicator inside Motion Container */}
-              <div className="pt-3 sm:pt-5 flex items-center justify-center gap-2 z-30">
-                {activeSlides.map((slide, idx) => (
-                  <button
-                    key={slide.id}
-                    onClick={() => setCurrentIndex(idx)}
-                    className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                      idx === currentIndex
-                        ? "w-8 bg-[#ff4f00] shadow-[0_0_10px_rgba(255,79,0,0.8)]"
-                        : "w-2.5 bg-white/20 hover:bg-white/40"
-                    }`}
-                    title={`Aller à la slide ${idx + 1}`}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          </AnimatePresence>
-
+        {/* Dynamic Background Mesh Gradients */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          {/* Main Orange Aura Glow */}
+          <div className="absolute top-[-10%] right-[-5%] w-[650px] h-[650px] rounded-full bg-[#ff4f00]/15 blur-[150px] animate-pulse" />
+          {/* Cyan Secondary Glow */}
+          <div className="absolute bottom-[-10%] left-[-5%] w-[550px] h-[550px] rounded-full bg-cyan-500/10 blur-[150px]" />
+          {/* Grid pattern overlay */}
+          <div 
+            className="absolute inset-0 opacity-[0.03]" 
+            style={{ backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.4) 1px, transparent 0)`, backgroundSize: '32px 32px' }} 
+          />
         </div>
 
-      </section>
+        {/* Hero Content Grid (Left Copywriting + Right 3D Interactive Card) */}
+        <div className="relative z-20 w-full max-w-[1220px] mx-auto px-5 sm:px-8 pt-28 sm:pt-32 pb-14 sm:pb-16 flex-1 flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8">
+          
+          {/* Left Column: Headlines & Action CTA */}
+          <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 max-w-2xl">
+            
+            {/* Top Eco Status Pill */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-[11px] font-mono font-extrabold text-neutral-200 tracking-wide shadow-lg"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping shrink-0" />
+              <span>{topBadgeText || "FABRICATION ARTISANALE À COMINES (59) • PLA BIOSOURCÉ 🌱"}</span>
+            </motion.div>
 
+            {/* Main Punchy Title */}
+            <motion.h1
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white font-antonio leading-[1.03] drop-shadow-2xl"
+            >
+              {title ? (
+                title
+              ) : (
+                <>
+                  Objets Funs & Fidgets <br className="hidden sm:block" />
+                  <span className="bg-gradient-to-r from-[#ff4f00] via-[#ff7700] to-amber-300 bg-clip-text text-transparent">
+                    Imprimés en 3D ⚡
+                  </span>
+                </>
+              )}
+            </motion.h1>
+
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-xs sm:text-sm md:text-base text-neutral-300 font-sans font-medium leading-relaxed max-w-xl"
+            >
+              {subtitle || "Créations uniques conçues à partir d'amidon de maïs biosourcé. Pour canaliser l'anxiété, décompresser au bureau ou surprendre la commu !"}
+            </motion.p>
+
+            {/* Dual Action Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-col sm:flex-row items-center gap-3.5 w-full sm:w-auto pt-2"
+            >
+              <Link
+                href={buttonLink || "/boutique"}
+                className="w-full sm:w-auto h-13 px-8 inline-flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#2F3CD9] via-[#3b49f5] to-[#2F3CD9] hover:from-[#2532c7] hover:to-[#2F3CD9] text-white font-black text-xs uppercase tracking-wider rounded-2xl transition-all shadow-[0_0_25px_rgba(47,60,217,0.65),0_0_50px_rgba(47,60,217,0.35)] hover:shadow-[0_0_40px_rgba(47,60,217,0.9),0_0_75px_rgba(47,60,217,0.6)] hover:scale-[1.03] active:scale-[0.98] cursor-pointer border border-[#6b79ff]/60 group relative overflow-hidden"
+              >
+                <span>{buttonText || "🛍️ EXPLORER LA BOUTIQUE"}</span>
+                <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
+              </Link>
+
+              <Link
+                href="/createur-cliqueur"
+                className="w-full sm:w-auto h-13 px-7 inline-flex items-center justify-center gap-2 bg-neutral-900/90 hover:bg-neutral-800 text-white font-bold text-xs uppercase tracking-wider rounded-2xl transition-all border border-neutral-700 hover:border-neutral-500 shadow-md hover:scale-[1.02] cursor-pointer"
+              >
+                <span>⌨️ CRÉER MON CLICKER</span>
+              </Link>
+            </motion.div>
+
+            {/* Social Proof Avatar Bar */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex items-center gap-3 pt-3 text-xs text-neutral-400 font-sans"
+            >
+              <div className="flex -space-x-2">
+                <div className="flex h-7 w-7 items-center justify-center rounded-full ring-2 ring-neutral-900 bg-orange-500 text-white font-black text-[11px] leading-none shrink-0">C</div>
+                <div className="flex h-7 w-7 items-center justify-center rounded-full ring-2 ring-neutral-900 bg-blue-500 text-white font-black text-[11px] leading-none shrink-0">J</div>
+                <div className="flex h-7 w-7 items-center justify-center rounded-full ring-2 ring-neutral-900 bg-emerald-500 text-white font-black text-[11px] leading-none shrink-0">S</div>
+              </div>
+              <div className="flex flex-col text-left">
+                <div className="flex items-center gap-1 text-amber-400 font-bold text-[11px]">
+                  <span>★★★★★</span>
+                  <span className="text-white font-black">4.9 / 5.0</span>
+                </div>
+                <span className="text-[10px] text-neutral-400 font-medium">Recommandé par +500 passionnés</span>
+              </div>
+            </motion.div>
+
+          </div>
+
+          {/* Right Column: Interactive 3D Showcase Card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="w-full lg:w-[480px] shrink-0 space-y-4 hidden lg:block"
+          >
+            {/* Interactive Showcase Card */}
+            <div className="relative rounded-3xl bg-neutral-900/90 border border-neutral-700/80 p-5 shadow-2xl backdrop-blur-xl overflow-hidden group">
+              
+              {/* Top Selector Tabs */}
+              <div className="flex items-center justify-between gap-1.5 pb-4 border-b border-neutral-800">
+                {showcaseItems.map((item, idx) => (
+                  <button
+                    key={item.id || idx}
+                    onClick={() => setActiveIndex(idx)}
+                    className={`px-3 py-1.5 rounded-xl text-[10px] font-extrabold uppercase transition-all cursor-pointer ${
+                      activeIndex === idx
+                        ? "bg-[#ff4f00] text-white shadow-md scale-105"
+                        : "bg-neutral-800/80 text-neutral-400 hover:text-white hover:bg-neutral-700/80"
+                    }`}
+                  >
+                    {item.badge ? item.badge.split(" ").slice(0, 2).join(" ") : `SLIDE #${idx + 1}`}
+                  </button>
+                ))}
+              </div>
+
+              {/* Card Image Display with Animated Transition */}
+              <div className="relative h-64 sm:h-72 w-full rounded-2xl overflow-hidden bg-neutral-950 my-4 border border-white/10 group-hover:border-[#ff4f00]/40 transition-colors">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeItem.id || activeIndex}
+                    initial={{ opacity: 0, scale: 1.04 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="relative w-full h-full"
+                  >
+                    <Image
+                      src={activeItem.image || "/images/hero_background.jpg"}
+                      alt={activeItem.title}
+                      fill
+                      priority
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950 via-transparent to-transparent opacity-80" />
+                    
+                    {/* Badge Tag */}
+                    {activeItem.tag && (
+                      <span className="absolute top-3 left-3 bg-black/70 backdrop-blur-md border border-white/15 text-white text-[10px] font-black uppercase px-2.5 py-1 rounded-full shadow">
+                        {activeItem.tag}
+                      </span>
+                    )}
+
+                    {/* Price Tag */}
+                    {activeItem.price && (
+                      <span className="absolute top-3 right-3 bg-[#ff4f00] text-white text-[11px] font-black uppercase px-2.5 py-1 rounded-full shadow-lg">
+                        {activeItem.price}
+                      </span>
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Card Info Details */}
+              <div className="space-y-1.5 pt-1">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-base font-bold text-white tracking-tight">
+                    {activeItem.title}
+                  </h3>
+                  <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-md">
+                    En Stock
+                  </span>
+                </div>
+                <p className="text-xs text-neutral-300 line-clamp-2 leading-relaxed">
+                  {activeItem.subtitle}
+                </p>
+
+                <div className="pt-3">
+                  <Link
+                    href={activeItem.buttonLink || "/boutique"}
+                    className="w-full py-2.5 bg-white/10 hover:bg-[#ff4f00] text-white text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-2 border border-white/10 hover:border-[#ff4f00]"
+                  >
+                    <span>{activeItem.buttonText || "DÉCOUVRIR"}</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Slider Dots */}
+            <div className="flex items-center justify-center gap-2">
+              {showcaseItems.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActiveIndex(idx)}
+                  className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                    idx === activeIndex
+                      ? "w-6 bg-[#ff4f00]"
+                      : "w-2 bg-neutral-700 hover:bg-neutral-500"
+                  }`}
+                />
+              ))}
+            </div>
+          </motion.div>
+
+        </div>
+      </section>
     </div>
   );
 }

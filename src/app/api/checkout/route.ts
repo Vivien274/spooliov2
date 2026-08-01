@@ -42,7 +42,8 @@ export async function POST(request: Request) {
         return {
           name: name,
           quantity: item.quantity,
-          price: item.price
+          price: item.price,
+          slug: item.slug || null
         };
       });
 

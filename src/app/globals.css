@@ -176,8 +176,8 @@ html.light .hero-card-in-stock span {
 }
 
 html.light .hero-marquee-section {
-  background-color: #f3f4f6 !important;
-  border-color: #e5e7eb !important;
+  background-color: transparent !important;
+  border: none !important;
 }
 html.light .hero-marquee-section span {
   color: #111827 !important;

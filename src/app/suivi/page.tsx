@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { getItemProductUrl, parseItemName } from "@/lib/orderUtils";
 
 interface OrderDetail {
   id: string;
@@ -18,6 +19,7 @@ interface OrderDetail {
     name: string;
     quantity: number;
     price: string;
+    slug?: string;
   }[];
   total: number;
   shippingCost: number;
@@ -318,15 +320,43 @@ export default function OrderTrackingPage() {
             <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6">
               <h3 className="text-xs font-black text-white uppercase tracking-wider mb-4">Récapitulatif des objets</h3>
               <div className="flex flex-col gap-3 font-sans">
-                {order.items.map((item, idx) => (
-                  <div key={idx} className="flex items-center justify-between text-xs py-2 border-b border-white/5 last:border-0 last:pb-0">
-                    <div>
-                      <span className="font-bold text-white">{item.name}</span>
-                      <span className="text-[10px] text-gray-500 font-sans ml-2">x{item.quantity}</span>
+                {order.items.map((item, idx) => {
+                  const itemUrl = getItemProductUrl(item);
+                  const { mainName, options } = parseItemName(item.name);
+                  return (
+                    <div key={idx} className="flex flex-col py-2.5 border-b border-white/5 last:border-0 last:pb-0 gap-1 font-sans">
+                      <div className="flex items-center justify-between text-xs">
+                        <div className="flex items-center gap-2">
+                          {itemUrl ? (
+                            <Link
+                              href={itemUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="font-bold text-white hover:text-[#ff4f00] transition-colors inline-flex items-center gap-1.5 group"
+                              title="Ouvrir la fiche produit sur le site"
+                            >
+                              <span>{mainName}</span>
+                              <span className="text-[10px] text-gray-400 group-hover:text-[#ff4f00] transition-colors">↗</span>
+                            </Link>
+                          ) : (
+                            <span className="font-bold text-white">{mainName}</span>
+                          )}
+                          <span className="text-[10px] text-gray-500 font-sans">x{item.quantity}</span>
+                        </div>
+                        <span className="font-extrabold text-gray-300">{(parseFloat(item.price) * item.quantity).toFixed(2)}€</span>
+                      </div>
+                      {options.length > 0 && (
+                        <div className="flex flex-wrap gap-1">
+                          {options.map((opt, optIdx) => (
+                            <span key={optIdx} className="text-[9px] bg-white/5 border border-white/10 px-1.5 py-0.5 rounded text-gray-400">
+                              {opt}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
-                    <span className="font-extrabold text-gray-300">{(parseFloat(item.price) * item.quantity).toFixed(2)}€</span>
-                  </div>
-                ))}
+                  );
+                })}
                 
                 <div className="flex items-center justify-between text-xs text-gray-500 border-t border-white/5 pt-4 mt-2">
                   <span>Frais d'envoi ({order.shippingMethod === "pickup" ? "Retrait" : (order.shippingMethod === "relay" ? "Relais" : "Domicile")})</span>

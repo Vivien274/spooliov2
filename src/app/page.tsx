@@ -208,7 +208,7 @@ export default async function HomePage() {
       <AnimatedHero {...(hero as any)} />
 
       {/* 2. Sleek Minimalist Text Marquee */}
-      <section className="hero-marquee-section w-full bg-gray-100 dark:bg-[#08080a] py-3.5 overflow-hidden border-y border-gray-200 dark:border-neutral-800 text-gray-900 dark:text-white select-none">
+      <section className="hero-marquee-section w-full bg-transparent py-4 overflow-hidden text-gray-900 dark:text-white select-none">
         <div className="flex whitespace-nowrap animate-marquee text-xs uppercase tracking-widest text-gray-900 dark:text-white font-extrabold gap-8 select-none font-sans items-center">
           {[1, 2, 3].map((loop) => (
             <div key={loop} className="flex items-center gap-8 shrink-0">
