@@ -219,25 +219,8 @@ export default function AnimatedHero({
             {/* Interactive Showcase Card */}
             <div className="relative rounded-3xl bg-neutral-900/90 border border-neutral-700/80 p-5 shadow-2xl backdrop-blur-xl overflow-hidden group">
               
-              {/* Top Selector Tabs */}
-              <div className="flex items-center justify-between gap-1.5 pb-4 border-b border-neutral-800">
-                {showcaseItems.map((item, idx) => (
-                  <button
-                    key={item.id || idx}
-                    onClick={() => setActiveIndex(idx)}
-                    className={`px-3 py-1.5 rounded-xl text-[10px] font-extrabold uppercase transition-all cursor-pointer ${
-                      activeIndex === idx
-                        ? "bg-[#ff4f00] text-white shadow-md scale-105"
-                        : "bg-neutral-800/80 text-neutral-400 hover:text-white hover:bg-neutral-700/80"
-                    }`}
-                  >
-                    {item.badge ? item.badge.split(" ").slice(0, 2).join(" ") : `SLIDE #${idx + 1}`}
-                  </button>
-                ))}
-              </div>
-
               {/* Card Image Display with Animated Transition */}
-              <div className="relative h-64 sm:h-72 w-full rounded-2xl overflow-hidden bg-neutral-950 my-4 border border-white/10 group-hover:border-[#ff4f00]/40 transition-colors">
+              <div className="relative h-64 sm:h-72 w-full rounded-2xl overflow-hidden bg-neutral-950 mb-4 border border-white/10 group-hover:border-[#ff4f00]/40 transition-colors">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeItem.id || activeIndex}
@@ -279,9 +262,6 @@ export default function AnimatedHero({
                   <h3 className="text-base font-bold text-white tracking-tight">
                     {activeItem.title}
                   </h3>
-                  <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 rounded-md">
-                    En Stock
-                  </span>
                 </div>
                 <p className="text-xs text-neutral-300 line-clamp-2 leading-relaxed">
                   {activeItem.subtitle}

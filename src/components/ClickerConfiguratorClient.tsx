@@ -5,7 +5,7 @@ import { useCart } from "@/context/CartContext";
 import AnimateDigits from "@/components/ui/AnimateDigits";
 import ModernBentoGallery, { GalleryItem } from "@/components/ui/ModernBentoGallery";
 import ClickerSvgSymbol, { VECTOR_SYMBOLS } from "@/components/ui/ClickerSvgSymbol";
-import { Sparkles, Type, FileText, Slash, Check } from "lucide-react";
+import { Sparkles, Type, FileText, Slash, Check, Layers } from "lucide-react";
 
 // Color Definition Type
 interface ColorOption {
@@ -122,7 +122,20 @@ const ATTACHMENTS: AttachmentOption[] = [
   { id: "none", name: "Sans attache (Usage Bureau)", price: 0.00, icon: "🚫" },
 ];
 
-export type KeyCustomizationType = "blank" | "letter" | "word" | "symbol";
+export type KeyCustomizationType = "blank" | "letter" | "word" | "symbol" | "texture";
+
+export interface TextureOption {
+  id: "lego" | "caisse" | "fromage";
+  name: string;
+  icon: string;
+  desc: string;
+}
+
+export const TEXTURE_OPTIONS: TextureOption[] = [
+  { id: "lego", name: "Lego", icon: "🧱", desc: "Ergots / tenons style brique de construction" },
+  { id: "caisse", name: "Caisse en bois", icon: "🪵", desc: "Motif lattes & renforts croisés de caisse de transport" },
+  { id: "fromage", name: "Fromage", icon: "🧀", desc: "Alvéoles & trous style gruyère / fromage suisse" },
+];
 
 export interface SingleKeyPerso {
   type: KeyCustomizationType;
@@ -424,6 +437,59 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
       );
     }
 
+    if (config.type === "texture" && config.value) {
+      if (config.value === "lego") {
+        return (
+          <div className="w-full h-full flex items-center justify-center p-1 select-none pointer-events-none">
+            <div className="grid grid-cols-2 gap-1.5 w-full h-full items-center justify-center">
+              {[0, 1, 2, 3].map((studIdx) => (
+                <div
+                  key={studIdx}
+                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full border border-white/40 shadow-[0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(255,255,255,0.6)] flex items-center justify-center"
+                  style={{
+                    background: `radial-gradient(circle at 35% 35%, rgba(255,255,255,0.5) 0%, rgba(0,0,0,0.2) 100%), ${color.hex}`
+                  }}
+                >
+                  <div className="w-1.5 h-1.5 rounded-full border border-black/20 opacity-40" />
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      }
+
+      if (config.value === "caisse") {
+        return (
+          <div className="w-full h-full relative rounded-lg border border-black/40 overflow-hidden flex flex-col justify-between p-1 bg-black/20 select-none pointer-events-none">
+            <div className="w-full h-full border-b border-black/30 bg-white/5 flex items-center justify-between px-1">
+              <span className="w-1 h-1 rounded-full bg-black/40" />
+              <span className="w-1 h-1 rounded-full bg-black/40" />
+            </div>
+            <div className="w-full h-full border-b border-black/30 bg-black/10 flex items-center justify-between px-1 relative">
+              <div className="absolute inset-0 border-t border-b border-black/40 transform -rotate-12 scale-110 opacity-30 bg-black/20" />
+              <span className="w-1 h-1 rounded-full bg-black/40" />
+              <span className="w-1 h-1 rounded-full bg-black/40" />
+            </div>
+            <div className="w-full h-full bg-white/5 flex items-center justify-between px-1">
+              <span className="w-1 h-1 rounded-full bg-black/40" />
+              <span className="w-1 h-1 rounded-full bg-black/40" />
+            </div>
+          </div>
+        );
+      }
+
+      if (config.value === "fromage") {
+        return (
+          <div className="w-full h-full relative p-1.5 select-none pointer-events-none overflow-hidden rounded-lg">
+            <div className="absolute top-1 left-2 w-3.5 h-3.5 rounded-full bg-black/35 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] border border-black/30" />
+            <div className="absolute top-3.5 right-1.5 w-4 h-4 rounded-full bg-black/35 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] border border-black/30" />
+            <div className="absolute bottom-1 left-3.5 w-3 h-3 rounded-full bg-black/35 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] border border-black/30" />
+            <div className="absolute bottom-3 right-5 w-2.5 h-2.5 rounded-full bg-black/35 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] border border-black/30" />
+          </div>
+        );
+      }
+    }
+
     // Blank keycap surface default
     return <span className="w-2.5 h-2.5 rounded-full bg-white/25 border border-white/10" />;
   };
@@ -441,6 +507,10 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
       if (cfg.type === "letter") label = `Lettre '${cfg.value}'`;
       else if (cfg.type === "word") label = `Mot '${cfg.value}'`;
       else if (cfg.type === "symbol") label = `Symbole ${cfg.value}`;
+      else if (cfg.type === "texture") {
+        const foundTex = TEXTURE_OPTIONS.find(t => t.id === cfg.value);
+        label = `Texture '${foundTex ? foundTex.name : cfg.value}'`;
+      }
       return `Touche #${i + 1} (${cfg.color.name} - ${label})`;
     }).join(", ");
 
@@ -798,7 +868,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                   <label className="text-xs text-neutral-300 font-mono font-bold">Motif ou gravure sur toutes les touches :</label>
                   
                   {/* Perso Type Tabs */}
-                  <div className="grid grid-cols-4 gap-1.5 p-1 bg-black/60 rounded-xl border border-neutral-800 text-[11px] font-bold">
+                  <div className="grid grid-cols-5 gap-1.5 p-1 bg-black/60 rounded-xl border border-neutral-800 text-[11px] font-bold">
                     <button
                       type="button"
                       onClick={() => setGlobalPerso({ type: "blank", value: "" })}
@@ -841,6 +911,17 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                     >
                       <Sparkles className="w-3 h-3" />
                       <span>Symbole</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setGlobalPerso({ type: "texture", value: globalPerso.value || "lego" })}
+                      className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
+                        globalPerso.type === "texture" ? "bg-white text-black font-extrabold shadow-sm" : "text-neutral-400 hover:text-white"
+                      }`}
+                    >
+                      <Layers className="w-3 h-3" />
+                      <span>Texture</span>
                     </button>
                   </div>
 
@@ -933,6 +1014,37 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                     </div>
                   )}
 
+                  {globalPerso.type === "texture" && (
+                    <div className="p-3 rounded-2xl bg-neutral-950 border border-neutral-800 space-y-2">
+                      <span className="text-[11px] text-neutral-400 font-mono block">Textures &amp; Reliefs 3D Spoolio :</span>
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        {TEXTURE_OPTIONS.map((tex) => {
+                          const isSelected = globalPerso.value === tex.id;
+                          return (
+                            <button
+                              key={tex.id}
+                              type="button"
+                              onClick={() => setGlobalPerso({ type: "texture", value: tex.id })}
+                              className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-1.5 ${
+                                isSelected
+                                  ? "bg-white text-black border-white shadow-md scale-102"
+                                  : "bg-neutral-900 border-neutral-800 text-neutral-400 hover:border-neutral-700 hover:text-white"
+                              }`}
+                            >
+                              <div className="flex items-center gap-2">
+                                <span className="text-xl">{tex.icon}</span>
+                                <span className="text-xs font-bold uppercase">{tex.name}</span>
+                              </div>
+                              <p className={`text-[10px] leading-tight ${isSelected ? "text-neutral-700 font-medium" : "text-neutral-400"}`}>
+                                {tex.desc}
+                              </p>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
                 </div>
 
               </div>
@@ -1014,7 +1126,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                   <div className="space-y-2 pt-1 border-t border-neutral-900">
                     <label className="text-xs text-neutral-300 font-mono">Contenu Touche #{selectedShape.validIndices.indexOf(activeKeyIndex) + 1} :</label>
 
-                    <div className="grid grid-cols-4 gap-1.5 p-1 bg-neutral-900 rounded-xl border border-neutral-800 text-[11px] font-bold">
+                    <div className="grid grid-cols-5 gap-1.5 p-1 bg-neutral-900 rounded-xl border border-neutral-800 text-[11px] font-bold">
                       <button
                         type="button"
                         onClick={() => updateActiveKeyPerso({ type: "blank", value: "" })}
@@ -1057,6 +1169,17 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                       >
                         <Sparkles className="w-3 h-3" />
                         <span>Symbole</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => updateActiveKeyPerso({ type: "texture", value: activeKeyConfig.value || "lego" })}
+                        className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
+                          activeKeyConfig.type === "texture" ? "bg-white text-black font-extrabold shadow-sm" : "text-neutral-400 hover:text-white"
+                        }`}
+                      >
+                        <Layers className="w-3 h-3" />
+                        <span>Texture</span>
                       </button>
                     </div>
 
@@ -1142,6 +1265,37 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                                 title={sym.name}
                               >
                                 <ClickerSvgSymbol symbolId={sym.id} size={16} />
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {activeKeyConfig.type === "texture" && (
+                      <div className="pt-2 space-y-2">
+                        <span className="text-[11px] text-neutral-400 font-mono block">Textures &amp; Reliefs 3D Spoolio :</span>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                          {TEXTURE_OPTIONS.map((tex) => {
+                            const isSelected = activeKeyConfig.value === tex.id;
+                            return (
+                              <button
+                                key={tex.id}
+                                type="button"
+                                onClick={() => updateActiveKeyPerso({ type: "texture", value: tex.id })}
+                                className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-1.5 ${
+                                  isSelected
+                                    ? "bg-white text-black border-white shadow-md scale-102"
+                                    : "bg-neutral-900 border-neutral-800 text-neutral-400 hover:border-neutral-700 hover:text-white"
+                                }`}
+                              >
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xl">{tex.icon}</span>
+                                  <span className="text-xs font-bold uppercase">{tex.name}</span>
+                                </div>
+                                <p className={`text-[10px] leading-tight ${isSelected ? "text-neutral-700 font-medium" : "text-neutral-400"}`}>
+                                  {tex.desc}
+                                </p>
                               </button>
                             );
                           })}
