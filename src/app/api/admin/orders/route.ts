@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { sendOrderShippedEmail, sendPickupSlotConfirmedEmail, sendPickupSlotProposedEmail } from "@/lib/email";
+import { fetchStripeSessionAddress } from "@/lib/stripeAddress";
 import fs from "fs";
 import path from "path";
 
@@ -63,6 +64,41 @@ export async function GET() {
       }
     }
 
+    // Auto-recover missing shipping addresses from Stripe for existing orders
+    let hasRecoveredAddress = false;
+    for (const o of orders) {
+      if ((!o.shippingAddress || o.shippingAddress === "aucune adresse enregistrée...") && o.stripeSession && o.shippingMethod !== "pickup") {
+        try {
+          const recovered = await fetchStripeSessionAddress(o.stripeSession, o.customerName, o.shippingMethod);
+          if (recovered) {
+            console.log(`[Admin Order Fix] Auto-recovered shipping address for order ${o.id}:`, recovered);
+            o.shippingAddress = recovered;
+            hasRecoveredAddress = true;
+
+            // Update database async
+            try {
+              await prisma.order.update({
+                where: { id: o.id },
+                data: { shippingAddress: recovered }
+              });
+            } catch (dbUpdateErr) {
+              console.warn("Could not update recovered address in DB:", dbUpdateErr);
+            }
+          }
+        } catch (recoverErr) {
+          console.warn(`Could not recover address for order ${o.id} from Stripe:`, recoverErr);
+        }
+      }
+    }
+
+    if (hasRecoveredAddress) {
+      try {
+        fs.writeFileSync(jsonPath, JSON.stringify(orders, null, 2), 'utf-8');
+      } catch (err) {
+        console.warn("Could not cache updated orders with recovered addresses to local JSON:", err);
+      }
+    }
+
     // Parse the items summary before sending
     const parsedOrders = orders.map((o) => {
       let parsedItems = [];
@@ -109,7 +145,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { id, status, pickupSlotConfirmed, pickupStatus, trackingNumber } = body;
+    const { id, status, pickupSlotConfirmed, pickupStatus, trackingNumber, shippingAddress } = body;
 
     if (!id) {
       return NextResponse.json(
@@ -138,6 +174,9 @@ export async function POST(request: Request) {
     if (trackingNumber !== undefined) {
       updateData.trackingNumber = trackingNumber;
     }
+    if (shippingAddress !== undefined) {
+      updateData.shippingAddress = shippingAddress;
+    }
 
     let updatedOrder: any = null;
 
@@ -162,6 +201,7 @@ export async function POST(request: Request) {
           if (pickupSlotConfirmed !== undefined) orders[idx].pickupSlotConfirmed = pickupSlotConfirmed;
           if (pickupStatus !== undefined) orders[idx].pickupStatus = pickupStatus;
           if (trackingNumber !== undefined) orders[idx].trackingNumber = trackingNumber;
+          if (shippingAddress !== undefined) orders[idx].shippingAddress = shippingAddress;
           
           fs.writeFileSync(jsonPath, JSON.stringify(orders, null, 2), 'utf-8');
           if (!updatedOrder) {

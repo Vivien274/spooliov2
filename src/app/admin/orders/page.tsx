@@ -47,6 +47,37 @@ export default function AdminOrdersPage() {
   const [proposingSlots, setProposingSlots] = useState<Record<string, string>>({});
   const [pickupLoading, setPickupLoading] = useState<string | null>(null);
   const [resendingEmail, setResendingEmail] = useState<string | null>(null);
+  const [editingAddress, setEditingAddress] = useState<string | null>(null);
+  const [editingAddressInput, setEditingAddressInput] = useState<string>("");
+  const [savingAddressLoading, setSavingAddressLoading] = useState<boolean>(false);
+
+  const handleSaveAddress = async () => {
+    if (!selectedOrder) return;
+    setSavingAddressLoading(true);
+    try {
+      const res = await fetch("/api/admin/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          id: selectedOrder.id,
+          shippingAddress: editingAddressInput.trim() || null
+        })
+      });
+      if (res.ok) {
+        const updatedAddr = editingAddressInput.trim() || null;
+        setSelectedOrder(prev => prev ? { ...prev, shippingAddress: updatedAddr } : null);
+        setOrders(prev => prev.map(o => o.id === selectedOrder.id ? { ...o, shippingAddress: updatedAddr } : o));
+        setEditingAddress(null);
+        alert("✅ Adresse de livraison enregistrée avec succès !");
+      } else {
+        alert("⚠️ Échec de l'enregistrement de l'adresse.");
+      }
+    } catch (e) {
+      alert("Erreur réseau lors de la mise à jour de l'adresse.");
+    } finally {
+      setSavingAddressLoading(false);
+    }
+  };
 
   const handleResendEmail = async (orderId: string, email: string) => {
     setResendingEmail(orderId);
@@ -650,16 +681,79 @@ export default function AdminOrdersPage() {
               {selectedOrder.shippingMethod !== "pickup" ? (
                 <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-4">
                   <div>
-                    <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block mb-1">Adresse de livraison</span>
-                    {selectedOrder.shippingAddress ? (
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block">Adresse de livraison</span>
+                      {editingAddress !== selectedOrder.id && (
+                        <button
+                          onClick={() => {
+                            setEditingAddress(selectedOrder.id);
+                            setEditingAddressInput(selectedOrder.shippingAddress || "");
+                          }}
+                          className="text-[11px] font-bold text-amber-400 hover:text-amber-300 transition-colors uppercase tracking-wider flex items-center gap-1 cursor-pointer select-none"
+                        >
+                          ✏️ {selectedOrder.shippingAddress ? "Modifier" : "Saisir l'adresse"}
+                        </button>
+                      )}
+                    </div>
+
+                    {editingAddress === selectedOrder.id ? (
+                      <div className="space-y-2 font-sans">
+                        <textarea
+                          rows={4}
+                          value={editingAddressInput}
+                          onChange={(e) => setEditingAddressInput(e.target.value)}
+                          placeholder="Ex: Laura De Poppe&#10;12 Rue des Fleurs&#10;59000 Lille&#10;France"
+                          className="w-full bg-black border border-amber-500/50 rounded-xl p-3 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-amber-400"
+                        />
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={handleSaveAddress}
+                            disabled={savingAddressLoading}
+                            className="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white font-bold text-xs transition-colors cursor-pointer"
+                          >
+                            {savingAddressLoading ? "Enregistrement..." : "💾 Enregistrer l'adresse"}
+                          </button>
+                          <button
+                            onClick={() => setEditingAddress(null)}
+                            className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 font-bold text-xs transition-colors cursor-pointer"
+                          >
+                            Annuler
+                          </button>
+                        </div>
+                      </div>
+                    ) : selectedOrder.shippingAddress ? (
                       <div className="text-xs text-gray-200 select-all whitespace-pre-line leading-relaxed font-sans bg-black/45 border border-white/5 rounded-xl p-3">
                         {selectedOrder.shippingAddress}
                       </div>
                     ) : (
-                      <div className="text-xs text-gray-500 italic">Aucune adresse enregistrée en base de données. Récupérez-la sur Stripe si besoin.</div>
+                      <div className="text-xs text-amber-400/90 bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 space-y-2">
+                        <div>⚠️ Adresse non enregistrée en base.</div>
+                        <div className="flex flex-wrap gap-2 pt-1">
+                          {selectedOrder.stripeSession && (
+                            <a
+                              href={`https://dashboard.stripe.com/search?query=${selectedOrder.stripeSession}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#2F3CD9] hover:bg-[#2532c7] text-white font-bold text-xs transition-colors shadow-sm"
+                            >
+                              <span>💳 Voir la transaction Stripe</span>
+                              <span>↗</span>
+                            </a>
+                          )}
+                          <button
+                            onClick={() => {
+                              setEditingAddress(selectedOrder.id);
+                              setEditingAddressInput("");
+                            }}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-black font-bold text-xs transition-colors shadow-sm cursor-pointer"
+                          >
+                            ✏️ Saisir l'adresse manuellement
+                          </button>
+                        </div>
+                      </div>
                     )}
                   </div>
-                  {selectedOrder.shippingAddress && (
+                  {selectedOrder.shippingAddress && editingAddress !== selectedOrder.id && (
                     <button
                       onClick={() => {
                         navigator.clipboard.writeText(selectedOrder.shippingAddress || "");

@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { verifySession } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { sendOrderConfirmationEmail } from "@/lib/email";
+import { syncOrderToManager } from "@/lib/managerSync";
 import fs from "fs";
 import path from "path";
 
@@ -86,6 +87,13 @@ export async function POST(request: Request) {
             status: newOrderData.status,
           }
         });
+
+        // Sync manual order to spoolio-manager Supabase database
+        try {
+          await syncOrderToManager(newOrderData);
+        } catch (syncErr) {
+          console.error("Manager sync error in manual order creation:", syncErr);
+        }
       }
     } catch (dbErr: any) {
       console.warn("Failed to create manual order in DB:", dbErr.message);

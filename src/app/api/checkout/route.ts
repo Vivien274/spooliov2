@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { syncOrderToManager } from "@/lib/managerSync";
 import fs from "fs";
 import path from "path";
 
@@ -81,6 +82,13 @@ export async function POST(request: Request) {
             pickupStatus: newOrderData.pickupStatus
           }
         });
+
+        // Sync simulated order into spoolio-manager
+        try {
+          await syncOrderToManager(newOrderData);
+        } catch (syncErr) {
+          console.error("Manager sync error in simulated checkout:", syncErr);
+        }
       } catch (err) {
         console.error("Failed to create simulated order in Prisma:", err);
       }
@@ -166,6 +174,7 @@ export async function POST(request: Request) {
     if (!isPureDonation && shippingMethod !== "pickup") {
       body.append("shipping_address_collection[allowed_countries][0]", "FR");
       body.append("shipping_address_collection[allowed_countries][1]", "BE");
+      body.append("phone_number_collection[enabled]", "true");
     }
 
     // Append metadata to track shipping details dynamically in Stripe/Boxtal

@@ -612,7 +612,7 @@ export default function MysteryPackConfigurator({
               1. Choisis la taille de la pochette
             </label>
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-2 sm:gap-3">
               {MYSTERY_SIZES.map((sizeOpt) => {
                 const isSelected = selectedSize === sizeOpt.count;
                 return (
@@ -620,7 +620,7 @@ export default function MysteryPackConfigurator({
                     key={sizeOpt.count}
                     type="button"
                     onClick={() => handleSelectSize(sizeOpt.count)}
-                    className={`relative py-4 px-3 rounded-2xl border transition-all cursor-pointer flex flex-col items-center justify-center text-center gap-1 ${
+                    className={`relative py-3 px-1.5 sm:py-4 sm:px-3 rounded-2xl border transition-all cursor-pointer flex flex-col items-center justify-center text-center gap-1 ${
                       isSelected
                         ? "bg-neutral-900 border-2 border-[#FF5500] shadow-md"
                         : "size-tab-unselected bg-neutral-900/40 border border-neutral-800 text-gray-400 hover:text-white"
@@ -628,12 +628,12 @@ export default function MysteryPackConfigurator({
                   >
                     {/* Badge RECOMMANDÉ & MEGA PACK */}
                     {sizeOpt.badge && (
-                      <span className="absolute -top-3 px-2.5 py-0.5 rounded-full bg-[#FF5500] text-black font-extrabold text-[10px] font-[family-name:var(--font-antonio)] uppercase tracking-wider shadow-md z-10 whitespace-nowrap">
+                      <span className="absolute -top-3 px-2 sm:px-2.5 py-0.5 rounded-full bg-[#FF5500] text-black font-extrabold text-[9px] sm:text-[10px] font-[family-name:var(--font-antonio)] uppercase tracking-wider shadow-md z-10 whitespace-nowrap">
                         {sizeOpt.badge}
                       </span>
                     )}
                     <span
-                      className="text-base sm:text-lg font-bold font-[family-name:var(--font-plus-jakarta)]"
+                      className="text-sm sm:text-base md:text-lg font-bold font-[family-name:var(--font-plus-jakarta)]"
                       style={{ color: isSelected ? "#ffffff" : undefined }}
                     >
                       {sizeOpt.label}
@@ -657,7 +657,7 @@ export default function MysteryPackConfigurator({
               2. Dose la répartition des catégories
             </label>
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2.5 sm:gap-3">
               {(Object.keys(MYSTERY_CATEGORIES) as MysteryCategoryKey[]).map((catKey) => {
                 const cat = MYSTERY_CATEGORIES[catKey];
                 const count = distribution[catKey] || 0;
@@ -666,29 +666,29 @@ export default function MysteryPackConfigurator({
                 return (
                   <div
                     key={cat.key}
-                    className="category-card rounded-2xl p-4 bg-neutral-900/40 border border-neutral-800 flex items-center justify-between gap-4 transition-colors hover:border-neutral-700"
+                    className="category-card rounded-2xl p-3 sm:p-4 bg-neutral-900/40 border border-neutral-800 flex items-center justify-between gap-2 sm:gap-4 transition-colors hover:border-neutral-700"
                   >
                     {/* Icône + Nom à gauche */}
-                    <div className="flex items-center gap-3 min-w-0">
-                      <span className="text-2xl shrink-0 select-none">{cat.icon}</span>
-                      <span className="text-sm sm:text-base font-bold text-white truncate">
+                    <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+                      <span className="text-xl sm:text-2xl shrink-0 select-none">{cat.icon}</span>
+                      <span className="text-xs sm:text-sm md:text-base font-bold text-white leading-snug break-words">
                         {cat.name}
                       </span>
                     </div>
 
                     {/* Compteur Simple [ - ] COUNT [ + ] */}
-                    <div className="flex items-center gap-3 shrink-0">
+                    <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
                       <button
                         type="button"
                         onClick={() => handleRemoveCategory(catKey)}
                         disabled={count <= 0}
-                        className="btn-minus w-10 h-10 rounded-xl bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 disabled:pointer-events-none text-white font-bold text-xl flex items-center justify-center cursor-pointer transition-colors"
+                        className="btn-minus w-8.5 h-8.5 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 disabled:opacity-20 disabled:pointer-events-none text-white font-bold text-lg sm:text-xl flex items-center justify-center cursor-pointer transition-colors"
                         title="Moins"
                       >
                         -
                       </button>
 
-                      <span className="w-6 text-center font-extrabold text-base font-[family-name:var(--font-plus-jakarta)] text-white">
+                      <span className="w-5 sm:w-6 text-center font-extrabold text-sm sm:text-base font-[family-name:var(--font-plus-jakarta)] text-white">
                         {count}
                       </span>
 
@@ -697,7 +697,7 @@ export default function MysteryPackConfigurator({
                         type="button"
                         onClick={(e) => handleAddCategory(catKey, e)}
                         disabled={isMaxReached}
-                        className="w-10 h-10 rounded-xl bg-[#FF5500] hover:bg-[#ff661a] border border-[#FF5500] disabled:opacity-20 disabled:pointer-events-none text-black font-extrabold text-xl flex items-center justify-center cursor-pointer transition-all shadow-sm active:scale-95"
+                        className="w-8.5 h-8.5 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-[#FF5500] hover:bg-[#ff661a] border border-[#FF5500] disabled:opacity-20 disabled:pointer-events-none text-black font-extrabold text-lg sm:text-xl flex items-center justify-center cursor-pointer transition-all shadow-sm active:scale-95"
                         title="Ajouter au sachet"
                       >
                         +
@@ -716,7 +716,7 @@ export default function MysteryPackConfigurator({
             <button
               type="button"
               onClick={handleRandomFill}
-              className="btn-random w-full py-3.5 px-4 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 hover:border-neutral-600 text-gray-200 hover:text-white font-[family-name:var(--font-antonio)] font-bold text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer"
+              className="btn-random w-full py-3.5 px-4 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 hover:border-neutral-600 text-gray-200 hover:text-white font-[family-name:var(--font-antonio)] font-bold text-xs sm:text-sm uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer"
             >
               <span>🎲 REMPLIR AU HASARD</span>
             </button>
@@ -726,7 +726,7 @@ export default function MysteryPackConfigurator({
               type="button"
               onClick={handleAddToCart}
               disabled={!isQuotaReached}
-              className={`w-full py-4 px-6 rounded-2xl font-[family-name:var(--font-antonio)] font-extrabold text-base uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer ${
+              className={`w-full py-3.5 sm:py-4 px-4 sm:px-6 rounded-2xl font-[family-name:var(--font-antonio)] font-extrabold text-xs sm:text-base uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer ${
                 isQuotaReached
                   ? "bg-[#FF5500] hover:bg-[#ff661a] text-black shadow-[0_0_30px_rgba(255,85,0,0.6)] animate-pulse border-2 border-amber-300 hover:scale-[1.02]"
                   : "bg-neutral-800 text-neutral-500 border border-neutral-700 cursor-not-allowed"

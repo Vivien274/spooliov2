@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendOrderConfirmationEmail, sendAdminOrderNotificationEmail } from "@/lib/email";
+import { syncOrderToManager } from "@/lib/managerSync";
+import { extractAddressFromStripeSession } from "@/lib/stripeAddress";
 import fs from "fs";
 import path from "path";
 
@@ -96,24 +98,7 @@ export async function POST(request: Request) {
         const orderId = `SP-${Math.floor(10000 + Math.random() * 90000)}`;
 
         // Extract shipping address and telephone from Stripe checkout session
-        let shippingAddress = null;
-        if (shippingMethod === "relay" && session.metadata?.relay_address) {
-          shippingAddress = [
-            session.shipping_details?.name || customerName,
-            session.metadata.relay_name,
-            session.metadata.relay_address
-          ].filter(Boolean).join("\n");
-        } else if (session.shipping_details?.address) {
-          const addr = session.shipping_details.address;
-          shippingAddress = [
-            session.shipping_details.name || customerName,
-            addr.line1,
-            addr.line2,
-            `${addr.postal_code || ""} ${addr.city || ""}`,
-            addr.state,
-            addr.country
-          ].filter(Boolean).join("\n");
-        }
+        const shippingAddress = extractAddressFromStripeSession(session, customerName, shippingMethod);
 
         const customerPhone = session.customer_details?.phone || null;
 
@@ -159,6 +144,13 @@ export async function POST(request: Request) {
               pickupStatus: newOrderData.pickupStatus
             }
           });
+
+          // Sync order in real-time to spoolio-manager Supabase database
+          try {
+            await syncOrderToManager(newOrderData);
+          } catch (syncErr) {
+            console.error("Manager sync error in Stripe Webhook:", syncErr);
+          }
 
           // Loyalty Cards Point Credits (Option 1: Link automatically by email)
           let pointsGagnes = 0;
