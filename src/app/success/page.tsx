@@ -2,6 +2,7 @@
 
 import { useEffect, useState, Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import Header from "@/components/Header";
@@ -66,20 +67,41 @@ function SuccessPageContent() {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-[600px] w-full mx-auto px-6 py-20 flex flex-col items-center justify-center text-center">
+      <main className="flex-1 max-w-[600px] w-full mx-auto px-6 py-16 flex flex-col items-center justify-center text-center">
         {/* Animated Celebration Icon */}
-        <div className="relative w-24 h-24 bg-[#2F3CD9]/10 border border-[#2F3CD9]/30 rounded-full flex items-center justify-center mb-8 shadow-2xl shadow-[#2F3CD9]/10 select-none">
+        <div className="relative w-24 h-24 bg-[#2F3CD9]/10 border border-[#2F3CD9]/30 rounded-full flex items-center justify-center mb-6 shadow-2xl shadow-[#2F3CD9]/10 select-none">
           <span className="text-5xl animate-bounce">🎉</span>
           <div className="absolute inset-0 rounded-full border border-dashed border-[#2F3CD9]/40 animate-[spin_20s_linear_infinite]" />
         </div>
 
-        <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mb-4">
+        <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mb-3">
           Merci pour votre commande !
         </h1>
 
         <p className="text-gray-400 text-sm leading-relaxed mb-6 font-sans">
-          Votre paiement a été validé avec succès. Nos imprimantes 3D (Berthe, Philomène, Ursule, Godelaine et Claudine) se préparent déjà à fabriquer vos objets fidèlement, couche par couche.
+          Votre paiement a été validé avec succès. Vos créations vont bientôt prendre vie couche par couche !
         </p>
+
+        {/* Personal Vivien Message Banner */}
+        <div className="w-full mb-8 p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-amber-500/15 via-[#ff4f00]/10 to-transparent border border-[#ff4f00]/30 shadow-xl flex items-center gap-4 text-left">
+          <div className="relative w-16 h-16 sm:w-18 sm:h-18 rounded-2xl bg-white p-0.5 border border-[#ff4f00]/40 shrink-0 shadow-md overflow-hidden">
+            <Image
+              src="/images/vivien-avatar.png"
+              alt="Vivien Spoolio"
+              fill
+              className="object-contain p-1"
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2">
+              <span className="font-extrabold text-white text-sm sm:text-base">Vivien de l'Atelier</span>
+              <span className="text-[10px] font-mono font-bold text-[#ff4f00] px-2 py-0.5 rounded bg-[#ff4f00]/20 border border-[#ff4f00]/30 uppercase">Créateur 🛠️</span>
+            </div>
+            <p className="text-xs text-gray-300 leading-relaxed font-medium">
+              "Merci infiniment pour ta confiance ! Je fais chauffer les imprimantes 3D tout de suite pour lancer ta commande."
+            </p>
+          </div>
+        </div>
 
         {/* Dynamic Payment Details */}
         <div className="w-full bg-spoolio-card border border-spoolio-border rounded-2xl p-5 mb-8 text-left flex flex-col gap-3 font-sans">

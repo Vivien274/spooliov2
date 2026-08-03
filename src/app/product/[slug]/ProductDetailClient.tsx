@@ -1294,24 +1294,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
             );
           })()}
 
-            {/* 3D Craft Technical Badges */}
-            <div className="grid grid-cols-3 gap-3 border-t border-b border-spoolio-border/40 py-5 mb-8 text-center select-none font-sans mt-4">
-              <div className="flex flex-col items-center justify-center p-3.5 rounded-2xl bg-white/[0.02] border border-white/5 shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:scale-[1.02] transition-transform">
-                <span className="text-xl mb-1.5" title="Temps de fabrication">⏱️</span>
-                <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Fabrication 3D</span>
-                <span className="text-xs font-black text-white mt-1">{printTimeString}</span>
-              </div>
-              <div className="flex flex-col items-center justify-center p-3.5 rounded-2xl bg-white/[0.02] border border-white/5 shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:scale-[1.02] transition-transform">
-                <span className="text-xl mb-1.5" title="Matériau">🌱</span>
-                <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Matériau</span>
-                <span className="text-xs font-black text-white mt-1">PLA Végétal</span>
-              </div>
-              <div className="flex flex-col items-center justify-center p-3.5 rounded-2xl bg-white/[0.02] border border-white/5 shadow-[0_2px_8px_rgba(0,0,0,0.01)] hover:scale-[1.02] transition-transform">
-                <span className="text-xl mb-1.5" title="Poids approximatif">⚖️</span>
-                <span className="text-[9px] font-black uppercase tracking-widest text-gray-400">Poids Estimé</span>
-                <span className="text-xs font-black text-white mt-1">{estimatedWeight}</span>
-              </div>
-            </div>
+
 
             {/* Call to action with Quantity Selector */}
             <div className="flex items-center gap-4">
@@ -1370,25 +1353,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               )}
             </div>
 
-            {/* Atelier Manufacturing & Shipping Countdown Timer */}
-            {!isNotAvailableToBuy && (
-              <div className="mt-3.5 p-3.5 rounded-2xl bg-gradient-to-r from-[#ff4f00]/10 via-[#0e0e12] to-[#ff4f00]/10 border border-[#ff4f00]/30 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs font-sans shadow-lg select-none">
-                <div className="flex items-center gap-2 text-[#ff4f00] font-bold">
-                  <span className="w-2 h-2 rounded-full bg-[#ff4f00] animate-ping shrink-0" />
-                  <span className="uppercase tracking-wider text-[10px] sm:text-[11px] text-neutral-200">
-                    Impression à l'atelier aujourd'hui :
-                  </span>
-                </div>
-                <div className="flex items-center gap-1 font-mono font-black text-white text-xs">
-                  <span className="text-neutral-400 font-sans text-[11px]">Reste</span>
-                  <span className="bg-black/60 px-2 py-0.5 rounded-md border border-white/10">{String(timeLeft.hours).padStart(2, "0")}h</span>
-                  <span className="text-[#ff4f00]">:</span>
-                  <span className="bg-black/60 px-2 py-0.5 rounded-md border border-white/10">{String(timeLeft.minutes).padStart(2, "0")}m</span>
-                  <span className="text-[#ff4f00]">:</span>
-                  <span className="bg-[#ff4f00]/20 text-[#ff4f00] px-2 py-0.5 rounded-md border border-[#ff4f00]/40 font-bold">{String(timeLeft.seconds).padStart(2, "0")}s</span>
-                </div>
-              </div>
-            )}
+
 
             {/* Encart Fidget Sensoriel (Boussole Info - Style Néon & Fort Contraste Sombre) */}
             {Boolean((product as any).show_in_sensory_compass || (product as any).showInSensoryCompass) && (

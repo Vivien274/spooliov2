@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getPageSeoMetadata } from "@/lib/seoPages";
@@ -43,13 +44,32 @@ export default function AboutPage() {
           </div>
 
           {/* Section 2: Vivien & The Family */}
-          <div className="space-y-4 border-t border-spoolio-border pt-8">
+          <div className="space-y-6 border-t border-spoolio-border pt-8">
             <h2 className="text-xl md:text-2xl font-black font-antonio uppercase tracking-tight text-white flex items-center gap-2.5">
               <span>👨‍👩‍👦</span> Une Aventure Familiale
             </h2>
-            <p className="font-semibold text-white/90">
-              Spoolio, c'est mon histoire, mon aventure, à moi, Vivien Bocquelet.
-            </p>
+            
+            {/* Vivien Creator Avatar Card */}
+            <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-neutral-900 via-black to-neutral-900 border border-[#ff4f00]/30 flex flex-col sm:flex-row items-center sm:items-start gap-5 shadow-xl">
+              <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-white p-1 border-2 border-[#ff4f00] shrink-0 shadow-2xl overflow-hidden hover:scale-105 transition-transform">
+                <Image
+                  src="/images/vivien-avatar.png"
+                  alt="Vivien Bocquelet - Fondateur Spoolio"
+                  fill
+                  className="object-contain p-0.5"
+                />
+              </div>
+              <div className="space-y-2 text-center sm:text-left">
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                  <h3 className="text-lg font-black text-white">Vivien Bocquelet</h3>
+                  <span className="text-[10px] font-mono font-bold text-[#ff4f00] px-2.5 py-0.5 rounded-full bg-[#ff4f00]/15 border border-[#ff4f00]/30 uppercase">Fondateur & Artisan 3D</span>
+                </div>
+                <p className="text-xs text-gray-300 leading-relaxed font-sans">
+                  Spoolio, c'est mon histoire et ma passion. C'est moi qui conçois, règle les imprimantes 3D et prépare avec soin chaque commande dans notre atelier !
+                </p>
+              </div>
+            </div>
+
             <p>
               Toutefois, je ne suis pas vraiment seul dans l'atelier... Je suis épaulé par mon épouse, <strong>Stéphanie</strong>. Consultante en digitalisation des entreprises, elle apporte toujours le petit filon sympa et l'idée stratégique qui fait toute la différence.
             </p>

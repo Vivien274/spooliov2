@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface FooterProps {
   className?: string;
@@ -29,17 +30,27 @@ export default function Footer({ className = "" }: FooterProps) {
         {/* Upper Section: Brand Description & Social Networks */}
         <div className="flex flex-col md:flex-row items-start justify-between gap-8 pb-8 border-b border-white/10">
           
-          {/* Brand & Description */}
-          <div className="flex flex-col gap-2.5 max-w-md">
-            <div className="flex items-center gap-2">
-              <span className="font-black text-white text-base tracking-wider uppercase font-antonio">Spoolio</span>
-              <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-white/5 border border-white/10">Atelier 3D 🛠️</span>
+          {/* Brand & Description with Vivien Avatar */}
+          <div className="flex items-start gap-4 max-w-md">
+            <div className="relative w-20 h-20 sm:w-22 sm:h-22 rounded-2xl bg-white shrink-0 shadow-2xl overflow-hidden group hover:scale-105 transition-transform">
+              <Image
+                src="/images/vivien-avatar.png"
+                alt="Vivien - Fondateur Spoolio"
+                fill
+                className="object-contain p-1"
+              />
             </div>
-            <p className="text-[11px] text-gray-400 leading-relaxed font-sans font-medium">
-              Objets fun, fidgets sensoriels, supports et créations uniques imprimés en 3D à Comines. Zéro pétrole, du plastique biosourcé à base d'amidon de maïs, et beaucoup d'amusement.
-            </p>
-            <div className="text-[10px] text-gray-400 font-medium">
-              &copy; {new Date().getFullYear()} Spoolio. Tous droits réservés.
+            <div className="flex flex-col gap-1.5">
+              <div className="flex items-center gap-2">
+                <span className="font-black text-white text-base tracking-wider uppercase font-antonio">Spoolio</span>
+                <span className="text-[10px] text-[#ff4f00] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#ff4f00]/10 border border-[#ff4f00]/30">Par Vivien 🛠️</span>
+              </div>
+              <p className="text-[11px] text-gray-400 leading-relaxed font-sans font-medium">
+                Objets fun, fidgets sensoriels, et créations uniques imprimés 3D avec passion à Comines. Plastique biosourcé, zéro pétrole !
+              </p>
+              <div className="text-[10px] text-gray-500 font-medium">
+                &copy; {new Date().getFullYear()} Spoolio. Tous droits réservés.
+              </div>
             </div>
           </div>
 
