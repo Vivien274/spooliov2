@@ -931,16 +931,26 @@ export default function AdminOrdersPage() {
                             {options.length > 0 ? (
                               <div className="flex flex-wrap gap-1.5 pt-0.5">
                                 {options.map((opt, optIdx) => {
-                                  const [key, val] = opt.includes(":") ? opt.split(":") : [null, opt];
+                                  const colonIdx = opt.indexOf(":");
+                                  const key = colonIdx !== -1 ? opt.substring(0, colonIdx).trim() : null;
+                                  const val = colonIdx !== -1 ? opt.substring(colonIdx + 1).trim() : opt;
+                                  const isComposition = key === "Composition";
+                                  
                                   return (
                                     <span 
                                       key={optIdx} 
-                                      className="inline-flex items-center gap-1 text-[10px] font-medium bg-black/60 border border-white/10 px-2 py-0.5 rounded-lg text-gray-300"
+                                      className={`inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-lg border ${
+                                        isComposition
+                                          ? "bg-purple-500/10 border-purple-500/30 text-purple-200"
+                                          : "bg-black/60 border-white/10 text-gray-300"
+                                      }`}
                                     >
                                       {key ? (
                                         <>
-                                          <span className="text-gray-400 font-semibold">{key.trim()}:</span>
-                                          <span className="text-white font-bold">{val.trim()}</span>
+                                          <span className={isComposition ? "text-purple-300 font-bold" : "text-gray-400 font-semibold"}>
+                                            {isComposition ? "🎁 " : ""}{key}:
+                                          </span>
+                                          <span className="text-white font-bold">{val}</span>
                                         </>
                                       ) : (
                                         <span className="text-gray-200">{opt}</span>

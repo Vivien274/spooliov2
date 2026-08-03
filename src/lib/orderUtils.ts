@@ -1,12 +1,37 @@
 export function parseItemName(fullName: string) {
   if (!fullName) return { mainName: "Article", options: [] };
-  const match = fullName.match(/^(.*?)(?:\s*\((.*?)\))?$/);
-  if (!match) return { mainName: fullName, options: [] };
-  const mainName = match[1].trim();
-  const optionsRaw = match[2];
-  const options = optionsRaw 
-    ? optionsRaw.split(",").map(o => o.trim()).filter(Boolean)
-    : [];
+  
+  const parenMatches = [...fullName.matchAll(/\(([^()]+)\)/g)];
+  if (parenMatches.length === 0) {
+    return { mainName: fullName.trim(), options: [] };
+  }
+
+  let mainName = fullName;
+  let optionsRaw = "";
+
+  const optionsParenIndex = parenMatches.findIndex(m => m[1].includes(":") || m[1].includes("Composition"));
+  if (optionsParenIndex !== -1 && parenMatches[optionsParenIndex].index !== undefined) {
+    mainName = fullName.substring(0, parenMatches[optionsParenIndex].index).trim();
+    optionsRaw = parenMatches[optionsParenIndex][1];
+  } else {
+    const lastMatch = parenMatches[parenMatches.length - 1];
+    if (lastMatch.index !== undefined) {
+      mainName = fullName.substring(0, lastMatch.index).trim();
+      optionsRaw = lastMatch[1];
+    }
+  }
+
+  const options: string[] = [];
+  if (optionsRaw) {
+    if (optionsRaw.includes("Composition:")) {
+      const parts = optionsRaw.split(/(?=Taille de la pochette:|Composition:)/g).map(s => s.replace(/^[\s,]+/, '').trim()).filter(Boolean);
+      options.push(...parts);
+    } else {
+      const parts = optionsRaw.split(",").map(o => o.trim()).filter(Boolean);
+      options.push(...parts);
+    }
+  }
+
   return { mainName, options };
 }
 
