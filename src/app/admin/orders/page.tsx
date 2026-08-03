@@ -50,6 +50,43 @@ export default function AdminOrdersPage() {
   const [editingAddress, setEditingAddress] = useState<string | null>(null);
   const [editingAddressInput, setEditingAddressInput] = useState<string>("");
   const [savingAddressLoading, setSavingAddressLoading] = useState<boolean>(false);
+  const [showNoteModal, setShowNoteModal] = useState<boolean>(false);
+  const [noteText, setNoteText] = useState<string>("");
+  const [sendingNoteLoading, setSendingNoteLoading] = useState<boolean>(false);
+
+  const handleSendOrderNote = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedOrder || !noteText.trim()) {
+      alert("Veuillez saisir un message pour le client.");
+      return;
+    }
+
+    setSendingNoteLoading(true);
+    try {
+      const res = await fetch("/api/admin/orders/send-note", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderId: selectedOrder.id,
+          note: noteText.trim(),
+          targetEmail: selectedOrder.email
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        alert(`✅ ${data.message}`);
+        setShowNoteModal(false);
+        setNoteText("");
+      } else {
+        alert(`⚠️ ${data.error || "Erreur lors de l'envoi de la note."}`);
+      }
+    } catch (err) {
+      alert("Erreur réseau lors de l'envoi de la note.");
+    } finally {
+      setSendingNoteLoading(false);
+    }
+  };
 
   const handleSaveAddress = async () => {
     if (!selectedOrder) return;
@@ -974,16 +1011,28 @@ export default function AdminOrdersPage() {
                   </div>
                 )}
 
-                <button
-                  onClick={() => {
-                    const customEmail = prompt("Renvoyer l'email de confirmation à cette adresse :", selectedOrder.email);
-                    if (customEmail) handleResendEmail(selectedOrder.id, customEmail.trim());
-                  }}
-                  disabled={resendingEmail === selectedOrder.id}
-                  className="px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500 hover:text-white font-bold text-[10px] uppercase tracking-wider transition-all cursor-pointer shrink-0"
-                >
-                  {resendingEmail === selectedOrder.id ? "Envoi..." : "Renvoyer l'email 📧"}
-                </button>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <button
+                    onClick={() => {
+                      setNoteText("");
+                      setShowNoteModal(true);
+                    }}
+                    className="px-3 py-1.5 rounded-lg border border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500 hover:text-black font-bold text-[10px] uppercase tracking-wider transition-all cursor-pointer shrink-0 flex items-center gap-1"
+                  >
+                    <span>💬</span>
+                    <span>Envoyer une note</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      const customEmail = prompt("Renvoyer l'email de confirmation à cette adresse :", selectedOrder.email);
+                      if (customEmail) handleResendEmail(selectedOrder.id, customEmail.trim());
+                    }}
+                    disabled={resendingEmail === selectedOrder.id}
+                    className="px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500 hover:text-white font-bold text-[10px] uppercase tracking-wider transition-all cursor-pointer shrink-0"
+                  >
+                    {resendingEmail === selectedOrder.id ? "Envoi..." : "Renvoyer l'email 📧"}
+                  </button>
+                </div>
 
                 {/* Status action buttons */}
                 <div className="flex gap-2 items-center ml-auto" onClick={(e) => e.stopPropagation()}>
@@ -1163,6 +1212,80 @@ export default function AdminOrdersPage() {
           </div>
         </div>
       )}
+      {/* Send Note Modal Popup */}
+      {showNoteModal && selectedOrder && (
+        <div
+          onClick={() => setShowNoteModal(false)}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-fade-in"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={`relative w-full max-w-lg ${cls.cardBg} border ${cls.border} rounded-3xl overflow-hidden shadow-2xl space-y-6 p-6 sm:p-8`}
+          >
+            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+              <div>
+                <span className="text-[10px] uppercase font-extrabold text-amber-400 tracking-wider">
+                  Commande {selectedOrder.id}
+                </span>
+                <h3 className="text-xl font-black font-antonio text-white mt-0.5 uppercase">
+                  💬 Envoyer une note au client
+                </h3>
+              </div>
+              <button
+                onClick={() => setShowNoteModal(false)}
+                className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleSendOrderNote} className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-gray-300 uppercase">Destinataire</label>
+                <div className="bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-gray-300">
+                  <div className="font-bold text-white">{selectedOrder.customerName || "Client"}</div>
+                  <div className="text-gray-400">{selectedOrder.email}</div>
+                  <div className="text-[10px] text-amber-400/90 mt-1 font-semibold">
+                    📩 Une copie de cet e-mail sera également envoyée à l&apos;administrateur.
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-gray-300 uppercase">
+                  Message / Note pour le client <span className="text-red-400">*</span>
+                </label>
+                <textarea
+                  rows={5}
+                  value={noteText}
+                  onChange={(e) => setNoteText(e.target.value)}
+                  placeholder="Tapez ici le message à transmettre au client par e-mail (ex: Nous avons pris en compte votre précision pour la couleur, votre colis part cet après-midi !)..."
+                  className="w-full bg-black/60 border border-amber-500/40 rounded-xl p-3.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400 leading-relaxed"
+                  required
+                />
+              </div>
+
+              <div className="pt-3 flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setShowNoteModal(false)}
+                  className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-gray-300 font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer"
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  disabled={sendingNoteLoading || !noteText.trim()}
+                  className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-black font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-lg flex items-center justify-center gap-2"
+                >
+                  {sendingNoteLoading ? "Envoi en cours..." : "Envoyer l'e-mail 📧"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+

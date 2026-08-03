@@ -633,3 +633,144 @@ export async function sendAbandonedCartEmail({
     return false;
   }
 }
+
+interface OrderNoteEmailParams {
+  orderId: string;
+  customerName: string;
+  customerEmail: string;
+  note: string;
+  items?: { name: string; quantity: number; price?: string | number }[];
+}
+
+export async function sendOrderNoteEmail({
+  orderId,
+  customerName,
+  customerEmail,
+  note,
+  items = []
+}: OrderNoteEmailParams): Promise<{ success: boolean; error?: string }> {
+  try {
+    const resendKey = process.env.RESEND_API_KEY;
+    if (!resendKey) {
+      console.warn("[Email Notification] Resend API Key is missing in environment variables. Email send skipped.");
+      return { success: false, error: "Clé API Resend (RESEND_API_KEY) manquante dans les variables d'environnement." };
+    }
+
+    const fromAddress = process.env.RESEND_EMAIL_FROM || process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const adminEmail = process.env.RESEND_TO_EMAIL || process.env.CONTACT_EMAIL_TO || "contact@spoolio.fr";
+    
+    // Recipients: client and admin
+    let recipients = Array.from(new Set([customerEmail, adminEmail].filter((e): e is string => !!e && e.trim().length > 0)));
+
+    if (process.env.RESEND_TO_EMAIL) {
+      recipients = [process.env.RESEND_TO_EMAIL];
+    }
+
+    const trackingUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://spoolio.fr'}/suivi?id=${orderId}&email=${encodeURIComponent(customerEmail)}`;
+
+    // Convert linebreaks in note text to HTML safely
+    const formattedNoteHtml = note
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\n/g, "<br/>");
+
+    const itemsSummaryHtml = items.length > 0 ? `
+      <div style="background-color: #131316; border: 1px solid #1f1f23; border-radius: 16px; padding: 20px; margin-top: 25px; text-align: left;">
+        <span style="display: block; font-size: 11px; font-weight: bold; color: #52525b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;">Articles de votre commande ${orderId}</span>
+        <ul style="margin: 0; padding-left: 20px; color: #88888b; font-size: 13px;">
+          ${items.map(item => `<li style="margin-bottom: 4px;"><strong style="color: #ffffff;">${item.name}</strong> <span style="color: #52525b;">(x${item.quantity})</span></li>`).join("")}
+        </ul>
+      </div>
+    ` : "";
+
+    const emailHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Information sur votre commande Spoolio [${orderId}]</title>
+      </head>
+      <body style="background-color: #0a0a0f; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 40px 20px;">
+        <div style="max-width: 600px; margin: 0 auto; background-color: #0d0d12; border: 1px solid #1f1f23; border-radius: 24px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center;">
+          
+          <!-- Logo Row -->
+          <div style="text-align: center; margin-bottom: 30px;">
+            <img src="${logoUrl}" alt="Spoolio" style="height: 40px; width: auto; display: inline-block;" />
+          </div>
+
+          <!-- Title badge -->
+          <div style="display: inline-block; background-color: rgba(255, 79, 0, 0.1); border: 1px solid rgba(255, 79, 0, 0.3); border-radius: 50px; padding: 6px 16px; font-size: 12px; font-weight: bold; color: #ff4f00; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 20px;">
+            Commande ${orderId}
+          </div>
+
+          <!-- Greeting -->
+          <h2 style="color: #ffffff; font-size: 20px; font-weight: 900; margin-top: 0; margin-bottom: 15px; text-align: center;">Bonjour ${customerName || "Client Spoolio"},</h2>
+          <p style="color: #88888b; font-size: 14px; line-height: 1.6; text-align: center; margin-bottom: 25px;">
+            L'équipe Spoolio a ajouté un message concernant votre commande :
+          </p>
+
+          <!-- Note Content Box -->
+          <div style="background-color: #131316; border: 1px solid #ff4f00; border-radius: 16px; padding: 25px; text-align: left; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(255, 79, 0, 0.08);">
+            <div style="font-size: 11px; font-weight: bold; color: #ff4f00; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">
+              💬 Message de l'équipe Spoolio :
+            </div>
+            <div style="font-size: 14px; line-height: 1.7; color: #ffffff; font-family: inherit;">
+              ${formattedNoteHtml}
+            </div>
+          </div>
+
+          <!-- Items recap -->
+          ${itemsSummaryHtml}
+
+          <!-- Track Button -->
+          <div style="text-align: center; margin-top: 35px; margin-bottom: 35px;">
+            <a href="${trackingUrl}" style="display: inline-block; background-color: #ff4f00; color: #ffffff; font-weight: bold; text-decoration: none; font-size: 13px; padding: 14px 28px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 4px 15px rgba(255, 79, 0, 0.3);">
+              Suivre ma commande 📦
+            </a>
+          </div>
+
+          <!-- Footer banner -->
+          <div style="margin-top: 40px; border-top: 1px solid #1f1f23; padding-top: 20px; text-align: center; font-size: 11px; color: #52525b;">
+            <p>Spoolio - Objets éco-responsables imprimés en 3D à Comines, France.</p>
+            <p>Des questions ou besoin d'aide ? Répondez simplement à cet e-mail ou écrivez-nous à contact@spoolio.fr</p>
+          </div>
+
+        </div>
+      </body>
+      </html>
+    `;
+
+    console.log(`[Resend Email] Sending Order Note email to ${recipients.join(", ")} for Order ${orderId}...`);
+    const emailRes = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        from: `Spoolio <${fromAddress}>`,
+        to: recipients,
+        subject: `Message concernant votre commande Spoolio [${orderId}]`,
+        html: emailHtml
+      })
+    });
+
+    const emailData = await emailRes.json();
+    if (emailRes.ok) {
+      console.log(`[Resend Email Success] Order Note email sent for order ${orderId} (ID: ${emailData.id})`);
+      return { success: true };
+    } else {
+      console.error("[Resend Email Error] Order Note API error details:", emailData);
+      let errorMsg = emailData.message || "Erreur de transmission Resend";
+      if (emailRes.status === 403 && fromAddress === "onboarding@resend.dev") {
+        errorMsg = `Mode test Resend (onboarding@resend.dev) : Resend autorise uniquement les envois vers le compte propriétaire d'origine. Pour envoyer des e-mails à d'autres clients, configurez votre domaine d'envoi dans le tableau de bord resend.com et ajoutez RESEND_EMAIL_FROM=votre-email@votre-domaine.fr dans .env.local`;
+      }
+      return { success: false, error: errorMsg };
+    }
+  } catch (err: any) {
+    console.error("[Resend Email Error] Failed to send order note email via Resend:", err.message || err);
+    return { success: false, error: err.message || "Erreur inconnue lors de l'envoi." };
+  }
+}
+
