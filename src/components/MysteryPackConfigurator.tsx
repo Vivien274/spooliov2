@@ -4,14 +4,15 @@ import React, { useState, useMemo, useRef, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
+import { User, Keyboard, KeyRound } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
-export type MysteryCategoryKey = "figurines" | "fidgets" | "gadgets" | "jeux";
+export type MysteryCategoryKey = "figurines" | "fidgets" | "gadgets";
 
 export interface MysteryCategoryConfig {
   key: MysteryCategoryKey;
   name: string;
-  icon: string;
+  icon: React.ComponentType<{ className?: string }>;
   color: string;
   bgGradient: string;
 }
@@ -20,30 +21,23 @@ export const MYSTERY_CATEGORIES: Record<MysteryCategoryKey, MysteryCategoryConfi
   figurines: {
     key: "figurines",
     name: "Figurines & Animaux",
-    icon: "🐉",
+    icon: User,
     color: "#00F0FF",
     bgGradient: "from-cyan-500 to-blue-600",
   },
   fidgets: {
     key: "fidgets",
-    name: "Fidgets & Stimulation",
-    icon: "⌨️",
+    name: "Fidgets & objets à manipuler",
+    icon: Keyboard,
     color: "#FF5500",
     bgGradient: "from-orange-500 to-red-600",
   },
   gadgets: {
     key: "gadgets",
-    name: "Porte-clés & Gadgets",
-    icon: "🗝️",
+    name: "Porte-clés",
+    icon: KeyRound,
     color: "#00FF66",
     bgGradient: "from-emerald-400 to-green-600",
-  },
-  jeux: {
-    key: "jeux",
-    name: "Mini-jeux & Déco",
-    icon: "🎲",
-    color: "#A855F7",
-    bgGradient: "from-purple-500 to-indigo-600",
   },
 };
 
@@ -77,7 +71,7 @@ export const MYSTERY_SIZES: MysterySizeOption[] = [
 export interface FlyingToken {
   id: string;
   catKey: MysteryCategoryKey;
-  icon: string;
+  icon: React.ComponentType<{ className?: string }>;
   color: string;
   startX: number;
   startY: number;
@@ -110,8 +104,7 @@ export default function MysteryPackConfigurator({
   const [distribution, setDistribution] = useState<Record<MysteryCategoryKey, number>>({
     figurines: 2,
     fidgets: 2,
-    gadgets: 1,
-    jeux: 1,
+    gadgets: 2,
   });
 
   const [isAddedSuccess, setIsAddedSuccess] = useState<boolean>(false);
@@ -128,6 +121,22 @@ export default function MysteryPackConfigurator({
       (sum, cat) => sum + (distribution[cat] || 0),
       0
     );
+  }, [distribution]);
+
+  // Compute individual items list for floating mini-cards render
+  const individualItems = useMemo(() => {
+    const list: Array<{ id: string; catKey: MysteryCategoryKey; indexInCat: number }> = [];
+    (Object.keys(distribution) as MysteryCategoryKey[]).forEach((catKey) => {
+      const count = distribution[catKey] || 0;
+      for (let i = 0; i < count; i++) {
+        list.push({
+          id: `${catKey}-${i}`,
+          catKey,
+          indexInCat: i + 1,
+        });
+      }
+    });
+    return list;
   }, [distribution]);
 
   // Current selected size object
@@ -231,12 +240,11 @@ export default function MysteryPackConfigurator({
 
   // Fill remaining objects randomly with staggered tokens
   const handleRandomFill = () => {
-    const categories: MysteryCategoryKey[] = ["figurines", "fidgets", "gadgets", "jeux"];
+    const categories: MysteryCategoryKey[] = ["figurines", "fidgets", "gadgets"];
     const newDist: Record<MysteryCategoryKey, number> = {
       figurines: 0,
       fidgets: 0,
       gadgets: 0,
-      jeux: 0,
     };
 
     for (let i = 0; i < selectedSize; i++) {
@@ -335,13 +343,16 @@ export default function MysteryPackConfigurator({
               ease: "easeInOut",
             }}
             onAnimationComplete={() => handleTokenAnimationComplete(token.id)}
-            className="absolute z-50 pointer-events-none w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold shadow-xl border-2 border-white/90 transform -translate-x-1/2 -translate-y-1/2"
+            className="absolute z-50 pointer-events-none w-10 h-10 rounded-full flex items-center justify-center shadow-xl border-2 border-white/90 transform -translate-x-1/2 -translate-y-1/2"
             style={{
               backgroundColor: token.color,
               boxShadow: `0 0 20px ${token.color}`,
             }}
           >
-            <span>{token.icon}</span>
+            {(() => {
+              const IconComp = token.icon;
+              return <IconComp className="w-5 h-5 text-black" />;
+            })()}
           </motion.div>
         ))}
       </AnimatePresence>
@@ -350,225 +361,155 @@ export default function MysteryPackConfigurator({
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-start">
         
         {/* ========================================================== */}
-        {/* COLONNE GAUCHE (md:col-span-5) : BLOC BENTO SACHET KRAFT  */}
+        {/* COLONNE GAUCHE (md:col-span-5) : CHAMBRE CYBER 3D FULL-SIZE */}
         {/* ========================================================== */}
-        <div className="md:col-span-5 rounded-3xl bento-left-card bg-[#09090b]/90 backdrop-blur-md border border-neutral-800/80 p-6 sm:p-7 shadow-2xl flex flex-col justify-between items-center relative overflow-hidden min-h-[520px]">
-          {/* Ambience background glow */}
+        <div
+          ref={pouchTargetRef}
+          className="md:col-span-5 rounded-3xl bento-left-card bg-[#09090b] border-2 border-neutral-800 p-6 sm:p-8 shadow-2xl flex flex-col justify-between items-center relative overflow-hidden min-h-[520px] lg:min-h-[560px] group"
+        >
+          {/* Plasma Fluid Liquid Level filling the ENTIRE Left Bento Card background */}
           <div
-            className="absolute -top-20 -left-20 w-64 h-64 rounded-full pointer-events-none opacity-20 blur-3xl transition-all duration-500"
+            className="absolute inset-x-0 bottom-0 transition-all duration-700 pointer-events-none z-0"
+            style={{
+              height: `${(totalSelected / selectedSize) * 100}%`,
+              background: isQuotaReached
+                ? "linear-gradient(180deg, rgba(0,255,102,0.22) 0%, rgba(0,204,82,0.08) 50%, rgba(0,0,0,0) 100%)"
+                : "linear-gradient(180deg, rgba(255,85,0,0.22) 0%, rgba(255,136,0,0.08) 50%, rgba(0,0,0,0) 100%)",
+            }}
+          />
+
+          {/* Ambient Cyber glow in the background */}
+          <div
+            className="absolute -top-20 -left-20 w-80 h-80 rounded-full pointer-events-none opacity-30 blur-3xl transition-all duration-700 z-0"
             style={{
               backgroundColor: isQuotaReached ? "#00FF66" : "#FF5500",
             }}
           />
 
-          {/* En-tête Bento Gauche */}
-          <div className="w-full flex items-center justify-between z-10 pb-3 border-b border-neutral-800/80">
-            <span className="text-xs font-[family-name:var(--font-antonio)] font-bold uppercase tracking-wider text-gray-400">
-              Pochette Kraft Spoolio
-            </span>
-            <span className="text-xs font-mono px-2.5 py-1 rounded-full bento-badge bg-neutral-900 border border-neutral-800 text-gray-300 font-bold">
+          {/* Holographic Glass Reflection Sheen */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.03] to-transparent pointer-events-none z-10" />
+
+          {/* Flying Laser Scanner Line across full card height */}
+          <motion.div
+            animate={{
+              y: [0, 480, 0],
+              opacity: [0.2, 0.7, 0.2],
+            }}
+            transition={{
+              duration: 4.5,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="absolute inset-x-0 h-1 z-10 pointer-events-none"
+            style={{
+              background: isQuotaReached
+                ? "linear-gradient(90deg, transparent, #00FF66, transparent)"
+                : "linear-gradient(90deg, transparent, #FF5500, transparent)",
+              boxShadow: isQuotaReached
+                ? "0 0 20px #00FF66"
+                : "0 0 20px #FF5500",
+            }}
+          />
+
+          {/* EN-TÊTE SUPÉRIEUR : TOP CAP DU SYSTÈME */}
+          <div className="w-full flex items-center justify-between z-20 pb-4 border-b border-neutral-800/90">
+            <div className="flex items-center gap-2.5">
+              <span className={`w-2.5 h-2.5 rounded-full ${isQuotaReached ? "bg-[#00FF66] animate-ping" : "bg-[#FF5500]"}`} />
+              <span className="text-xs sm:text-sm font-[family-name:var(--font-antonio)] font-extrabold uppercase tracking-widest text-white">
+                CAPSULE SURPRISE 3D
+              </span>
+            </div>
+            <span className="text-xs font-mono px-3 py-1 rounded-full bg-neutral-900 border border-neutral-800 text-gray-200 font-extrabold shadow-sm">
               {totalSelected}/{selectedSize} OBJETS
             </span>
           </div>
 
-          {/* Zone Centrale Vector Pouch & animations */}
-          <div
-            ref={pouchTargetRef}
-            className="relative my-4 flex flex-col items-center justify-center w-full"
-          >
-            {/* STICKER ORANGE SPOOLIO FLOTTANT DE SCELLAGE SI QUOTA ATTEINT */}
-            <AnimatePresence>
-              {isQuotaReached && (
-                <motion.div
-                  initial={{ scale: 2.2, opacity: 0, y: -30, rotate: -20 }}
-                  animate={{ scale: 1, opacity: 1, y: 0, rotate: -4 }}
-                  exit={{ scale: 0.8, opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 450, damping: 22 }}
-                  className="absolute -top-4 z-30 px-4 py-1.5 bg-gradient-to-r from-[#FF5500] via-[#ff661a] to-[#FF5500] text-black font-black text-xs font-[family-name:var(--font-antonio)] uppercase tracking-widest rounded-xl shadow-[0_0_25px_rgba(255,85,0,0.85)] border-2 border-amber-300 flex items-center gap-1.5 select-none"
-                >
-                  <span className="text-sm">🔒</span>
-                  <span>POCHETTE COMPLÈTE !</span>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* ILLUSTRATION VECTORIELLE DE LA POCHETTE KRAFT SPOOLIO AVEC SHAKE ANIMATION */}
-            <motion.div
-              animate={
-                isPouchShaking
-                  ? {
-                      y: [0, -8, 5, -3, 2, 0],
-                      rotate: [0, -3, 3, -2, 1, 0],
-                      scale: [1, 1.04, 0.97, 1.02, 1],
-                    }
-                  : { y: 0, rotate: 0, scale: 1 }
-              }
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="relative w-full max-w-[230px] h-64 sm:h-72 flex items-center justify-center cursor-pointer"
-            >
-              {/* Inline SVG Vector Kraft Bag */}
-              <svg
-                viewBox="0 0 240 300"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-full h-full drop-shadow-[0_15px_30px_rgba(0,0,0,0.7)] select-none"
+          {/* RUBAN / STICKER FLOTTANT SCELLÉ SI QUOTA ATTEINT */}
+          <AnimatePresence>
+            {isQuotaReached && (
+              <motion.div
+                initial={{ scale: 2, opacity: 0, y: -20, rotate: -15 }}
+                animate={{ scale: 1, opacity: 1, y: 0, rotate: -2 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                transition={{ type: "spring", stiffness: 450, damping: 22 }}
+                className="z-30 my-2 px-5 py-2 bg-gradient-to-r from-[#00FF66] via-[#00cc52] to-[#00FF66] text-black font-black text-xs sm:text-sm font-[family-name:var(--font-antonio)] uppercase tracking-widest rounded-2xl shadow-[0_0_35px_rgba(0,255,102,0.9)] border-2 border-white flex items-center gap-2 select-none"
               >
-                <defs>
-                  {/* Kraft Paper Base Gradient */}
-                  <linearGradient id="kraftGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#D99B66" />
-                    <stop offset="50%" stopColor="#C4844F" />
-                    <stop offset="100%" stopColor="#9E6131" />
-                  </linearGradient>
+                <span className="text-base">🔒</span>
+                <span>CAPSULE SCELLÉE & PRÊTE !</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-                  {/* Inner Pocket Cavity */}
-                  <linearGradient id="innerCavity" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#1A0F08" />
-                    <stop offset="100%" stopColor="#382212" />
-                  </linearGradient>
+          {/* ZONE CENTRALE SPACIEUSE : MINI-CARDS FLOTTANTES ANIMÉES DE CHAQUE OBJET */}
+          <div className="relative z-20 w-full flex-1 my-4 flex flex-col items-center justify-center min-h-[240px]">
+            <div className="w-full max-w-md flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5 p-2">
+              <AnimatePresence>
+                {individualItems.map((item, idx) => {
+                  const cat = MYSTERY_CATEGORIES[item.catKey];
+                  const IconComp = cat.icon;
 
-                  {/* Spoolio Orange Sticker Gradient */}
-                  <linearGradient id="stickerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#FF661A" />
-                    <stop offset="100%" stopColor="#FF3300" />
-                  </linearGradient>
+                  return (
+                    <motion.div
+                      key={item.id}
+                      initial={{ scale: 0, y: 30, opacity: 0 }}
+                      animate={{
+                        scale: 1,
+                        opacity: 1,
+                        y: [0, -8, 3, -6, 0],
+                        rotate: [-2, 2, -1, 2.5, -2],
+                      }}
+                      exit={{ scale: 0, opacity: 0 }}
+                      transition={{
+                        scale: { duration: 0.35 },
+                        y: { duration: 3.2 + (idx % 3) * 0.4, repeat: Infinity, ease: "easeInOut", delay: (idx % 4) * 0.15 },
+                        rotate: { duration: 4.2 + (idx % 2) * 0.5, repeat: Infinity, ease: "easeInOut", delay: (idx % 4) * 0.1 },
+                      }}
+                      whileHover={{ scale: 1.12, rotate: 0, zIndex: 30 }}
+                      className="w-22 sm:w-26 py-3 px-2 rounded-2xl bg-neutral-950/95 border-2 text-white shadow-xl flex flex-col items-center justify-center text-center gap-2 cursor-pointer backdrop-blur-md transition-all select-none group"
+                      style={{
+                        boxShadow: `0 0 22px ${cat.color}45, inset 0 1px 0 rgba(255,255,255,0.15)`,
+                        borderColor: `${cat.color}90`,
+                      }}
+                    >
+                      {/* Picto en haut */}
+                      <div
+                        className="p-2 sm:p-2.5 rounded-xl border border-white/20 shadow-inner shrink-0 transition-transform group-hover:scale-110"
+                        style={{
+                          backgroundColor: `${cat.color}25`,
+                          color: cat.color,
+                        }}
+                      >
+                        <IconComp className="w-5 h-5 sm:w-6 sm:h-6" />
+                      </div>
+                      
+                      {/* Texte en dessous */}
+                      <span className="font-extrabold text-xs sm:text-xs text-white leading-tight truncate max-w-full">
+                        {cat.name.split(" ")[0]}
+                      </span>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
 
-                  {/* Glowing filter for sticker when quota reached */}
-                  <filter id="stickerGlow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#FF5500" floodOpacity="0.8" />
-                  </filter>
-                </defs>
-
-                {/* Inner Cavity (Opening Mouth where tokens drop) */}
-                <ellipse cx="120" cy="55" rx="75" ry="22" fill="url(#innerCavity)" stroke="#613B1B" strokeWidth="2" />
-
-                {/* Kraft Bag Main Body */}
-                <path
-                  d="M45 55 C 45 42, 195 42, 195 55 L 185 270 C 185 282, 55 282, 55 270 Z"
-                  fill="url(#kraftGradient)"
-                  stroke="#2E1B0D"
-                  strokeWidth="3"
-                  strokeLinejoin="round"
-                />
-
-                {/* Front Opening Mouth Rim */}
-                <path
-                  d="M45 55 C 65 70, 175 70, 195 55 C 175 60, 65 60, 45 55 Z"
-                  fill="#B87B48"
-                  stroke="#472A14"
-                  strokeWidth="2"
-                />
-
-                {/* Fold lines / fine line-art */}
-                <path d="M55 70 L 62 265" stroke="#7E4A21" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.6" />
-                <path d="M185 70 L 178 265" stroke="#7E4A21" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.6" />
-                <path d="M120 70 L 120 270" stroke="#7E4A21" strokeWidth="1" opacity="0.25" />
-
-                {/* Bottom fold line */}
-                <path d="M55 250 C 90 262, 150 262, 185 250" stroke="#523016" strokeWidth="2" fill="none" opacity="0.5" />
-
-                {/* STICKER ORANGE SPOOLIO CENTERED ON VECTOR KRAFT BAG */}
-                <g transform="translate(120, 160)">
-                  <rect
-                    x="-55"
-                    y="-30"
-                    width="110"
-                    height="60"
-                    rx="12"
-                    fill="url(#stickerGradient)"
-                    stroke={isQuotaReached ? "#FFE600" : "#29180D"}
-                    strokeWidth={isQuotaReached ? "2.5" : "1.5"}
-                    filter={isQuotaReached ? "url(#stickerGlow)" : undefined}
-                  />
-
-                  {/* Inner Dashed Border */}
-                  <rect
-                    x="-50"
-                    y="-25"
-                    width="100"
-                    height="50"
-                    rx="8"
-                    fill="none"
-                    stroke="#000000"
-                    strokeWidth="1.2"
-                    strokeDasharray="4 2"
-                    opacity="0.4"
-                  />
-
-                  {/* Spoolio Text */}
-                  <text
-                    x="0"
-                    y="-2"
-                    textAnchor="middle"
-                    fill="#000000"
-                    fontSize="14"
-                    fontWeight="900"
-                    fontFamily="sans-serif"
-                    letterSpacing="1.5"
-                  >
-                    SPOOLIO
-                  </text>
-
-                  {/* Quota indicator inside sticker */}
-                  <rect
-                    x="-42"
-                    y="8"
-                    width="84"
-                    height="14"
-                    rx="7"
-                    fill="#000000"
-                    opacity="0.9"
-                  />
-
-                  <text
-                    x="0"
-                    y="18"
-                    textAnchor="middle"
-                    fill={isQuotaReached ? "#00FF66" : "#FFD700"}
-                    fontSize="7.5"
-                    fontWeight="800"
-                    fontFamily="sans-serif"
-                  >
-                    {isQuotaReached ? "POCHETTE COMPLÈTE" : `${totalSelected} / ${selectedSize} OBJETS`}
-                  </text>
-                </g>
-              </svg>
-            </motion.div>
-          </div>
-
-          {/* REASSURANCE TEXT UNDER THE ILLUSTRATION */}
-          <div className="w-full z-10 pt-3 border-t border-neutral-800/80 flex flex-col items-center gap-3">
-            {/* BADGES REPRÉSENTANT LES OBJETS DROPPÉS DANS LA POCHETTE */}
-            <div className="flex flex-wrap items-center justify-center gap-2 min-h-[32px]">
-              {(Object.keys(distribution) as MysteryCategoryKey[]).map((catKey) => {
-                const count = distribution[catKey] || 0;
-                if (count <= 0) return null;
-                const cat = MYSTERY_CATEGORIES[catKey];
-
-                return (
-                  <motion.div
-                    key={catKey}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-neutral-900 bento-badge border border-neutral-700 text-white shadow-sm"
-                    style={{ borderColor: cat.color }}
-                  >
-                    <span>{cat.icon}</span>
-                    <span>{count}x</span>
-                  </motion.div>
-                );
-              })}
               {totalSelected === 0 && (
-                <span className="text-xs text-gray-400 italic">
-                  Sélectionne des objets pour remplir le sachet...
-                </span>
+                <div className="flex flex-col items-center justify-center text-center gap-3 py-8 opacity-70">
+                  <span className="text-4xl animate-bounce">⚡</span>
+                  <span className="text-xs sm:text-sm text-gray-300 font-semibold max-w-[220px]">
+                    Sélectionne tes catégories à droite pour charger la capsule 3D...
+                  </span>
+                </div>
               )}
             </div>
+          </div>
 
-            {/* Texte de réassurance requis */}
-            <p className="text-[11px] text-gray-400 text-center font-medium leading-tight">
-              Emballé avec soin à Comines en sachet Kraft écoresponsable 🌱
-            </p>
+          {/* PIED SUPÉRIEUR : INFOS DE SCELLAGE & RÉASSURANCE */}
+          <div className="w-full z-20 pt-4 border-t border-neutral-800/90 flex items-center justify-between gap-2">
+            <span className="text-xs font-mono font-bold text-gray-400">
+              SPOOLIO 3D VAULT
+            </span>
+            <span className={`text-xs font-mono font-extrabold ${isQuotaReached ? "text-[#00FF66]" : "text-[#FF5500]"}`}>
+              {Math.round((totalSelected / selectedSize) * 100)}% CHARGÉ
+            </span>
           </div>
         </div>
 
@@ -668,9 +609,23 @@ export default function MysteryPackConfigurator({
                     key={cat.key}
                     className="category-card rounded-2xl p-3 sm:p-4 bg-neutral-900/40 border border-neutral-800 flex items-center justify-between gap-2 sm:gap-4 transition-colors hover:border-neutral-700"
                   >
-                    {/* Icône + Nom à gauche */}
+                    {/* Icône Lucide + Nom à gauche */}
                     <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
-                      <span className="text-xl sm:text-2xl shrink-0 select-none">{cat.icon}</span>
+                      {(() => {
+                        const IconComp = cat.icon;
+                        return (
+                          <div
+                            className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center shrink-0 border border-white/10 shadow-sm transition-transform duration-300 group-hover:scale-105"
+                            style={{
+                              backgroundColor: `${cat.color}18`,
+                              borderColor: `${cat.color}35`,
+                              color: cat.color,
+                            }}
+                          >
+                            <IconComp className="w-4 h-4 sm:w-5 sm:h-5" />
+                          </div>
+                        );
+                      })()}
                       <span className="text-xs sm:text-sm md:text-base font-bold text-white leading-snug break-words">
                         {cat.name}
                       </span>
