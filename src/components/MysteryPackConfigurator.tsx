@@ -392,7 +392,7 @@ export default function MysteryPackConfigurator({
               )}
             </AnimatePresence>
 
-            {/* PHOTO STUDIO REELLE DE LA POCHETTE KRAFT SPOOLIO AVEC SHAKE ANIMATION */}
+            {/* ILLUSTRATION VECTORIELLE DE LA POCHETTE KRAFT SPOOLIO AVEC SHAKE ANIMATION */}
             <motion.div
               animate={
                 isPouchShaking
@@ -404,17 +404,135 @@ export default function MysteryPackConfigurator({
                   : { y: 0, rotate: 0, scale: 1 }
               }
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className="relative w-full max-w-[250px] h-64 sm:h-72 flex items-center justify-center cursor-pointer"
+              className="relative w-full max-w-[230px] h-64 sm:h-72 flex items-center justify-center cursor-pointer"
             >
-              <div className="relative w-full h-full">
-                <Image
-                  src="/images/imported/PochetteM-1.png"
-                  alt="Pochette Surprise Spoolio Kraft"
-                  fill
-                  priority
-                  className="object-contain filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.85)] select-none transition-all duration-300"
+              {/* Inline SVG Vector Kraft Bag */}
+              <svg
+                viewBox="0 0 240 300"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-full h-full drop-shadow-[0_15px_30px_rgba(0,0,0,0.7)] select-none"
+              >
+                <defs>
+                  {/* Kraft Paper Base Gradient */}
+                  <linearGradient id="kraftGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#D99B66" />
+                    <stop offset="50%" stopColor="#C4844F" />
+                    <stop offset="100%" stopColor="#9E6131" />
+                  </linearGradient>
+
+                  {/* Inner Pocket Cavity */}
+                  <linearGradient id="innerCavity" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#1A0F08" />
+                    <stop offset="100%" stopColor="#382212" />
+                  </linearGradient>
+
+                  {/* Spoolio Orange Sticker Gradient */}
+                  <linearGradient id="stickerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#FF661A" />
+                    <stop offset="100%" stopColor="#FF3300" />
+                  </linearGradient>
+
+                  {/* Glowing filter for sticker when quota reached */}
+                  <filter id="stickerGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#FF5500" floodOpacity="0.8" />
+                  </filter>
+                </defs>
+
+                {/* Inner Cavity (Opening Mouth where tokens drop) */}
+                <ellipse cx="120" cy="55" rx="75" ry="22" fill="url(#innerCavity)" stroke="#613B1B" strokeWidth="2" />
+
+                {/* Kraft Bag Main Body */}
+                <path
+                  d="M45 55 C 45 42, 195 42, 195 55 L 185 270 C 185 282, 55 282, 55 270 Z"
+                  fill="url(#kraftGradient)"
+                  stroke="#2E1B0D"
+                  strokeWidth="3"
+                  strokeLinejoin="round"
                 />
-              </div>
+
+                {/* Front Opening Mouth Rim */}
+                <path
+                  d="M45 55 C 65 70, 175 70, 195 55 C 175 60, 65 60, 45 55 Z"
+                  fill="#B87B48"
+                  stroke="#472A14"
+                  strokeWidth="2"
+                />
+
+                {/* Fold lines / fine line-art */}
+                <path d="M55 70 L 62 265" stroke="#7E4A21" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.6" />
+                <path d="M185 70 L 178 265" stroke="#7E4A21" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.6" />
+                <path d="M120 70 L 120 270" stroke="#7E4A21" strokeWidth="1" opacity="0.25" />
+
+                {/* Bottom fold line */}
+                <path d="M55 250 C 90 262, 150 262, 185 250" stroke="#523016" strokeWidth="2" fill="none" opacity="0.5" />
+
+                {/* STICKER ORANGE SPOOLIO CENTERED ON VECTOR KRAFT BAG */}
+                <g transform="translate(120, 160)">
+                  <rect
+                    x="-55"
+                    y="-30"
+                    width="110"
+                    height="60"
+                    rx="12"
+                    fill="url(#stickerGradient)"
+                    stroke={isQuotaReached ? "#FFE600" : "#29180D"}
+                    strokeWidth={isQuotaReached ? "2.5" : "1.5"}
+                    filter={isQuotaReached ? "url(#stickerGlow)" : undefined}
+                  />
+
+                  {/* Inner Dashed Border */}
+                  <rect
+                    x="-50"
+                    y="-25"
+                    width="100"
+                    height="50"
+                    rx="8"
+                    fill="none"
+                    stroke="#000000"
+                    strokeWidth="1.2"
+                    strokeDasharray="4 2"
+                    opacity="0.4"
+                  />
+
+                  {/* Spoolio Text */}
+                  <text
+                    x="0"
+                    y="-2"
+                    textAnchor="middle"
+                    fill="#000000"
+                    fontSize="14"
+                    fontWeight="900"
+                    fontFamily="sans-serif"
+                    letterSpacing="1.5"
+                  >
+                    SPOOLIO
+                  </text>
+
+                  {/* Quota indicator inside sticker */}
+                  <rect
+                    x="-42"
+                    y="8"
+                    width="84"
+                    height="14"
+                    rx="7"
+                    fill="#000000"
+                    opacity="0.9"
+                  />
+
+                  <text
+                    x="0"
+                    y="18"
+                    textAnchor="middle"
+                    fill={isQuotaReached ? "#00FF66" : "#FFD700"}
+                    fontSize="7.5"
+                    fontWeight="800"
+                    fontFamily="sans-serif"
+                  >
+                    {isQuotaReached ? "POCHETTE COMPLÈTE" : `${totalSelected} / ${selectedSize} OBJETS`}
+                  </text>
+                </g>
+              </svg>
             </motion.div>
           </div>
 
