@@ -35,6 +35,50 @@ interface Order {
   pickupStatus?: string | null;
 }
 
+function getTombolaOrderDetails(order: Order) {
+  if (!order.items || order.items.length === 0) return null;
+
+  const isAllTombola = order.items.every((item) => {
+    const lower = (item.name || "").toLowerCase();
+    return lower.includes("tombola") || lower.includes("ticket");
+  });
+
+  if (!isAllTombola) return null;
+
+  let totalTickets = 0;
+  const casesSet = new Set<string>();
+
+  order.items.forEach((item) => {
+    const qty = item.quantity || 1;
+    totalTickets += qty;
+
+    const match = item.name ? item.name.match(/Case\s*#?\s*(\d+)/i) : null;
+    if (match) {
+      casesSet.add(`#${match[1]}`);
+    } else {
+      const { options } = parseItemName(item.name);
+      options.forEach((opt) => {
+        if (opt.toLowerCase().includes("case")) {
+          const val = opt.split(":")[1]?.trim() || opt;
+          const cleaned = val.replace(/^[^\d]*/, "");
+          if (cleaned) casesSet.add(`#${cleaned}`);
+        }
+      });
+    }
+  });
+
+  const cases = Array.from(casesSet).sort((a, b) => {
+    const numA = parseInt(a.replace(/\D/g, ""), 10) || 0;
+    const numB = parseInt(b.replace(/\D/g, ""), 10) || 0;
+    return numA - numB;
+  });
+
+  return {
+    totalTickets,
+    cases,
+  };
+}
+
 export default function AdminOrdersPage() {
   const { cls, theme } = useAdminTheme();
   const [orders, setOrders] = useState<Order[]>([]);
@@ -539,109 +583,142 @@ export default function AdminOrdersPage() {
                 </tr>
               </thead>
               <tbody className={`divide-y ${cls.divider}`}>
-                {filteredOrders.map((o) => (
-                  <tr 
-                    key={o.id} 
-                    onClick={() => setSelectedOrder(o)}
-                    className={`group ${cls.hoverRow} transition-colors text-[13px] cursor-pointer`}
-                  >
-                    <td className="px-5 pl-6 py-5 font-mono font-bold text-gray-300 select-all shrink-0">
-                      {o.id}
-                    </td>
-                    <td className="px-5 py-5 text-gray-400">
-                      {new Date(o.createdAt).toLocaleDateString("fr-FR", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric"
-                      })}
-                    </td>
-                    <td className="px-5 py-5 min-w-[150px]">
-                      <span className={`block font-bold ${cls.textMain}`}>{o.customerName || "—"}</span>
-                      <span className={`block text-[10px] ${cls.textFaint}`}>{o.email}</span>
-                    </td>
-                    <td className="px-5 py-5 min-w-[240px]">
-                      <div className="space-y-1.5">
-                        {(o.items || []).slice(0, 3).map((item, idx) => {
-                          const { mainName, options } = parseItemName(item.name);
-                          const isDonation = mainName.toLowerCase().includes("don de soutien");
-                          const isTombola = mainName.toLowerCase().includes("tombola") || mainName.toLowerCase().includes("ticket");
-                          
-                          return (
-                            <div key={idx} className="flex flex-col gap-0.5">
-                              <div className="flex items-center gap-1.5">
-                                <span className={`inline-flex items-center justify-center font-mono font-black text-[10px] px-1.5 py-0.5 rounded-md shrink-0 ${
-                                  isDonation 
-                                    ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
-                                    : isTombola
-                                    ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-                                    : "bg-[#ff4f00]/15 text-[#ff4f00] border border-[#ff4f00]/25"
-                                }`}>
-                                  x{item.quantity}
-                                </span>
-                                {getItemProductUrl(item) ? (
-                                  <Link
-                                    href={getItemProductUrl(item)!}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    onClick={(e) => e.stopPropagation()}
-                                    className="font-bold text-gray-100 hover:text-[#ff4f00] hover:underline text-xs truncate max-w-[220px] inline-flex items-center gap-1 group"
-                                    title={`Ouvrir la fiche produit pour ${mainName}`}
-                                  >
-                                    <span>
-                                      {isDonation && "❤️ "}
-                                      {isTombola && "🎟️ "}
-                                      {mainName}
-                                    </span>
-                                    <span className="text-[9px] text-gray-400 group-hover:text-[#ff4f00]">↗</span>
-                                  </Link>
-                                ) : (
-                                  <span className="font-bold text-gray-100 text-xs truncate max-w-[220px]" title={mainName}>
-                                    {isDonation && "❤️ "}
-                                    {isTombola && "🎟️ "}
-                                    {mainName}
-                                  </span>
-                                )}
-                              </div>
-                              {options.length > 0 && (
-                                <div className="flex flex-wrap gap-1 pl-6">
-                                  {options.map((opt, optIdx) => (
-                                    <span key={optIdx} className="text-[9px] font-mono bg-white/[0.06] border border-white/10 text-gray-300 px-1.5 py-0.2 rounded-md">
-                                      {opt}
-                                    </span>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          );
+                {filteredOrders.map((o) => {
+                  const tombolaInfo = getTombolaOrderDetails(o);
+
+                  return (
+                    <tr 
+                      key={o.id} 
+                      onClick={() => setSelectedOrder(o)}
+                      className={`group ${cls.hoverRow} transition-colors text-[13px] cursor-pointer`}
+                    >
+                      <td className="px-5 pl-6 py-5 font-mono font-bold text-gray-300 select-all shrink-0">
+                        {o.id}
+                      </td>
+                      <td className="px-5 py-5 text-gray-400">
+                        {new Date(o.createdAt).toLocaleDateString("fr-FR", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric"
                         })}
-                        {o.items && o.items.length > 3 && (
-                          <div className="text-[#ff4f00] font-bold text-[10px] mt-1 pl-1">
-                            + {o.items.length - 3} autre(s) article(s)...
+                      </td>
+                      <td className="px-5 py-5 min-w-[150px]">
+                        <span className={`block font-bold ${cls.textMain}`}>{o.customerName || "—"}</span>
+                        <span className={`block text-[10px] ${cls.textFaint}`}>{o.email}</span>
+                      </td>
+                      <td className="px-5 py-5 min-w-[240px]">
+                        {tombolaInfo ? (
+                          <div className="flex flex-col gap-1 py-0.5">
+                            <div className="flex items-center gap-1.5 font-bold text-amber-400 text-xs">
+                              <span>🎟️</span>
+                              <span>{tombolaInfo.totalTickets} ticket{tombolaInfo.totalTickets > 1 ? "s" : ""} Tombola</span>
+                              <span className="text-[10px] text-gray-400 font-mono font-normal">
+                                ({tombolaInfo.cases.length} case{tombolaInfo.cases.length > 1 ? "s" : ""})
+                              </span>
+                            </div>
+                            {tombolaInfo.cases.length > 0 && (
+                              <div className="flex flex-wrap items-center gap-1 text-[10px] pt-0.5">
+                                <span className="text-gray-400 font-semibold mr-0.5">Cases :</span>
+                                {tombolaInfo.cases.map((cNum, cIdx) => (
+                                  <span key={cIdx} className="bg-amber-500/15 border border-amber-500/30 text-amber-300 font-mono font-bold text-[10px] px-1.5 py-0.2 rounded-md">
+                                    {cNum}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="space-y-1.5">
+                            {(o.items || []).slice(0, 3).map((item, idx) => {
+                              const { mainName, options } = parseItemName(item.name);
+                              const isDonation = mainName.toLowerCase().includes("don de soutien");
+                              const isTombola = mainName.toLowerCase().includes("tombola") || mainName.toLowerCase().includes("ticket");
+                              
+                              return (
+                                <div key={idx} className="flex flex-col gap-0.5">
+                                  <div className="flex items-center gap-1.5">
+                                    <span className={`inline-flex items-center justify-center font-mono font-black text-[10px] px-1.5 py-0.5 rounded-md shrink-0 ${
+                                      isDonation 
+                                        ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
+                                        : isTombola
+                                        ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                                        : "bg-[#ff4f00]/15 text-[#ff4f00] border border-[#ff4f00]/25"
+                                    }`}>
+                                      x{item.quantity}
+                                    </span>
+                                    {getItemProductUrl(item) ? (
+                                      <Link
+                                        href={getItemProductUrl(item)!}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="font-bold text-gray-100 hover:text-[#ff4f00] hover:underline text-xs truncate max-w-[220px] inline-flex items-center gap-1 group"
+                                        title={`Ouvrir la fiche produit pour ${mainName}`}
+                                      >
+                                        <span>
+                                          {isDonation && "❤️ "}
+                                          {isTombola && "🎟️ "}
+                                          {mainName}
+                                        </span>
+                                        <span className="text-[9px] text-gray-400 group-hover:text-[#ff4f00]">↗</span>
+                                      </Link>
+                                    ) : (
+                                      <span className="font-bold text-gray-100 text-xs truncate max-w-[220px]" title={mainName}>
+                                        {isDonation && "❤️ "}
+                                        {isTombola && "🎟️ "}
+                                        {mainName}
+                                      </span>
+                                    )}
+                                  </div>
+                                  {options.length > 0 && (
+                                    <div className="flex flex-wrap gap-1 pl-6">
+                                      {options.map((opt, optIdx) => (
+                                        <span key={optIdx} className="text-[9px] font-mono bg-white/[0.06] border border-white/10 text-gray-300 px-1.5 py-0.2 rounded-md">
+                                          {opt}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
+                            {o.items && o.items.length > 3 && (
+                              <div className="text-[#ff4f00] font-bold text-[10px] mt-1 pl-1">
+                                + {o.items.length - 3} autre(s) article(s)...
+                              </div>
+                            )}
                           </div>
                         )}
-                      </div>
-                    </td>
-                    <td className="px-5 py-5 min-w-[180px] no-invert">
-                      <span className={`block font-semibold ${cls.textMain}`}>
-                        {o.shippingMethod === "pickup" ? "Retrait Atelier 📅" : (o.shippingMethod === "relay" ? "Mondial Relay 📦" : "Colissimo Domicile 🚚")}
-                      </span>
-                      {o.relayDetails && (
-                        <span className={`block text-[10px] ${cls.textFaint}`}>
-                          {o.relayDetails.name} ({o.relayDetails.zip})
-                        </span>
-                      )}
-                      {o.shippingMethod === "pickup" && (
-                        <div className="mt-1">
-                          <span className={`block text-[10px] font-bold ${
-                            o.pickupStatus === "confirmed" ? "text-emerald-400" :
-                            o.pickupStatus === "proposed" ? "text-yellow-400" :
-                            "text-orange-400"
-                          }`}>
-                            Créneau : {formatPickupSlot(o.pickupSlotConfirmed || o.pickupSlotRequested)}
+                      </td>
+                      <td className="px-5 py-5 min-w-[180px] no-invert">
+                        {tombolaInfo ? (
+                          <span className="block font-semibold text-amber-300/80 text-xs">
+                            Billet virtuel 🎟️
                           </span>
-                        </div>
-                      )}
-                    </td>
+                        ) : (
+                          <>
+                            <span className={`block font-semibold ${cls.textMain}`}>
+                              {o.shippingMethod === "pickup" ? "Retrait Atelier 📅" : (o.shippingMethod === "relay" ? "Mondial Relay 📦" : "Colissimo Domicile 🚚")}
+                            </span>
+                            {o.relayDetails && (
+                              <span className={`block text-[10px] ${cls.textFaint}`}>
+                                {o.relayDetails.name} ({o.relayDetails.zip})
+                              </span>
+                            )}
+                            {o.shippingMethod === "pickup" && (
+                              <div className="mt-1">
+                                <span className={`block text-[10px] font-bold ${
+                                  o.pickupStatus === "confirmed" ? "text-emerald-400" :
+                                  o.pickupStatus === "proposed" ? "text-yellow-400" :
+                                  "text-orange-400"
+                                }`}>
+                                  Créneau : {formatPickupSlot(o.pickupSlotConfirmed || o.pickupSlotRequested)}
+                                </span>
+                              </div>
+                            )}
+                          </>
+                        )}
+                      </td>
                     <td className={`px-5 py-5 font-bold ${cls.textMain} whitespace-nowrap`}>
                       {o.total.toFixed(2)}€
                     </td>
@@ -656,7 +733,8 @@ export default function AdminOrdersPage() {
                       </span>
                     </td>
                   </tr>
-                ))}
+                );
+              })}
               </tbody>
             </table>
           </div>
@@ -871,22 +949,60 @@ export default function AdminOrdersPage() {
               )}
 
               {/* Items List */}
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-gray-400">
-                    Articles commandés ({selectedOrder.items?.reduce((acc, i) => acc + (i.quantity || 1), 0) || 0})
-                  </span>
-                  <span className="text-xs font-semibold text-gray-500 font-mono">
-                    {selectedOrder.items?.length || 0} produit(s) distinct(s)
-                  </span>
-                </div>
-                <div className="space-y-2.5">
-                  {(selectedOrder.items || []).map((item, idx) => {
-                    const { mainName, options } = parseItemName(item.name);
-                    const isDonation = mainName.toLowerCase().includes("don de soutien");
-                    const isTombola = mainName.toLowerCase().includes("tombola") || mainName.toLowerCase().includes("ticket");
-                    const unitPrice = item.price ? parseFloat(String(item.price)) : null;
-                    const totalPrice = unitPrice ? unitPrice * item.quantity : null;
+              {(() => {
+                const modalTombolaInfo = selectedOrder ? getTombolaOrderDetails(selectedOrder) : null;
+
+                if (modalTombolaInfo) {
+                  return (
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[10px] uppercase font-bold tracking-wider text-amber-400">
+                          Participation Tombola ({modalTombolaInfo.totalTickets} ticket{modalTombolaInfo.totalTickets > 1 ? "s" : ""})
+                        </span>
+                        <span className="text-xs font-semibold text-gray-400 font-mono">
+                          {modalTombolaInfo.cases.length} case{modalTombolaInfo.cases.length > 1 ? "s" : ""} réservée(s)
+                        </span>
+                      </div>
+                      <div className="bg-amber-500/10 border border-amber-500/25 rounded-2xl p-4 flex flex-col gap-3">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 font-bold text-amber-400 text-sm">
+                            <span className="text-xl">🎟️</span>
+                            <span>Ticket{modalTombolaInfo.totalTickets > 1 ? "s" : ""} Tombola Spoolio</span>
+                          </div>
+                          <span className="text-sm font-mono font-black text-amber-300">
+                            Total : {selectedOrder.total.toFixed(2)}€
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-1.5 pt-1 border-t border-amber-500/20">
+                          <span className="text-xs text-gray-300 font-bold mr-1">Cases choisies :</span>
+                          {modalTombolaInfo.cases.map((cNum, cIdx) => (
+                            <span key={cIdx} className="bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono font-bold text-xs px-2.5 py-1 rounded-lg">
+                              {cNum}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-[10px] uppercase font-bold tracking-wider text-gray-400">
+                        Articles commandés ({selectedOrder.items?.reduce((acc, i) => acc + (i.quantity || 1), 0) || 0})
+                      </span>
+                      <span className="text-xs font-semibold text-gray-500 font-mono">
+                        {selectedOrder.items?.length || 0} produit(s) distinct(s)
+                      </span>
+                    </div>
+                    <div className="space-y-2.5">
+                      {(selectedOrder.items || []).map((item, idx) => {
+                        const { mainName, options } = parseItemName(item.name);
+                        const isDonation = mainName.toLowerCase().includes("don de soutien");
+                        const isTombola = mainName.toLowerCase().includes("tombola") || mainName.toLowerCase().includes("ticket");
+                        const unitPrice = item.price ? parseFloat(String(item.price)) : null;
+                        const totalPrice = unitPrice ? unitPrice * item.quantity : null;
 
                     return (
                       <div 
@@ -983,6 +1099,8 @@ export default function AdminOrdersPage() {
                   })}
                 </div>
               </div>
+            );
+          })()}
 
               {/* Pricing breakdown */}
               <div className="flex justify-between items-center bg-white/[0.01] border border-white/5 rounded-2xl p-4">

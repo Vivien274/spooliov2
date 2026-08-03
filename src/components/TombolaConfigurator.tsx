@@ -532,6 +532,14 @@ export default function TombolaConfigurator() {
             );
           })}
         </div>
+
+        {/* Information & Guarantee Note under Grid */}
+        <div className="mt-2 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/25 flex items-center gap-3 text-xs sm:text-sm text-amber-200 shadow-sm">
+          <span className="text-xl shrink-0">ℹ️</span>
+          <p className="leading-relaxed">
+            <strong className="text-amber-400">Règle de validation :</strong> La tombola ne sera validée que si au moins la moitié des cases est vendue ({Math.ceil(config.totalCases / 2)} cases minimum). Si ce seuil n&apos;est pas atteint à la clôture, l&apos;intégralité des participants sera automatiquement remboursée.
+          </p>
+        </div>
       </div>
     </div>
   );
