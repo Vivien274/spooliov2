@@ -2,137 +2,101 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+import { DEFAULT_COLORS } from "@/lib/defaultColors";
 
 export const metadata: Metadata = {
   title: "Palette de couleurs disponibles | Spoolio",
   description: "Découvrez notre palette complète de filaments PLA (bicolores, pailletés, phosphorescents, unis) pour personnaliser vos créations imprimées en 3D.",
 };
 
-// Filament Color details
-interface ColorItem {
+// Revalidate every 60 seconds
+export const revalidate = 60;
+
+interface ColorItemDB {
+  id: number;
   name: string;
-  className?: string;
-  style?: React.CSSProperties;
-  description: string;
+  category: string;
+  className?: string | null;
+  style?: string | null;
+  description?: string | null;
+  isAvailable: boolean;
+  position: number;
 }
 
-const BICOLORS_DEGRADES: ColorItem[] = [
-  {
-    name: "Arc en ciel",
-    className: "swatch-rainbow",
-    description: "Chaque pièce est unique ! Le filament change de couleur tout au long de l'impression pour un effet multicolore magique."
-  },
-  {
-    name: "Bicolore Bleu clair – Rose",
-    style: { background: "linear-gradient(135deg, #58a6ff 50%, #ff66cc 50%)" },
-    description: "Deux couleurs extrudées en même temps. La couleur change selon l'angle sous lequel vous regardez l'objet !"
-  },
-  {
-    name: "Bicolore Bleu-Vert",
-    style: { background: "linear-gradient(135deg, #2563eb 50%, #2ebd59 50%)" },
-    description: "Un effet changeant saisissant entre un bleu électrique et un vert vif."
-  },
-  {
-    name: "Bicolore Bleu-Violet",
-    style: { background: "linear-gradient(135deg, #00c6ff 50%, #a32eff 50%)" },
-    description: "Un magnifique rendu iridescent rappelant les reflets de la nuit."
-  },
-  {
-    name: "Bicolore Bleu-Violet Mat",
-    style: { background: "linear-gradient(135deg, #2c3e50 50%, #8e44ad 50%)", filter: "saturate(0.7) contrast(1.1)" },
-    description: "Le même effet bicolore mystique mais avec un fini mat très soyeux et anti-reflets."
-  },
-  {
-    name: "Rouge feu (dégradé)",
-    style: { background: "linear-gradient(to bottom, #ff4f00, #dc2626)" },
-    description: "Un dégradé chaleureux évoquant les flammes, passant d'un orange vif à un rouge profond."
-  },
-  {
-    name: "Feu",
-    style: { background: "radial-gradient(circle, #facc15 0%, #f97316 60%, #dc2626 100%)" },
-    description: "Un mélange de couleurs chaudes imitant l'intensité du feu."
-  },
-];
+const getStyleObject = (styleString?: string | null): React.CSSProperties => {
+  if (!styleString) return {};
+  try {
+    const stylesObj: React.CSSProperties = {};
+    const pairs = styleString.split(";");
+    for (const pair of pairs) {
+      const [key, value] = pair.split(":");
+      if (key && value) {
+        const camelKey = key.trim().replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+        (stylesObj as any)[camelKey] = value.trim();
+      }
+    }
+    return stylesObj;
+  } catch (e) {
+    return {};
+  }
+};
 
-const SPECIALS_TEXTURES: ColorItem[] = [
-  {
-    name: "Noir Pailleté",
-    className: "swatch-paillette",
-    style: { background: "#151518", backgroundImage: "radial-gradient(rgba(255,255,255,0.4) 1px, transparent 1px)", backgroundSize: "4px 4px" },
-    description: "Un noir mat profond constellé de micro-paillettes argentées pour un effet ciel étoilé."
-  },
-  {
-    name: "Gris Pailleté",
-    className: "swatch-paillette",
-    style: { background: "#7f8c8d", backgroundImage: "radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px)", backgroundSize: "4px 4px" },
-    description: "Un gris sidéral satiné orné d'étincelles argentées."
-  },
-  {
-    name: "Vert foncé Pailleté",
-    className: "swatch-paillette",
-    style: { background: "#114220", backgroundImage: "radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)", backgroundSize: "4px 4px" },
-    description: "Un magnifique vert forêt orné de reflets scintillants."
-  },
-  {
-    name: "Argenté (reflets métal)",
-    style: { background: "linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%)", boxShadow: "inset 0 0 10px rgba(255,255,255,0.2)" },
-    description: "Un filament chargé en particules métalliques pour un rendu argent satiné réaliste."
-  },
-  {
-    name: "Bois (imitation chêne)",
-    className: "swatch-bois",
-    description: "Contient de vraies fibres de bois ! Donne un fini mat texturé brun clair, ponçable et odorant."
-  },
-  {
-    name: "Imitation Roche",
-    className: "swatch-roche",
-    description: "Rendu mat moucheté dans les tons sable, idéal pour les figurines de monstres, décors ou pots."
-  },
-  {
-    name: "Marbre",
-    className: "swatch-marbre",
-    description: "Un blanc cassé élégant parsemé de fins éclats sombres pour imiter à la perfection la pierre de marbre."
-  },
-  {
-    name: "Phosphorescent",
-    className: "swatch-phospho",
-    description: "Blanc-vert translucide le jour, il brille d'une intense lueur verte phosphorescente dans le noir !"
-  },
-  {
-    name: "Transparent",
-    className: "swatch-transparent",
-    description: "Laisse passer la lumière. L'effet de transparence s'accentue sur les parois fines de l'objet."
-  },
-];
+function getPrismaClient() {
+  if (prisma && (prisma as any).color) return prisma;
+  const { PrismaClient } = require("@prisma/client");
+  return new PrismaClient();
+}
 
-const UNIS: ColorItem[] = [
-  { name: "Blanc", style: { background: "#ffffff", border: "1px solid rgba(255,255,255,0.15)" }, description: "Un blanc pur, propre et très net." },
-  { name: "Noir", style: { background: "#121214" }, description: "Un noir profond, élégant et intemporel." },
-  { name: "Gris", style: { background: "#7f8c8d" }, description: "Un gris neutre idéal pour faire ressortir les détails géométriques." },
-  { name: "Beige (cacahuète)", style: { background: "#c8a87a" }, description: "Un beige chaud et naturel." },
-  { name: "Jaune", style: { background: "#facc15" }, description: "Jaune canari vif et joyeux." },
-  { name: "Jaune soleil", style: { background: "#f59e0b" }, description: "Un jaune chaud tirant légèrement sur l'ambre." },
-  { name: "Orange", style: { background: "#ff4f00" }, description: "Le orange signature Spoolio, ultra-pétant et énergique." },
-  { name: "Orange pêche", style: { background: "#ffb085" }, description: "Une nuance douce et fruitée, très pastel." },
-  { name: "Orange translucide", style: { background: "rgba(249, 115, 22, 0.4)", border: "1px solid rgba(249, 115, 22, 0.6)" }, description: "Un orange vitreux laissant passer la lumière." },
-  { name: "Rose pâle", style: { background: "#ffd1dc" }, description: "Un rose pastel tout doux." },
-  { name: "Rose poudré", style: { background: "#ffb7c5" }, description: "Un rose subtil et élégant." },
-  { name: "Rouge", style: { background: "#ff2a2a" }, description: "Un rouge cerise vif et saisissant." },
-  { name: "Rouge Brique", style: { background: "#9b2335" }, description: "Un rouge bordeaux mat très chaleureux." },
-  { name: "Vert fluo / pomme", style: { background: "#66ff33" }, description: "Un vert acide très dynamique." },
-  { name: "Vert foncé", style: { background: "#134e1e" }, description: "Un vert sapin élégant et boisé." },
-  { name: "Vert pâle", style: { background: "#86efac" }, description: "Un vert menthe d'eau pastel." },
-  { name: "Violet", style: { background: "#a32eff" }, description: "Un violet électrique profond." },
-  { name: "Bleu", style: { background: "#005cff" }, description: "Un bleu roi vif classique." },
-  { name: "Bleu canard", style: { background: "#008080" }, description: "Un turquoise foncé tirant sur le vert paon." },
-  { name: "Bleu marine", style: { background: "#0d1b2a" }, description: "Un bleu sombre très classe." },
-  { name: "Bleu turquoise", style: { background: "#06b6d4" }, description: "Un bleu lagon exotique et lumineux." },
-  { name: "Marron clair", style: { background: "#a0785a" }, description: "Teinte caramel douce." },
-  { name: "Marron moyen", style: { background: "#7d4f35" }, description: "Brun chocolat au lait." },
-  { name: "Marron foncé", style: { background: "#5c3d2e" }, description: "Un marron expresso intense." },
-];
+async function getColors(): Promise<ColorItemDB[]> {
+  try {
+    const db = getPrismaClient();
+    let dbColors = await db.color.findMany({
+      orderBy: [{ position: "asc" }, { id: "asc" }],
+    });
 
-export default function ColorPalettePage() {
+    if (dbColors.length === 0) {
+      await prisma.color.createMany({
+        data: DEFAULT_COLORS.map((c) => ({
+          name: c.name,
+          category: c.category,
+          className: c.className || null,
+          style: c.style || null,
+          description: c.description,
+          isAvailable: c.isAvailable,
+          position: c.position,
+        })),
+        skipDuplicates: true,
+      });
+
+      dbColors = await prisma.color.findMany({
+        orderBy: [{ position: "asc" }, { id: "asc" }],
+      });
+    }
+
+    return dbColors;
+  } catch (e) {
+    console.error("Error loading colors for palette page:", e);
+    return DEFAULT_COLORS.map((c, i) => ({
+      id: i + 1,
+      name: c.name,
+      category: c.category,
+      className: c.className || null,
+      style: c.style || null,
+      description: c.description,
+      isAvailable: c.isAvailable,
+      position: c.position,
+    }));
+  }
+}
+
+export default async function ColorPalettePage() {
+  const colors = await getColors();
+
+  const bicolors = colors.filter((c) => c.category === "BICOLORS_DEGRADES");
+  const specials = colors.filter((c) => c.category === "SPECIALS_TEXTURES");
+  const unis = colors.filter((c) => c.category === "UNIS");
+
   return (
     <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
       
@@ -250,67 +214,115 @@ export default function ColorPalettePage() {
         </div>
 
         {/* SECTION 1: BICOLORES & DEGRADES */}
-        <section className="mb-16">
-          <div className="flex items-center gap-3 mb-8 border-b border-spoolio-border/40 pb-4">
-            <span className="text-2xl">🌈</span>
-            <h2 className="text-2xl font-black font-antonio uppercase tracking-wide text-white">
-              Bicolores & Dégradés
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {BICOLORS_DEGRADES.map((color) => (
-              <div key={color.name} className="color-card-item p-5 rounded-[24px] bg-spoolio-card border border-spoolio-border flex gap-4 items-center transition-all hover:border-[#ff4f00]/30 hover:shadow-xl">
-                <div className={`swatch-spool ${color.className || ""}`} style={color.style} />
-                <div className="flex flex-col gap-1 font-sans">
-                  <h3 className="font-bold text-white text-base leading-tight">{color.name}</h3>
-                  <p className="text-xs text-gray-400 leading-relaxed mt-1">{color.description}</p>
+        {bicolors.length > 0 && (
+          <section className="mb-16">
+            <div className="flex items-center gap-3 mb-8 border-b border-spoolio-border/40 pb-4">
+              <span className="text-2xl">🌈</span>
+              <h2 className="text-2xl font-black font-antonio uppercase tracking-wide text-white">
+                Bicolores & Dégradés
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {bicolors.map((color) => (
+                <div
+                  key={color.id}
+                  className={`color-card-item p-5 rounded-[24px] bg-spoolio-card border flex gap-4 items-center transition-all ${
+                    color.isAvailable
+                      ? "border-spoolio-border hover:border-[#ff4f00]/30 hover:shadow-xl"
+                      : "border-amber-500/30 opacity-70 bg-amber-500/5"
+                  }`}
+                >
+                  <div className={`swatch-spool ${color.className || ""}`} style={getStyleObject(color.style)} />
+                  <div className="flex flex-col gap-1 font-sans flex-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="font-bold text-white text-base leading-tight">{color.name}</h3>
+                      {!color.isAvailable && (
+                        <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 whitespace-nowrap">
+                          Indisponible
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-gray-400 leading-relaxed mt-1">{color.description}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* SECTION 2: EFFETS SPECIAUX & TEXTURES */}
-        <section className="mb-16">
-          <div className="flex items-center gap-3 mb-8 border-b border-spoolio-border/40 pb-4">
-            <span className="text-2xl">✨</span>
-            <h2 className="text-2xl font-black font-antonio uppercase tracking-wide text-white">
-              Matières & Effets Spéciaux
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {SPECIALS_TEXTURES.map((color) => (
-              <div key={color.name} className="color-card-item p-5 rounded-[24px] bg-spoolio-card border border-spoolio-border flex gap-4 items-center transition-all hover:border-[#ff4f00]/30 hover:shadow-xl">
-                <div className={`swatch-spool ${color.className || ""}`} style={color.style} />
-                <div className="flex flex-col gap-1 font-sans">
-                  <h3 className="font-bold text-white text-base leading-tight">{color.name}</h3>
-                  <p className="text-xs text-gray-400 leading-relaxed mt-1">{color.description}</p>
+        {specials.length > 0 && (
+          <section className="mb-16">
+            <div className="flex items-center gap-3 mb-8 border-b border-spoolio-border/40 pb-4">
+              <span className="text-2xl">✨</span>
+              <h2 className="text-2xl font-black font-antonio uppercase tracking-wide text-white">
+                Matières & Effets Spéciaux
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {specials.map((color) => (
+                <div
+                  key={color.id}
+                  className={`color-card-item p-5 rounded-[24px] bg-spoolio-card border flex gap-4 items-center transition-all ${
+                    color.isAvailable
+                      ? "border-spoolio-border hover:border-[#ff4f00]/30 hover:shadow-xl"
+                      : "border-amber-500/30 opacity-70 bg-amber-500/5"
+                  }`}
+                >
+                  <div className={`swatch-spool ${color.className || ""}`} style={getStyleObject(color.style)} />
+                  <div className="flex flex-col gap-1 font-sans flex-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="font-bold text-white text-base leading-tight">{color.name}</h3>
+                      {!color.isAvailable && (
+                        <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 whitespace-nowrap">
+                          Indisponible
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-gray-400 leading-relaxed mt-1">{color.description}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* SECTION 3: COULEURS UNIES */}
-        <section className="mb-16">
-          <div className="flex items-center gap-3 mb-8 border-b border-spoolio-border/40 pb-4">
-            <span className="text-2xl">🎨</span>
-            <h2 className="text-2xl font-black font-antonio uppercase tracking-wide text-white">
-              Couleurs Unies Classiques
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {UNIS.map((color) => (
-              <div key={color.name} className="color-card-item p-5 rounded-[24px] bg-spoolio-card border border-spoolio-border flex gap-4 items-center transition-all hover:border-[#ff4f00]/30 hover:shadow-xl">
-                <div className={`swatch-spool ${color.className || ""}`} style={color.style} />
-                <div className="flex flex-col gap-1 font-sans">
-                  <h3 className="font-bold text-white text-base leading-tight">{color.name}</h3>
-                  <p className="text-xs text-gray-400 leading-relaxed mt-1">{color.description}</p>
+        {unis.length > 0 && (
+          <section className="mb-16">
+            <div className="flex items-center gap-3 mb-8 border-b border-spoolio-border/40 pb-4">
+              <span className="text-2xl">🎨</span>
+              <h2 className="text-2xl font-black font-antonio uppercase tracking-wide text-white">
+                Couleurs Unies Classiques
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {unis.map((color) => (
+                <div
+                  key={color.id}
+                  className={`color-card-item p-5 rounded-[24px] bg-spoolio-card border flex gap-4 items-center transition-all ${
+                    color.isAvailable
+                      ? "border-spoolio-border hover:border-[#ff4f00]/30 hover:shadow-xl"
+                      : "border-amber-500/30 opacity-70 bg-amber-500/5"
+                  }`}
+                >
+                  <div className={`swatch-spool ${color.className || ""}`} style={getStyleObject(color.style)} />
+                  <div className="flex flex-col gap-1 font-sans flex-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="font-bold text-white text-base leading-tight">{color.name}</h3>
+                      {!color.isAvailable && (
+                        <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 whitespace-nowrap">
+                          Indisponible
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-gray-400 leading-relaxed mt-1">{color.description}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* CTA BOTTOM BLOCK */}
         <div className="p-8 rounded-[32px] bg-spoolio-card border border-spoolio-border text-center space-y-6 max-w-xl mx-auto shadow-2xl relative overflow-hidden font-sans">

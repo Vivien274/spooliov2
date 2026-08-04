@@ -79,8 +79,19 @@ const navSections: NavSection[] = [
           { label: "Ajouter un produit", href: "/admin/products/new" },
           { label: "Catégories", href: "/admin/products/categories" },
           { label: "Attributs", href: "/admin/products/attributes" },
+          { label: "Palette Couleurs 🎨", href: "/admin/colors" },
         ],
       },
+      {
+        label: "Palette Couleurs 🎨",
+        href: "/admin/colors",
+        icon: (
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-3M9.707 9.707l5-5a1 1 0 011.414 0l2.586 2.586a1 1 0 010 1.414l-5 5a1 1 0 01-.707.293H10a1 1 0 01-1-1v-.586a1 1 0 01.293-.707z" />
+          </svg>
+        ),
+      },
+
       {
         label: "Studio Clickers ⌨️",
         href: "/admin/clickers",

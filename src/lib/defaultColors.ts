@@ -1,0 +1,172 @@
+export interface DefaultColorItem {
+  name: string;
+  category: "BICOLORS_DEGRADES" | "SPECIALS_TEXTURES" | "UNIS";
+  className?: string;
+  style?: string;
+  description: string;
+  isAvailable: boolean;
+  position: number;
+}
+
+export const DEFAULT_COLORS: DefaultColorItem[] = [
+  // BICOLORS_DEGRADES
+  {
+    name: "Arc en ciel",
+    category: "BICOLORS_DEGRADES",
+    className: "swatch-rainbow",
+    description: "Chaque pièce est unique ! Le filament change de couleur tout au long de l'impression pour un effet multicolore magique.",
+    isAvailable: true,
+    position: 1,
+  },
+  {
+    name: "Bicolore Bleu clair – Rose",
+    category: "BICOLORS_DEGRADES",
+    style: "background: linear-gradient(135deg, #58a6ff 50%, #ff66cc 50%)",
+    description: "Deux couleurs extrudées en même temps. La couleur change selon l'angle sous lequel vous regardez l'objet !",
+    isAvailable: true,
+    position: 2,
+  },
+  {
+    name: "Bicolore Bleu-Vert",
+    category: "BICOLORS_DEGRADES",
+    style: "background: linear-gradient(135deg, #2563eb 50%, #2ebd59 50%)",
+    description: "Un effet changeant saisissant entre un bleu électrique et un vert vif.",
+    isAvailable: true,
+    position: 3,
+  },
+  {
+    name: "Bicolore Bleu-Violet",
+    category: "BICOLORS_DEGRADES",
+    style: "background: linear-gradient(135deg, #00c6ff 50%, #a32eff 50%)",
+    description: "Un magnifique rendu iridescent rappelant les reflets de la nuit.",
+    isAvailable: true,
+    position: 4,
+  },
+  {
+    name: "Bicolore Bleu-Violet Mat",
+    category: "BICOLORS_DEGRADES",
+    style: "background: linear-gradient(135deg, #2c3e50 50%, #8e44ad 50%)",
+    description: "Le même effet bicolore mystique mais avec un fini mat très soyeux et anti-reflets.",
+    isAvailable: true,
+    position: 5,
+  },
+  {
+    name: "Rouge feu (dégradé)",
+    category: "BICOLORS_DEGRADES",
+    style: "background: linear-gradient(to bottom, #ff4f00, #dc2626)",
+    description: "Un dégradé chaleureux évoquant les flammes, passant d'un orange vif à un rouge profond.",
+    isAvailable: true,
+    position: 6,
+  },
+  {
+    name: "Feu",
+    category: "BICOLORS_DEGRADES",
+    style: "background: radial-gradient(circle, #facc15 0%, #f97316 60%, #dc2626 100%)",
+    description: "Un mélange de couleurs chaudes imitant l'intensité du feu.",
+    isAvailable: true,
+    position: 7,
+  },
+
+  // SPECIALS_TEXTURES
+  {
+    name: "Noir Pailleté",
+    category: "SPECIALS_TEXTURES",
+    className: "swatch-paillette",
+    style: "background: #151518; background-image: radial-gradient(rgba(255,255,255,0.4) 1px, transparent 1px); background-size: 4px 4px",
+    description: "Un noir mat profond constellé de micro-paillettes argentées pour un effet ciel étoilé.",
+    isAvailable: true,
+    position: 10,
+  },
+  {
+    name: "Gris Pailleté",
+    category: "SPECIALS_TEXTURES",
+    className: "swatch-paillette",
+    style: "background: #7f8c8d; background-image: radial-gradient(rgba(255,255,255,0.6) 1px, transparent 1px); background-size: 4px 4px",
+    description: "Un gris sidéral satiné orné d'étincelles argentées.",
+    isAvailable: true,
+    position: 11,
+  },
+  {
+    name: "Vert foncé Pailleté",
+    category: "SPECIALS_TEXTURES",
+    className: "swatch-paillette",
+    style: "background: #114220; background-image: radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px); background-size: 4px 4px",
+    description: "Un magnifique vert forêt orné de reflets scintillants.",
+    isAvailable: true,
+    position: 12,
+  },
+  {
+    name: "Argenté (reflets métal)",
+    category: "SPECIALS_TEXTURES",
+    style: "background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%)",
+    description: "Un filament chargé en particules métalliques pour un rendu argent satiné réaliste.",
+    isAvailable: true,
+    position: 13,
+  },
+  {
+    name: "Bois (imitation chêne)",
+    category: "SPECIALS_TEXTURES",
+    className: "swatch-bois",
+    description: "Contient de vraies fibres de bois ! Donne un fini mat texturé brun clair, ponçable et odorant.",
+    isAvailable: true,
+    position: 14,
+  },
+  {
+    name: "Imitation Roche",
+    category: "SPECIALS_TEXTURES",
+    className: "swatch-roche",
+    description: "Rendu mat moucheté dans les tons sable, idéal pour les figurines de monstres, décors ou pots.",
+    isAvailable: true,
+    position: 15,
+  },
+  {
+    name: "Marbre",
+    category: "SPECIALS_TEXTURES",
+    className: "swatch-marbre",
+    description: "Un blanc cassé élégant parsemé de fins éclats sombres pour imiter à la perfection la pierre de marbre.",
+    isAvailable: true,
+    position: 16,
+  },
+  {
+    name: "Phosphorescent",
+    category: "SPECIALS_TEXTURES",
+    className: "swatch-phospho",
+    description: "Blanc-vert translucide le jour, il brille d'une intense lueur verte phosphorescente dans le noir !",
+    isAvailable: true,
+    position: 17,
+  },
+  {
+    name: "Transparent",
+    category: "SPECIALS_TEXTURES",
+    className: "swatch-transparent",
+    description: "Laisse passer la lumière. L'effet de transparence s'accentue sur les parois fines de l'objet.",
+    isAvailable: true,
+    position: 18,
+  },
+
+  // UNIS
+  { name: "Blanc", category: "UNIS", style: "background: #ffffff; border: 1px solid rgba(255,255,255,0.15)", description: "Un blanc pur, propre et très net.", isAvailable: true, position: 20 },
+  { name: "Noir", category: "UNIS", style: "background: #121214", description: "Un noir profond, élégant et intemporel.", isAvailable: true, position: 21 },
+  { name: "Gris", category: "UNIS", style: "background: #7f8c8d", description: "Un gris neutre idéal pour faire ressortir les détails géométriques.", isAvailable: true, position: 22 },
+  { name: "Beige (cacahuète)", category: "UNIS", style: "background: #c8a87a", description: "Un beige chaud et naturel.", isAvailable: true, position: 23 },
+  { name: "Jaune", category: "UNIS", style: "background: #facc15", description: "Jaune canari vif et joyeux.", isAvailable: true, position: 24 },
+  { name: "Jaune soleil", category: "UNIS", style: "background: #f59e0b", description: "Un jaune chaud tirant légèrement sur l'ambre.", isAvailable: true, position: 25 },
+  { name: "Orange", category: "UNIS", style: "background: #ff4f00", description: "Le orange signature Spoolio, ultra-pétant et énergique.", isAvailable: true, position: 26 },
+  { name: "Orange pêche", category: "UNIS", style: "background: #ffb085", description: "Une nuance douce et fruitée, très pastel.", isAvailable: true, position: 27 },
+  { name: "Orange translucide", category: "UNIS", style: "background: rgba(249, 115, 22, 0.4); border: 1px solid rgba(249, 115, 22, 0.6)", description: "Un orange vitreux laissant passer la lumière.", isAvailable: true, position: 28 },
+  { name: "Rose pâle", category: "UNIS", style: "background: #ffd1dc", description: "Un rose pastel tout doux.", isAvailable: true, position: 29 },
+  { name: "Rose poudré", category: "UNIS", style: "background: #ffb7c5", description: "Un rose subtil et élégant.", isAvailable: true, position: 30 },
+  { name: "Rouge", category: "UNIS", style: "background: #ff2a2a", description: "Un rouge cerise vif et saisissant.", isAvailable: true, position: 31 },
+  { name: "Rouge Brique", category: "UNIS", style: "background: #9b2335", description: "Un rouge bordeaux mat très chaleureux.", isAvailable: true, position: 32 },
+  { name: "Vert fluo / pomme", category: "UNIS", style: "background: #66ff33", description: "Un vert acide très dynamique.", isAvailable: true, position: 33 },
+  { name: "Vert foncé", category: "UNIS", style: "background: #134e1e", description: "Un vert sapin élégant et boisé.", isAvailable: true, position: 34 },
+  { name: "Vert pâle", category: "UNIS", style: "background: #86efac", description: "Un vert menthe d'eau pastel.", isAvailable: true, position: 35 },
+  { name: "Violet", category: "UNIS", style: "background: #a32eff", description: "Un violet électrique profond.", isAvailable: true, position: 36 },
+  { name: "Bleu", category: "UNIS", style: "background: #005cff", description: "Un bleu roi vif classique.", isAvailable: true, position: 37 },
+  { name: "Bleu canard", category: "UNIS", style: "background: #008080", description: "Un turquoise foncé tirant sur le vert paon.", isAvailable: true, position: 38 },
+  { name: "Bleu marine", category: "UNIS", style: "background: #0d1b2a", description: "Un bleu sombre très classe.", isAvailable: true, position: 39 },
+  { name: "Bleu turquoise", category: "UNIS", style: "background: #06b6d4", description: "Un bleu lagon exotique et lumineux.", isAvailable: true, position: 40 },
+  { name: "Marron clair", category: "UNIS", style: "background: #a0785a", description: "Teinte caramel douce.", isAvailable: true, position: 41 },
+  { name: "Marron moyen", category: "UNIS", style: "background: #7d4f35", description: "Brun chocolat au lait.", isAvailable: true, position: 42 },
+  { name: "Marron foncé", category: "UNIS", style: "background: #5c3d2e", description: "Un marron expresso intense.", isAvailable: true, position: 43 },
+];

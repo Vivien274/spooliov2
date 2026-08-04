@@ -173,3 +173,19 @@ model Tombola {
 
   @@map("tombolas")
 }
+
+model Color {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  category    String   @default("UNIS") // BICOLORS_DEGRADES | SPECIALS_TEXTURES | UNIS
+  className   String?
+  style       String?  @db.Text // CSS inline string or JSON
+  description String?  @db.Text
+  isAvailable Boolean  @default(true)
+  position    Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("colors")
+}
+

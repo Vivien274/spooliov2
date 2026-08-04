@@ -119,6 +119,35 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
   const [submittingReview, setSubmittingReview] = useState<boolean>(false);
   const [reviewSuccess, setReviewSuccess] = useState<string | null>(null);
   const [reviewError, setReviewError] = useState<string | null>(null);
+  const [unavailableColorNames, setUnavailableColorNames] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchColorsAvailability = async () => {
+      try {
+        const res = await fetch("/api/colors");
+        if (res.ok) {
+          const data = await res.json();
+          const unavail = (data.colors || [])
+            .filter((c: any) => !c.isAvailable)
+            .map((c: any) => c.name.toLowerCase().trim());
+          setUnavailableColorNames(unavail);
+        }
+      } catch (e) {
+        console.error("Error fetching color availability:", e);
+      }
+    };
+    fetchColorsAvailability();
+  }, []);
+
+  const isUnavailableColor = (optionName: string) => {
+    if (!unavailableColorNames || unavailableColorNames.length === 0) return false;
+    const normalizedOpt = optionName.toLowerCase().replace(/\u00a0/g, ' ').trim();
+    return unavailableColorNames.some((uName) => {
+      if (normalizedOpt === uName) return true;
+      if (uName.length >= 3 && (normalizedOpt.includes(uName) || uName.includes(normalizedOpt))) return true;
+      return false;
+    });
+  };
 
   // Initialize selected variations options
   useEffect(() => {
@@ -129,10 +158,14 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
       const initialOptions: Record<string, string> = {};
       attrs.forEach((attr: any) => {
         if (attr.options && attr.options.length > 0) {
-          initialOptions[attr.name] = attr.options[0].replace(/\u00a0/g, ' ').trim();
+          const validOpts = attr.options
+            .map((o: string) => o.replace(/\u00a0/g, ' ').trim())
+            .filter((o: string) => !isUnavailableColor(o));
+          initialOptions[attr.name] = validOpts.length > 0 ? validOpts[0] : attr.options[0].replace(/\u00a0/g, ' ').trim();
         }
       });
       setSelectedOptions(initialOptions);
+
 
       // Auto-switch to initial variation image if present
       const attrData = product.attributes as any;
@@ -915,7 +948,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                     if (nameLower === "personnalisable" || nameLower.includes("personnalisable")) return null;
 
                     const rawOptions = attr.options || [];
-                    const options = Array.from(new Set<string>(rawOptions.map((opt: string) => opt.replace(/\u00a0/g, ' ').trim())))
+                    let options = Array.from(new Set<string>(rawOptions.map((opt: string) => opt.replace(/\u00a0/g, ' ').trim())))
                       .sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base', numeric: true }));
                     const selectedVal = selectedOptions[name];
                     const decodedName = decodeHtml(name);
@@ -973,6 +1006,15 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                     (controlType === "default" && 
                      (nameLower.includes("couleur") || nameLower.includes("accent") || nameLower.includes("tube") || nameLower.includes("bague")) && 
                      !nameLower.includes("taille"));
+
+                  // Filter out unavailable filaments for color options
+                  if (isColor || nameLower.includes("couleur") || controlType === "color_swatch") {
+                    const availableOpts = options.filter((opt) => !isUnavailableColor(opt));
+                    if (availableOpts.length > 0) {
+                      options = availableOpts;
+                    }
+                  }
+
                   
                   const isBinary = controlType === "default" && 
                     options.length === 2 && 

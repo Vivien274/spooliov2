@@ -171,9 +171,31 @@ export default function AdminAttributesPage() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className={`text-[10px] font-black uppercase tracking-wider ${cls.textFaint}`}>
-                Valeurs par défaut *
-              </label>
+              <div className="flex items-center justify-between">
+                <label className={`text-[10px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                  Valeurs par défaut *
+                </label>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      const res = await fetch("/api/colors?availableOnly=true");
+                      if (res.ok) {
+                        const data = await res.json();
+                        const colorNames = (data.colors || []).map((c: any) => c.name);
+                        if (colorNames.length > 0) {
+                          setValues(colorNames.join(", "));
+                        }
+                      }
+                    } catch (e) {
+                      console.error("Error fetching available colors:", e);
+                    }
+                  }}
+                  className="text-[9px] font-bold text-[#ff4f00] hover:underline flex items-center gap-1"
+                >
+                  ⚡ Importer couleurs disponibles (Palette)
+                </button>
+              </div>
               <textarea
                 required
                 rows={4}

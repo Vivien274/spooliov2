@@ -28,23 +28,25 @@ if (typeof window === 'undefined') {
   }
 
   // Persist prisma client on global object to avoid pool saturation in dev
-  if (!globalForPrisma.prisma || !(globalForPrisma.prisma as any).order || !(globalForPrisma.prisma as any).page || !(globalForPrisma.prisma as any).review || !(globalForPrisma.prisma as any).printer || !(globalForPrisma.prisma as any).tombola) {
+  if (!globalForPrisma.prisma || !(globalForPrisma.prisma as any).order || !(globalForPrisma.prisma as any).page || !(globalForPrisma.prisma as any).review || !(globalForPrisma.prisma as any).printer || !(globalForPrisma.prisma as any).tombola || !(globalForPrisma.prisma as any).color) {
     console.log(`[Database] Initializing single database connection pool for Supabase...`);
-    globalForPrisma.prisma = new PrismaClient({
+    
+    if (process.env.NODE_ENV === 'development') {
+      Object.keys(require.cache).forEach((key) => {
+        if (key.includes('@prisma/client') || key.includes('.prisma')) {
+          delete require.cache[key];
+        }
+      });
+    }
+
+    const { PrismaClient: DynamicPrismaClient } = require('@prisma/client');
+    globalForPrisma.prisma = new DynamicPrismaClient({
       log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
       datasources: {
         db: {
           url: databaseUrl
         }
       }
-    });
-  }
-
-  // Force reset if schema models updated in dev
-  if (process.env.NODE_ENV === 'development') {
-    globalForPrisma.prisma = new PrismaClient({
-      log: ['error'],
-      datasources: { db: { url: databaseUrl } }
     });
   }
 
