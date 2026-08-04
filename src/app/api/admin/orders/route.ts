@@ -145,7 +145,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { id, status, pickupSlotConfirmed, pickupStatus, trackingNumber, shippingAddress } = body;
+    const { id, status, pickupSlotConfirmed, pickupStatus, trackingNumber, shippingAddress, archived } = body;
 
     if (!id) {
       return NextResponse.json(
@@ -164,6 +164,9 @@ export async function POST(request: Request) {
         );
       }
       updateData.status = status;
+    }
+    if (archived !== undefined) {
+      updateData.archived = Boolean(archived);
     }
     if (pickupSlotConfirmed !== undefined) {
       updateData.pickupSlotConfirmed = pickupSlotConfirmed;
@@ -198,6 +201,7 @@ export async function POST(request: Request) {
         const idx = orders.findIndex((o: any) => o.id === id);
         if (idx !== -1) {
           if (status) orders[idx].status = status;
+          if (archived !== undefined) orders[idx].archived = Boolean(archived);
           if (pickupSlotConfirmed !== undefined) orders[idx].pickupSlotConfirmed = pickupSlotConfirmed;
           if (pickupStatus !== undefined) orders[idx].pickupStatus = pickupStatus;
           if (trackingNumber !== undefined) orders[idx].trackingNumber = trackingNumber;

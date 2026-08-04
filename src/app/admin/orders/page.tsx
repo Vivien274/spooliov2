@@ -29,6 +29,7 @@ interface Order {
   total: number;
   shippingCost: number;
   status: string;
+  archived?: boolean;
   createdAt: string;
   pickupSlotRequested?: string | null;
   pickupSlotConfirmed?: string | null;
@@ -86,6 +87,7 @@ export default function AdminOrdersPage() {
   const [error, setError] = useState<string | null>(null);
   const [statusChangeLoading, setStatusChangeLoading] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [activeTab, setActiveTab] = useState<"active" | "archived">("active");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [proposingSlots, setProposingSlots] = useState<Record<string, string>>({});
@@ -97,6 +99,61 @@ export default function AdminOrdersPage() {
   const [showNoteModal, setShowNoteModal] = useState<boolean>(false);
   const [noteText, setNoteText] = useState<string>("");
   const [sendingNoteLoading, setSendingNoteLoading] = useState<boolean>(false);
+  const [boxtalLoading, setBoxtalLoading] = useState<string | null>(null);
+
+  const handleGenerateBoxtalShipment = async (orderId: string) => {
+    setBoxtalLoading(orderId);
+    try {
+      const res = await fetch("/api/admin/boxtal/shipment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId, weightKg: 0.3 })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        alert(`✅ ${data.message}`);
+        fetchOrders();
+        if (selectedOrder && selectedOrder.id === orderId) {
+          setSelectedOrder(prev => prev ? {
+            ...prev,
+            trackingNumber: data.trackingNumber,
+            status: "expedie",
+            archived: true
+          } : null);
+        }
+      } else {
+        alert(`⚠️ ${data.error || "Erreur lors de la génération Boxtal."}`);
+      }
+    } catch (err) {
+      alert("Erreur réseau lors de la génération Boxtal.");
+    } finally {
+      setBoxtalLoading(null);
+    }
+  };
+
+  const handleToggleArchive = async (orderId: string, currentArchived: boolean) => {
+    const newArchived = !currentArchived;
+    setOrders(prev => prev.map(o => o.id === orderId ? { ...o, archived: newArchived } : o));
+    if (selectedOrder && selectedOrder.id === orderId) {
+      setSelectedOrder(prev => prev ? { ...prev, archived: newArchived } : null);
+    }
+
+    try {
+      const res = await fetch("/api/admin/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: orderId, archived: newArchived }),
+      });
+
+      if (!res.ok) {
+        setOrders(prev => prev.map(o => o.id === orderId ? { ...o, archived: currentArchived } : o));
+        alert("⚠️ Échec de la mise à jour de l'archivage.");
+      }
+    } catch (e) {
+      setOrders(prev => prev.map(o => o.id === orderId ? { ...o, archived: currentArchived } : o));
+      alert("Erreur réseau lors de l'archivage.");
+    }
+  };
 
   const handleSendOrderNote = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -475,12 +532,16 @@ export default function AdminOrdersPage() {
     }
   };
 
+  const activeOrdersCount = orders.filter((o) => !o.archived).length;
+  const archivedOrdersCount = orders.filter((o) => Boolean(o.archived)).length;
+
   // Filters
   const filteredOrders = orders.filter((o) => {
+    const matchesTab = activeTab === "archived" ? Boolean(o.archived) : !o.archived;
     const matchesStatus = filterStatus === "all" || o.status === filterStatus;
     const searchString = `${o.customerName || ""} ${o.email} ${o.id}`.toLowerCase();
     const matchesSearch = searchString.includes(searchTerm.toLowerCase());
-    return matchesStatus && matchesSearch;
+    return matchesTab && matchesStatus && matchesSearch;
   });
 
   return (
@@ -495,7 +556,7 @@ export default function AdminOrdersPage() {
           </nav>
           <h1 className={`text-3xl font-black font-antonio uppercase tracking-tight ${cls.textMain}`}>Gestion des commandes</h1>
           <p className={`text-sm ${cls.textMuted} mt-1`}>
-            {orders.length} commandes au total · {orders.filter(o => o.status === "attente_impression").length} nouvelles à imprimer
+            {activeOrdersCount} actives en cours · {archivedOrdersCount} archivées · {orders.filter(o => !o.archived && o.status === "attente_impression").length} nouvelles à imprimer
           </p>
         </div>
         <div className="flex gap-2 flex-wrap items-center">
@@ -519,6 +580,41 @@ export default function AdminOrdersPage() {
             Rafraîchir 🔄
           </button>
         </div>
+      </div>
+
+      {/* Main Mode Tabs: En cours vs Archivées */}
+      <div className="flex items-center gap-3 border-b border-white/10 pb-3">
+        <button
+          onClick={() => setActiveTab("active")}
+          className={`px-4 py-2.5 rounded-2xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2.5 cursor-pointer ${
+            activeTab === "active"
+              ? "bg-[#ff4f00] text-black shadow-lg shadow-[#ff4f00]/20"
+              : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10"
+          }`}
+        >
+          <span>📦 Commandes En Cours</span>
+          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+            activeTab === "active" ? "bg-black/20 text-black" : "bg-white/10 text-gray-300"
+          }`}>
+            {activeOrdersCount}
+          </span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab("archived")}
+          className={`px-4 py-2.5 rounded-2xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2.5 cursor-pointer ${
+            activeTab === "archived"
+              ? "bg-purple-600 text-white shadow-lg shadow-purple-600/20"
+              : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10"
+          }`}
+        >
+          <span>🗄️ Commandes Archivées</span>
+          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+            activeTab === "archived" ? "bg-white/20 text-white" : "bg-white/10 text-gray-300"
+          }`}>
+            {archivedOrdersCount}
+          </span>
+        </button>
       </div>
 
       {/* Search & Status Tabs Filters */}
@@ -577,7 +673,7 @@ export default function AdminOrdersPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className={`border-b ${cls.border}`}>
-                  {["ID", "Date", "Client", "Articles", "Livraison / Relais", "Total", "Statut"].map((h) => (
+                  {["ID", "Date", "Client", "Articles", "Livraison / Relais", "Total", "Statut", "Action"].map((h) => (
                     <th key={h} className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-5 py-3.5 first:pl-6 last:pr-6`}>{h}</th>
                   ))}
                 </tr>
@@ -731,6 +827,20 @@ export default function AdminOrdersPage() {
                       }`}>
                         {getStatusLabel(o.status)}
                       </span>
+                    </td>
+                    <td className="px-5 py-5 pr-6" onClick={(e) => e.stopPropagation()}>
+                      <button
+                        type="button"
+                        onClick={() => handleToggleArchive(o.id, Boolean(o.archived))}
+                        className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
+                          o.archived
+                            ? "bg-purple-500/10 text-purple-300 border-purple-500/30 hover:bg-purple-500/20"
+                            : "bg-white/5 text-gray-300 border-white/10 hover:bg-white/10 hover:text-white"
+                        }`}
+                        title={o.archived ? "Désarchiver la commande" : "Archiver la commande"}
+                      >
+                        {o.archived ? "📥 Désarchiver" : "📦 Archiver"}
+                      </button>
                     </td>
                   </tr>
                 );
@@ -1113,98 +1223,139 @@ export default function AdminOrdersPage() {
                 </div>
               </div>
 
-              {/* Quick links & Status Row */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-white/5">
-                {/* Logistics */}
-                {selectedOrder.shippingMethod !== "pickup" && (
-                  <div className="flex items-center gap-3">
+              {/* Modal Footer Actions Section */}
+              <div className="space-y-3 pt-4 border-t border-white/10 font-sans">
+                {/* Row 1: External Links & Communication Tools */}
+                <div className="flex flex-wrap items-center justify-between gap-2.5 bg-white/[0.02] border border-white/5 rounded-2xl p-3">
+                  <div className="flex items-center gap-2 flex-wrap">
                     {selectedOrder.stripeSession && (
                       <a
                         href={`https://dashboard.stripe.com/search?query=${selectedOrder.stripeSession}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3 py-1.5 rounded-lg border border-[#ff4f00]/30 bg-[#ff4f00]/10 text-[#ff4f00] hover:bg-[#ff4f00] hover:text-white font-bold text-[10px] uppercase tracking-wider transition-all"
+                        className="px-3 py-1.5 rounded-xl border border-[#ff4f00]/30 bg-[#ff4f00]/10 text-[#ff4f00] hover:bg-[#ff4f00] hover:text-white font-bold text-xs transition-all flex items-center gap-1.5"
                       >
-                        Stripe 💳
+                        <span>💳</span>
+                        <span>Stripe</span>
                       </a>
                     )}
-                    <a
-                      href="https://www.boxtal.com/fr/fr/espace-client/envois/a-preparer"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-3 py-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white font-bold text-[10px] uppercase tracking-wider transition-all"
-                    >
-                      Boxtal 📦
-                    </a>
+                    {selectedOrder.shippingMethod !== "pickup" && (
+                      <a
+                        href="https://www.boxtal.com/fr/fr/accueil"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-1.5 rounded-xl border border-blue-500/30 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white font-bold text-xs transition-all flex items-center gap-1.5"
+                      >
+                        <span>📦</span>
+                        <span>Boxtal</span>
+                      </a>
+                    )}
                   </div>
-                )}
 
-                <div className="flex items-center gap-2 flex-wrap">
-                  <button
-                    onClick={() => {
-                      setNoteText("");
-                      setShowNoteModal(true);
-                    }}
-                    className="px-3 py-1.5 rounded-lg border border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500 hover:text-black font-bold text-[10px] uppercase tracking-wider transition-all cursor-pointer shrink-0 flex items-center gap-1"
-                  >
-                    <span>💬</span>
-                    <span>Envoyer une note</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      const customEmail = prompt("Renvoyer l'email de confirmation à cette adresse :", selectedOrder.email);
-                      if (customEmail) handleResendEmail(selectedOrder.id, customEmail.trim());
-                    }}
-                    disabled={resendingEmail === selectedOrder.id}
-                    className="px-3 py-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500 hover:text-white font-bold text-[10px] uppercase tracking-wider transition-all cursor-pointer shrink-0"
-                  >
-                    {resendingEmail === selectedOrder.id ? "Envoi..." : "Renvoyer l'email 📧"}
-                  </button>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setNoteText("");
+                        setShowNoteModal(true);
+                      }}
+                      className="px-3 py-1.5 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500 hover:text-black font-bold text-xs transition-all cursor-pointer flex items-center gap-1.5"
+                    >
+                      <span>💬</span>
+                      <span>Envoyer une note</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const customEmail = prompt("Renvoyer l'email de confirmation à cette adresse :", selectedOrder.email);
+                        if (customEmail) handleResendEmail(selectedOrder.id, customEmail.trim());
+                      }}
+                      disabled={resendingEmail === selectedOrder.id}
+                      className="px-3 py-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500 hover:text-white font-bold text-xs transition-all cursor-pointer flex items-center gap-1.5"
+                    >
+                      <span>📧</span>
+                      <span>{resendingEmail === selectedOrder.id ? "Envoi..." : "Renvoyer l'email"}</span>
+                    </button>
+                  </div>
                 </div>
 
-                {/* Status action buttons */}
-                <div className="flex gap-2 items-center ml-auto" onClick={(e) => e.stopPropagation()}>
-                  <span className="text-[10px] uppercase font-bold text-gray-500">Actions :</span>
-                  {selectedOrder.status === "attente_impression" && (
+                {/* Row 2: Status & Shipping Actions */}
+                <div className="flex flex-wrap items-center justify-between gap-2.5 bg-white/[0.04] border border-white/10 rounded-2xl p-3" onClick={(e) => e.stopPropagation()}>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-gray-400">Actions Commande :</span>
+                  </div>
+
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {selectedOrder.shippingMethod !== "pickup" && selectedOrder.status !== "expedie" && (
+                      <button
+                        type="button"
+                        onClick={() => handleGenerateBoxtalShipment(selectedOrder.id)}
+                        disabled={boxtalLoading === selectedOrder.id}
+                        className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs transition-all cursor-pointer shadow-md flex items-center gap-1.5"
+                        title="Générer l'expédition et le numéro de suivi automatique via l'API Boxtal"
+                      >
+                        <span>📦</span>
+                        <span>{boxtalLoading === selectedOrder.id ? "Génération Boxtal..." : "Expédier via Boxtal API"}</span>
+                      </button>
+                    )}
+
+                    {selectedOrder.status === "attente_impression" && (
+                      <button
+                        type="button"
+                        onClick={() => handleUpdateStatus(selectedOrder.id, "impression")}
+                        disabled={statusChangeLoading === selectedOrder.id}
+                        className="px-3.5 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-bold text-xs transition-colors cursor-pointer"
+                      >
+                        Lancer Impression 🛠️
+                      </button>
+                    )}
+                    {selectedOrder.status === "impression" && (
+                      <button
+                        type="button"
+                        onClick={() => handleUpdateStatus(selectedOrder.id, "emballe")}
+                        disabled={statusChangeLoading === selectedOrder.id}
+                        className="px-3.5 py-2 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-bold text-xs transition-colors cursor-pointer"
+                      >
+                        Emballer 📦
+                      </button>
+                    )}
+                    {selectedOrder.status === "emballe" && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (selectedOrder.shippingMethod !== "pickup") {
+                            const trackNum = prompt("Saisissez le numéro de suivi du colis (Mondial Relay / Colissimo) ou laissez vide :");
+                            if (trackNum === null) return;
+                            handleUpdateStatus(selectedOrder.id, "expedie", trackNum.trim());
+                          } else {
+                            handleUpdateStatus(selectedOrder.id, "expedie");
+                          }
+                        }}
+                        disabled={statusChangeLoading === selectedOrder.id}
+                        className="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs transition-colors cursor-pointer"
+                      >
+                        {selectedOrder.shippingMethod === "pickup" ? "Prêt au Retrait ✓" : "Expédier Manuellement 🚚"}
+                      </button>
+                    )}
+                    {selectedOrder.status === "expedie" && (
+                      <span className="px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-300 font-bold text-xs border border-emerald-500/30 select-none">
+                        Clôturée ✓
+                      </span>
+                    )}
+
                     <button
-                      onClick={() => handleUpdateStatus(selectedOrder.id, "impression")}
-                      disabled={statusChangeLoading === selectedOrder.id}
-                      className="px-3 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-bold text-xs transition-colors cursor-pointer"
+                      type="button"
+                      onClick={() => handleToggleArchive(selectedOrder.id, Boolean(selectedOrder.archived))}
+                      className={`px-3.5 py-2 rounded-xl font-bold text-xs transition-colors cursor-pointer border flex items-center gap-1.5 ${
+                        selectedOrder.archived
+                          ? "bg-purple-500/20 text-purple-300 border-purple-500/30 hover:bg-purple-500/30"
+                          : "bg-white/10 text-gray-200 border-white/20 hover:bg-white/20 hover:text-white"
+                      }`}
                     >
-                      Lancer Impression 🛠️
+                      <span>{selectedOrder.archived ? "📥" : "📦"}</span>
+                      <span>{selectedOrder.archived ? "Désarchiver" : "Archiver"}</span>
                     </button>
-                  )}
-                  {selectedOrder.status === "impression" && (
-                    <button
-                      onClick={() => handleUpdateStatus(selectedOrder.id, "emballe")}
-                      disabled={statusChangeLoading === selectedOrder.id}
-                      className="px-3 py-1.5 rounded-lg bg-purple-500 hover:bg-purple-600 text-white font-bold text-xs transition-colors cursor-pointer"
-                    >
-                      Emballer 📦
-                    </button>
-                  )}
-                  {selectedOrder.status === "emballe" && (
-                    <button
-                      onClick={() => {
-                        if (selectedOrder.shippingMethod !== "pickup") {
-                          const trackNum = prompt("Saisissez le numéro de suivi du colis (Mondial Relay / Colissimo) ou laissez vide :");
-                          if (trackNum === null) return;
-                          handleUpdateStatus(selectedOrder.id, "expedie", trackNum.trim());
-                        } else {
-                          handleUpdateStatus(selectedOrder.id, "expedie");
-                        }
-                      }}
-                      disabled={statusChangeLoading === selectedOrder.id}
-                      className="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs transition-colors cursor-pointer"
-                    >
-                      {selectedOrder.shippingMethod === "pickup" ? "Prêt au Retrait ✓" : "Expédier 🚚"}
-                    </button>
-                  )}
-                  {selectedOrder.status === "expedie" && (
-                    <span className="px-3 py-1.5 rounded bg-emerald-500/10 text-emerald-400 font-bold text-xs select-none">
-                      Clôturée ✓
-                    </span>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>

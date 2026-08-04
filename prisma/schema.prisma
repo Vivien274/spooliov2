@@ -95,6 +95,7 @@ model Order {
   shippingCost   Float
   shippingMethod String
   status              String   @default("attente_impression") // attente_impression | impression | emballe | expedie
+  archived            Boolean  @default(false)
   relayDetails        String?  @db.Text
   pickupSlotRequested String?
   pickupSlotConfirmed String?
