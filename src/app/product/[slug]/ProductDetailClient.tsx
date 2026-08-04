@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/components/ProductCard";
@@ -47,6 +47,37 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState<boolean>(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+
+  const thumbnailsRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll active thumbnail into view when activeImageIndex changes
+  useEffect(() => {
+    if (!thumbnailsRef.current) return;
+    const activeThumb = thumbnailsRef.current.children[activeImageIndex] as HTMLElement;
+    if (activeThumb) {
+      activeThumb.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center"
+      });
+    }
+  }, [activeImageIndex]);
+
+  const scrollThumbnails = (dir: "left" | "right") => {
+    if (!thumbnailsRef.current) return;
+    const distance = 220;
+    thumbnailsRef.current.scrollBy({
+      left: dir === "left" ? -distance : distance,
+      behavior: "smooth"
+    });
+  };
+
+  const handleThumbnailWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    if (!thumbnailsRef.current) return;
+    if (e.deltaY !== 0) {
+      thumbnailsRef.current.scrollLeft += e.deltaY;
+    }
+  };
 
   // Real-time Manufacturing & Cut-off Countdown State
   const [timeLeft, setTimeLeft] = useState<{ hours: number; minutes: number; seconds: number }>({ hours: 4, minutes: 28, seconds: 15 });
@@ -816,47 +847,74 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               </div>
             </div>
 
-            {/* Thumbnail Grid */}
+            {/* Thumbnail Grid & Scroll Controls */}
             {product.images.length > 1 && (
-              <div className="flex gap-3 mt-4 overflow-x-auto pb-2 select-none no-scrollbar">
-                {product.images.map((img, idx) => {
-                  const isVid = isVideoMedia(img.src);
-                  const ytThumb = isYouTubeUrl(img.src) ? getYouTubeThumbnail(img.src) : null;
-                  return (
-                    <button
-                      key={`${img.id}-${idx}`}
-                      onClick={() => setActiveImageIndex(idx)}
-                      className={`relative w-20 h-20 rounded-xl overflow-hidden bg-spoolio-card border transition-all shrink-0 cursor-pointer ${
-                        activeImageIndex === idx
-                          ? "border-white scale-105 shadow-md shadow-white/5"
-                          : "border-spoolio-border hover:border-white/40 opacity-70 hover:opacity-100"
-                      }`}
-                    >
-                      {isVid ? (
-                        <div className="w-full h-full relative flex items-center justify-center bg-black/70">
-                          {ytThumb ? (
-                            <Image src={ytThumb} alt={img.alt || img.name} fill sizes="80px" unoptimized className="object-cover opacity-80 no-invert" />
-                          ) : (
-                            <video src={img.src} muted preload="metadata" className="w-full h-full object-cover opacity-60" />
-                          )}
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                            <svg className="w-7 h-7 text-white drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M8 5v14l11-7z" />
-                            </svg>
+              <div className="relative mt-4 group/thumbs">
+                {/* Scroll Left Button */}
+                <button
+                  type="button"
+                  onClick={() => scrollThumbnails("left")}
+                  className="absolute -left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/85 hover:bg-[#ff4f00] text-white flex items-center justify-center border border-white/20 shadow-xl opacity-0 group-hover/thumbs:opacity-100 transition-all duration-200 hover:scale-110 cursor-pointer font-bold text-lg"
+                  title="Photos précédentes"
+                >
+                  ‹
+                </button>
+
+                {/* Thumbnail Strip */}
+                <div
+                  ref={thumbnailsRef}
+                  onWheel={handleThumbnailWheel}
+                  className="flex gap-3 overflow-x-auto pb-2 pt-1 px-1 select-none scroll-smooth touch-pan-x no-scrollbar"
+                >
+                  {product.images.map((img, idx) => {
+                    const isVid = isVideoMedia(img.src);
+                    const ytThumb = isYouTubeUrl(img.src) ? getYouTubeThumbnail(img.src) : null;
+                    return (
+                      <button
+                        key={`${img.id}-${idx}`}
+                        onClick={() => setActiveImageIndex(idx)}
+                        className={`relative w-20 h-20 rounded-xl overflow-hidden bg-spoolio-card border transition-all shrink-0 cursor-pointer ${
+                          activeImageIndex === idx
+                            ? "border-white scale-105 shadow-lg shadow-white/10 ring-2 ring-white/60 z-10"
+                            : "border-spoolio-border hover:border-white/40 opacity-70 hover:opacity-100"
+                        }`}
+                      >
+                        {isVid ? (
+                          <div className="w-full h-full relative flex items-center justify-center bg-black/70">
+                            {ytThumb ? (
+                              <Image src={ytThumb} alt={img.alt || img.name} fill sizes="80px" unoptimized className="object-cover opacity-80 no-invert" />
+                            ) : (
+                              <video src={img.src} muted preload="metadata" className="w-full h-full object-cover opacity-60" />
+                            )}
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                              <svg className="w-7 h-7 text-white drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
                           </div>
-                        </div>
-                      ) : (
-                        <Image
-                          src={img.src}
-                          alt={img.alt || img.name}
-                          fill
-                          sizes="80px"
-                          className="object-cover no-invert"
-                        />
-                      )}
-                    </button>
-                  );
-                })}
+                        ) : (
+                          <Image
+                            src={img.src}
+                            alt={img.alt || img.name}
+                            fill
+                            sizes="80px"
+                            className="object-cover no-invert"
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Scroll Right Button */}
+                <button
+                  type="button"
+                  onClick={() => scrollThumbnails("right")}
+                  className="absolute -right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/85 hover:bg-[#ff4f00] text-white flex items-center justify-center border border-white/20 shadow-xl opacity-0 group-hover/thumbs:opacity-100 transition-all duration-200 hover:scale-110 cursor-pointer font-bold text-lg"
+                  title="Photos suivantes"
+                >
+                  ›
+                </button>
               </div>
             )}
           </div>

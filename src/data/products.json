@@ -17632,7 +17632,7 @@
     "tax_status": "taxable",
     "tax_class": "",
     "manage_stock": false,
-    "stock_quantity": 10,
+    "stock_quantity": 0,
     "backorders": "no",
     "backorders_allowed": false,
     "backordered": false,
@@ -17671,40 +17671,34 @@
     ],
     "images": [
       {
-        "id": 1498,
+        "id": 2974,
         "src": "/images/imported/Spoolio-St-Valentin-fidget-coeur-3.webp",
         "alt": "Spoolio St Valentin fidget coeur 3"
       },
       {
-        "id": 1499,
+        "id": 2975,
         "src": "/images/imported/Spoolio-St-Valentin-fidget-coeur-1.webp",
         "alt": "Spoolio St Valentin fidget coeur 1"
       },
       {
-        "id": 1500,
+        "id": 2976,
         "src": "/images/imported/Spoolio-St-Valentin-fidget-coeur-2.webp",
         "alt": "Spoolio St Valentin fidget coeur 2"
       },
       {
-        "id": 1501,
+        "id": 2977,
         "src": "/images/imported/Spoolio-St-Valentin-fidget-coeur-4.webp",
         "alt": "Spoolio St Valentin fidget coeur 4"
       },
       {
-        "id": 1502,
+        "id": 2978,
         "src": "/images/imported/Spoolio-St-Valentin-fidget-coeur-5.webp",
         "alt": "Spoolio St Valentin fidget coeur 5"
       },
       {
-        "id": 1503,
+        "id": 2979,
         "src": "/images/imported/Spoolio-St-Valentin-fidget-coeur-6.webp",
         "alt": "Spoolio St Valentin fidget coeur 6"
-      },
-      {
-        "id": 99999,
-        "src": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-        "name": "Vidéo Démonstration Fidget Cœur",
-        "alt": "Démonstration vidéo du Fidget Cœur"
       }
     ],
     "attributes": {
@@ -18154,8 +18148,8 @@
         }
       ]
     },
-    "show_in_sensory_compass": true,
-    "showInSensoryCompass": true,
+    "show_in_sensory_compass": false,
+    "showInSensoryCompass": false,
     "sensory_noise_level": "1",
     "sensory_size": "pocket",
     "sensory_category": "manipuler",
