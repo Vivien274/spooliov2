@@ -77,6 +77,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
+    metadataBase: new URL("https://spoolio.fr"),
+    alternates: {
+      canonical: `https://spoolio.fr/product/${slug}`,
+    },
     title: `${productName} | Spoolio`,
     description: productDesc,
   };

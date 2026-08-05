@@ -29,6 +29,9 @@ const plusJakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://spoolio.fr"),
+  alternates: {
+    canonical: "https://spoolio.fr",
+  },
   title: "Spoolio | Objets funs & Fidgets en Impression 3D Biosourcée",
   description:
     "Découvre Spoolio : objets funs, fidgets sensoriels TDAH et porte-clés NFC personnalisés, fabriqués en France à Comines en plastique biosourcé.",

@@ -3,6 +3,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://spoolio.fr"),
+  alternates: {
+    canonical: "https://spoolio.fr/cookies",
+  },
   title: "Cookies et Confidentialité | Spoolio",
   description: "Consultez notre politique de cookies et de protection de la vie privée (RGPD).",
 };

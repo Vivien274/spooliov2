@@ -47,6 +47,10 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const cleanExcerpt = decodeHtml((post.excerpt || post.content).substring(0, 150) + "...");
 
   return {
+    metadataBase: new URL("https://spoolio.fr"),
+    alternates: {
+      canonical: `https://spoolio.fr/blog/${slug}`,
+    },
     title: `${cleanTitle} | L'Atelier Spoolio`,
     description: cleanExcerpt.replace(/<[^>]*>/g, ""),
   };

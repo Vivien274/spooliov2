@@ -8,6 +8,10 @@ import Footer from "@/components/Footer";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://spoolio.fr"),
+  alternates: {
+    canonical: "https://spoolio.fr/blog",
+  },
   title: "L'Atelier Spoolio | Blog, Actualités & Secrets de l'Impression 3D",
   description: "Découvrez les coulisses de l'atelier de Spoolio. Conseils, guides sur les fidgets, secrets de fabrication et actualités sur nos objets imprimés en 3D.",
 };

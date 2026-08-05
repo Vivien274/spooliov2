@@ -3,6 +3,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://spoolio.fr"),
+  alternates: {
+    canonical: "https://spoolio.fr/cgv",
+  },
   title: "Conditions Générales de Vente (CGV) | Spoolio",
   description: "Consultez les Conditions Générales de Vente (CGV) de Spoolio 3D.",
 };

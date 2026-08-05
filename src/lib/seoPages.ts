@@ -32,7 +32,13 @@ export function getPageSeoMetadata(pageKey: string): Metadata {
     ? (config.ogImage.startsWith("http") ? config.ogImage : `${domain}${config.ogImage}`)
     : `${domain}/images/imported/Spoolio_Kit-Festival-16-scaled.webp`;
 
+  const canonicalUrl = pageKey === 'home' ? domain : `${domain}/${pageKey}`;
+
   return {
+    metadataBase: new URL(domain),
+    alternates: {
+      canonical: canonicalUrl,
+    },
     title: config.title,
     description: config.description,
     keywords: config.keywords ? config.keywords.split(",").map(k => k.trim()) : undefined,
@@ -40,7 +46,7 @@ export function getPageSeoMetadata(pageKey: string): Metadata {
     openGraph: {
       title: config.title,
       description: config.description,
-      url: `${domain}/${pageKey === 'home' ? '' : pageKey}`,
+      url: canonicalUrl,
       siteName: "Spoolio",
       images: [
         {

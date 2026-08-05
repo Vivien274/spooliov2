@@ -125,6 +125,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { name } = await params;
   const decodedName = decodeURIComponent(name);
   return {
+    metadataBase: new URL("https://spoolio.fr"),
+    alternates: {
+      canonical: `https://spoolio.fr/categorie/${encodeURIComponent(name)}`,
+    },
     title: `${decodedName} — Boutique Spoolio`,
     description: `Découvrez tous nos produits imprimés 3D de la catégorie ${decodedName} chez Spoolio.`,
   };

@@ -6,6 +6,10 @@ import { prisma } from "@/lib/prisma";
 import { DEFAULT_COLORS } from "@/lib/defaultColors";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://spoolio.fr"),
+  alternates: {
+    canonical: "https://spoolio.fr/palette-couleurs",
+  },
   title: "Palette de couleurs disponibles | Spoolio",
   description: "Découvrez notre palette complète de filaments PLA (bicolores, pailletés, phosphorescents, unis) pour personnaliser vos créations imprimées en 3D.",
 };

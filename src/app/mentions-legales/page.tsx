@@ -3,6 +3,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://spoolio.fr"),
+  alternates: {
+    canonical: "https://spoolio.fr/mentions-legales",
+  },
   title: "Mentions Légales | Spoolio",
   description: "Informations légales concernant l'éditeur du site Spoolio, entreprise individuelle Bocquelet.",
 };
