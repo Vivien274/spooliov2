@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useAdminTheme } from "../AdminThemeContext";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 interface BlogPost {
   id: number | string;
@@ -223,11 +224,22 @@ export default function AdminBlogPage() {
       } else {
         alert(data.error || "Échec du téléchargement");
       }
-    } catch (err: any) {
-      alert("Erreur d'envoi");
     } finally {
       setUploadingImage(false);
     }
+  };
+
+  const handleUploadImageForEditor = async (file: File): Promise<string> => {
+    const body = new FormData();
+    body.append("file", file);
+    const res = await fetch("/api/admin/upload", { method: "POST", body });
+    const data = await res.json();
+    const uploadedUrl = data.url || data.imageUrl;
+    if (data.success && uploadedUrl) {
+      showToast("Image téléchargée et insérée dans l'article !");
+      return uploadedUrl;
+    }
+    throw new Error(data.error || "Échec du téléchargement");
   };
 
   // Insert HTML blocks
@@ -551,72 +563,15 @@ export default function AdminBlogPage() {
              ========================================================================= */}
           {editorTab === "content" && (
             <div className="space-y-6">
-              {/* Toolbar */}
-              <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-3 flex flex-wrap items-center justify-between gap-3 shadow-md`}>
-                {/* Visual HTML block inserters */}
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest mr-2">Insérer bloc :</span>
-                  
-                  <button
-                    type="button"
-                    onClick={() => insertBlock("h2")}
-                    className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-extrabold transition-all border border-white/10 cursor-pointer"
-                  >
-                    H2 Titre
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => insertBlock("h3")}
-                    className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-extrabold transition-all border border-white/10 cursor-pointer"
-                  >
-                    H3 Sous-titre
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => insertBlock("p")}
-                    className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-extrabold transition-all border border-white/10 cursor-pointer"
-                  >
-                    ¶ Paragraphe
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => insertBlock("quote")}
-                    className="px-3 py-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 text-xs font-extrabold transition-all border border-purple-500/30 cursor-pointer"
-                  >
-                    💬 Citation
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => insertBlock("callout")}
-                    className="px-3 py-1.5 rounded-xl bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 text-xs font-extrabold transition-all border border-blue-500/30 cursor-pointer"
-                  >
-                    💡 Conseil Spoolio
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => insertBlock("list")}
-                    className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-extrabold transition-all border border-white/10 cursor-pointer"
-                  >
-                    • Liste à puces
-                  </button>
-
-                  {/* Image upload in content button */}
-                  <button
-                    type="button"
-                    onClick={() => inContentFileInputRef.current?.click()}
-                    disabled={uploadingImage}
-                    className="px-3.5 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 text-xs font-extrabold transition-all border border-emerald-500/30 cursor-pointer flex items-center gap-1.5"
-                  >
-                    <span>🖼️ Insérer Image</span>
-                  </button>
+              {/* Header Mode Bar: WYSIWYG vs Code HTML */}
+              <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-3 flex items-center justify-between gap-3 shadow-md`}>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-gray-400">Mode d'édition :</span>
+                  <span className="text-xs font-bold text-[#ff4f00] bg-[#ff4f00]/10 px-2.5 py-1 rounded-lg border border-[#ff4f00]/20">
+                    {editorMode === "wysiwyg" ? "✨ Éditeur Rich Text WYSIWYG" : "💻 Code Source HTML"}
+                  </span>
                 </div>
 
-                {/* Editor Mode Toggle: Visual vs Code */}
                 <div className="flex items-center gap-1 bg-black/40 p-1 rounded-xl border border-white/10">
                   <button
                     type="button"
@@ -625,7 +580,7 @@ export default function AdminBlogPage() {
                       editorMode === "wysiwyg" ? "bg-[#ff4f00] text-white" : "text-gray-400 hover:text-white"
                     }`}
                   >
-                    Éditeur Visuel
+                    Éditeur Visuel (WYSIWYG)
                   </button>
                   <button
                     type="button"
@@ -634,7 +589,7 @@ export default function AdminBlogPage() {
                       editorMode === "html" ? "bg-[#ff4f00] text-white" : "text-gray-400 hover:text-white"
                     }`}
                   >
-                    Code HTML
+                    Code HTML Bruts
                   </button>
                 </div>
               </div>
@@ -645,15 +600,12 @@ export default function AdminBlogPage() {
                 <div className="lg:col-span-8 space-y-4">
                   {editorMode === "wysiwyg" ? (
                     <div className="space-y-2">
-                      <label className="text-xs font-extrabold uppercase tracking-wider text-gray-400">
-                        Zone de Rédaction Visuelle (Largeur maximale)
-                      </label>
-                      <textarea
-                        rows={16}
-                        value={formData.content}
-                        onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                        placeholder="Rédigez votre article en toute liberté..."
-                        className={`w-full p-6 rounded-3xl text-sm font-sans leading-relaxed ${cls.cardBg} border ${cls.border} ${cls.textMain} focus:outline-none focus:border-[#ff4f00] shadow-inner transition-colors`}
+                      <RichTextEditor
+                        content={formData.content}
+                        onChange={(html) => setFormData({ ...formData, content: html })}
+                        onImageUpload={handleUploadImageForEditor}
+                        theme={theme === "dark" ? "dark" : "light"}
+                        placeholder="Rédigez votre article en toute liberté avec mise en forme dynamique..."
                       />
                     </div>
                   ) : (
@@ -662,7 +614,7 @@ export default function AdminBlogPage() {
                         Code Source HTML Bruts
                       </label>
                       <textarea
-                        rows={16}
+                        rows={18}
                         value={formData.content}
                         onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                         className={`w-full p-6 rounded-3xl text-xs font-mono leading-relaxed bg-[#0b0b0f] text-emerald-400 border border-emerald-500/30 focus:outline-none focus:border-emerald-400 shadow-inner`}
@@ -689,13 +641,13 @@ export default function AdminBlogPage() {
                 <div className="lg:col-span-4 space-y-4">
                   <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-5 space-y-3 sticky top-20`}>
                     <h4 className="text-xs font-black uppercase tracking-widest text-[#ff4f00]">
-                      ⚡ Rendus en direct
+                      ⚡ Rendus en direct sur le site
                     </h4>
                     <p className="text-xs text-gray-400">
-                      Aperçu visuel immédiat des styles appliqués sur votre article.
+                      Aperçu exact du rendu public de l'article avec la typographie Spoolio.
                     </p>
-                    <div className="p-4 rounded-2xl bg-neutral-900 border border-white/10 prose prose-invert max-w-none text-xs leading-relaxed max-h-[500px] overflow-y-auto">
-                      <div dangerouslySetInnerHTML={{ __html: formData.content || "<p class='text-gray-500'>Commencez à écrire pour voir le rendu...</p>" }} />
+                    <div className="p-5 rounded-2xl bg-[#0a0b0e] border border-white/10 prose prose-invert max-w-none text-xs leading-relaxed max-h-[550px] overflow-y-auto custom-scrollbar">
+                      <div dangerouslySetInnerHTML={{ __html: formData.content || "<p class='text-gray-500 italic'>Commencez à écrire votre article...</p>" }} />
                     </div>
                   </div>
                 </div>

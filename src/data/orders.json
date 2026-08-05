@@ -7,11 +7,12 @@
     "customerPhone": null,
     "shippingAddress": "Romain Manchado\nCommandes SAV / Renvoi offert",
     "trackingNumber": null,
-    "items": "[{\"name\":\"Bague rotative (Modèle: Modèle B, Couleur: Noir)\",\"quantity\":1,\"price\":\"0.00\",\"production_status\":\"pending\"},{\"name\":\"Bague rotative (Modèle: Modèle B, Couleur: Phosphorescent)\",\"quantity\":1,\"price\":\"0.00\",\"production_status\":\"pending\"},{\"name\":\"Bague rotative (Modèle: Modèle B, Couleur: Noir Pailleté)\",\"quantity\":1,\"price\":\"0.00\",\"production_status\":\"pending\"},{\"name\":\"Bague rotative (Modèle: Modèle B, Couleur: Argenté)\",\"quantity\":1,\"price\":\"0.00\",\"production_status\":\"pending\"},{\"name\":\"Bague rotative (Modèle: Modèle B, Couleur: Bleu)\",\"quantity\":1,\"price\":\"0.00\",\"production_status\":\"pending\"},{\"name\":\"Fidget Cube (Couleur: 5 couleurs différentes au choix)\",\"quantity\":5,\"price\":\"0.00\",\"production_status\":\"pending\"},{\"name\":\"Support de cartes de jeu (Couleur: Bleu clair)\",\"quantity\":1,\"price\":\"0.00\",\"production_status\":\"pending\"},{\"name\":\"Catapulte avec ses cacas d'imprimante (Couleur: Bleu / Varié)\",\"quantity\":1,\"price\":\"0.00\",\"production_status\":\"pending\"},{\"name\":\"Pistolet à disques avec 10 disques (Couleur: Rouge Feu)\",\"quantity\":1,\"price\":\"0.00\",\"production_status\":\"pending\"}]",
+    "items": "[{\"name\":\"Bague rotative (Modèle: Modèle B, Couleur: Noir)\",\"quantity\":1,\"price\":\"0.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-05T06:38:44.099Z\"},{\"name\":\"Bague rotative (Modèle: Modèle B, Couleur: Phosphorescent)\",\"quantity\":1,\"price\":\"0.00\",\"done_at\":\"2026-08-05T08:15:39.357Z\",\"production_status\":\"done\"},{\"name\":\"Bague rotative (Modèle: Modèle B, Couleur: Noir Pailleté)\",\"quantity\":1,\"price\":\"0.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-05T06:38:43.110Z\"},{\"name\":\"Bague rotative (Modèle: Modèle B, Couleur: Argenté)\",\"quantity\":1,\"price\":\"0.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-05T06:38:41.581Z\"},{\"name\":\"Bague rotative (Modèle: Modèle B, Couleur: Bleu)\",\"quantity\":1,\"price\":\"0.00\",\"done_at\":null},{\"name\":\"Fidget Cube (Couleur: 5 couleurs différentes au choix)\",\"quantity\":5,\"price\":\"0.00\",\"done_at\":null},{\"name\":\"Support de cartes de jeu (Couleur: Bleu clair)\",\"quantity\":1,\"price\":\"0.00\",\"done_at\":null,\"production_status\":\"in_progress\"},{\"name\":\"Catapulte avec ses cacas d'imprimante (Couleur: Bleu / Varié)\",\"quantity\":1,\"price\":\"0.00\",\"done_at\":null},{\"name\":\"Pistolet à disques avec 10 disques (Couleur: Rouge Feu)\",\"quantity\":1,\"price\":\"0.00\",\"done_at\":null,\"production_status\":\"in_progress\"}]",
     "total": 0,
     "shippingCost": 0,
     "shippingMethod": "home",
     "status": "impression",
+    "archived": false,
     "relayDetails": null,
     "pickupSlotRequested": null,
     "pickupSlotConfirmed": null,
@@ -32,12 +33,13 @@
     "shippingCost": 0,
     "shippingMethod": "tombola",
     "status": "expedie",
+    "archived": true,
     "relayDetails": null,
     "pickupSlotRequested": null,
     "pickupSlotConfirmed": null,
     "pickupStatus": null,
     "createdAt": "2026-08-04T06:11:23.918Z",
-    "updatedAt": "2026-08-04T06:14:29.638Z"
+    "updatedAt": "2026-08-05T07:45:49.998Z"
   },
   {
     "id": "SP-37767",
@@ -46,18 +48,19 @@
     "customerName": "Laura De Poppe",
     "customerPhone": null,
     "shippingAddress": "Laura De Poppe\nRue de l'Aurore\n15\n4520 Wanze\nBelgique",
-    "trackingNumber": null,
-    "items": "[{\"name\":\"Serpent articulé (Taille: M (40cm), Couleur: Arc en ciel)\",\"quantity\":1,\"price\":\"10.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-03T10:29:39.656Z\"},{\"name\":\"Dragon cristal (Couleur: Bicolore Bleu-Violet)\",\"quantity\":1,\"price\":\"10.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-03T07:58:55.042Z\"},{\"name\":\"Dragon ailé (Couleur: Bicolore bleu-vert)\",\"quantity\":1,\"price\":\"16.00\",\"production_status\":\"in_progress\",\"done_at\":null},{\"name\":\"Serpent articulé \\\"boules\\\" (Couleur: Feu)\",\"quantity\":1,\"price\":\"12.80\",\"production_status\":\"done\",\"done_at\":\"2026-08-04T05:56:17.845Z\"},{\"name\":\"Chaton articulé\",\"quantity\":1,\"price\":\"4.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-03T10:29:26.362Z\"},{\"name\":\"Petit Axolotl articulé\",\"quantity\":1,\"price\":\"3.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-03T10:29:27.424Z\"},{\"name\":\"Fidget rotatif XXL (Couleur: Arc en ciel)\",\"quantity\":1,\"price\":\"7.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-03T07:58:55.048Z\"},{\"name\":\"Fidget type \\\"Serpent rotatif\\\" (Couleur: Vert foncé Pailleté)\",\"quantity\":1,\"price\":\"4.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-03T10:29:29.280Z\"},{\"name\":\"Fidget \\\"Faux tissus\\\" (Couleur: Bicolore Bleu-Violet)\",\"quantity\":2,\"price\":\"5.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-03T07:58:55.048Z\"},{\"name\":\"Fidget coeur (Personnalisable: Non)\",\"quantity\":1,\"price\":\"2.55\",\"production_status\":\"in_progress\",\"done_at\":null}]",
+    "trackingNumber": "9L26868335228",
+    "items": "[{\"name\":\"Serpent articulé (Taille: M (40cm), Couleur: Arc en ciel)\",\"quantity\":1,\"price\":\"10.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-03T10:29:39.656Z\"},{\"name\":\"Dragon cristal (Couleur: Bicolore Bleu-Violet)\",\"quantity\":1,\"price\":\"10.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-03T07:58:55.042Z\"},{\"name\":\"Dragon ailé (Couleur: Bicolore bleu-vert)\",\"quantity\":1,\"price\":\"16.00\",\"production_status\":\"in_progress\",\"done_at\":null},{\"name\":\"Serpent articulé \\\"boules\\\" (Couleur: Feu)\",\"quantity\":1,\"price\":\"12.80\",\"production_status\":\"done\",\"done_at\":\"2026-08-04T05:56:17.845Z\"},{\"name\":\"Chaton articulé\",\"quantity\":1,\"price\":\"4.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-03T10:29:26.362Z\"},{\"name\":\"Petit Axolotl articulé\",\"quantity\":1,\"price\":\"3.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-03T10:29:27.424Z\"},{\"name\":\"Fidget rotatif XXL (Couleur: Arc en ciel)\",\"quantity\":1,\"price\":\"7.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-03T07:58:55.048Z\"},{\"name\":\"Fidget type \\\"Serpent rotatif\\\" (Couleur: Vert foncé Pailleté)\",\"quantity\":1,\"price\":\"4.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-03T10:29:29.280Z\"},{\"name\":\"Fidget \\\"Faux tissus\\\" (Couleur: Bicolore Bleu-Violet)\",\"quantity\":2,\"price\":\"5.00\",\"production_status\":\"done\",\"done_at\":\"2026-08-03T07:58:55.048Z\"},{\"name\":\"Fidget coeur (Personnalisable: Non)\",\"quantity\":1,\"price\":\"2.55\",\"production_status\":\"done\",\"done_at\":\"2026-08-05T06:40:48.162Z\"}]",
     "total": 87.35,
     "shippingCost": 4.9,
     "shippingMethod": "home",
-    "status": "impression",
+    "status": "expedie",
+    "archived": false,
     "relayDetails": null,
     "pickupSlotRequested": null,
     "pickupSlotConfirmed": null,
     "pickupStatus": null,
     "createdAt": "2026-08-01T14:28:49.555Z",
-    "updatedAt": "2026-08-02T10:31:34.714Z"
+    "updatedAt": "2026-08-05T08:07:09.045Z"
   },
   {
     "id": "SP-34507",
@@ -72,12 +75,13 @@
     "shippingCost": 0,
     "shippingMethod": "pickup",
     "status": "expedie",
+    "archived": true,
     "relayDetails": null,
     "pickupSlotRequested": "Dimanche : 8h - 20h",
     "pickupSlotConfirmed": null,
     "pickupStatus": "pending",
     "createdAt": "2026-08-01T05:11:12.917Z",
-    "updatedAt": "2026-08-01T17:16:59.070Z"
+    "updatedAt": "2026-08-05T07:45:35.064Z"
   },
   {
     "id": "SP-51776",
@@ -92,6 +96,7 @@
     "shippingCost": 4.9,
     "shippingMethod": "home",
     "status": "emballe",
+    "archived": false,
     "relayDetails": null,
     "pickupSlotRequested": null,
     "pickupSlotConfirmed": null,
@@ -112,11 +117,12 @@
     "shippingCost": 0,
     "shippingMethod": "tombola",
     "status": "expedie",
+    "archived": true,
     "relayDetails": null,
     "pickupSlotRequested": null,
     "pickupSlotConfirmed": null,
     "pickupStatus": null,
     "createdAt": "2026-07-30T13:10:20.252Z",
-    "updatedAt": "2026-07-30T13:10:20.252Z"
+    "updatedAt": "2026-08-05T07:45:36.010Z"
   }
 ]
