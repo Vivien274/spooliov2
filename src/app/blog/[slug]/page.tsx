@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import JsonLdScript from "@/components/JsonLdScript";
+import { getBlogPostingJsonLd } from "@/lib/jsonLd";
 
 export const dynamic = "force-dynamic";
 
@@ -69,8 +71,17 @@ export default async function BlogPostDetailPage({ params }: BlogPostPageProps) 
   const cleanTitle = decodeHtml(post.title);
   const decodedContent = decodeHtml(post.content);
 
+  const blogLd = getBlogPostingJsonLd({
+    title: cleanTitle,
+    description: (post.excerpt || post.content).replace(/<[^>]*>/g, "").substring(0, 160),
+    slug: post.slug,
+    datePublished: post.date ? new Date(post.date).toISOString() : undefined,
+    image: post.featuredImageUrl || undefined,
+  });
+
   return (
     <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-black">
+      <JsonLdScript data={blogLd} id={`blog-post-ld-${post.id}`} />
       {/* Sticky Header with Glassmorphism */}
       <div className="sticky top-0 z-50 w-full bg-black/60 backdrop-blur-md border-b border-[#1f1f23]">
         <Header className="h-24 flex items-center justify-between px-6 max-w-[1200px] mx-auto w-full" />

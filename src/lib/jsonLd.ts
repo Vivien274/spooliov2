@@ -129,3 +129,44 @@ export function getBreadcrumbJsonLd(items: Array<{ name: string; url: string }>)
     }))
   };
 }
+
+export function getBlogPostingJsonLd(data: {
+  title: string;
+  description: string;
+  slug: string;
+  datePublished?: string;
+  image?: string;
+}) {
+  const domain = "https://spoolio.fr";
+  const postUrl = `${domain}/blog/${data.slug}`;
+  const imageUrl = data.image
+    ? (data.image.startsWith("http") ? data.image : `${domain}${data.image}`)
+    : `${domain}/images/imported/Spoolio_Kit-Festival-16-scaled.webp`;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": data.title,
+    "description": data.description,
+    "url": postUrl,
+    "image": [imageUrl],
+    "datePublished": data.datePublished || new Date().toISOString(),
+    "author": {
+      "@type": "Organization",
+      "name": "Spoolio",
+      "url": domain
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Spoolio",
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${domain}/images/imported/Spoolio_Kit-Festival-16-scaled.webp`
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": postUrl
+    }
+  };
+}
