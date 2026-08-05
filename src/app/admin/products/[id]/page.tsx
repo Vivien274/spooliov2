@@ -4,7 +4,7 @@ import ProductFormClient from "./ProductFormClient";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Modifier le produit — Admin | Spoolio",
+  title: "ADMIN - Modifier Produit",
 };
 
 interface PageProps {

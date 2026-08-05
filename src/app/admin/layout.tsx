@@ -237,45 +237,53 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    let title = "ADMIN · Spoolio";
+    let title = "ADMIN - Dashboard";
     if (pathname === "/admin") {
-      title = "ADMIN · Dashboard — Spoolio 3D";
+      title = "ADMIN - Dashboard";
     } else if (pathname.includes("/admin/products/new")) {
-      title = "ADMIN · Nouveau Produit — Spoolio 3D";
+      title = "ADMIN - Nouveau Produit";
     } else if (pathname.includes("/admin/products/categories")) {
-      title = "ADMIN · Catégories Produits — Spoolio 3D";
+      title = "ADMIN - Catégories Produits";
     } else if (pathname.includes("/admin/products/attributes")) {
-      title = "ADMIN · Attributs Produits — Spoolio 3D";
+      title = "ADMIN - Attributs Produits";
     } else if (pathname.includes("/admin/clickers")) {
-      title = "ADMIN · Studio Clickers — Spoolio 3D";
+      title = "ADMIN - Studio Clickers";
+    } else if (pathname.includes("/admin/colors")) {
+      title = "ADMIN - Palette Couleurs";
+    } else if (pathname.includes("/admin/products/")) {
+      title = "ADMIN - Modifier Produit";
     } else if (pathname.includes("/admin/products")) {
-      title = "ADMIN · Produits — Spoolio 3D";
+      title = "ADMIN - Produits";
     } else if (pathname.includes("/admin/orders")) {
-      title = "ADMIN · Commandes — Spoolio 3D";
+      title = "ADMIN - Commandes";
     } else if (pathname.includes("/admin/reviews")) {
-      title = "ADMIN · Avis Clients — Spoolio 3D";
+      title = "ADMIN - Avis Clients";
     } else if (pathname.includes("/admin/pages")) {
-      title = "ADMIN · Gestion Pages — Spoolio 3D";
+      title = "ADMIN - Gestion Pages";
     } else if (pathname.includes("/admin/blog")) {
-      title = "ADMIN · Articles Blog — Spoolio 3D";
+      title = "ADMIN - Articles Blog";
     } else if (pathname.includes("/admin/hero")) {
-      title = "ADMIN · Design Accueil — Spoolio 3D";
+      title = "ADMIN - Design Accueil";
     } else if (pathname.includes("/admin/pickup")) {
-      title = "ADMIN · Créneaux Retrait — Spoolio 3D";
+      title = "ADMIN - Créneaux Retrait";
     } else if (pathname.includes("/admin/don")) {
-      title = "ADMIN · Paliers de Dons — Spoolio 3D";
+      title = "ADMIN - Paliers de Dons";
     } else if (pathname.includes("/admin/abandoned")) {
-      title = "ADMIN · Paniers Abandonnés — Spoolio 3D";
+      title = "ADMIN - Paniers Abandonnés";
     } else if (pathname.includes("/admin/loyalty")) {
-      title = "ADMIN · Cartes de Fidélité — Spoolio 3D";
+      title = "ADMIN - Cartes de Fidélité";
     } else if (pathname.includes("/admin/tombola")) {
-      title = "ADMIN · Tombolas — Spoolio 3D";
+      title = "ADMIN - Tombolas";
+    } else if (pathname.includes("/admin/liens")) {
+      title = "ADMIN - Liens";
+    } else if (pathname.includes("/admin/seo")) {
+      title = "ADMIN - SEO";
     } else if (pathname.includes("/admin/login")) {
-      title = "ADMIN · Connexion — Spoolio 3D";
+      title = "ADMIN - Connexion";
     } else {
       const seg = pathname.split("/").filter(Boolean).pop() || "Admin";
       const readable = seg.charAt(0).toUpperCase() + seg.slice(1);
-      title = `ADMIN · ${readable} — Spoolio 3D`;
+      title = `ADMIN - ${readable}`;
     }
     document.title = title;
   }, [pathname]);

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Antonio, Plus_Jakarta_Sans } from "next/font/google";
 import dynamic from "next/dynamic";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { LanguageProvider } from "@/context/LanguageContext";
@@ -79,6 +80,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const organizationLd = getOrganizationJsonLd();
+  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
   return (
     <html
@@ -90,6 +92,7 @@ export default function RootLayout({
         <JsonLdScript data={organizationLd} id="spoolio-organization-jsonld" />
       </head>
       <body className="min-h-full flex flex-col">
+        {gaId && <GoogleAnalytics gaId={gaId} />}
         <Script
           id="theme-initializer"
           strategy="beforeInteractive"

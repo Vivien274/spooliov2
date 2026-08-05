@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ProductFormClient from "../[id]/ProductFormClient";
 
 export const metadata: Metadata = {
-  title: "Nouveau produit — Admin | Spoolio",
+  title: "ADMIN - Nouveau Produit",
 };
 
 export default function NewProductPage() {
