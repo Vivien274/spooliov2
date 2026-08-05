@@ -9,6 +9,7 @@ import FidgetCard from '@/components/boussole/FidgetCard';
 import DigitalFidgets from '@/components/boussole/DigitalFidgets';
 import BreathingGuide from '@/components/boussole/BreathingGuide';
 import FidgetProfiler from '@/components/boussole/FidgetProfiler';
+import AiSensoryAdvisor from '@/components/boussole/AiSensoryAdvisor';
 import { FidgetProduct, SensoryCategory } from '@/types/boussole';
 import { Sparkles, LayoutGrid, Brain, Gamepad2, Wind, Heart, Zap } from 'lucide-react';
 
@@ -305,7 +306,11 @@ export default function BoussoleSensoriellePage() {
     setTimeout(() => setClickScale(false), 80);
   };
 
-  const filteredProducts = selectedCategory
+  const [recommendedSlugs, setRecommendedSlugs] = useState<string[] | null>(null);
+
+  const filteredProducts = recommendedSlugs && recommendedSlugs.length > 0
+    ? fidgetProducts.filter((p) => recommendedSlugs.includes(p.slug || p.id))
+    : selectedCategory
     ? fidgetProducts.filter((p) => p.category === selectedCategory)
     : fidgetProducts;
 
@@ -399,7 +404,7 @@ export default function BoussoleSensoriellePage() {
 
         {/* Tab 1: Compass Products */}
         {activeTab === 'compass' && (
-          <div className="space-y-12 animate-fade-in">
+          <div className="space-y-8 animate-fade-in">
             <section>
               <SensoryFilter
                 selectedCategory={selectedCategory}

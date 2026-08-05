@@ -66,31 +66,31 @@ export default function ProPage() {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-[1000px] w-full mx-auto px-6 py-12">
+      <main className="flex-1 max-w-[1100px] w-full mx-auto px-6 py-12">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-xs font-semibold text-gray-500 mb-8 font-sans select-none">
+        <nav className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-400 mb-8 font-sans select-none">
           <Link href="/" className="hover:text-white transition-colors duration-200">
             Accueil
           </Link>
-          <span className="text-gray-700 font-bold">/</span>
+          <span className="text-gray-600 font-bold">/</span>
           <span className="text-white font-black">Espace Professionnels</span>
         </nav>
 
         {/* Hero Section */}
-        <section className="text-center py-12 border-b border-spoolio-border/40 mb-16">
-          <span className="text-xs text-blue-400 font-black uppercase tracking-widest block mb-3 font-sans">
-            Fabrication Locale &amp; Sur-Mesure
+        <section className="text-center py-12 md:py-16 border-b border-spoolio-border/40 mb-16">
+          <span className="text-xs sm:text-sm text-blue-400 font-black uppercase tracking-widest block mb-4 font-sans">
+            Fabrication Locale &amp; Sur-Mesure à Comines (59)
           </span>
-          <h1 className="text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-white font-antonio leading-none mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold uppercase tracking-tight text-white font-antonio leading-tight mb-6">
             Spoolio pour les professionnels
           </h1>
-          <p className="text-gray-400 text-sm max-w-2xl mx-auto leading-relaxed font-sans">
-            Spoolio accompagne les professionnels dans la conception et la fabrication d'objets personnalisés, 3D sur-mesure et petites séries. Une production locale et responsable en PLA biosourcé.
+          <p className="text-gray-300 text-base sm:text-lg md:text-xl max-w-3xl mx-auto leading-relaxed font-sans font-medium">
+            Spoolio accompagne les professionnels, associations et créateurs dans la conception et la fabrication d'objets personnalisés, 3D sur-mesure et petites séries. Une production locale et responsable en PLA biosourcé.
           </p>
           <div className="mt-8 flex justify-center select-none font-sans">
             <a
               href="#contact-form"
-              className="px-6 py-3 text-xs font-bold text-black bg-white hover:bg-gray-100 rounded-xl transition-all shadow-lg active:scale-95"
+              className="px-8 py-4 text-sm sm:text-base font-extrabold text-black bg-white hover:bg-gray-100 rounded-2xl transition-all shadow-xl active:scale-95"
             >
               Parler de mon projet &rarr;
             </a>
@@ -99,11 +99,11 @@ export default function ProPage() {
 
         {/* Target Clients Grid */}
         <section className="mb-20">
-          <h2 className="text-2xl font-black uppercase tracking-tight font-antonio text-white text-center mb-10">
+          <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tight font-antonio text-white text-center mb-12">
             À qui s'adresse l'offre Pro ?
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-sans">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 font-sans">
             {[
               {
                 title: "🏆 Clubs Sportifs & Associations",
@@ -128,17 +128,17 @@ export default function ProPage() {
             ].map((client, idx) => (
               <div
                 key={idx}
-                className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 md:p-8 flex flex-col gap-4 hover:border-white/10 transition-colors"
+                className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 sm:p-8 flex flex-col gap-4 hover:border-white/20 transition-colors shadow-lg"
               >
-                <h3 className="text-base font-extrabold text-white leading-tight">
+                <h3 className="text-lg sm:text-xl font-extrabold text-white leading-tight">
                   {client.title}
                 </h3>
-                <p className="text-xs text-gray-400 leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-300 leading-relaxed font-sans">
                   {client.desc}
                 </p>
-                <div className="mt-auto pt-3 border-t border-white/5">
-                  <span className="text-[9px] font-black text-gray-500 uppercase tracking-wider block mb-1">Applications :</span>
-                  <span className="text-[10px] text-blue-400 font-bold block">{client.examples}</span>
+                <div className="mt-auto pt-4 border-t border-white/10">
+                  <span className="text-xs font-extrabold text-gray-400 uppercase tracking-wider block mb-1">Applications :</span>
+                  <span className="text-xs sm:text-sm text-blue-400 font-bold block">{client.examples}</span>
                 </div>
               </div>
             ))}
@@ -147,7 +147,7 @@ export default function ProPage() {
 
         {/* Services & Capabilities */}
         <section className="mb-20">
-          <h2 className="text-2xl font-black uppercase tracking-tight font-antonio text-white text-center mb-10">
+          <h2 className="text-2xl sm:text-4xl font-black uppercase tracking-tight font-antonio text-white text-center mb-12">
             Nos Savoir-faire &amp; Prestations
           </h2>
 
@@ -186,13 +186,13 @@ export default function ProPage() {
             ].map((service, idx) => (
               <div
                 key={idx}
-                className="bg-spoolio-card/40 border border-spoolio-border rounded-2xl p-5 flex flex-col gap-2.5"
+                className="bg-spoolio-card/50 border border-spoolio-border rounded-2xl p-6 flex flex-col gap-3 hover:border-white/20 transition-all"
               >
-                <span className="text-2xl select-none">{service.icon}</span>
-                <h3 className="text-xs font-black text-white uppercase tracking-wider">
+                <span className="text-3xl select-none">{service.icon}</span>
+                <h3 className="text-sm sm:text-base font-black text-white uppercase tracking-wider">
                   {service.title}
                 </h3>
-                <p className="text-[11px] text-gray-400 leading-relaxed font-sans">
+                <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-sans font-normal">
                   {service.desc}
                 </p>
               </div>
@@ -201,62 +201,62 @@ export default function ProPage() {
         </section>
 
         {/* Customer Case Study (Cyaness) */}
-        <section className="mb-20 bg-spoolio-card border border-spoolio-border rounded-3xl p-6 md:p-8 flex flex-col md:flex-row gap-8 items-center">
-          <div className="flex-1">
-            <span className="text-[9px] text-[#ff4f00] font-black uppercase tracking-widest block mb-2 font-sans">
+        <section className="mb-20 bg-spoolio-card border border-spoolio-border rounded-3xl p-6 sm:p-10 flex flex-col md:flex-row gap-8 items-center shadow-xl">
+          <div className="flex-1 space-y-4">
+            <span className="text-xs text-[#ff4f00] font-black uppercase tracking-widest block font-sans">
               Partenariat Artisan Pro
             </span>
-            <h3 className="text-xl font-extrabold text-white leading-tight font-sans mb-4">
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight font-sans">
               🧼 Cyaness &amp; Spoolio : Des porte-savons sur-mesure écologiques
             </h3>
-            <p className="text-xs text-gray-400 leading-relaxed font-sans mb-4">
+            <p className="text-sm sm:text-base text-gray-300 leading-relaxed font-sans">
               Cynthia, fondatrice de la savonnerie artisanale **Cyaness**, a fait appel à Spoolio pour concevoir des porte-savons entièrement personnalisés en PLA biosourcé de Comines, adaptés à ses formats de savons et floqués de sa marque. Une solution qui a séduit ses clients et valorisé ses emballages !
             </p>
             <a
               href="https://cyaness.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-bold text-blue-400 hover:text-white transition-colors"
+              className="inline-block text-sm font-bold text-blue-400 hover:text-white transition-colors pt-2"
             >
               Découvrir le site de Cyaness &raquo;
             </a>
           </div>
-          <div className="w-full md:w-1/3 bg-[#2F3CD9] border border-blue-500/20 rounded-2xl p-5 text-xs text-white font-sans italic relative leading-relaxed no-invert">
-            <span className="text-3xl text-white absolute -top-3 -left-2 opacity-35 select-none font-serif">“</span>
+          <div className="w-full md:w-2/5 bg-[#2F3CD9] border border-blue-500/30 rounded-2xl p-6 text-sm sm:text-base text-white font-sans italic relative leading-relaxed no-invert shadow-2xl">
+            <span className="text-4xl text-white absolute -top-4 -left-2 opacity-40 select-none font-serif">“</span>
             <p className="relative z-10 text-white font-medium">
               Très belle initiative écologique grâce à l'utilisation de maïs de grande qualité. Nous adorons l'aspect personnalisable de nos porte-savons et de nos futures boîtes de transport, un vrai plus pour nos clients ! Un projet porteur de sens.
             </p>
-            <span className="block text-[9px] font-black text-blue-200 uppercase tracking-widest not-italic mt-3">
+            <span className="block text-xs font-black text-blue-200 uppercase tracking-widest not-italic mt-4">
               Cynthia — Savonnerie Cyaness
             </span>
           </div>
         </section>
 
         {/* Contact Form Section */}
-        <section id="contact-form" className="max-w-[600px] mx-auto bg-spoolio-card border border-spoolio-border rounded-3xl p-6 md:p-8 shadow-2xl">
-          <h2 className="text-xl font-extrabold uppercase tracking-tight text-center text-white font-antonio mb-2">
+        <section id="contact-form" className="max-w-[700px] mx-auto bg-spoolio-card border border-spoolio-border rounded-3xl p-8 sm:p-12 shadow-2xl">
+          <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-center text-white font-antonio mb-3">
             Discuter de votre projet
           </h2>
-          <p className="text-xs text-gray-400 font-sans text-center mb-6 leading-relaxed">
+          <p className="text-sm sm:text-base text-gray-300 font-sans text-center mb-8 leading-relaxed">
             Racontez-nous vos besoins en personnalisation, en sur-mesure ou en prototypage. Nous vous répondrons avec une étude de faisabilité et un devis personnalisé.
           </p>
 
           {successMessage ? (
-            <div className="p-6 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl text-center text-xs font-sans flex flex-col gap-3">
-              <span className="text-2xl">🎉</span>
+            <div className="p-8 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl text-center text-sm sm:text-base font-sans flex flex-col gap-4">
+              <span className="text-3xl">🎉</span>
               <p className="font-bold leading-relaxed">{successMessage}</p>
               <button
                 onClick={() => setSuccessMessage(null)}
-                className="mt-2 text-[10px] text-gray-500 hover:text-white transition-colors font-bold uppercase tracking-wider underline cursor-pointer"
+                className="mt-2 text-xs text-gray-400 hover:text-white transition-colors font-bold uppercase tracking-wider underline cursor-pointer"
               >
                 Envoyer une autre demande
               </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4 font-sans text-xs">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5 font-sans text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-gray-300">
                     Nom &amp; Prénom *
                   </label>
                   <input
@@ -265,11 +265,11 @@ export default function ProPage() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Jean Dupont"
-                    className="h-10 border rounded-xl px-3 outline-none transition-colors review-input"
+                    className="h-12 text-sm sm:text-base border rounded-xl px-4 outline-none transition-colors review-input"
                   />
                 </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-gray-300">
                     Nom de l'entreprise / Structure
                   </label>
                   <input
@@ -277,14 +277,14 @@ export default function ProPage() {
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
                     placeholder="Club, Fleuriste, Association..."
-                    className="h-10 border rounded-xl px-3 outline-none transition-colors review-input"
+                    className="h-12 text-sm sm:text-base border rounded-xl px-4 outline-none transition-colors review-input"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-gray-300">
                     Adresse e-mail *
                   </label>
                   <input
@@ -293,11 +293,11 @@ export default function ProPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="nom@entreprise.com"
-                    className="h-10 border rounded-xl px-3 outline-none transition-colors review-input"
+                    className="h-12 text-sm sm:text-base border rounded-xl px-4 outline-none transition-colors review-input"
                   />
                 </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-gray-300">
                     Téléphone
                   </label>
                   <input
@@ -305,20 +305,20 @@ export default function ProPage() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="06 00 00 00 00"
-                    className="h-10 border rounded-xl px-3 outline-none transition-colors review-input"
+                    className="h-12 text-sm sm:text-base border rounded-xl px-4 outline-none transition-colors review-input"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-gray-300">
                     Secteur / Profil *
                   </label>
                   <select
                     value={clientType}
                     onChange={(e) => setClientType(e.target.value)}
-                    className="h-10 border rounded-xl px-3 outline-none transition-colors appearance-none cursor-pointer review-input"
+                    className="h-12 text-sm sm:text-base border rounded-xl px-4 outline-none transition-colors appearance-none cursor-pointer review-input"
                   >
                     <option value="association">Association / Club Sportif</option>
                     <option value="fleuriste">Fleuriste / Créateur floral</option>
@@ -327,8 +327,8 @@ export default function ProPage() {
                     <option value="autre">Autre profil</option>
                   </select>
                 </div>
-                <div className="flex flex-col gap-1.5">
-                  <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
+                <div className="flex flex-col gap-2">
+                  <label className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-gray-300">
                     Quantité estimée (Optionnel)
                   </label>
                   <input
@@ -336,13 +336,13 @@ export default function ProPage() {
                     value={quantity}
                     onChange={(e) => setQuantity(e.target.value)}
                     placeholder="ex: 10, 50, 100..."
-                    className="h-10 border rounded-xl px-3 outline-none transition-colors review-input"
+                    className="h-12 text-sm sm:text-base border rounded-xl px-4 outline-none transition-colors review-input"
                   />
                 </div>
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
+              <div className="flex flex-col gap-2">
+                <label className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-gray-300">
                   Décrivez votre projet (besoin, délais, dimensions...) *
                 </label>
                 <textarea
@@ -351,12 +351,12 @@ export default function ProPage() {
                   value={projectDesc}
                   onChange={(e) => setProjectDesc(e.target.value)}
                   placeholder="Décrivez ici ce que vous souhaitez fabriquer..."
-                  className="border rounded-xl p-3 outline-none transition-colors resize-y leading-relaxed font-sans review-input"
+                  className="border text-sm sm:text-base rounded-xl p-4 outline-none transition-colors resize-y leading-relaxed font-sans review-input"
                 />
               </div>
 
               {error && (
-                <div className="text-[10px] text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-2 rounded-lg font-sans">
+                <div className="text-xs sm:text-sm text-red-400 bg-red-500/10 border border-red-500/20 p-4 rounded-xl font-sans">
                   ⚠️ {error}
                 </div>
               )}
@@ -364,10 +364,10 @@ export default function ProPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full h-11 flex items-center justify-center bg-white hover:bg-gray-200 disabled:bg-white/40 text-black text-xs font-bold rounded-xl transition-all shadow-md mt-2 cursor-pointer disabled:cursor-not-allowed"
+                className="w-full h-14 flex items-center justify-center bg-white hover:bg-gray-200 disabled:bg-white/40 text-black text-sm sm:text-base font-extrabold rounded-2xl transition-all shadow-lg mt-3 cursor-pointer disabled:cursor-not-allowed active:scale-[0.99]"
               >
                 {loading ? (
-                  <svg className="animate-spin h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin h-6 w-6 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
