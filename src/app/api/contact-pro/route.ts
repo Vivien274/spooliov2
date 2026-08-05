@@ -24,7 +24,8 @@ export async function POST(request: Request) {
 
     const apiKey = process.env.RESEND_API_KEY;
     const emailTo = process.env.RESEND_TO_EMAIL || process.env.CONTACT_EMAIL_TO || "contact@spoolio.fr";
-    const emailFrom = process.env.RESEND_EMAIL_FROM || "onboarding@resend.dev";
+    const rawFrom = process.env.RESEND_EMAIL_FROM || "onboarding@resend.dev";
+    const formattedFrom = rawFrom.includes("<") ? rawFrom : `Spoolio Pro <${rawFrom}>`;
 
     if (apiKey) {
       // Send real email via Resend API
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
           "Authorization": `Bearer ${apiKey}`
         },
         body: JSON.stringify({
-          from: `Spoolio Pro <${emailFrom}>`,
+          from: formattedFrom,
           to: emailTo,
           reply_to: email,
           subject: `[Spoolio Pro] Demande projet de ${name} (${company || "Indépendant"})`,
