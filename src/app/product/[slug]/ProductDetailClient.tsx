@@ -63,6 +63,22 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
     }
   }, [activeImageIndex]);
 
+  // Keyboard navigation for Lightbox full-screen view (ArrowLeft, ArrowRight, Escape)
+  useEffect(() => {
+    if (!isLightboxOpen || !product?.images?.length) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsLightboxOpen(false);
+      } else if (e.key === "ArrowLeft") {
+        setActiveImageIndex(prev => (prev === 0 ? product.images.length - 1 : prev - 1));
+      } else if (e.key === "ArrowRight") {
+        setActiveImageIndex(prev => (prev === product.images.length - 1 ? 0 : prev + 1));
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isLightboxOpen, product?.images?.length]);
+
   const scrollThumbnails = (dir: "left" | "right") => {
     if (!thumbnailsRef.current) return;
     const distance = 220;
@@ -816,6 +832,29 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                   </>
                 )}
 
+                {/* Top-Right Fullscreen / Zoom Button */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsLightboxOpen(true);
+                  }}
+                  className="absolute top-4 right-4 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/70 hover:bg-[#ff4f00] text-white text-xs font-bold border border-white/20 backdrop-blur-md shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-90 hover:opacity-100"
+                  title="Agrandir en plein écran"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                  </svg>
+                  <span>Agrandir</span>
+                </button>
+
+                {/* Bottom-Right Image Count Badge */}
+                {hasImage && product.images.length > 1 && (
+                  <div className="absolute bottom-4 right-4 z-20 px-3 py-1 rounded-full bg-black/75 text-white text-[11px] font-extrabold tracking-wider border border-white/15 backdrop-blur-md select-none">
+                    {activeImageIndex + 1} / {product.images.length}
+                  </div>
+                )}
+
                 {/* Badges Overlay */}
                 <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
                   {product.on_sale && (
@@ -875,7 +914,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                         onClick={() => setActiveImageIndex(idx)}
                         className={`relative w-20 h-20 rounded-xl overflow-hidden bg-spoolio-card border transition-all shrink-0 cursor-pointer ${
                           activeImageIndex === idx
-                            ? "border-white scale-105 shadow-lg shadow-white/10 ring-2 ring-white/60 z-10"
+                            ? "border-[#ff4f00] ring-2 ring-[#ff4f00] scale-105 shadow-lg shadow-[#ff4f00]/30 z-10"
                             : "border-spoolio-border hover:border-white/40 opacity-70 hover:opacity-100"
                         }`}
                       >
@@ -2051,9 +2090,30 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               )}
             </div>
 
-            {/* Active count indicator */}
-            <div className="mt-4 text-xs font-semibold text-gray-400 font-sans select-none">
-              {activeImageIndex + 1} / {product.images.length}
+            {/* Fullscreen Lightbox Bottom Bar with Thumbnails & Shortcuts */}
+            <div onClick={(e) => e.stopPropagation()} className="mt-4 flex flex-col items-center gap-3 select-none z-10">
+              {product.images.length > 1 && (
+                <div className="flex gap-2 max-w-xl overflow-x-auto pb-1 px-2 no-scrollbar">
+                  {product.images.map((img, idx) => (
+                    <button
+                      key={`lightbox-thumb-${idx}`}
+                      onClick={() => setActiveImageIndex(idx)}
+                      className={`relative w-12 h-12 rounded-lg overflow-hidden border transition-all shrink-0 cursor-pointer ${
+                        activeImageIndex === idx
+                          ? "border-[#ff4f00] ring-2 ring-[#ff4f00] scale-110"
+                          : "border-white/20 opacity-50 hover:opacity-100"
+                      }`}
+                    >
+                      <Image src={img.src} alt={img.alt || product.name} fill sizes="48px" className="object-cover no-invert" />
+                    </button>
+                  ))}
+                </div>
+              )}
+              <div className="flex items-center gap-3 text-xs text-gray-400 font-sans">
+                <span className="font-bold text-white">{activeImageIndex + 1} / {product.images.length}</span>
+                <span className="text-gray-600">|</span>
+                <span className="hidden sm:inline-block text-[11px] text-gray-500">Utilisez les flèches <kbd className="px-1.5 py-0.5 bg-white/10 rounded border border-white/10 text-gray-300">←</kbd> <kbd className="px-1.5 py-0.5 bg-white/10 rounded border border-white/10 text-gray-300">→</kbd> pour naviguer ou <kbd className="px-1.5 py-0.5 bg-white/10 rounded border border-white/10 text-gray-300">Échap</kbd> pour fermer</span>
+              </div>
             </div>
           </div>
         )}
