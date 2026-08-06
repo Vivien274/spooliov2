@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useCart } from "@/context/CartContext";
 import { useTranslation } from "@/context/LanguageContext";
 import MotionNavigationMenu from "@/components/MotionNavigationMenu";
+import MobileMenuDrawer from "@/components/MobileMenuDrawer";
 
 import { Sparkles } from "lucide-react";
 
@@ -468,204 +469,17 @@ export default function Header({
         )}
 
         {/* Mobile Drawer Navigation Menu (Portaled to document.body) */}
-        {mounted && isMobileMenuOpen && createPortal(
-          <div className="fixed inset-0 z-[999999] flex md:hidden font-sans select-none">
-            {/* Backdrop overlay */}
-            <div
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 bg-black/80 backdrop-blur-md transition-opacity duration-300"
-            />
-
-            {/* Drawer menu content (slide-in from left) */}
-            <div className="relative w-[320px] max-w-[85vw] h-full border-r flex flex-col justify-between p-6 shadow-2xl z-10 transition-all duration-300 animate-slide-in mobile-drawer-bg">
-              {/* Scrollable navigation container */}
-              <div className="flex-1 overflow-y-auto pr-1 flex flex-col gap-6 select-none no-scrollbar pb-6">
-                {/* Logo & close row */}
-                <div className="flex items-center justify-between pb-4 border-b mobile-drawer-border">
-                  <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="relative z-50 flex items-center gap-2">
-                    <Image
-                      src="/images/logo.png"
-                      alt="Spoolio Logo"
-                      width={110}
-                      height={32}
-                      className="h-8 w-auto object-contain mobile-drawer-logo"
-                    />
-                  </Link>
-                  <button
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="w-8 h-8 flex items-center justify-center rounded-full transition-colors cursor-pointer mobile-drawer-close"
-                    aria-label="Fermer le menu"
-                  >
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-
-                {/* Navigation links */}
-                <nav className="flex flex-col gap-5">
-                  {/* Categories title */}
-                  <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest block mb-3 mobile-drawer-header">
-                      {t("header.shop")} (Catégories)
-                    </span>
-                    <div className="flex flex-col gap-2">
-                      <Link
-                        href="/boutique"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
-                      >
-                        <span>{t("header.shop")} - Tous</span>
-                        <span className="mobile-drawer-arrow">→</span>
-                      </Link>
-                      <Link
-                        href="/categorie/Accessoires"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
-                      >
-                        <span>Accessoires</span>
-                      </Link>
-                      <Link
-                        href="/categorie/Animaux & Figurines"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
-                      >
-                        <span>Animaux & Figurines</span>
-                      </Link>
-                      <Link
-                        href="/categorie/Fidgets"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
-                      >
-                        <span>Fidgets</span>
-                        <span className="bg-red-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide leading-none no-invert">HOT</span>
-                      </Link>
-                      <Link
-                        href="/categorie/Décoration"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
-                      >
-                        <span>Décoration</span>
-                      </Link>
-                      <Link
-                        href="/categorie/Jeux & activités"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
-                      >
-                        <span>Jeux & activités</span>
-                      </Link>
-                      <Link
-                        href="/categorie/Porte clés"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
-                      >
-                        <span>Porte clés</span>
-                      </Link>
-                      <Link
-                        href="/categorie/Geek %2F Gaming"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link"
-                      >
-                        <span>Geek / Gaming</span>
-                        <span className="bg-[#ff4f00] text-white text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide leading-none no-invert">NEW</span>
-                      </Link>
-                      <Link
-                        href="/pochette-surprise"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mt-1 mobile-drawer-link"
-                      >
-                        <span className="flex items-center gap-1.5">🎁 Les pochettes surprise</span>
-                        <span className="bg-[#00F0FF] text-black text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide leading-none no-invert">FUN !</span>
-                      </Link>
-                    </div>
-                  </div>
-
-                  {/* Others title */}
-                  <div className="pt-2 border-t mobile-drawer-border">
-                    <span className="text-[10px] font-black uppercase tracking-widest block mb-3 mobile-drawer-header">
-                      Découvrir
-                    </span>
-                    <div className="flex flex-col gap-2">
-                      <Link
-                        href="/createur-cliqueur"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="px-3 py-2 text-xs font-bold rounded-lg flex items-center justify-between transition-colors mobile-drawer-link text-[#ff4f00]"
-                      >
-                        <span>⌨️ Créateur de Clicker 3D</span>
-                        <span className="bg-purple-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide leading-none no-invert">SUR-MESURE</span>
-                      </Link>
-                      <Link
-                        href="/boussole-sensorielle"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="px-3 py-2 text-xs font-bold rounded-lg block transition-colors mobile-drawer-link"
-                      >
-                        🧩 Boussole Sensorielle
-                      </Link>
-                      <Link
-                        href="/pro"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="px-3 py-2 text-xs font-bold rounded-lg block transition-colors mobile-drawer-link"
-                      >
-                        💼 Spoolio pour les pros
-                      </Link>
-                      <Link
-                        href="/blog"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="px-3 py-2 text-xs font-bold rounded-lg block transition-colors mobile-drawer-link"
-                      >
-                        📝 {t("header.about")} (Blog)
-                      </Link>
-                      <Link
-                        href="/don"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="px-3 py-2 text-xs font-bold rounded-lg block transition-colors text-[#ff4f00] hover:text-[#ff4f00]"
-                      >
-                        🧡 {t("home.donation.button")}
-                      </Link>
-                    </div>
-                  </div>
-                </nav>
-              </div>
-
-              {/* Sticky Bottom Area */}
-              <div className="sticky bottom-0 pt-4 border-t flex flex-col gap-3 mt-auto mobile-drawer-bg mobile-drawer-border">
-
-                {/* Theme Toggle Button */}
-                <button
-                  onClick={toggleTheme}
-                  className="w-full h-11 flex items-center justify-between px-4 rounded-xl border transition-all cursor-pointer text-xs font-semibold mobile-drawer-btn"
-                  title={theme === "dark" ? "Passer au thème clair" : "Passer au thème sombre"}
-                >
-                  <span className="flex items-center gap-2">
-                    {theme === "dark" ? (
-                      <>
-                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 7a5 5 0 100 10 5 5 0 000-10z" />
-                        </svg>
-                        <span>Thème Clair</span>
-                      </>
-                    ) : (
-                      <>
-                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                        </svg>
-                        <span>Thème Sombre</span>
-                      </>
-                    )}
-                  </span>
-                  <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded mobile-drawer-badge">
-                    ACTIF
-                  </span>
-                </button>
-
-                {/* Bottom contact signature */}
-                <div className="text-[10px] flex justify-between items-center pb-2 mobile-drawer-header">
-                  <span>Spoolio V2 - Fait avec passion</span>
-                  <span className="text-[8px] opacity-40">v2.0</span>
-                </div>
-              </div>
-            </div>
-          </div>,
+        {mounted && createPortal(
+          <MobileMenuDrawer
+            isOpen={isMobileMenuOpen}
+            onClose={() => setIsMobileMenuOpen(false)}
+            onOpenSearch={() => setIsSearchOpen(true)}
+            theme={theme}
+            toggleTheme={toggleTheme}
+            locale={locale}
+            setLocale={setLocale}
+            t={t}
+          />,
           document.body
         )}
       </div>

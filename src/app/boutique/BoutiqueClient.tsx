@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard, { Product } from "@/components/ProductCard";
+import CustomSelect, { CustomSelectOption } from "@/components/CustomSelect";
 
 const PRODUCTS_PER_PAGE = 12;
 
@@ -70,18 +71,39 @@ function BoutiqueClientContent() {
       .replace(/&nbsp;/g, " ");
   };
 
-  // Dynamically extract categories list from products loaded
-  const categoriesList = useMemo(() => {
-    const list = new Set<string>();
+  // Dynamically extract categories list with product counts from products loaded
+  const categorySelectOptions = useMemo<CustomSelectOption[]>(() => {
+    const counts: Record<string, number> = {};
     products.forEach((p) => {
       if (p.categories) {
         p.categories.forEach((c) => {
-          if (c.name) list.add(decodeHtml(c.name));
+          if (c.name) {
+            const decoded = decodeHtml(c.name);
+            counts[decoded] = (counts[decoded] || 0) + 1;
+          }
         });
       }
     });
-    return Array.from(list).sort();
+
+    const sortedCats = Object.keys(counts).sort((a, b) => a.localeCompare(b, "fr"));
+    
+    return [
+      { value: "all", label: "Toutes les catégories", count: products.length, icon: "📁" },
+      ...sortedCats.map((cat) => ({
+        value: cat,
+        label: cat,
+        count: counts[cat],
+        icon: "🏷️",
+      })),
+    ];
   }, [products]);
+
+  const sortSelectOptions: CustomSelectOption[] = [
+    { value: "newest", label: "Trier par : Nouveautés", icon: "✨" },
+    { value: "price-asc", label: "Prix : croissant", icon: "📈" },
+    { value: "price-desc", label: "Prix : décroissant", icon: "📉" },
+    { value: "name-asc", label: "Nom : A-Z", icon: "🔤" },
+  ];
 
   // Reset scroll limit when filter or sorting changes
   useEffect(() => {
@@ -236,44 +258,21 @@ function BoutiqueClientContent() {
           {/* Category & Sorting selection */}
           <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
             {/* Category Dropdown */}
-            <div className="relative">
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="h-11 pl-4 pr-10 text-xs font-bold bg-spoolio-card border border-spoolio-border rounded-xl text-white outline-none cursor-pointer appearance-none focus:border-white/40 transition-all"
-              >
-                <option value="all">Toutes les catégories</option>
-                {categoriesList.map((cat) => (
-                  <option key={cat} value={cat} className="bg-[#131316]">
-                    {cat}
-                  </option>
-                ))}
-              </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
+            <CustomSelect
+              value={selectedCategory}
+              onChange={(val) => setSelectedCategory(val)}
+              options={categorySelectOptions}
+              placeholder="Toutes les catégories"
+              showSearch={true}
+            />
 
             {/* Sorting Dropdown */}
-            <div className="relative">
-              <select
-                value={sortOption}
-                onChange={(e) => setSortOption(e.target.value)}
-                className="h-11 pl-4 pr-10 text-xs font-bold bg-spoolio-card border border-spoolio-border rounded-xl text-white outline-none cursor-pointer appearance-none focus:border-white/40 transition-all"
-              >
-                <option value="newest">Trier par : Nouveautés</option>
-                <option value="price-asc">Prix : croissant</option>
-                <option value="price-desc">Prix : décroissant</option>
-                <option value="name-asc">Nom : A-Z</option>
-              </select>
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
+            <CustomSelect
+              value={sortOption}
+              onChange={(val) => setSortOption(val)}
+              options={sortSelectOptions}
+              placeholder="Trier par..."
+            />
           </div>
         </section>
 

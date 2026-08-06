@@ -31104,11 +31104,6 @@
         "id": 64,
         "name": "Fidgets",
         "slug": "fidgets"
-      },
-      {
-        "id": 173,
-        "name": "Fidgets simples",
-        "slug": "fidgets-simples"
       }
     ],
     "brands": [],
@@ -32170,11 +32165,6 @@
         "id": 64,
         "name": "Fidgets",
         "slug": "fidgets"
-      },
-      {
-        "id": 173,
-        "name": "Fidgets simples",
-        "slug": "fidgets-simples"
       }
     ],
     "brands": [],
@@ -33119,11 +33109,6 @@
         "id": 64,
         "name": "Fidgets",
         "slug": "fidgets"
-      },
-      {
-        "id": 174,
-        "name": "Fidgets mécaniques",
-        "slug": "fidgets-mecaniques"
       }
     ],
     "brands": [],
@@ -34056,9 +34041,10 @@
     "purchase_note": "",
     "categories": [
       {
-        "id": 174,
-        "name": "Fidgets mécaniques",
-        "slug": "fidgets-mecaniques"
+        "id": 64,
+        "name": "Fidgets",
+        "slug": "fidgets",
+        "parent": 0
       }
     ],
     "brands": [],
@@ -35205,11 +35191,6 @@
         "id": 64,
         "name": "Fidgets",
         "slug": "fidgets"
-      },
-      {
-        "id": 175,
-        "name": "Fidgets costauds",
-        "slug": "fidgets-costauds"
       }
     ],
     "brands": [],
@@ -87912,11 +87893,6 @@
         "id": 64,
         "name": "Fidgets",
         "slug": "fidgets"
-      },
-      {
-        "id": 173,
-        "name": "Fidgets simples",
-        "slug": "fidgets-simples"
       },
       {
         "id": 176,

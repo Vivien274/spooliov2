@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -16,9 +16,10 @@ import {
   Smile,
   Key,
   Palette,
-  Info,
   Building2,
   BookOpen,
+  HelpCircle,
+  Shapes,
 } from "lucide-react";
 
 interface MenuItem {
@@ -37,6 +38,7 @@ const MENU_ITEMS: MenuItem[] = [
 export default function MotionNavigationMenu() {
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleMouseEnter = (id: string) => {
     setHoveredTab(id);
@@ -48,10 +50,22 @@ export default function MotionNavigationMenu() {
     setActiveTab(null);
   };
 
+  // Close dropdown when pressing Escape
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setActiveTab(null);
+        setHoveredTab(null);
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
-    <div className="relative hidden lg:flex items-center" onMouseLeave={handleMouseLeave}>
+    <div ref={containerRef} className="relative hidden lg:flex items-center" onMouseLeave={handleMouseLeave}>
       {/* Navigation Pills Bar */}
-      <nav className="relative flex items-center gap-1 p-1.5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full shadow-lg">
+      <nav className="relative flex items-center gap-1.5 p-1.5 bg-[#131316]/90 backdrop-blur-2xl border border-white/15 rounded-full shadow-2xl shadow-black/50">
         {MENU_ITEMS.map((item) => {
           const isSelected = activeTab === item.id;
           const isHovered = hoveredTab === item.id;
@@ -59,15 +73,15 @@ export default function MotionNavigationMenu() {
           return (
             <div
               key={item.id}
-              className="relative px-4 py-2 rounded-full cursor-pointer select-none transition-colors"
+              className="relative px-4 py-2 rounded-full cursor-pointer select-none transition-all duration-200"
               onMouseEnter={() => handleMouseEnter(item.id)}
             >
               {/* Animated Hover Pill Background */}
               {(isHovered || isSelected) && (
                 <motion.div
                   layoutId="motion-nav-pill"
-                  className="absolute inset-0 bg-white/20 rounded-full shadow-sm"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  className="absolute inset-0 bg-gradient-to-r from-white/15 to-white/10 rounded-full border border-white/20 shadow-md"
+                  transition={{ type: "spring", stiffness: 450, damping: 32 }}
                 />
               )}
 
@@ -87,7 +101,7 @@ export default function MotionNavigationMenu() {
                       animate={{ rotate: isSelected ? 180 : 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <ChevronDown className="w-3.5 h-3.5 text-white opacity-80" />
+                      <ChevronDown className="w-3.5 h-3.5 text-white/80" />
                     </motion.div>
                   )}
                 </div>
@@ -99,336 +113,390 @@ export default function MotionNavigationMenu() {
         {/* Highlighted CTA Badge */}
         <Link
           href="/don"
-          className="relative px-3.5 py-1.5 ml-1 rounded-full bg-gradient-to-r from-[#ff4f00] to-[#FF8800] text-white text-xs font-extrabold flex items-center gap-1.5 shadow-md hover:scale-105 transition-transform no-invert"
+          className="relative px-4 py-2 ml-1 rounded-full bg-gradient-to-r from-[#ff4f00] via-[#FF6600] to-[#FF8800] text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-[#ff4f00]/30 hover:scale-105 transition-all duration-200 cursor-pointer no-invert group"
         >
           <span>Soutenir l'Atelier</span>
-          <Heart className="w-3.5 h-3.5 fill-current text-white animate-pulse" />
+          <Heart className="w-3.5 h-3.5 fill-current text-white animate-pulse group-hover:scale-125 transition-transform" />
         </Link>
       </nav>
 
-      {/* Morphing Dropdown Panel Container */}
+      {/* Morphing Mega Dropdown Panel Container */}
       <AnimatePresence>
         {activeTab && (
           <motion.div
-            initial={{ opacity: 0, y: 12, scale: 0.96 }}
+            initial={{ opacity: 0, y: 14, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 8, scale: 0.96 }}
-            transition={{ duration: 0.22, ease: "easeOut" }}
-            className="absolute top-full left-0 mt-3 z-50 origin-top-left"
+            exit={{ opacity: 0, y: 10, scale: 0.96 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute top-full left-0 mt-3.5 z-[100] origin-top-left"
             onMouseEnter={() => setActiveTab(activeTab)}
           >
-            <div className="w-[620px] tombola-card bg-[#131316]/95 dark:bg-[#131316]/95 light:bg-white/98 backdrop-blur-2xl border border-white/15 dark:border-white/15 light:border-gray-200 rounded-3xl p-6 shadow-[0_20px_50px_rgba(0,0,0,0.4)] light:shadow-[0_20px_40px_rgba(0,0,0,0.12)]">
+            <div className="w-[660px] bg-[#121215]/98 backdrop-blur-3xl border border-white/20 rounded-3xl p-6 shadow-[0_30px_70px_rgba(0,0,0,0.7)] ring-1 ring-white/10">
               
               {/* DROPDOWN TAB 1: BOUTIQUE */}
               {activeTab === "boutique" && (
                 <div className="space-y-4">
-                  {/* Full-width Top Banner: Voir toute la boutique */}
+                  {/* Top Banner: Voir toute la boutique */}
                   <Link
                     href="/boutique"
-                    className="group flex items-center justify-between p-3.5 rounded-2xl bg-gradient-to-r from-[#2F3CD9]/30 via-[#ff4f00]/20 to-[#FF8800]/20 hover:from-[#2F3CD9]/45 hover:via-[#ff4f00]/30 hover:to-[#FF8800]/30 border border-white/15 dark:border-white/15 light:border-gray-200 shadow-md transition-all duration-300"
+                    className="group flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-[#2F3CD9]/30 via-[#ff4f00]/20 to-[#FF8800]/20 hover:from-[#2F3CD9]/45 hover:via-[#ff4f00]/35 hover:to-[#FF8800]/35 border border-white/20 shadow-xl transition-all duration-300"
                   >
                     <div className="flex items-center gap-3.5">
-                      <div className="p-2.5 rounded-xl bg-[#2F3CD9] text-white shadow-md group-hover:scale-110 transition-transform no-invert">
+                      <div className="p-3 rounded-xl bg-gradient-to-br from-[#2F3CD9] to-[#5163FF] text-white shadow-lg shadow-[#2F3CD9]/40 group-hover:scale-110 transition-transform no-invert">
                         <ShoppingBag className="w-5 h-5" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <h4 className="text-xs font-black text-white dark:text-white light:text-gray-900 group-hover:text-[#ff4f00] transition-colors">
+                          <h4 className="text-sm font-black text-white group-hover:text-[#ff4f00] transition-colors font-extrabold">
                             Voir toute la boutique
                           </h4>
-                          <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-[#ff4f00] text-white no-invert">
+                          <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-[#ff4f00] text-white shadow-sm no-invert">
                             CATALOGUE COMPLET 🛍️
                           </span>
                         </div>
-                        <p className="text-[11px] text-gray-300 dark:text-gray-300 light:text-gray-600 font-medium">
-                          Explorez l'ensemble de nos créations 3D, fidgets sensoriels, packs &amp; nouveautés
+                        <p className="text-xs text-gray-300 font-medium mt-0.5">
+                          Explorez l'ensemble de nos créations 3D, fidgets sensoriels &amp; nouveautés
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-1 text-xs font-extrabold text-[#ff4f00] group-hover:translate-x-1 transition-transform pr-2">
+                    <div className="flex items-center gap-1 text-xs font-black text-[#ff4f00] group-hover:translate-x-1 transition-transform pr-2">
                       <span>Voir tout</span>
                       <ArrowUpRight className="w-4 h-4" />
                     </div>
                   </Link>
 
-                  <div className="grid grid-cols-12 gap-6">
-                  {/* Featured Left Card */}
-                  <div className="col-span-5 tombola-inner-box bg-gradient-to-br from-[#ff4f00]/20 via-[#ff4f00]/10 to-transparent p-5 rounded-2xl border border-[#ff4f00]/30 flex flex-col justify-between relative overflow-hidden group">
-                    <div className="space-y-2">
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#ff4f00] text-white text-[9px] font-black uppercase tracking-wider no-invert">
-                        🔥 POPULAIRE
-                      </span>
-                      <h4 className="text-base font-black text-white dark:text-white light:text-gray-900 leading-tight">
-                        Fidgets & Objets Sensoriels
-                      </h4>
-                      <p className="text-xs text-gray-300 dark:text-gray-300 light:text-gray-600 leading-relaxed font-medium">
-                        Manipulations apaisantes, clics satisfaisants et créations 3D TDAH.
-                      </p>
+                  <div className="grid grid-cols-12 gap-5">
+                    {/* Featured Left Card */}
+                    <div className="col-span-5 bg-gradient-to-br from-[#ff4f00]/25 via-[#ff4f00]/10 to-transparent p-5 rounded-2xl border border-[#ff4f00]/35 flex flex-col justify-between relative overflow-hidden group hover:border-[#ff4f00]/60 transition-all">
+                      <div className="space-y-2.5">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#ff4f00] text-white text-[9px] font-black uppercase tracking-wider shadow-md no-invert">
+                          🔥 INCONTOURNABLE
+                        </span>
+                        <h4 className="text-base font-black text-white leading-tight font-extrabold">
+                          Fidgets & Objets Anti-stress
+                        </h4>
+                        <p className="text-xs text-gray-300 leading-relaxed font-medium">
+                          Manipulations apaisantes, clics satisfaisants et créations 3D conçues pour la concentration.
+                        </p>
+                      </div>
+
+                      <Link
+                        href="/categorie/Fidgets"
+                        className="mt-5 inline-flex items-center justify-between text-xs font-black text-[#ff4f00] group-hover:translate-x-1 transition-transform"
+                      >
+                        <span>Découvrir les fidgets</span>
+                        <ArrowUpRight className="w-4 h-4" />
+                      </Link>
                     </div>
 
-                    <Link
-                      href="/categorie/Fidgets"
-                      className="mt-4 inline-flex items-center justify-between text-xs font-black text-[#ff4f00] group-hover:translate-x-1 transition-transform"
-                    >
-                      <span>Découvrir la collection</span>
-                      <ArrowUpRight className="w-4 h-4" />
-                    </Link>
-                  </div>
-
-                  {/* Right Categories Links */}
-                  <div className="col-span-7 grid grid-cols-1 gap-2">
-                    <Link
-                      href="/categorie/Fidgets"
-                      className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/10 dark:hover:bg-white/10 light:hover:bg-gray-100 transition-colors"
-                    >
-                      <div className="p-2 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00]">
-                        <Sparkles className="w-4 h-4" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h5 className="text-xs font-bold text-white dark:text-white light:text-gray-900 group-hover:text-[#ff4f00] transition-colors">
-                            Fidgets & Sensoriel
-                          </h5>
-                          <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    {/* Right Categories Grid */}
+                    <div className="col-span-7 grid grid-cols-1 gap-2">
+                      <Link
+                        href="/categorie/Fidgets"
+                        className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00]">
+                            <Sparkles className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <h5 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors">
+                              Fidgets &amp; Anti-stress
+                            </h5>
+                            <p className="text-[11px] text-gray-400">
+                              Balles, clickers &amp; spinners
+                            </p>
+                          </div>
                         </div>
-                        <p className="text-[11px] text-gray-400 dark:text-gray-400 light:text-gray-500">
-                          Manipulations, clics & anti-stress
-                        </p>
-                      </div>
-                    </Link>
+                        <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                      </Link>
 
-                    <Link
-                      href="/categorie/Geek %2F Gaming"
-                      className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/10 dark:hover:bg-white/10 light:hover:bg-gray-100 transition-colors"
-                    >
-                      <div className="p-2 rounded-lg bg-cyan-500/20 text-cyan-400">
-                        <Gamepad2 className="w-4 h-4" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h5 className="text-xs font-bold text-white dark:text-white light:text-gray-900 group-hover:text-cyan-400 transition-colors">
-                            Geek & Gaming
-                          </h5>
-                          <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <Link
+                        href="/categorie/Geek %2F Gaming"
+                        className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 rounded-lg bg-cyan-500/20 text-cyan-400">
+                            <Gamepad2 className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <h5 className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors">
+                              Geek &amp; Gaming
+                            </h5>
+                            <p className="text-[11px] text-gray-400">
+                              Support manettes &amp; accessoires setup
+                            </p>
+                          </div>
                         </div>
-                        <p className="text-[11px] text-gray-400 dark:text-gray-400 light:text-gray-500">
-                          Figurines, setups & univers pop-culture
-                        </p>
-                      </div>
-                    </Link>
+                        <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                      </Link>
 
-                    <Link
-                      href="/categorie/Porte clés"
-                      className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/10 dark:hover:bg-white/10 light:hover:bg-gray-100 transition-colors"
-                    >
-                      <div className="p-2 rounded-lg bg-amber-500/20 text-amber-400">
-                        <Key className="w-4 h-4" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h5 className="text-xs font-bold text-white dark:text-white light:text-gray-900 group-hover:text-amber-400 transition-colors">
-                            Porte-clés & Accessoires
-                          </h5>
-                          <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <Link
+                        href="/categorie/Porte clés"
+                        className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 rounded-lg bg-amber-500/20 text-amber-400">
+                            <Key className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <h5 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors">
+                              Porte-clés 3D
+                            </h5>
+                            <p className="text-[11px] text-gray-400">
+                              Créations légères &amp; personnalisables
+                            </p>
+                          </div>
                         </div>
-                        <p className="text-[11px] text-gray-400 dark:text-gray-400 light:text-gray-500">
-                          Créations 3D originales & personnalisées
-                        </p>
-                      </div>
-                    </Link>
+                        <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                      </Link>
 
-                    <Link
-                      href="/categorie/Animaux %26 Figurines"
-                      className="group flex items-start gap-3 p-2.5 rounded-xl hover:bg-white/10 dark:hover:bg-white/10 light:hover:bg-gray-100 transition-colors"
-                    >
-                      <div className="p-2 rounded-lg bg-emerald-500/20 text-emerald-400">
-                        <Smile className="w-4 h-4" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <h5 className="text-xs font-bold text-white dark:text-white light:text-gray-900 group-hover:text-emerald-400 transition-colors">
-                            Animaux & Figurines 3D
-                          </h5>
-                          <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <Link
+                        href="/categorie/Animaux %26 Figurines"
+                        className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 rounded-lg bg-emerald-500/20 text-emerald-400">
+                            <Smile className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <h5 className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">
+                              Animaux &amp; Figurines
+                            </h5>
+                            <p className="text-[11px] text-gray-400">
+                              Créatures articulées &amp; décorations
+                            </p>
+                          </div>
                         </div>
-                        <p className="text-[11px] text-gray-400 dark:text-gray-400 light:text-gray-500">
-                          Créatures articulées & figurines amusantes
-                        </p>
-                      </div>
-                    </Link>
+                        <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
               )}
 
-              {/* DROPDOWN TAB 2: EXPÉRIENCES & JEUX */}
+              {/* DROPDOWN TAB 2: EXPÉRIENCES & JEUX (Harmonized 2x2 Grid) */}
               {activeTab === "univers" && (
                 <div className="grid grid-cols-2 gap-4">
+                  {/* Card 1: Pochettes Surprises 3D */}
                   <Link
                     href="/pochette-surprise"
-                    className="group tombola-inner-box bg-white/5 dark:bg-white/5 light:bg-gray-50 p-4 rounded-2xl border border-white/10 dark:border-white/10 light:border-gray-200 hover:border-[#ff4f00]/50 transition-all flex flex-col justify-between"
+                    className="group bg-gradient-to-br from-[#ff4f00]/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-[#ff4f00]/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg hover:shadow-[#ff4f00]/10"
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <div className="p-2 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00]">
+                        <div className="p-2 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] group-hover:scale-110 transition-transform">
                           <Gift className="w-5 h-5" />
                         </div>
-                        <span className="bg-[#ff4f00]/20 text-[#ff4f00] text-[9px] font-black px-2 py-0.5 rounded-full uppercase no-invert">
+                        <span className="bg-[#ff4f00]/20 text-[#ff4f00] text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
                           ✨ NOUVEAU
                         </span>
                       </div>
-                      <h4 className="text-sm font-black text-white dark:text-white light:text-gray-900 group-hover:text-[#ff4f00] transition-colors">
+                      <h4 className="text-sm font-black text-white group-hover:text-[#ff4f00] transition-colors font-extrabold">
                         Pochettes Surprises 3D
                       </h4>
-                      <p className="text-xs text-gray-400 dark:text-gray-400 light:text-gray-600">
-                        Sélection mystère avec animation d'ouverture et drops exclusifs.
+                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
+                        Sélection mystère avec animation d'ouverture 3D et drops exclusifs.
                       </p>
                     </div>
-                    <div className="mt-3 flex items-center justify-between text-xs font-bold text-[#ff4f00]">
+                    <div className="flex items-center justify-between text-xs font-black text-[#ff4f00]">
                       <span>Ouvrir ma pochette</span>
-                      <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>
 
+                  {/* Card 2: Boussole Sensorielle */}
                   <Link
                     href="/boussole-sensorielle"
-                    className="group tombola-inner-box bg-white/5 dark:bg-white/5 light:bg-gray-50 p-4 rounded-2xl border border-white/10 dark:border-white/10 light:border-gray-200 hover:border-cyan-400/50 transition-all flex flex-col justify-between"
+                    className="group bg-gradient-to-br from-cyan-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-cyan-400/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg hover:shadow-cyan-500/10"
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <div className="p-2 rounded-xl bg-cyan-500/20 text-cyan-400">
+                        <div className="p-2 rounded-xl bg-cyan-500/20 text-cyan-400 group-hover:scale-110 transition-transform">
                           <Compass className="w-5 h-5" />
                         </div>
-                        <span className="bg-cyan-500/20 text-cyan-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase no-invert">
+                        <span className="bg-cyan-500/20 text-cyan-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
                           🧭 INTERACTIF
                         </span>
                       </div>
-                      <h4 className="text-sm font-black text-white dark:text-white light:text-gray-900 group-hover:text-cyan-400 transition-colors">
+                      <h4 className="text-sm font-black text-white group-hover:text-cyan-400 transition-colors font-extrabold">
                         Boussole Sensorielle
                       </h4>
-                      <p className="text-xs text-gray-400 dark:text-gray-400 light:text-gray-600">
-                        Trouve l'objet apaisant idéal selon tes besoins et préférences.
+                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
+                        Trouve l'objet apaisant idéal selon tes besoins et tes sensibilités.
                       </p>
                     </div>
-                    <div className="mt-3 flex items-center justify-between text-xs font-bold text-cyan-400">
+                    <div className="flex items-center justify-between text-xs font-black text-cyan-400">
                       <span>Lancer le test</span>
-                      <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>
 
+                  {/* Card 3: Créateur de Clicker 3D */}
                   <Link
                     href="/createur-cliqueur"
-                    className="group tombola-inner-box bg-white/5 dark:bg-white/5 light:bg-gray-50 p-4 rounded-2xl border border-white/10 dark:border-white/10 light:border-gray-200 hover:border-purple-400/50 transition-all flex flex-col justify-between"
+                    className="group bg-gradient-to-br from-purple-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-purple-400/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg hover:shadow-purple-500/10"
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <div className="p-2 rounded-xl bg-purple-500/20 text-purple-400">
+                        <div className="p-2 rounded-xl bg-purple-500/20 text-purple-400 group-hover:scale-110 transition-transform">
                           <Gamepad2 className="w-5 h-5" />
                         </div>
-                        <span className="bg-purple-500/20 text-purple-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase no-invert">
+                        <span className="bg-purple-500/20 text-purple-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
                           🎨 SUR-MESURE
                         </span>
                       </div>
-                      <h4 className="text-sm font-black text-white dark:text-white light:text-gray-900 group-hover:text-purple-400 transition-colors">
+                      <h4 className="text-sm font-black text-white group-hover:text-purple-400 transition-colors font-extrabold">
                         Créateur de Clicker 3D
                       </h4>
-                      <p className="text-xs text-gray-400 dark:text-gray-400 light:text-gray-600">
+                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
                         Personnalise ton boîtier, tes switchs et tes gravures de touches en 3D.
                       </p>
                     </div>
-                    <div className="mt-3 flex items-center justify-between text-xs font-bold text-purple-400">
+                    <div className="flex items-center justify-between text-xs font-black text-purple-400">
                       <span>Créer mon clicker</span>
-                      <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>
 
+                  {/* Card 4: Tombola du Moment */}
                   <Link
                     href="/tombola"
-                    className="group col-span-2 tombola-inner-box bg-gradient-to-r from-amber-500/15 via-amber-500/5 to-transparent p-4 rounded-2xl border border-amber-500/30 hover:border-amber-400/60 transition-all flex items-center justify-between"
+                    className="group bg-gradient-to-br from-amber-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-amber-400/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg hover:shadow-amber-500/10"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-400">
-                        <Ticket className="w-6 h-6" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h4 className="text-sm font-black text-white dark:text-white light:text-gray-900 group-hover:text-amber-400 transition-colors">
-                            Tombola du Moment
-                          </h4>
-                          <span className="bg-amber-500/20 text-amber-400 text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase no-invert">
-                            🎟️ JEU CONCOURS
-                          </span>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400 group-hover:scale-110 transition-transform">
+                          <Ticket className="w-5 h-5" />
                         </div>
-                        <p className="text-xs text-gray-400 dark:text-gray-400 light:text-gray-600">
-                          Choisis tes numéros et tente de remporter le grand Mega Pack !
-                        </p>
+                        <span className="bg-amber-500/20 text-amber-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
+                          🎟️ JEU CONCOURS
+                        </span>
                       </div>
+                      <h4 className="text-sm font-black text-white group-hover:text-amber-400 transition-colors font-extrabold">
+                        Tombola du Moment
+                      </h4>
+                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
+                        Choisis tes numéros et tente de remporter le grand Mega Pack exclusif !
+                      </p>
                     </div>
-                    <ArrowUpRight className="w-4 h-4 text-amber-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <div className="flex items-center justify-between text-xs font-black text-amber-400">
+                      <span>Tenter ma chance</span>
+                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
+                    </div>
                   </Link>
                 </div>
               )}
 
-              {/* DROPDOWN TAB 3: L'ATELIER */}
+              {/* DROPDOWN TAB 3: L'ATELIER (Balanced 2x2 Grid) */}
               {activeTab === "atelier" && (
                 <div className="grid grid-cols-2 gap-4">
+                  {/* Card 1: Histoire & Atelier */}
                   <Link
                     href="/a-propos"
-                    className="group tombola-inner-box bg-white/5 dark:bg-white/5 light:bg-gray-50 p-4 rounded-2xl border border-white/10 dark:border-white/10 light:border-gray-200 hover:border-[#ff4f00]/50 transition-all flex items-start gap-3"
+                    className="group bg-gradient-to-br from-[#ff4f00]/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-[#ff4f00]/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg"
                   >
-                    <div className="p-2.5 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00]">
-                      <Palette className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-black text-white dark:text-white light:text-gray-900 group-hover:text-[#ff4f00] transition-colors">
-                        Notre Histoire & Atelier
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="p-2 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] group-hover:scale-110 transition-transform">
+                          <Palette className="w-5 h-5" />
+                        </div>
+                        <span className="bg-[#ff4f00]/20 text-[#ff4f00] text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
+                          ✨ ARTISANAL
+                        </span>
+                      </div>
+                      <h4 className="text-sm font-black text-white group-hover:text-[#ff4f00] transition-colors font-extrabold">
+                        Notre Histoire &amp; Coulisses
                       </h4>
-                      <p className="text-xs text-gray-400 dark:text-gray-400 light:text-gray-600 mt-1">
-                        Découvre les coulisses de l'impression 3D et notre philosophie artisanale.
+                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
+                        Découvre l'univers Spoolio, l'impression 3D locale et nos matières PLA biosourcées.
                       </p>
+                    </div>
+                    <div className="flex items-center justify-between text-xs font-black text-[#ff4f00]">
+                      <span>Découvrir l'Atelier</span>
+                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>
 
+                  {/* Card 2: Espace Pro */}
                   <Link
                     href="/pro"
-                    className="group tombola-inner-box bg-white/5 dark:bg-white/5 light:bg-gray-50 p-4 rounded-2xl border border-white/10 dark:border-white/10 light:border-gray-200 hover:border-blue-400/50 transition-all flex items-start gap-3"
+                    className="group bg-gradient-to-br from-blue-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-blue-400/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg"
                   >
-                    <div className="p-2.5 rounded-xl bg-blue-500/20 text-blue-400">
-                      <Building2 className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-black text-white dark:text-white light:text-gray-900 group-hover:text-blue-400 transition-colors">
-                        Espace Pro & Projets 3D
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="p-2 rounded-xl bg-blue-500/20 text-blue-400 group-hover:scale-110 transition-transform">
+                          <Building2 className="w-5 h-5" />
+                        </div>
+                        <span className="bg-blue-500/20 text-blue-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
+                          🏢 PROJETS 3D
+                        </span>
+                      </div>
+                      <h4 className="text-sm font-black text-white group-hover:text-blue-400 transition-colors font-extrabold">
+                        Espace Pro &amp; B2B
                       </h4>
-                      <p className="text-xs text-gray-400 dark:text-gray-400 light:text-gray-600 mt-1">
-                        Partenariats, impressions sur-mesure et commandes pros.
+                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
+                        Partenariats, goodies d'entreprise et impressions 3D sur-mesure pour professionnels.
                       </p>
+                    </div>
+                    <div className="flex items-center justify-between text-xs font-black text-blue-400">
+                      <span>Projets sur-mesure</span>
+                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>
 
+                  {/* Card 3: Le Blog Spoolio */}
                   <Link
                     href="/blog"
-                    className="group col-span-2 tombola-inner-box bg-gradient-to-r from-purple-500/15 via-purple-500/5 to-transparent p-4 rounded-2xl border border-purple-500/30 hover:border-purple-400/60 transition-all flex items-center justify-between"
+                    className="group bg-gradient-to-br from-purple-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-purple-400/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="p-2.5 rounded-xl bg-purple-500/20 text-purple-400">
-                        <BookOpen className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h4 className="text-sm font-black text-white dark:text-white light:text-gray-900 group-hover:text-purple-400 transition-colors">
-                            Le Blog Spoolio
-                          </h4>
-                          <span className="bg-purple-500/20 text-purple-400 text-[9px] font-extrabold px-2 py-0.5 rounded-full uppercase no-invert">
-                            📖 ARTICLES & GUIDES
-                          </span>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="p-2 rounded-xl bg-purple-500/20 text-purple-400 group-hover:scale-110 transition-transform">
+                          <BookOpen className="w-5 h-5" />
                         </div>
-                        <p className="text-xs text-gray-400 dark:text-gray-400 light:text-gray-600">
-                          Guides fidgets, conseils concentration, ASMR et coulisses de l'impression 3D.
-                        </p>
+                        <span className="bg-purple-500/20 text-purple-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
+                          📖 GUIDES &amp; ASMR
+                        </span>
                       </div>
+                      <h4 className="text-sm font-black text-white group-hover:text-purple-400 transition-colors font-extrabold">
+                        Le Blog Spoolio
+                      </h4>
+                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
+                        Articles concentration, conseils TDAH, tests sensoriels et coulisses du labo 3D.
+                      </p>
                     </div>
-                    <ArrowUpRight className="w-4 h-4 text-purple-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <div className="flex items-center justify-between text-xs font-black text-purple-400">
+                      <span>Lire les articles</span>
+                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
+                    </div>
+                  </Link>
+
+                  {/* Card 4: FAQ & Support */}
+                  <Link
+                    href="/faq"
+                    className="group bg-gradient-to-br from-emerald-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-emerald-400/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg"
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 group-hover:scale-110 transition-transform">
+                          <HelpCircle className="w-5 h-5" />
+                        </div>
+                        <span className="bg-emerald-500/20 text-emerald-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
+                          ❓ AIDE &amp; LIVRAISON
+                        </span>
+                      </div>
+                      <h4 className="text-sm font-black text-white group-hover:text-emerald-400 transition-colors font-extrabold">
+                        FAQ &amp; Centre d'aide
+                      </h4>
+                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
+                        Questions fréquentes sur la livraison, les retours et les matières de nos objets.
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-between text-xs font-black text-emerald-400">
+                      <span>Consulter la FAQ</span>
+                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
+                    </div>
                   </Link>
                 </div>
               )}
