@@ -50,7 +50,7 @@ const DEFAULT_SLIDES: HeroSlide[] = [
 ];
 
 const DEFAULT_HERO = {
-  topBadgeText: "🟢 ATELIER EN ACTION (COMINES 🇫🇷) • PLA BIOSOURCÉ",
+  topBadgeText: "ATELIER EN ACTION (COMINES 🇫🇷) • PLA BIOSOURCÉ",
   title: "LA FOLIE DES FIDGETS SENSORIELS ⚡",
   subtitle: "Décompresser, toucher, cliquer : découvrez nos créations 3D originales faites main en France 🌱",
   buttonText: "DÉCOUVRIR LA BOUTIQUE",
