@@ -104,12 +104,23 @@ export default function AnimatedHero({
         {/* Header Navigation Overlay */}
         <Header className="absolute top-0 left-0 right-0 h-20 sm:h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full no-invert" />
 
-        {/* Dynamic Background Mesh Gradients */}
+        {/* Dynamic Background Mesh Gradients & Hero Image */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          {/* Fidgets Background Photo */}
+          <Image
+            src="/images/hero_background.jpg"
+            alt="Spoolio Fidgets Hero Background"
+            fill
+            priority
+            className="object-cover opacity-30 dark:opacity-25 scale-105 filter blur-[1px] no-invert"
+          />
+          {/* Dark Vignette Overlay for Text Legibility */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#070709]/85 via-[#070709]/75 to-[#070709]" />
+
           {/* Main Orange Aura Glow */}
-          <div className="absolute top-[-10%] right-[-5%] w-[650px] h-[650px] rounded-full bg-[#ff4f00]/15 blur-[150px] animate-pulse" />
+          <div className="absolute top-[-10%] right-[-5%] w-[650px] h-[650px] rounded-full bg-[#ff4f00]/20 blur-[150px] animate-pulse" />
           {/* Cyan Secondary Glow */}
-          <div className="absolute bottom-[-10%] left-[-5%] w-[550px] h-[550px] rounded-full bg-cyan-500/10 blur-[150px]" />
+          <div className="absolute bottom-[-10%] left-[-5%] w-[550px] h-[550px] rounded-full bg-cyan-500/15 blur-[150px]" />
           {/* Grid pattern overlay */}
           <div 
             className="absolute inset-0 opacity-[0.03]" 
@@ -123,12 +134,12 @@ export default function AnimatedHero({
           {/* Left Column: Headlines & Action CTA */}
           <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left space-y-6 max-w-2xl">
             
-            {/* Top Eco Status Pill */}
+            {/* Top Eco Status Pill (Hidden on mobile for clean hero) */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-[11px] font-mono font-extrabold text-neutral-200 tracking-wide shadow-lg"
+              className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md text-[11px] font-mono font-extrabold text-neutral-200 tracking-wide shadow-lg"
             >
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping shrink-0" />
               <span>{topBadgeText || "FABRICATION ARTISANALE À COMINES (59) • PLA BIOSOURCÉ 🌱"}</span>
@@ -191,7 +202,7 @@ export default function AnimatedHero({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex items-center gap-3 pt-3 text-xs text-neutral-400 font-sans"
+              className="flex items-center gap-3 pt-3 mb-8 sm:mb-0 text-xs text-neutral-400 font-sans"
             >
               <div className="flex -space-x-2">
                 <div className="flex h-7 w-7 items-center justify-center rounded-full ring-2 ring-neutral-900 bg-orange-500 text-white font-black text-[11px] leading-none shrink-0">C</div>
