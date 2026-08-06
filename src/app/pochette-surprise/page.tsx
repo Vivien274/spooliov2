@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import HolographicTiltCard from "@/components/HolographicTiltCard";
 
 // Dynamic import for heavy interactive configurator component to optimize initial JS bundle
 const MysteryPackConfigurator = dynamic(
@@ -57,37 +58,43 @@ export default function PochetteSurprisePage() {
         {/* Dedicated Bento Mystery Pack Configurator Component */}
         <MysteryPackConfigurator className="w-full mb-12" />
 
-        {/* Reassurance Badges Row */}
+        {/* Reassurance Badges Row with Holographic Tilt Cards */}
         <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 border-t border-neutral-800 text-center font-[family-name:var(--font-plus-jakarta)]">
-          <div className="p-4 rounded-2xl reassurance-card bg-neutral-900/60 border border-neutral-800 shadow-sm flex flex-col items-center gap-2">
-            <span className="text-2xl">🌱</span>
-            <span className="text-xs font-bold text-white uppercase tracking-wide">
-              Matière Biosourcée
-            </span>
-            <span className="text-[11px] text-gray-400">
-              Imprimé en PLA à base d'amidon de maïs sans pétrole.
-            </span>
-          </div>
+          <HolographicTiltCard className="rounded-2xl">
+            <div className="p-5 h-full rounded-2xl reassurance-card bg-neutral-900/80 border border-neutral-800 shadow-lg flex flex-col items-center gap-2">
+              <span className="text-3xl">🌱</span>
+              <span className="text-xs font-bold text-white uppercase tracking-wide">
+                Matière Biosourcée
+              </span>
+              <span className="text-[11px] text-gray-400 leading-relaxed">
+                Imprimé en PLA à base d'amidon de maïs sans pétrole.
+              </span>
+            </div>
+          </HolographicTiltCard>
 
-          <div className="p-4 rounded-2xl reassurance-card bg-neutral-900/60 border border-neutral-800 shadow-sm flex flex-col items-center gap-2">
-            <span className="text-2xl">⚡</span>
-            <span className="text-xs font-bold text-white uppercase tracking-wide">
-              Sélection Sur-Mesure
-            </span>
-            <span className="text-[11px] text-gray-400">
-              Dose librement tes figurines, fidgets et gadgets préférés.
-            </span>
-          </div>
+          <HolographicTiltCard className="rounded-2xl">
+            <div className="p-5 h-full rounded-2xl reassurance-card bg-neutral-900/80 border border-neutral-800 shadow-lg flex flex-col items-center gap-2">
+              <span className="text-3xl">⚡</span>
+              <span className="text-xs font-bold text-white uppercase tracking-wide">
+                Sélection Sur-Mesure
+              </span>
+              <span className="text-[11px] text-gray-400 leading-relaxed">
+                Dose librement tes figurines, fidgets et gadgets préférés.
+              </span>
+            </div>
+          </HolographicTiltCard>
 
-          <div className="p-4 rounded-2xl reassurance-card bg-neutral-900/60 border border-neutral-800 shadow-sm flex flex-col items-center gap-2">
-            <span className="text-2xl">📍</span>
-            <span className="text-xs font-bold text-white uppercase tracking-wide">
-              Atelier Français (59560)
-            </span>
-            <span className="text-[11px] text-gray-400">
-              Fabrication artisanale & expédition soignée depuis Comines.
-            </span>
-          </div>
+          <HolographicTiltCard className="rounded-2xl">
+            <div className="p-5 h-full rounded-2xl reassurance-card bg-neutral-900/80 border border-neutral-800 shadow-lg flex flex-col items-center gap-2">
+              <span className="text-3xl">📍</span>
+              <span className="text-xs font-bold text-white uppercase tracking-wide">
+                Atelier Français (59560)
+              </span>
+              <span className="text-[11px] text-gray-400 leading-relaxed">
+                Fabrication artisanale &amp; expédition soignée depuis Comines.
+              </span>
+            </div>
+          </HolographicTiltCard>
         </div>
       </main>
 

@@ -7,6 +7,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReviewsSection from "@/components/ReviewsSection";
 import HomeLoader from "@/components/HomeLoader";
+import CurvedTextScrollAnimation from "@/components/CurvedTextScrollAnimation";
+import SpotlightMarqueeBanner from "@/components/SpotlightMarqueeBanner";
 import { prisma } from "@/lib/prisma";
 import fs from "fs";
 import path from "path";
@@ -369,6 +371,9 @@ export default async function HomePage() {
           </Link>
         </div>
 
+        {/* Curved Text Path Scroll Animation (CodeFronts style) */}
+        <CurvedTextScrollAnimation />
+
         {/* Section 3: Tout le Catalogue */}
         <div className="flex flex-col gap-6 font-sans">
           <div className="flex items-center gap-3 pb-2 border-b border-white/5">
@@ -609,6 +614,11 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Spotlight Marquee Banner */}
+      <section className="w-full max-w-[1200px] px-4 relative z-10">
+        <SpotlightMarqueeBanner />
       </section>
 
       {/* 6. Bottom Showcase Cards */}

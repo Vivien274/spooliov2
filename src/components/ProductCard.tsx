@@ -33,30 +33,48 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, compact = false, priority = false }: ProductCardProps) {
   const [tiltStyle, setTiltStyle] = useState<React.CSSProperties>({});
+  const [shineStyle, setShineStyle] = useState<{ opacity: number; background: string }>({
+    opacity: 0,
+    background: "",
+  });
   const [isButtonHovered, setIsButtonHovered] = useState(false);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const card = e.currentTarget;
     const box = card.getBoundingClientRect();
-    const x = e.clientX - box.left - box.width / 2;
-    const y = e.clientY - box.top - box.height / 2;
+    const x = e.clientX - box.left;
+    const y = e.clientY - box.top;
+    const centerX = box.width / 2;
+    const centerY = box.height / 2;
     
-    // Max tilt angle of 8 degrees
-    const rotateX = -(y / (box.height / 2)) * 8;
-    const rotateY = (x / (box.width / 2)) * 8;
+    // Max tilt angle of 10 degrees
+    const percentX = (x - centerX) / centerX;
+    const percentY = (y - centerY) / centerY;
+    const rotateX = -percentY * 10;
+    const rotateY = percentX * 10;
     
+    const angle = Math.atan2(percentY, percentX) * (180 / Math.PI) + 90;
+    const shineX = (percentX * 50 + 50).toFixed(1);
+    const shineY = (percentY * 50 + 50).toFixed(1);
+
     setTiltStyle({
-      transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`,
+      transform: `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`,
       transition: "transform 0.05s ease-out",
-      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4)"
+      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4)",
+    });
+
+    setShineStyle({
+      opacity: 0.6,
+      background: `radial-gradient(circle at ${shineX}% ${shineY}%, rgba(255,79,0,0.35) 0%, transparent 60%), linear-gradient(${angle}deg, rgba(255, 0, 128, 0.25) 0%, rgba(0, 240, 255, 0.25) 33%, rgba(255, 230, 0, 0.25) 66%, rgba(160, 32, 240, 0.25) 100%)`,
     });
   };
 
   const handleMouseLeave = () => {
     setTiltStyle({
       transform: "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
-      transition: "transform 0.5s ease"
+      transition: "transform 0.5s ease",
     });
+    setShineStyle((prev) => ({ ...prev, opacity: 0 }));
   };
 
   const hasImage = !!product.images[0]?.src;
@@ -104,6 +122,15 @@ export default function ProductCard({ product, compact = false, priority = false
         style={tiltStyle}
         className="group relative flex flex-col aspect-square w-full bg-spoolio-card border border-spoolio-border rounded-[28px] overflow-hidden transition-all duration-300 hover:border-white shadow-lg shadow-black/30 card-holographic"
       >
+        {/* Holographic Refractive Layer */}
+        <div
+          className="absolute inset-0 rounded-[inherit] pointer-events-none z-20 transition-opacity duration-300 mix-blend-color-dodge overflow-hidden"
+          style={{
+            opacity: shineStyle.opacity,
+            background: shineStyle.background,
+          }}
+        />
+
         {/* Full Image background */}
         {hasImage ? (
           <Image
@@ -117,7 +144,7 @@ export default function ProductCard({ product, compact = false, priority = false
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-spoolio-card/85 text-gray-600">
             <svg className="w-10 h-10 mb-2 text-spoolio-border/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
             <span className="text-[9px] uppercase font-bold tracking-widest text-gray-500">Spoolio 3D</span>
           </div>
@@ -153,6 +180,15 @@ export default function ProductCard({ product, compact = false, priority = false
       style={tiltStyle}
       className="group relative flex flex-col justify-between h-full bg-spoolio-card border border-[#1f1f23] rounded-[30px] overflow-hidden transition-all duration-300 hover:border-white shadow-lg shadow-black/30 card-holographic"
     >
+      {/* Holographic Refractive Layer */}
+      <div
+        className="absolute inset-0 rounded-[inherit] pointer-events-none z-20 transition-opacity duration-300 mix-blend-color-dodge overflow-hidden"
+        style={{
+          opacity: shineStyle.opacity,
+          background: shineStyle.background,
+        }}
+      />
+
       <div className="flex flex-col">
         {/* Image Container with square aspect ratio - flush with edges */}
         <div className="relative w-full aspect-square bg-black/20 border-b border-spoolio-border/30">
@@ -168,7 +204,7 @@ export default function ProductCard({ product, compact = false, priority = false
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-spoolio-card/85 text-gray-600">
               <svg className="w-10 h-10 mb-2 text-spoolio-border/80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <span className="text-[9px] uppercase font-bold tracking-widest text-gray-500">Spoolio 3D</span>
             </div>
