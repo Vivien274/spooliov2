@@ -476,8 +476,6 @@ export default function Header({
             onOpenSearch={() => setIsSearchOpen(true)}
             theme={theme}
             toggleTheme={toggleTheme}
-            locale={locale}
-            setLocale={setLocale}
             t={t}
           />,
           document.body
