@@ -313,11 +313,27 @@ export default function AdminDashboard() {
     }
   };
 
+  // Theme stats state
+  const [themeStats, setThemeStats] = useState<{ lightThemeToggles: number; darkThemeToggles: number; lastToggleAt?: string } | null>(null);
+
+  const fetchThemeStats = async () => {
+    try {
+      const res = await fetch("/api/analytics/theme");
+      if (res.ok) {
+        const data = await res.json();
+        setThemeStats(data);
+      }
+    } catch (e) {
+      console.error("Failed to load theme stats:", e);
+    }
+  };
+
   useEffect(() => {
     fetchOrders();
     fetchVisitsStats();
     fetchPrinters();
     fetchDonationTiersCount();
+    fetchThemeStats();
   }, []);
 
   const handleUpdateStatus = async (orderId: string, newStatus: string) => {
@@ -670,12 +686,13 @@ export default function AdminDashboard() {
           ) : (
             <>
               {/* Analytics KPIs Row */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 {[
                   { label: "Visites totales", value: visitsStats.totalVisits.toString(), desc: "De tous les temps" },
                   { label: "Visites aujourd'hui", value: visitsStats.todayVisits.toString(), desc: "Pages consultées" },
                   { label: "Visiteurs uniques (Jour)", value: visitsStats.uniqueToday.toString(), desc: "IPs anonymisées" },
                   { label: "Visiteurs uniques (Semaine)", value: visitsStats.uniqueWeek.toString(), desc: "Tendance 7 jours" },
+                  { label: "☀️ Thème Clair", value: themeStats ? themeStats.lightThemeToggles.toString() : "...", desc: "Passages au mode clair" },
                 ].map((kpi) => (
                   <div key={kpi.label} className={`${cls.cardBg} border ${cls.border} rounded-2xl p-4 flex flex-col gap-1 transition-colors duration-300`}>
                     <span className={`text-[11px] ${cls.textFaint} uppercase tracking-widest font-semibold`}>{kpi.label}</span>

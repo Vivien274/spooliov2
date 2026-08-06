@@ -9,6 +9,7 @@ import { useTranslation } from "@/context/LanguageContext";
 import MotionNavigationMenu from "@/components/MotionNavigationMenu";
 import MobileMenuDrawer from "@/components/MobileMenuDrawer";
 
+import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
 
 interface HeaderProps {
@@ -130,7 +131,8 @@ export default function Header({
   }, [searchQuery]);
 
   const toggleTheme = () => {
-    if (theme === "dark") {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    if (nextTheme === "light") {
       document.documentElement.classList.add("light");
       document.documentElement.classList.remove("dark");
       localStorage.setItem("theme", "light");
@@ -141,14 +143,39 @@ export default function Header({
       localStorage.setItem("theme", "dark");
       setTheme("dark");
     }
+
+    // Fire & forget theme tracking POST request
+    fetch("/api/analytics/theme", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ theme: nextTheme }),
+    }).catch(() => {});
   };
 
   return (
-    <header className={`sticky top-0 z-[99999] w-full transition-all duration-300 ${isSticky
-        ? "bg-[#131316]/90 dark:bg-[#131316]/90 light:bg-white/95 backdrop-blur-md border-b border-white/10 light:border-gray-200 shadow-xl"
-        : "bg-transparent border-b border-transparent"
+    <header className={`sticky top-0 z-[99999] w-full transition-all duration-500 relative overflow-hidden ${isSticky
+        ? "bg-[#0e0e12]/90 dark:bg-[#0e0e12]/90 light:bg-white/95 backdrop-blur-xl border-b border-[#005cff]/30 shadow-[0_4px_30px_rgba(0,92,255,0.14)]"
+        : "bg-transparent border-b border-white/5"
       }`}>
-      <div className={`mx-auto w-full flex items-center justify-between transition-all duration-300 ${isSticky
+      {/* Permanent Soft Floating Neon Halo Auras in Header */}
+      <motion.div
+        animate={{
+          x: [0, 30, -20, 0],
+          y: [0, -15, 10, 0],
+        }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -top-16 left-1/4 w-80 h-32 rounded-full bg-[#005cff]/06 blur-3xl pointer-events-none hidden dark:block"
+      />
+      <motion.div
+        animate={{
+          x: [0, -25, 20, 0],
+          y: [0, 15, -10, 0],
+        }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -top-16 right-1/4 w-80 h-32 rounded-full bg-[#2F3CD9]/06 blur-3xl pointer-events-none hidden dark:block"
+      />
+
+      <div className={`mx-auto w-full flex items-center justify-between transition-all duration-300 relative z-10 ${isSticky
           ? "h-16 md:h-20 px-6 md:px-12 max-w-7xl"
           : "h-24 px-6 max-w-[1200px]"
         }`}>
