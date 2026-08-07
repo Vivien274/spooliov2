@@ -151,8 +151,7 @@ export default function CartDrawer() {
               </button>
             </div>
           ) : (
-            <>
-              <div className="space-y-3.5">
+            <div className="space-y-3.5">
                 {cartItems.map((item) => (
                   <div
                     key={item.id}
@@ -269,38 +268,6 @@ export default function CartDrawer() {
                   </div>
                 ))}
               </div>
-
-              {/* NFC Badge Upsell Card */}
-              {!cartItems.some(i => i.slug === "badge-nfc-sos") && (
-                <div className="mt-3 p-3.5 rounded-2xl bg-gradient-to-r from-[#2F3CD9]/20 via-[#ff4f00]/15 to-transparent border border-[#ff4f00]/30 flex items-center justify-between gap-3 shadow-lg">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2F3CD9] to-[#ff4f00] text-white flex items-center justify-center text-lg shadow-md shrink-0">
-                      🏷️
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-1.5">
-                        <h4 className="text-xs font-black text-white">Badge NFC & Fiche SOS</h4>
-                        <span className="text-[9px] font-black uppercase px-1.5 py-0.2 rounded bg-[#ff4f00] text-black">+3,90€</span>
-                      </div>
-                      <p className="text-[10px] text-gray-300">Puce encodée pour sécurité enfant, animal ou pass</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => addToCart({
-                      productId: 9991,
-                      name: "Badge NFC & Profil SOS",
-                      slug: "badge-nfc-sos",
-                      price: "3.90",
-                      selectedOptions: { "Option": "Puce Encodée + Profil SOS" },
-                      image: "/images/hero_background.jpg"
-                    }, 1, false)}
-                    className="px-3 py-1.5 bg-[#ff4f00] hover:bg-[#ff6600] text-black font-extrabold text-[10px] uppercase tracking-wider rounded-xl transition-all shadow-md shrink-0 cursor-pointer"
-                  >
-                    + Ajouter
-                  </button>
-                </div>
-              )}
-            </>
           )}
         </div>
 

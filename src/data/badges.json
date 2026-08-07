@@ -1,0 +1,28 @@
+[
+  {
+    "id": "badge-demo-01",
+    "token": "DEMO123",
+    "claim_code": "123456",
+    "nfc_encoded_at": "2026-08-07T08:52:00.426Z",
+    "password_hash": null,
+    "type": "festivalier",
+    "is_claimed": true,
+    "data": {
+      "prenom": "Alex",
+      "intro": "Passionné d'impression 3D & Fidgets Spoolio !",
+      "contact1_nom": "Marie (Proche)",
+      "contact1_tel": "06 12 34 56 78",
+      "contact2_nom": "Thomas (Frère)",
+      "contact2_tel": "06 98 76 54 32",
+      "infos_medicales": "Aucune allergie connue",
+      "groupe_sanguin": "O+",
+      "camping": "Zone A - Stand Spoolio",
+      "langues": "Français, Anglais",
+      "message": "Scannez ce badge pour m'identifier !"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-08-07T08:52:00.426Z",
+    "updated_at": "2026-08-07T08:52:00.426Z"
+  }
+]
