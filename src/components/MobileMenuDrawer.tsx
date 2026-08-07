@@ -24,6 +24,7 @@ import {
   Moon,
   ChevronDown,
   Layers,
+  ShieldCheck,
 } from "lucide-react";
 
 interface MobileMenuDrawerProps {
@@ -297,6 +298,22 @@ export default function MobileMenuDrawer({
                     <span>Animaux &amp; Figurines</span>
                   </span>
                   <ChevronRight className="mobile-drawer-arrow w-4 h-4 text-gray-400" />
+                </Link>
+
+                <Link
+                  href="/medaillon-nfc-chien-chat"
+                  onClick={onClose}
+                  className="mobile-drawer-link min-h-[48px] px-3.5 py-2.5 rounded-xl bg-[#ff4f00]/10 dark:bg-[#ff4f00]/15 hover:bg-[#ff4f00]/20 border border-[#ff4f00]/30 flex items-center justify-between text-xs sm:text-sm font-bold text-gray-900 dark:text-white transition-all active:scale-[0.99]"
+                >
+                  <span className="flex items-center gap-3">
+                    <div className="p-1.5 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00]">
+                      <ShieldCheck className="w-4 h-4" />
+                    </div>
+                    <span>Médaillons NFC Chien, Chat &amp; Enfant</span>
+                  </span>
+                  <span className="text-[9px] font-black px-2 py-0.5 rounded-md bg-[#ff4f00] text-white no-invert">
+                    SOS
+                  </span>
                 </Link>
               </div>
             )}

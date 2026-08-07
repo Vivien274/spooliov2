@@ -20,6 +20,7 @@ import {
   BookOpen,
   HelpCircle,
   Shapes,
+  ShieldCheck,
 } from "lucide-react";
 
 interface MenuItem {
@@ -291,6 +292,27 @@ export default function MotionNavigationMenu() {
                           </div>
                         </div>
                         <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                      </Link>
+
+                      <Link
+                        href="/medaillon-nfc-chien-chat"
+                        className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-[#ff4f00]/30 transition-all bg-[#ff4f00]/5"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00]">
+                            <ShieldCheck className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <h5 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
+                              <span>Médaillons NFC Chien, Chat &amp; Enfant</span>
+                              <span className="text-[9px] font-black uppercase px-1.5 py-0.2 rounded bg-[#ff4f00] text-black">SOS</span>
+                            </h5>
+                            <p className="text-[11px] text-gray-400">
+                              Sécurité animaux &amp; porte-clés SOS
+                            </p>
+                          </div>
+                        </div>
+                        <ArrowUpRight className="w-3.5 h-3.5 text-[#ff4f00] group-hover:translate-x-0.5 transition-all" />
                       </Link>
                     </div>
                   </div>
