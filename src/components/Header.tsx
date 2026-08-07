@@ -202,7 +202,23 @@ export default function Header({
         </div>
 
         {/* Logo */}
-        <Link href="/" className="relative z-50 flex items-center gap-2 group">
+        <Link
+          href="/"
+          onClick={(e) => {
+            if (typeof window !== "undefined") {
+              const clicks = (window as any)._spoolioLogoClicks = ((window as any)._spoolioLogoClicks || 0) + 1;
+              if (clicks >= 3) {
+                window.dispatchEvent(new CustomEvent("unlock-spooly"));
+                (window as any)._spoolioLogoClicks = 0;
+              } else {
+                setTimeout(() => {
+                  (window as any)._spoolioLogoClicks = 0;
+                }, 1500);
+              }
+            }
+          }}
+          className="relative z-50 flex items-center gap-2 group cursor-pointer"
+        >
           <Image
             src="/images/logo.png"
             alt="Spoolio Logo"

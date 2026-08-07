@@ -154,7 +154,7 @@
       "badge": "Populaire",
       "soundLabel": "🔊 Clic Aigu",
       "desc": "Clic aigu, franc et très satisfaisant",
-      "inStock": false
+      "inStock": true
     },
     {
       "id": "brown",
@@ -162,7 +162,7 @@
       "badge": "Bureau",
       "soundLabel": "🔉 Clic Net",
       "desc": "Bosse tactile nette sans bruit aigu fort",
-      "inStock": false
+      "inStock": true
     },
     {
       "id": "red",

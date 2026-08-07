@@ -128,6 +128,31 @@ export default function AdminClickersPage() {
   const [activeTab, setActiveTab] = useState<"shapes" | "colors" | "switches" | "icons" | "attachments" | "gallery" | "orders">("shapes");
   const [savedMessage, setSavedMessage] = useState<boolean>(false);
 
+  const saveFullConfig = async (overrides?: {
+    shapes?: ShapeConfig[];
+    colors?: ColorConfig[];
+    switches?: SwitchConfig[];
+    icons?: IconConfig[];
+    attachments?: AttachmentConfig[];
+  }) => {
+    const cfgToSave = {
+      shapes: overrides?.shapes ?? shapes,
+      colors: overrides?.colors ?? colors,
+      switches: overrides?.switches ?? switches,
+      icons: overrides?.icons ?? icons,
+      attachments: overrides?.attachments ?? attachments,
+    };
+    try {
+      await fetch("/api/admin/clicker-config", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(cfgToSave),
+      });
+    } catch (e) {
+      console.error("Failed to save clicker config:", e);
+    }
+  };
+
   useEffect(() => {
     fetch("/api/admin/clicker-config")
       .then((res) => res.json())
@@ -147,9 +172,42 @@ export default function AdminClickersPage() {
           });
           setShapes(merged);
         }
-        if (data.colors) setColors(data.colors);
-        if (data.switches) setSwitches(data.switches);
-        if (data.icons) setIcons(data.icons);
+        if (data.colors && Array.isArray(data.colors)) setColors(data.colors);
+
+        if (data.switches && Array.isArray(data.switches)) {
+          const mergedSwitches = INITIAL_SWITCHES.map((base) => {
+            const saved = data.switches.find((s: any) => s.id === base.id);
+            if (saved) {
+              return {
+                ...base,
+                inStock: saved.inStock !== false,
+                name: saved.name || base.name,
+                badge: saved.badge || base.badge,
+                soundLabel: saved.soundLabel || base.soundLabel,
+                desc: saved.desc || base.desc,
+              };
+            }
+            return base;
+          });
+          setSwitches(mergedSwitches);
+        }
+
+        if (data.icons && Array.isArray(data.icons)) {
+          const mergedIcons = INITIAL_ICONS.map((base) => {
+            const saved = data.icons.find((i: any) => i.id === base.id);
+            if (saved) {
+              return {
+                ...base,
+                active: saved.active !== false,
+                name: saved.name || base.name,
+                symbol: saved.symbol !== undefined ? saved.symbol : base.symbol,
+              };
+            }
+            return base;
+          });
+          const customIcons = data.icons.filter((saved: any) => !INITIAL_ICONS.some((base) => base.id === saved.id));
+          setIcons([...mergedIcons, ...customIcons]);
+        }
 
         if (data.attachments && Array.isArray(data.attachments)) {
           const mergedAtts = INITIAL_ATTACHMENTS.map((base) => {
@@ -230,24 +288,13 @@ export default function AdminClickersPage() {
     const updated = [...colors, newColor];
     setColors(updated);
     setNewColorName("");
-
-    // Auto save colors
-    fetch("/api/admin/clicker-config", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ shapes, colors: updated, switches, icons, attachments }),
-    });
+    saveFullConfig({ colors: updated });
   };
 
   const handleDeleteColor = (id: string) => {
     const updated = colors.filter(c => c.id !== id);
     setColors(updated);
-
-    fetch("/api/admin/clicker-config", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ shapes, colors: updated, switches, icons, attachments }),
-    });
+    saveFullConfig({ colors: updated });
   };
 
   const uploadImageFile = async (file: File): Promise<string | null> => {
@@ -332,9 +379,11 @@ export default function AdminClickersPage() {
       symbol: newIconSymbol.trim(),
       active: true,
     };
-    setIcons(prev => [...prev, newIcon]);
+    const updated = [...icons, newIcon];
+    setIcons(updated);
     setNewIconName("");
     setNewIconSymbol("");
+    saveFullConfig({ icons: updated });
   };
 
   const handleAddPhoto = () => {
@@ -518,7 +567,9 @@ export default function AdminClickersPage() {
                       onChange={(e) => {
                         const raw = e.target.value;
                         const val = raw === "" ? 0 : parseFloat(raw);
-                        setShapes(prev => prev.map((s, i) => i === idx ? { ...s, price: isNaN(val) ? 0 : val } : s));
+                        const updated = shapes.map((s, i) => i === idx ? { ...s, price: isNaN(val) ? 0 : val } : s);
+                        setShapes(updated);
+                        saveFullConfig({ shapes: updated });
                       }}
                       className={`w-24 px-3 py-1.5 text-xs font-bold rounded-xl border ${cls.border} ${cls.inputBg} focus:outline-none focus:border-[#2F3CD9]`}
                     />
@@ -530,7 +581,9 @@ export default function AdminClickersPage() {
                       checked={shape.active}
                       onChange={(e) => {
                         const checked = e.target.checked;
-                        setShapes(prev => prev.map((s, i) => i === idx ? { ...s, active: checked } : s));
+                        const updated = shapes.map((s, i) => i === idx ? { ...s, active: checked } : s);
+                        setShapes(updated);
+                        saveFullConfig({ shapes: updated });
                       }}
                       className="w-4 h-4 accent-[#2F3CD9] rounded"
                     />
@@ -582,7 +635,9 @@ export default function AdminClickersPage() {
                       checked={sw.inStock}
                       onChange={(e) => {
                         const checked = e.target.checked;
-                        setSwitches(prev => prev.map((s, i) => i === idx ? { ...s, inStock: checked } : s));
+                        const updated = switches.map((s, i) => i === idx ? { ...s, inStock: checked } : s);
+                        setSwitches(updated);
+                        saveFullConfig({ switches: updated });
                       }}
                       className="w-4 h-4 accent-[#2F3CD9] rounded"
                     />
@@ -706,7 +761,9 @@ export default function AdminClickersPage() {
                       onChange={(e) => {
                         const raw = e.target.value;
                         const val = raw === "" ? 0 : parseFloat(raw);
-                        setAttachments(prev => prev.map((a, i) => i === idx ? { ...a, price: isNaN(val) ? 0 : val } : a));
+                        const updated = attachments.map((a, i) => i === idx ? { ...a, price: isNaN(val) ? 0 : val } : a);
+                        setAttachments(updated);
+                        saveFullConfig({ attachments: updated });
                       }}
                       className={`w-24 px-3 py-1.5 text-xs font-bold rounded-xl border ${cls.border} ${cls.inputBg} focus:outline-none focus:border-[#2F3CD9]`}
                     />
@@ -718,7 +775,9 @@ export default function AdminClickersPage() {
                       checked={att.inStock}
                       onChange={(e) => {
                         const checked = e.target.checked;
-                        setAttachments(prev => prev.map((a, i) => i === idx ? { ...a, inStock: checked } : a));
+                        const updated = attachments.map((a, i) => i === idx ? { ...a, inStock: checked } : a);
+                        setAttachments(updated);
+                        saveFullConfig({ attachments: updated });
                       }}
                       className="w-4 h-4 accent-[#2F3CD9] rounded"
                     />
@@ -800,7 +859,9 @@ export default function AdminClickersPage() {
                       value={color.name}
                       onChange={(e) => {
                         const newName = e.target.value;
-                        setColors(prev => prev.map((c, i) => i === idx ? { ...c, name: newName } : c));
+                        const updated = colors.map((c, i) => i === idx ? { ...c, name: newName } : c);
+                        setColors(updated);
+                        saveFullConfig({ colors: updated });
                       }}
                       className={`w-full px-2 py-1 text-xs font-bold rounded-lg border ${cls.border} ${cls.inputBg} focus:outline-none focus:border-[#2F3CD9]`}
                     />
@@ -815,7 +876,9 @@ export default function AdminClickersPage() {
                       checked={color.inStock}
                       onChange={(e) => {
                         const checked = e.target.checked;
-                        setColors(prev => prev.map((c, i) => i === idx ? { ...c, inStock: checked } : c));
+                        const updated = colors.map((c, i) => i === idx ? { ...c, inStock: checked } : c);
+                        setColors(updated);
+                        saveFullConfig({ colors: updated });
                       }}
                       className="w-4 h-4 accent-[#2F3CD9] rounded"
                     />

@@ -14,6 +14,7 @@ const CartDrawer = dynamic(() => import("@/components/CartDrawer"));
 const CookieBanner = dynamic(() => import("@/components/CookieBanner"));
 const NewsletterPopup = dynamic(() => import("@/components/NewsletterPopup"));
 const TombolaFloatingBanner = dynamic(() => import("@/components/TombolaFloatingBanner"));
+const SpoolioBotMascot = dynamic(() => import("@/components/SpoolioBotMascot"));
 
 const antonio = Antonio({
   variable: "--font-antonio",
@@ -124,6 +125,7 @@ export default function RootLayout({
             <CookieBanner />
             <NewsletterPopup />
             <TombolaFloatingBanner />
+            <SpoolioBotMascot />
             <main className="flex-1 flex flex-col">
               {children}
             </main>
