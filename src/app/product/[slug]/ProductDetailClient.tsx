@@ -31,6 +31,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [quantity, setQuantity] = useState<number>(1);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
+  const [includeNfcBadge, setIncludeNfcBadge] = useState(false);
 
   // Force scroll to top when page loaded or product slug changes
   useEffect(() => {
@@ -1435,6 +1436,27 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
 
 
 
+            {/* NFC Badge Addon Option Checkbox */}
+            <div className="mb-4 p-3.5 rounded-2xl bg-gradient-to-r from-[#2F3CD9]/15 via-[#ff4f00]/10 to-transparent border border-[#ff4f00]/30 flex items-center justify-between gap-3 shadow-md font-sans">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="nfc-badge-addon"
+                  checked={includeNfcBadge}
+                  onChange={(e) => setIncludeNfcBadge(e.target.checked)}
+                  className="w-4 h-4 rounded text-[#ff4f00] focus:ring-0 bg-black/50 border-white/20 cursor-pointer"
+                />
+                <label htmlFor="nfc-badge-addon" className="cursor-pointer select-none">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-extrabold text-white">Option Puce NFC & Profil SOS Encodé</span>
+                    <span className="text-[9px] font-black uppercase px-1.5 py-0.2 rounded bg-[#ff4f00] text-black">+3,90€</span>
+                  </div>
+                  <p className="text-[10px] text-gray-400">Insérer une puce encodée pour porte-clés, médailles & pass</p>
+                </label>
+              </div>
+              <span className="text-xl">🏷️</span>
+            </div>
+
             {/* Call to action with Quantity Selector */}
             <div className="flex items-center gap-4">
               {/* Quantity Selector */}
@@ -1468,7 +1490,31 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                 </button>
               ) : (
                 <button
-                  onClick={handleAddToCartClick}
+                  onClick={() => {
+                    if (!product) return;
+                    addToCart({
+                      productId: product.id,
+                      name: product.name,
+                      slug: product.slug,
+                      price: currentPrice.toString(),
+                      selectedOptions,
+                      image: product.images?.[0]?.src || "/images/hero_background.jpg",
+                    }, quantity);
+
+                    if (includeNfcBadge) {
+                      addToCart({
+                        productId: 9991,
+                        name: "Badge NFC & Profil SOS",
+                        slug: "badge-nfc-sos",
+                        price: "3.90",
+                        selectedOptions: { "Option": "Puce Encodée + Profil SOS" },
+                        image: "/images/hero_background.jpg"
+                      }, quantity, false);
+                    }
+
+                    setIsAdded(true);
+                    setTimeout(() => setIsAdded(false), 2000);
+                  }}
                   onMouseEnter={() => setIsButtonHovered(true)}
                   onMouseLeave={() => setIsButtonHovered(false)}
                   className={`flex-1 h-14 flex items-center justify-center gap-2 text-sm font-bold text-white rounded-xl transition-all duration-300 shadow-xl cursor-pointer text-center no-invert group ${

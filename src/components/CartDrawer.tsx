@@ -13,6 +13,7 @@ export default function CartDrawer() {
     cartItems,
     isCartOpen,
     setIsCartOpen,
+    addToCart,
     updateQuantity,
     removeFromCart,
     cartTotal,
@@ -150,123 +151,156 @@ export default function CartDrawer() {
               </button>
             </div>
           ) : (
-            <div className="space-y-3.5">
-              {cartItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex items-center gap-4 bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 rounded-2xl p-3.5 transition-all group/item"
-                >
-                  {/* Product Thumbnail */}
-                  <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-white/10 bg-black/40 flex items-center justify-center text-xl shadow-inner">
-                    {item.productId === -1 ? (
-                      <span>🌾</span>
-                    ) : item.productId === -2 ? (
-                      <span>☕</span>
-                    ) : (item.slug === "clicker-mecanique-sur-mesure" || !item.image) && (!item.image || item.image.includes("clicker-sur-mesure-thumb.jpg")) ? (
-                      <span>⌨️</span>
-                    ) : item.image ? (
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        fill
-                        sizes="70px"
-                        className="object-cover group-hover/item:scale-105 transition-transform duration-300 no-invert"
-                      />
-                    ) : (
-                      <span>⌨️</span>
-                    )}
-                  </div>
-
-                  {/* Info & Options */}
-                  <div className="flex-1 flex flex-col min-w-0">
-                    <h4 className="text-xs font-extrabold text-white truncate leading-snug">
-                      {item.slug === "tombola" ? (
-                        <Link href="/tombola" onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
-                          {item.name}
-                        </Link>
-                      ) : item.slug === "clicker-mecanique-sur-mesure" ? (
-                        <Link href={item.selectedOptions._configUrl || "/createur-cliqueur"} onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
-                          {item.name}
-                        </Link>
-                      ) : item.productId < 0 ? (
-                        <span>{item.name}</span>
+            <>
+              <div className="space-y-3.5">
+                {cartItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex items-center gap-4 bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 rounded-2xl p-3.5 transition-all group/item"
+                  >
+                    {/* Product Thumbnail */}
+                    <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-white/10 bg-black/40 flex items-center justify-center text-xl shadow-inner">
+                      {item.productId === -1 ? (
+                        <span>🌾</span>
+                      ) : item.productId === -2 ? (
+                        <span>☕</span>
+                      ) : (item.slug === "clicker-mecanique-sur-mesure" || !item.image) && (!item.image || item.image.includes("clicker-sur-mesure-thumb.jpg")) ? (
+                        <span>⌨️</span>
+                      ) : item.image ? (
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          sizes="70px"
+                          className="object-cover group-hover/item:scale-105 transition-transform duration-300 no-invert"
+                        />
                       ) : (
-                        <Link href={`/product/${item.slug}`} onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
-                          {item.name}
-                        </Link>
+                        <span>⌨️</span>
                       )}
-                    </h4>
-                    
-                    {/* Selected Options list */}
-                    {Object.keys(item.selectedOptions).length > 0 && (
-                      <div className="flex flex-wrap gap-x-2 gap-y-0.5 mt-1">
-                        {Object.entries(item.selectedOptions)
-                          .filter(([key]) => !key.startsWith("_"))
-                          .map(([key, val]) => (
-                            <span key={key} className="text-[9px] font-bold text-gray-400 font-sans uppercase">
-                              {key}: <span className="text-gray-200">{val}</span>
-                            </span>
-                          ))}
-                      </div>
-                    )}
+                    </div>
 
-                    {/* Edit Custom Clicker Link */}
-                    {item.slug === "clicker-mecanique-sur-mesure" && (
-                      <Link
-                        href={item.selectedOptions._configUrl || "/createur-cliqueur"}
-                        onClick={() => setIsCartOpen(false)}
-                        className="inline-flex items-center gap-1 text-[10px] font-bold text-[#ff4f00] hover:underline mt-1"
-                      >
-                        <span>✏️ Modifier la création 3D</span>
-                      </Link>
-                    )}
-
-                    {/* Quantity & Price Row */}
-                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/5">
-                      {item.productId < 0 ? (
-                        <span className="text-[9px] font-extrabold text-emerald-400 uppercase tracking-widest font-mono">
-                          🌱 Soutien Atelier
-                        </span>
-                      ) : (
-                        <div className="flex items-center bg-black/60 border border-white/10 rounded-lg h-7 px-1 gap-1">
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-white rounded active:scale-90 transition-all cursor-pointer"
-                            title="Diminuer"
-                          >
-                            <Minus className="w-3 h-3" />
-                          </button>
-                          <span className="w-5 text-center font-black text-xs text-white">
-                            {item.quantity}
-                          </span>
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-white rounded active:scale-90 transition-all cursor-pointer"
-                            title="Augmenter"
-                          >
-                            <Plus className="w-3 h-3" />
-                          </button>
+                    {/* Info & Options */}
+                    <div className="flex-1 flex flex-col min-w-0">
+                      <h4 className="text-xs font-extrabold text-white truncate leading-snug">
+                        {item.slug === "tombola" ? (
+                          <Link href="/tombola" onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
+                            {item.name}
+                          </Link>
+                        ) : item.slug === "clicker-mecanique-sur-mesure" ? (
+                          <Link href={item.selectedOptions._configUrl || "/createur-cliqueur"} onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
+                            {item.name}
+                          </Link>
+                        ) : item.productId < 0 ? (
+                          <span>{item.name}</span>
+                        ) : (
+                          <Link href={`/product/${item.slug}`} onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
+                            {item.name}
+                          </Link>
+                        )}
+                      </h4>
+                      
+                      {/* Selected Options list */}
+                      {Object.keys(item.selectedOptions).length > 0 && (
+                        <div className="flex flex-wrap gap-x-2 gap-y-0.5 mt-1">
+                          {Object.entries(item.selectedOptions)
+                            .filter(([key]) => !key.startsWith("_"))
+                            .map(([key, val]) => (
+                              <span key={key} className="text-[9px] font-bold text-gray-400 font-sans uppercase">
+                                {key}: <span className="text-gray-200">{val}</span>
+                              </span>
+                            ))}
                         </div>
                       )}
 
-                      <span className="text-xs font-black text-white font-antonio tracking-wide">
-                        {(parseFloat(item.price) * item.quantity).toFixed(2)}€
-                      </span>
+                      {/* Edit Custom Clicker Link */}
+                      {item.slug === "clicker-mecanique-sur-mesure" && (
+                        <Link
+                          href={item.selectedOptions._configUrl || "/createur-cliqueur"}
+                          onClick={() => setIsCartOpen(false)}
+                          className="inline-flex items-center gap-1 text-[10px] font-bold text-[#ff4f00] hover:underline mt-1"
+                        >
+                          <span>✏️ Modifier la création 3D</span>
+                        </Link>
+                      )}
+
+                      {/* Price & Quantity Adjuster */}
+                      <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-white/5">
+                        {item.productId < 0 ? (
+                          <span className="text-[10px] font-extrabold text-amber-400 uppercase tracking-wider font-mono">
+                            Qté : {item.quantity}
+                          </span>
+                        ) : (
+                          <div className="flex items-center border border-white/10 rounded-lg bg-black/30 p-0.5">
+                            <button
+                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-white rounded active:scale-90 transition-all cursor-pointer"
+                              title="Réduire"
+                            >
+                              <Minus className="w-3 h-3" />
+                            </button>
+                            <span className="w-6 text-center text-xs font-black text-white font-mono">
+                              {item.quantity}
+                            </span>
+                            <button
+                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-white rounded active:scale-90 transition-all cursor-pointer"
+                              title="Augmenter"
+                            >
+                              <Plus className="w-3 h-3" />
+                            </button>
+                          </div>
+                        )}
+
+                        <span className="text-xs font-black text-white font-antonio tracking-wide">
+                          {(parseFloat(item.price) * item.quantity).toFixed(2)}€
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Remove Item Button */}
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="w-8 h-8 text-gray-500 hover:text-red-400 hover:bg-red-500/10 rounded-xl flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                      title="Retirer"
+                      aria-label="Retirer l'article"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              {/* NFC Badge Upsell Card */}
+              {!cartItems.some(i => i.slug === "badge-nfc-sos") && (
+                <div className="mt-3 p-3.5 rounded-2xl bg-gradient-to-r from-[#2F3CD9]/20 via-[#ff4f00]/15 to-transparent border border-[#ff4f00]/30 flex items-center justify-between gap-3 shadow-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#2F3CD9] to-[#ff4f00] text-white flex items-center justify-center text-lg shadow-md shrink-0">
+                      🏷️
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5">
+                        <h4 className="text-xs font-black text-white">Badge NFC & Fiche SOS</h4>
+                        <span className="text-[9px] font-black uppercase px-1.5 py-0.2 rounded bg-[#ff4f00] text-black">+3,90€</span>
+                      </div>
+                      <p className="text-[10px] text-gray-300">Puce encodée pour sécurité enfant, animal ou pass</p>
                     </div>
                   </div>
-
-                  {/* Remove Item Button */}
                   <button
-                    onClick={() => removeFromCart(item.id)}
-                    className="w-8 h-8 text-gray-500 hover:text-red-400 hover:bg-red-500/10 rounded-xl flex items-center justify-center transition-colors cursor-pointer shrink-0"
-                    title="Retirer"
-                    aria-label="Retirer l'article"
+                    onClick={() => addToCart({
+                      productId: 9991,
+                      name: "Badge NFC & Profil SOS",
+                      slug: "badge-nfc-sos",
+                      price: "3.90",
+                      selectedOptions: { "Option": "Puce Encodée + Profil SOS" },
+                      image: "/images/hero_background.jpg"
+                    }, 1, false)}
+                    className="px-3 py-1.5 bg-[#ff4f00] hover:bg-[#ff6600] text-black font-extrabold text-[10px] uppercase tracking-wider rounded-xl transition-all shadow-md shrink-0 cursor-pointer"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    + Ajouter
                   </button>
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
         </div>
 

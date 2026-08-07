@@ -61,6 +61,15 @@ const navSections: NavSection[] = [
           </svg>
         ),
       },
+      {
+        label: "Badges NFC",
+        href: "/admin/badges",
+        icon: (
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h10a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V9a2 2 0 012-2zm0 0V5a2 2 0 012-2h6a2 2 0 012 2v2" />
+          </svg>
+        ),
+      },
     ],
   },
   {
