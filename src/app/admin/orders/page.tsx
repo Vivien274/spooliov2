@@ -237,6 +237,43 @@ export default function AdminOrdersPage() {
       setResendingEmail(null);
     }
   };
+
+  const [requestReviewLoading, setRequestReviewLoading] = useState<string | null>(null);
+
+  const handleRequestReview = async (order: Order) => {
+    if (!confirm(`Envoyer un e-mail de relance d'avis client (Google + Site) à ${order.customerName || "ce client"} (${order.email}) ?`)) {
+      return;
+    }
+
+    setRequestReviewLoading(order.id);
+    try {
+      const res = await fetch("/api/admin/orders/request-review", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderId: order.id,
+          targetEmail: order.email,
+          customerName: order.customerName,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        alert(`✅ ${data.message}`);
+        setOrders(prev => prev.map(o => o.id === order.id ? { ...o, reviewRequestedAt: data.reviewRequestedAt } as any : o));
+        if (selectedOrder && selectedOrder.id === order.id) {
+          setSelectedOrder(prev => prev ? { ...prev, reviewRequestedAt: data.reviewRequestedAt } as any : null);
+        }
+      } else {
+        alert(`⚠️ ${data.error || "Erreur lors de l'envoi de la relance pour avis."}`);
+      }
+    } catch (err) {
+      alert("Erreur réseau lors de la relance d'avis.");
+    } finally {
+      setRequestReviewLoading(null);
+    }
+  };
+
   const [showCreateModal, setShowCreateModal] = useState<boolean>(false);
   const [createLoading, setCreateLoading] = useState<boolean>(false);
   const [newCustomerName, setNewCustomerName] = useState<string>("");
@@ -544,8 +581,25 @@ export default function AdminOrdersPage() {
     return matchesTab && matchesStatus && matchesSearch;
   });
 
+  // Financial Calculations
+  const totalRevenue = orders.reduce((acc, o) => acc + (o.total || 0), 0);
+  const totalShipping = orders.reduce((acc, o) => acc + (o.shippingCost || 0), 0);
+  const avgOrderValue = orders.length > 0 ? totalRevenue / orders.length : 0;
+  
+  const currentMonth = new Date().getMonth();
+  const currentYear = new Date().getFullYear();
+  const currentMonthOrders = orders.filter((o) => {
+    const d = new Date(o.createdAt);
+    return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
+  });
+  const currentMonthRevenue = currentMonthOrders.reduce((acc, o) => acc + (o.total || 0), 0);
+
+  const totalItemsCount = orders.reduce((acc, o) => {
+    return acc + (o.items ? o.items.reduce((itemAcc, item) => itemAcc + (item.quantity || 1), 0) : 0);
+  }, 0);
+
   return (
-    <div className="max-w-7xl mx-auto space-y-6 font-sans px-4 sm:px-6 lg:px-8">
+    <div className="w-full max-w-[1850px] mx-auto space-y-6 font-sans px-3 sm:px-6 lg:px-8">
       {/* Upper header action section */}
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
         <div>
@@ -579,6 +633,79 @@ export default function AdminOrdersPage() {
           >
             Rafraîchir 🔄
           </button>
+        </div>
+      </div>
+
+      {/* Financial Overview Cards Banner */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3.5">
+        {/* KPI 1: CA Total */}
+        <div className={`${cls.cardBg} border border-emerald-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-emerald-500/50 transition-all`}>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] uppercase font-extrabold tracking-wider text-emerald-400">CA Total Cumulé</span>
+            <span className="text-base">💰</span>
+          </div>
+          <div className="mt-2">
+            <div className="text-2xl font-black font-antonio text-white tracking-tight">
+              {totalRevenue.toFixed(2)}€
+            </div>
+            <span className="text-[10px] text-gray-400 font-medium">Toutes commandes ({orders.length})</span>
+          </div>
+        </div>
+
+        {/* KPI 2: CA Ce Mois-ci */}
+        <div className={`${cls.cardBg} border border-[#ff4f00]/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-[#ff4f00]/50 transition-all`}>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] uppercase font-extrabold tracking-wider text-[#ff4f00]">CA Ce Mois-ci</span>
+            <span className="text-base">📅</span>
+          </div>
+          <div className="mt-2">
+            <div className="text-2xl font-black font-antonio text-white tracking-tight">
+              {currentMonthRevenue.toFixed(2)}€
+            </div>
+            <span className="text-[10px] text-gray-400 font-medium">{currentMonthOrders.length} commande(s) ce mois</span>
+          </div>
+        </div>
+
+        {/* KPI 3: Panier Moyen */}
+        <div className={`${cls.cardBg} border border-blue-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-blue-500/50 transition-all`}>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] uppercase font-extrabold tracking-wider text-blue-400">Panier Moyen</span>
+            <span className="text-base">📈</span>
+          </div>
+          <div className="mt-2">
+            <div className="text-2xl font-black font-antonio text-white tracking-tight">
+              {avgOrderValue.toFixed(2)}€
+            </div>
+            <span className="text-[10px] text-gray-400 font-medium">Par commande client</span>
+          </div>
+        </div>
+
+        {/* KPI 4: Frais d'Envoi Encaissés */}
+        <div className={`${cls.cardBg} border border-purple-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-purple-500/50 transition-all`}>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] uppercase font-extrabold tracking-wider text-purple-400">Port Encaissé</span>
+            <span className="text-base">🚚</span>
+          </div>
+          <div className="mt-2">
+            <div className="text-2xl font-black font-antonio text-white tracking-tight">
+              {totalShipping.toFixed(2)}€
+            </div>
+            <span className="text-[10px] text-gray-400 font-medium">Livraisons & Relais</span>
+          </div>
+        </div>
+
+        {/* KPI 5: Total Articles Vendus */}
+        <div className={`${cls.cardBg} border border-amber-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-amber-500/50 transition-all`}>
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] uppercase font-extrabold tracking-wider text-amber-400">Articles Vendus</span>
+            <span className="text-base">📦</span>
+          </div>
+          <div className="mt-2">
+            <div className="text-2xl font-black font-antonio text-white tracking-tight">
+              {totalItemsCount}
+            </div>
+            <span className="text-[10px] text-gray-400 font-medium">Créations & Fidgets</span>
+          </div>
         </div>
       </div>
 
@@ -670,12 +797,17 @@ export default function AdminOrdersPage() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm table-auto border-collapse">
               <thead>
                 <tr className={`border-b ${cls.border}`}>
-                  {["ID", "Date", "Client", "Articles", "Livraison / Relais", "Total", "Statut", "Action"].map((h) => (
-                    <th key={h} className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-5 py-3.5 first:pl-6 last:pr-6`}>{h}</th>
-                  ))}
+                  <th className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 pl-6 w-[110px]`}>ID</th>
+                  <th className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 w-[110px]`}>Date</th>
+                  <th className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 w-[180px]`}>Client</th>
+                  <th className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 min-w-[280px]`}>Articles</th>
+                  <th className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 w-[200px]`}>Livraison / Relais</th>
+                  <th className={`text-right text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 w-[110px]`}>Total</th>
+                  <th className={`text-center text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 w-[140px]`}>Statut</th>
+                  <th className={`text-right text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 pr-6 w-[220px]`}>Action</th>
                 </tr>
               </thead>
               <tbody className={`divide-y ${cls.divider}`}>
@@ -815,10 +947,10 @@ export default function AdminOrdersPage() {
                           </>
                         )}
                       </td>
-                    <td className={`px-5 py-5 font-bold ${cls.textMain} whitespace-nowrap`}>
+                    <td className={`px-4 py-5 font-bold ${cls.textMain} whitespace-nowrap text-right font-mono`}>
                       {o.total.toFixed(2)}€
                     </td>
-                    <td className="px-5 py-5">
+                    <td className="px-4 py-5 text-center">
                       <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider ${
                         o.status === "attente_impression" ? "bg-orange-500/10 text-orange-400" :
                         o.status === "impression" ? "bg-blue-500/10 text-blue-400 animate-pulse" :
@@ -828,19 +960,42 @@ export default function AdminOrdersPage() {
                         {getStatusLabel(o.status)}
                       </span>
                     </td>
-                    <td className="px-5 py-5 pr-6" onClick={(e) => e.stopPropagation()}>
-                      <button
-                        type="button"
-                        onClick={() => handleToggleArchive(o.id, Boolean(o.archived))}
-                        className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
-                          o.archived
-                            ? "bg-purple-500/10 text-purple-300 border-purple-500/30 hover:bg-purple-500/20"
-                            : "bg-white/5 text-gray-300 border-white/10 hover:bg-white/10 hover:text-white"
-                        }`}
-                        title={o.archived ? "Désarchiver la commande" : "Archiver la commande"}
-                      >
-                        {o.archived ? "📥 Désarchiver" : "📦 Archiver"}
-                      </button>
+                    <td className="px-4 py-5 pr-6 text-right" onClick={(e) => e.stopPropagation()}>
+                      <div className="flex items-center justify-end gap-1.5 whitespace-nowrap">
+                        <button
+                          type="button"
+                          onClick={() => handleRequestReview(o)}
+                          disabled={requestReviewLoading === o.id}
+                          className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
+                            (o as any).reviewRequestedAt
+                              ? "bg-purple-500/20 text-purple-300 border-purple-500/40"
+                              : "bg-amber-500/10 text-amber-300 border-amber-500/30 hover:bg-amber-500/20"
+                          }`}
+                          title={(o as any).reviewRequestedAt ? "Relance avis déjà envoyée le " + new Date((o as any).reviewRequestedAt).toLocaleDateString("fr-FR") : "Envoyer un e-mail de relance d'avis client"}
+                        >
+                          <span>⭐️</span>
+                          <span>
+                            {requestReviewLoading === o.id
+                              ? "Envoi..."
+                              : (o as any).reviewRequestedAt
+                              ? "Relancé ✓"
+                              : "Relancer Avis"}
+                          </span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleToggleArchive(o.id, Boolean(o.archived))}
+                          className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
+                            o.archived
+                              ? "bg-purple-500/10 text-purple-300 border-purple-500/30 hover:bg-purple-500/20"
+                              : "bg-white/5 text-gray-300 border-white/10 hover:bg-white/10 hover:text-white"
+                          }`}
+                          title={o.archived ? "Désarchiver la commande" : "Archiver la commande"}
+                        >
+                          {o.archived ? "📥 Désarchiver" : "📦 Archiver"}
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 );
@@ -1263,6 +1418,22 @@ export default function AdminOrdersPage() {
                     >
                       <span>💬</span>
                       <span>Envoyer une note</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleRequestReview(selectedOrder)}
+                      disabled={requestReviewLoading === selectedOrder.id}
+                      className="px-3 py-1.5 rounded-xl border border-purple-500/40 bg-purple-500/10 text-purple-300 hover:bg-purple-500 hover:text-white font-bold text-xs transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
+                      title="Envoyer un e-mail de relance d'avis client (Google + Site)"
+                    >
+                      <span>⭐️</span>
+                      <span>
+                        {requestReviewLoading === selectedOrder.id
+                          ? "Envoi relance..."
+                          : (selectedOrder as any).reviewRequestedAt
+                          ? "Relancé ✓"
+                          : "Relancer pour avis"}
+                      </span>
                     </button>
                     <button
                       type="button"

@@ -12,13 +12,13 @@
     "shippingCost": 0,
     "shippingMethod": "home",
     "status": "expedie",
-    "archived": false,
+    "archived": true,
     "relayDetails": null,
     "pickupSlotRequested": null,
     "pickupSlotConfirmed": null,
     "pickupStatus": null,
     "createdAt": "2026-08-04T06:12:27.774Z",
-    "updatedAt": "2026-08-04T06:17:04.643Z"
+    "updatedAt": "2026-08-07T07:20:42.003Z"
   },
   {
     "id": "SP-M29643",
@@ -54,13 +54,13 @@
     "shippingCost": 4.9,
     "shippingMethod": "home",
     "status": "expedie",
-    "archived": false,
+    "archived": true,
     "relayDetails": null,
     "pickupSlotRequested": null,
     "pickupSlotConfirmed": null,
     "pickupStatus": null,
     "createdAt": "2026-08-01T14:28:49.555Z",
-    "updatedAt": "2026-08-05T08:07:09.045Z"
+    "updatedAt": "2026-08-07T07:20:40.010Z"
   },
   {
     "id": "SP-34507",
@@ -96,13 +96,13 @@
     "shippingCost": 4.9,
     "shippingMethod": "home",
     "status": "expedie",
-    "archived": false,
+    "archived": true,
     "relayDetails": null,
     "pickupSlotRequested": null,
     "pickupSlotConfirmed": null,
     "pickupStatus": null,
     "createdAt": "2026-07-31T18:13:28.167Z",
-    "updatedAt": "2026-08-03T14:25:57.959Z"
+    "updatedAt": "2026-08-07T07:20:41.113Z"
   },
   {
     "id": "SP-M71090",

@@ -774,3 +774,155 @@ export async function sendOrderNoteEmail({
   }
 }
 
+export interface ReviewRequestEmailParams {
+  orderId: string;
+  customerName: string;
+  customerEmail: string;
+  items?: { name: string; quantity: number }[];
+  googleReviewUrl?: string;
+  siteReviewUrl?: string;
+}
+
+export async function sendReviewRequestEmail({
+  orderId,
+  customerName,
+  customerEmail,
+  items = [],
+  googleReviewUrl = "https://g.page/r/spoolio/review",
+  siteReviewUrl = "https://spoolio.fr/avis",
+}: ReviewRequestEmailParams): Promise<{ success: boolean; error?: string }> {
+  try {
+    const resendKey = process.env.RESEND_API_KEY;
+    if (!resendKey) {
+      console.warn("[Email Notification] RESEND_API_KEY is missing. Review request email simulated locally.");
+      return { success: true, error: "RESEND_API_KEY missing (simulated locally)" };
+    }
+
+    const fromAddress = process.env.RESEND_EMAIL_FROM || process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    
+    const finalGoogleUrl = process.env.NEXT_PUBLIC_GOOGLE_REVIEW_URL || process.env.GOOGLE_REVIEW_URL || googleReviewUrl;
+    const finalSiteUrl = process.env.NEXT_PUBLIC_SITE_URL ? `${process.env.NEXT_PUBLIC_SITE_URL}/avis` : siteReviewUrl;
+
+    const itemsListHtml = items && items.length > 0 ? `
+      <div style="background-color: #111114; border: 1px solid #222225; border-radius: 14px; padding: 18px; margin-bottom: 25px;">
+        <div style="font-size: 11px; font-weight: bold; color: #88888b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px;">
+          📦 Articles de votre commande #${orderId} :
+        </div>
+        ${items.map(i => `
+          <div style="display: flex; justify-content: space-between; font-size: 13px; color: #e4e4e7; padding: 4px 0; border-bottom: 1px dashed #222225;">
+            <span>• ${i.name}</span>
+            <span style="font-weight: bold; color: #ff4f00;">x${i.quantity}</span>
+          </div>
+        `).join("")}
+      </div>
+    ` : "";
+
+    const emailHtml = `
+      <!DOCTYPE html>
+      <html lang="fr">
+      <head>
+        <meta charset="utf-8">
+        <title>Votre avis compte pour Spoolio ! ⭐️</title>
+      </head>
+      <body style="background-color: #09090b; color: #e4e4e7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 40px 10px;">
+        <div style="max-width: 580px; margin: 0 auto; background-color: #0e0e12; border: 1px solid #222225; border-radius: 24px; padding: 35px 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.8);">
+          
+          <!-- Logo Header -->
+          <div style="text-align: center; margin-bottom: 22px;">
+            <span style="font-size: 26px; font-weight: 900; color: #ffffff; letter-spacing: -0.03em;">SPOOLIO <span style="color: #ff4f00;">.</span></span>
+          </div>
+
+          <!-- Header badge -->
+          <div style="text-align: center; margin-bottom: 18px;">
+            <span style="display: inline-block; background-color: rgba(255, 79, 0, 0.12); border: 1px solid rgba(255, 79, 0, 0.3); border-radius: 50px; padding: 6px 18px; font-size: 12px; font-weight: 800; color: #ff4f00; text-transform: uppercase; letter-spacing: 0.05em;">
+              ⭐ Votre expérience compte
+            </span>
+          </div>
+
+          <!-- Title -->
+          <h1 style="color: #ffffff; font-size: 22px; font-weight: 900; margin-top: 0; margin-bottom: 12px; text-align: center; font-family: system-ui, sans-serif;">
+            Comment s'est passée votre commande ?
+          </h1>
+
+          <p style="color: #a1a1aa; font-size: 14px; line-height: 1.6; text-align: center; margin-bottom: 25px;">
+            Bonjour <strong style="color: #ffffff;">${customerName || "Cher passionné"}</strong>,<br/>
+            Voilà quelques jours que votre commande <strong>#${orderId}</strong> a été préparée avec soin dans notre atelier 3D à Comines (59). Nous espérons qu'elle vous apporte entière satisfaction !
+          </p>
+
+          ${itemsListHtml}
+
+          <!-- Rating Prompt Card -->
+          <div style="background: linear-gradient(135deg, rgba(255, 79, 0, 0.12), rgba(0, 92, 255, 0.12)); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 20px; padding: 25px 20px; text-align: center; margin-bottom: 30px;">
+            <div style="font-size: 28px; margin-bottom: 8px;">⭐️⭐️⭐️⭐️⭐️</div>
+            <h3 style="color: #ffffff; font-size: 16px; font-weight: 800; margin: 0 0 8px 0;">
+              Votre avis aide notre petit atelier indépendant !
+            </h3>
+            <p style="color: #a1a1aa; font-size: 13px; line-height: 1.5; margin: 0 0 20px 0;">
+              1 minute suffit pour partager votre retour d'expérience et soutenir la fabrication locale en France 🇫🇷.
+            </p>
+
+            <!-- Dual Action Buttons -->
+            <div style="display: flex; flex-direction: column; gap: 12px; align-items: center; justify-content: center;">
+              <!-- Google Review Button -->
+              <a href="${finalGoogleUrl}" target="_blank" style="display: inline-block; width: 85%; max-width: 320px; background-color: #ff4f00; color: #ffffff; font-weight: 900; text-decoration: none; font-size: 13px; padding: 14px 20px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.04em; text-align: center; box-shadow: 0 6px 20px rgba(255, 79, 0, 0.35);">
+                ⭐️ Laisser un avis Google
+              </a>
+
+              <!-- Website Review Button -->
+              <a href="${finalSiteUrl}" target="_blank" style="display: inline-block; width: 85%; max-width: 320px; background-color: rgba(255, 255, 255, 0.08); color: #ffffff; font-weight: 700; text-decoration: none; font-size: 12px; padding: 12px 20px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.04em; text-align: center; border: 1px solid rgba(255, 255, 255, 0.2); margin-top: 8px;">
+                💬 Laisser un avis sur le Site Spoolio
+              </a>
+            </div>
+          </div>
+
+          <!-- Promo Gift Perk -->
+          <div style="background-color: #131316; border: 1px dashed rgba(255, 79, 0, 0.4); border-radius: 14px; padding: 14px; text-align: center; margin-bottom: 25px;">
+            <span style="font-size: 12px; color: #ff4f00; font-weight: bold;">
+              🎁 Un grand MERCI : En laissant votre avis, profitez de <span style="color: #ffffff;">-10%</span> sur votre prochaine commande avec le code <strong style="color: #ff4f00; font-family: monospace;">MERCI10</strong> !
+            </span>
+          </div>
+
+          <!-- Footer -->
+          <div style="border-top: 1px solid #1f1f23; padding-top: 20px; text-align: center; font-size: 11px; color: #52525b; line-height: 1.6;">
+            <p style="margin: 0 0 5px 0;">Spoolio • Objets & Fidgets 3D fabriqués à Comines (59), France.</p>
+            <p style="margin: 0;">Des questions ? Répondez simplement à cet e-mail ou écrivez-nous à contact@spoolio.fr</p>
+          </div>
+
+        </div>
+      </body>
+      </html>
+    `;
+
+    console.log(`[Resend Email] Sending Review Request email to ${customerEmail} for Order ${orderId}...`);
+    const emailRes = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        from: `Spoolio <${fromAddress}>`,
+        to: [customerEmail],
+        subject: `⭐️ Comment s'est passée votre commande Spoolio #${orderId} ?`,
+        html: emailHtml
+      })
+    });
+
+    const emailData = await emailRes.json();
+    if (emailRes.ok) {
+      console.log(`[Resend Email Success] Review Request email sent for order ${orderId} (ID: ${emailData.id})`);
+      return { success: true };
+    } else {
+      console.error("[Resend Email Error] Review Request API error details:", emailData);
+      let errorMsg = emailData.message || "Erreur lors de l'envoi via Resend";
+      if (emailRes.status === 403 && fromAddress === "onboarding@resend.dev") {
+        errorMsg = `Mode test Resend (onboarding@resend.dev) : Seul l'email du propriétaire du compte peut recevoir les mails en mode test. Pour envoyer des mails aux clients réels, configurez votre domaine dans resend.com et ajoutez RESEND_EMAIL_FROM=votre-email@votre-domaine.fr dans .env.local`;
+      }
+      return { success: false, error: errorMsg };
+    }
+  } catch (err: any) {
+    console.error("[Resend Email Error] Failed to send review request email:", err.message || err);
+    return { success: false, error: err.message || "Erreur inconnue" };
+  }
+}
+

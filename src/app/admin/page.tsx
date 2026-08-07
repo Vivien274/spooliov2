@@ -336,6 +336,39 @@ export default function AdminDashboard() {
     fetchThemeStats();
   }, []);
 
+  const [requestReviewLoading, setRequestReviewLoading] = useState<string | null>(null);
+
+  const handleRequestReview = async (order: AdminOrder) => {
+    if (!confirm(`Envoyer un e-mail de relance d'avis client (Google + Site) à ${order.customerName || "ce client"} (${order.email}) ?`)) {
+      return;
+    }
+
+    setRequestReviewLoading(order.id);
+    try {
+      const res = await fetch("/api/admin/orders/request-review", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          orderId: order.id,
+          targetEmail: order.email,
+          customerName: order.customerName,
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success) {
+        alert(`✅ ${data.message}`);
+        setOrders(prev => prev.map(o => o.id === order.id ? { ...o, reviewRequestedAt: data.reviewRequestedAt } as any : o));
+      } else {
+        alert(`⚠️ ${data.error || "Erreur lors de l'envoi de la relance pour avis."}`);
+      }
+    } catch (err) {
+      alert("Erreur réseau lors de la relance d'avis.");
+    } finally {
+      setRequestReviewLoading(null);
+    }
+  };
+
   const handleUpdateStatus = async (orderId: string, newStatus: string) => {
     setStatusChangeLoading(orderId);
     try {
@@ -374,7 +407,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 font-sans">
+    <div className="w-full max-w-[1850px] mx-auto space-y-8 font-sans px-3 sm:px-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className={`text-3xl font-black font-antonio uppercase tracking-tight ${cls.textMain}`}>Espace Admin</h1>
@@ -617,7 +650,23 @@ export default function AdminDashboard() {
                           </span>
                         </td>
                         <td className="py-4 pl-4 text-right">
-                          <div className="flex justify-end gap-1.5">
+                          <div className="flex justify-end gap-1.5 items-center">
+                            <button
+                              onClick={() => handleRequestReview(o)}
+                              disabled={requestReviewLoading === o.id}
+                              className={`px-2 py-1.5 rounded-lg font-bold text-[10px] transition-colors cursor-pointer border ${
+                                (o as any).reviewRequestedAt
+                                  ? "bg-purple-500/20 text-purple-300 border-purple-500/40"
+                                  : "bg-amber-500/10 text-amber-300 border-amber-500/30 hover:bg-amber-500/20"
+                              }`}
+                              title={(o as any).reviewRequestedAt ? "Relance d'avis déjà envoyée le " + new Date((o as any).reviewRequestedAt).toLocaleDateString("fr-FR") : "Envoyer un e-mail de relance d'avis client (Google + Site)"}
+                            >
+                              {requestReviewLoading === o.id
+                                ? "Envoi..."
+                                : (o as any).reviewRequestedAt
+                                ? "Avis Relancé ✓"
+                                : "Relancer Avis ⭐️"}
+                            </button>
                             {o.status === "attente_impression" && (
                               <button
                                 onClick={() => handleUpdateStatus(o.id, "impression")}
