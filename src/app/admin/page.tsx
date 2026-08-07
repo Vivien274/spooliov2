@@ -873,6 +873,56 @@ export default function AdminDashboard() {
                     <span>💡 Astuce : Survoler les barres pour faire défiler le nombre exact de pages lues.</span>
                     <span className="font-mono text-[10px] text-gray-500">Mise à jour en temps réel</span>
                   </div>
+
+                  {/* Hourly Peak Slots Widget */}
+                  {visitsStats.hourlySlots && visitsStats.hourlySlots.length > 0 && (
+                    <div className="mt-6 border-t border-white/10 pt-5">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-base">⏰</span>
+                          <div>
+                            <h5 className="text-xs font-black text-white font-antonio uppercase tracking-wider">Heures de Pointe & Pics d'Affluence</h5>
+                            <p className="text-[10px] text-gray-400">Distribution des visites par tranche horaire sur les 30 derniers jours.</p>
+                          </div>
+                        </div>
+                        {visitsStats.peakSlot && (
+                          <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/40 flex items-center gap-1.5 self-start sm:self-auto">
+                            <span>🔥 Pic d'affluence :</span>
+                            <span className="text-white font-bold">{visitsStats.peakSlot.shortLabel}</span>
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        {visitsStats.hourlySlots.map((slot: any) => {
+                          const totalSlotVisits = visitsStats.hourlySlots.reduce((acc: number, s: any) => acc + (s.count || 0), 0);
+                          const percent = totalSlotVisits > 0 ? Math.round((slot.count / totalSlotVisits) * 100) : 0;
+                          const isPeak = visitsStats.peakSlot && visitsStats.peakSlot.key === slot.key;
+
+                          return (
+                            <div key={slot.key} className={`bg-white/[0.03] border ${isPeak ? 'border-[#ff4f00]/50 bg-[#ff4f00]/5' : 'border-white/10'} rounded-2xl p-3 flex flex-col justify-between space-y-2 transition-all hover:bg-white/5`}>
+                              <div className="flex items-center justify-between text-[10px] font-bold">
+                                <span className={isPeak ? "text-[#ff4f00]" : "text-gray-300"}>{slot.label}</span>
+                                <span className="font-mono text-white text-[11px] font-black">{slot.count}</span>
+                              </div>
+                              <div className="space-y-1">
+                                <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden p-0.5">
+                                  <div 
+                                    className={`h-full rounded-full transition-all duration-500 ${isPeak ? 'bg-[#ff4f00]' : 'bg-blue-500'}`}
+                                    style={{ width: `${percent}%` }}
+                                  />
+                                </div>
+                                <div className="flex justify-between text-[9px] font-mono text-gray-400">
+                                  <span>Trafic</span>
+                                  <span className="font-bold text-gray-200">{percent}%</span>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Right (4 cols): Top Products & Top Pages */}

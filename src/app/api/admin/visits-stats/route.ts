@@ -108,6 +108,29 @@ export async function GET() {
         };
       });
 
+    // 6. Hourly Peak Distribution (Last 30 Days)
+    const recentVisits = await prisma.visit.findMany({
+      where: { createdAt: { gte: thirtyDaysAgo } },
+      select: { createdAt: true }
+    });
+
+    const hourlySlots = [
+      { key: "nuit", label: "00h - 06h (Nuit 🌙)", shortLabel: "00h-06h", count: 0 },
+      { key: "matin", label: "06h - 12h (Matin ☕️)", shortLabel: "06h-12h", count: 0 },
+      { key: "apres_midi", label: "12h - 18h (A-Midi ☀️)", shortLabel: "12h-18h", count: 0 },
+      { key: "soiree", label: "18h - 00h (Soirée 🌌)", shortLabel: "18h-00h", count: 0 },
+    ];
+
+    recentVisits.forEach((v) => {
+      const hour = new Date(v.createdAt).getHours();
+      if (hour >= 0 && hour < 6) hourlySlots[0].count++;
+      else if (hour >= 6 && hour < 12) hourlySlots[1].count++;
+      else if (hour >= 12 && hour < 18) hourlySlots[2].count++;
+      else hourlySlots[3].count++;
+    });
+
+    const peakSlot = [...hourlySlots].sort((a, b) => b.count - a.count)[0] || hourlySlots[2];
+
     return NextResponse.json({
       success: true,
       stats: {
@@ -118,6 +141,8 @@ export async function GET() {
         uniqueToday,
         uniqueWeek,
         dailyStats,
+        hourlySlots,
+        peakSlot,
         topPages: topPages.slice(0, 5),
         topProducts: productPages.slice(0, 5)
       }
