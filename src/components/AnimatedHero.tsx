@@ -95,13 +95,13 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
       <section
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
-        className="w-full relative overflow-hidden rounded-b-[36px] sm:rounded-b-[56px] border-b border-white/20 bg-[#070709] text-white min-h-[600px] sm:min-h-[660px] flex flex-col justify-between group/hero shadow-[0_15px_60px_rgba(255,255,255,0.12)] dark:shadow-[0_20px_70px_rgba(255,255,255,0.15)]"
+        className="w-full relative rounded-b-[36px] sm:rounded-b-[56px] border-b border-white/20 bg-[#070709] text-white min-h-[600px] sm:min-h-[660px] flex flex-col justify-between group/hero shadow-[0_15px_60px_rgba(255,255,255,0.12)] dark:shadow-[0_20px_70px_rgba(255,255,255,0.15)]"
       >
         {/* Header Navigation Overlay */}
         <Header className="absolute top-0 left-0 right-0 h-20 sm:h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full no-invert" />
 
         {/* Dynamic Background Image & Mesh Gradients with Crossfade */}
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-b-[36px] sm:rounded-b-[56px]">
           {/* Subtle Dynamic Floating Blue Halos */}
           <motion.div
             animate={{

@@ -153,27 +153,29 @@ export default function Header({
   };
 
   return (
-    <header className={`sticky top-0 z-[99999] w-full transition-all duration-500 relative overflow-hidden ${isSticky
+    <header className={`sticky top-0 z-[99999] w-full transition-all duration-500 relative ${isSticky
         ? "bg-[#0e0e12]/90 dark:bg-[#0e0e12]/90 light:bg-white/95 backdrop-blur-xl border-b border-[#005cff]/30 shadow-[0_4px_30px_rgba(0,92,255,0.14)]"
         : "bg-transparent border-b border-white/5"
       }`}>
-      {/* Permanent Soft Floating Neon Halo Auras in Header */}
-      <motion.div
-        animate={{
-          x: [0, 30, -20, 0],
-          y: [0, -15, 10, 0],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -top-16 left-1/4 w-80 h-32 rounded-full bg-[#005cff]/06 blur-3xl pointer-events-none hidden dark:block"
-      />
-      <motion.div
-        animate={{
-          x: [0, -25, 20, 0],
-          y: [0, 15, -10, 0],
-        }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -top-16 right-1/4 w-80 h-32 rounded-full bg-[#2F3CD9]/06 blur-3xl pointer-events-none hidden dark:block"
-      />
+      {/* Background Halos Container (overflow-hidden only for halos, allowing dropdowns to pop out) */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div
+          animate={{
+            x: [0, 30, -20, 0],
+            y: [0, -15, 10, 0],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-16 left-1/4 w-80 h-32 rounded-full bg-[#005cff]/06 blur-3xl pointer-events-none hidden dark:block"
+        />
+        <motion.div
+          animate={{
+            x: [0, -25, 20, 0],
+            y: [0, 15, -10, 0],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-16 right-1/4 w-80 h-32 rounded-full bg-[#2F3CD9]/06 blur-3xl pointer-events-none hidden dark:block"
+        />
+      </div>
 
       <div className={`mx-auto w-full flex items-center justify-between transition-all duration-300 relative z-10 ${isSticky
           ? "h-16 md:h-20 px-6 md:px-12 max-w-7xl"

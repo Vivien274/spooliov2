@@ -39,16 +39,38 @@ export default function MotionNavigationMenu() {
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleMouseEnter = (id: string) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
     setHoveredTab(id);
     setActiveTab(id);
   };
 
   const handleMouseLeave = () => {
     setHoveredTab(null);
-    setActiveTab(null);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      setActiveTab(null);
+    }, 180);
   };
+
+  const handleDropdownMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+  };
+
+  // Clean up timer on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   // Close dropdown when pressing Escape
   useEffect(() => {
@@ -120,16 +142,16 @@ export default function MotionNavigationMenu() {
         </Link>
       </nav>
 
-      {/* Morphing Mega Dropdown Panel Container */}
+      {/* Morphing Mega Dropdown Panel Container with Invisible Hover Bridge */}
       <AnimatePresence>
         {activeTab && (
           <motion.div
-            initial={{ opacity: 0, y: 14, scale: 0.96 }}
+            initial={{ opacity: 0, y: 10, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.96 }}
-            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute top-full left-0 mt-3.5 z-[100] origin-top-left"
-            onMouseEnter={() => setActiveTab(activeTab)}
+            exit={{ opacity: 0, y: 8, scale: 0.97 }}
+            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute top-full left-0 pt-2.5 z-[999999] origin-top-left"
+            onMouseEnter={handleDropdownMouseEnter}
           >
             <div className="w-[660px] bg-[#121215]/98 backdrop-blur-3xl border border-white/20 rounded-3xl p-6 shadow-[0_30px_70px_rgba(0,0,0,0.7)] ring-1 ring-white/10">
               
