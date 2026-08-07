@@ -712,121 +712,256 @@ export default function AdminDashboard() {
           {/* Header & Refresh */}
           <div className="flex items-center justify-between">
             <div>
-              <h3 className={`text-base font-bold ${cls.textMain} uppercase tracking-widest font-antonio`}>Analyses des Visites</h3>
-              <p className={`text-xs ${cls.textMuted} mt-0.5`}>Consultez l'activité et le trafic de votre boutique en temps réel.</p>
+              <nav className={`text-[10px] uppercase font-bold tracking-wider ${cls.textFaint} mb-0.5`}>
+                <span className="text-[#ff4f00]">Analytics & Trafic Studio</span>
+              </nav>
+              <h3 className={`text-2xl font-black ${cls.textMain} uppercase tracking-tight font-antonio`}>Performance & Fréquentation</h3>
+              <p className={`text-xs ${cls.textMuted} mt-0.5`}>Mesurez l'activité en temps réel, l'engagement et l'attractivité des produits.</p>
             </div>
             <button
               onClick={fetchVisitsStats}
               disabled={loadingStats}
-              className={`text-xs px-3 py-1.5 rounded-lg border ${cls.border} ${cls.inputBg} hover:text-white cursor-pointer transition-colors`}
+              className={`text-xs px-4 py-2 rounded-xl border border-white/10 ${cls.inputBg} hover:bg-white/10 hover:text-white cursor-pointer transition-all flex items-center gap-1.5 font-bold shadow-md`}
             >
-              {loadingStats ? "Chargement..." : "Rafraîchir"}
+              <span>🔄</span>
+              <span>{loadingStats ? "Mise à jour..." : "Actualiser les données"}</span>
             </button>
           </div>
 
           {loadingStats ? (
-            <div className="py-12 text-center text-xs text-gray-500 font-bold uppercase tracking-widest font-sans">
-              Chargement des statistiques...
+            <div className="py-16 text-center text-xs text-gray-400 font-bold uppercase tracking-widest font-sans flex flex-col items-center gap-3">
+              <div className="w-8 h-8 border-2 border-[#ff4f00] border-t-transparent rounded-full animate-spin" />
+              <span>Chargement du Studio Analytics...</span>
             </div>
           ) : !visitsStats ? (
-            <div className="py-12 text-center text-xs text-gray-500 font-sans">
-              Aucune donnée de visites disponible.
+            <div className="py-16 text-center text-xs text-gray-500 font-sans">
+              Aucune donnée de visites disponible pour le moment.
             </div>
           ) : (
             <>
-              {/* Analytics KPIs Row */}
+              {/* Analytics KPIs Row with Glowing Accents */}
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                {[
-                  { label: "Visites totales", value: visitsStats.totalVisits.toString(), desc: "De tous les temps" },
-                  { label: "Visites aujourd'hui", value: visitsStats.todayVisits.toString(), desc: "Pages consultées" },
-                  { label: "Visiteurs uniques (Jour)", value: visitsStats.uniqueToday.toString(), desc: "IPs anonymisées" },
-                  { label: "Visiteurs uniques (Semaine)", value: visitsStats.uniqueWeek.toString(), desc: "Tendance 7 jours" },
-                  { label: "☀️ Thème Clair", value: themeStats ? themeStats.lightThemeToggles.toString() : "...", desc: "Passages au mode clair" },
-                ].map((kpi) => (
-                  <div key={kpi.label} className={`${cls.cardBg} border ${cls.border} rounded-2xl p-4 flex flex-col gap-1 transition-colors duration-300`}>
-                    <span className={`text-[11px] ${cls.textFaint} uppercase tracking-widest font-semibold`}>{kpi.label}</span>
-                    <span className={`text-2xl font-black ${cls.textMain}`}>{kpi.value}</span>
-                    <span className={`text-[10px] ${cls.textFaint}`}>{kpi.desc}</span>
+                {/* KPI 1: Visites Totales */}
+                <div className={`${cls.cardBg} border border-blue-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-blue-500/60 transition-all`}>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-blue-400">Visites Totales</span>
+                    <span className="text-sm">🌐</span>
                   </div>
-                ))}
+                  <div className="mt-3">
+                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
+                      {visitsStats.totalVisits}
+                    </div>
+                    <span className="text-[10px] text-gray-400 font-medium">Pages consultées au total</span>
+                  </div>
+                </div>
+
+                {/* KPI 2: Visites Aujourd'hui */}
+                <div className={`${cls.cardBg} border border-[#ff4f00]/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-[#ff4f00]/60 transition-all`}>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-[#ff4f00]">Aujourd'hui</span>
+                    <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Direct
+                    </span>
+                  </div>
+                  <div className="mt-3">
+                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
+                      {visitsStats.todayVisits}
+                    </div>
+                    <span className="text-[10px] text-gray-400 font-medium">Pages vus ce jour</span>
+                  </div>
+                </div>
+
+                {/* KPI 3: Visiteurs Uniques (Jour) */}
+                <div className={`${cls.cardBg} border border-emerald-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-emerald-500/60 transition-all`}>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-emerald-400">Uniques (Jour)</span>
+                    <span className="text-sm">👤</span>
+                  </div>
+                  <div className="mt-3">
+                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
+                      {visitsStats.uniqueToday}
+                    </div>
+                    <span className="text-[10px] text-gray-400 font-medium">Clients distincts (24h)</span>
+                  </div>
+                </div>
+
+                {/* KPI 4: Visiteurs Uniques (Semaine) */}
+                <div className={`${cls.cardBg} border border-purple-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-purple-500/60 transition-all`}>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-purple-400">Uniques (7j)</span>
+                    <span className="text-sm">📊</span>
+                  </div>
+                  <div className="mt-3">
+                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
+                      {visitsStats.uniqueWeek}
+                    </div>
+                    <span className="text-[10px] text-gray-400 font-medium">Audience hebdomadaire</span>
+                  </div>
+                </div>
+
+                {/* KPI 5: Mode Clair */}
+                <div className={`${cls.cardBg} border border-amber-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-amber-500/60 transition-all`}>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-amber-400">Thème Clair ☀️</span>
+                    <span className="text-sm">✨</span>
+                  </div>
+                  <div className="mt-3">
+                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
+                      {themeStats ? themeStats.lightThemeToggles : 0}
+                    </div>
+                    <span className="text-[10px] text-gray-400 font-medium">Basculements mode jour</span>
+                  </div>
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Left: Interactive Daily Activity Chart */}
-                <div className={`lg:col-span-2 ${cls.cardBg} border ${cls.border} rounded-3xl p-6 flex flex-col justify-between h-[360px]`}>
-                  <div>
-                    <h4 className={`text-xs font-bold ${cls.textMain} uppercase tracking-widest font-antonio mb-1`}>Trafic hebdomadaire</h4>
-                    <p className={`text-[10px] ${cls.textFaint}`}>Nombre de pages visitées par jour sur les 7 derniers jours.</p>
+              {/* Main Content Grid: Graph on Left, Top Products & Pages on Right */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                {/* Left (8 cols): Interactive Bar Graph */}
+                <div className={`lg:col-span-8 ${cls.cardBg} border ${cls.border} rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-xl relative overflow-hidden min-h-[400px]`}>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
+                    <div>
+                      <span className="text-[10px] uppercase font-bold text-[#ff4f00] tracking-wider">Évolution 7 Derniers Jours</span>
+                      <h4 className="text-xl font-black text-white font-antonio uppercase tracking-tight">Trafic & Consultation Quotidienne</h4>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-gray-300 bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+                        <span className="w-2 h-2 rounded-full bg-[#ff4f00]" />
+                        Pages Vues par Jour
+                      </span>
+                    </div>
                   </div>
 
-                  {/* SVG Line / Bar Chart */}
-                  <div className="flex-1 flex items-end justify-between gap-2 h-44 mt-6 pt-4 border-b border-white/5 pb-2 relative z-0">
+                  {/* SVG Reference Grid & Bar Chart */}
+                  <div className="flex-1 flex items-end justify-between gap-3 sm:gap-4 h-56 mt-6 pt-6 border-b border-white/10 pb-3 relative z-0">
+                    {/* Background Grid Lines */}
+                    <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20 z-0 pb-6">
+                      <div className="border-b border-dashed border-white/40 w-full" />
+                      <div className="border-b border-dashed border-white/30 w-full" />
+                      <div className="border-b border-dashed border-white/20 w-full" />
+                    </div>
+
                     {visitsStats.dailyStats.map((day: any) => {
-                      // Calculate height based on maximum value in range
                       const maxVal = Math.max(...visitsStats.dailyStats.map((d: any) => d.count), 1);
-                      const percent = (day.count / maxVal) * 100;
+                      const percent = Math.min(100, Math.max(8, (day.count / maxVal) * 100));
+
                       return (
-                        <div key={day.label} className="flex-1 flex flex-col items-center gap-2 group h-full justify-end relative">
-                          {/* Tooltip on hover */}
-                          <span className="opacity-0 group-hover:opacity-100 bg-[#ff4f00] text-black text-[9px] font-black px-1.5 py-0.5 rounded-md transition-opacity absolute mb-14 translate-y-[-10px] shadow-lg select-none z-50">
+                        <div key={day.label} className="flex-1 flex flex-col items-center gap-2 group h-full justify-end relative z-10">
+                          {/* Value Tag Above Bar */}
+                          <span className="text-[11px] font-black font-mono text-amber-300 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded-lg shadow-md group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-black transition-all cursor-pointer">
                             {day.count}
                           </span>
                           
-                          {/* Bar Graphic */}
-                          <div 
-                            className="w-full bg-gradient-to-t from-[#ff4f00]/30 to-[#ff4f00] rounded-t-lg transition-all duration-500 hover:scale-[1.03] shadow-[0_0_15px_rgba(255,79,0,0.15)]"
-                            style={{ height: `${percent}%`, minHeight: day.count > 0 ? "4px" : "1px" }}
-                          />
+                          {/* Vibrant Gradient Bar */}
+                          <div className="w-full max-w-[50px] bg-white/5 rounded-t-xl overflow-hidden flex items-end h-full p-0.5">
+                            <div 
+                              className="w-full bg-gradient-to-t from-[#ff4f00] via-[#ff6600] to-[#ff9900] rounded-t-lg transition-all duration-500 group-hover:brightness-125 shadow-[0_0_20px_rgba(255,79,0,0.35)]"
+                              style={{ height: `${percent}%` }}
+                            />
+                          </div>
 
-                          {/* Day details */}
-                          <span className={`text-[9px] ${cls.textFaint} uppercase tracking-wider text-center`}>
+                          {/* Day Label */}
+                          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider text-center group-hover:text-white transition-colors">
                             {day.label}
                           </span>
                         </div>
                       );
                     })}
                   </div>
+
+                  <div className="mt-4 flex items-center justify-between text-[11px] text-gray-400 font-medium">
+                    <span>💡 Astuce : Survoler les barres pour faire défiler le nombre exact de pages lues.</span>
+                    <span className="font-mono text-[10px] text-gray-500">Mise à jour en temps réel</span>
+                  </div>
                 </div>
 
-                {/* Right Stack: Top Pages & Top Products */}
-                <div className="lg:col-span-1 flex flex-col gap-6">
-                  {/* Top Products */}
-                  <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 flex-1`}>
-                    <h4 className={`text-xs font-bold ${cls.textMain} uppercase tracking-widest font-antonio mb-3`}>Top Produits</h4>
-                    
-                    {visitsStats.topProducts.length === 0 ? (
-                      <p className={`text-xs ${cls.textFaint} text-center py-6`}>Aucune visite produit pour le moment.</p>
-                    ) : (
-                      <div className="space-y-3 font-sans">
-                        {visitsStats.topProducts.map((p: any) => {
-                          const maxCount = Math.max(...visitsStats.topProducts.map((pr: any) => pr.count), 1);
-                          const barWidth = (p.count / maxCount) * 100;
-                          return (
-                            <div key={p.url} className="space-y-1">
-                              <div className="flex items-center justify-between text-xs font-bold">
-                                <span className={`${cls.textMain} truncate max-w-[150px]`}>{p.name}</span>
-                                <span className="text-[#ff4f00] font-black">{p.count}</span>
-                              </div>
-                              <div className="w-full h-1 bg-white/5 rounded-full overflow-hidden">
-                                <div className="h-full bg-[#ff4f00] rounded-full" style={{ width: `${barWidth}%` }} />
-                              </div>
-                            </div>
-                          );
-                        })}
+                {/* Right (4 cols): Top Products & Top Pages */}
+                <div className="lg:col-span-4 flex flex-col gap-6">
+                  {/* Top Products Card */}
+                  <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 flex-1 shadow-lg flex flex-col justify-between`}>
+                    <div>
+                      <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                        <div className="flex items-center gap-2">
+                          <span className="text-base">🔥</span>
+                          <h4 className="text-sm font-black text-white font-antonio uppercase tracking-wider">Top Produits Consultés</h4>
+                        </div>
+                        <span className="text-[10px] font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
+                          {visitsStats.topProducts.length} Fiches
+                        </span>
                       </div>
-                    )}
+                      
+                      {visitsStats.topProducts.length === 0 ? (
+                        <div className="py-8 text-center text-xs text-gray-500 font-medium">
+                          Aucune vue produit enregistrée pour le moment.
+                        </div>
+                      ) : (
+                        <div className="space-y-3.5 font-sans">
+                          {visitsStats.topProducts.slice(0, 5).map((p: any, idx: number) => {
+                            const maxCount = Math.max(...visitsStats.topProducts.map((pr: any) => pr.count), 1);
+                            const barWidth = (p.count / maxCount) * 100;
+                            return (
+                              <div key={p.url || idx} className="space-y-1.5 group">
+                                <div className="flex items-center justify-between text-xs">
+                                  <div className="flex items-center gap-2 truncate max-w-[190px]">
+                                    <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-black shrink-0 ${
+                                      idx === 0 ? "bg-amber-500 text-black" :
+                                      idx === 1 ? "bg-gray-300 text-black" :
+                                      idx === 2 ? "bg-amber-700 text-white" :
+                                      "bg-white/10 text-gray-400"
+                                    }`}>
+                                      {idx + 1}
+                                    </span>
+                                    <span className="font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate">{p.name}</span>
+                                  </div>
+                                  <span className="text-amber-400 font-extrabold font-mono text-[11px] shrink-0">{p.count} vues</span>
+                                </div>
+                                <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden p-0.5">
+                                  <div 
+                                    className="h-full bg-gradient-to-r from-blue-500 to-[#ff4f00] rounded-full transition-all duration-500" 
+                                    style={{ width: `${barWidth}%` }} 
+                                  />
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
                   </div>
 
-                  {/* Top Pages */}
-                  <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 flex-1`}>
-                    <h4 className={`text-xs font-bold ${cls.textMain} uppercase tracking-widest font-antonio mb-3`}>Top Pages</h4>
-                    <div className="space-y-2 font-sans">
-                      {visitsStats.topPages.map((p: any) => (
-                        <div key={p.url} className="flex items-center justify-between text-xs py-1 border-b border-white/5 last:border-0">
-                          <span className={`font-mono text-[10px] ${cls.textFaint} truncate max-w-[170px]`}>{p.url === "" || p.url === "/" ? "/ (Accueil)" : p.url}</span>
-                          <span className={`${cls.textMain} font-extrabold`}>{p.count}</span>
-                        </div>
-                      ))}
+                  {/* Top Pages Card */}
+                  <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 flex-1 shadow-lg`}>
+                    <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                      <div className="flex items-center gap-2">
+                        <span className="text-base">📄</span>
+                        <h4 className="text-sm font-black text-white font-antonio uppercase tracking-wider">Pages Les Plus Visitées</h4>
+                      </div>
+                      <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20">
+                        URLs
+                      </span>
+                    </div>
+
+                    <div className="space-y-2.5 font-sans">
+                      {visitsStats.topPages.slice(0, 6).map((p: any) => {
+                        const pageLabel = p.url === "" || p.url === "/" ? "/ (Accueil)" : p.url;
+                        const percentage = visitsStats.totalVisits > 0 
+                          ? Math.round((p.count / visitsStats.totalVisits) * 100) 
+                          : 0;
+
+                        return (
+                          <div key={p.url} className="flex items-center justify-between text-xs py-1.5 px-2.5 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10 group">
+                            <span className="font-mono text-[11px] text-gray-300 group-hover:text-white truncate max-w-[190px]">
+                              {pageLabel}
+                            </span>
+                            <div className="flex items-center gap-2 shrink-0">
+                              <span className="text-[10px] font-bold text-gray-500 font-mono">{percentage}%</span>
+                              <span className="font-black text-white font-mono text-[11px] bg-white/10 px-2 py-0.5 rounded-md">
+                                {p.count}
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
