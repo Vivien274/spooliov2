@@ -3,20 +3,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAdminTheme } from "./AdminThemeContext";
+import { parseItemName } from "@/lib/orderUtils";
+import OrderItemOptionsViewer from "@/components/OrderItemOptionsViewer";
 
 const ADMIN_BLUE = "#2F3CD9";
-
-function parseItemName(fullName: string) {
-  if (!fullName) return { mainName: "Article", options: [] };
-  const match = fullName.match(/^(.*?)(?:\s*\((.*?)\))?$/);
-  if (!match) return { mainName: fullName, options: [] };
-  const mainName = match[1].trim();
-  const optionsRaw = match[2];
-  const options = optionsRaw 
-    ? optionsRaw.split(",").map(o => o.trim()).filter(Boolean)
-    : [];
-  return { mainName, options };
-}
 
 interface AdminOrder {
   id: string;
@@ -586,15 +576,6 @@ export default function AdminDashboard() {
                                       {mainName}
                                     </span>
                                   </div>
-                                  {options.length > 0 && (
-                                    <div className="flex flex-wrap gap-1 pl-6">
-                                      {options.map((opt, optIdx) => (
-                                        <span key={optIdx} className="text-[9px] font-mono bg-white/[0.06] border border-white/10 text-gray-300 px-1.5 py-0.2 rounded-md">
-                                          {opt}
-                                        </span>
-                                      ))}
-                                    </div>
-                                  )}
                                 </div>
                               );
                             })}

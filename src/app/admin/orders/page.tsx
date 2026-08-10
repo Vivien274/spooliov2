@@ -899,15 +899,6 @@ export default function AdminOrdersPage() {
                                       </span>
                                     )}
                                   </div>
-                                  {options.length > 0 && (
-                                    <div className="flex flex-wrap gap-1 pl-6">
-                                      {options.map((opt, optIdx) => (
-                                        <span key={optIdx} className="text-[9px] font-mono bg-white/[0.06] border border-white/10 text-gray-300 px-1.5 py-0.2 rounded-md">
-                                          {opt}
-                                        </span>
-                                      ))}
-                                    </div>
-                                  )}
                                 </div>
                               );
                             })}
@@ -1273,9 +1264,9 @@ export default function AdminOrdersPage() {
                     return (
                       <div 
                         key={idx} 
-                        className="bg-white/[0.02] border border-white/10 hover:border-white/20 transition-all rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm"
+                        className="bg-white/[0.02] border border-white/10 hover:border-white/20 transition-all rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-start justify-between gap-3 shadow-sm w-full overflow-hidden"
                       >
-                        <div className="flex items-start gap-3">
+                        <div className="flex items-start gap-3 min-w-0 flex-1 w-full">
                           {/* Quantity pill */}
                           <div className={`mt-0.5 inline-flex items-center justify-center font-mono font-black text-xs px-2.5 py-1 rounded-xl shrink-0 ${
                             isDonation 
@@ -1288,7 +1279,7 @@ export default function AdminOrdersPage() {
                           </div>
 
                           {/* Product Details */}
-                          <div className="space-y-1">
+                          <div className="space-y-1 min-w-0 flex-1 w-full">
                             <div className="text-sm font-bold text-white flex items-center gap-1.5">
                               {isDonation && "❤️"}
                               {isTombola && "🎟️"}

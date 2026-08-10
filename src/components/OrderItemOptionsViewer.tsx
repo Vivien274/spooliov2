@@ -18,8 +18,29 @@ interface OrderItemOptionsViewerProps {
 export function parseClickerOptions(options: string[]) {
   const specs: { key: string; val: string; isComposition?: boolean }[] = [];
   const keys: KeyDetail[] = [];
+  let configUrl: string | null = null;
 
   options.forEach((opt) => {
+    // Detect internal/technical config URLs
+    if (
+      opt.includes("_configUrl") || 
+      opt.includes("configUrl") || 
+      opt.includes("_config") || 
+      opt.includes("/createur-cliqueur?") ||
+      opt.startsWith("cfg=")
+    ) {
+      const colonIdx = opt.indexOf(":");
+      if (colonIdx !== -1) {
+        configUrl = opt.substring(colonIdx + 1).trim();
+      } else if (opt.includes("/createur-cliqueur")) {
+        const urlMatch = opt.match(/(\/createur-cliqueur[^\s,)]+)/);
+        if (urlMatch) configUrl = urlMatch[1];
+      } else {
+        configUrl = opt.trim();
+      }
+      return;
+    }
+
     // Check if this option contains Touche #X or Touche X
     const toucheMatches = [...opt.matchAll(/Touche\s*#?(\d+)\s*\(([^)]+)\)/gi)];
     
@@ -95,23 +116,25 @@ export function parseClickerOptions(options: string[]) {
   // Sort keys by key number ascending
   keys.sort((a, b) => a.keyNum - b.keyNum);
 
-  return { specs, keys };
+  return { specs, keys, configUrl };
 }
 
 export default function OrderItemOptionsViewer({ options }: OrderItemOptionsViewerProps) {
   if (!options || options.length === 0) return null;
 
-  const { specs, keys } = parseClickerOptions(options);
+  const { specs, keys, configUrl } = parseClickerOptions(options);
+
+  if (specs.length === 0 && keys.length === 0 && !configUrl) return null;
 
   return (
-    <div className="space-y-2 mt-1">
-      {/* 1. General Product Specs Badges */}
-      {specs.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
+    <div className="space-y-2 mt-1.5 w-full max-w-full overflow-hidden">
+      {/* 1. General Product Specs Badges & Config Button */}
+      {(specs.length > 0 || configUrl) && (
+        <div className="flex flex-wrap items-center gap-1.5 max-w-full">
           {specs.map((item, idx) => (
             <span
               key={idx}
-              className={`inline-flex items-center gap-1 text-[10px] font-medium px-2.5 py-1 rounded-lg border ${
+              className={`inline-flex items-center gap-1 text-[10px] font-medium px-2.5 py-1 rounded-lg border max-w-full break-all ${
                 item.isComposition
                   ? "bg-purple-500/10 border-purple-500/30 text-purple-200"
                   : "bg-black/60 border-white/15 text-gray-200"
@@ -119,7 +142,7 @@ export default function OrderItemOptionsViewer({ options }: OrderItemOptionsView
             >
               {item.key ? (
                 <>
-                  <span className={item.isComposition ? "text-purple-300 font-bold" : "text-gray-400 font-semibold"}>
+                  <span className={item.isComposition ? "text-purple-300 font-bold" : "text-gray-400 font-semibold shrink-0"}>
                     {item.isComposition ? "🎁 " : ""}
                     {item.key === "Couleur Boîtier" || item.key === "Couleur"
                       ? "🎨 Boîtier"
@@ -139,25 +162,51 @@ export default function OrderItemOptionsViewer({ options }: OrderItemOptionsView
               )}
             </span>
           ))}
+
+          {/* Config URL Button when no key grid is rendered */}
+          {configUrl && keys.length === 0 && (
+            <a
+              href={configUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1.5 text-[10px] font-bold bg-[#ff4f00]/15 hover:bg-[#ff4f00]/25 text-[#ff4f00] border border-[#ff4f00]/40 px-2.5 py-1 rounded-lg transition-all shadow-sm"
+            >
+              <span>🎨</span>
+              <span>Ouvrir la configuration 3D</span>
+              <span className="text-[9px]">↗</span>
+            </a>
+          )}
         </div>
       )}
 
       {/* 2. Structured Keycaps Customization Grid for Clickers */}
       {keys.length > 0 && (
-        <div className="bg-[#121216] border border-[#ff4f00]/30 rounded-xl p-3 shadow-inner space-y-2 mt-2">
-          <div className="flex items-center justify-between border-b border-white/10 pb-1.5">
+        <div className="bg-[#121216] border border-[#ff4f00]/30 rounded-xl p-3 shadow-inner space-y-2.5 mt-2 w-full max-w-full">
+          <div className="flex items-center justify-between border-b border-white/10 pb-1.5 gap-2">
             <span className="text-[10px] font-black uppercase tracking-wider text-[#ff4f00] flex items-center gap-1.5">
               <span>⌨️</span> Personnalisation des Touches ({keys.length} touche{keys.length > 1 ? "s" : ""})
             </span>
-            <span className="text-[9px] font-mono font-bold bg-[#ff4f00]/15 text-[#ff4f00] px-2 py-0.5 rounded-md border border-[#ff4f00]/30">
-              ARTISAN 3D
-            </span>
+
+            {/* Config Button in Header */}
+            {configUrl && (
+              <a
+                href={configUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="inline-flex items-center gap-1 text-[9px] font-bold bg-[#ff4f00]/15 hover:bg-[#ff4f00]/30 text-[#ff4f00] border border-[#ff4f00]/40 px-2 py-0.5 rounded-md transition-all shadow-sm shrink-0"
+              >
+                <span>🎨 Config 3D</span>
+                <span className="text-[8px]">↗</span>
+              </a>
+            )}
           </div>
 
           <div
-            className={`grid gap-2 ${
+            className={`grid gap-2 w-full ${
               keys.length >= 6
-                ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+                ? "grid-cols-1 sm:grid-cols-2 md:grid-cols-3"
                 : keys.length >= 3
                 ? "grid-cols-1 sm:grid-cols-2"
                 : "grid-cols-1"
@@ -166,18 +215,18 @@ export default function OrderItemOptionsViewer({ options }: OrderItemOptionsView
             {keys.map((k) => (
               <div
                 key={k.keyNum}
-                className="bg-black/50 border border-white/10 hover:border-[#ff4f00]/40 rounded-lg p-2 flex items-center justify-between text-xs transition-colors"
+                className="bg-black/50 border border-white/10 hover:border-[#ff4f00]/40 rounded-lg p-2 flex items-center justify-between text-xs transition-colors min-w-0"
               >
-                <div className="flex items-center gap-2 min-w-0">
+                <div className="flex items-center gap-2 min-w-0 w-full">
                   <span className="bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30 text-[10px] font-black px-1.5 py-0.5 rounded shrink-0 font-mono">
                     #{k.keyNum}
                   </span>
-                  <div className="flex flex-col min-w-0">
+                  <div className="flex flex-col min-w-0 flex-1">
                     <span className="text-white font-bold truncate text-[11px] leading-tight">
                       {k.val}
                     </span>
                     {k.color && (
-                      <span className="text-[9px] text-amber-300 font-semibold flex items-center gap-1 leading-tight">
+                      <span className="text-[9px] text-amber-300 font-semibold flex items-center gap-1 leading-tight truncate">
                         <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block shrink-0" />
                         {k.color}
                       </span>

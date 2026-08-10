@@ -1,38 +1,72 @@
+function splitTopLevelCommas(str: string): string[] {
+  const result: string[] = [];
+  let current = "";
+  let depth = 0;
+
+  for (let i = 0; i < str.length; i++) {
+    const char = str[i];
+    if (char === "(") depth++;
+    else if (char === ")") depth--;
+
+    if (char === "," && depth === 0) {
+      if (current.trim()) result.push(current.trim());
+      current = "";
+    } else {
+      current += char;
+    }
+  }
+  if (current.trim()) result.push(current.trim());
+  return result;
+}
+
 export function parseItemName(fullName: string) {
   if (!fullName) return { mainName: "Article", options: [] };
-  
-  const parenMatches = [...fullName.matchAll(/\(([^()]+)\)/g)];
-  if (parenMatches.length === 0) {
-    return { mainName: fullName.trim(), options: [] };
-  }
 
-  let mainName = fullName;
-  let optionsRaw = "";
+  // Check if there's a primary parenthetical options block starting with key options like (Forme:, (Couleur, (Switchs:, (Touches:
+  const matchKeyOption = fullName.match(/\((Forme:|Couleur|Switchs:|Composition:|Touches:|Touche|Taille|Attache:)/i);
 
-  const optionsParenIndex = parenMatches.findIndex(m => m[1].includes(":") || m[1].includes("Composition"));
-  if (optionsParenIndex !== -1 && parenMatches[optionsParenIndex].index !== undefined) {
-    mainName = fullName.substring(0, parenMatches[optionsParenIndex].index).trim();
-    optionsRaw = parenMatches[optionsParenIndex][1];
-  } else {
-    const lastMatch = parenMatches[parenMatches.length - 1];
-    if (lastMatch.index !== undefined) {
-      mainName = fullName.substring(0, lastMatch.index).trim();
-      optionsRaw = lastMatch[1];
+  if (matchKeyOption && matchKeyOption.index !== undefined) {
+    const startIndex = matchKeyOption.index;
+    const mainName = fullName.substring(0, startIndex).trim();
+    let rawBlock = fullName.substring(startIndex).trim();
+
+    // Strip outer opening/closing parenthesis if matching outer bounds
+    if (rawBlock.startsWith("(") && rawBlock.endsWith(")")) {
+      rawBlock = rawBlock.slice(1, -1);
+    } else if (rawBlock.startsWith("(")) {
+      let depth = 0;
+      let endIdx = -1;
+      for (let i = 0; i < rawBlock.length; i++) {
+        if (rawBlock[i] === "(") depth++;
+        else if (rawBlock[i] === ")") {
+          depth--;
+          if (depth === 0) {
+            endIdx = i;
+            break;
+          }
+        }
+      }
+      if (endIdx !== -1) {
+        rawBlock = rawBlock.substring(1, endIdx);
+      } else {
+        rawBlock = rawBlock.slice(1);
+      }
     }
+
+    const options = splitTopLevelCommas(rawBlock);
+    return { mainName, options };
   }
 
-  const options: string[] = [];
-  if (optionsRaw) {
-    if (optionsRaw.includes("Composition:")) {
-      const parts = optionsRaw.split(/(?=Taille de la pochette:|Composition:)/g).map(s => s.replace(/^[\s,]+/, '').trim()).filter(Boolean);
-      options.push(...parts);
-    } else {
-      const parts = optionsRaw.split(",").map(o => o.trim()).filter(Boolean);
-      options.push(...parts);
-    }
+  // Fallback for simple single parenthetical options without nested sub-parens
+  const lastParenIdx = fullName.lastIndexOf("(");
+  if (lastParenIdx !== -1 && fullName.endsWith(")")) {
+    const mainName = fullName.substring(0, lastParenIdx).trim();
+    const rawBlock = fullName.substring(lastParenIdx + 1, fullName.length - 1).trim();
+    const options = splitTopLevelCommas(rawBlock);
+    return { mainName, options };
   }
 
-  return { mainName, options };
+  return { mainName: fullName.trim(), options: [] };
 }
 
 export function slugify(text: string): string {
