@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAdminTheme } from "../AdminThemeContext";
-import { getItemProductUrl, parseItemName } from "@/lib/orderUtils";
+import { getItemProductUrl, parseItemName, printOrderPackingSlip } from "@/lib/orderUtils";
 import OrderItemOptionsViewer from "@/components/OrderItemOptionsViewer";
 
 const ADMIN_BLUE = "#2F3CD9";
@@ -1016,12 +1016,22 @@ export default function AdminOrdersPage() {
                   COMMANDE {selectedOrder.id}
                 </h3>
               </div>
-              <button
-                onClick={() => setSelectedOrder(null)}
-                className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors cursor-pointer"
-              >
-                ✕
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => printOrderPackingSlip(selectedOrder)}
+                  className="px-3 py-1.5 rounded-xl bg-[#ff4f00] hover:bg-[#ff4f00]/80 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer"
+                  title="Imprimer le bon de préparation de la commande"
+                >
+                  <span>🖨️</span>
+                  <span>Imprimer Bon de Commande</span>
+                </button>
+                <button
+                  onClick={() => setSelectedOrder(null)}
+                  className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors cursor-pointer"
+                >
+                  ✕
+                </button>
+              </div>
             </div>
 
             {/* Modal Content */}
