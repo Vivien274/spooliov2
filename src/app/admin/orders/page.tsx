@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAdminTheme } from "../AdminThemeContext";
 import { getItemProductUrl, parseItemName } from "@/lib/orderUtils";
+import OrderItemOptionsViewer from "@/components/OrderItemOptionsViewer";
 
 const ADMIN_BLUE = "#2F3CD9";
 
@@ -1308,38 +1309,9 @@ export default function AdminOrdersPage() {
                               )}
                             </div>
 
-                            {/* Option badges */}
+                            {/* Option Badges & Clicker Key Grid */}
                             {options.length > 0 ? (
-                              <div className="flex flex-wrap gap-1.5 pt-0.5">
-                                {options.map((opt, optIdx) => {
-                                  const colonIdx = opt.indexOf(":");
-                                  const key = colonIdx !== -1 ? opt.substring(0, colonIdx).trim() : null;
-                                  const val = colonIdx !== -1 ? opt.substring(colonIdx + 1).trim() : opt;
-                                  const isComposition = key === "Composition";
-                                  
-                                  return (
-                                    <span 
-                                      key={optIdx} 
-                                      className={`inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-lg border ${
-                                        isComposition
-                                          ? "bg-purple-500/10 border-purple-500/30 text-purple-200"
-                                          : "bg-black/60 border-white/10 text-gray-300"
-                                      }`}
-                                    >
-                                      {key ? (
-                                        <>
-                                          <span className={isComposition ? "text-purple-300 font-bold" : "text-gray-400 font-semibold"}>
-                                            {isComposition ? "🎁 " : ""}{key}:
-                                          </span>
-                                          <span className="text-white font-bold">{val}</span>
-                                        </>
-                                      ) : (
-                                        <span className="text-gray-200">{opt}</span>
-                                      )}
-                                    </span>
-                                  );
-                                })}
-                              </div>
+                              <OrderItemOptionsViewer options={options} />
                             ) : (
                               <div className="text-[11px] text-gray-500 italic">Article standard</div>
                             )}

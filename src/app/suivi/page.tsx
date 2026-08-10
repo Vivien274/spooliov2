@@ -5,6 +5,7 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getItemProductUrl, parseItemName } from "@/lib/orderUtils";
+import OrderItemOptionsViewer from "@/components/OrderItemOptionsViewer";
 
 interface OrderDetail {
   id: string;
@@ -346,13 +347,7 @@ export default function OrderTrackingPage() {
                         <span className="font-extrabold text-gray-300">{(parseFloat(item.price) * item.quantity).toFixed(2)}€</span>
                       </div>
                       {options.length > 0 && (
-                        <div className="flex flex-wrap gap-1">
-                          {options.map((opt, optIdx) => (
-                            <span key={optIdx} className="text-[9px] bg-white/5 border border-white/10 px-1.5 py-0.5 rounded text-gray-400">
-                              {opt}
-                            </span>
-                          ))}
-                        </div>
+                        <OrderItemOptionsViewer options={options} />
                       )}
                     </div>
                   );
