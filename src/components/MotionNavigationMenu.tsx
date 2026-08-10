@@ -89,8 +89,8 @@ export default function MotionNavigationMenu() {
 
   return (
     <div ref={containerRef} className="relative hidden lg:flex items-center" onMouseLeave={handleMouseLeave}>
-      {/* Navigation Pills Bar */}
-      <nav className="relative flex items-center gap-1.5 p-1.5 bg-[#131316]/90 backdrop-blur-2xl border border-white/15 rounded-full shadow-2xl shadow-black/50">
+      {/* Navigation Pills Bar (Translucent Glassmorphism) */}
+      <nav className="relative flex items-center gap-1.5 p-1.5 bg-black/40 dark:bg-black/40 backdrop-blur-2xl border border-white/20 rounded-full shadow-2xl shadow-black/60">
         {menuItems.map((item) => {
           const isSelected = activeTab === item.id;
           const isHovered = hoveredTab === item.id;

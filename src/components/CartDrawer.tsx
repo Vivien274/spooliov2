@@ -33,6 +33,11 @@ export default function CartDrawer() {
   const missingForFreeShipping = Math.max(0, freeShippingThreshold - cartTotal);
   const shippingProgress = Math.min(100, (cartTotal / freeShippingThreshold) * 100);
 
+  const eligibleTotal = cartItems
+    .filter((item) => item.productId > 0 && !item.isLoyaltyReward)
+    .reduce((acc, item) => acc + parseFloat(item.price) * item.quantity, 0);
+  const pointsEarned = Math.floor(eligibleTotal / 2);
+
   return (
     <div className="fixed inset-0 z-[100000] flex justify-end p-2.5 sm:p-4 font-sans select-none animate-fade-in pointer-events-auto">
       {/* Background Overlay Backdrop with Blur */}
@@ -58,19 +63,9 @@ export default function CartDrawer() {
             </div>
 
             <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-base font-black text-white uppercase font-antonio tracking-wider drop-shadow-md">
-                  Mon Panier
-                </h2>
-                <span className="text-[10px] font-black px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#ff4f00]/30 to-amber-500/20 text-[#ff7700] border border-[#ff4f00]/40 font-mono shadow-[0_0_10px_rgba(255,79,0,0.2)]">
-                  {totalQuantity} {totalQuantity > 1 ? "articles" : "article"}
-                </span>
-              </div>
-              <p className="text-[10px] text-gray-400 font-medium flex items-center gap-1 mt-0.5">
-                <span>🇫🇷 Spoolio Atelier 3D</span>
-                <span className="text-gray-600">•</span>
-                <span className="text-gray-300">Comines (59)</span>
-              </p>
+              <h2 className="text-base font-black text-white uppercase font-antonio tracking-wider drop-shadow-md">
+                Mon Panier
+              </h2>
             </div>
           </div>
 
@@ -158,7 +153,7 @@ export default function CartDrawer() {
                     className="flex items-center gap-4 bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 rounded-2xl p-3.5 transition-all group/item"
                   >
                     {/* Product Thumbnail */}
-                    <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-white/10 bg-black/40 flex items-center justify-center text-xl shadow-inner">
+                    <div className="relative w-16 h-16 rounded-2xl overflow-hidden shrink-0 border border-white/10 bg-black/40 flex items-center justify-center text-2xl shadow-inner">
                       {item.productId === -1 ? (
                         <span>🌾</span>
                       ) : item.productId === -2 ? (
@@ -170,7 +165,7 @@ export default function CartDrawer() {
                           src={item.image}
                           alt={item.name}
                           fill
-                          sizes="70px"
+                          sizes="80px"
                           className="object-cover group-hover/item:scale-105 transition-transform duration-300 no-invert"
                         />
                       ) : (
@@ -180,7 +175,7 @@ export default function CartDrawer() {
 
                     {/* Info & Options */}
                     <div className="flex-1 flex flex-col min-w-0">
-                      <h4 className="text-xs font-extrabold text-white truncate leading-snug">
+                      <h4 className="text-sm font-black text-white truncate leading-snug tracking-wide">
                         {item.slug === "tombola" ? (
                           <Link href="/tombola" onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
                             {item.name}
@@ -204,8 +199,8 @@ export default function CartDrawer() {
                           {Object.entries(item.selectedOptions)
                             .filter(([key]) => !key.startsWith("_"))
                             .map(([key, val]) => (
-                              <span key={key} className="text-[9px] font-bold text-gray-400 font-sans uppercase">
-                                {key}: <span className="text-gray-200">{val}</span>
+                              <span key={key} className="text-xs font-semibold text-gray-300 font-sans">
+                                {key}: <strong className="text-white">{val}</strong>
                               </span>
                             ))}
                         </div>
@@ -216,46 +211,46 @@ export default function CartDrawer() {
                         <Link
                           href={item.selectedOptions._configUrl || "/createur-cliqueur"}
                           onClick={() => setIsCartOpen(false)}
-                          className="inline-flex items-center gap-1 text-[10px] font-bold text-[#ff4f00] hover:underline mt-1"
+                          className="inline-flex items-center gap-1 text-xs font-bold text-[#ff4f00] hover:underline mt-1"
                         >
                           <span>✏️ Modifier la création 3D</span>
                         </Link>
                       )}
 
                       {/* Price & Quantity Adjuster */}
-                      <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-white/5">
+                      <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-white/10">
                         {item.productId < 0 ? (
-                          <span className="text-[10px] font-extrabold text-amber-400 uppercase tracking-wider font-mono">
+                          <span className="text-xs font-extrabold text-amber-400 uppercase tracking-wider font-mono">
                             Qté : {item.quantity}
                           </span>
                         ) : (
-                          <div className="flex items-center border border-white/10 rounded-lg bg-black/30 p-0.5">
+                          <div className="flex items-center border border-white/15 rounded-lg bg-black/40 p-0.5">
                             <button
                               onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                              className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-white rounded active:scale-90 transition-all cursor-pointer"
+                              className="w-6 h-6 flex items-center justify-center text-gray-300 hover:text-white rounded active:scale-90 transition-all cursor-pointer font-extrabold text-sm"
                               title="Réduire"
                             >
-                              <Minus className="w-3 h-3" />
+                              <Minus className="w-3.5 h-3.5" />
                             </button>
-                            <span className="w-6 text-center text-xs font-black text-white font-mono">
+                            <span className="w-7 text-center text-xs font-black text-white font-mono">
                               {item.quantity}
                             </span>
                             <button
                               onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                              className="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-white rounded active:scale-90 transition-all cursor-pointer"
+                              className="w-6 h-6 flex items-center justify-center text-gray-300 hover:text-white rounded active:scale-90 transition-all cursor-pointer font-extrabold text-sm"
                               title="Augmenter"
                             >
-                              <Plus className="w-3 h-3" />
+                              <Plus className="w-3.5 h-3.5" />
                             </button>
                           </div>
                         )}
 
                         {item.isLoyaltyReward || parseFloat(item.price) === 0 ? (
-                          <span className="text-xs font-black text-emerald-400 font-antonio tracking-wide bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
+                          <span className="text-xs font-black text-emerald-400 font-antonio tracking-wide bg-emerald-500/15 px-2.5 py-1 rounded-lg border border-emerald-500/40 shadow-sm">
                             OFFERT (0,00€)
                           </span>
                         ) : (
-                          <span className="text-xs font-black text-white font-antonio tracking-wide">
+                          <span className="text-sm font-black text-white font-antonio tracking-wide">
                             {(parseFloat(item.price) * item.quantity).toFixed(2)}€
                           </span>
                         )}
@@ -287,6 +282,30 @@ export default function CartDrawer() {
               <span className="flex items-center justify-center gap-1">🇫🇷 Made in Nord</span>
               <span className="flex items-center justify-center gap-1">⚡ Expédition 24/48h</span>
             </div>
+
+            {/* Loyalty Points Banner */}
+            {pointsEarned > 0 && (
+              <div className="flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-[#ff4f00]/20 via-amber-500/15 to-[#005cff]/20 border border-[#ff4f00]/40 shadow-xl font-sans">
+                <div className="flex items-center gap-3.5">
+                  <img
+                    src="/images/spoolio-mascot.png"
+                    alt="Mascotte Spoolio"
+                    className="w-14 h-14 sm:w-16 sm:h-16 object-contain shrink-0 filter drop-shadow-[0_6px_15px_rgba(255,79,0,0.45)] hover:scale-105 transition-transform"
+                  />
+                  <div className="text-left space-y-0.5">
+                    <div className="text-xs sm:text-sm font-black text-white flex items-center gap-1.5 font-sans leading-tight">
+                      <span>👑 +{pointsEarned} point{pointsEarned > 1 ? "s" : ""} Spoolio gagné{pointsEarned > 1 ? "s" : ""}</span>
+                    </div>
+                    <span className="text-[10px] sm:text-xs text-gray-300 font-semibold block leading-tight">
+                      Crédités sur votre carte lors de la validation
+                    </span>
+                  </div>
+                </div>
+                <span className="text-xs font-black text-[#ff4f00] font-mono bg-[#ff4f00]/25 border border-[#ff4f00]/50 px-3 py-1 rounded-full shrink-0 shadow-md">
+                  +{pointsEarned} PTS
+                </span>
+              </div>
+            )}
 
             {/* Total Row */}
             <div className="flex items-center justify-between font-sans">

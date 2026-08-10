@@ -130,17 +130,18 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
   const activeSlide = heroSlides[activeIndex] || heroSlides[0];
 
   return (
-    <div className="w-full relative z-10 select-none no-invert">
+    <div className="w-full relative z-30 select-none no-invert">
+      {/* Header Navigation Overlay */}
+      <Header />
+
       {/* =========================================================================
           CENTERED MULTI-SLIDE HERO CONTAINER
          ========================================================================= */}
       <section
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
-        className="w-full relative rounded-b-[36px] sm:rounded-b-[56px] border-b border-white/20 bg-[#070709] text-white min-h-[600px] sm:min-h-[660px] flex flex-col justify-between group/hero shadow-[0_15px_60px_rgba(255,255,255,0.12)] dark:shadow-[0_20px_70px_rgba(255,255,255,0.15)]"
+        className="w-full relative rounded-b-[36px] sm:rounded-b-[56px] border-b border-white/20 bg-[#070709] text-white min-h-[600px] sm:min-h-[660px] flex flex-col justify-between group/hero shadow-[0_15px_60px_rgba(255,255,255,0.12)] dark:shadow-[0_20px_70px_rgba(255,255,255,0.15)] overflow-hidden"
       >
-        {/* Header Navigation Overlay */}
-        <Header className="absolute top-0 left-0 right-0 h-20 sm:h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full no-invert" />
 
         {/* Dynamic Background Image & Mesh Gradients with Crossfade */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-b-[36px] sm:rounded-b-[56px]">
@@ -186,13 +187,13 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                 alt={activeSlide.title}
                 fill
                 priority
-                className="object-cover opacity-35 dark:opacity-30 filter blur-[1px] no-invert"
+                className="object-cover object-center opacity-75 sm:opacity-70 dark:opacity-75 sm:dark:opacity-70 transition-opacity duration-700 no-invert"
               />
             </motion.div>
           </AnimatePresence>
 
-          {/* Dark Vignette Overlay for Crisp Legibility */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#070709]/85 via-[#070709]/75 to-[#070709]" />
+          {/* Balanced Vignette Overlay for Crisp Legibility & High Background Visibility */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#070709]/50 via-[#070709]/40 to-[#070709]/95 sm:from-[#070709]/60 sm:via-[#070709]/50 sm:to-[#070709]" />
 
           {/* Dynamic Aura Glow Color */}
           <div
@@ -244,14 +245,14 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
 
                 {/* Main Punchy Centered Title (Fixed height container slot) */}
                 <div className="min-h-[75px] sm:min-h-[115px] flex items-center justify-center w-full">
-                  <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white font-antonio leading-[1.03] drop-shadow-2xl max-w-4xl">
+                  <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white font-antonio leading-[1.03] drop-shadow-[0_4px_25px_rgba(0,0,0,0.95)] max-w-4xl">
                     {activeSlide.title}
                   </h1>
                 </div>
 
                 {/* Subtitle Centered (Closer to title) */}
                 <div className="min-h-[36px] sm:min-h-[48px] flex items-center justify-center w-full -mt-1 sm:-mt-2">
-                  <p className="text-xs sm:text-base text-neutral-300 font-sans font-medium leading-relaxed max-w-2xl mx-auto line-clamp-2">
+                  <p className="text-xs sm:text-base text-white font-sans font-extrabold leading-relaxed max-w-2xl mx-auto line-clamp-2 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
                     {activeSlide.subtitle}
                   </p>
                 </div>

@@ -154,8 +154,8 @@ export default function Header({
   };
 
   return (
-    <header className={`sticky top-0 z-[99999] w-full transition-all duration-500 relative ${isSticky
-        ? "bg-[#0e0e12]/90 dark:bg-[#0e0e12]/90 light:bg-white/95 backdrop-blur-xl border-b border-[#005cff]/30 shadow-[0_4px_30px_rgba(0,92,255,0.14)]"
+    <header className={`fixed top-0 left-0 right-0 z-[99999] w-full transition-all duration-300 ${isSticky
+        ? "bg-black/65 dark:bg-[#0e0e12]/75 light:bg-white/85 backdrop-blur-2xl border-b border-[#005cff]/30 shadow-[0_4px_30px_rgba(0,92,255,0.18)]"
         : "bg-transparent border-b border-white/5"
       }`}>
       {/* Background Halos Container (overflow-hidden only for halos, allowing dropdowns to pop out) */}

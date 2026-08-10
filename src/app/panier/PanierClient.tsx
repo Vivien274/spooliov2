@@ -30,6 +30,11 @@ export default function PanierClient() {
   const [pickupSlot, setPickupSlot] = useState<string>("");
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
 
+  const eligibleTotal = cartItems
+    .filter((item) => item.productId > 0 && !item.isLoyaltyReward)
+    .reduce((acc, item) => acc + parseFloat(item.price) * item.quantity, 0);
+  const pointsEarned = Math.floor(eligibleTotal / 2);
+
   // Point Relais search UI states
   const [postalCode, setPostalCode] = useState<string>("");
   const [relays, setRelays] = useState<SelectedRelay[]>([]);
@@ -669,6 +674,28 @@ export default function PanierClient() {
               <span>Frais d'envoi</span>
               <span className="text-white font-extrabold">{shippingCost === 0 ? "Offert" : `${shippingCost.toFixed(2)}€`}</span>
             </div>
+
+            {/* Loyalty Points Banner */}
+            {pointsEarned > 0 && (
+              <div className="flex items-center justify-between p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-[#ff4f00]/20 via-amber-500/15 to-[#005cff]/20 border border-[#ff4f00]/40 my-3 shadow-lg font-sans">
+                <div className="flex items-center gap-3.5">
+                  <img
+                    src="/images/spoolio-mascot.png"
+                    alt="Mascotte Spoolio"
+                    className="w-14 h-14 sm:w-16 sm:h-16 object-contain shrink-0 filter drop-shadow-[0_6px_15px_rgba(255,79,0,0.45)] hover:scale-105 transition-transform"
+                  />
+                  <div className="text-left space-y-0.5">
+                    <div className="text-xs sm:text-sm font-black text-white leading-tight">
+                      👑 +{pointsEarned} point{pointsEarned > 1 ? "s" : ""} fidélité gagné{pointsEarned > 1 ? "s" : ""}
+                    </div>
+                    <span className="text-[10px] sm:text-xs text-gray-300 font-semibold block leading-tight">Crédités automatiquement à la validation</span>
+                  </div>
+                </div>
+                <span className="text-xs font-black text-[#ff4f00] font-mono bg-[#ff4f00]/25 border border-[#ff4f00]/50 px-3 py-1 rounded-full shrink-0 shadow-md">
+                  +{pointsEarned} PTS
+                </span>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center justify-between mb-6 font-sans">
