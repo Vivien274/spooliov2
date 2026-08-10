@@ -998,28 +998,45 @@ export default function AdminOrdersPage() {
         )}
       </div>
 
-      {/* Order Details Modal Popup */}
+{/* Order Details Modal Popup */}
       {selectedOrder && (
         <div 
           onClick={() => setSelectedOrder(null)}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm transition-opacity duration-300"
         >
           <div 
-            className={`relative w-full max-w-2xl ${cls.cardBg} border ${cls.border} rounded-3xl overflow-hidden shadow-2xl animate-fade-in`}
+            className={`relative w-full max-w-3xl ${cls.cardBg} border ${cls.border} rounded-3xl overflow-hidden shadow-2xl animate-fade-in`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-white/5 bg-white/[0.01]">
-              <div>
-                <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500">Détails de la commande</span>
-                <h3 className="text-xl font-black font-antonio text-white mt-1">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 border-b border-white/10 bg-white/[0.02]">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[10px] uppercase font-black tracking-widest text-[#ff4f00] bg-[#ff4f00]/10 border border-[#ff4f00]/20 px-2 py-0.5 rounded-md">
+                    Détails Commande
+                  </span>
+                  <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${
+                    selectedOrder.status === "attente_impression" ? "bg-amber-500/10 text-amber-300 border-amber-500/30" :
+                    selectedOrder.status === "impression" ? "bg-blue-500/10 text-blue-300 border-blue-500/30" :
+                    selectedOrder.status === "emballe" ? "bg-purple-500/10 text-purple-300 border-purple-500/30" :
+                    selectedOrder.status === "expedie" ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30" :
+                    "bg-gray-500/10 text-gray-300 border-gray-500/30"
+                  }`}>
+                    {selectedOrder.status === "attente_impression" ? "⏳ En attente" :
+                     selectedOrder.status === "impression" ? "🛠️ Impression" :
+                     selectedOrder.status === "emballe" ? "📦 Emballée" :
+                     selectedOrder.status === "expedie" ? "🚚 Expédiée" : selectedOrder.status}
+                  </span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-black font-antonio text-white tracking-wide">
                   COMMANDE {selectedOrder.id}
                 </h3>
               </div>
+
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => printOrderPackingSlip(selectedOrder)}
-                  className="px-3 py-1.5 rounded-xl bg-[#ff4f00] hover:bg-[#ff4f00]/80 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer"
+                  className="px-3.5 py-2 rounded-xl bg-[#ff4f00] hover:bg-[#ff4f00]/85 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer shrink-0"
                   title="Imprimer le bon de préparation de la commande"
                 >
                   <span>🖨️</span>
@@ -1027,218 +1044,199 @@ export default function AdminOrdersPage() {
                 </button>
                 <button
                   onClick={() => setSelectedOrder(null)}
-                  className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors cursor-pointer"
+                  className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/15 text-gray-400 hover:text-white transition-colors cursor-pointer shrink-0"
                 >
                   ✕
                 </button>
               </div>
             </div>
 
-            {/* Modal Content */}
-            <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
-              {/* Client & Metadata Row */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-1">
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block">Informations Client</span>
-                  <div className="text-sm font-bold text-white">{selectedOrder.customerName || "—"}</div>
-                  <div className="text-xs text-gray-400 select-all">{selectedOrder.email}</div>
-                  {selectedOrder.customerPhone && (
-                    <div className="text-xs text-gray-400 select-all font-mono">📞 {selectedOrder.customerPhone}</div>
-                  )}
+            {/* Modal Content - Scrollable */}
+            <div className="p-5 sm:p-6 space-y-5 max-h-[75vh] overflow-y-auto">
+              
+              {/* Top Sub-banner Info */}
+              <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-gray-400 bg-white/[0.02] border border-white/5 rounded-2xl px-4 py-2.5">
+                <div>
+                  📅 Passée le <strong className="text-gray-200">{new Date(selectedOrder.createdAt).toLocaleString("fr-FR", { dateStyle: "long", timeStyle: "short" })}</strong>
                 </div>
-
-                <div className="space-y-1">
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block">Date de création</span>
-                  <div className="text-sm font-bold text-white">
-                    {new Date(selectedOrder.createdAt).toLocaleString("fr-FR", {
-                      dateStyle: "long",
-                      timeStyle: "short"
-                    })}
-                  </div>
-                  <div className="text-xs text-gray-400">Mode : {selectedOrder.shippingMethod === "pickup" ? "Retrait Atelier" : (selectedOrder.shippingMethod === "relay" ? "Mondial Relay" : "Colissimo Domicile")}</div>
+                <div>
+                  📦 Mode : <strong className="text-gray-200">{selectedOrder.shippingMethod === "pickup" ? "Retrait Atelier" : (selectedOrder.shippingMethod === "relay" ? "Mondial Relay" : "Colissimo Domicile")}</strong>
                 </div>
               </div>
 
-              {/* Delivery Details Block */}
-              {selectedOrder.shippingMethod !== "pickup" ? (
-                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-4">
-                  <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block">Adresse de livraison</span>
-                      {editingAddress !== selectedOrder.id && (
-                        <button
-                          onClick={() => {
-                            setEditingAddress(selectedOrder.id);
-                            setEditingAddressInput(selectedOrder.shippingAddress || "");
-                          }}
-                          className="text-[11px] font-bold text-amber-400 hover:text-amber-300 transition-colors uppercase tracking-wider flex items-center gap-1 cursor-pointer select-none"
-                        >
-                          ✏️ {selectedOrder.shippingAddress ? "Modifier" : "Saisir l'adresse"}
-                        </button>
-                      )}
-                    </div>
+              {/* CARD 1: CLIENT & LIVRAISON (GROUPED) */}
+              <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-4.5 space-y-4">
+                <div className="text-[11px] font-black uppercase tracking-wider text-gray-400 flex items-center gap-2 border-b border-white/5 pb-2">
+                  <span>👤</span>
+                  <span>Informations Client & Expédition</span>
+                </div>
 
-                    {editingAddress === selectedOrder.id ? (
-                      <div className="space-y-2 font-sans">
-                        <textarea
-                          rows={4}
-                          value={editingAddressInput}
-                          onChange={(e) => setEditingAddressInput(e.target.value)}
-                          placeholder="Ex: Laura De Poppe&#10;12 Rue des Fleurs&#10;59000 Lille&#10;France"
-                          className="w-full bg-black border border-amber-500/50 rounded-xl p-3 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-amber-400"
-                        />
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={handleSaveAddress}
-                            disabled={savingAddressLoading}
-                            className="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white font-bold text-xs transition-colors cursor-pointer"
-                          >
-                            {savingAddressLoading ? "Enregistrement..." : "💾 Enregistrer l'adresse"}
-                          </button>
-                          <button
-                            onClick={() => setEditingAddress(null)}
-                            className="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 font-bold text-xs transition-colors cursor-pointer"
-                          >
-                            Annuler
-                          </button>
-                        </div>
-                      </div>
-                    ) : selectedOrder.shippingAddress ? (
-                      <div className="text-xs text-gray-200 select-all whitespace-pre-line leading-relaxed font-sans bg-black/45 border border-white/5 rounded-xl p-3">
-                        {selectedOrder.shippingAddress}
-                      </div>
-                    ) : (
-                      <div className="text-xs text-amber-400/90 bg-amber-500/10 border border-amber-500/20 rounded-xl p-3 space-y-2">
-                        <div>⚠️ Adresse non enregistrée en base.</div>
-                        <div className="flex flex-wrap gap-2 pt-1">
-                          {selectedOrder.stripeSession && (
-                            <a
-                              href={`https://dashboard.stripe.com/search?query=${selectedOrder.stripeSession}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#2F3CD9] hover:bg-[#2532c7] text-white font-bold text-xs transition-colors shadow-sm"
-                            >
-                              <span>💳 Voir la transaction Stripe</span>
-                              <span>↗</span>
-                            </a>
-                          )}
-                          <button
-                            onClick={() => {
-                              setEditingAddress(selectedOrder.id);
-                              setEditingAddressInput("");
-                            }}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-black font-bold text-xs transition-colors shadow-sm cursor-pointer"
-                          >
-                            ✏️ Saisir l'adresse manuellement
-                          </button>
-                        </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {/* Left: Customer Info */}
+                  <div className="space-y-1.5 bg-black/30 border border-white/5 rounded-xl p-3.5">
+                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-gray-500 block">Contact Client</span>
+                    <div className="text-sm font-extrabold text-white">{selectedOrder.customerName || "Client Inconnu"}</div>
+                    <div className="text-xs text-gray-300 font-mono select-all flex items-center gap-1.5">
+                      <span>✉️</span>
+                      <span>{selectedOrder.email}</span>
+                    </div>
+                    {selectedOrder.customerPhone && (
+                      <div className="text-xs text-gray-300 font-mono select-all flex items-center gap-1.5 pt-0.5">
+                        <span>📞</span>
+                        <span>{selectedOrder.customerPhone}</span>
                       </div>
                     )}
                   </div>
-                  {selectedOrder.shippingAddress && editingAddress !== selectedOrder.id && (
-                    <button
-                      onClick={() => {
-                        navigator.clipboard.writeText(selectedOrder.shippingAddress || "");
-                        alert("Adresse copiée dans le presse-papier !");
-                      }}
-                      className="text-[11px] font-bold text-blue-400 hover:text-blue-300 transition-colors uppercase tracking-wider flex items-center gap-1 cursor-pointer select-none"
-                    >
-                      📋 Copier l'adresse pour Boxtal
-                    </button>
-                  )}
-                  {selectedOrder.trackingNumber && (
-                    <div className="pt-3 border-t border-white/5 space-y-1">
-                      <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block">Numéro de suivi transporteur</span>
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-sm font-bold text-yellow-400 bg-white/5 px-2 py-1 rounded select-all">
-                          {selectedOrder.trackingNumber}
-                        </span>
-                        <a
-                          href={selectedOrder.shippingMethod === "relay" 
-                            ? `https://www.mondialrelay.fr/suivi-de-colis?numeroColis=${selectedOrder.trackingNumber}`
-                            : `https://www.laposte.fr/outils/suivre-un-envoi?code=${selectedOrder.trackingNumber}`
-                          }
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[11px] font-bold text-[#ff4f00] hover:underline"
-                        >
-                          Suivre le colis &rarr;
-                        </a>
+
+                  {/* Right: Shipping Address / Pickup details */}
+                  <div className="space-y-1.5 bg-black/30 border border-white/5 rounded-xl p-3.5">
+                    {selectedOrder.shippingMethod !== "pickup" ? (
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-[10px] uppercase font-extrabold tracking-wider text-gray-500 block">Adresse de Livraison</span>
+                          {editingAddress !== selectedOrder.id && (
+                            <button
+                              onClick={() => {
+                                setEditingAddress(selectedOrder.id);
+                                setEditingAddressInput(selectedOrder.shippingAddress || "");
+                              }}
+                              className="text-[10px] font-bold text-amber-400 hover:text-amber-300 transition-colors uppercase tracking-wider flex items-center gap-1 cursor-pointer select-none"
+                            >
+                              ✏️ {selectedOrder.shippingAddress ? "Modifier" : "Saisir"}
+                            </button>
+                          )}
+                        </div>
+
+                        {editingAddress === selectedOrder.id ? (
+                          <div className="space-y-2 font-sans mt-2">
+                            <textarea
+                              rows={3}
+                              value={editingAddressInput}
+                              onChange={(e) => setEditingAddressInput(e.target.value)}
+                              placeholder="Ex: Laura De Poppe&#10;15 Rue de l'Aurore&#10;4520 Wanze&#10;Belgique"
+                              className="w-full bg-black border border-amber-500/50 rounded-xl p-2.5 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-amber-400"
+                            />
+                            <div className="flex items-center gap-2">
+                              <button
+                                onClick={handleSaveAddress}
+                                disabled={savingAddressLoading}
+                                className="px-3 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white font-bold text-xs transition-colors cursor-pointer"
+                              >
+                                {savingAddressLoading ? "Enregistrement..." : "💾 Enregistrer"}
+                              </button>
+                              <button
+                                onClick={() => setEditingAddress(null)}
+                                className="px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 font-bold text-xs transition-colors cursor-pointer"
+                              >
+                                Annuler
+                              </button>
+                            </div>
+                          </div>
+                        ) : selectedOrder.shippingAddress ? (
+                          <div className="text-xs text-gray-200 select-all whitespace-pre-line leading-relaxed font-sans">
+                            {selectedOrder.shippingAddress}
+                          </div>
+                        ) : (
+                          <div className="text-xs text-amber-400 font-semibold bg-amber-500/10 border border-amber-500/20 rounded-lg p-2 mt-1">
+                            ⚠️ Adresse non renseignée
+                          </div>
+                        )}
+
+                        {/* Tracking Number badge */}
+                        {selectedOrder.trackingNumber && (
+                          <div className="pt-2.5 mt-2.5 border-t border-white/5 flex items-center justify-between gap-2">
+                            <span className="text-[10px] uppercase font-bold text-gray-400">Suivi Colis :</span>
+                            <div className="flex items-center gap-2">
+                              <span className="font-mono text-xs font-bold text-yellow-400 bg-white/5 px-2 py-0.5 rounded select-all">
+                                {selectedOrder.trackingNumber}
+                              </span>
+                              <a
+                                href={selectedOrder.shippingMethod === "relay" 
+                                  ? `https://www.mondialrelay.fr/suivi-de-colis?numeroColis=${selectedOrder.trackingNumber}`
+                                  : `https://www.laposte.fr/outils/suivre-un-envoi?code=${selectedOrder.trackingNumber}`
+                                }
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-[11px] font-bold text-[#ff4f00] hover:underline"
+                              >
+                                Suivre ↗
+                              </a>
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 space-y-3">
-                  <div>
-                    <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block mb-1">Détails du Retrait Atelier (Click & Collect)</span>
-                    <div className="text-xs text-gray-300">
-                      Créneau souhaité : <strong className="text-white">{formatPickupSlot(selectedOrder.pickupSlotConfirmed || selectedOrder.pickupSlotRequested)}</strong>
-                    </div>
-                    <div className="text-xs text-gray-400 mt-1">
-                      Statut du créneau : <strong className="text-white">{
-                        selectedOrder.pickupStatus === "confirmed" ? "Validé ✓" :
-                        selectedOrder.pickupStatus === "proposed" ? "Alternative proposée" :
-                        "En attente de validation"
-                      }</strong>
-                    </div>
+                    ) : (
+                      <div className="space-y-2">
+                        <span className="text-[10px] uppercase font-extrabold tracking-wider text-gray-500 block">Retrait Atelier (Click & Collect)</span>
+                        <div className="text-xs text-gray-300">
+                          Créneau souhaité : <strong className="text-white">{formatPickupSlot(selectedOrder.pickupSlotConfirmed || selectedOrder.pickupSlotRequested)}</strong>
+                        </div>
+                        <div className="text-xs text-gray-400">
+                          Statut : <strong className="text-white">{
+                            selectedOrder.pickupStatus === "confirmed" ? "Validé ✓" :
+                            selectedOrder.pickupStatus === "proposed" ? "Alternative proposée" :
+                            "En attente"
+                          }</strong>
+                        </div>
+
+                        {selectedOrder.pickupStatus !== "confirmed" && (
+                          <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center pt-2 border-t border-white/5" onClick={(e) => e.stopPropagation()}>
+                            {selectedOrder.pickupSlotRequested && (
+                              <button
+                                onClick={() => handleConfirmPickupSlot(selectedOrder.id, selectedOrder.pickupSlotRequested!)}
+                                disabled={pickupLoading === selectedOrder.id}
+                                className="px-3 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500 hover:text-white font-bold text-[10px] uppercase tracking-wider transition-colors cursor-pointer"
+                              >
+                                {pickupLoading === selectedOrder.id ? "Validation..." : "Valider ✓"}
+                              </button>
+                            )}
+                            <div className="flex gap-1.5 items-center">
+                              <input
+                                type="datetime-local"
+                                value={proposingSlots[selectedOrder.id] || ""}
+                                onChange={(e) => setProposingSlots(prev => ({ ...prev, [selectedOrder.id]: e.target.value }))}
+                                className="bg-black border border-[#222225] rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-[#005cff] cursor-pointer"
+                              />
+                              <button
+                                onClick={() => handleProposeAlternativeSlot(selectedOrder.id)}
+                                disabled={pickupLoading === selectedOrder.id || !proposingSlots[selectedOrder.id]}
+                                className="px-2.5 py-1 rounded bg-blue-500 hover:bg-blue-600 disabled:bg-white/5 disabled:text-gray-600 font-bold text-xs text-white transition-colors cursor-pointer"
+                              >
+                                Proposer 📅
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
-                  
-                  {selectedOrder.pickupStatus !== "confirmed" && (
-                    <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center mt-3 pt-3 border-t border-white/5 select-none" onClick={(e) => e.stopPropagation()}>
-                      {selectedOrder.pickupSlotRequested && (
-                        <button
-                          onClick={() => handleConfirmPickupSlot(selectedOrder.id, selectedOrder.pickupSlotRequested!)}
-                          disabled={pickupLoading === selectedOrder.id}
-                          className="px-3 py-1.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500 hover:text-white font-bold text-[10px] uppercase tracking-wider transition-colors cursor-pointer"
-                        >
-                          {pickupLoading === selectedOrder.id ? "Validation..." : "Valider le créneau ✓"}
-                        </button>
-                      )}
-                      <div className="flex gap-1.5 items-center">
-                        <input
-                          type="datetime-local"
-                          value={proposingSlots[selectedOrder.id] || ""}
-                          onChange={(e) => setProposingSlots(prev => ({ ...prev, [selectedOrder.id]: e.target.value }))}
-                          className="bg-black border border-[#222225] rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-[#005cff] cursor-pointer text-gray-800 dark:text-white"
-                        />
-                        <button
-                          onClick={() => handleProposeAlternativeSlot(selectedOrder.id)}
-                          disabled={pickupLoading === selectedOrder.id || !proposingSlots[selectedOrder.id]}
-                          className="px-2.5 py-1 rounded bg-blue-500 hover:bg-blue-600 disabled:bg-white/5 disabled:text-gray-600 disabled:border-transparent text-white font-bold text-xs transition-colors cursor-pointer border border-transparent"
-                        >
-                          Proposer 📅
-                        </button>
-                      </div>
-                    </div>
-                  )}
                 </div>
-              )}
+              </div>
 
-              {/* Items List */}
-              {(() => {
-                const modalTombolaInfo = selectedOrder ? getTombolaOrderDetails(selectedOrder) : null;
+              {/* CARD 2: ARTICLES COMMANDÉS & OPTIONS 3D */}
+              <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-4.5 space-y-3.5">
+                <div className="flex items-center justify-between border-b border-white/5 pb-2">
+                  <div className="text-[11px] font-black uppercase tracking-wider text-gray-400 flex items-center gap-2">
+                    <span>📦</span>
+                    <span>Articles Commandés ({selectedOrder.items?.reduce((acc, i) => acc + (i.quantity || 1), 0) || 0})</span>
+                  </div>
+                  <span className="text-xs font-semibold text-gray-500 font-mono">
+                    {selectedOrder.items?.length || 0} produit(s)
+                  </span>
+                </div>
 
-                if (modalTombolaInfo) {
-                  return (
-                    <div>
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-[10px] uppercase font-bold tracking-wider text-amber-400">
-                          Participation Tombola ({modalTombolaInfo.totalTickets} ticket{modalTombolaInfo.totalTickets > 1 ? "s" : ""})
-                        </span>
-                        <span className="text-xs font-semibold text-gray-400 font-mono">
-                          {modalTombolaInfo.cases.length} case{modalTombolaInfo.cases.length > 1 ? "s" : ""} réservée(s)
-                        </span>
-                      </div>
-                      <div className="bg-amber-500/10 border border-amber-500/25 rounded-2xl p-4 flex flex-col gap-3">
+                {/* Items Container */}
+                {(() => {
+                  const modalTombolaInfo = selectedOrder ? getTombolaOrderDetails(selectedOrder) : null;
+
+                  if (modalTombolaInfo) {
+                    return (
+                      <div className="bg-amber-500/10 border border-amber-500/25 rounded-xl p-4 flex flex-col gap-3">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2 font-bold text-amber-400 text-sm">
                             <span className="text-xl">🎟️</span>
                             <span>Ticket{modalTombolaInfo.totalTickets > 1 ? "s" : ""} Tombola Spoolio</span>
                           </div>
-                          <span className="text-sm font-mono font-black text-amber-300">
-                            Total : {selectedOrder.total.toFixed(2)}€
-                          </span>
                         </div>
                         <div className="flex flex-wrap items-center gap-1.5 pt-1 border-t border-amber-500/20">
                           <span className="text-xs text-gray-300 font-bold mr-1">Cases choisies :</span>
@@ -1249,20 +1247,10 @@ export default function AdminOrdersPage() {
                           ))}
                         </div>
                       </div>
-                    </div>
-                  );
-                }
+                    );
+                  }
 
-                return (
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-[10px] uppercase font-bold tracking-wider text-gray-400">
-                        Articles commandés ({selectedOrder.items?.reduce((acc, i) => acc + (i.quantity || 1), 0) || 0})
-                      </span>
-                      <span className="text-xs font-semibold text-gray-500 font-mono">
-                        {selectedOrder.items?.length || 0} produit(s) distinct(s)
-                      </span>
-                    </div>
+                  return (
                     <div className="space-y-2.5">
                       {(selectedOrder.items || []).map((item, idx) => {
                         const { mainName, options } = parseItemName(item.name);
@@ -1271,162 +1259,114 @@ export default function AdminOrdersPage() {
                         const unitPrice = item.price ? parseFloat(String(item.price)) : null;
                         const totalPrice = unitPrice ? unitPrice * item.quantity : null;
 
-                    return (
-                      <div 
-                        key={idx} 
-                        className="bg-white/[0.02] border border-white/10 hover:border-white/20 transition-all rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-start justify-between gap-3 shadow-sm w-full overflow-hidden"
-                      >
-                        <div className="flex items-start gap-3 min-w-0 flex-1 w-full">
-                          {/* Quantity pill */}
-                          <div className={`mt-0.5 inline-flex items-center justify-center font-mono font-black text-xs px-2.5 py-1 rounded-xl shrink-0 ${
-                            isDonation 
-                              ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
-                              : isTombola
-                              ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-                              : "bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30"
-                          }`}>
-                            x{item.quantity}
-                          </div>
+                        return (
+                          <div 
+                            key={idx} 
+                            className="bg-black/30 border border-white/5 hover:border-white/15 transition-all rounded-xl p-3.5 flex flex-col sm:flex-row sm:items-start justify-between gap-3 shadow-sm w-full overflow-hidden"
+                          >
+                            <div className="flex items-start gap-3 min-w-0 flex-1 w-full">
+                              <div className={`mt-0.5 inline-flex items-center justify-center font-mono font-black text-xs px-2.5 py-1 rounded-xl shrink-0 ${
+                                isDonation 
+                                  ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
+                                  : isTombola
+                                  ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                                  : "bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30"
+                              }`}>
+                                x{item.quantity}
+                              </div>
 
-                          {/* Product Details */}
-                          <div className="space-y-1 min-w-0 flex-1 w-full">
-                            <div className="text-sm font-bold text-white flex items-center gap-1.5">
-                              {isDonation && "❤️"}
-                              {isTombola && "🎟️"}
-                              {!isDonation && !isTombola && "📦"}
-                              {getItemProductUrl(item) ? (
-                                <Link
-                                  href={getItemProductUrl(item)!}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="hover:text-[#ff4f00] hover:underline transition-colors inline-flex items-center gap-1 group"
-                                  title="Ouvrir la fiche produit sur le site"
-                                >
-                                  <span>{mainName}</span>
-                                  <span className="text-xs text-gray-400 group-hover:text-[#ff4f00]">↗</span>
-                                </Link>
-                              ) : (
-                                <span>{mainName}</span>
-                              )}
+                              <div className="space-y-1.5 min-w-0 flex-1 w-full">
+                                <div className="text-sm font-extrabold text-white flex items-center gap-1.5">
+                                  {isDonation && "❤️"}
+                                  {isTombola && "🎟️"}
+                                  {!isDonation && !isTombola && "📦"}
+                                  {getItemProductUrl(item) ? (
+                                    <Link
+                                      href={getItemProductUrl(item)!}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="hover:text-[#ff4f00] hover:underline transition-colors inline-flex items-center gap-1 group"
+                                      title="Ouvrir la fiche produit sur le site"
+                                    >
+                                      <span>{mainName}</span>
+                                      <span className="text-xs text-gray-400 group-hover:text-[#ff4f00]">↗</span>
+                                    </Link>
+                                  ) : (
+                                    <span>{mainName}</span>
+                                  )}
+                                </div>
+
+                                {options.length > 0 ? (
+                                  <OrderItemOptionsViewer options={options} />
+                                ) : (
+                                  <div className="text-[11px] text-gray-500 italic">Article standard</div>
+                                )}
+                              </div>
                             </div>
 
-                            {/* Option Badges & Clicker Key Grid */}
-                            {options.length > 0 ? (
-                              <OrderItemOptionsViewer options={options} />
-                            ) : (
-                              <div className="text-[11px] text-gray-500 italic">Article standard</div>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Price details */}
-                        {totalPrice !== null && (
-                          <div className="text-right shrink-0 border-t sm:border-t-0 border-white/5 pt-2 sm:pt-0">
-                            <div className="text-sm font-black font-mono text-white">
-                              {totalPrice.toFixed(2)}€
-                            </div>
-                            {item.quantity > 1 && (
-                              <div className="text-[10px] text-gray-500 font-mono">
-                                ({unitPrice?.toFixed(2)}€ / un.)
+                            {totalPrice !== null && (
+                              <div className="text-right shrink-0 border-t sm:border-t-0 border-white/5 pt-2 sm:pt-0">
+                                <div className="text-sm font-black font-mono text-white">
+                                  {totalPrice.toFixed(2)}€
+                                </div>
+                                {item.quantity > 1 && (
+                                  <div className="text-[10px] text-gray-500 font-mono">
+                                    ({unitPrice?.toFixed(2)}€ / un.)
+                                  </div>
+                                )}
                               </div>
                             )}
                           </div>
-                        )}
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
+
+                {/* Total & Shipping Pricing Summary Strip */}
+                {(() => {
+                  const itemsSubtotal = (selectedOrder.items || []).reduce((acc, item) => {
+                    const price = item.price ? parseFloat(String(item.price)) : 0;
+                    return acc + price * (item.quantity || 1);
+                  }, 0);
+
+                  const expectedTotal = itemsSubtotal + (selectedOrder.shippingCost || 0);
+                  const diff = expectedTotal - selectedOrder.total;
+                  const hasDiscount = diff > 0.05;
+
+                  return (
+                    <div className="bg-black/40 border border-white/5 rounded-xl p-3.5 mt-2 space-y-2">
+                      {hasDiscount && (
+                        <div className="flex justify-between items-center text-xs text-emerald-400 font-semibold border-b border-white/5 pb-2">
+                          <span>🎁 Réduction / Code promo / Fidélité appliqué :</span>
+                          <span className="font-mono font-bold">-{diff.toFixed(2)}€</span>
+                        </div>
+                      )}
+                      <div className="flex flex-wrap justify-between items-center text-xs text-gray-400 gap-2">
+                        <div>
+                          Sous-total articles : <strong className="text-gray-200">{itemsSubtotal.toFixed(2)}€</strong> &nbsp;•&nbsp; Livraison : <strong className="text-gray-200">{selectedOrder.shippingCost === 0 ? "Offerte" : `${selectedOrder.shippingCost.toFixed(2)}€`}</strong>
+                        </div>
+                        <div className="text-right flex items-center gap-2">
+                          <span className="text-xs uppercase font-bold text-gray-400">Total Net Payé :</span>
+                          <span className="text-lg font-black font-mono text-yellow-400">{selectedOrder.total.toFixed(2)}€</span>
+                        </div>
                       </div>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })()}
-
-              {/* Pricing breakdown */}
-              <div className="flex justify-between items-center bg-white/[0.01] border border-white/5 rounded-2xl p-4">
-                <div className="text-xs text-gray-400">
-                  Frais d'envoi : {selectedOrder.shippingCost === 0 ? "Gratuit" : `${selectedOrder.shippingCost.toFixed(2)}€`}
-                </div>
-                <div className="text-right">
-                  <span className="text-[10px] uppercase font-bold tracking-wider text-gray-500 block">Total payé</span>
-                  <span className="text-lg font-black text-yellow-400">{selectedOrder.total.toFixed(2)}€</span>
-                </div>
+                    </div>
+                  );
+                })()}
               </div>
 
-              {/* Modal Footer Actions Section */}
-              <div className="space-y-3 pt-4 border-t border-white/10 font-sans">
-                {/* Row 1: External Links & Communication Tools */}
-                <div className="flex flex-wrap items-center justify-between gap-2.5 bg-white/[0.02] border border-white/5 rounded-2xl p-3">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    {selectedOrder.stripeSession && (
-                      <a
-                        href={`https://dashboard.stripe.com/search?query=${selectedOrder.stripeSession}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-3 py-1.5 rounded-xl border border-[#ff4f00]/30 bg-[#ff4f00]/10 text-[#ff4f00] hover:bg-[#ff4f00] hover:text-white font-bold text-xs transition-all flex items-center gap-1.5"
-                      >
-                        <span>💳</span>
-                        <span>Stripe</span>
-                      </a>
-                    )}
-                    {selectedOrder.shippingMethod !== "pickup" && (
-                      <a
-                        href="https://www.boxtal.com/fr/fr/accueil"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-3 py-1.5 rounded-xl border border-blue-500/30 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white font-bold text-xs transition-all flex items-center gap-1.5"
-                      >
-                        <span>📦</span>
-                        <span>Boxtal</span>
-                      </a>
-                    )}
-                  </div>
-
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setNoteText("");
-                        setShowNoteModal(true);
-                      }}
-                      className="px-3 py-1.5 rounded-xl border border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500 hover:text-black font-bold text-xs transition-all cursor-pointer flex items-center gap-1.5"
-                    >
-                      <span>💬</span>
-                      <span>Envoyer une note</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleRequestReview(selectedOrder)}
-                      disabled={requestReviewLoading === selectedOrder.id}
-                      className="px-3 py-1.5 rounded-xl border border-purple-500/40 bg-purple-500/10 text-purple-300 hover:bg-purple-500 hover:text-white font-bold text-xs transition-all cursor-pointer flex items-center gap-1.5 shadow-sm"
-                      title="Envoyer un e-mail de relance d'avis client (Google + Site)"
-                    >
-                      <span>⭐️</span>
-                      <span>
-                        {requestReviewLoading === selectedOrder.id
-                          ? "Envoi relance..."
-                          : (selectedOrder as any).reviewRequestedAt
-                          ? "Relancé ✓"
-                          : "Relancer pour avis"}
-                      </span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const customEmail = prompt("Renvoyer l'email de confirmation à cette adresse :", selectedOrder.email);
-                        if (customEmail) handleResendEmail(selectedOrder.id, customEmail.trim());
-                      }}
-                      disabled={resendingEmail === selectedOrder.id}
-                      className="px-3 py-1.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500 hover:text-white font-bold text-xs transition-all cursor-pointer flex items-center gap-1.5"
-                    >
-                      <span>📧</span>
-                      <span>{resendingEmail === selectedOrder.id ? "Envoi..." : "Renvoyer l'email"}</span>
-                    </button>
-                  </div>
+              {/* CARD 3: ACTIONS & WORKFLOW CENTER */}
+              <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-4.5 space-y-3.5">
+                <div className="text-[11px] font-black uppercase tracking-wider text-gray-400 flex items-center gap-2 border-b border-white/5 pb-2">
+                  <span>⚡</span>
+                  <span>Centre d'Actions & Communication Client</span>
                 </div>
 
-                {/* Row 2: Status & Shipping Actions */}
-                <div className="flex flex-wrap items-center justify-between gap-2.5 bg-white/[0.04] border border-white/10 rounded-2xl p-3" onClick={(e) => e.stopPropagation()}>
+                {/* Row 1: Workflow status steps */}
+                <div className="flex flex-wrap items-center justify-between gap-3 bg-black/30 border border-white/5 rounded-xl p-3" onClick={(e) => e.stopPropagation()}>
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] font-black uppercase tracking-wider text-gray-400">Actions Commande :</span>
+                    <span className="text-xs font-extrabold text-gray-300">Étape suivante :</span>
                   </div>
 
                   <div className="flex items-center gap-2 flex-wrap">
@@ -1435,11 +1375,11 @@ export default function AdminOrdersPage() {
                         type="button"
                         onClick={() => handleGenerateBoxtalShipment(selectedOrder.id)}
                         disabled={boxtalLoading === selectedOrder.id}
-                        className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs transition-all cursor-pointer shadow-md flex items-center gap-1.5"
+                        className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs transition-all cursor-pointer shadow-md flex items-center gap-1.5"
                         title="Générer l'expédition et le numéro de suivi automatique via l'API Boxtal"
                       >
                         <span>📦</span>
-                        <span>{boxtalLoading === selectedOrder.id ? "Génération Boxtal..." : "Expédier via Boxtal API"}</span>
+                        <span>{boxtalLoading === selectedOrder.id ? "Génération..." : "Expédier via Boxtal API"}</span>
                       </button>
                     )}
 
@@ -1448,7 +1388,7 @@ export default function AdminOrdersPage() {
                         type="button"
                         onClick={() => handleUpdateStatus(selectedOrder.id, "impression")}
                         disabled={statusChangeLoading === selectedOrder.id}
-                        className="px-3.5 py-2 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-bold text-xs transition-colors cursor-pointer"
+                        className="px-3.5 py-1.5 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-extrabold text-xs transition-colors cursor-pointer"
                       >
                         Lancer Impression 🛠️
                       </button>
@@ -1458,7 +1398,7 @@ export default function AdminOrdersPage() {
                         type="button"
                         onClick={() => handleUpdateStatus(selectedOrder.id, "emballe")}
                         disabled={statusChangeLoading === selectedOrder.id}
-                        className="px-3.5 py-2 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-bold text-xs transition-colors cursor-pointer"
+                        className="px-3.5 py-1.5 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-extrabold text-xs transition-colors cursor-pointer"
                       >
                         Emballer 📦
                       </button>
@@ -1476,13 +1416,13 @@ export default function AdminOrdersPage() {
                           }
                         }}
                         disabled={statusChangeLoading === selectedOrder.id}
-                        className="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs transition-colors cursor-pointer"
+                        className="px-3.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs transition-colors cursor-pointer"
                       >
                         {selectedOrder.shippingMethod === "pickup" ? "Prêt au Retrait ✓" : "Expédier Manuellement 🚚"}
                       </button>
                     )}
                     {selectedOrder.status === "expedie" && (
-                      <span className="px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-300 font-bold text-xs border border-emerald-500/30 select-none">
+                      <span className="px-3 py-1 rounded-xl bg-emerald-500/20 text-emerald-300 font-extrabold text-xs border border-emerald-500/30 select-none">
                         Clôturée ✓
                       </span>
                     )}
@@ -1490,7 +1430,7 @@ export default function AdminOrdersPage() {
                     <button
                       type="button"
                       onClick={() => handleToggleArchive(selectedOrder.id, Boolean(selectedOrder.archived))}
-                      className={`px-3.5 py-2 rounded-xl font-bold text-xs transition-colors cursor-pointer border flex items-center gap-1.5 ${
+                      className={`px-3 py-1.5 rounded-xl font-bold text-xs transition-colors cursor-pointer border flex items-center gap-1.5 ${
                         selectedOrder.archived
                           ? "bg-purple-500/20 text-purple-300 border-purple-500/30 hover:bg-purple-500/30"
                           : "bg-white/10 text-gray-200 border-white/20 hover:bg-white/20 hover:text-white"

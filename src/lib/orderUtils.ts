@@ -101,70 +101,74 @@ export function generateOrderPackingSlipHtml(order: {
     const { mainName, options } = parseItemName(item.name);
     const { specs, keys } = parseClickerOptions(options);
 
+    // Column 3: Specs List
     let specsHtml = "";
     if (specs.length > 0) {
-      specsHtml += '<div style="margin-top:4px;">';
+      specsHtml = `<ul style="margin: 0; padding-left: 14px; font-size: 11px; color: #334155; line-height: 1.4;">`;
       specs.forEach((s) => {
-        const label = s.key
+        const keyLabel = s.key
           ? s.key === "Couleur Boîtier" || s.key === "Couleur"
-            ? "🎨 Boîtier"
-            : s.key === "Switchs" || s.key === "Switch"
-            ? "🔊 Switchs"
-            : s.key === "Attache"
-            ? "🔗 Attache"
-            : s.key === "Forme"
-            ? "⏹️ Forme"
+            ? "Boîtier"
             : s.key
           : "";
-        specsHtml += `<span style="display:inline-block; background:#e9ecef; color:#343a40; font-size:11px; padding:2px 6px; border-radius:4px; margin-right:4px; margin-top:2px; font-weight:600;">${label ? label + ": " : ""}${s.val}</span>`;
+        specsHtml += `<li>${keyLabel ? `<strong>${keyLabel}:</strong> ` : ""}${s.val}</li>`;
       });
-      specsHtml += '</div>';
+      specsHtml += `</ul>`;
+    } else {
+      specsHtml = `<span style="font-size: 11px; color: #94a3b8; font-style: italic;">Standard</span>`;
     }
 
-    let keysHtml = "";
+    // Column 4: 3x3 Keycaps Matrix Box
+    let keysMatrixHtml = "";
     if (keys.length > 0) {
-      keysHtml += `
-        <div style="margin-top:8px; background:#fff; border:1px solid #ff4f00; border-radius:6px; padding:8px;">
-          <div style="font-size:10px; font-weight:800; text-transform:uppercase; color:#ff4f00; margin-bottom:6px;">
-            ⌨️ Personnalisation des Touches (${keys.length} touche${keys.length > 1 ? "s" : ""})
+      const gridCols = keys.length >= 7 ? 3 : keys.length >= 4 ? 3 : 2;
+      keysMatrixHtml += `
+        <div style="background: #fafafa; border: 1.5px solid #ea580c; border-radius: 6px; padding: 5px; width: 220px; page-break-inside: avoid;">
+          <div style="font-size: 8.5px; font-weight: 800; text-transform: uppercase; color: #ea580c; margin-bottom: 4px; text-align: center; border-bottom: 1px solid #ffedd5; padding-bottom: 2px; letter-spacing: 0.5px;">
+            MATRICE ${keys.length} TOUCHES
           </div>
-          <div style="display:grid; grid-template-cols:repeat(3, 1fr); gap:6px;">
+          <div style="display: grid; grid-template-cols: repeat(${gridCols}, 1fr); gap: 3px;">
       `;
 
       keys.forEach((k) => {
-        keysHtml += `
-          <div style="background:#f8f9fa; border:1px solid #dee2e6; border-radius:4px; padding:4px 6px; font-size:11px;">
-            <span style="font-weight:800; color:#ff4f00; font-family:monospace; margin-right:4px;">#${k.keyNum}</span>
-            <span style="font-weight:700; color:#111;">${k.val}</span>
-            ${k.color ? `<span style="font-size:10px; color:#b58100; display:block; font-weight:600;">🟡 ${k.color}</span>` : ""}
+        keysMatrixHtml += `
+          <div style="background: #fff; border: 1px solid #cbd5e1; border-radius: 4px; padding: 3px 2px; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 38px;">
+            <span style="font-weight: 900; font-size: 9px; color: #ea580c; font-family: monospace; line-height: 1;">#${k.keyNum}</span>
+            <span style="font-weight: 700; font-size: 9.5px; color: #0f172a; line-height: 1.1; margin-top: 1px; word-break: break-word;">${k.val}</span>
+            ${k.color ? `<span style="font-size: 7.5px; color: #b45309; font-weight: 700; line-height: 1; margin-top: 2px;">${k.color}</span>` : ""}
           </div>
         `;
       });
 
-      keysHtml += `
+      keysMatrixHtml += `
           </div>
         </div>
       `;
+    } else {
+      keysMatrixHtml = `<span style="font-size: 11px; color: #94a3b8;">—</span>`;
     }
 
     const priceText = item.price ? `${(parseFloat(String(item.price)) * item.quantity).toFixed(2)}€` : "";
 
     itemsHtml += `
-      <tr>
-        <td style="width:40px; text-align:center;">
-          <span style="font-weight:800; font-size:12px; background:#ffe3d5; color:#d94100; padding:3px 8px; border-radius:4px; font-family:monospace;">x${item.quantity}</span>
+      <tr style="page-break-inside: avoid; border-bottom: 1px solid #e2e8f0;">
+        <td style="width: 36px; text-align: center; padding: 8px 4px; vertical-align: top;">
+          <span style="font-weight: 800; font-size: 12px; background: #ffedd5; color: #c2410c; padding: 2px 6px; border-radius: 4px; font-family: monospace;">x${item.quantity}</span>
         </td>
-        <td>
-          <div style="font-size:13px; font-weight:700; color:#111;">${mainName}</div>
+        <td style="padding: 8px 10px; vertical-align: top; width: 160px;">
+          <div style="font-size: 12px; font-weight: 700; color: #0f172a; line-height: 1.3;">${mainName}</div>
+        </td>
+        <td style="padding: 8px 10px; vertical-align: top; width: 180px;">
           ${specsHtml}
-          ${keysHtml}
         </td>
-        <td style="width:80px; text-align:right; font-weight:700; font-size:13px;">
-          ${priceText}
+        <td style="padding: 8px 10px; vertical-align: top; width: 240px;">
+          ${keysMatrixHtml}
         </td>
       </tr>
     `;
   });
+
+  const totalItemCount = (order.items || []).reduce((acc, i) => acc + (i.quantity || 1), 0);
 
   return `<!DOCTYPE html>
 <html lang="fr">
@@ -172,151 +176,140 @@ export function generateOrderPackingSlipHtml(order: {
   <meta charset="utf-8">
   <title>Bon de Préparation ${order.id} - Spoolio Atelier 3D</title>
   <style>
-    @page { size: A4; margin: 10mm; }
+    @page { size: A4; margin: 8mm; }
+    * { box-sizing: border-box; }
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: #111;
+      color: #0f172a;
       background: #fff;
       margin: 0;
-      padding: 12px;
-      font-size: 13px;
-      line-height: 1.4;
+      padding: 10px;
+      font-size: 11px;
+      line-height: 1.35;
     }
     .header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      border-bottom: 2.5px solid #ff4f00;
-      padding-bottom: 10px;
-      margin-bottom: 16px;
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
     }
     .brand {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 900;
       letter-spacing: -0.5px;
-      color: #111;
+      color: #0f172a;
     }
-    .brand span { color: #ff4f00; }
+    .brand span { color: #ea580c; }
     .subtitle {
-      font-size: 10px;
-      color: #666;
+      font-size: 9px;
+      color: #64748b;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 2px;
+      letter-spacing: 0.5px;
+      margin-top: 1px;
     }
     .order-title {
-      font-size: 18px;
-      font-weight: 800;
+      font-size: 16px;
+      font-weight: 900;
       text-align: right;
-      color: #ff4f00;
+      color: #ea580c;
     }
     .order-date {
       font-size: 11px;
-      color: #555;
+      color: #475569;
       text-align: right;
     }
 
-    .info-grid {
-      display: grid;
-      grid-template-cols: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 16px;
-      background: #f8f9fa;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #e9ecef;
+    .info-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
     }
-    .info-block h4 {
-      margin: 0 0 4px 0;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #6c757d;
-    }
-    .info-block p {
-      margin: 0;
-      font-size: 12px;
-      font-weight: 600;
-      color: #212529;
-      white-space: pre-line;
+    .info-table td {
+      padding: 6px 10px;
+      vertical-align: top;
     }
 
     table.items-table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
     table.items-table th {
-      background: #f1f3f5;
-      color: #495057;
+      background: #f1f5f9;
+      color: #475569;
       text-transform: uppercase;
-      font-size: 10px;
+      font-size: 9px;
+      font-weight: 800;
       letter-spacing: 0.5px;
-      padding: 8px 10px;
+      padding: 6px 8px;
       text-align: left;
-      border-bottom: 2px solid #dee2e6;
-    }
-    table.items-table td {
-      padding: 10px;
-      border-bottom: 1px solid #e9ecef;
-      vertical-align: top;
+      border-bottom: 2px solid #cbd5e1;
     }
 
     .total-box {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #f8f9fa;
-      border: 1px solid #dee2e6;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
       border-radius: 6px;
-      padding: 10px 14px;
-      font-size: 14px;
+      padding: 8px 12px;
+      font-size: 12px;
       font-weight: 800;
     }
 
     .footer-note {
-      margin-top: 24px;
-      border-top: 1px dashed #ccc;
-      padding-top: 10px;
-      font-size: 10px;
-      color: #6c757d;
+      margin-top: 16px;
+      border-top: 1px dashed #cbd5e1;
+      padding-top: 8px;
+      font-size: 9.5px;
+      color: #64748b;
       text-align: center;
     }
     @media print {
       body { padding: 0; }
-      .no-print { display: none; }
     }
   </style>
 </head>
 <body>
   <div class="header">
     <div>
-      <div class="brand">SPOOLIO<span>.</span></div>
-      <div class="subtitle">Atelier d'Impression 3D — Bon de Préparation</div>
+      <div class="brand">SPOOLIO<span>.</span> ATELIER 3D</div>
+      <div class="subtitle">Bon de Préparation & Fiche d'Impression</div>
     </div>
     <div>
-      <div class="order-title">COMMANDE ${order.id}</div>
+      <div class="order-title">BON DE PRÉPARATION ${order.id}</div>
       <div class="order-date">${dateStr}</div>
     </div>
   </div>
 
-  <div class="info-grid">
-    <div class="info-block">
-      <h4>Client</h4>
-      <p>${order.customerName || "Client Spoolio"}<br>${order.email || ""}${order.customerPhone ? "<br>📞 " + order.customerPhone : ""}</p>
-    </div>
-    <div class="info-block">
-      <h4>Mode de Livraison & Adresse</h4>
-      <p><strong>${shippingText}</strong><br>${order.shippingAddress || "N/A"}</p>
-    </div>
-  </div>
+  <table class="info-table">
+    <tr>
+      <td style="width: 50%; border-right: 1px solid #e2e8f0;">
+        <div style="font-size: 8.5px; font-weight: 800; text-transform: uppercase; color: #64748b; margin-bottom: 2px;">CLIENT</div>
+        <div style="font-size: 11.5px; font-weight: 700; color: #0f172a;">${order.customerName || "Client Spoolio"}</div>
+        <div style="font-size: 10.5px; color: #334155;">${order.email || ""}${order.customerPhone ? " • 📞 " + order.customerPhone : ""}</div>
+      </td>
+      <td style="width: 50%;">
+        <div style="font-size: 8.5px; font-weight: 800; text-transform: uppercase; color: #64748b; margin-bottom: 2px;">LIVRAISON (${shippingText})</div>
+        <div style="font-size: 10.5px; font-weight: 600; color: #0f172a; white-space: pre-line;">${order.shippingAddress || "N/A"}</div>
+      </td>
+    </tr>
+  </table>
 
   <table class="items-table">
     <thead>
       <tr>
-        <th style="width:40px; text-align:center;">Qté</th>
-        <th>Article & Spécifications de Fabrication</th>
-        <th style="width:80px; text-align:right;">Prix</th>
+        <th style="width:36px; text-align:center;">Qté</th>
+        <th style="width:160px;">Produit</th>
+        <th style="width:180px;">Spécifications</th>
+        <th style="width:240px;">Matrice Touches 3x3</th>
       </tr>
     </thead>
     <tbody>
@@ -325,12 +318,12 @@ export function generateOrderPackingSlipHtml(order: {
   </table>
 
   <div class="total-box">
-    <span>Mode d'envoi : ${shippingText}</span>
-    <span>Total Commande : ${order.total ? order.total.toFixed(2) + "€" : "N/A"}</span>
+    <span>Mode de livraison : ${shippingText}</span>
+    <span>Nombre d'articles à préparer : ${totalItemCount}</span>
   </div>
 
   <div class="footer-note">
-    Merci de votre commande chez Spoolio Atelier 3D — Fabriqué en France 🇫🇷
+    Spoolio Atelier 3D — Impression 3D éco-responsable en PLA végétal 🇫🇷
   </div>
 
   <script>

@@ -83,11 +83,14 @@ export async function POST(request: Request) {
           
           if (lineItemsRes.ok) {
             const lineItemsData = await lineItemsRes.json();
-            const purchasedItems = (lineItemsData.data || []).map((li: any) => ({
-              name: decodeHtml(li.description),
-              quantity: li.quantity,
-              price: (li.amount_total / li.quantity / 100).toFixed(2)
-            }));
+            const purchasedItems = (lineItemsData.data || []).map((li: any) => {
+              const unitAmount = li.amount_subtotal ?? li.amount_total;
+              return {
+                name: decodeHtml(li.description),
+                quantity: li.quantity,
+                price: (unitAmount / li.quantity / 100).toFixed(2)
+              };
+            });
             itemsSummary = JSON.stringify(purchasedItems);
           }
         } catch (e) {
