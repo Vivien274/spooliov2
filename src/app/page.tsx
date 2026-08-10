@@ -111,9 +111,12 @@ export default async function HomePage() {
 
   let hero = DEFAULT_HERO;
   try {
-    const page = await prisma.page.findUnique({
-      where: { slug: "config-hero" }
-    });
+    const page = (await Promise.race([
+      prisma.page.findUnique({
+        where: { slug: "config-hero" }
+      }),
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Hero DB Timeout")), 2000))
+    ])) as any;
     if (page) {
       const config = JSON.parse(page.content);
       hero = { ...DEFAULT_HERO, ...config };
@@ -125,10 +128,13 @@ export default async function HomePage() {
   // Fetch real reviews from DB or fallback
   let displayReviews: ReviewItem[] = DEFAULT_REVIEWS;
   try {
-    const dbReviews = await prisma.review.findMany({
-      take: 6,
-      orderBy: { createdAt: "desc" },
-    });
+    const dbReviews = (await Promise.race([
+      prisma.review.findMany({
+        take: 6,
+        orderBy: { createdAt: "desc" },
+      }),
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Reviews DB Timeout")), 2000))
+    ])) as any[];
 
     if (dbReviews && dbReviews.length > 0) {
       displayReviews = dbReviews.map((r) => ({
@@ -154,9 +160,12 @@ export default async function HomePage() {
   ];
 
   try {
-    const fetched = await prisma.printer.findMany({
-      orderBy: { name: "asc" },
-    });
+    const fetched = (await Promise.race([
+      prisma.printer.findMany({
+        orderBy: { name: "asc" },
+      }),
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Printers DB Timeout")), 2000))
+    ])) as any[];
     if (fetched && fetched.length > 0) {
       dbPrinters = fetched.map((p) => ({
         id: p.id,
@@ -178,11 +187,14 @@ export default async function HomePage() {
   ];
 
   try {
-    const dbProducts = await prisma.product.findMany({
-      where: { status: "publish" },
-      select: { name: true },
-      take: 20,
-    });
+    const dbProducts = (await Promise.race([
+      prisma.product.findMany({
+        where: { status: "publish" },
+        select: { name: true },
+        take: 20,
+      }),
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Products DB Timeout")), 2000))
+    ])) as any[];
     if (dbProducts && dbProducts.length > 0) {
       activeProducts = dbProducts.map((p) => p.name).filter(Boolean);
     }
