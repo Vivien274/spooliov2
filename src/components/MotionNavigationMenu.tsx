@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useTranslation } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ShoppingBag,
@@ -30,17 +31,18 @@ interface MenuItem {
   hasDropdown?: boolean;
 }
 
-const MENU_ITEMS: MenuItem[] = [
-  { id: "boutique", label: "Boutique", href: "/boutique", hasDropdown: true },
-  { id: "univers", label: "Expériences & Jeux", hasDropdown: true },
-  { id: "atelier", label: "L'Atelier", href: "/a-propos", hasDropdown: true },
-];
-
 export default function MotionNavigationMenu() {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const menuItems: MenuItem[] = [
+    { id: "boutique", label: t("header.shop"), href: "/boutique", hasDropdown: true },
+    { id: "univers", label: t("header.experiences"), hasDropdown: true },
+    { id: "atelier", label: t("header.workshop"), href: "/a-propos", hasDropdown: true },
+  ];
 
   const handleMouseEnter = (id: string) => {
     if (timeoutRef.current) {
@@ -89,7 +91,7 @@ export default function MotionNavigationMenu() {
     <div ref={containerRef} className="relative hidden lg:flex items-center" onMouseLeave={handleMouseLeave}>
       {/* Navigation Pills Bar */}
       <nav className="relative flex items-center gap-1.5 p-1.5 bg-[#131316]/90 backdrop-blur-2xl border border-white/15 rounded-full shadow-2xl shadow-black/50">
-        {MENU_ITEMS.map((item) => {
+        {menuItems.map((item) => {
           const isSelected = activeTab === item.id;
           const isHovered = hoveredTab === item.id;
 
@@ -138,7 +140,7 @@ export default function MotionNavigationMenu() {
           href="/don"
           className="relative px-4 py-2 ml-1 rounded-full bg-gradient-to-r from-[#ff4f00] via-[#FF6600] to-[#FF8800] text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-[#ff4f00]/30 hover:scale-105 transition-all duration-200 cursor-pointer no-invert group"
         >
-          <span>Soutenir l'Atelier</span>
+          <span>{t("footer.support_workshop")}</span>
           <Heart className="w-3.5 h-3.5 fill-current text-white animate-pulse group-hover:scale-125 transition-transform" />
         </Link>
       </nav>
@@ -171,19 +173,19 @@ export default function MotionNavigationMenu() {
                       <div>
                         <div className="flex items-center gap-2">
                           <h4 className="text-sm font-black text-white group-hover:text-[#ff4f00] transition-colors font-extrabold">
-                            Voir toute la boutique
+                            {t("nav_menu.see_all_shop")}
                           </h4>
                           <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-[#ff4f00] text-white shadow-sm no-invert">
-                            CATALOGUE COMPLET 🛍️
+                            {t("nav_menu.full_catalog_badge")}
                           </span>
                         </div>
                         <p className="text-xs text-gray-300 font-medium mt-0.5">
-                          Explorez l'ensemble de nos créations 3D, fidgets sensoriels &amp; nouveautés
+                          {t("nav_menu.full_catalog_desc")}
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-1 text-xs font-black text-[#ff4f00] group-hover:translate-x-1 transition-transform pr-2">
-                      <span>Voir tout</span>
+                      <span>{t("common.see_all")}</span>
                       <ArrowUpRight className="w-4 h-4" />
                     </div>
                   </Link>
@@ -193,13 +195,13 @@ export default function MotionNavigationMenu() {
                     <div className="col-span-5 bg-gradient-to-br from-[#ff4f00]/25 via-[#ff4f00]/10 to-transparent p-5 rounded-2xl border border-[#ff4f00]/35 flex flex-col justify-between relative overflow-hidden group hover:border-[#ff4f00]/60 transition-all">
                       <div className="space-y-2.5">
                         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#ff4f00] text-white text-[9px] font-black uppercase tracking-wider shadow-md no-invert">
-                          🔥 INCONTOURNABLE
+                          {t("nav_menu.must_have_badge")}
                         </span>
                         <h4 className="text-base font-black text-white leading-tight font-extrabold">
-                          Fidgets & Objets Anti-stress
+                          {t("nav_menu.fidgets_card_title")}
                         </h4>
                         <p className="text-xs text-gray-300 leading-relaxed font-medium">
-                          Manipulations apaisantes, clics satisfaisants et créations 3D conçues pour la concentration.
+                          {t("nav_menu.fidgets_card_desc")}
                         </p>
                       </div>
 
@@ -207,7 +209,7 @@ export default function MotionNavigationMenu() {
                         href="/categorie/Fidgets"
                         className="mt-5 inline-flex items-center justify-between text-xs font-black text-[#ff4f00] group-hover:translate-x-1 transition-transform"
                       >
-                        <span>Découvrir les fidgets</span>
+                        <span>{t("nav_menu.discover_fidgets")}</span>
                         <ArrowUpRight className="w-4 h-4" />
                       </Link>
                     </div>
@@ -224,10 +226,10 @@ export default function MotionNavigationMenu() {
                           </div>
                           <div>
                             <h5 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors">
-                              Fidgets &amp; Anti-stress
+                              {t("header.categories.fidgets")}
                             </h5>
                             <p className="text-[11px] text-gray-400">
-                              Balles, clickers &amp; spinners
+                              {t("nav_menu.fidgets_sub")}
                             </p>
                           </div>
                         </div>
@@ -244,10 +246,10 @@ export default function MotionNavigationMenu() {
                           </div>
                           <div>
                             <h5 className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors">
-                              Geek &amp; Gaming
+                              {t("nav_menu.geek_gaming")}
                             </h5>
                             <p className="text-[11px] text-gray-400">
-                              Support manettes &amp; accessoires setup
+                              {t("nav_menu.geek_sub")}
                             </p>
                           </div>
                         </div>
@@ -264,10 +266,10 @@ export default function MotionNavigationMenu() {
                           </div>
                           <div>
                             <h5 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors">
-                              Porte-clés 3D
+                              {t("nav_menu.keychain_title")}
                             </h5>
                             <p className="text-[11px] text-gray-400">
-                              Créations légères &amp; personnalisables
+                              {t("nav_menu.keychain_sub")}
                             </p>
                           </div>
                         </div>
@@ -284,10 +286,10 @@ export default function MotionNavigationMenu() {
                           </div>
                           <div>
                             <h5 className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">
-                              Animaux &amp; Figurines
+                              {t("nav_menu.animals_title")}
                             </h5>
                             <p className="text-[11px] text-gray-400">
-                              Créatures articulées &amp; décorations
+                              {t("nav_menu.animals_sub")}
                             </p>
                           </div>
                         </div>
@@ -304,11 +306,11 @@ export default function MotionNavigationMenu() {
                           </div>
                           <div>
                             <h5 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
-                              <span>Médaillons NFC Chien, Chat &amp; Enfant</span>
+                              <span>{t("nav_menu.nfc_title")}</span>
                               <span className="text-[9px] font-black uppercase px-1.5 py-0.2 rounded bg-[#ff4f00] text-black">SOS</span>
                             </h5>
                             <p className="text-[11px] text-gray-400">
-                              Sécurité animaux &amp; porte-clés SOS
+                              {t("nav_menu.nfc_sub")}
                             </p>
                           </div>
                         </div>
@@ -337,14 +339,14 @@ export default function MotionNavigationMenu() {
                         </span>
                       </div>
                       <h4 className="text-sm font-black text-white group-hover:text-[#ff4f00] transition-colors font-extrabold">
-                        Pochettes Surprises 3D
+                        {t("nav_menu.surprise_pack")}
                       </h4>
                       <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        Sélection mystère avec animation d'ouverture 3D et drops exclusifs.
+                        {t("nav_menu.surprise_pack_sub")}
                       </p>
                     </div>
                     <div className="flex items-center justify-between text-xs font-black text-[#ff4f00]">
-                      <span>Ouvrir ma pochette</span>
+                      <span>{t("nav_menu.open_pack")}</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>
@@ -364,14 +366,14 @@ export default function MotionNavigationMenu() {
                         </span>
                       </div>
                       <h4 className="text-sm font-black text-white group-hover:text-cyan-400 transition-colors font-extrabold">
-                        Boussole Sensorielle
+                        {t("nav_menu.boussole_title")}
                       </h4>
                       <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        Trouve l'objet apaisant idéal selon tes besoins et tes sensibilités.
+                        {t("nav_menu.boussole_desc")}
                       </p>
                     </div>
                     <div className="flex items-center justify-between text-xs font-black text-cyan-400">
-                      <span>Lancer le test</span>
+                      <span>{t("nav_menu.launch_test")}</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>
@@ -391,14 +393,14 @@ export default function MotionNavigationMenu() {
                         </span>
                       </div>
                       <h4 className="text-sm font-black text-white group-hover:text-purple-400 transition-colors font-extrabold">
-                        Créateur de Clicker 3D
+                        {t("nav_menu.clicker_studio")}
                       </h4>
                       <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        Personnalise ton boîtier, tes switchs et tes gravures de touches en 3D.
+                        {t("nav_menu.clicker_studio_desc")}
                       </p>
                     </div>
                     <div className="flex items-center justify-between text-xs font-black text-purple-400">
-                      <span>Créer mon clicker</span>
+                      <span>{t("nav_menu.create_clicker")}</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>
@@ -418,14 +420,14 @@ export default function MotionNavigationMenu() {
                         </span>
                       </div>
                       <h4 className="text-sm font-black text-white group-hover:text-amber-400 transition-colors font-extrabold">
-                        Tombola du Moment
+                        {t("nav_menu.tombola_title")}
                       </h4>
                       <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        Choisis tes numéros et tente de remporter le grand Mega Pack exclusif !
+                        {t("nav_menu.tombola_desc")}
                       </p>
                     </div>
                     <div className="flex items-center justify-between text-xs font-black text-amber-400">
-                      <span>Tenter ma chance</span>
+                      <span>{t("nav_menu.try_luck")}</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>
@@ -450,14 +452,14 @@ export default function MotionNavigationMenu() {
                         </span>
                       </div>
                       <h4 className="text-sm font-black text-white group-hover:text-[#ff4f00] transition-colors font-extrabold">
-                        Notre Histoire &amp; Coulisses
+                        {t("nav_menu.our_story")}
                       </h4>
                       <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        Découvre l'univers Spoolio, l'impression 3D locale et nos matières PLA biosourcées.
+                        {t("nav_menu.our_story_desc")}
                       </p>
                     </div>
                     <div className="flex items-center justify-between text-xs font-black text-[#ff4f00]">
-                      <span>Découvrir l'Atelier</span>
+                      <span>{t("nav_menu.discover_workshop")}</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>
@@ -477,14 +479,14 @@ export default function MotionNavigationMenu() {
                         </span>
                       </div>
                       <h4 className="text-sm font-black text-white group-hover:text-blue-400 transition-colors font-extrabold">
-                        Espace Pro &amp; B2B
+                        {t("nav_menu.pro_space")}
                       </h4>
                       <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        Partenariats, goodies d'entreprise et impressions 3D sur-mesure pour professionnels.
+                        {t("nav_menu.pro_space_desc")}
                       </p>
                     </div>
                     <div className="flex items-center justify-between text-xs font-black text-blue-400">
-                      <span>Projets sur-mesure</span>
+                      <span>{t("nav_menu.custom_projects")}</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>
@@ -504,14 +506,14 @@ export default function MotionNavigationMenu() {
                         </span>
                       </div>
                       <h4 className="text-sm font-black text-white group-hover:text-purple-400 transition-colors font-extrabold">
-                        Le Blog Spoolio
+                        {t("nav_menu.blog_title")}
                       </h4>
                       <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        Articles concentration, conseils TDAH, tests sensoriels et coulisses du labo 3D.
+                        {t("nav_menu.blog_desc")}
                       </p>
                     </div>
                     <div className="flex items-center justify-between text-xs font-black text-purple-400">
-                      <span>Lire les articles</span>
+                      <span>{t("nav_menu.read_articles")}</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>
@@ -531,14 +533,14 @@ export default function MotionNavigationMenu() {
                         </span>
                       </div>
                       <h4 className="text-sm font-black text-white group-hover:text-emerald-400 transition-colors font-extrabold">
-                        FAQ &amp; Centre d'aide
+                        {t("nav_menu.faq_title")}
                       </h4>
                       <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        Questions fréquentes sur la livraison, les retours et les matières de nos objets.
+                        {t("nav_menu.faq_desc")}
                       </p>
                     </div>
                     <div className="flex items-center justify-between text-xs font-black text-emerald-400">
-                      <span>Consulter la FAQ</span>
+                      <span>{t("nav_menu.view_faq")}</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>

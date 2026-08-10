@@ -23,7 +23,10 @@ import {
 } from "@/lib/mediaUtils";
 export { isVideoMedia };
 
+import { useTranslation } from "@/context/LanguageContext";
+
 export default function ProductDetailClient({ slug }: ProductDetailClientProps) {
+  const { locale, t } = useTranslation();
   const { addToCart } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -32,6 +35,18 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
   const [quantity, setQuantity] = useState<number>(1);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [includeNfcBadge, setIncludeNfcBadge] = useState(false);
+
+  const displayName = (locale === "en" && (product?.nameEn || product?.name_en))
+    ? (product?.nameEn || product?.name_en)!
+    : product?.name || "";
+
+  const displayShortDesc = (locale === "en" && (product?.shortDescriptionEn || product?.short_description_en))
+    ? (product?.shortDescriptionEn || product?.short_description_en)!
+    : product?.short_description || "";
+
+  const displayFullDesc = (locale === "en" && (product?.descriptionEn || product?.description_en))
+    ? (product?.descriptionEn || product?.description_en)!
+    : product?.description || "";
 
   // Force scroll to top when page loaded or product slug changes
   useEffect(() => {
@@ -969,7 +984,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
             )}
 
             <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mb-4">
-              {product.name}
+              {displayName}
             </h1>
 
             {/* Price section */}
@@ -1024,7 +1039,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
             {/* Short Description */}
             <div
               className="text-gray-400 text-sm leading-relaxed mb-8 border-b border-spoolio-border/40 pb-6 font-sans"
-              dangerouslySetInnerHTML={{ __html: product.short_description || "<p>Aucune description disponible pour ce produit.</p>" }}
+              dangerouslySetInnerHTML={{ __html: displayShortDesc || "<p>Aucune description disponible pour ce produit.</p>" }}
             />
 
             {/* Print Settings Options (Dynamic attributes) */}
@@ -1766,7 +1781,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                 maxHeight: isDescriptionExpanded ? "1200px" : "160px",
               }}
               dangerouslySetInnerHTML={{
-                __html: product.description || "<p>Ce produit haut de gamme Spoolio est entièrement conçu et fabriqué localement à Comines. Grâce à la précision de nos imprimantes 3D (Berthe, Philomène, Ursule, Godelaine et Claudine), chaque couche est déposée de manière optimale pour un rendu esthétique et une solidité à toute épreuve.</p><p>Le PLA utilisé pour l'impression est d'origine biologique (amidon de maïs), biodégradable et respectueux de l'environnement.</p>"
+                __html: displayFullDesc || "<p>Ce produit haut de gamme Spoolio est entièrement conçu et fabriqué localement à Comines. Grâce à la précision de nos imprimantes 3D (Berthe, Philomène, Ursule, Godelaine et Claudine), chaque couche est déposée de manière optimale pour un rendu esthétique et une solidité à toute épreuve.</p><p>Le PLA utilisé pour l'impression est d'origine biologique (amidon de maïs), biodégradable et respectueux de l'environnement.</p>"
               }}
             />
             {/* Fade overlay mask when collapsed */}

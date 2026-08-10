@@ -1,21 +1,96 @@
 {
   "header": {
     "shop": "Boutique",
+    "experiences": "Expériences & Jeux",
+    "workshop": "L'Atelier",
     "about": "À propos",
-    "faq": "FAQ",
+    "pro": "Espace Pro & B2B",
+    "blog": "Le Blog Spoolio",
+    "faq": "FAQ / Aide",
     "contact": "Contact",
     "admin": "Admin",
     "cart": "Panier",
-    "search_placeholder": "Rechercher un fidget, accessoire..."
+    "search": "Rechercher",
+    "search_placeholder": "Rechercher un produit...",
+    "support_workshop": "Soutenir l'Atelier 🧡",
+    "categories": {
+      "fidgets": "Fidgets & Anti-Stress",
+      "boussole": "Boussole Sensorielle TDAH",
+      "nfc": "Porte-clés & Médaillons NFC",
+      "gachapon": "Pochette Surprise & Gachapon",
+      "clicker": "Créateur de Clickers 3D",
+      "tombola": "Tombola Spoolio",
+      "palette": "Palette de Couleurs PLA"
+    }
+  },
+  "nav_menu": {
+    "see_all_shop": "Voir toute la boutique",
+    "full_catalog_badge": "CATALOGUE COMPLET 🛍️",
+    "full_catalog_desc": "Explorez l'ensemble de nos créations 3D, fidgets sensoriels & nouveautés",
+    "must_have_badge": "🔥 INCONTOURNABLE",
+    "fidgets_card_title": "Fidgets & Objets Anti-stress",
+    "fidgets_card_desc": "Manipulations apaisantes, clics satisfaisants et créations 3D conçues pour la concentration.",
+    "discover_fidgets": "Découvrir les fidgets",
+    "fidgets_sub": "Balles, clickers & spinners",
+    "geek_gaming": "Geek & Gaming",
+    "geek_sub": "Support manettes & accessoires setup",
+    "keychain_title": "Porte-clés 3D",
+    "keychain_sub": "Créations légères & personnalisables",
+    "animals_title": "Animaux & Figurines",
+    "animals_sub": "Créatures articulées & décorations",
+    "nfc_title": "Médaillons NFC Chien, Chat & Enfant",
+    "nfc_sub": "Sécurité animaux & porte-clés SOS",
+    "surprise_pack": "Pochettes Surprises 3D",
+    "surprise_pack_sub": "Sélection mystère avec animation d'ouverture 3D et drops exclusifs.",
+    "surprise_sub": "Surprises & drops exclusifs",
+    "open_pack": "Ouvrir ma pochette",
+    "boussole_title": "Boussole Sensorielle",
+    "boussole_desc": "Trouve l'objet apaisant idéal selon tes besoins et tes sensibilités.",
+    "boussole_sub": "Guide apaisant sensoriel",
+    "launch_test": "Lancer le test",
+    "clicker_studio": "Créateur de Clicker 3D",
+    "clicker_studio_title": "Créateur de Clicker 3D",
+    "clicker_studio_desc": "Personnalise ton boîtier, tes switchs et tes gravures de touches en 3D.",
+    "clicker_studio_sub": "Sur-mesure ASMR",
+    "create_clicker": "Créer mon clicker",
+    "tombola_title": "Tombola du Moment",
+    "tombola_desc": "Choisis tes numéros et tente de remporter le grand Mega Pack exclusif !",
+    "tombola_sub": "Gagner le pack exclusif",
+    "try_luck": "Tenter ma chance",
+    "our_story": "Notre Histoire & Coulisses",
+    "our_story_desc": "Découvre l'univers Spoolio, l'impression 3D locale et nos matières PLA biosourcées.",
+    "our_story_sub": "Fabriqué à Comines avec amour",
+    "discover_workshop": "Découvrir l'Atelier",
+    "pro_space": "Espace Pro & B2B",
+    "pro_space_desc": "Partenariats, goodies d'entreprise et impressions 3D sur-mesure pour professionnels.",
+    "pro_space_sub": "Vente en gros & sur-mesure",
+    "custom_projects": "Projets sur-mesure",
+    "blog_title": "Le Blog Spoolio",
+    "blog_desc": "Articles concentration, conseils TDAH, tests sensoriels et coulisses du labo 3D.",
+    "blog_sub": "Conseils TDAH & coulisses 3D",
+    "read_articles": "Lire les articles",
+    "faq_title": "FAQ & Centre d'aide",
+    "faq_desc": "Questions fréquentes sur la livraison, les retours et les matières de nos objets.",
+    "faq_sub": "Toutes les réponses à vos questions",
+    "view_faq": "Consulter la FAQ"
   },
   "footer": {
-    "description": "Fidgets sensoriels, accessoires et objets fun imprimés en 3D à Comines. 🇫🇷",
+    "brand_by": "Par Vivien 🛠️",
+    "description": "Objets fun, fidgets sensoriels, et créations uniques imprimés 3D avec passion à Comines. Plastique biosourcé, zéro pétrole !",
     "rights": "Tous droits réservés.",
+    "join_adventure": "Rejoins l'aventure 🚀",
+    "club_spoolio": "Club Spoolio ✉️",
+    "support_workshop": "Soutenir l'Atelier 🧡",
+    "about": "À Propos",
+    "pro_space": "Espace Pro",
+    "contact": "Contact",
+    "faq": "FAQ / Questions",
+    "legal_info": "Informations Légales",
     "links": {
       "legal": "Mentions Légales",
-      "cgv": "CGV",
-      "cookies": "Cookies",
-      "returns": "Retours & Rétractation"
+      "cgv": "Conditions Générales (CGV)",
+      "cookies": "Cookies & Confidentialité",
+      "returns": "Politique de Retours"
     }
   },
   "common": {
@@ -23,9 +98,34 @@
     "error": "Une erreur est survenue",
     "back": "Retour",
     "save": "Enregistrer",
-    "close": "Fermer"
+    "close": "Fermer",
+    "see_all": "Voir tout",
+    "add_to_cart": "Ajouter au panier",
+    "discover": "Découvrir"
   },
   "home": {
+    "hero": {
+      "badge": "🇫🇷 Fabriqué à Comines • 100% Biosourcé",
+      "title": "Objets Funs & Fidgets 3D",
+      "subtitle": "Imprimés en plastique végétal PLA. Conçus pour apaiser le mental, stimuler la concentration et égayer ton quotidien.",
+      "cta_shop": "Découvrir la Boutique",
+      "cta_sensory": "Boussole Sensorielle"
+    },
+    "bento": {
+      "eco_label": "Écoresponsable",
+      "eco_val": "PLA Biosourcé",
+      "artisan_label": "Artisanal",
+      "artisan_val": "Fait Main à Comines",
+      "shipping_label": "Livraison",
+      "shipping_val": "Offerte dès 40€ (24/48h)",
+      "reviews_val": "4.9 / 5.0 (Avis)"
+    },
+    "collection": {
+      "title": "La Collection Spoolio",
+      "subtitle": "Des fidgets sensoriels aux figurines articulées, découvre nos créations originales imprimées en 3D.",
+      "latest": "Derniers Ajouts",
+      "popular": "Les Plus Populaires"
+    },
     "donation": {
       "badge": "PROJET LOCAL",
       "title": "Aider l'Atelier à s'équiper",
@@ -74,6 +174,69 @@
         "title": "Achat Sécurisé",
         "description": "Paiement protégé par Stripe"
       }
+    },
+    "marquee": {
+      "tagline": "L'Engagement Spoolio Atelier",
+      "title": "Pourquoi choisir nos créations 3D ?",
+      "subtitle": "Passe la souris sur le bandeau pour explorer les engagements de notre atelier artisanal.",
+      "h1": {
+        "title": "Impression 3D Biosourcée",
+        "desc": "Imprimé en PLA végétal d'amidon de maïs sans pétrole.",
+        "badge": "PLA GREEN"
+      },
+      "h2": {
+        "title": "Atelier Local Comines (59)",
+        "desc": "Conçu et fabriqué artisanalement dans le Nord de la France.",
+        "badge": "MADE IN FRANCE"
+      },
+      "h3": {
+        "title": "Fidgets & Pochettes Surprises",
+        "desc": "Objets sensoriels, décompressifs et créations uniques 3D.",
+        "badge": "SUR-MESURE"
+      },
+      "h4": {
+        "title": "Expédition Soignée & Éco",
+        "desc": "Emballage carton recyclé et envoi rapide chez vous.",
+        "badge": "EXPRESS"
+      }
+    },
+    "grid": {
+      "latest_title": "Les Dernières Créations",
+      "latest_sub": "Tout chaud sortis de nos buses d'impression à Comines",
+      "favorites_title": "Nos Coups de Cœur",
+      "favorites_sub": "Les objets préférés et les plus populaires de la commu",
+      "explore_title": "Explorer le Catalogue",
+      "explore_sub": "Filtre par univers pour trouver ton bonheur"
+    },
+    "printers": {
+      "title": "Nos Artisanes de l'Ombre 🤖",
+      "subtitle": "Voici les 5 imprimantes 3D de l'atelier qui façonnent vos fidgets et accessoires couche par couche avec une précision chirurgicale.",
+      "partners_label": "Filaments et machines de l'atelier",
+      "live_ribbon": "{count} objets 3D imprimés ce mois-ci à l'atelier",
+      "zero_overstock": "Zéro surstock, 100% fait sur commande 🇫🇷",
+      "live_badge": "🟢 Atelier en direct",
+      "printing": "Imprime : {name}",
+      "standby_temp": "Température : 25°C",
+      "out_of_service": "⚠️ HORS SERVICE",
+      "broken": "EN PANNE",
+      "active": "Active",
+      "standby": "En veille"
+    },
+    "reviews": {
+      "title": "Nos clients adorent Spoolio ⭐",
+      "verified_badge": "Avis Vérifiés",
+      "google_button": "Déposer un avis Google ✍️",
+      "product_review": "Avis produit : {name}",
+      "google_general": "Avis Google Général",
+      "verified_check": "Avis vérifié ✓",
+      "google_modal_link": "Déposer un avis sur Google →"
+    },
+    "material": {
+      "title": "Matière première // PLA Biosourcé 🌱",
+      "p1": "Chez Spoolio, on imprime du fun, pas de la pollution. Nos objets ne sortent pas d'une usine pétrochimique à l'autre bout du monde : ils prennent vie à Comines, couche par couche, à partir de PLA biosourcé.",
+      "p2": "C'est un plastique d'origine végétale conçu à partir d'amidon de maïs. Zéro pétrole, zéro surstock, zéro salade. Juste de la tech locale et écoresponsable.",
+      "note_label": "Note de l'atelier :",
+      "note_text": "Comme tout bon maïs, il adore le confort de ton intérieur mais déteste être oublié en plein soleil sur le tableau de bord d'une voiture à 60°C."
     }
   }
 }

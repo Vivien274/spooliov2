@@ -35,6 +35,7 @@ model ProductImage {
 model Product {
   id                Int            @id @default(autoincrement())
   name              String
+  nameEn            String?
   slug              String         @unique
   permalink         String?
   price             String
@@ -42,13 +43,17 @@ model Product {
   salePrice         String?
   onSale            Boolean        @default(false)
   shortDescription  String?        @db.Text
+  shortDescriptionEn String?       @db.Text
   description       String?        @db.Text
+  descriptionEn      String?        @db.Text
   stock             Int            @default(0)
   productType       String         @default("simple") // simple or variable
   status            String         @default("publish") // publish or draft
   seoScore          Int            @default(0)
   metaTitle         String?
+  metaTitleEn       String?
   metaDescription   String?        @db.Text
+  metaDescriptionEn String?        @db.Text
   dateCreated       DateTime       @default(now())
   categories        Category[]
   images            ProductImage[]

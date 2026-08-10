@@ -22,9 +22,12 @@ const CATEGORIES = [
 interface ProductData {
   id?: number;
   name: string;
+  nameEn?: string;
   slug: string;
   shortDescription: string;
+  shortDescriptionEn?: string;
   description: string;
+  descriptionEn?: string;
   category: string;
   tags: string[];
   price: string;
@@ -33,7 +36,9 @@ interface ProductData {
   status: string;
   stock: number;
   metaTitle: string;
+  metaTitleEn?: string;
   metaDescription: string;
+  metaDescriptionEn?: string;
   showInSensoryCompass?: boolean;
   sensoryNoiseLevel?: string;
   sensorySize?: string;
@@ -109,9 +114,12 @@ export default function ProductFormClient({ productId, isNew }: Props) {
   const [loadingProduct, setLoadingProduct] = useState<boolean>(!isNew);
   const [form, setForm] = useState<ProductData>({
     name: "",
+    nameEn: "",
     slug: "",
     shortDescription: "",
+    shortDescriptionEn: "",
     description: "",
+    descriptionEn: "",
     category: "",
     tags: [],
     price: "",
@@ -120,7 +128,9 @@ export default function ProductFormClient({ productId, isNew }: Props) {
     status: "draft",
     stock: -1,
     metaTitle: "",
+    metaTitleEn: "",
     metaDescription: "",
+    metaDescriptionEn: "",
     images: [],
     variations: [],
     attributes: { attributes: [], variationPrices: [] },
@@ -439,12 +449,54 @@ export default function ProductFormClient({ productId, isNew }: Props) {
   const removeTag = (tag: string) => set("tags")(form.tags.filter((t) => t !== tag));
 
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
+  const [isTranslating, setIsTranslating] = useState<boolean>(false);
   const [aiSeoAdvice, setAiSeoAdvice] = useState<string[]>([]);
   const [isAiModalOpen, setIsAiModalOpen] = useState<boolean>(false);
   const [aiUse, setAiUse] = useState<string>("");
   const [aiTarget, setAiTarget] = useState<string>("");
   const [aiFeatures, setAiFeatures] = useState<string>("");
   const [aiDetails, setAiDetails] = useState<string>("");
+
+  const handleTranslateProduct = async () => {
+    if (!form.name.trim()) {
+      alert("Veuillez saisir au moins le nom du produit avant de lancer la traduction.");
+      return;
+    }
+    setIsTranslating(true);
+    try {
+      const res = await fetch("/api/admin/translate-product", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: form.name,
+          shortDescription: form.shortDescription,
+          description: form.description,
+          metaTitle: form.metaTitle,
+          metaDescription: form.metaDescription
+        })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setForm(prev => ({
+          ...prev,
+          nameEn: data.nameEn || prev.nameEn,
+          shortDescriptionEn: data.shortDescriptionEn || prev.shortDescriptionEn,
+          descriptionEn: data.descriptionEn || prev.descriptionEn,
+          metaTitleEn: data.metaTitleEn || prev.metaTitleEn,
+          metaDescriptionEn: data.metaDescriptionEn || prev.metaDescriptionEn
+        }));
+        alert("✨ Traduction anglaise générée avec succès par l'IA !");
+      } else {
+        alert(data.error || "Erreur lors de la traduction.");
+      }
+    } catch (e) {
+      alert("Erreur réseau lors de la communication avec l'API de traduction.");
+    } finally {
+      setIsTranslating(false);
+    }
+  };
 
   const handleGenerateDescription = async () => {
     if (!form.name.trim()) {
@@ -880,6 +932,80 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                 />
                 <p className={`text-[11px] ${cls.textFaint}`}>{form.description.replace(/<[^>]+>/g, "").length} caractères</p>
               </div>
+            </SectionCard>
+
+            {/* 2b. Traduction Anglaise (EN 🇬🇧) */}
+            <SectionCard
+              title="Traduction Anglaise (EN 🇬🇧)"
+              icon={<span className="text-base">🇬🇧</span>}
+              cardBg={cls.cardBg} border={cls.border} textMain={cls.textMain}
+            >
+              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                <div className="flex flex-col">
+                  <span className="text-xs font-bold text-white uppercase tracking-wider">Version Anglaise pour l'International</span>
+                  <span className={`text-[11px] ${cls.textFaint}`}>Renseignez les équivalents anglais ou laissez l'IA tout traduire en 1 clic.</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleTranslateProduct}
+                  disabled={isTranslating}
+                  className="flex items-center gap-1.5 text-xs font-black text-white bg-[#2F3CD9] hover:bg-[#2F3CD9]/80 px-4 py-2 rounded-xl transition-all cursor-pointer shadow-lg shadow-[#2F3CD9]/20 disabled:opacity-50"
+                >
+                  <svg className={`w-3.5 h-3.5 ${isTranslating ? "animate-spin" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    {isTranslating ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    )}
+                  </svg>
+                  {isTranslating ? "Traduction en cours..." : "✨ Traduire en Anglais avec l'IA"}
+                </button>
+              </div>
+
+              <InputField
+                label="Nom du produit (EN)"
+                value={form.nameEn || ""}
+                onChange={(v) => set("nameEn")(v)}
+                placeholder="Ex: Mechanical Iris Fidget"
+                inputBg={cls.inputBg} border={cls.border} textMain={cls.textMain} textMuted={cls.textMuted}
+              />
+
+              <div className="flex flex-col gap-1.5">
+                <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Description courte (EN)</label>
+                <WysiwygEditor
+                  value={form.shortDescriptionEn || ""}
+                  onChange={(v) => set("shortDescriptionEn")(v)}
+                  placeholder="Catchy product short summary in English..."
+                  theme={theme}
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Description longue (EN)</label>
+                <WysiwygEditor
+                  value={form.descriptionEn || ""}
+                  onChange={(v) => set("descriptionEn")(v)}
+                  placeholder="Detailed English product description, material info..."
+                  theme={theme}
+                />
+              </div>
+
+              <InputField
+                label="SEO Meta Title (EN)"
+                value={form.metaTitleEn || ""}
+                onChange={(v) => set("metaTitleEn")(v)}
+                placeholder="English SEO Title"
+                inputBg={cls.inputBg} border={cls.border} textMain={cls.textMain} textMuted={cls.textMuted}
+              />
+
+              <TextareaField
+                label="SEO Meta Description (EN)"
+                value={form.metaDescriptionEn || ""}
+                onChange={(v) => set("metaDescriptionEn")(v)}
+                placeholder="English Google search result description..."
+                rows={2}
+                inputBg={cls.inputBg} border={cls.border} textMain={cls.textMain} textMuted={cls.textMuted}
+              />
             </SectionCard>
 
             {/* 3. Photos & Vidéos */}

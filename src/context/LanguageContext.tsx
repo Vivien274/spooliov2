@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { useRouter } from "next/navigation";
 import fr from "@/locales/fr.json";
 import en from "@/locales/en.json";
 
@@ -18,6 +19,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>("fr");
+  const router = useRouter();
 
   // Load language preference from localStorage/cookies on mount
   useEffect(() => {
@@ -36,8 +38,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     setLocaleState(newLocale);
     localStorage.setItem("spoolio_locale", newLocale);
     
-    // Set a cookie so the server could theoretically read it if needed
+    // Set cookies so the server reads the locale on next request
     document.cookie = `spoolio_locale=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
+    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
+
+    // Refresh Server Components so server-rendered sections update
+    router.refresh();
   };
 
   // Translation helper function

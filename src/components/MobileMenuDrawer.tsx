@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import {
   ShoppingBag,
   Sparkles,
@@ -105,7 +106,7 @@ export default function MobileMenuDrawer({
           >
             <span className="flex items-center gap-3">
               <Search className="w-4 h-4 text-gray-400 group-hover:text-[#ff4f00] transition-colors" />
-              <span className="font-semibold">Rechercher un produit...</span>
+              <span className="font-semibold">{t("header.search_placeholder")}</span>
             </span>
             <span className="mobile-drawer-badge text-[10px] font-bold px-2 py-0.5 rounded-md bg-gray-200 dark:bg-white/10 text-gray-600 dark:text-gray-400">
               ⌘K
@@ -115,7 +116,7 @@ export default function MobileMenuDrawer({
           {/* Featured 2x2 Grid of Experiences */}
           <div className="space-y-2.5">
             <span className="mobile-drawer-header text-[11px] font-black uppercase tracking-wider text-gray-500 dark:text-gray-400 px-1">
-              Expériences &amp; Jeux
+              {t("header.experiences")}
             </span>
 
             <div className="grid grid-cols-2 gap-2.5">
@@ -134,9 +135,9 @@ export default function MobileMenuDrawer({
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-gray-900 dark:text-white group-hover:text-[#ff4f00] transition-colors leading-tight">
-                    Pochettes 3D
+                    {t("nav_menu.surprise_pack")}
                   </h4>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate mt-0.5">Surprises &amp; drops</p>
+                  <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate mt-0.5">{t("nav_menu.surprise_sub")}</p>
                 </div>
               </Link>
 
@@ -155,9 +156,9 @@ export default function MobileMenuDrawer({
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-gray-900 dark:text-white group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors leading-tight">
-                    Boussole
+                    {t("nav_menu.boussole_title")}
                   </h4>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate mt-0.5">Guide apaisant</p>
+                  <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate mt-0.5">{t("nav_menu.boussole_sub")}</p>
                 </div>
               </Link>
 
@@ -176,9 +177,9 @@ export default function MobileMenuDrawer({
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-gray-900 dark:text-white group-hover:text-purple-500 dark:group-hover:text-purple-400 transition-colors leading-tight">
-                    Clicker 3D
+                    {t("nav_menu.clicker_studio")}
                   </h4>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate mt-0.5">Sur-mesure</p>
+                  <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate mt-0.5">{t("nav_menu.clicker_studio_sub")}</p>
                 </div>
               </Link>
 
@@ -197,9 +198,9 @@ export default function MobileMenuDrawer({
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-gray-900 dark:text-white group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors leading-tight">
-                    Tombola
+                    {t("nav_menu.tombola_title")}
                   </h4>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate mt-0.5">Gagner le pack</p>
+                  <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate mt-0.5">{t("nav_menu.tombola_sub")}</p>
                 </div>
               </Link>
             </div>
@@ -215,7 +216,7 @@ export default function MobileMenuDrawer({
                 <div className="p-1.5 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00]">
                   <ShoppingBag className="w-4 h-4" />
                 </div>
-                <span>Boutique &amp; Catégories</span>
+                <span>{t("header.shop")}</span>
               </span>
               <div className={`p-1 transition-transform duration-200 ${categoriesExpanded ? "rotate-180" : ""}`}>
                 <ChevronDown className="w-4 h-4 text-gray-400" />
@@ -234,7 +235,7 @@ export default function MobileMenuDrawer({
                     <div className="p-1.5 rounded-xl bg-[#2F3CD9] text-white">
                       <Layers className="w-4 h-4" />
                     </div>
-                    <span className="font-extrabold text-gray-900 dark:text-white">Toute la boutique</span>
+                    <span className="font-extrabold text-gray-900 dark:text-white">{t("nav_menu.see_all_shop")}</span>
                   </span>
                   <ChevronRight className="w-4 h-4 text-gray-400" />
                 </Link>
@@ -249,7 +250,7 @@ export default function MobileMenuDrawer({
                     <div className="p-1.5 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00]">
                       <Sparkles className="w-4 h-4" />
                     </div>
-                    <span>Fidgets &amp; Anti-stress</span>
+                    <span>{t("header.categories.fidgets")}</span>
                   </span>
                   <span className="text-[9px] font-black px-2 py-0.5 rounded-md bg-[#ff4f00] text-white no-invert">
                     HOT
@@ -265,7 +266,7 @@ export default function MobileMenuDrawer({
                     <div className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-500 dark:text-cyan-400">
                       <Gamepad2 className="w-4 h-4" />
                     </div>
-                    <span>Geek &amp; Gaming</span>
+                    <span>{t("nav_menu.geek_gaming")}</span>
                   </span>
                   <span className="text-[9px] font-black px-2 py-0.5 rounded-md bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 no-invert">
                     NEW
@@ -281,7 +282,7 @@ export default function MobileMenuDrawer({
                     <div className="p-1.5 rounded-lg bg-amber-500/20 text-amber-500 dark:text-amber-400">
                       <Key className="w-4 h-4" />
                     </div>
-                    <span>Porte-clés 3D</span>
+                    <span>{t("nav_menu.keychain_title")}</span>
                   </span>
                   <ChevronRight className="mobile-drawer-arrow w-4 h-4 text-gray-400" />
                 </Link>
@@ -295,7 +296,7 @@ export default function MobileMenuDrawer({
                     <div className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-500 dark:text-emerald-400">
                       <Smile className="w-4 h-4" />
                     </div>
-                    <span>Animaux &amp; Figurines</span>
+                    <span>{t("nav_menu.animals_title")}</span>
                   </span>
                   <ChevronRight className="mobile-drawer-arrow w-4 h-4 text-gray-400" />
                 </Link>
@@ -309,7 +310,7 @@ export default function MobileMenuDrawer({
                     <div className="p-1.5 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00]">
                       <ShieldCheck className="w-4 h-4" />
                     </div>
-                    <span>Médaillons NFC Chien, Chat &amp; Enfant</span>
+                    <span>{t("nav_menu.nfc_title")}</span>
                   </span>
                   <span className="text-[9px] font-black px-2 py-0.5 rounded-md bg-[#ff4f00] text-white no-invert">
                     SOS
@@ -329,7 +330,7 @@ export default function MobileMenuDrawer({
                 <div className="p-1.5 rounded-lg bg-purple-500/20 text-purple-500 dark:text-purple-400">
                   <Palette className="w-4 h-4" />
                 </div>
-                <span>L'Atelier &amp; Infos</span>
+                <span>{t("header.workshop")}</span>
               </span>
               <div className={`p-1 transition-transform duration-200 ${atelierExpanded ? "rotate-180" : ""}`}>
                 <ChevronDown className="w-4 h-4 text-gray-400" />
@@ -347,7 +348,7 @@ export default function MobileMenuDrawer({
                     <div className="p-1.5 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00]">
                       <Palette className="w-4 h-4" />
                     </div>
-                    <span>Notre Histoire &amp; Atelier</span>
+                    <span>{t("nav_menu.our_story")}</span>
                   </span>
                   <ChevronRight className="mobile-drawer-arrow w-4 h-4 text-gray-400" />
                 </Link>
@@ -361,7 +362,7 @@ export default function MobileMenuDrawer({
                     <div className="p-1.5 rounded-lg bg-blue-500/20 text-blue-500 dark:text-blue-400">
                       <Building2 className="w-4 h-4" />
                     </div>
-                    <span>Espace Pro &amp; B2B</span>
+                    <span>{t("nav_menu.pro_space")}</span>
                   </span>
                   <ChevronRight className="mobile-drawer-arrow w-4 h-4 text-gray-400" />
                 </Link>
@@ -375,7 +376,7 @@ export default function MobileMenuDrawer({
                     <div className="p-1.5 rounded-lg bg-purple-500/20 text-purple-500 dark:text-purple-400">
                       <BookOpen className="w-4 h-4" />
                     </div>
-                    <span>Le Blog Spoolio</span>
+                    <span>{t("nav_menu.blog_title")}</span>
                   </span>
                   <ChevronRight className="mobile-drawer-arrow w-4 h-4 text-gray-400" />
                 </Link>
@@ -389,7 +390,7 @@ export default function MobileMenuDrawer({
                     <div className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-500 dark:text-emerald-400">
                       <HelpCircle className="w-4 h-4" />
                     </div>
-                    <span>FAQ &amp; Centre d'aide</span>
+                    <span>{t("nav_menu.faq_title")}</span>
                   </span>
                   <ChevronRight className="mobile-drawer-arrow w-4 h-4 text-gray-400" />
                 </Link>
@@ -403,13 +404,14 @@ export default function MobileMenuDrawer({
             onClick={onClose}
             className="w-full min-h-[50px] py-3.5 px-4 rounded-2xl bg-gradient-to-r from-[#ff4f00] via-[#FF6600] to-[#FF8800] text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-[#ff4f00]/30 hover:scale-[1.02] active:scale-[0.98] transition-transform no-invert"
           >
-            <span>Soutenir l'Atelier</span>
+            <span>{t("footer.support_workshop")}</span>
             <Heart className="w-4 h-4 fill-current animate-pulse" />
           </Link>
         </div>
 
-        {/* Bottom Preferences (Full Width Theme Toggle Only) */}
-        <div className="pt-3 border-t border-gray-200 dark:border-white/10 flex items-center">
+        {/* Bottom Preferences (Language Switcher & Theme Toggle) */}
+        <div className="pt-3 border-t border-gray-200 dark:border-white/10 flex flex-col gap-2.5">
+          <LanguageSwitcher variant="mobile" />
           <button
             onClick={toggleTheme}
             className="mobile-drawer-btn w-full h-12 px-4 rounded-xl bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200 flex items-center justify-center gap-2.5 text-xs font-bold transition-all cursor-pointer active:scale-95"

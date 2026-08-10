@@ -1,21 +1,96 @@
 {
   "header": {
     "shop": "Shop",
-    "about": "About",
-    "faq": "FAQ",
+    "experiences": "Experiences & Games",
+    "workshop": "The Workshop",
+    "about": "About Us",
+    "pro": "Pro & B2B Space",
+    "blog": "Spoolio Blog",
+    "faq": "FAQ / Help",
     "contact": "Contact",
     "admin": "Admin",
     "cart": "Cart",
-    "search_placeholder": "Search for a fidget, accessory..."
+    "search": "Search",
+    "search_placeholder": "Search for a product...",
+    "support_workshop": "Support the Workshop 🧡",
+    "categories": {
+      "fidgets": "Fidgets & Stress Relief",
+      "boussole": "ADHD Sensory Compass",
+      "nfc": "NFC Keychains & Medallions",
+      "gachapon": "Surprise Pack & Gachapon",
+      "clicker": "3D Clicker Customizer",
+      "tombola": "Spoolio Raffle",
+      "palette": "PLA Color Palette"
+    }
+  },
+  "nav_menu": {
+    "see_all_shop": "View full shop",
+    "full_catalog_badge": "FULL CATALOG 🛍️",
+    "full_catalog_desc": "Explore all our 3D creations, sensory fidgets & new arrivals",
+    "must_have_badge": "🔥 MUST-HAVE",
+    "fidgets_card_title": "Fidgets & Stress Relief Items",
+    "fidgets_card_desc": "Soothing manipulations, satisfying clicks and 3D creations designed for focus.",
+    "discover_fidgets": "Discover fidgets",
+    "fidgets_sub": "Balls, clickers & spinners",
+    "geek_gaming": "Geek & Gaming",
+    "geek_sub": "Controller mounts & setup accessories",
+    "keychain_title": "3D Keychains",
+    "keychain_sub": "Lightweight & customizable creations",
+    "animals_title": "Animals & Figurines",
+    "animals_sub": "Articulated creatures & decorations",
+    "nfc_title": "NFC Medallions Dog, Cat & Child",
+    "nfc_sub": "Pet safety & SOS keychains",
+    "surprise_pack": "3D Surprise Packs",
+    "surprise_pack_sub": "Mystery selection with 3D unboxing animation and exclusive drops.",
+    "surprise_sub": "Surprises & exclusive drops",
+    "open_pack": "Open my surprise pack",
+    "boussole_title": "ADHD Sensory Compass",
+    "boussole_desc": "Find your ideal soothing item based on your needs and sensitivities.",
+    "boussole_sub": "Sensory soothing guide",
+    "launch_test": "Take the test",
+    "clicker_studio": "3D Clicker Studio",
+    "clicker_studio_title": "3D Clicker Studio",
+    "clicker_studio_desc": "Customize your case, switches, and 3D keycap engravings.",
+    "clicker_studio_sub": "Custom ASMR keycaps",
+    "create_clicker": "Create my clicker",
+    "tombola_title": "Current Raffle",
+    "tombola_desc": "Pick your numbers and try to win the exclusive Mega Pack!",
+    "tombola_sub": "Win the exclusive pack",
+    "try_luck": "Try my luck",
+    "our_story": "Our Story & Behind the Scenes",
+    "our_story_desc": "Discover the Spoolio universe, local 3D printing, and bio-sourced PLA materials.",
+    "our_story_sub": "Crafted in Comines with love",
+    "discover_workshop": "Discover the Workshop",
+    "pro_space": "Pro & B2B Space",
+    "pro_space_desc": "Partnerships, corporate goodies, and custom 3D printing for pros.",
+    "pro_space_sub": "Wholesale & custom orders",
+    "custom_projects": "Custom projects",
+    "blog_title": "Spoolio Blog",
+    "blog_desc": "Focus articles, ADHD tips, sensory tests, and 3D lab behind the scenes.",
+    "blog_sub": "ADHD tips & 3D behind the scenes",
+    "read_articles": "Read articles",
+    "faq_title": "FAQ & Help Center",
+    "faq_desc": "Frequently asked questions on shipping, returns, and material composition.",
+    "faq_sub": "All answers to your questions",
+    "view_faq": "View FAQ"
   },
   "footer": {
-    "description": "Sensory fidgets, accessories, and fun objects printed in 3D in Comines, France. 🇫🇷",
+    "brand_by": "By Vivien 🛠️",
+    "description": "Fun items, sensory fidgets, and unique creations 3D printed with passion in Comines, France. Plant-based plastic, zero petroleum!",
     "rights": "All rights reserved.",
+    "join_adventure": "Join the adventure 🚀",
+    "club_spoolio": "Spoolio Club ✉️",
+    "support_workshop": "Support the Workshop 🧡",
+    "about": "About Us",
+    "pro_space": "Pro Space",
+    "contact": "Contact",
+    "faq": "FAQ / Questions",
+    "legal_info": "Legal Information",
     "links": {
       "legal": "Legal Notice",
       "cgv": "Terms & Conditions",
-      "cookies": "Cookies Policy",
-      "returns": "Returns & Cancellation"
+      "cookies": "Cookies & Privacy",
+      "returns": "Returns Policy"
     }
   },
   "common": {
@@ -23,12 +98,37 @@
     "error": "An error occurred",
     "back": "Back",
     "save": "Save",
-    "close": "Close"
+    "close": "Close",
+    "see_all": "See all",
+    "add_to_cart": "Add to cart",
+    "discover": "Discover"
   },
   "home": {
+    "hero": {
+      "badge": "🇫🇷 Made in Comines (France) • 100% Bio-sourced",
+      "title": "Fun Objects & 3D Fidgets",
+      "subtitle": "Printed in plant-based PLA plastic. Designed to calm the mind, boost focus, and brighten your daily routine.",
+      "cta_shop": "Explore the Shop",
+      "cta_sensory": "Sensory Compass"
+    },
+    "bento": {
+      "eco_label": "Eco-friendly",
+      "eco_val": "Bio-sourced PLA",
+      "artisan_label": "Artisan",
+      "artisan_val": "Handmade in France",
+      "shipping_label": "Shipping",
+      "shipping_val": "Free over 40€ (24/48h)",
+      "reviews_val": "4.9 / 5.0 (Reviews)"
+    },
+    "collection": {
+      "title": "The Spoolio Collection",
+      "subtitle": "From sensory fidgets to articulated figurines, discover our original 3D printed creations.",
+      "latest": "Latest Arrivals",
+      "popular": "Most Popular"
+    },
     "donation": {
       "badge": "LOCAL PROJECT",
-      "title": "Supporting the Workshop",
+      "title": "Help the Workshop Upgrade",
       "description": "Spoolio is an artisanal and eco-friendly project. You can support our hardware investments (new nozzles, print sheets, printer maintenance) by choosing a support tier.",
       "button": "Support the Workshop"
     },
@@ -60,11 +160,11 @@
     "reassurance": {
       "local": {
         "title": "French Workshop",
-        "description": "3D printed in Comines (Nord)"
+        "description": "3D printed in Comines, France"
       },
       "eco": {
         "title": "100% Bio-sourced",
-        "description": "Plant-based plastic made from corn"
+        "description": "Plant-based cornstarch plastic"
       },
       "shipping": {
         "title": "Fast Shipping",
@@ -74,6 +174,69 @@
         "title": "Secure Purchase",
         "description": "Protected payment by Stripe"
       }
+    },
+    "marquee": {
+      "tagline": "Spoolio Workshop Commitment",
+      "title": "Why Choose Our 3D Creations?",
+      "subtitle": "Hover over the banner to explore our artisan workshop commitments.",
+      "h1": {
+        "title": "Bio-sourced 3D Printing",
+        "desc": "Printed in plant-based PLA cornstarch plastic, zero petroleum.",
+        "badge": "PLA GREEN"
+      },
+      "h2": {
+        "title": "Local Workshop in Comines",
+        "desc": "Artisanally designed and crafted in Northern France.",
+        "badge": "MADE IN FRANCE"
+      },
+      "h3": {
+        "title": "Fidgets & Surprise Packs",
+        "desc": "Sensory objects, stress relief, and unique 3D items.",
+        "badge": "CUSTOM MADE"
+      },
+      "h4": {
+        "title": "Careful & Eco Shipping",
+        "desc": "Recycled cardboard packaging and fast delivery to your door.",
+        "badge": "EXPRESS"
+      }
+    },
+    "grid": {
+      "latest_title": "Latest Creations",
+      "latest_sub": "Fresh out of our 3D printing nozzles in Comines",
+      "favorites_title": "Our Favorites",
+      "favorites_sub": "Community favorite and most popular items",
+      "explore_title": "Explore the Catalog",
+      "explore_sub": "Filter by universe to find your perfect match"
+    },
+    "printers": {
+      "title": "Our Unsung Artisans 🤖",
+      "subtitle": "Meet our workshop's 5 3D printers crafting your fidgets and accessories layer by layer with surgical precision.",
+      "partners_label": "Filaments and 3D printers of the workshop",
+      "live_ribbon": "{count} 3D items printed this month in our workshop",
+      "zero_overstock": "Zero overstock, 100% made to order 🇫🇷",
+      "live_badge": "🟢 Live Workshop",
+      "printing": "Printing: {name}",
+      "standby_temp": "Temperature: 25°C",
+      "out_of_service": "⚠️ OUT OF SERVICE",
+      "broken": "BROKEN DOWN",
+      "active": "Active",
+      "standby": "Standby"
+    },
+    "reviews": {
+      "title": "Our customers love Spoolio ⭐",
+      "verified_badge": "Verified Reviews",
+      "google_button": "Leave a Google review ✍️",
+      "product_review": "Product review: {name}",
+      "google_general": "General Google Review",
+      "verified_check": "Verified review ✓",
+      "google_modal_link": "Leave a Google review →"
+    },
+    "material": {
+      "title": "Raw Material // Bio-sourced PLA 🌱",
+      "p1": "At Spoolio, we print fun, not pollution. Our objects don't come from a petrochemical factory on the other side of the world: they come to life in Comines, layer by layer, from bio-sourced PLA.",
+      "p2": "It is a plant-based plastic made from cornstarch. Zero petroleum, zero overstock, zero nonsense. Just local, eco-friendly tech.",
+      "note_label": "Workshop note:",
+      "note_text": "Like any good corn, it loves indoor comfort but hates being left in full sun on a 60°C car dashboard."
     }
   }
 }

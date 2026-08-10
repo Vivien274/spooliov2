@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
+import { useTranslation } from "@/context/LanguageContext";
 
 export interface HeroSlide {
   id: number;
@@ -20,7 +21,7 @@ export interface HeroSlide {
   accentColor: string;
 }
 
-const DEFAULT_SLIDES: HeroSlide[] = [
+const DEFAULT_SLIDES_FR: HeroSlide[] = [
   {
     id: 1,
     badge: "🌀 PACKS SENSORIELS TDAH",
@@ -59,15 +60,56 @@ const DEFAULT_SLIDES: HeroSlide[] = [
   }
 ];
 
+const DEFAULT_SLIDES_EN: HeroSlide[] = [
+  {
+    id: 1,
+    badge: "🌀 ADHD SENSORY PACKS",
+    title: "THE SENSORY FIDGET FEVER ⚡",
+    subtitle: "Unwind, touch, click: discover our original 3D creations handmade in France 🌱",
+    buttonText: "DISCOVER THE SHOP",
+    buttonLink: "/boutique",
+    secondaryButtonText: "⌨️ BUILD MY CLICKER",
+    secondaryButtonLink: "/createur-cliqueur",
+    image: "/images/hero_background.jpg",
+    accentColor: "#ff4f00"
+  },
+  {
+    id: 2,
+    badge: "⌨️ 3D CLICKER STUDIO",
+    title: "CUSTOM MECHANICAL CLICKERS 🎨",
+    subtitle: "Customize keycap colors, switches, and keychain attachments for a unique ASMR feel!",
+    buttonText: "DESIGN MY CLICKER",
+    buttonLink: "/createur-cliqueur",
+    secondaryButtonText: "🛍️ VIEW THE SHOP",
+    secondaryButtonLink: "/boutique",
+    image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    accentColor: "#00f0ff"
+  },
+  {
+    id: 3,
+    badge: "🎁 MYSTERY & LIMITED EDITION",
+    title: "THE SPOOLIO SURPRISE PACK 📦",
+    subtitle: "Treat yourself to a mystery assortment of brand new 3D items and fidgets crafted in Comines.",
+    buttonText: "VIEW SURPRISE PACKS",
+    buttonLink: "/pochette-surprise",
+    secondaryButtonText: "🛍️ EXPLORE THE SHOP",
+    secondaryButtonLink: "/boutique",
+    image: "/images/imported/PochetteM-1.png",
+    accentColor: "#10b981"
+  }
+];
+
 export interface AnimatedHeroProps {
   slides?: HeroSlide[];
 }
 
 export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
+  const { locale } = useTranslation();
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isPaused, setIsPaused] = useState<boolean>(false);
 
-  const heroSlides = slides && slides.length > 0 ? slides : DEFAULT_SLIDES;
+  const defaultSlides = locale === "en" ? DEFAULT_SLIDES_EN : DEFAULT_SLIDES_FR;
+  const heroSlides = slides && slides.length > 0 ? slides : defaultSlides;
 
   useEffect(() => {
     if (isPaused) return;

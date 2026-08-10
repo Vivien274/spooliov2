@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslation } from "@/context/LanguageContext";
 
 interface Review {
   id: number;
@@ -19,6 +20,7 @@ interface ReviewsSectionProps {
 }
 
 export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) {
+  const { t } = useTranslation();
   const [selectedReview, setSelectedReview] = useState<Review | null>(null);
   const [isLight, setIsLight] = useState<boolean>(false);
 
@@ -48,10 +50,10 @@ export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) 
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h3 className="text-xl md:text-2xl font-black text-white font-antonio uppercase tracking-wide no-invert">
-              Nos clients adorent Spoolio ⭐
+              {t("home.reviews.title")}
             </h3>
             <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-white/70 px-2 py-0.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 mt-1 no-invert">
-              Avis Vérifiés
+              {t("home.reviews.verified_badge")}
             </span>
           </div>
           
@@ -62,7 +64,7 @@ export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) 
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 text-xs px-4 py-2.5 rounded-xl bg-white text-black font-extrabold shadow-lg hover:bg-black hover:text-white border border-white transition-all duration-300 select-none cursor-pointer shrink-0"
           >
-            <span>Déposer un avis Google ✍️</span>
+            <span>{t("home.reviews.google_button")}</span>
           </a>
         </div>
 
@@ -128,7 +130,7 @@ export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) 
                 {Array(selectedReview.rating).fill("★").join("")}
               </span>
               <span className="text-[9px] font-black uppercase tracking-widest text-[#ff4f00] px-2 py-0.5 rounded-md bg-[#ff4f00]/10 border border-[#ff4f00]/25">
-                {selectedReview.product ? `Avis produit : ${selectedReview.product.name}` : "Avis Google Général"}
+                {selectedReview.product ? t("home.reviews.product_review", { name: selectedReview.product.name }) : t("home.reviews.google_general")}
               </span>
             </div>
 
@@ -150,7 +152,7 @@ export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) 
                   {selectedReview.customerName}
                 </h4>
                 <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider font-sans">
-                  Avis vérifié ✓
+                  {t("home.reviews.verified_check")}
                 </span>
               </div>
               
@@ -160,7 +162,7 @@ export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) 
                 rel="noopener noreferrer"
                 className="text-xs font-bold text-[#ff4f00] hover:text-[#e64400] transition-colors hover:underline"
               >
-                Déposer un avis sur Google &rarr;
+                {t("home.reviews.google_modal_link")}
               </a>
             </div>
           </div>

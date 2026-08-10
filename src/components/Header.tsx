@@ -8,6 +8,7 @@ import { useCart } from "@/context/CartContext";
 import { useTranslation } from "@/context/LanguageContext";
 import MotionNavigationMenu from "@/components/MotionNavigationMenu";
 import MobileMenuDrawer from "@/components/MobileMenuDrawer";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
@@ -247,8 +248,11 @@ export default function Header({
           </button>
         </div>
 
-        {/* Header Actions (Theme Toggle + Cart) */}
+        {/* Header Actions (Language Switcher + Theme Toggle + Cart) */}
         <div className="flex items-center gap-3">
+          {/* Language Switcher (Masqué pour l'instant) */}
+          {/* <LanguageSwitcher variant="header" className="hidden md:inline-block" /> */}
+
           {/* Mobile Search Button */}
           <button
             onClick={() => setIsSearchOpen(true)}

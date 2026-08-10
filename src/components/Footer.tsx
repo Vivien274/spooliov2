@@ -3,12 +3,15 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslation } from "@/context/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 interface FooterProps {
   className?: string;
 }
 
 export default function Footer({ className = "" }: FooterProps) {
+  const { t } = useTranslation();
   const [isLegalOpen, setIsLegalOpen] = useState<boolean>(false);
   const legalRef = useRef<HTMLDivElement>(null);
 
@@ -43,21 +46,24 @@ export default function Footer({ className = "" }: FooterProps) {
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center gap-2">
                 <span className="font-black text-white text-base tracking-wider uppercase font-antonio">Spoolio</span>
-                <span className="text-[10px] text-[#ff4f00] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#ff4f00]/10 border border-[#ff4f00]/30">Par Vivien 🛠️</span>
+                <span className="text-[10px] text-[#ff4f00] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#ff4f00]/10 border border-[#ff4f00]/30">{t("footer.brand_by")}</span>
               </div>
               <p className="text-[11px] text-gray-400 leading-relaxed font-sans font-medium">
-                Objets fun, fidgets sensoriels, et créations uniques imprimés 3D avec passion à Comines. Plastique biosourcé, zéro pétrole !
+                {t("footer.description")}
               </p>
               <div className="text-[10px] text-gray-500 font-medium">
-                &copy; {new Date().getFullYear()} Spoolio. Tous droits réservés.
+                &copy; {new Date().getFullYear()} Spoolio. {t("footer.rights")}
               </div>
             </div>
           </div>
 
           {/* Social Networks & Club Spoolio Block */}
           <div className="flex flex-col md:items-end gap-3 font-sans">
-            <div className="text-xs font-black text-gray-300 uppercase tracking-widest">
-              Rejoins l'aventure 🚀
+            <div className="flex items-center gap-3">
+              <div className="text-xs font-black text-gray-300 uppercase tracking-widest">
+                {t("footer.join_adventure")}
+              </div>
+              {/* <LanguageSwitcher variant="footer" /> */}
             </div>
             
             <div className="flex items-center gap-3">
@@ -114,14 +120,14 @@ export default function Footer({ className = "" }: FooterProps) {
             href="/inscription-newsletter-spoolio"
             className="text-blue-400 hover:text-blue-300 font-extrabold transition-all flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2F3CD9]/15 border border-[#2F3CD9]/30 hover:border-[#2F3CD9]/60 hover:bg-[#2F3CD9]/25 shadow-sm"
           >
-            <span>Club Spoolio ✉️</span>
+            <span>{t("footer.club_spoolio")}</span>
           </Link>
 
-          <Link href="/don" className="text-[#ff4f00] hover:underline transition-colors">Soutenir l'Atelier 🧡</Link>
-          <Link href="/a-propos" className="hover:text-[#ff4f00] transition-colors">À Propos</Link>
-          <Link href="/pro" className="hover:text-[#ff4f00] transition-colors">Espace Pro</Link>
-          <Link href="/contact" className="hover:text-[#ff4f00] transition-colors">Contact</Link>
-          <Link href="/faq" className="hover:text-[#ff4f00] transition-colors">FAQ / Questions</Link>
+          <Link href="/don" className="text-[#ff4f00] hover:underline transition-colors">{t("footer.support_workshop")}</Link>
+          <Link href="/a-propos" className="hover:text-[#ff4f00] transition-colors">{t("footer.about")}</Link>
+          <Link href="/pro" className="hover:text-[#ff4f00] transition-colors">{t("footer.pro_space")}</Link>
+          <Link href="/contact" className="hover:text-[#ff4f00] transition-colors">{t("footer.contact")}</Link>
+          <Link href="/faq" className="hover:text-[#ff4f00] transition-colors">{t("footer.faq")}</Link>
 
           {/* Submenu for Legal Pages */}
           <div
@@ -135,7 +141,7 @@ export default function Footer({ className = "" }: FooterProps) {
               className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer py-1"
               aria-expanded={isLegalOpen}
             >
-              <span>Informations Légales</span>
+              <span>{t("footer.legal_info")}</span>
               <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${isLegalOpen ? "rotate-180 text-white" : "text-gray-400 group-hover:rotate-180"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
@@ -143,34 +149,34 @@ export default function Footer({ className = "" }: FooterProps) {
 
             {/* Legal Dropdown Menu with zero gap bridge wrapper */}
             <div className={`absolute bottom-full left-1/2 -translate-x-1/2 pb-2.5 z-50 ${isLegalOpen ? "block" : "hidden group-hover:block"}`}>
-              <div className="w-52 bg-[#131316]/95 border border-white/15 rounded-2xl p-2 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl flex flex-col gap-1 text-left animate-scale-up">
+              <div className="w-56 bg-[#131316]/95 border border-white/15 rounded-2xl p-2 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl flex flex-col gap-1 text-left animate-scale-up">
                 <Link
                   href="/mentions-legales"
                   onClick={() => setIsLegalOpen(false)}
                   className="px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium block"
                 >
-                  Mentions Légales
+                  {t("footer.links.legal")}
                 </Link>
                 <Link
                   href="/cgv"
                   onClick={() => setIsLegalOpen(false)}
                   className="px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium block"
                 >
-                  Conditions Générales (CGV)
+                  {t("footer.links.cgv")}
                 </Link>
                 <Link
                   href="/cookies"
                   onClick={() => setIsLegalOpen(false)}
                   className="px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium block"
                 >
-                  Cookies & Confidentialité
+                  {t("footer.links.cookies")}
                 </Link>
                 <Link
                   href="/retours"
                   onClick={() => setIsLegalOpen(false)}
                   className="px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium block"
                 >
-                  Politique de Retours
+                  {t("footer.links.returns")}
                 </Link>
               </div>
             </div>

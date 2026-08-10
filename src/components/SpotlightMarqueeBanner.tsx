@@ -2,8 +2,10 @@
 
 import { useState, useRef, MouseEvent } from "react";
 import { Sparkles, Cpu, ShieldCheck, Heart, Truck, Award } from "lucide-react";
+import { useTranslation } from "@/context/LanguageContext";
 
 export default function SpotlightMarqueeBanner() {
+  const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState<{ x: number; y: number; isHovered: boolean }>({
     x: 0,
@@ -28,30 +30,30 @@ export default function SpotlightMarqueeBanner() {
   const highlights = [
     {
       icon: Cpu,
-      title: "Impression 3D Biosourcée",
-      desc: "Imprimé en PLA végétal d'amidon de maïs sans pétrole.",
-      badge: "PLA GREEN",
+      title: t("home.marquee.h1.title"),
+      desc: t("home.marquee.h1.desc"),
+      badge: t("home.marquee.h1.badge"),
       color: "from-emerald-500/20 to-teal-500/10 text-emerald-400 border-emerald-500/30",
     },
     {
       icon: Award,
-      title: "Atelier Local Comines (59)",
-      desc: "Conçu et fabriqué artisanalement dans le Nord de la France.",
-      badge: "MADE IN FRANCE",
+      title: t("home.marquee.h2.title"),
+      desc: t("home.marquee.h2.desc"),
+      badge: t("home.marquee.h2.badge"),
       color: "from-[#ff4f00]/20 to-amber-500/10 text-[#ff4f00] border-[#ff4f00]/30",
     },
     {
       icon: Sparkles,
-      title: "Fidgets & Pochettes Surprises",
-      desc: "Objets sensoriels, décompressifs et créations uniques 3D.",
-      badge: "SUR-MESURE",
+      title: t("home.marquee.h3.title"),
+      desc: t("home.marquee.h3.desc"),
+      badge: t("home.marquee.h3.badge"),
       color: "from-cyan-500/20 to-blue-500/10 text-cyan-400 border-cyan-500/30",
     },
     {
       icon: Truck,
-      title: "Expédition Soignée & Éco",
-      desc: "Emballage carton recyclé et envoi rapide chez vous.",
-      badge: "EXPRESS",
+      title: t("home.marquee.h4.title"),
+      desc: t("home.marquee.h4.desc"),
+      badge: t("home.marquee.h4.badge"),
       color: "from-purple-500/20 to-indigo-500/10 text-purple-400 border-purple-500/30",
     },
   ];
@@ -88,14 +90,14 @@ export default function SpotlightMarqueeBanner() {
         <div>
           <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#ff4f00] flex items-center gap-1.5 mb-1">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>L'Engagement Spoolio Atelier</span>
+            <span>{t("home.marquee.tagline")}</span>
           </span>
           <h3 className="text-2xl sm:text-3xl font-black uppercase font-antonio tracking-wide text-white">
-            Pourquoi choisir nos créations 3D ?
+            {t("home.marquee.title")}
           </h3>
         </div>
         <p className="text-xs text-gray-400 max-w-sm font-sans leading-relaxed">
-          Passe la souris sur le bandeau pour explorer les engagements de notre atelier artisanal.
+          {t("home.marquee.subtitle")}
         </p>
       </div>
 

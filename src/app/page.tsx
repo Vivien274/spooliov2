@@ -96,11 +96,17 @@ function getSeededProduct(products: string[], seed: number) {
 
 export default async function HomePage() {
   const cookieStore = await cookies();
-  const lang = cookieStore.get("NEXT_LOCALE")?.value || "fr";
+  const lang = cookieStore.get("spoolio_locale")?.value || cookieStore.get("NEXT_LOCALE")?.value || "fr";
   const translations = lang === "en" ? en : fr;
 
-  const t = (key: string) => {
-    return key.split(".").reduce((obj: any, i) => obj?.[i], translations) || key;
+  const t = (key: string, replacements?: Record<string, string | number>) => {
+    let text = key.split(".").reduce((obj: any, i) => obj?.[i], translations) || key;
+    if (typeof text === "string" && replacements) {
+      Object.entries(replacements).forEach(([placeholder, value]) => {
+        text = text.replace(new RegExp(`{${placeholder}}`, "g"), String(value));
+      });
+    }
+    return text;
   };
 
   let hero = DEFAULT_HERO;
@@ -172,14 +178,13 @@ export default async function HomePage() {
   ];
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/products`, {
-      next: { revalidate: 60 },
+    const dbProducts = await prisma.product.findMany({
+      where: { status: "publish" },
+      select: { name: true },
+      take: 20,
     });
-    if (res.ok) {
-      const data = await res.json();
-      if (Array.isArray(data) && data.length > 0) {
-        activeProducts = data.map((p: any) => p.name).filter(Boolean);
-      }
+    if (dbProducts && dbProducts.length > 0) {
+      activeProducts = dbProducts.map((p) => p.name).filter(Boolean);
     }
   } catch (e) {
     // Silent fallback
@@ -216,37 +221,37 @@ export default async function HomePage() {
             <div key={loop} className="flex items-center gap-8 shrink-0">
               <span className="flex items-center gap-2 text-gray-900 dark:text-white">
                 <span>🚚</span>
-                <span>LIVRAISON OFFERTE DÈS 40€</span>
+                <span>{lang === "en" ? "FREE SHIPPING OVER €40" : "LIVRAISON OFFERTE DÈS 40€"}</span>
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
 
               <span className="flex items-center gap-2 text-gray-900 dark:text-white">
                 <span>🌱</span>
-                <span>PLA BIOSOURCÉ</span>
+                <span>{lang === "en" ? "BIO-SOURCED PLA PLASTIC" : "PLA BIOSOURCÉ"}</span>
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
 
               <span className="flex items-center gap-2 text-gray-900 dark:text-white">
                 <span>⚡</span>
-                <span>ZÉRO SURSTOCK • FABRICATION À LA COMMANDE</span>
+                <span>{lang === "en" ? "ZERO OVERSTOCK • MADE TO ORDER" : "ZÉRO SURSTOCK • FABRICATION À LA COMMANDE"}</span>
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
 
               <span className="flex items-center gap-2 text-gray-900 dark:text-white">
                 <span>🇫🇷</span>
-                <span>FAIT MAIN À COMINES (NORD)</span>
+                <span>{lang === "en" ? "HANDMADE IN COMINES (FRANCE)" : "FAIT MAIN À COMINES (NORD)"}</span>
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
 
               <span className="flex items-center gap-2 text-gray-900 dark:text-white">
                 <span>⌨️</span>
-                <span>CLICKERS 3D CUSTOMISABLES</span>
+                <span>{lang === "en" ? "CUSTOMIZABLE 3D CLICKERS" : "CLICKERS 3D CUSTOMISABLES"}</span>
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
 
               <span className="flex items-center gap-2 text-gray-900 dark:text-white">
                 <span>🎁</span>
-                <span>POCHETTES SURPRISE DÈS 10.00€</span>
+                <span>{lang === "en" ? "SURPRISE PACKS FROM €10.00" : "POCHETTES SURPRISE DÈS 10.00€"}</span>
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
             </div>
@@ -262,8 +267,8 @@ export default async function HomePage() {
               🌱
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="text-[10px] uppercase tracking-wider font-mono text-gray-500 dark:text-gray-400 font-semibold">Écoresponsable</span>
-              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">PLA Biosourcé</strong>
+              <span className="text-[10px] uppercase tracking-wider font-mono text-gray-500 dark:text-gray-400 font-semibold">{t("home.bento.eco_label")}</span>
+              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">{t("home.bento.eco_val")}</strong>
             </div>
           </div>
 
@@ -272,8 +277,8 @@ export default async function HomePage() {
               🇫🇷
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="text-[10px] uppercase tracking-wider font-mono text-gray-500 dark:text-gray-400 font-semibold">Artisanal</span>
-              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">Fait Main à Comines</strong>
+              <span className="text-[10px] uppercase tracking-wider font-mono text-gray-500 dark:text-gray-400 font-semibold">{t("home.bento.artisan_label")}</span>
+              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">{t("home.bento.artisan_val")}</strong>
             </div>
           </div>
 
@@ -282,8 +287,8 @@ export default async function HomePage() {
               🚚
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="text-[10px] uppercase tracking-wider font-mono text-gray-500 dark:text-gray-400 font-semibold">Livraison</span>
-              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">Offerte dès 40€ (24/48h)</strong>
+              <span className="text-[10px] uppercase tracking-wider font-mono text-gray-500 dark:text-gray-400 font-semibold">{t("home.bento.shipping_label")}</span>
+              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">{t("home.bento.shipping_val")}</strong>
             </div>
           </div>
 
@@ -295,7 +300,7 @@ export default async function HomePage() {
               <span className="text-[10px] uppercase tracking-wider font-mono text-amber-500 font-bold flex items-center gap-1">
                 <span>★★★★★</span>
               </span>
-              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">4.9 / 5.0 (Avis)</strong>
+              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">{t("home.bento.reviews_val")}</strong>
             </div>
           </div>
         </div>
@@ -306,10 +311,10 @@ export default async function HomePage() {
         {/* Title Block */}
         <div className="text-center">
           <h2 className="text-4xl md:text-5xl font-extrabold uppercase tracking-tight font-antonio text-neon-flow">
-            La Collection Spoolio
+            {t("home.collection.title")}
           </h2>
           <p className="text-xs md:text-sm text-gray-400 font-sans mt-2 max-w-md mx-auto leading-relaxed">
-            Des fidgets sensoriels aux figurines articulées, découvre nos créations originales imprimées en 3D.
+            {t("home.collection.subtitle")}
           </p>
         </div>
 
@@ -319,9 +324,9 @@ export default async function HomePage() {
             <span className="text-xl">🌱</span>
             <div className="flex flex-col">
               <h3 className="text-lg font-bold text-white uppercase tracking-tight">
-                Les Dernières Créations
+                {t("home.grid.latest_title")}
               </h3>
-              <p className="text-[10px] text-gray-400 font-medium">Tout chaud sortis de nos buses d'impression à Comines</p>
+              <p className="text-[10px] text-gray-400 font-medium">{t("home.grid.latest_sub")}</p>
             </div>
           </div>
           <SpoolioProductGrid filterType="latest" limit={3} showFilters={false} compact={true} />
@@ -333,9 +338,9 @@ export default async function HomePage() {
             <span className="text-xl">✨</span>
             <div className="flex flex-col">
               <h3 className="text-lg font-bold text-white uppercase tracking-tight">
-                Nos Coups de Cœur
+                {t("home.grid.favorites_title")}
               </h3>
-              <p className="text-[10px] text-gray-400 font-medium">Les objets préférés et les plus populaires de la commu</p>
+              <p className="text-[10px] text-gray-400 font-medium">{t("home.grid.favorites_sub")}</p>
             </div>
           </div>
           <SpoolioProductGrid filterType="best-of" limit={3} showFilters={false} compact={true} />
@@ -380,9 +385,9 @@ export default async function HomePage() {
             <span className="text-xl">🧩</span>
             <div className="flex flex-col">
               <h3 className="text-lg font-bold text-white uppercase tracking-tight">
-                Explorer le Catalogue
+                {t("home.grid.explore_title")}
               </h3>
-              <p className="text-[10px] text-gray-400 font-medium">Filtre par univers pour trouver ton bonheur</p>
+              <p className="text-[10px] text-gray-400 font-medium">{t("home.grid.explore_sub")}</p>
             </div>
           </div>
           <SpoolioProductGrid filterType="all" limit={9} showFilters={true} />
@@ -390,11 +395,11 @@ export default async function HomePage() {
 
         {/* Large Blue Application Link */}
         <div className="flex justify-center mt-4">
-          <Link href="/boutique" className="w-full max-w-lg py-4 px-6 inline-flex items-center justify-center gap-2.5 bg-[#005cff] hover:bg-[#004ecc] text-white font-bold text-xs tracking-wider rounded-xl transition-all shadow-xl shadow-[#005cff]/15 cursor-pointer no-invert text-center">
+          <Link href="/boutique" className="w-full max-w-lg py-4 px-6 inline-flex items-center justify-center gap-2.5 bg-[#005cff] hover:bg-[#004ecc] text-white font-bold text-xs tracking-wider rounded-xl transition-all shadow-xl shadow-[#005cff]/15 cursor-pointer no-invert text-center uppercase">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1h16a1 1 0 011 1v8zM3 10h18M5 14v7a1 1 0 001 1h12a1 1 0 001-1v-7M9 14v4a1 1 0 001 1h4a1 1 0 001-1v-4" />
             </svg>
-            VOIR TOUTE LA BOUTIQUE
+            {t("nav_menu.see_all_shop")}
           </Link>
         </div>
       </section>
@@ -476,10 +481,10 @@ export default async function HomePage() {
       <section className="w-full max-w-[1200px] px-4 py-8 mb-12 flex flex-col gap-10">
         <div className="text-center">
           <h2 className="text-3xl font-extrabold uppercase tracking-tight text-white font-antonio">
-            Nos Artisanes de l'Ombre 🤖
+            {t("home.printers.title")}
           </h2>
           <p className="text-xs text-gray-400 font-sans mt-2 max-w-md mx-auto leading-relaxed">
-            Voici les 5 imprimantes 3D de l'atelier qui façonnent vos fidgets et accessoires couche par couche avec une précision chirurgicale.
+            {t("home.printers.subtitle")}
           </p>
         </div>
 
@@ -488,7 +493,7 @@ export default async function HomePage() {
             const currentHour = Math.floor(Date.now() / (1000 * 60 * 60));
             return dbPrinters.map((p, idx) => {
               let task = "";
-              let statusText: string = p.status;
+              let statusText: string = p.status === "Active" ? t("home.printers.active") : p.status === "En veille" ? t("home.printers.standby") : t("home.printers.broken");
               let colorClass = "";
               let glowClass = "";
 
@@ -504,16 +509,16 @@ export default async function HomePage() {
 
               if (p.status === "Active") {
                 const productName = getSeededProduct(activeProducts, currentHour + idx);
-                task = `Imprime : ${productName}`;
+                task = t("home.printers.printing", { name: productName });
                 colorClass = cfg.active;
                 glowClass = `${cfg.glow} animate-pulse`;
               } else if (p.status === "En veille") {
-                task = "Température : 25°C";
+                task = t("home.printers.standby_temp");
                 colorClass = "border-purple-500/20 hover:border-purple-500/50 hover:bg-purple-500/5 bg-purple-950/5";
                 glowClass = "bg-purple-400/40";
               } else if (p.status === "En panne") {
-                task = "⚠️ HORS SERVICE";
-                statusText = "EN PANNE";
+                task = t("home.printers.out_of_service");
+                statusText = t("home.printers.broken");
                 colorClass = "border-red-500/40 bg-red-950/15 hover:border-red-500/70 hover:bg-red-500/5";
                 glowClass = "bg-red-500 animate-ping";
               }
@@ -558,14 +563,14 @@ export default async function HomePage() {
                 <span className="w-2.5 h-2.5 rounded-full bg-[#ff4f00] animate-ping shrink-0" />
                 <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
                   <span className="text-xs sm:text-sm font-black text-white uppercase font-antonio tracking-wide">
-                    🔥 <span className="text-[#ff4f00] text-base font-extrabold">{monthlyCount} objets 3D</span> imprimés ce mois-ci à l'atelier
+                    🔥 {t("home.printers.live_ribbon", { count: monthlyCount })}
                   </span>
                   <span className="hidden sm:inline text-neutral-500">•</span>
-                  <span className="text-[11px] text-neutral-300 font-medium">Zéro surstock, 100% fait sur commande 🇫🇷</span>
+                  <span className="text-[11px] text-neutral-300 font-medium">{t("home.printers.zero_overstock")}</span>
                 </div>
               </div>
               <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full shrink-0">
-                🟢 Atelier en direct
+                {t("home.printers.live_badge")}
               </span>
             </div>
           );
@@ -574,7 +579,7 @@ export default async function HomePage() {
         {/* Brand Partners List (Moved inside Nos Artisanes de l'Ombre section) */}
         <div className="w-full py-6 border-t border-b border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 select-none font-sans">
           <span className="text-[9px] font-black uppercase tracking-widest text-gray-500 font-sans md:self-center shrink-0">
-            Filaments et machines de l'atelier
+            {t("home.printers.partners_label")}
           </span>
           <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
             {/* Bambu Lab */}
@@ -632,17 +637,16 @@ export default async function HomePage() {
             <div className="flex flex-col gap-5">
               {/* Title */}
               <h4 className="text-[17px] font-bold text-white tracking-tight uppercase leading-snug font-sans">
-                Matière première // <br />
-                PLA Biosourcé 🌱
+                {t("home.material.title")}
               </h4>
 
               {/* Description Paragraphs */}
               <p className="text-[14px] text-white/80 leading-relaxed font-sans">
-                Chez Spoolio, on imprime du fun, pas de la pollution. Nos objets ne sortent pas d'une usine pétrochimique à l'autre bout du monde : ils prennent vie à Comines, couche par couche, à partir de PLA biosourcé.
+                {t("home.material.p1")}
               </p>
 
               <p className="text-[14px] text-white/80 leading-relaxed font-sans">
-                C'est un plastique d'origine végétale conçu à partir d'amidon de maïs. Zéro pétrole, zéro surstock, zéro salade. Juste de la tech locale et écoresponsable.
+                {t("home.material.p2")}
               </p>
 
               {/* Warning Notice */}
@@ -651,7 +655,7 @@ export default async function HomePage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
                 <p>
-                  <span className="font-semibold">Note de l'atelier :</span> Comme tout bon maïs, il adore le confort de ton intérieur mais déteste être oublié en plein soleil sur le tableau de bord d'une voiture à 60°C.
+                  <span className="font-semibold">{t("home.material.note_label")}</span> {t("home.material.note_text")}
                 </p>
               </div>
             </div>

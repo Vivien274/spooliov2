@@ -5,10 +5,13 @@ import Link from "next/link";
 import Image from "next/image";
 import UnicornIcon from "@/components/UnicornIcon";
 import cartIconData from "@/components/shopping bag.json";
+import { useTranslation } from "@/context/LanguageContext";
 
 export interface Product {
   id: number;
   name: string;
+  nameEn?: string | null;
+  name_en?: string | null;
   slug: string;
   permalink: string;
   price: string;
@@ -18,7 +21,11 @@ export interface Product {
   categories: { id: number; name: string; slug: string }[];
   images: { id: number; src: string; name: string; alt: string }[];
   short_description?: string;
+  short_description_en?: string | null;
+  shortDescriptionEn?: string | null;
   description?: string;
+  description_en?: string | null;
+  descriptionEn?: string | null;
   date_created?: string;
   attributes?: any[];
   stock?: number;
@@ -32,12 +39,21 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, compact = false, priority = false }: ProductCardProps) {
+  const { locale, t } = useTranslation();
   const [tiltStyle, setTiltStyle] = useState<React.CSSProperties>({});
   const [shineStyle, setShineStyle] = useState<{ opacity: number; background: string }>({
     opacity: 0,
     background: "",
   });
   const [isButtonHovered, setIsButtonHovered] = useState(false);
+
+  const displayName = (locale === "en" && (product.nameEn || product.name_en))
+    ? (product.nameEn || product.name_en)!
+    : product.name;
+
+  const rawShortDesc = (locale === "en" && (product.shortDescriptionEn || product.short_description_en))
+    ? (product.shortDescriptionEn || product.short_description_en)!
+    : product.short_description;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const card = e.currentTarget;
@@ -109,9 +125,9 @@ export default function ProductCard({ product, compact = false, priority = false
   };
 
   // Plain text short description
-  const cleanDescription = product.short_description
-    ? decodeHtml(product.short_description.replace(/<[^>]*>/g, ""))
-    : "Objet sensoriel 3D imprimé en PLA biosourcé à Comines.";
+  const cleanDescription = rawShortDesc
+    ? decodeHtml(rawShortDesc.replace(/<[^>]*>/g, ""))
+    : (locale === "en" ? "3D sensory object printed in bio-sourced PLA in France." : "Objet sensoriel 3D imprimé en PLA biosourcé à Comines.");
 
   if (compact) {
     return (
@@ -160,7 +176,7 @@ export default function ProductCard({ product, compact = false, priority = false
         {/* Floating Glassmorphic Overlay at Bottom (Nom du produit + Tag Prix Transparent Bordure Blanche) */}
         <div className="absolute bottom-3 left-3 right-3 p-3 sm:p-3.5 bg-black/65 backdrop-blur-md border border-white/15 rounded-2xl shadow-xl flex items-center justify-between gap-3 z-10 no-invert transition-transform group-hover:translate-y-[-2px]">
           <h3 className="text-xs sm:text-sm font-bold text-white leading-tight line-clamp-1 font-[family-name:var(--font-plus-jakarta)] min-w-0">
-            {product.name}
+            {displayName}
           </h3>
 
           {/* Tag Prix avec bordure blanche et texte blanc sans fond */}
@@ -224,7 +240,7 @@ export default function ProductCard({ product, compact = false, priority = false
         <div className="flex flex-col gap-3 p-6 pb-0 font-[family-name:var(--font-plus-jakarta)]">
           {/* Title */}
           <h3 className="text-[18px] font-bold text-white transition-colors duration-200">
-            {product.name}
+            {displayName}
           </h3>
 
           {/* Description */}
