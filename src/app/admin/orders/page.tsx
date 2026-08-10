@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useAdminTheme } from "../AdminThemeContext";
 import { getItemProductUrl, parseItemName, printOrderPackingSlip } from "@/lib/orderUtils";
 import OrderItemOptionsViewer from "@/components/OrderItemOptionsViewer";
+import ProductionColorBatcher from "@/components/ProductionColorBatcher";
 
 const ADMIN_BLUE = "#2F3CD9";
 
@@ -88,7 +89,7 @@ export default function AdminOrdersPage() {
   const [error, setError] = useState<string | null>(null);
   const [statusChangeLoading, setStatusChangeLoading] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>("all");
-  const [activeTab, setActiveTab] = useState<"active" | "archived">("active");
+  const [activeTab, setActiveTab] = useState<"active" | "archived" | "production">("active");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [proposingSlots, setProposingSlots] = useState<Record<string, string>>({});
@@ -743,11 +744,26 @@ export default function AdminOrdersPage() {
             {archivedOrdersCount}
           </span>
         </button>
+
+        <button
+          onClick={() => setActiveTab("production")}
+          className={`px-4 py-2.5 rounded-2xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2.5 cursor-pointer ${
+            activeTab === "production"
+              ? "bg-[#ff4f00] text-white shadow-lg shadow-[#ff4f00]/20"
+              : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10"
+          }`}
+        >
+          <span>🏭 Vue Production (Par Couleur)</span>
+        </button>
       </div>
 
-      {/* Search & Status Tabs Filters */}
-      <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
-        <div className="relative flex-1 w-full max-w-md">
+      {activeTab === "production" ? (
+        <ProductionColorBatcher orders={orders} />
+      ) : (
+        <>
+          {/* Search & Status Tabs Filters */}
+          <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
+            <div className="relative flex-1 w-full max-w-md">
           <svg className={`w-4 h-4 ${cls.textMuted} absolute left-3 top-1/2 -translate-y-1/2`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
@@ -997,6 +1013,8 @@ export default function AdminOrdersPage() {
           </div>
         )}
       </div>
+      </>
+      )}
 
 {/* Order Details Modal Popup */}
       {selectedOrder && (

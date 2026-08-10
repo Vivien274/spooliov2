@@ -120,10 +120,14 @@ export async function sendOrderConfirmationEmail({
           <!-- Relais parcel details -->
           ${relayInfoHtml}
 
-          <!-- Track Button -->
-          <div style="text-align: center; margin-top: 35px; margin-bottom: 35px;">
-            <a href="${trackingUrl}" style="display: inline-block; background-color: #ff4f00; color: #ffffff; font-weight: bold; text-decoration: none; font-size: 13px; padding: 14px 28px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 4px 15px rgba(255, 79, 0, 0.3);">
-              Suivre ma commande en direct 📦
+          <!-- Interactive 3D Tracking Callout Banner -->
+          <div style="background-color: #131316; border: 1.5px solid #ff4f00; border-radius: 18px; padding: 22px 20px; margin-top: 25px; margin-bottom: 25px; text-align: center;">
+            <span style="color: #ff4f00; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 8px;">🤖 Suivi de Fabrication 3D en Temps Réel</span>
+            <p style="color: #e4e4e7; font-size: 13px; font-weight: 500; margin: 0 0 16px 0; line-height: 1.5;">
+              Suivez l'avancement de votre commande et découvrez quelle imprimante 3D (Berthe, Ursule, Philomène...) fabrique vos objets en temps réel ! 🖨️✨
+            </p>
+            <a href="${trackingUrl}" style="display: inline-block; background-color: #ff4f00; color: #ffffff; font-weight: 900; text-decoration: none; font-size: 13px; padding: 14px 30px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 4px 20px rgba(255, 79, 0, 0.4);">
+              🔍 Suivre l'Impression 3D en Direct ↗
             </a>
           </div>
 

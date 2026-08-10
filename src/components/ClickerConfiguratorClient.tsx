@@ -6,6 +6,7 @@ import AnimateDigits from "@/components/ui/AnimateDigits";
 import ModernBentoGallery, { GalleryItem } from "@/components/ui/ModernBentoGallery";
 import ClickerSvgSymbol, { VECTOR_SYMBOLS } from "@/components/ui/ClickerSvgSymbol";
 import { Sparkles, Type, FileText, Slash, Check, Layers } from "lucide-react";
+import Clicker3DViewer from "@/components/Clicker3DViewer";
 
 // Color Definition Type
 interface ColorOption {
@@ -177,6 +178,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
 
   // Pressed keys visual feedback state
   const [pressedKey, setPressedKey] = useState<number | null>(null);
+  const [viewMode, setViewMode] = useState<"3d" | "2d">("3d");
 
   // Audio Context Ref
   const audioCtxRef = useRef<AudioContext | null>(null);
@@ -564,8 +566,63 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
         {/* =========================================================================
             LEFT COLUMN : INTERACTIVE 3D/2D VISUALIZER & SOUND SANDBOX
            ========================================================================= */}
-        <div className="lg:col-span-6 sticky top-24 space-y-6 select-none">
-          <div className="relative bg-gradient-to-b from-neutral-900/90 via-neutral-900/60 to-black/90 border border-neutral-800/80 rounded-3xl p-6 sm:p-10 shadow-2xl overflow-hidden backdrop-blur-md flex flex-col items-center justify-center min-h-[420px]">
+        <div className="lg:col-span-6 sticky top-24 space-y-4 select-none">
+          {/* View Mode Mode Toggle Header */}
+          <div className="flex items-center justify-between bg-neutral-900/80 border border-neutral-800 rounded-2xl p-2">
+            <div className="flex items-center gap-1 bg-black/50 p-1 rounded-xl border border-neutral-800 text-xs">
+              <button
+                type="button"
+                onClick={() => setViewMode("3d")}
+                className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                  viewMode === "3d"
+                    ? "bg-[#ff4f00] text-white shadow-md font-black"
+                    : "text-neutral-400 hover:text-white"
+                }`}
+              >
+                <span>🕹️ Studio 3D</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode("2d")}
+                className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                  viewMode === "2d"
+                    ? "bg-white/20 text-white shadow-md"
+                    : "text-neutral-400 hover:text-white"
+                }`}
+              >
+                <span>🎛️ Vue Plat (2D)</span>
+              </button>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => playClickSound(switchType.id)}
+              className="text-xs font-bold text-neutral-200 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 px-3 py-1.5 rounded-xl transition-colors cursor-pointer flex items-center gap-1.5 shadow"
+            >
+              🔊 Tester le son ({switchType.name.split(' ')[0]})
+            </button>
+          </div>
+
+          {viewMode === "3d" ? (
+            <Clicker3DViewer
+              shapeId={selectedShape.id}
+              keyCount={selectedShape.keyCount}
+              caseColor={caseColor}
+              switchType={switchType.id}
+              keyconfigs={(() => {
+                const map: Record<number, { type: any; value: string; color: string }> = {};
+                selectedShape.validIndices.forEach((idx) => {
+                  const cfg = getKeyConfig(idx);
+                  map[idx] = { type: cfg.type, value: cfg.value, color: cfg.color.id };
+                });
+                return map;
+              })()}
+              keycapMode={keycapMode}
+              globalKeycapColor={globalKeycapColor}
+              keycapColorsList={colorsList}
+            />
+          ) : (
+            <div className="relative bg-gradient-to-b from-neutral-900/90 via-neutral-900/60 to-black/90 border border-neutral-800/80 rounded-3xl p-6 sm:p-10 shadow-2xl overflow-hidden backdrop-blur-md flex flex-col items-center justify-center min-h-[420px]">
             
             {/* Ambient Background Glows */}
             <div
@@ -678,6 +735,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
               </p>
             </div>
           </div>
+          )}
 
           {/* Quick Recap Card */}
           <div className="p-4 rounded-2xl bg-neutral-900/60 border border-neutral-800 text-xs text-neutral-300 space-y-2 font-mono">

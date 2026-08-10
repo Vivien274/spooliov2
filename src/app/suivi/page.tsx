@@ -118,8 +118,8 @@ export default function OrderTrackingPage() {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 max-w-[800px] w-full mx-auto px-6 py-16 flex flex-col justify-center">
-        <h1 className="text-3xl font-extrabold uppercase tracking-tight text-center text-white font-antonio mb-8">
+      <main className="flex-1 max-w-[800px] w-full mx-auto px-6 pt-10 pb-16 flex flex-col justify-center">
+        <h1 className="text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-center text-white font-antonio mb-8 mt-6 sm:mt-10">
           Suivre ma commande
         </h1>
 
@@ -188,14 +188,14 @@ export default function OrderTrackingPage() {
             <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
                 <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest block mb-0.5">Commande</span>
-                <h2 className="text-lg font-black text-white">{order.id}</h2>
-                <span className="text-[10px] text-gray-400 font-sans block mt-1">
+                <h2 className="text-xl font-black text-white">{order.id}</h2>
+                <span className="text-xs text-gray-400 font-sans block mt-1">
                   Reçue le {new Date(order.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })}
                 </span>
               </div>
               <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 shrink-0">
                 <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest block mb-0.5">État actuel</span>
-                <span className="text-xs font-black text-emerald-400 tracking-wide uppercase">
+                <span className="text-sm font-black text-emerald-400 tracking-wide uppercase">
                   {getStatusText(order.status)}
                 </span>
               </div>
@@ -203,14 +203,14 @@ export default function OrderTrackingPage() {
 
             {/* Visual Progress Timeline */}
             <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 md:p-8 flex flex-col gap-8">
-              <h3 className="text-xs font-black text-white uppercase tracking-wider">Avancement de la fabrication</h3>
+              <h3 className="text-sm sm:text-base font-black text-white uppercase tracking-wider">Avancement de la fabrication</h3>
               
               <div className="relative flex flex-col sm:flex-row justify-between gap-8 sm:gap-4 select-none">
                 {/* Connecting Line background */}
-                <div className="absolute left-[15px] sm:left-0 sm:top-[15px] right-0 bottom-0 sm:bottom-auto w-[2px] sm:w-full h-full sm:h-[2px] bg-[#1f1f23] z-0" />
+                <div className="absolute left-[15px] sm:left-0 sm:top-[18px] right-0 bottom-0 sm:bottom-auto w-[2px] sm:w-full h-full sm:h-[2px] bg-[#1f1f23] z-0" />
                 {/* Active progress bar overlay */}
                 <div 
-                  className="absolute left-[15px] sm:left-0 sm:top-[15px] w-[2px] sm:h-[2px] bg-emerald-400 z-0 transition-all duration-500"
+                  className="absolute left-[15px] sm:left-0 sm:top-[18px] w-[2px] sm:h-[2px] bg-emerald-400 z-0 transition-all duration-500"
                   style={{
                     height: typeof window !== 'undefined' && window.innerWidth < 640 ? `${((activeStep - 1) / 3) * 100}%` : '2px',
                     width: typeof window !== 'undefined' && window.innerWidth >= 640 ? `${((activeStep - 1) / 3) * 100}%` : '2px'
@@ -227,7 +227,7 @@ export default function OrderTrackingPage() {
                   const isCurrent = activeStep === s.step;
                   return (
                     <div key={s.step} className="flex sm:flex-col items-start sm:items-center text-left sm:text-center gap-4 sm:gap-2 z-10 flex-1 relative">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs border transition-all ${
+                      <div className={`w-9 h-9 rounded-full flex items-center justify-center font-black text-sm border transition-all ${
                         isDone 
                           ? "bg-emerald-400 border-emerald-400 text-black shadow-lg shadow-emerald-400/20" 
                           : "bg-spoolio-bg border-spoolio-border text-gray-500"
@@ -235,10 +235,10 @@ export default function OrderTrackingPage() {
                         {isDone && s.step < activeStep ? "✓" : s.step}
                       </div>
                       <div>
-                        <span className={`text-xs font-bold block ${isDone ? "text-white" : "text-gray-500"}`}>
+                        <span className={`text-sm font-extrabold block ${isDone ? "text-white" : "text-gray-500"}`}>
                           {s.label}
                         </span>
-                        <span className="text-[9px] text-gray-500 font-sans block mt-0.5 leading-tight max-w-[120px]">
+                        <span className="text-xs text-gray-400 font-sans block mt-0.5 leading-snug max-w-[140px]">
                           {s.desc}
                         </span>
                       </div>
@@ -285,33 +285,33 @@ export default function OrderTrackingPage() {
                     <span className="absolute top-4 right-8 text-[8px] font-black text-white/5 uppercase tracking-widest pointer-events-none">Spoolio V2</span>
                   </div>
                   <div className="text-center font-sans">
-                    <p className="text-xs text-white font-extrabold flex items-center gap-1.5 justify-center">
+                    <p className="text-sm text-white font-extrabold flex items-center gap-1.5 justify-center">
                       <span className="relative flex h-2 w-2">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff4f00] opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff4f00]"></span>
                       </span>
-                      🤖 {machineName} s'active sur votre commande !
+                      <span>🤖 {machineName} s'active sur votre commande !</span>
                     </p>
-                    <p className="text-[10px] text-gray-500 mt-1 leading-normal">Fabrication active par dépôt de filament PLA biosourcé à 215°C.</p>
+                    <p className="text-xs text-gray-400 mt-1 leading-normal">Fabrication active par dépôt de filament PLA biosourcé à 215°C.</p>
                   </div>
                 </div>
               )}
 
               {/* Statut Explanatory Text Box */}
-              <div className="p-4 rounded-2xl bg-black/40 border border-white/5 text-xs text-gray-400 font-sans leading-relaxed mt-2 select-none">
+              <div className="p-4.5 rounded-2xl bg-black/40 border border-white/5 text-sm text-gray-300 font-sans leading-relaxed mt-2 select-none">
                 {order.status === "attente_impression" && (
                   <p>Votre commande a été reçue et validée. Elle est placée dans la file d'attente d'impression. Dès qu'une buse se libère, la fabrication commencera.</p>
                 )}
                 {order.status === "impression" && (
-                  <p>🛠️ **L'atelier s'active !** Nos imprimantes 3D de précision (Berthe, Philomène, Ursule, Godelaine ou Claudine) façonnent actuellement vos objets couche par couche. Température de buse moyenne : 215°C.</p>
+                  <p>🛠️ <strong className="text-white">L'atelier s'active !</strong> Nos imprimantes 3D de précision (Berthe, Philomène, Ursule, Godelaine ou Claudine) façonnent actuellement vos objets couche par couche. Température de buse moyenne : 215°C.</p>
                 )}
                 {order.status === "emballe" && (
-                  <p>📦 **Fini d'imprimer !** Votre commande a passé le contrôle qualité. Nous l'emballons soigneusement dans un carton éco-conçu avec une surprise exclusive imprimée en 3D à l'intérieur.</p>
+                  <p>📦 <strong className="text-white">Fini d'imprimer !</strong> Votre commande a passé le contrôle qualité. Nous l'emballons soigneusement dans un carton éco-conçu avec une surprise exclusive imprimée en 3D à l'intérieur.</p>
                 )}
                 {order.status === "expedie" && (
                   <p>🚚 {order.shippingMethod === "pickup" 
-                    ? "✨ **Disponible !** Votre commande est prête. Vous pouvez venir la récupérer directement à notre atelier de Comines dès aujourd'hui." 
-                    : `✨ **Expédié !** Votre colis a été remis au transporteur via Boxtal (${order.shippingMethod === "relay" ? "Mondial Relay" : "Colissimo Domicile"}). Vous recevrez un e-mail de suivi contenant les informations de transport incessamment.`
+                    ? <span>✨ <strong className="text-white">Disponible !</strong> Votre commande est prête. Vous pouvez venir la récupérer directement à notre atelier de Comines dès aujourd'hui.</span> 
+                    : <span>✨ <strong className="text-white">Expédié !</strong> Votre colis a été remis au transporteur via Boxtal ({order.shippingMethod === "relay" ? "Mondial Relay" : "Colissimo Domicile"}). Vous recevrez un e-mail de suivi contenant les informations de transport incessamment.</span>
                   }</p>
                 )}
               </div>
