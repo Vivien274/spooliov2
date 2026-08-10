@@ -27,13 +27,16 @@ export async function GET(req: Request) {
 
     // 1. Try Prisma DB first
     try {
-      const p = await prisma.product.findUnique({
-        where: { id: numericId },
-        include: {
-          images: true,
-          categories: true,
-        }
-      });
+      const p = (await Promise.race([
+        prisma.product.findUnique({
+          where: { id: numericId },
+          include: {
+            images: true,
+            categories: true,
+          }
+        }),
+        new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB findUnique Timeout 2.5s")), 2500))
+      ])) as any;
 
       if (p) {
         let tagsList: string[] = [];
