@@ -24,45 +24,57 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: route === "" ? 1.0 : 0.8
   }));
 
-  // 2. Fetch Products slugs from DB
+  // 2. Fetch Products slugs from DB (with 3s Promise.race timeout to guarantee build success)
   let productPages: any[] = [];
   try {
-    const dbProducts = await prisma.product.findMany({
-      select: {
-        slug: true,
-        dateCreated: true
-      }
-    });
-    productPages = dbProducts.map((p) => ({
-      url: `${baseUrl}/product/${p.slug}`,
-      lastModified: new Date(p.dateCreated),
-      changeFrequency: "weekly" as const,
-      priority: 0.7
-    }));
+    const dbProducts = (await Promise.race([
+      prisma.product.findMany({
+        select: {
+          slug: true,
+          dateCreated: true
+        }
+      }),
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Sitemap Products Timeout 3s")), 3000))
+    ])) as any[];
+
+    if (dbProducts && Array.isArray(dbProducts)) {
+      productPages = dbProducts.map((p) => ({
+        url: `${baseUrl}/product/${p.slug}`,
+        lastModified: p.dateCreated ? new Date(p.dateCreated) : new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.7
+      }));
+    }
   } catch (e) {
-    console.error("Failed to load products for sitemap:", e);
+    console.warn("Failed or timed out loading products for sitemap:", e);
   }
 
-  // 3. Fetch Blog posts slugs from DB
+  // 3. Fetch Blog posts slugs from DB (with 3s Promise.race timeout)
   let blogPages: any[] = [];
   try {
-    const dbPosts = await prisma.blogPost.findMany({
-      where: {
-        status: "publish"
-      },
-      select: {
-        slug: true,
-        date: true
-      }
-    });
-    blogPages = dbPosts.map((p) => ({
-      url: `${baseUrl}/blog/${p.slug}`,
-      lastModified: new Date(p.date),
-      changeFrequency: "weekly" as const,
-      priority: 0.6
-    }));
+    const dbPosts = (await Promise.race([
+      prisma.blogPost.findMany({
+        where: {
+          status: "publish"
+        },
+        select: {
+          slug: true,
+          date: true
+        }
+      }),
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Sitemap Blog Timeout 3s")), 3000))
+    ])) as any[];
+
+    if (dbPosts && Array.isArray(dbPosts)) {
+      blogPages = dbPosts.map((p) => ({
+        url: `${baseUrl}/blog/${p.slug}`,
+        lastModified: p.date ? new Date(p.date) : new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.6
+      }));
+    }
   } catch (e) {
-    console.error("Failed to load blog posts for sitemap:", e);
+    console.warn("Failed or timed out loading blog posts for sitemap:", e);
   }
 
   return [...staticPages, ...productPages, ...blogPages];

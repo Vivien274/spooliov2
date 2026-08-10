@@ -21,9 +21,11 @@ if (typeof window === 'undefined') {
     console.warn("[Prisma] Warning: DATABASE_URL is not defined in environment variables. Using placeholder for build phase.");
   }
 
-  // Ensure optimized pool limits for Next.js multi-worker build and serverless runtime
-  if (databaseUrl.includes("supabase.com") && !databaseUrl.includes("connection_limit")) {
-    databaseUrl += databaseUrl.includes("?") ? "&connection_limit=15&pool_timeout=15" : "?connection_limit=15&pool_timeout=15";
+  // Replace any restrictive connection_limit (like connection_limit=3) to prevent Next.js build worker starvation
+  if (databaseUrl.includes("connection_limit=")) {
+    databaseUrl = databaseUrl.replace(/connection_limit=\d+/, "connection_limit=15");
+  } else if (databaseUrl.includes("supabase.com")) {
+    databaseUrl += databaseUrl.includes("?") ? "&connection_limit=15&pool_timeout=20" : "?connection_limit=15&pool_timeout=20";
   }
 
   try {
