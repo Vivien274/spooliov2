@@ -115,6 +115,14 @@ export default function Footer({ className = "" }: FooterProps) {
         {/* Lower Section: Legal & Navigation Links */}
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-center text-gray-400 font-sans font-semibold">
           
+          {/* Loyalty Club Spoolio Link */}
+          <Link
+            href="/fidelite"
+            className="text-amber-400 hover:text-amber-300 font-extrabold transition-all flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 hover:border-amber-500/60 hover:bg-amber-500/25 shadow-sm"
+          >
+            <span>👑 Mes Points & Fidélité</span>
+          </Link>
+
           {/* Newsletter Club Spoolio Link */}
           <Link
             href="/inscription-newsletter-spoolio"
