@@ -14,14 +14,10 @@ import {
   CheckCircle2,
   Lock,
   ArrowRight,
-  User,
-  Mail,
-  QrCode,
-  ShieldCheck,
   ShoppingBag,
   Star,
-  PartyPopper,
-  Clock
+  Clock,
+  Info
 } from "lucide-react";
 
 interface LoyaltyCard {
@@ -34,14 +30,37 @@ interface LoyaltyCard {
   history?: any[];
 }
 
+import { useCart } from "@/context/CartContext";
+
 export default function LoyaltyRootPage() {
+  const { addToCart } = useCart();
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [card, setCard] = useState<LoyaltyCard | null>(null);
   const [errorMsg, setErrorMsg] = useState("");
-  const [isCreating, setIsCreating] = useState(false);
-  const [createName, setCreateName] = useState("");
-  const [createEmail, setCreateEmail] = useState("");
+
+  const handleClaimReward = (r: typeof rewards[0]) => {
+    if (!card) return;
+    addToCart(
+      {
+        productId: -9900 - r.tier,
+        name: `🎁 [Cadeau Club Spoolio] ${r.text}`,
+        slug: "cadeau-fidelite",
+        price: "0.00",
+        image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=300&auto=format&fit=crop&q=80",
+        selectedOptions: {
+          "Palier": `${r.tier} points`,
+          "Carte Spoolio": card.id.substring(0, 14)
+        },
+        isLoyaltyReward: true,
+        rewardPointsCost: r.tier,
+        loyaltyCardId: card.id
+      },
+      1,
+      true
+    );
+    confetti({ particleCount: 70, spread: 80, origin: { y: 0.5 } });
+  };
 
   const rewards = [
     {
@@ -102,50 +121,12 @@ export default function LoyaltyRootPage() {
           confetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
         }
       } else {
-        setErrorMsg("Aucune carte trouvée pour cette adresse e-mail ou cet identifiant.");
-        if (q.includes("@")) {
-          setCreateEmail(q);
-        }
+        setErrorMsg("Aucune carte de fidélité n'est encore associée à cette adresse e-mail ou cet identifiant.");
       }
     } catch (err) {
-      setErrorMsg("Erreur lors de la recherche. Veuillez rééayer.");
+      setErrorMsg("Erreur lors de la recherche. Veuillez rééssayer.");
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleCreateCard = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!createEmail.trim()) return;
-
-    setIsCreating(true);
-    setErrorMsg("");
-
-    try {
-      const res = await fetch("/api/loyalty/credit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          query: createEmail.trim(),
-          customerName: createName.trim() || undefined,
-          customerEmail: createEmail.trim(),
-          pointsDelta: 0,
-          reason: "Création de compte Club Spoolio"
-        })
-      });
-
-      const data = await res.json();
-      if (res.ok && data.success && data.card) {
-        setCard(data.card);
-        localStorage.setItem("spoolio_customer_loyalty_email", data.card.customerEmail || createEmail.trim());
-        confetti({ particleCount: 80, spread: 70, origin: { y: 0.5 } });
-      } else {
-        setErrorMsg(data.error || "Impossible de créer la carte.");
-      }
-    } catch (err) {
-      setErrorMsg("Erreur de connexion lors de la création.");
-    } finally {
-      setIsCreating(false);
     }
   };
 
@@ -158,6 +139,15 @@ export default function LoyaltyRootPage() {
         <section className="text-center mb-12 relative">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-tr from-[#ff4f00]/20 via-[#005cff]/20 to-transparent blur-3xl rounded-full -z-10 pointer-events-none" />
           
+          {/* Mascotte Spoolio */}
+          <div className="w-28 h-28 sm:w-36 sm:h-36 mx-auto mb-4 relative group">
+            <img
+              src="/images/spoolio-mascot.png"
+              alt="Mascotte Spoolio"
+              className="w-full h-full object-contain filter drop-shadow-[0_15px_30px_rgba(255,79,0,0.45)] group-hover:scale-105 transition-transform duration-300"
+            />
+          </div>
+
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-[#ff4f00] uppercase tracking-widest mb-4">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Club Spoolio & Programme Fidélité</span>
@@ -182,7 +172,7 @@ export default function LoyaltyRootPage() {
             className="flex flex-col sm:flex-row gap-2.5 p-2 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl"
           >
             <div className="relative flex-1 flex items-center">
-              <Mail className="absolute left-4 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-4 w-5 h-5 text-gray-400" />
               <input
                 type="text"
                 value={query}
@@ -211,27 +201,15 @@ export default function LoyaltyRootPage() {
             <motion.div
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-4 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs font-medium text-center flex flex-col items-center gap-3"
+              className="mt-4 p-5 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 text-gray-300 text-xs font-medium text-center flex flex-col items-center gap-2.5 shadow-xl"
             >
-              <span>{errorMsg}</span>
-              {createEmail && !card && (
-                <form onSubmit={handleCreateCard} className="w-full max-w-sm flex flex-col gap-2 mt-1">
-                  <input
-                    type="text"
-                    value={createName}
-                    onChange={(e) => setCreateName(e.target.value)}
-                    placeholder="Votre Prénom / Nom (facultatif)"
-                    className="w-full px-3 py-2 bg-black/40 border border-white/10 rounded-lg text-xs text-white placeholder-gray-500"
-                  />
-                  <button
-                    type="submit"
-                    disabled={isCreating}
-                    className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    {isCreating ? "Création..." : "🎁 Créer ma carte Club Spoolio gratuitement"}
-                  </button>
-                </form>
-              )}
+              <div className="w-9 h-9 rounded-full bg-[#ff4f00]/15 border border-[#ff4f00]/30 flex items-center justify-center text-[#ff4f00]">
+                <Info className="w-5 h-5" />
+              </div>
+              <span className="font-bold text-white text-sm">{errorMsg}</span>
+              <p className="text-gray-400 text-xs max-w-md leading-relaxed">
+                💡 <strong className="text-gray-200">Pas d'inquiétude !</strong> Votre carte de fidélité sera <span className="text-[#ff4f00] font-semibold">automatiquement créée</span> avec vos premiers points attribués dès votre première commande sur Spoolio.fr ou lors de votre passage sur l'un de nos stands !
+              </p>
             </motion.div>
           )}
         </div>
@@ -381,44 +359,80 @@ export default function LoyaltyRootPage() {
             🎁 Les Paliers de Récompenses
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {rewards.map((r) => {
               const isUnlocked = card ? card.points >= r.tier : false;
+              const pointsNeeded = card ? Math.max(0, r.tier - card.points) : r.tier;
 
               return (
                 <div
                   key={r.tier}
-                  className={`p-5 rounded-2xl border flex flex-col justify-between transition-all ${
+                  className={`p-5 sm:p-6 rounded-3xl border transition-all select-none relative overflow-hidden group flex flex-col justify-between gap-4 ${
                     isUnlocked
-                      ? "bg-emerald-500/10 border-emerald-500/40 shadow-lg shadow-emerald-500/5"
-                      : "bg-white/[0.02] border-white/10 opacity-90"
+                      ? "bg-gradient-to-br from-[#121824] via-[#161f30] to-[#0f1420] border-emerald-500/40 text-white shadow-xl shadow-emerald-500/10 hover:border-emerald-400"
+                      : "bg-white/[0.03] border-white/10 text-gray-400 hover:border-white/20"
                   }`}
                 >
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-2xl">{r.icon}</span>
-                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
-                        isUnlocked ? "bg-emerald-500 text-black font-extrabold" : "bg-white/10 text-gray-400"
-                      }`}>
-                        {r.tier} Points
-                      </span>
+                  {/* Glowing aura */}
+                  {isUnlocked && (
+                    <div className="absolute top-0 right-0 w-56 h-56 bg-emerald-500/10 blur-3xl pointer-events-none rounded-full" />
+                  )}
+
+                  {/* Top Row: Icon + Title & Description + Badges */}
+                  <div className="flex items-start gap-4 relative z-10">
+                    <div className={`w-14 h-14 rounded-2xl border shrink-0 flex items-center justify-center text-2xl shadow-inner ${
+                      isUnlocked
+                        ? "bg-gradient-to-tr from-emerald-500/20 to-teal-500/20 border-emerald-500/40 text-emerald-400"
+                        : "bg-white/5 border-white/10 text-gray-500"
+                    }`}>
+                      {r.icon}
                     </div>
-                    <h4 className="text-sm font-bold text-white mb-1">{r.text}</h4>
-                    <p className="text-[11px] text-gray-400 leading-relaxed mb-4">{r.description}</p>
+
+                    <div className="flex-1 min-w-0 space-y-2 text-left">
+                      {/* Badges */}
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className={`text-[11px] font-extrabold uppercase tracking-wider px-3 py-0.5 rounded-full border ${
+                          isUnlocked
+                            ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/30"
+                            : "bg-[#ff4f00]/10 text-[#ff4f00] border-[#ff4f00]/25"
+                        }`}>
+                          Palier {r.tier} points
+                        </span>
+
+                        <span className="text-[11px] font-bold text-gray-300 bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-full">
+                          Valeur : {r.value} €
+                        </span>
+                      </div>
+
+                      <h4 className="text-base sm:text-lg font-black text-white font-antonio tracking-wide leading-snug">
+                        {r.text}
+                      </h4>
+
+                      <p className="text-xs text-gray-400 leading-relaxed">{r.description}</p>
+                    </div>
                   </div>
 
-                  <div className="pt-3 border-t border-white/5 flex items-center justify-between text-[11px]">
-                    <span className="text-gray-500 font-medium">Valeur : {r.value} €</span>
+                  {/* Bottom Action Row (Full Width Button / Status Bar) */}
+                  <div className="pt-3 border-t border-white/10 relative z-10">
                     {isUnlocked ? (
-                      <span className="text-emerald-400 font-bold flex items-center gap-1">
-                        <CheckCircle2 className="w-3.5 h-3.5" /> Débloqué
-                      </span>
+                      <button
+                        onClick={() => handleClaimReward(r)}
+                        className="w-full bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 hover:opacity-95 text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider py-3 px-4 rounded-2xl shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.01] active:scale-98 border border-emerald-300/40"
+                      >
+                        <Gift className="w-4 h-4" />
+                        <span>Ajouter au panier</span>
+                      </button>
                     ) : (
-                      <span className="text-gray-500 flex items-center gap-1">
-                        <Lock className="w-3.5 h-3.5" /> Verrouillé
-                      </span>
+                      <div className="flex items-center justify-between p-3 rounded-2xl bg-black/40 border border-white/10 text-xs font-medium">
+                        <span className="text-gray-400">Requis : <strong className="text-gray-200">{r.tier} pts</strong></span>
+                        <span className="text-amber-400 font-mono font-bold flex items-center gap-1.5">
+                          <Lock className="w-3.5 h-3.5 text-gray-500" />
+                          Encore {pointsNeeded} pts manquants
+                        </span>
+                      </div>
                     )}
                   </div>
+
                 </div>
               );
             })}

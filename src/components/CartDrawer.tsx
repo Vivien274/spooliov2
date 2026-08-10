@@ -250,9 +250,15 @@ export default function CartDrawer() {
                           </div>
                         )}
 
-                        <span className="text-xs font-black text-white font-antonio tracking-wide">
-                          {(parseFloat(item.price) * item.quantity).toFixed(2)}€
-                        </span>
+                        {item.isLoyaltyReward || parseFloat(item.price) === 0 ? (
+                          <span className="text-xs font-black text-emerald-400 font-antonio tracking-wide bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
+                            OFFERT (0,00€)
+                          </span>
+                        ) : (
+                          <span className="text-xs font-black text-white font-antonio tracking-wide">
+                            {(parseFloat(item.price) * item.quantity).toFixed(2)}€
+                          </span>
+                        )}
                       </div>
                     </div>
 

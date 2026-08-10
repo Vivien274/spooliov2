@@ -221,6 +221,55 @@ export async function POST(request: Request) {
               console.error("[Loyalty Webhook Error] Failed to credit points:", loyaltyErr.message);
             }
           }
+
+          // Deduct loyalty points if order contains loyalty reward items
+          try {
+            const parsedItems = JSON.parse(itemsSummary || "[]");
+            const rewardItems = parsedItems.filter((item: any) => item.isLoyaltyReward || item.rewardPointsCost || item.productId < -9000);
+            
+            for (const rewardItem of rewardItems) {
+              const pointsToDeduct = rewardItem.rewardPointsCost || 0;
+              const cardIdTarget = rewardItem.loyaltyCardId;
+              
+              if (pointsToDeduct > 0) {
+                const targetCard = await prisma.loyaltyCard.findFirst({
+                  where: {
+                    OR: [
+                      ...(cardIdTarget ? [{ id: cardIdTarget }] : []),
+                      ...(email ? [{ customerEmail: { equals: email.trim().toLowerCase(), mode: "insensitive" as const } }] : [])
+                    ]
+                  }
+                });
+
+                if (targetCard) {
+                  const currentHist = typeof targetCard.history === "string" 
+                    ? JSON.parse(targetCard.history) 
+                    : (Array.isArray(targetCard.history) ? targetCard.history : []);
+                  
+                  const nextHist = [
+                    {
+                      date: new Date().toISOString(),
+                      points: `-${pointsToDeduct}`,
+                      reason: `Cadeau réclamé: ${rewardItem.name} (Commande ${orderId})`
+                    },
+                    ...currentHist
+                  ];
+
+                  await prisma.loyaltyCard.update({
+                    where: { id: targetCard.id },
+                    data: {
+                      points: Math.max(0, targetCard.points - pointsToDeduct),
+                      history: JSON.stringify(nextHist)
+                    }
+                  });
+
+                  console.log(`[Loyalty Webhook] Deducted -${pointsToDeduct} points for reward ${rewardItem.name} on card ${targetCard.id}`);
+                }
+              }
+            }
+          } catch (rewardErr: any) {
+            console.error("[Loyalty Webhook Reward Error]:", rewardErr.message);
+          }
         } catch (dbErr: any) {
           console.error("[Webhook Database Error] Failed to write order to database:", dbErr.message);
         }

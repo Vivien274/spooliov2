@@ -51,11 +51,14 @@ function getTimelineProgress(points: number, rewards?: Record<number, any>): num
   return 100;
 }
 
+import { useCart } from "@/context/CartContext";
+
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
 export default function LoyaltyCardPage({ params }: PageProps) {
+  const { addToCart } = useCart();
   const { id: cardId } = use(params);
 
   const [card, setCard] = useState<LoyaltyCard | null>(null);
@@ -233,10 +236,14 @@ export default function LoyaltyCardPage({ params }: PageProps) {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-orange-500/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="p-6 sm:p-8 flex flex-col items-center gap-7 relative z-10">
-          {/* Badge Spoolio */}
-          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-3xl bg-orange-600 flex items-center justify-center text-white shadow-xl shadow-orange-500/25 relative group">
-            <Smartphone size={32} className="group-hover:scale-110 transition-transform" />
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-slate-900 shadow-md" />
+          {/* Mascotte Spoolio */}
+          <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 group hover:scale-105 transition-transform duration-300 relative">
+            <img
+              src="/images/spoolio-mascot.png"
+              alt="Mascotte Spoolio 3D"
+              className="w-full h-full object-contain filter drop-shadow-[0_10px_25px_rgba(255,79,0,0.4)]"
+            />
+            <div className="absolute top-1 right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-slate-900 shadow-md animate-pulse" />
           </div>
 
           {/* Salutation Client */}
@@ -275,13 +282,14 @@ export default function LoyaltyCardPage({ params }: PageProps) {
             </span>
           </div>
 
-
-
           {/* Liste des paliers & cadeaux */}
-          <div className="w-full space-y-3.5 my-3 font-sans">
-            <span className="text-xs sm:text-sm font-black text-slate-400 uppercase tracking-widest block mb-1 text-left">
-              Paliers de cadeaux à débloquer :
-            </span>
+          <div className="w-full space-y-4 my-3 font-sans">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs sm:text-sm font-black text-slate-400 uppercase tracking-widest block">
+                Paliers de cadeaux à débloquer :
+              </span>
+            </div>
+
             {Object.keys(rewards)
               .map(Number)
               .filter(n => !isNaN(n))
@@ -289,74 +297,123 @@ export default function LoyaltyCardPage({ params }: PageProps) {
               .map(pts => {
                 const r = rewards[pts];
                 const completed = card.points >= pts;
+                const pointsNeeded = pts - card.points;
+
                 return (
                   <div
                     key={pts}
                     onClick={() => setSelectedReward({ pts, text: r.text, image: r.image || "", description: r.description || "", value: r.value || 0 })}
-                    className={`flex items-center gap-4 p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer select-none relative ${
+                    className={`p-5 sm:p-6 rounded-3xl border transition-all cursor-pointer select-none relative overflow-hidden group flex flex-col gap-4 ${
                       completed
-                        ? "bg-[#111420] border border-[#ff4f00]/50 text-slate-100 shadow-lg shadow-[#ff4f00]/10 hover:border-[#ff4f00]"
-                        : "bg-slate-950/60 border border-slate-800/80 text-slate-400 hover:border-slate-700"
+                        ? "bg-gradient-to-br from-[#121824] via-[#161f30] to-[#0f1420] border-emerald-500/40 text-slate-100 shadow-xl shadow-emerald-500/10 hover:border-emerald-400"
+                        : "bg-slate-950/70 border-slate-800/80 text-slate-400 hover:border-slate-700/80"
                     }`}
                   >
-                    {/* Image Miniature + Badge Coche Overlay */}
-                    <div className="relative shrink-0">
-                      {r.image ? (
-                        <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border overflow-hidden bg-slate-950 ${
-                          completed ? "border-2 border-[#ff4f00] shadow-md shadow-orange-500/20" : "border-slate-800"
-                        }`}>
-                          <img src={r.image} alt={`Cadeau fidélité ${r.text}`} className={`w-full h-full object-cover ${completed ? "" : "grayscale opacity-40"}`} />
-                        </div>
-                      ) : (
-                        <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border flex items-center justify-center bg-slate-950 ${
-                          completed ? "border-2 border-[#ff4f00] text-orange-500" : "border-slate-800 text-slate-700"
-                        }`}>
-                          <Gift size={24} />
-                        </div>
-                      )}
+                    {/* Glowing background aura for completed rewards */}
+                    {completed && (
+                      <div className="absolute top-0 right-0 w-56 h-56 bg-emerald-500/10 blur-3xl pointer-events-none rounded-full" />
+                    )}
 
-                      {/* Check badge overlay on thumbnail */}
-                      {completed && (
-                        <div className="absolute -top-1.5 -left-1.5 w-6 h-6 rounded-full bg-[#ff4f00] text-black border-2 border-slate-900 flex items-center justify-center shadow-md">
-                          <Check size={13} className="stroke-[3]" />
+                    {/* Top Row: Thumbnail + Title & Badges */}
+                    <div className="flex items-start gap-4 relative z-10">
+                      {/* Thumbnail */}
+                      <div className="relative shrink-0">
+                        <div className={`p-0.5 rounded-2xl ${
+                          completed ? "bg-gradient-to-tr from-emerald-400 via-teal-400 to-[#ff4f00] shadow-md shadow-emerald-500/20" : "bg-slate-800"
+                        }`}>
+                          <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-[14px] overflow-hidden bg-slate-950 flex items-center justify-center">
+                            {r.image ? (
+                              <img
+                                src={r.image}
+                                alt={`Cadeau ${r.text}`}
+                                className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
+                                  completed ? "" : "grayscale opacity-35"
+                                }`}
+                              />
+                            ) : (
+                              <Gift size={28} className={completed ? "text-emerald-400" : "text-slate-600"} />
+                            )}
+                          </div>
                         </div>
-                      )}
-                    </div>
 
-                    {/* Centre : Titre & Infos (full width expansion) */}
-                    <div className="flex-1 min-w-0 text-left space-y-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className={`text-base sm:text-lg font-black leading-snug ${completed ? "text-white" : "text-slate-300"}`}>
+                        {/* Check badge overlay */}
+                        {completed && (
+                          <div className="absolute -top-1.5 -left-1.5 w-6.5 h-6.5 rounded-full bg-emerald-500 text-black border-2 border-slate-900 flex items-center justify-center shadow-lg font-black">
+                            <Check size={14} className="stroke-[3]" />
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Title & Badges */}
+                      <div className="flex-1 min-w-0 text-left space-y-2">
+                        {/* Badges Pill Row */}
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className={`text-[11px] font-extrabold uppercase tracking-wider px-3 py-0.5 rounded-full border ${
+                            completed
+                              ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/30"
+                              : "bg-[#ff4f00]/10 text-[#ff4f00] border-[#ff4f00]/25"
+                          }`}>
+                            Palier {pts} points
+                          </span>
+
+                          {r.value ? (
+                            <span className="text-[11px] font-bold text-slate-300 bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-full">
+                              Valeur : {r.value} €
+                            </span>
+                          ) : null}
+                        </div>
+
+                        {/* Spacious Un-squished Title */}
+                        <h4 className={`text-base sm:text-xl font-black leading-snug tracking-wide ${
+                          completed ? "text-white font-antonio" : "text-slate-300"
+                        }`}>
                           {r.text}
-                        </span>
-                      </div>
-                      
-                      <div className="flex items-center gap-2 text-xs font-bold text-slate-400">
-                        <span className={completed ? "text-[#ff4f00]" : "text-slate-500"}>
-                          Palier {pts} points
-                        </span>
-                        {r.value ? (
-                          <>
-                            <span className="text-slate-600">•</span>
-                            <span className="text-slate-400">Valeur {r.value} €</span>
-                          </>
-                        ) : null}
+                        </h4>
                       </div>
                     </div>
 
-                    {/* Droite : Badge Statut Compact */}
-                    <div className="shrink-0 font-sans">
+                    {/* Bottom Action Row (Full Width Button / Status) */}
+                    <div className="pt-3 border-t border-white/10 relative z-10">
                       {completed ? (
-                        <span className="bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-extrabold text-xs px-3 py-1.5 rounded-xl shadow-sm flex items-center gap-1.5 uppercase tracking-wider">
-                          <PartyPopper size={13} className="stroke-[2.5]" />
-                          Débloqué
-                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            addToCart(
+                              {
+                                productId: -9900 - pts,
+                                name: `🎁 [Cadeau Club Spoolio] ${r.text}`,
+                                slug: "cadeau-fidelite",
+                                price: "0.00",
+                                image: r.image || "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=300&auto=format&fit=crop&q=80",
+                                selectedOptions: {
+                                  "Palier": `${pts} points`,
+                                  "Carte Spoolio": card.id.substring(0, 14)
+                                },
+                                isLoyaltyReward: true,
+                                rewardPointsCost: pts,
+                                loyaltyCardId: card.id
+                              },
+                              1,
+                              true
+                            );
+                            confetti({ particleCount: 70, spread: 80, origin: { y: 0.5 } });
+                          }}
+                          className="w-full bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 hover:opacity-95 text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider py-3 px-4 rounded-2xl shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.01] active:scale-98 border border-emerald-300/40"
+                        >
+                          <Gift size={16} className="stroke-[2.5]" />
+                          <span>Ajouter au panier</span>
+                        </button>
                       ) : (
-                        <span className="text-xs font-bold tracking-wider uppercase px-3 py-1.5 rounded-xl border bg-slate-950 border-slate-900 text-slate-500">
-                          {pts - card.points} pts
-                        </span>
+                        <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-950/80 border border-slate-800 text-xs font-medium">
+                          <span className="text-slate-400">Palier requis : <strong className="text-slate-200">{pts} pts</strong></span>
+                          <span className="text-amber-400 font-mono font-bold flex items-center gap-1.5">
+                            <Lock size={13} className="text-slate-500" />
+                            Encore {pointsNeeded} pts nécessaires
+                          </span>
+                        </div>
                       )}
                     </div>
+
                   </div>
                 );
               })}

@@ -11,6 +11,9 @@ export interface CartItem {
   quantity: number;
   selectedOptions: Record<string, string>;
   image: string;
+  isLoyaltyReward?: boolean;
+  rewardPointsCost?: number;
+  loyaltyCardId?: string;
 }
 
 export interface SelectedRelay {
