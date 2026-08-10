@@ -15,10 +15,15 @@ if (typeof window === 'undefined') {
     process.env.DIRECT_URL = process.env.DIRECT_URL.trim().replace(/^["']|["']$/g, "");
   }
 
-  const databaseUrl = process.env.DATABASE_URL || "postgresql://localhost:5432/placeholder_db";
+  let databaseUrl = process.env.DATABASE_URL || "postgresql://localhost:5432/placeholder_db";
 
   if (!process.env.DATABASE_URL) {
     console.warn("[Prisma] Warning: DATABASE_URL is not defined in environment variables. Using placeholder for build phase.");
+  }
+
+  // Ensure connection_limit=5 to avoid connection pool saturation on Supabase
+  if (databaseUrl.includes("supabase.com") && !databaseUrl.includes("connection_limit")) {
+    databaseUrl += databaseUrl.includes("?") ? "&connection_limit=5" : "?connection_limit=5";
   }
 
   try {
@@ -28,19 +33,8 @@ if (typeof window === 'undefined') {
   }
 
   // Persist prisma client on global object to avoid pool saturation in dev
-  if (!globalForPrisma.prisma || !(globalForPrisma.prisma as any).order || !(globalForPrisma.prisma as any).page || !(globalForPrisma.prisma as any).review || !(globalForPrisma.prisma as any).printer || !(globalForPrisma.prisma as any).tombola || !(globalForPrisma.prisma as any).color) {
-    console.log(`[Database] Initializing single database connection pool for Supabase...`);
-    
-    if (process.env.NODE_ENV === 'development') {
-      Object.keys(require.cache).forEach((key) => {
-        if (key.includes('@prisma/client') || key.includes('.prisma')) {
-          delete require.cache[key];
-        }
-      });
-    }
-
-    const { PrismaClient: DynamicPrismaClient } = require('@prisma/client');
-    globalForPrisma.prisma = new DynamicPrismaClient({
+  if (!globalForPrisma.prisma) {
+    globalForPrisma.prisma = new PrismaClient({
       log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
       datasources: {
         db: {

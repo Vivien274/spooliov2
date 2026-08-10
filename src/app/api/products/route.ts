@@ -146,20 +146,23 @@ async function fetchAllProducts(status: string) {
   // 1. Try Prisma Database client first (with a timeout race)
   try {
     console.log(`Attempting Prisma Database fetch with status filter: ${status}...`);
-    const dbProducts = await prisma.product.findMany({
-      where: status === 'all' ? {} : {
-        status: {
-          in: ['publish', '']
-        }
-      },
-      include: {
-        images: true,
-        categories: true,
-      },
-      orderBy: {
-        dateCreated: 'desc',
-      },
-    });
+    const dbProducts = (await Promise.race([
+      prisma.product.findMany({
+        where: status === 'all' ? {} : {
+          status: {
+            in: ['publish', '']
+          }
+        },
+        include: {
+          images: true,
+          categories: true,
+        },
+        orderBy: {
+          dateCreated: 'desc',
+        },
+      }),
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Prisma DB Query Timeout 2.5s")), 2500))
+    ])) as any[];
 
     if (dbProducts && dbProducts.length > 0) {
       console.log("Successfully fetched products from Prisma Database.");
