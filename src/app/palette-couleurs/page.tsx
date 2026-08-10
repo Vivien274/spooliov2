@@ -46,52 +46,32 @@ const getStyleObject = (styleString?: string | null): React.CSSProperties => {
   }
 };
 
-function getPrismaClient() {
-  if (prisma && (prisma as any).color) return prisma;
-  const { PrismaClient } = require("@prisma/client");
-  return new PrismaClient();
-}
-
 async function getColors(): Promise<ColorItemDB[]> {
   try {
-    const db = getPrismaClient();
-    let dbColors = await db.color.findMany({
-      orderBy: [{ position: "asc" }, { id: "asc" }],
-    });
-
-    if (dbColors.length === 0) {
-      await prisma.color.createMany({
-        data: DEFAULT_COLORS.map((c) => ({
-          name: c.name,
-          category: c.category,
-          className: c.className || null,
-          style: c.style || null,
-          description: c.description,
-          isAvailable: c.isAvailable,
-          position: c.position,
-        })),
-        skipDuplicates: true,
-      });
-
-      dbColors = await prisma.color.findMany({
+    const dbColors = (await Promise.race([
+      prisma.color.findMany({
         orderBy: [{ position: "asc" }, { id: "asc" }],
-      });
-    }
+      }),
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Colors DB Timeout 2.5s")), 2500))
+    ])) as any[];
 
-    return dbColors;
+    if (dbColors && dbColors.length > 0) {
+      return dbColors;
+    }
   } catch (e) {
-    console.error("Error loading colors for palette page:", e);
-    return DEFAULT_COLORS.map((c, i) => ({
-      id: i + 1,
-      name: c.name,
-      category: c.category,
-      className: c.className || null,
-      style: c.style || null,
-      description: c.description,
-      isAvailable: c.isAvailable,
-      position: c.position,
-    }));
+    console.warn("Error/Timeout loading colors for palette page, using DEFAULT_COLORS fallback:", (e as any).message);
   }
+
+  return DEFAULT_COLORS.map((c, i) => ({
+    id: i + 1,
+    name: c.name,
+    category: c.category,
+    className: c.className || null,
+    style: c.style || null,
+    description: c.description,
+    isAvailable: c.isAvailable,
+    position: c.position,
+  }));
 }
 
 export default async function ColorPalettePage() {

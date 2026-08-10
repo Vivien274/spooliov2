@@ -374,11 +374,7 @@ export async function PUT(
       }
       savedInDb = true;
     } catch (dbErr: any) {
-      console.warn("Prisma saving failed or timed out:", dbErr.message);
-      if (!updatedProduct) {
-        // Fallback error details for caller
-        throw dbErr;
-      }
+      console.warn("Prisma saving failed or timed out, proceeding to local JSON fallback:", dbErr.message);
     }
 
     try {

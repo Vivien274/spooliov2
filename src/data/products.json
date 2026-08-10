@@ -36910,7 +36910,7 @@
     "tax_status": "taxable",
     "tax_class": "",
     "manage_stock": false,
-    "stock_quantity": null,
+    "stock_quantity": 0,
     "backorders": "no",
     "backorders_allowed": false,
     "backordered": false,
@@ -36935,9 +36935,8 @@
     "purchase_note": "",
     "categories": [
       {
-        "id": 139,
         "name": "Jeux &amp; activités",
-        "slug": "jeux-activites"
+        "slug": "jeux-&amp;-activités"
       }
     ],
     "brands": [],
@@ -36961,58 +36960,30 @@
     "images": [
       {
         "id": 10927,
-        "date_created": "2025-11-28T18:17:12",
-        "date_created_gmt": "2025-11-28T16:17:12",
-        "date_modified": "2025-11-28T18:17:12",
-        "date_modified_gmt": "2025-11-28T16:17:12",
         "src": "/images/imported/Spoolio-tour-a-de-pliante-6-scaled.webp",
-        "name": "Spoolio tour à dé pliante 6",
-        "alt": "Spoolio tour à dé pliante 6",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?w=2560&ssl=1 2560w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=2048%2C1365&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=1200%2C800&ssl=1 1200w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?w=2280&ssl=1 2280w",
-        "sizes": "(max-width: 2560px) 100vw, 2560px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio tour à dé pliante 6"
       },
       {
         "id": 10922,
-        "date_created": "2025-11-28T18:14:11",
-        "date_created_gmt": "2025-11-28T16:14:11",
-        "date_modified": "2025-11-28T18:14:11",
-        "date_modified_gmt": "2025-11-28T16:14:11",
         "src": "/images/imported/Spoolio-tour-a-de-pliante-1-scaled.webp",
-        "name": "Spoolio tour à dé pliante 1",
-        "alt": "Spoolio tour à dé pliante 1",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-1-scaled.webp?w=2560&ssl=1 2560w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-1-scaled.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-1-scaled.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-1-scaled.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-1-scaled.webp?resize=2048%2C1365&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-1-scaled.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-1-scaled.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-1-scaled.webp?resize=1200%2C800&ssl=1 1200w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-1-scaled.webp?w=2280&ssl=1 2280w",
-        "sizes": "(max-width: 2560px) 100vw, 2560px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-1-scaled.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio tour à dé pliante 1"
       },
       {
         "id": 10927,
-        "date_created": "2025-11-28T18:17:12",
-        "date_created_gmt": "2025-11-28T16:17:12",
-        "date_modified": "2025-11-28T18:17:12",
-        "date_modified_gmt": "2025-11-28T16:17:12",
         "src": "/images/imported/Spoolio-tour-a-de-pliante-6-scaled.webp",
-        "name": "Spoolio tour à dé pliante 6",
-        "alt": "Spoolio tour à dé pliante 6",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?w=2560&ssl=1 2560w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=2048%2C1365&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=1200%2C800&ssl=1 1200w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?w=2280&ssl=1 2280w",
-        "sizes": "(max-width: 2560px) 100vw, 2560px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-6-scaled.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio tour à dé pliante 6"
       },
       {
         "id": 10923,
-        "date_created": "2025-11-28T18:14:44",
-        "date_created_gmt": "2025-11-28T16:14:44",
-        "date_modified": "2025-11-28T18:14:44",
-        "date_modified_gmt": "2025-11-28T16:14:44",
         "src": "/images/imported/Spoolio-tour-a-de-pliante-2-scaled.webp",
-        "name": "Spoolio tour à dé pliante 2",
-        "alt": "Spoolio tour à dé pliante 2",
-        "srcset": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-2-scaled.webp?w=2560&ssl=1 2560w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-2-scaled.webp?resize=1024%2C683&ssl=1 1024w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-2-scaled.webp?resize=768%2C512&ssl=1 768w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-2-scaled.webp?resize=1536%2C1024&ssl=1 1536w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-2-scaled.webp?resize=2048%2C1365&ssl=1 2048w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-2-scaled.webp?resize=640%2C427&ssl=1 640w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-2-scaled.webp?resize=400%2C267&ssl=1 400w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-2-scaled.webp?resize=1200%2C800&ssl=1 1200w, https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-2-scaled.webp?w=2280&ssl=1 2280w",
-        "sizes": "(max-width: 2560px) 100vw, 2560px",
-        "thumbnail": "https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/11/Spoolio-tour-a-de-pliante-2-scaled.webp?resize=300%2C300&ssl=1"
+        "alt": "Spoolio tour à dé pliante 2"
       }
     ],
-    "attributes": [],
+    "attributes": {
+      "attributes": [],
+      "variationPrices": [],
+      "tags": []
+    },
     "default_attributes": [],
     "variations": [],
     "grouped_products": [],

@@ -1056,7 +1056,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
 
                   return (
                     <div
-                      key={img.id}
+                      key={img.id ? `img-${img.id}-${idx}` : `img-${idx}`}
                       className={`relative aspect-square rounded-xl overflow-hidden ${cls.inputBg} border transition-all group ${
                         isCover ? "border-[#ff4f00] ring-2 ring-[#ff4f00]/30 shadow-md" : cls.border
                       }`}
@@ -1562,9 +1562,9 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                                           >
                                             ❌ Supprimer l'image
                                           </button>
-                                          {form.images.map((img) => (
+                                          {form.images.map((img, imgIdx) => (
                                             <button
-                                              key={img.id}
+                                              key={img.id ? `var-img-${img.id}-${imgIdx}` : `var-img-${imgIdx}`}
                                               type="button"
                                               onClick={() => {
                                                 const vPrices = [...(form.attributes?.variationPrices || [])];

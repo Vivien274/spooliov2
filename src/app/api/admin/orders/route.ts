@@ -26,9 +26,9 @@ export async function GET() {
     const jsonPath = path.join(process.cwd(), 'src/data/orders.json');
     let orders: any[] = [];
 
-    // Timeout Promise at 6000ms
+    // Timeout Promise at 2500ms
     const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error("Prisma Query Timeout (6000ms)")), 6000)
+      setTimeout(() => reject(new Error("Prisma Query Timeout (2500ms)")), 2500)
     );
 
     try {

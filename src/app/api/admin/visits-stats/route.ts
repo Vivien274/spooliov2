@@ -18,89 +18,89 @@ export async function GET() {
       );
     }
 
-    // 1. Calculate dates ranges
     const now = new Date();
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const sevenDaysAgo = new Date(todayStart.getTime() - 7 * 24 * 60 * 60 * 1000);
     const thirtyDaysAgo = new Date(todayStart.getTime() - 30 * 24 * 60 * 60 * 1000);
 
-    // 2. Fetch aggregate statistics
-    const totalVisits = await prisma.visit.count();
-    const todayVisits = await prisma.visit.count({
-      where: { createdAt: { gte: todayStart } }
-    });
-    const weekVisits = await prisma.visit.count({
-      where: { createdAt: { gte: sevenDaysAgo } }
-    });
-    const monthVisits = await prisma.visit.count({
-      where: { createdAt: { gte: thirtyDaysAgo } }
-    });
+    // Perform queries with a 2.5s Promise.race timeout
+    const statsData = (await Promise.race([
+      (async () => {
+        const [recentVisits, productsList] = await Promise.all([
+          prisma.visit.findMany({
+            where: { createdAt: { gte: thirtyDaysAgo } },
+            select: { url: true, ipHash: true, createdAt: true },
+            take: 2000,
+            orderBy: { createdAt: "desc" }
+          }),
+          prisma.product.findMany({
+            select: { id: true, name: true, slug: true }
+          })
+        ]);
+        return { recentVisits, productsList };
+      })(),
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Visits Stats DB Timeout")), 2500))
+    ])) as { recentVisits: any[]; productsList: any[] } | null;
 
-    // Unique visitors count using ipHash
-    const uniqueVisitorsCount = async (since: Date) => {
-      const res = await prisma.visit.groupBy({
-        by: ["ipHash"],
-        where: { createdAt: { gte: since } }
+    if (!statsData || !statsData.recentVisits) {
+      return NextResponse.json({
+        totalVisits: 0,
+        todayVisits: 0,
+        weekVisits: 0,
+        monthVisits: 0,
+        uniqueToday: 0,
+        uniqueWeek: 0,
+        dailyStats: [],
+        topPages: [],
+        productPages: [],
+        hourlySlots: [],
+        conversionRate: 0
       });
-      return res.length;
-    };
-    const uniqueToday = await uniqueVisitorsCount(todayStart);
-    const uniqueWeek = await uniqueVisitorsCount(sevenDaysAgo);
+    }
 
-    // 3. Visits per day (Last 7 days)
+    const { recentVisits, productsList } = statsData;
+
+    // Process counts in JS memory
+    const monthVisits = recentVisits.length;
+    const weekVisits = recentVisits.filter(v => new Date(v.createdAt) >= sevenDaysAgo).length;
+    const todayVisits = recentVisits.filter(v => new Date(v.createdAt) >= todayStart).length;
+    const totalVisits = monthVisits;
+
+    const uniqueTodayIps = new Set(recentVisits.filter(v => new Date(v.createdAt) >= todayStart).map(v => v.ipHash));
+    const uniqueWeekIps = new Set(recentVisits.filter(v => new Date(v.createdAt) >= sevenDaysAgo).map(v => v.ipHash));
+
+    // Daily stats (last 7 days)
     const dailyStats = [];
     for (let i = 6; i >= 0; i--) {
       const d = new Date(todayStart.getTime() - i * 24 * 60 * 60 * 1000);
-      const startOfDay = d;
       const endOfDay = new Date(d.getTime() + 24 * 60 * 60 * 1000);
-
-      const count = await prisma.visit.count({
-        where: {
-          createdAt: {
-            gte: startOfDay,
-            lt: endOfDay
-          }
-        }
-      });
+      const count = recentVisits.filter(v => {
+        const t = new Date(v.createdAt).getTime();
+        return t >= d.getTime() && t < endOfDay.getTime();
+      }).length;
 
       const dayLabel = d.toLocaleDateString("fr-FR", { weekday: "short", day: "numeric" });
       dailyStats.push({ label: dayLabel, count });
     }
 
-    // 4. Top visited pages
-    const rawTopPages = await prisma.visit.groupBy({
-      by: ["url"],
-      _count: {
-        url: true
-      },
-      orderBy: {
-        _count: {
-          url: "desc"
-        }
-      },
-      take: 10
-    });
-
-    const topPages = rawTopPages.map((p) => ({
-      url: p.url,
-      count: p._count.url
-    }));
-
-    // 5. Top visited products
-    // Fetch products list to match slugs easily
-    const products = await prisma.product.findMany({
-      select: {
-        id: true,
-        name: true,
-        slug: true
+    // Top pages
+    const pageCounts: Record<string, number> = {};
+    recentVisits.forEach(v => {
+      if (v.url) {
+        pageCounts[v.url] = (pageCounts[v.url] || 0) + 1;
       }
     });
+
+    const topPages = Object.entries(pageCounts)
+      .map(([url, count]) => ({ url, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
 
     const productPages = topPages
       .filter((p) => p.url.startsWith("/product/"))
       .map((p) => {
         const slug = p.url.split("/product/")[1];
-        const prod = products.find((prod) => prod.slug === slug);
+        const prod = productsList.find((prod) => prod.slug === slug);
         return {
           name: prod ? prod.name : slug,
           url: p.url,
@@ -108,17 +108,12 @@ export async function GET() {
         };
       });
 
-    // 6. Hourly Peak Distribution (Last 30 Days)
-    const recentVisits = await prisma.visit.findMany({
-      where: { createdAt: { gte: thirtyDaysAgo } },
-      select: { createdAt: true }
-    });
-
+    // Hourly Slots
     const hourlySlots = [
       { key: "nuit", label: "00h - 06h (Nuit 🌙)", shortLabel: "00h-06h", count: 0 },
       { key: "matin", label: "06h - 12h (Matin ☕️)", shortLabel: "06h-12h", count: 0 },
       { key: "apres_midi", label: "12h - 18h (A-Midi ☀️)", shortLabel: "12h-18h", count: 0 },
-      { key: "soiree", label: "18h - 00h (Soirée 🌌)", shortLabel: "18h-00h", count: 0 },
+      { key: "soiree", label: "18h - 00h (Soirée 🎬)", shortLabel: "18h-00h", count: 0 }
     ];
 
     recentVisits.forEach((v) => {
@@ -129,29 +124,33 @@ export async function GET() {
       else hourlySlots[3].count++;
     });
 
-    const peakSlot = [...hourlySlots].sort((a, b) => b.count - a.count)[0] || hourlySlots[2];
-
     return NextResponse.json({
-      success: true,
-      stats: {
-        totalVisits,
-        todayVisits,
-        weekVisits,
-        monthVisits,
-        uniqueToday,
-        uniqueWeek,
-        dailyStats,
-        hourlySlots,
-        peakSlot,
-        topPages: topPages.slice(0, 5),
-        topProducts: productPages.slice(0, 5)
-      }
+      totalVisits,
+      todayVisits,
+      weekVisits,
+      monthVisits,
+      uniqueToday: uniqueTodayIps.size,
+      uniqueWeek: uniqueWeekIps.size,
+      dailyStats,
+      topPages,
+      productPages,
+      hourlySlots,
+      conversionRate: 0
     });
   } catch (err: any) {
-    console.error("Visits stats error:", err);
-    return NextResponse.json(
-      { error: err.message || "Internal server error" },
-      { status: 500 }
-    );
+    console.warn("Visits stats warning / timeout:", err.message);
+    return NextResponse.json({
+      totalVisits: 0,
+      todayVisits: 0,
+      weekVisits: 0,
+      monthVisits: 0,
+      uniqueToday: 0,
+      uniqueWeek: 0,
+      dailyStats: [],
+      topPages: [],
+      productPages: [],
+      hourlySlots: [],
+      conversionRate: 0
+    });
   }
 }
