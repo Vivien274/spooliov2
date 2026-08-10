@@ -201,7 +201,21 @@ export async function POST(request: Request) {
                 });
                 console.log(`[Loyalty Webhook] Credited +${pointsGagnes} points to card ${card.id} (${cleanEmail})`);
               } else {
-                console.log(`[Loyalty Webhook] No loyalty card found for email: ${cleanEmail}`);
+                const autoCardId = `spoolio-${Math.random().toString(36).substring(2, 10)}`;
+                await prisma.loyaltyCard.create({
+                  data: {
+                    id: autoCardId,
+                    customerName: customerName || null,
+                    customerEmail: cleanEmail,
+                    points: pointsGagnes,
+                    history: JSON.stringify([{
+                      date: new Date().toISOString(),
+                      points: `+${pointsGagnes}`,
+                      reason: `Achat Commande ${orderId}`
+                    }])
+                  }
+                });
+                console.log(`[Loyalty Webhook] Auto-created new card ${autoCardId} with +${pointsGagnes} points for ${cleanEmail}`);
               }
             } catch (loyaltyErr: any) {
               console.error("[Loyalty Webhook Error] Failed to credit points:", loyaltyErr.message);
