@@ -60,13 +60,11 @@ export default function ProPage() {
 
   return (
     <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-black">
-      {/* Sticky Header with Glassmorphism */}
-      <div className="sticky top-0 z-50 w-full bg-black/60 backdrop-blur-md border-b border-[#1f1f23]">
-        <Header className="h-24 flex items-center justify-between px-6 max-w-[1200px] mx-auto w-full" />
-      </div>
+      {/* Sticky Header */}
+      <Header />
 
       {/* Main Content */}
-      <main className="flex-1 max-w-[1100px] w-full mx-auto px-6 py-12">
+      <main className="flex-1 max-w-[1100px] w-full mx-auto px-6 pt-28 lg:pt-32 pb-12 lg:pb-16">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-gray-400 mb-8 font-sans select-none">
           <Link href="/" className="hover:text-white transition-colors duration-200">

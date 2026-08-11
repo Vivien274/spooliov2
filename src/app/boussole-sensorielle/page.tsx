@@ -316,10 +316,10 @@ export default function BoussoleSensoriellePage() {
 
   return (
     <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center overflow-x-hidden">
-      <Header className="relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full" />
+      <Header />
 
       {/* Hero Header */}
-      <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-12 md:py-16 flex flex-col justify-center relative z-10">
+      <main className="flex-1 w-full max-w-7xl mx-auto px-6 pt-28 md:pt-32 pb-12 md:pb-16 flex flex-col justify-center relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-10 md:mb-12 space-y-4">
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-tight font-[family-name:var(--font-antonio)]">
             De quoi tes mains ont-elles besoin{' '}

@@ -119,14 +119,14 @@ export default function MedaillonNfcLandingPage() {
       </div>
 
       {/* Header */}
-      <Header className="relative h-24 flex items-center justify-between z-50 px-6 max-w-[1250px] mx-auto w-full" />
+      <Header />
 
       {/* Ticker Banner */}
-      <div className="w-full bg-gradient-to-r from-[#2F3CD9] via-[#ff4f00] to-[#2F3CD9] py-2 text-center text-xs font-black uppercase tracking-widest text-white z-20 shadow-md">
+      <div className="w-full mt-24 bg-gradient-to-r from-[#2F3CD9] via-[#ff4f00] to-[#2F3CD9] py-2 text-center text-xs font-black uppercase tracking-widest text-white z-20 shadow-md">
         <span>🔐 SÉCURITÉ SANS ABONNEMENT · SANS BATTERIE · FABRICATIVE EN FRANCE 🇫🇷</span>
       </div>
 
-      <main className="w-full max-w-[1250px] px-4 py-12 relative z-10 space-y-20">
+      <main className="w-full max-w-[1250px] px-4 py-8 relative z-10 space-y-20">
 
         {/* ═══ SECTION 1: HERO MARKETING ═══ */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">

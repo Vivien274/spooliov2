@@ -38,10 +38,10 @@ export default function PochetteSurprisePage() {
       </div>
 
       {/* Header */}
-      <Header className="relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full" />
+      <Header />
 
       {/* Main Content Area */}
-      <main className="w-full max-w-[1200px] px-4 py-8 relative z-10 flex flex-col items-center">
+      <main className="w-full max-w-[1200px] px-4 pt-28 lg:pt-32 pb-8 relative z-10 flex flex-col items-center">
         {/* Hero Title & Presentation Banner */}
         <div className="text-center max-w-2xl mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF5500]/15 border border-[#FF5500]/30 text-[#FF5500] text-xs font-mono font-bold uppercase tracking-wider mb-3">

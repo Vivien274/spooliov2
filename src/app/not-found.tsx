@@ -19,13 +19,11 @@ export default function NotFound() {
 
   return (
     <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-black">
-      {/* Sticky Header with Glassmorphism */}
-      <div className="sticky top-0 z-50 w-full bg-black/60 backdrop-blur-md border-b border-[#1f1f23] no-invert">
-        <Header className="h-24 flex items-center justify-between px-6 max-w-[1200px] mx-auto w-full" />
-      </div>
+      {/* Sticky Header */}
+      <Header />
 
       {/* Main Content */}
-      <main className="flex-1 max-w-[800px] w-full mx-auto px-6 py-16 flex flex-col items-center justify-center text-center gap-8 relative z-10">
+      <main className="flex-1 max-w-[800px] w-full mx-auto px-6 pt-28 lg:pt-32 pb-16 flex flex-col items-center justify-center text-center gap-8 relative z-10">
         
         {/* Background Glowing Orb */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-[#ff4f00]/10 filter blur-[80px] pointer-events-none z-0" />

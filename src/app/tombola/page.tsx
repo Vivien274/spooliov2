@@ -37,10 +37,10 @@ export default function TombolaPage() {
       </div>
 
       {/* Header */}
-      <Header className="relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full" />
+      <Header />
 
       {/* Main Content Area */}
-      <main className="w-full max-w-[1200px] px-4 py-8 relative z-10 flex flex-col items-center">
+      <main className="w-full max-w-[1200px] px-4 pt-28 lg:pt-32 pb-8 relative z-10 flex flex-col items-center">
         {/* Page Hero Banner */}
         <div className="text-center max-w-3xl mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-[#ff4f00] uppercase tracking-wider mb-4 shadow-lg backdrop-blur-md">

@@ -398,14 +398,13 @@ export default function MobileMenuDrawer({
             )}
           </div>
 
-          {/* Highlighted CTA: Soutenir l'Atelier */}
+          {/* Highlighted CTA: Nous soutenir */}
           <Link
             href="/don"
             onClick={onClose}
             className="w-full min-h-[50px] py-3.5 px-4 rounded-2xl bg-gradient-to-r from-[#ff4f00] via-[#FF6600] to-[#FF8800] text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-[#ff4f00]/30 hover:scale-[1.02] active:scale-[0.98] transition-transform no-invert"
           >
             <span>{t("footer.support_workshop")}</span>
-            <Heart className="w-4 h-4 fill-current animate-pulse" />
           </Link>
         </div>
 

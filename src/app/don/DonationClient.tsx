@@ -87,12 +87,10 @@ export default function DonationClient() {
   return (
     <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-black">
       {/* Header */}
-      <div className="sticky top-0 z-50 w-full bg-black/60 backdrop-blur-md border-b border-[#1f1f23]">
-        <Header className="h-24 flex items-center justify-between px-6 max-w-[1200px] mx-auto w-full" />
-      </div>
+      <Header />
 
       {/* Main Content */}
-      <main className="flex-1 max-w-[1100px] w-full mx-auto px-6 py-16 flex flex-col items-center">
+      <main className="flex-1 max-w-[1100px] w-full mx-auto px-6 pt-28 lg:pt-32 pb-16 flex flex-col items-center">
         {/* Glow Effects in Background */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle_at_center,rgba(255,79,0,0.05)_0%,transparent_65%)] pointer-events-none" />
         <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] bg-[radial-gradient(circle_at_center,rgba(47,60,217,0.04)_0%,transparent_65%)] pointer-events-none" />

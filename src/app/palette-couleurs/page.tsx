@@ -177,9 +177,9 @@ export default async function ColorPalettePage() {
         <div className="absolute bottom-[20%] left-[-15%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full" style={{ backgroundColor: 'rgba(99, 102, 241, 0.1)', filter: 'blur(120px)' }} />
       </div>
 
-      <Header className="relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full" />
+      <Header />
 
-      <main className="w-full max-w-[1100px] px-6 py-12 relative z-10 flex-grow">
+      <main className="w-full max-w-[1100px] px-6 pt-28 lg:pt-32 pb-12 relative z-10 flex-grow">
         
         {/* Banner Title */}
         <div className="text-center mb-16">

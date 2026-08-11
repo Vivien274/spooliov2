@@ -62,12 +62,10 @@ function SuccessPageContent() {
   return (
     <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-black">
       {/* Header */}
-      <div className="sticky top-0 z-50 w-full bg-black/60 backdrop-blur-md border-b border-[#1f1f23]">
-        <Header className="h-24 flex items-center justify-between px-6 max-w-[1200px] mx-auto w-full" />
-      </div>
+      <Header />
 
       {/* Main Content */}
-      <main className="flex-1 max-w-[600px] w-full mx-auto px-6 py-16 flex flex-col items-center justify-center text-center">
+      <main className="flex-1 max-w-[600px] w-full mx-auto px-6 pt-28 lg:pt-32 pb-16 flex flex-col items-center justify-center text-center">
         {/* Animated Celebration Icon */}
         <div className="relative w-24 h-24 bg-[#2F3CD9]/10 border border-[#2F3CD9]/30 rounded-full flex items-center justify-center mb-6 shadow-2xl shadow-[#2F3CD9]/10 select-none">
           <span className="text-5xl animate-bounce">🎉</span>

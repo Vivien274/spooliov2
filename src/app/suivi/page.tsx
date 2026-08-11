@@ -112,13 +112,11 @@ export default function OrderTrackingPage() {
 
   return (
     <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-black">
-      {/* Sticky Header with Glassmorphism */}
-      <div className="sticky top-0 z-50 w-full bg-black/60 backdrop-blur-md border-b border-[#1f1f23]">
-        <Header className="h-24 flex items-center justify-between px-6 max-w-[1200px] mx-auto w-full" />
-      </div>
+      {/* Sticky Header */}
+      <Header />
 
       {/* Main Content */}
-      <main className="flex-1 max-w-[800px] w-full mx-auto px-6 pt-10 pb-16 flex flex-col justify-center">
+      <main className="flex-1 max-w-[800px] w-full mx-auto px-6 pt-28 lg:pt-32 pb-16 flex flex-col justify-center">
         <h1 className="text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-center text-white font-antonio mb-8 mt-6 sm:mt-10">
           Suivre ma commande
         </h1>

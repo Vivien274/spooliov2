@@ -155,29 +155,9 @@ export default function Header({
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-[99999] w-full transition-all duration-300 ${isSticky
-        ? "bg-black/65 dark:bg-[#0e0e12]/75 light:bg-white/85 backdrop-blur-2xl border-b border-[#005cff]/30 shadow-[0_4px_30px_rgba(0,92,255,0.18)]"
+        ? "bg-black/65 dark:bg-[#0e0e12]/75 light:bg-white/85 backdrop-blur-2xl border-b border-white/10 dark:border-white/10 light:border-gray-200 shadow-md"
         : "bg-transparent border-b border-white/5"
       }`}>
-      {/* Background Halos Container (overflow-hidden only for halos, allowing dropdowns to pop out) */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div
-          animate={{
-            x: [0, 30, -20, 0],
-            y: [0, -15, 10, 0],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-16 left-1/4 w-80 h-32 rounded-full bg-[#005cff]/06 blur-3xl pointer-events-none hidden dark:block"
-        />
-        <motion.div
-          animate={{
-            x: [0, -25, 20, 0],
-            y: [0, 15, -10, 0],
-          }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-16 right-1/4 w-80 h-32 rounded-full bg-[#2F3CD9]/06 blur-3xl pointer-events-none hidden dark:block"
-        />
-      </div>
-
       <div className={`mx-auto w-full flex items-center justify-between transition-all duration-300 relative z-10 ${isSticky
           ? "h-16 md:h-20 px-6 md:px-12 max-w-7xl"
           : "h-24 px-6 max-w-[1200px]"
