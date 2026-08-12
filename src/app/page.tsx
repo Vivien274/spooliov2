@@ -202,6 +202,31 @@ export default async function HomePage() {
     // Silent fallback
   }
 
+  let recentBlogPosts: any[] = [];
+  try {
+    const dbBlogPosts = (await Promise.race([
+      prisma.blogPost.findMany({
+        where: { status: "publish" },
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          excerpt: true,
+          featuredImageUrl: true,
+          date: true,
+        },
+        orderBy: { date: "desc" },
+        take: 3,
+      }),
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Blog DB Timeout")), 2000)),
+    ])) as any[];
+    if (dbBlogPosts && dbBlogPosts.length > 0) {
+      recentBlogPosts = dbBlogPosts;
+    }
+  } catch (e) {
+    // Silent fallback
+  }
+
   return (
     <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
       {/* React Home Loading Screen */}
@@ -588,49 +613,6 @@ export default async function HomePage() {
           );
         })()}
 
-        {/* Brand Partners List (Moved inside Nos Artisanes de l'Ombre section) */}
-        <div className="w-full py-6 border-t border-b border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 select-none font-sans">
-          <span className="text-[9px] font-black uppercase tracking-widest text-gray-500 font-sans md:self-center shrink-0">
-            {t("home.printers.partners_label")}
-          </span>
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-            {/* Bambu Lab */}
-            <div className="h-6 w-28 relative">
-              <img
-                src="/images/bambulab_logo.svg"
-                alt="Bambu Lab"
-                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 dark:filter dark:brightness-0 dark:invert"
-              />
-            </div>
-
-            {/* eSun */}
-            <div className="h-6 w-16 relative">
-              <img
-                src="/images/esun_logo.jpg"
-                alt="eSun"
-                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 filter grayscale dark:filter-none dark:invert"
-              />
-            </div>
-
-            {/* Polyterra (Polymaker) */}
-            <div className="h-5 w-24 relative">
-              <img
-                src="/images/polymaker_logo.png"
-                alt="Polymaker"
-                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 dark:filter dark:brightness-0 dark:invert"
-              />
-            </div>
-
-            {/* Sunlu */}
-            <div className="h-5 w-20 relative">
-              <img
-                src="/images/sunlu_logo.jpg"
-                alt="Sunlu"
-                className="h-full w-full object-contain opacity-35 hover:opacity-85 transition-opacity duration-300 filter grayscale dark:filter-none dark:invert"
-              />
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* Spotlight Marquee Banner */}
@@ -644,33 +626,72 @@ export default async function HomePage() {
           {/* Left Block (2 columns width, reviews grid + modal details) */}
           <ReviewsSection displayReviews={displayReviews} />
 
-          {/* Right Block (1 column width, dark brown material info block) */}
-          <div className="md:col-span-1 rounded-3xl bg-[#230f06] border border-[#ff4f00]/25 p-6 md:p-8 flex flex-col justify-between gap-6 no-invert">
-            <div className="flex flex-col gap-5">
-              {/* Title */}
-              <h4 className="text-[17px] font-bold text-white tracking-tight uppercase leading-snug font-sans">
-                {t("home.material.title")}
-              </h4>
+          {/* Right Block (1 column width, latest blog posts list) */}
+          <div className="md:col-span-1 rounded-3xl bg-[#141418] border border-[#ff4f00]/30 p-6 flex flex-col justify-between gap-5 font-sans shadow-xl backdrop-blur-md">
+            <div className="flex flex-col gap-4">
+              {/* Title Header */}
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">📝</span>
+                  <h4 className="text-base font-extrabold text-white tracking-tight uppercase font-antonio">
+                    L'Atelier Spoolio • Blog
+                  </h4>
+                </div>
+                <span className="text-[10px] font-mono font-bold text-[#ff4f00] bg-[#ff4f00]/10 border border-[#ff4f00]/30 px-2 py-0.5 rounded-full">
+                  Derniers Articles
+                </span>
+              </div>
 
-              {/* Description Paragraphs */}
-              <p className="text-[14px] text-white/80 leading-relaxed font-sans">
-                {t("home.material.p1")}
-              </p>
-
-              <p className="text-[14px] text-white/80 leading-relaxed font-sans">
-                {t("home.material.p2")}
-              </p>
-
-              {/* Warning Notice */}
-              <div className="flex gap-2 text-[14px] text-white/85 italic leading-relaxed font-sans mt-2">
-                <svg className="w-4 h-4 text-yellow-500 shrink-0 select-none mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <p>
-                  <span className="font-semibold">{t("home.material.note_label")}</span> {t("home.material.note_text")}
-                </p>
+              {/* List of Latest Articles */}
+              <div className="space-y-3">
+                {recentBlogPosts.length === 0 ? (
+                  <p className="text-xs text-neutral-400 italic py-4 text-center">
+                    Aucun article disponible pour le moment.
+                  </p>
+                ) : (
+                  recentBlogPosts.map((post) => (
+                    <Link
+                      key={post.id}
+                      href={`/blog/${post.slug}`}
+                      className="group flex gap-3 items-center p-2.5 rounded-2xl bg-white/[0.03] hover:bg-[#ff4f00]/10 border border-white/5 hover:border-[#ff4f00]/30 transition-all duration-300"
+                    >
+                      {post.featuredImageUrl ? (
+                        <div className="relative w-12 h-12 rounded-xl overflow-hidden shrink-0 bg-black/40 border border-white/10">
+                          <Image
+                            src={post.featuredImageUrl}
+                            alt={post.title}
+                            fill
+                            sizes="48px"
+                            className="object-cover group-hover:scale-105 transition-transform duration-300 no-invert"
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-lg shrink-0 border border-white/10">
+                          🤖
+                        </div>
+                      )}
+                      <div className="flex flex-col min-w-0 space-y-0.5">
+                        <span className="text-[9px] text-[#ff4f00] font-bold uppercase tracking-wider">
+                          {new Date(post.date).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })}
+                        </span>
+                        <h5 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors line-clamp-2 leading-tight">
+                          {post.title}
+                        </h5>
+                      </div>
+                    </Link>
+                  ))
+                )}
               </div>
             </div>
+
+            {/* View Blog Button */}
+            <Link
+              href="/blog"
+              className="w-full py-3 px-4 rounded-xl bg-[#ff4f00] hover:bg-[#ff6600] text-white font-black text-xs uppercase tracking-wider transition-all shadow-lg shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group cursor-pointer text-center no-invert"
+            >
+              <span>Voir le blog</span>
+              <span className="group-hover:translate-x-1 transition-transform text-sm">&rarr;</span>
+            </Link>
           </div>
         </div>
       </section>
