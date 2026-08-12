@@ -216,7 +216,7 @@ export default async function HomePage() {
           date: true,
         },
         orderBy: { date: "desc" },
-        take: 3,
+        take: 4,
       }),
       new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Blog DB Timeout")), 2000)),
     ])) as any[];
