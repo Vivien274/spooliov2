@@ -9,6 +9,7 @@ import ReviewsSection from "@/components/ReviewsSection";
 import HomeLoader from "@/components/HomeLoader";
 import CurvedTextScrollAnimation from "@/components/CurvedTextScrollAnimation";
 import SpotlightMarqueeBanner from "@/components/SpotlightMarqueeBanner";
+import BoutiqueCTAButton from "@/components/BoutiqueCTAButton";
 import { prisma } from "@/lib/prisma";
 import fs from "fs";
 import path from "path";
@@ -430,38 +431,8 @@ export default async function HomePage() {
           <SpoolioProductGrid filterType="all" limit={9} showFilters={true} />
         </div>
 
-        {/* Animated Ultra-Premium "Voir toute la boutique" Call-To-Action */}
-        <div className="flex justify-center mt-6">
-          <Link
-            href="/boutique"
-            className="group relative w-full max-w-xl py-4 sm:py-5 px-6 sm:px-8 flex items-center justify-between gap-4 rounded-2xl bg-gradient-to-r from-[#ff4f00] via-[#ff6a00] to-[#ff3300] text-white font-extrabold text-sm sm:text-base uppercase tracking-wider font-antonio shadow-[0_0_30px_rgba(255,79,0,0.4)] hover:shadow-[0_0_50px_rgba(255,79,0,0.75)] hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 overflow-hidden no-invert cursor-pointer border border-white/20"
-          >
-            {/* Shimmer sweep effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out pointer-events-none" />
-
-            <div className="flex items-center gap-3.5 relative z-10">
-              <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-xl shrink-0 group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300 shadow-inner">
-                🛍️
-              </div>
-              <div className="flex flex-col text-left">
-                <span className="text-sm sm:text-base font-black tracking-wide text-white leading-tight">
-                  {t("nav_menu.see_all_shop")}
-                </span>
-                <span className="text-[10px] font-sans font-bold text-white/80 uppercase tracking-widest mt-0.5">
-                  +40 Fidgets &amp; Créations 3D Écoresponsables
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 relative z-10 shrink-0">
-              <span className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white group-hover:translate-x-1 transition-all duration-300">
-                <svg className="w-5 h-5 text-white group-hover:text-[#ff4f00] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </span>
-            </div>
-          </Link>
-        </div>
+        {/* Animated Ultra-Premium Magnetic "Voir toute la boutique" Call-To-Action */}
+        <BoutiqueCTAButton label={t("nav_menu.see_all_shop")} />
       </section>
 
       {/* 5. PLA Storytelling Timeline Section */}
