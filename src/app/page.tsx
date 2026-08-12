@@ -459,10 +459,10 @@ export default async function HomePage() {
 
           {/* Step 1 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-[#141419] border-2 border-white/10 hover:border-[#ff4f00]/60 hover:bg-[#1a1a22] shadow-xl hover:shadow-[0_0_25px_rgba(255,79,0,0.15)] transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-12 h-12 rounded-full bg-[#ff4f00] text-white border-2 border-white/20 shadow-[0_0_15px_rgba(255,79,0,0.5)] flex items-center justify-center font-black text-base mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-full bg-[#ff4f00] text-white border-2 border-white/20 shadow-[0_0_15px_rgba(255,79,0,0.5)] flex items-center justify-center font-black text-lg mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               1
             </div>
-            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2 font-antonio text-base">{t("home.timeline.step1.title")}</h4>
+            <h4 className="text-base sm:text-lg font-black text-white uppercase tracking-wide mb-2 font-antonio leading-tight text-center">{t("home.timeline.step1.title")}</h4>
             <p className="text-xs text-gray-300 leading-relaxed font-medium">
               {t("home.timeline.step1.description")}
             </p>
@@ -470,10 +470,10 @@ export default async function HomePage() {
 
           {/* Step 2 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-[#141419] border-2 border-white/10 hover:border-indigo-500/60 hover:bg-[#1a1a22] shadow-xl hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-12 h-12 rounded-full bg-indigo-600 text-white border-2 border-white/20 shadow-[0_0_15px_rgba(99,102,241,0.5)] flex items-center justify-center font-black text-base mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-full bg-indigo-600 text-white border-2 border-white/20 shadow-[0_0_15px_rgba(99,102,241,0.5)] flex items-center justify-center font-black text-lg mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               2
             </div>
-            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2 font-antonio text-base">{t("home.timeline.step2.title")}</h4>
+            <h4 className="text-base sm:text-lg font-black text-white uppercase tracking-wide mb-2 font-antonio leading-tight text-center">{t("home.timeline.step2.title")}</h4>
             <p className="text-xs text-gray-300 leading-relaxed font-medium">
               {t("home.timeline.step2.description")}
             </p>
@@ -481,10 +481,10 @@ export default async function HomePage() {
 
           {/* Step 3 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-[#141419] border-2 border-white/10 hover:border-purple-500/60 hover:bg-[#1a1a22] shadow-xl hover:shadow-[0_0_25px_rgba(168,85,247,0.15)] transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-12 h-12 rounded-full bg-purple-600 text-white border-2 border-white/20 shadow-[0_0_15px_rgba(168,85,247,0.5)] flex items-center justify-center font-black text-base mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-full bg-purple-600 text-white border-2 border-white/20 shadow-[0_0_15px_rgba(168,85,247,0.5)] flex items-center justify-center font-black text-lg mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               3
             </div>
-            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2 font-antonio text-base">{t("home.timeline.step3.title")}</h4>
+            <h4 className="text-base sm:text-lg font-black text-white uppercase tracking-wide mb-2 font-antonio leading-tight text-center">{t("home.timeline.step3.title")}</h4>
             <p className="text-xs text-gray-300 leading-relaxed font-medium">
               {t("home.timeline.step3.description")}
             </p>
@@ -492,10 +492,10 @@ export default async function HomePage() {
 
           {/* Step 4 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-[#141419] border-2 border-white/10 hover:border-blue-500/60 hover:bg-[#1a1a22] shadow-xl hover:shadow-[0_0_25px_rgba(59,130,246,0.15)] transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-12 h-12 rounded-full bg-blue-600 text-white border-2 border-white/20 shadow-[0_0_15px_rgba(59,130,246,0.5)] flex items-center justify-center font-black text-base mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-full bg-blue-600 text-white border-2 border-white/20 shadow-[0_0_15px_rgba(59,130,246,0.5)] flex items-center justify-center font-black text-lg mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               4
             </div>
-            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2 font-antonio text-base">{t("home.timeline.step4.title")}</h4>
+            <h4 className="text-base sm:text-lg font-black text-white uppercase tracking-wide mb-2 font-antonio leading-tight text-center">{t("home.timeline.step4.title")}</h4>
             <p className="text-xs text-gray-300 leading-relaxed font-medium">
               {t("home.timeline.step4.description")}
             </p>
@@ -503,10 +503,10 @@ export default async function HomePage() {
 
           {/* Step 5 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-[#141419] border-2 border-white/10 hover:border-emerald-500/60 hover:bg-[#1a1a22] shadow-xl hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-12 h-12 rounded-full bg-emerald-500 text-black border-2 border-white/20 shadow-[0_0_15px_rgba(16,185,129,0.5)] flex items-center justify-center font-black text-base mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-12 h-12 rounded-full bg-emerald-500 text-black border-2 border-white/20 shadow-[0_0_15px_rgba(16,185,129,0.5)] flex items-center justify-center font-black text-lg mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
               5
             </div>
-            <h4 className="text-xs font-black text-white uppercase tracking-wider mb-2 font-antonio text-base">{t("home.timeline.step5.title")}</h4>
+            <h4 className="text-base sm:text-lg font-black text-white uppercase tracking-wide mb-2 font-antonio leading-tight text-center">{t("home.timeline.step5.title")}</h4>
             <p className="text-xs text-gray-300 leading-relaxed font-medium">
               {t("home.timeline.step5.description")}
             </p>
