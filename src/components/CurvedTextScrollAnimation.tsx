@@ -41,29 +41,29 @@ export default function CurvedTextScrollAnimation() {
   return (
     <div
       ref={containerRef}
-      className="w-screen relative left-1/2 -translate-x-1/2 py-1 my-0 overflow-hidden select-none flex items-center justify-center font-sans max-h-24"
+      className="w-screen relative left-1/2 -translate-x-1/2 py-2 my-2 overflow-hidden select-none flex items-center justify-center font-sans max-h-32"
     >
       {/* SVG Full-Width Compact Curve Canvas */}
       <div className="w-full overflow-visible px-0">
         <svg
-          className="w-full h-20 sm:h-24 overflow-visible"
-          viewBox="0 0 1600 100"
+          className="w-full h-24 sm:h-28 md:h-32 overflow-visible"
+          viewBox="0 0 1600 110"
           role="img"
-          aria-label="Subtle neon text riding a curved path while scrolling"
+          aria-label="Texte néon ondulant sur un chemin courbe au défilement"
         >
           {/* Dotted/Dashed Wave Curve Path across full screen width */}
           <path
             id="spoolio-curve-path-full"
-            d="M -150 70 C 200 70 300 25 650 25 S 1100 70 1400 70 S 1650 30 1850 30"
+            d="M -150 75 C 200 75 300 25 650 25 S 1100 75 1400 75 S 1650 30 1850 30"
             fill="none"
-            stroke="rgba(255, 255, 255, 0.4)"
-            strokeWidth="1.5"
-            strokeDasharray="5 7"
+            stroke="rgba(255, 85, 0, 0.4)"
+            strokeWidth="2.5"
+            strokeDasharray="6 8"
           />
 
-          {/* Pure White Text with Soft Subtle Neon Aura */}
+          {/* High-visibility Text on Mobile & Desktop */}
           <text
-            className="text-base sm:text-lg lg:text-xl font-extrabold uppercase tracking-wider font-antonio fill-white drop-shadow-[0_0_8px_rgba(255,79,0,0.4)]"
+            className="text-[52px] sm:text-[42px] md:text-[34px] lg:text-[28px] font-black uppercase tracking-wider font-antonio fill-white drop-shadow-[0_0_12px_rgba(255,85,0,0.6)]"
           >
             <textPath
               ref={textPathRef}
