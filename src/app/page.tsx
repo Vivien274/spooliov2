@@ -634,7 +634,7 @@ export default async function HomePage() {
                 <div className="flex items-center gap-2">
                   <span className="text-lg">📝</span>
                   <h4 className="text-base font-extrabold text-white tracking-tight uppercase font-antonio">
-                    L'Atelier Spoolio • Blog
+                    Spoolio • Le blog
                   </h4>
                 </div>
                 <span className="text-[10px] font-mono font-bold text-[#ff4f00] bg-[#ff4f00]/10 border border-[#ff4f00]/30 px-2 py-0.5 rounded-full">
