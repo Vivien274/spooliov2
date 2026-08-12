@@ -1,286 +1,121 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import {
+  getTombolaTicketsAction,
+  reserveTicketAction,
+  updateTicketAdminAction,
+  quickPhysicalSaleAction,
+  drawWinnerAction,
+  resetTombolaTicketsAction,
+} from "@/app/actions/tombolaActions";
 
 const DEFAULT_CONFIG = {
   id: "tombola-default",
-  title: "Mega Pack Fidget & Impression 3D Spoolio",
+  title: "TOMBOLA SPOOLIO 🎁",
   description:
-    "Tente ta chance de remporter un lot exclusif composé d'objets fidgets sensoriels TDAH, de figurines 3D et d'un porte-clés NFC Spoolio !",
+    "Gagne ton Pack Fidgets exclusif (valeur 20€) ! Choisis ta case parmi les 50 numéros disponibles.",
   image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
-  estimatedValue: 85.00,
-  endDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().slice(0, 16),
-  totalCases: 40,
-  ticketPrice: 2.00,
+  estimatedValue: 20.0,
+  endDate: "15 Août à 17h30",
+  totalCases: 50,
+  ticketPrice: 2.0,
   status: "active",
-  reservedTickets: [],
-  winnerTicket: null,
-  winnerDrawnAt: null,
 };
 
-// GET: Fetch current active tombola & reserved tickets
+// GET: Fetch tombola details & all 50 tickets
 export async function GET() {
   try {
-    if (!prisma) {
-      return NextResponse.json({ success: true, tombola: DEFAULT_CONFIG, reservedTickets: [] });
-    }
+    const tickets = await getTombolaTicketsAction();
 
-    let tombola = await prisma.tombola.findFirst({
-      orderBy: { createdAt: "desc" },
-    });
-
-    if (!tombola) {
-      tombola = await prisma.tombola.create({
-        data: {
-          title: DEFAULT_CONFIG.title,
-          description: DEFAULT_CONFIG.description,
-          image: DEFAULT_CONFIG.image,
-          estimatedValue: DEFAULT_CONFIG.estimatedValue,
-          endDate: DEFAULT_CONFIG.endDate,
-          totalCases: DEFAULT_CONFIG.totalCases,
-          ticketPrice: DEFAULT_CONFIG.ticketPrice,
-          status: "active",
-          reservedTickets: JSON.stringify([]),
-        },
-      });
-    }
-
-    let parsedReserved: number[] = [];
-    try {
-      if (typeof tombola.reservedTickets === "string") {
-        parsedReserved = JSON.parse(tombola.reservedTickets);
-      } else if (Array.isArray(tombola.reservedTickets)) {
-        parsedReserved = tombola.reservedTickets as any;
-      }
-    } catch (e) {
-      parsedReserved = [];
-    }
-
-    return NextResponse.json({
-      success: true,
-      tombola: {
-        id: tombola.id,
-        title: tombola.title,
-        description: tombola.description,
-        image: tombola.image,
-        estimatedValue: tombola.estimatedValue,
-        endDate: tombola.endDate,
-        totalCases: tombola.totalCases,
-        ticketPrice: tombola.ticketPrice,
-        status: tombola.status,
-        winnerTicket: tombola.winnerTicket,
-        winnerDrawnAt: tombola.winnerDrawnAt,
-      },
-      reservedTickets: parsedReserved,
-    });
-  } catch (error: any) {
-    console.error("GET /api/tombola error:", error?.message);
     return NextResponse.json({
       success: true,
       tombola: DEFAULT_CONFIG,
-      reservedTickets: [],
-      error: error?.message,
+      tickets,
+      // For backwards compatibility
+      reservedTickets: tickets
+        .filter((t) => t.status === "reserved" || t.status === "paid")
+        .map((t) => t.ticket_number),
     });
+  } catch (error: any) {
+    console.error("GET /api/tombola error:", error?.message);
+    return NextResponse.json(
+      { success: false, error: error?.message },
+      { status: 500 }
+    );
   }
 }
 
-// POST: Manage tombola configuration, ticket reservations, and draws
+// POST: Manage tombola tickets and actions
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { action } = body;
 
-    if (!prisma) {
-      return NextResponse.json({ success: true, message: "Action simulée (pas de BDD)" });
-    }
-
-    let activeTombola = await prisma.tombola.findFirst({
-      orderBy: { createdAt: "desc" },
-    });
-
-    if (!activeTombola) {
-      activeTombola = await prisma.tombola.create({
-        data: {
-          title: DEFAULT_CONFIG.title,
-          description: DEFAULT_CONFIG.description,
-          image: DEFAULT_CONFIG.image,
-          estimatedValue: DEFAULT_CONFIG.estimatedValue,
-          endDate: DEFAULT_CONFIG.endDate,
-          totalCases: DEFAULT_CONFIG.totalCases,
-          ticketPrice: DEFAULT_CONFIG.ticketPrice,
-          status: "active",
-          reservedTickets: JSON.stringify([]),
-        },
-      });
-    }
-
-    // ACTION: Reserve tickets (Client or Admin)
+    // Action: Public Reservation
     if (action === "reserve") {
-      const { newTickets } = body; // Array of ticket numbers e.g. [5, 14, 12]
-      if (!Array.isArray(newTickets) || newTickets.length === 0) {
-        return NextResponse.json({ success: false, error: "Aucun ticket fourni" }, { status: 400 });
-      }
-
-      let currentReserved: number[] = [];
-      try {
-        if (typeof activeTombola.reservedTickets === "string") {
-          currentReserved = JSON.parse(activeTombola.reservedTickets);
-        } else if (Array.isArray(activeTombola.reservedTickets)) {
-          currentReserved = activeTombola.reservedTickets as any;
-        }
-      } catch (e) {}
-
-      const updatedReserved = Array.from(new Set([...currentReserved, ...newTickets])).sort(
-        (a, b) => a - b
-      );
-
-      const updated = await prisma.tombola.update({
-        where: { id: activeTombola.id },
-        data: {
-          reservedTickets: JSON.stringify(updatedReserved),
-        },
+      const { ticketNumber, buyerName, buyerEmail, buyerPhone } = body;
+      const res = await reserveTicketAction({
+        ticketNumber: parseInt(ticketNumber, 10),
+        buyerName,
+        buyerEmail,
+        buyerPhone,
       });
-
-      return NextResponse.json({
-        success: true,
-        reservedTickets: updatedReserved,
-      });
+      return NextResponse.json(res);
     }
 
-    // ACTION: Toggle ticket reserved status (Admin direct click)
+    // Action: Admin Update Ticket
+    if (action === "admin_update") {
+      const { ticketNumber, status, buyerName, buyerEmail, buyerPhone } = body;
+      const res = await updateTicketAdminAction({
+        ticketNumber: parseInt(ticketNumber, 10),
+        status,
+        buyerName,
+        buyerEmail,
+        buyerPhone,
+      });
+      return NextResponse.json(res);
+    }
+
+    // Action: Quick Physical Sale on Stand
+    if (action === "quick_sale") {
+      const { ticketNumber, buyerName, buyerPhone } = body;
+      const res = await quickPhysicalSaleAction({
+        ticketNumber: parseInt(ticketNumber, 10),
+        buyerName,
+        buyerPhone,
+      });
+      return NextResponse.json(res);
+    }
+
+    // Action: Raffle Draw
+    if (action === "draw") {
+      const res = await drawWinnerAction();
+      return NextResponse.json(res);
+    }
+
+    // Action: Reset All Tickets
+    if (action === "reset") {
+      const res = await resetTombolaTicketsAction();
+      return NextResponse.json(res);
+    }
+
+    // Legacy Action: toggle_ticket
     if (action === "toggle_ticket") {
       const { ticketNumber } = body;
       const num = parseInt(ticketNumber, 10);
-      if (isNaN(num)) {
-        return NextResponse.json({ success: false, error: "Numéro de ticket invalide" }, { status: 400 });
+      const tickets = await getTombolaTicketsAction();
+      const current = tickets.find((t) => t.ticket_number === num);
+
+      let nextStatus: "available" | "paid" = "paid";
+      if (current && (current.status === "paid" || current.status === "reserved")) {
+        nextStatus = "available";
       }
 
-      let currentReserved: number[] = [];
-      try {
-        if (typeof activeTombola.reservedTickets === "string") {
-          currentReserved = JSON.parse(activeTombola.reservedTickets);
-        } else if (Array.isArray(activeTombola.reservedTickets)) {
-          currentReserved = activeTombola.reservedTickets as any;
-        }
-      } catch (e) {}
-
-      let updatedReserved: number[];
-      if (currentReserved.includes(num)) {
-        updatedReserved = currentReserved.filter((t) => t !== num);
-      } else {
-        updatedReserved = [...currentReserved, num].sort((a, b) => a - b);
-      }
-
-      const updated = await prisma.tombola.update({
-        where: { id: activeTombola.id },
-        data: {
-          reservedTickets: JSON.stringify(updatedReserved),
-        },
+      const res = await updateTicketAdminAction({
+        ticketNumber: num,
+        status: nextStatus,
       });
-
-      return NextResponse.json({
-        success: true,
-        reservedTickets: updatedReserved,
-      });
-    }
-
-    // ACTION: Release tickets (Admin)
-    if (action === "release") {
-      const { ticketsToRelease } = body;
-      if (!Array.isArray(ticketsToRelease)) {
-        return NextResponse.json({ success: false, error: "Liste de tickets invalide" }, { status: 400 });
-      }
-
-      let currentReserved: number[] = [];
-      try {
-        if (typeof activeTombola.reservedTickets === "string") {
-          currentReserved = JSON.parse(activeTombola.reservedTickets);
-        } else if (Array.isArray(activeTombola.reservedTickets)) {
-          currentReserved = activeTombola.reservedTickets as any;
-        }
-      } catch (e) {}
-
-      const updatedReserved = currentReserved.filter((t) => !ticketsToRelease.includes(t));
-
-      const updated = await prisma.tombola.update({
-        where: { id: activeTombola.id },
-        data: {
-          reservedTickets: JSON.stringify(updatedReserved),
-        },
-      });
-
-      return NextResponse.json({
-        success: true,
-        reservedTickets: updatedReserved,
-      });
-    }
-
-    // ACTION: Update Config (Admin)
-    if (action === "updateConfig") {
-      const { config } = body;
-      if (!config) {
-        return NextResponse.json({ success: false, error: "Données de configuration absentes" }, { status: 400 });
-      }
-
-      const updated = await prisma.tombola.update({
-        where: { id: activeTombola.id },
-        data: {
-          title: config.title ?? activeTombola.title,
-          description: config.description ?? activeTombola.description,
-          image: config.image ?? activeTombola.image,
-          estimatedValue: config.estimatedValue ?? activeTombola.estimatedValue,
-          endDate: config.endDate ?? activeTombola.endDate,
-          totalCases: config.totalCases ?? activeTombola.totalCases,
-          ticketPrice: config.ticketPrice ?? activeTombola.ticketPrice,
-        },
-      });
-
-      return NextResponse.json({ success: true, tombola: updated });
-    }
-
-    // ACTION: Trigger Raffle Draw (Admin)
-    if (action === "draw") {
-      const { winnerTicket, winnerDrawnAt } = body;
-      const updated = await prisma.tombola.update({
-        where: { id: activeTombola.id },
-        data: {
-          status: "drawn",
-          winnerTicket,
-          winnerDrawnAt,
-        },
-      });
-
-      return NextResponse.json({ success: true, tombola: updated });
-    }
-
-    // ACTION: Reset Reserved Tickets (Admin or Clean Start)
-    if (action === "reset_reserved" || action === "clear_reserved") {
-      const updated = await prisma.tombola.update({
-        where: { id: activeTombola.id },
-        data: {
-          reservedTickets: JSON.stringify([]),
-        },
-      });
-
-      return NextResponse.json({ success: true, tombola: updated, reservedTickets: [] });
-    }
-
-    // ACTION: Reset / Start New Tombola (Admin)
-    if (action === "reset") {
-      const newTombola = await prisma.tombola.create({
-        data: {
-          title: body.config?.title || DEFAULT_CONFIG.title,
-          description: body.config?.description || DEFAULT_CONFIG.description,
-          image: body.config?.image || DEFAULT_CONFIG.image,
-          estimatedValue: body.config?.estimatedValue || DEFAULT_CONFIG.estimatedValue,
-          endDate: body.config?.endDate || DEFAULT_CONFIG.endDate,
-          totalCases: body.config?.totalCases || DEFAULT_CONFIG.totalCases,
-          ticketPrice: body.config?.ticketPrice || DEFAULT_CONFIG.ticketPrice,
-          status: "active",
-          reservedTickets: JSON.stringify([]),
-        },
-      });
-
-      return NextResponse.json({ success: true, tombola: newTombola, reservedTickets: [] });
+      return NextResponse.json(res);
     }
 
     return NextResponse.json({ success: false, error: "Action inconnue" }, { status: 400 });

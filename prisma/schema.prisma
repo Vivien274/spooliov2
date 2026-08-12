@@ -195,3 +195,17 @@ model Color {
   @@map("colors")
 }
 
+model TombolaTicket {
+  id           String   @id @default(uuid())
+  ticketNumber Int      @unique @map("ticket_number")
+  buyerName    String?  @map("buyer_name")
+  buyerEmail   String?  @map("buyer_email")
+  buyerPhone   String?  @map("buyer_phone")
+  status       String   @default("available") // available | reserved | paid
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("tombola_tickets")
+}
+
+

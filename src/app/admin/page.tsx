@@ -251,13 +251,49 @@ export default function AdminDashboard() {
       const res = await fetch("/api/admin/visits-stats");
       if (res.ok) {
         const data = await res.json();
-        setVisitsStats(data.stats);
+        setVisitsStats(data.stats || data);
       }
     } catch (e) {
       console.error("Failed to load visits stats:", e);
     } finally {
       setLoadingStats(false);
     }
+  };
+
+  const handleExportAnalyticsCSV = () => {
+    if (!visitsStats) return;
+
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Categorie,Indicateur,Valeur\n";
+    csvContent += `Visites,Visites Totales,${visitsStats.totalVisits || 0}\n`;
+    csvContent += `Visites,Aujourd'hui,${visitsStats.todayVisits || 0}\n`;
+    csvContent += `Visites,En Direct (5min),${visitsStats.liveActiveUsers || 0}\n`;
+    csvContent += `Visites,Uniques (Jour),${visitsStats.uniqueToday || 0}\n`;
+    csvContent += `Visites,Uniques (7j),${visitsStats.uniqueWeek || 0}\n`;
+    csvContent += `Conversion,Taux de conversion (%),${visitsStats.conversionRate || 0}\n`;
+    csvContent += `Conversion,Commandes,${visitsStats.funnel?.step3_orders || 0}\n`;
+
+    if (Array.isArray(visitsStats.topPages)) {
+      csvContent += "\nTop Pages,URL,Vues\n";
+      visitsStats.topPages.forEach((p: any) => {
+        csvContent += `Page,"${p.url}",${p.count}\n`;
+      });
+    }
+
+    if (Array.isArray(visitsStats.topProducts)) {
+      csvContent += "\nTop Produits,Nom,Vues\n";
+      visitsStats.topProducts.forEach((p: any) => {
+        csvContent += `Produit,"${p.name}",${p.count}\n`;
+      });
+    }
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `spoolio_analytics_export_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   // Load printers list
@@ -405,27 +441,33 @@ export default function AdminDashboard() {
         </div>
         
         {/* Navigation Tabs */}
-        <div className={`flex ${theme === "dark" ? "bg-black/40" : "bg-gray-200/60"} border ${cls.border} rounded-2xl p-1 shrink-0 flex-wrap gap-1`}>
+        <div className={`flex ${theme === "dark" ? "bg-black/60" : "bg-gray-200/80"} border ${cls.border} rounded-2xl p-1.5 shrink-0 flex-wrap gap-1.5 shadow-inner`}>
           <button
             onClick={() => setActiveTab("dashboard")}
-            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
-              activeTab === "dashboard" ? "bg-white text-black shadow-md admin-tab-active" : `text-gray-400 hover:text-white`
+            className={`px-4 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${
+              activeTab === "dashboard"
+                ? "bg-gradient-to-r from-[#2F3CD9] to-[#4351FF] text-white shadow-lg shadow-[#2F3CD9]/35 scale-[1.03]"
+                : "text-neutral-400 hover:text-white hover:bg-white/5"
             }`}
           >
             Dashboard
           </button>
           <button
             onClick={() => setActiveTab("stats")}
-            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
-              activeTab === "stats" ? "bg-white text-black shadow-md admin-tab-active" : `text-gray-400 hover:text-white`
+            className={`px-4 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${
+              activeTab === "stats"
+                ? "bg-gradient-to-r from-[#2F3CD9] to-[#4351FF] text-white shadow-lg shadow-[#2F3CD9]/35 scale-[1.03]"
+                : "text-neutral-400 hover:text-white hover:bg-white/5"
             }`}
           >
             Visites & Analytics
           </button>
           <button
             onClick={() => setActiveTab("printers")}
-            className={`px-4 py-2 text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer ${
-              activeTab === "printers" ? "bg-white text-black shadow-md admin-tab-active" : `text-gray-400 hover:text-white`
+            className={`px-4 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${
+              activeTab === "printers"
+                ? "bg-gradient-to-r from-[#2F3CD9] to-[#4351FF] text-white shadow-lg shadow-[#2F3CD9]/35 scale-[1.03]"
+                : "text-neutral-400 hover:text-white hover:bg-white/5"
             }`}
           >
             État de l'Atelier 🤖
@@ -691,7 +733,7 @@ export default function AdminDashboard() {
       ) : activeTab === "stats" ? (
         <div className="space-y-6">
           {/* Header & Refresh */}
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
             <div>
               <nav className={`text-[10px] uppercase font-bold tracking-wider ${cls.textFaint} mb-0.5`}>
                 <span className="text-[#ff4f00]">Analytics & Trafic Studio</span>
@@ -699,14 +741,25 @@ export default function AdminDashboard() {
               <h3 className={`text-2xl font-black ${cls.textMain} uppercase tracking-tight font-antonio`}>Performance & Fréquentation</h3>
               <p className={`text-xs ${cls.textMuted} mt-0.5`}>Mesurez l'activité en temps réel, l'engagement et l'attractivité des produits.</p>
             </div>
-            <button
-              onClick={fetchVisitsStats}
-              disabled={loadingStats}
-              className={`text-xs px-4 py-2 rounded-xl border border-white/10 ${cls.inputBg} hover:bg-white/10 hover:text-white cursor-pointer transition-all flex items-center gap-1.5 font-bold shadow-md`}
-            >
-              <span>🔄</span>
-              <span>{loadingStats ? "Mise à jour..." : "Actualiser les données"}</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleExportAnalyticsCSV}
+                disabled={!visitsStats}
+                className="text-xs px-3.5 py-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-bold transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-40"
+              >
+                <span>📥</span>
+                <span>Exporter (CSV)</span>
+              </button>
+
+              <button
+                onClick={fetchVisitsStats}
+                disabled={loadingStats}
+                className={`text-xs px-4 py-2 rounded-xl border border-white/10 ${cls.inputBg} hover:bg-white/10 hover:text-white cursor-pointer transition-all flex items-center gap-1.5 font-bold shadow-md`}
+              >
+                <span>🔄</span>
+                <span>{loadingStats ? "Mise à jour..." : "Actualiser"}</span>
+              </button>
+            </div>
           </div>
 
           {loadingStats ? (
@@ -720,6 +773,26 @@ export default function AdminDashboard() {
             </div>
           ) : (
             <>
+              {/* AI Smart Insight & Live Banner */}
+              {visitsStats.aiInsight && (
+                <div className="p-5 rounded-2xl bg-gradient-to-r from-[#FF5500]/15 via-amber-500/10 to-[#FF5500]/5 border border-[#FF5500]/30 shadow-lg space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="p-1.5 rounded-lg bg-[#FF5500]/20 text-[#FF5500] font-bold text-sm">💡</span>
+                      <h4 className="text-sm font-black text-white font-antonio uppercase tracking-wider">
+                        {visitsStats.aiInsight.title}
+                      </h4>
+                    </div>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#FF5500]/20 border border-[#FF5500]/40 text-[#FF5500]">
+                      {visitsStats.aiInsight.badge}
+                    </span>
+                  </div>
+                  <p className="text-xs text-neutral-300 leading-relaxed font-sans">
+                    {visitsStats.aiInsight.text}
+                  </p>
+                </div>
+              )}
+
               {/* Analytics KPIs Row with Glowing Accents */}
               <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                 {/* KPI 1: Visites Totales */}
@@ -781,17 +854,127 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
-                {/* KPI 5: Mode Clair */}
-                <div className={`${cls.cardBg} border border-amber-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-amber-500/60 transition-all`}>
+                {/* KPI 5: En Direct (5 min) */}
+                <div className={`${cls.cardBg} border border-emerald-500/40 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-emerald-500/70 transition-all`}>
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-amber-400">Thème Clair ☀️</span>
-                    <span className="text-sm">✨</span>
+                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-emerald-400">En Direct</span>
+                    <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-400">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      5 min
+                    </span>
                   </div>
                   <div className="mt-3">
                     <div className="text-3xl font-black font-antonio text-white tracking-tight">
-                      {themeStats ? themeStats.lightThemeToggles : 0}
+                      {visitsStats.liveActiveUsers || 0}
                     </div>
-                    <span className="text-[10px] text-gray-400 font-medium">Basculements mode jour</span>
+                    <span className="text-[10px] text-gray-400 font-medium">Clients connectés sur le site</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Funnel UX & Geo Delivery Section */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                {/* Funnel UX (7 cols) */}
+                <div className={`lg:col-span-7 ${cls.cardBg} border ${cls.border} rounded-3xl p-6 shadow-xl space-y-4`}>
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                    <div>
+                      <h4 className="text-sm font-black text-white font-antonio uppercase tracking-wider flex items-center gap-2">
+                        <span>🎯</span> Funnel de Conversion UX
+                      </h4>
+                      <p className="text-[11px] text-gray-400">Parcours des visiteurs de l'arrivée à la commande</p>
+                    </div>
+                    <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/30">
+                      Taux global: {visitsStats.conversionRate || 0}%
+                    </span>
+                  </div>
+
+                  <div className="space-y-3 font-sans pt-1">
+                    {/* Step 1 */}
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-xs font-bold text-gray-300">
+                        <span>Étape 1: Visiteurs Uniques (7j)</span>
+                        <span className="font-mono text-white">{visitsStats.funnel?.step1_visitors || visitsStats.uniqueWeek}</span>
+                      </div>
+                      <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden p-0.5">
+                        <div className="h-full bg-blue-500 rounded-full w-full" />
+                      </div>
+                    </div>
+
+                    {/* Step 2 */}
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-xs font-bold text-gray-300">
+                        <span>Étape 2: Vues Produits</span>
+                        <span className="font-mono text-amber-400">{visitsStats.funnel?.step2_productViews || 0} vues</span>
+                      </div>
+                      <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden p-0.5">
+                        <div
+                          className="h-full bg-amber-500 rounded-full transition-all duration-500"
+                          style={{
+                            width: `${Math.min(100, Math.max(10, ((visitsStats.funnel?.step2_productViews || 0) / Math.max(visitsStats.funnel?.step1_visitors || 1, 1)) * 100))}%`,
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Step 3 */}
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-xs font-bold text-gray-300">
+                        <span>Étape 3: Commandes Finalisées</span>
+                        <span className="font-mono text-emerald-400">{visitsStats.funnel?.step3_orders || 0} commandes</span>
+                      </div>
+                      <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden p-0.5">
+                        <div
+                          className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+                          style={{
+                            width: `${Math.min(100, Math.max(5, (visitsStats.conversionRate || 0) * 5))}%`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Geo & Delivery Breakdown (5 cols) */}
+                <div className={`lg:col-span-5 ${cls.cardBg} border ${cls.border} rounded-3xl p-6 shadow-xl space-y-4`}>
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                    <h4 className="text-sm font-black text-white font-antonio uppercase tracking-wider flex items-center gap-2">
+                      <span>📍</span> Villes & Livraisons Top
+                    </h4>
+                    <span className="text-[10px] font-bold text-gray-400 uppercase font-mono">Expéditions</span>
+                  </div>
+
+                  <div className="space-y-3 text-xs">
+                    <div>
+                      <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Top Villes de Livraison</span>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {visitsStats.geoDeliveryStats?.topCities?.length > 0 ? (
+                          visitsStats.geoDeliveryStats.topCities.map((c: any) => (
+                            <span key={c.name} className="px-2.5 py-1 rounded-xl bg-white/5 border border-white/10 text-white font-semibold flex items-center gap-1.5">
+                              <span>🏙️ {c.name}</span>
+                              <span className="font-mono text-[10px] text-amber-400">({c.count})</span>
+                            </span>
+                          ))
+                        ) : (
+                          <span className="text-gray-500 italic text-[11px]">Aucune adresse enregistrée</span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="pt-2 border-t border-white/10">
+                      <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Méthodes Expédition</span>
+                      <div className="space-y-1.5 mt-2 font-sans">
+                        {visitsStats.geoDeliveryStats?.shippingMethods?.length > 0 ? (
+                          visitsStats.geoDeliveryStats.shippingMethods.map((m: any) => (
+                            <div key={m.name} className="flex justify-between items-center text-xs">
+                              <span className="text-gray-300 font-medium">📦 {m.name}</span>
+                              <span className="font-mono font-bold text-white bg-white/10 px-2 py-0.5 rounded">{m.count}</span>
+                            </div>
+                          ))
+                        ) : (
+                          <span className="text-gray-500 italic text-[11px]">Commandes en cours...</span>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

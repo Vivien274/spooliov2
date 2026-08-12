@@ -88,11 +88,11 @@ const navSections: NavSection[] = [
           { label: "Ajouter un produit", href: "/admin/products/new" },
           { label: "Catégories", href: "/admin/products/categories" },
           { label: "Attributs", href: "/admin/products/attributes" },
-          { label: "Palette Couleurs 🎨", href: "/admin/colors" },
+          { label: "Palette Couleurs", href: "/admin/colors" },
         ],
       },
       {
-        label: "Palette Couleurs 🎨",
+        label: "Palette Couleurs",
         href: "/admin/colors",
         icon: (
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -102,7 +102,7 @@ const navSections: NavSection[] = [
       },
 
       {
-        label: "Studio Clickers ⌨️",
+        label: "Studio Clickers",
         href: "/admin/clickers",
         icon: (
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -161,7 +161,7 @@ const navSections: NavSection[] = [
         ),
       },
       {
-        label: "SEO Pages 🎯",
+        label: "SEO Pages",
         href: "/admin/seo",
         icon: (
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -422,17 +422,23 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                       href={item.href}
                       onClick={() => setIsMobileOpen(false)}
                       title={isCollapsed ? item.label : undefined}
-                      className={`flex items-center ${isCollapsed ? "justify-center px-0 py-2.5" : "justify-between px-3 py-2"} rounded-xl text-xs font-semibold transition-all duration-200 group ${
+                      className={`relative flex items-center ${isCollapsed ? "justify-center px-0 py-2.5" : "justify-between px-3 py-2.5"} rounded-xl text-xs transition-all duration-300 group ${
                         isActive
-                          ? "bg-[#2F3CD9]/15 border border-[#2F3CD9]/30"
+                          ? theme === "dark"
+                            ? "bg-gradient-to-r from-[#2F3CD9]/35 to-[#2F3CD9]/15 border-2 border-[#2F3CD9] text-white font-extrabold shadow-lg shadow-[#2F3CD9]/30 scale-[1.02]"
+                            : "bg-[#2F3CD9] text-white font-extrabold shadow-md shadow-[#2F3CD9]/30 scale-[1.02]"
                           : `${cls.textMuted} hover:${cls.textMain} ${theme === "dark" ? "hover:bg-white/5" : "hover:bg-gray-100"}`
                       }`}
-                      style={isActive ? { color: activeColor } : {}}
                     >
+                      {isActive && (
+                        <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#2F3CD9] rounded-r-full shadow-[0_0_10px_#2F3CD9]" />
+                      )}
+
                       <span className="flex items-center gap-3">
-                        <span className="text-base" style={isActive ? { color: activeColor } : {}}>{item.icon}</span>
-                        {!isCollapsed && <span>{item.label}</span>}
+                        <span className={`text-base transition-transform group-hover:scale-110 ${isActive ? "text-white" : ""}`}>{item.icon}</span>
+                        {!isCollapsed && <span className={isActive ? "text-white font-black tracking-wide" : ""}>{item.label}</span>}
                       </span>
+
                       {badgeValue && (
                         <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-red-500 text-white animate-pulse ${isCollapsed ? "absolute top-1 right-1" : ""}`}>
                           {badgeValue}
@@ -441,7 +447,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                     </Link>
 
                     {item.subItems && isParentActive && !isCollapsed && (
-                      <div className={`flex flex-col gap-1 pl-8 pr-2 py-1 border-l ml-4 ${theme === "dark" ? "border-white/10" : "border-gray-200"}`}>
+                      <div className={`flex flex-col gap-1 pl-6 pr-2 py-1 border-l-2 ml-4 ${theme === "dark" ? "border-[#2F3CD9]/50" : "border-[#2F3CD9]"}`}>
                         {item.subItems.map((sub) => {
                           const isSubActive = pathname === sub.href;
                           return (
@@ -449,10 +455,10 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                               key={sub.href}
                               href={sub.href}
                               onClick={() => setIsMobileOpen(false)}
-                              className={`text-[11px] py-1 px-2 rounded-lg transition-all ${
+                              className={`text-[11px] py-1.5 px-2.5 rounded-lg transition-all ${
                                 isSubActive
-                                  ? `font-bold ${theme === "dark" ? "text-white bg-white/10" : "text-black bg-gray-200"}`
-                                  : `${cls.textMuted} hover:${theme === "dark" ? "text-white" : "text-black"}`
+                                  ? `font-black text-white bg-[#2F3CD9] shadow-sm shadow-[#2F3CD9]/30 translate-x-1`
+                                  : `${cls.textMuted} hover:${theme === "dark" ? "text-white hover:bg-white/5" : "text-black hover:bg-gray-200"}`
                               }`}
                             >
                               {sub.label}
