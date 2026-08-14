@@ -676,14 +676,15 @@ export default function AdminLoyaltyCardsPage() {
         })
       });
 
-      if (res.ok) {
-        alert("E-mail envoyé avec succès !");
+      const data = await res.json();
+      if (res.ok && data.success) {
+        alert("E-mail de fidélité envoyé avec succès !");
       } else {
-        alert("Impossible d'envoyer l'e-mail.");
+        alert(`Erreur lors de l'envoi : ${data.error || "Impossible d'envoyer l'e-mail."}`);
       }
     } catch (err) {
       console.error(err);
-      alert("Erreur de connexion.");
+      alert("Erreur de connexion lors de l'envoi de l'e-mail.");
     } finally {
       setSendingEmailCardId(null);
     }

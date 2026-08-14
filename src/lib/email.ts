@@ -930,3 +930,146 @@ export async function sendReviewRequestEmail({
   }
 }
 
+export interface LoyaltyEmailParams {
+  cardId: string;
+  customerName?: string | null;
+  customerEmail: string;
+  points: number;
+  maxPoints?: number;
+  isReward?: boolean;
+}
+
+export async function sendLoyaltyCardEmail({
+  cardId,
+  customerName,
+  customerEmail,
+  points,
+  maxPoints = 100,
+  isReward = false,
+}: LoyaltyEmailParams): Promise<{ success: boolean; error?: string }> {
+  try {
+    const resendKey = process.env.RESEND_API_KEY;
+    if (!resendKey) {
+      console.warn("[Email Notification] Resend API Key is missing in environment variables. Email send skipped.");
+      return { success: false, error: "Clé API Resend manquante." };
+    }
+
+    const fromAddress = process.env.RESEND_EMAIL_FROM || "Spoolio <contact@spoolio.fr>";
+    const recipient = customerEmail;
+    const clientName = customerName ? customerName.trim() : "Cher(e) passionné(e)";
+    const cardUrl = `https://spoolio.fr/loyalty/${cardId}`;
+    const percentage = Math.min(100, Math.round((points / maxPoints) * 100));
+
+    const subject = isReward
+      ? `🎁 Félicitations ${customerName || ""} ! Un cadeau fidélité vous attend chez Spoolio`
+      : `✨ Votre carte de fidélité Spoolio (${points} point${points > 1 ? "s" : ""})`;
+
+    const emailHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <title>${subject}</title>
+      </head>
+      <body style="background-color: #0a0a0f; color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 40px 15px;">
+        <div style="max-width: 580px; margin: 0 auto; background-color: #0d0d12; border: 1px solid #1f1f26; border-radius: 24px; padding: 36px 28px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); text-align: center;">
+          
+          <!-- Brand Logo -->
+          <div style="margin-bottom: 24px;">
+            <span style="font-size: 24px; font-weight: 900; letter-spacing: -0.04em; color: #ffffff; text-transform: uppercase;">
+              SPOOLIO<span style="color: #ff4f00;">.</span>
+            </span>
+          </div>
+
+          <!-- Header Icon & Title -->
+          <div style="display: inline-block; width: 64px; height: 64px; line-height: 64px; border-radius: 20px; background: linear-gradient(135deg, rgba(255,79,0,0.2), rgba(255,106,34,0.05)); border: 1px solid rgba(255,79,0,0.3); font-size: 30px; margin-bottom: 16px;">
+            ${isReward ? "🎁" : "✨"}
+          </div>
+
+          <h1 style="font-size: 22px; font-weight: 900; color: #ffffff; margin: 0 0 10px 0; letter-spacing: -0.02em;">
+            ${isReward ? "Palier Débloqué ! Un cadeau vous attend" : "Votre Carte de Fidélité Spoolio"}
+          </h1>
+
+          <p style="font-size: 14px; color: #a1a1aa; line-height: 1.6; margin: 0 0 28px 0;">
+            Bonjour <strong style="color: #ffffff;">${clientName}</strong>, voici le solde actualisé de votre compte fidélité. Retrouvez vos points, découvrez vos paliers et profitez de vos récompenses exclusives sur nos stands et en ligne !
+          </p>
+
+          <!-- Digital Card Box -->
+          <div style="background: linear-gradient(145deg, #131318, #181820); border: 1px solid #272732; border-radius: 20px; padding: 24px; text-align: left; margin-bottom: 28px; box-shadow: 0 10px 25px rgba(0,0,0,0.4);">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <div>
+                <span style="display: block; font-size: 10px; font-weight: 800; color: #71717a; text-transform: uppercase; letter-spacing: 0.1em;">Carte Spoolio</span>
+                <span style="font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 13px; font-weight: bold; color: #ffffff;">${cardId}</span>
+              </div>
+              <div style="text-align: right;">
+                <span style="display: inline-block; background-color: rgba(255,79,0,0.15); border: 1px solid rgba(255,79,0,0.4); color: #ff4f00; font-size: 13px; font-weight: 900; padding: 4px 12px; border-radius: 100px;">
+                  ${points} pts
+                </span>
+              </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div style="margin-top: 12px; margin-bottom: 8px;">
+              <div style="display: flex; justify-content: space-between; font-size: 11px; color: #a1a1aa; margin-bottom: 6px;">
+                <span>Progression fidélité</span>
+                <strong style="color: #ffffff;">${points} / ${maxPoints} pts</strong>
+              </div>
+              <div style="height: 10px; background-color: #09090b; border-radius: 100px; overflow: hidden; border: 1px solid #272732;">
+                <div style="width: ${percentage}%; height: 100%; background: linear-gradient(90deg, #ff4f00, #ff7a22); border-radius: 100px;"></div>
+              </div>
+            </div>
+
+            <p style="font-size: 11px; color: #71717a; margin: 12px 0 0 0;">
+              🏷️ Présentez votre carte ou votre e-mail lors de votre passage sur nos stands de marché ou lors de vos commandes sur <a href="https://spoolio.fr" style="color: #ff4f00; text-decoration: none;">spoolio.fr</a>.
+            </p>
+          </div>
+
+          <!-- Main CTA Button -->
+          <div style="margin-bottom: 32px;">
+            <a href="${cardUrl}" style="display: inline-block; background: linear-gradient(135deg, #ff4f00, #ff6a22); color: #000000; font-weight: 900; text-decoration: none; font-size: 14px; padding: 15px 32px; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.05em; box-shadow: 0 4px 20px rgba(255, 79, 0, 0.4);">
+              Voir ma carte en ligne →
+            </a>
+          </div>
+
+          <!-- Explanations / Footer -->
+          <div style="border-top: 1px solid #1f1f26; padding-top: 20px; font-size: 11px; color: #52525b; line-height: 1.6;">
+            <p style="margin: 0 0 6px 0;">Spoolio • Créations 3D éco-responsables • Comines, France</p>
+            <p style="margin: 0;">Une question ? Écrivez-nous à <a href="mailto:contact@spoolio.fr" style="color: #71717a; text-decoration: underline;">contact@spoolio.fr</a></p>
+          </div>
+
+        </div>
+      </body>
+      </html>
+    `;
+
+    console.log(`[Resend Email] Sending loyalty card email to ${recipient}...`);
+    const emailRes = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${resendKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: fromAddress.includes("<") ? fromAddress : `Spoolio <${fromAddress}>`,
+        to: recipient,
+        subject: subject,
+        html: emailHtml,
+      }),
+    });
+
+    const emailData = await emailRes.json();
+    if (emailRes.ok) {
+      console.log(`[Resend Email Success] Loyalty card email sent to ${recipient} (ID: ${emailData.id})`);
+      return { success: true };
+    } else {
+      console.error("[Resend Email Error] Loyalty card API error details:", emailData);
+      return { success: false, error: emailData.message || "Erreur Resend" };
+    }
+  } catch (err: any) {
+    console.error("[Resend Email Error] Failed to send loyalty card email:", err.message || err);
+    return { success: false, error: err.message || "Erreur réseau inconnue" };
+  }
+}
+
+
