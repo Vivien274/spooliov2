@@ -51,6 +51,18 @@
       "clicks": 99
     },
     {
+      "id": "link-loterie",
+      "title": "🎰 Roue de la Fortune Spoolio",
+      "subtitle": "Tourne la roue et gagne des cadeaux 3D & bons d'achat instantanés !",
+      "url": "https://www.spoolio.fr/loterie",
+      "icon": "🎰",
+      "badge": "🎁 KDO GRATUIT",
+      "style": "pulse",
+      "isPublished": true,
+      "order": 4,
+      "clicks": 112
+    },
+    {
       "id": "link-tombola",
       "title": "🎟️ Grand Jeu Concours & Tombola",
       "subtitle": "Tente de gagner le pack Mega Fidget 3D pour 2€ !",
@@ -59,7 +71,7 @@
       "badge": "⚡ JEU CONCOURS",
       "style": "highlight",
       "isPublished": true,
-      "order": 4,
+      "order": 5,
       "clicks": 76
     },
     {

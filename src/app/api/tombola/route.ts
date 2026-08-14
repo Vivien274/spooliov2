@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import {
+  getTombolaConfigAction,
+  updateTombolaStatusAction,
+  updateTombolaConfigAction,
   getTombolaTicketsAction,
   reserveTicketAction,
   updateTicketAdminAction,
@@ -9,27 +12,17 @@ import {
   resetTombolaTicketsAction,
 } from "@/app/actions/tombolaActions";
 
-const DEFAULT_CONFIG = {
-  id: "tombola-default",
-  title: "TOMBOLA SPOOLIO 🎁",
-  description:
-    "Gagne ton Pack Fidgets exclusif (valeur 20€) ! Choisis ta case parmi les 50 numéros disponibles.",
-  image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
-  estimatedValue: 20.0,
-  endDate: "15 Août à 17h30",
-  totalCases: 50,
-  ticketPrice: 2.0,
-  status: "active",
-};
-
 // GET: Fetch tombola details & all 50 tickets
 export async function GET() {
   try {
-    const tickets = await getTombolaTicketsAction();
+    const [tombola, tickets] = await Promise.all([
+      getTombolaConfigAction(),
+      getTombolaTicketsAction(),
+    ]);
 
     return NextResponse.json({
       success: true,
-      tombola: DEFAULT_CONFIG,
+      tombola,
       tickets,
       // For backwards compatibility
       reservedTickets: tickets
@@ -115,6 +108,20 @@ export async function POST(request: Request) {
         ticketNumber: num,
         status: nextStatus,
       });
+      return NextResponse.json(res);
+    }
+
+    // Action: Update Status (Active / Inactive)
+    if (action === "update_status") {
+      const { status } = body;
+      const res = await updateTombolaStatusAction(status === "active" ? "active" : "inactive");
+      return NextResponse.json(res);
+    }
+
+    // Action: Update Full Config (Lot details, dates, prices, etc.)
+    if (action === "updateConfig" || action === "update_config") {
+      const { config } = body;
+      const res = await updateTombolaConfigAction(config || body);
       return NextResponse.json(res);
     }
 

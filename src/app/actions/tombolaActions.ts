@@ -14,6 +14,205 @@ export interface TombolaTicketItem {
   updated_at: string;
 }
 
+export interface TombolaConfigItem {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  estimatedValue: number;
+  endDate: string;
+  totalCases: number;
+  ticketPrice: number;
+  status: "active" | "inactive" | "ended" | "drawn";
+  winnerTicket?: number | null;
+  winnerDrawnAt?: string | null;
+}
+
+const DEFAULT_TOMBOLA_CONFIG: TombolaConfigItem = {
+  id: "tombola-default",
+  title: "TOMBOLA SPOOLIO 🎁",
+  description:
+    "Gagne ton Pack Fidgets exclusif (valeur 20€) ! Choisis ta case parmi les 50 numéros disponibles.",
+  image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+  estimatedValue: 20.0,
+  endDate: "15 Août à 17h30",
+  totalCases: 50,
+  ticketPrice: 2.0,
+  status: "active",
+  winnerTicket: null,
+  winnerDrawnAt: null,
+};
+
+/**
+ * Fetch tombola configuration (active/inactive status, prize details, etc.).
+ */
+export async function getTombolaConfigAction(): Promise<TombolaConfigItem> {
+  try {
+    if (!prisma) return DEFAULT_TOMBOLA_CONFIG;
+
+    let tombola = await prisma.tombola.findFirst({
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (!tombola) {
+      tombola = await prisma.tombola.create({
+        data: {
+          title: DEFAULT_TOMBOLA_CONFIG.title,
+          description: DEFAULT_TOMBOLA_CONFIG.description,
+          image: DEFAULT_TOMBOLA_CONFIG.image,
+          estimatedValue: DEFAULT_TOMBOLA_CONFIG.estimatedValue,
+          endDate: DEFAULT_TOMBOLA_CONFIG.endDate,
+          totalCases: DEFAULT_TOMBOLA_CONFIG.totalCases,
+          ticketPrice: DEFAULT_TOMBOLA_CONFIG.ticketPrice,
+          status: "active",
+        },
+      });
+    }
+
+    return {
+      id: tombola.id,
+      title: tombola.title || DEFAULT_TOMBOLA_CONFIG.title,
+      description: tombola.description || DEFAULT_TOMBOLA_CONFIG.description,
+      image: tombola.image || DEFAULT_TOMBOLA_CONFIG.image,
+      estimatedValue: tombola.estimatedValue ?? DEFAULT_TOMBOLA_CONFIG.estimatedValue,
+      endDate: tombola.endDate || DEFAULT_TOMBOLA_CONFIG.endDate,
+      totalCases: tombola.totalCases ?? DEFAULT_TOMBOLA_CONFIG.totalCases,
+      ticketPrice: tombola.ticketPrice ?? DEFAULT_TOMBOLA_CONFIG.ticketPrice,
+      status: (tombola.status as "active" | "inactive" | "ended" | "drawn") || "active",
+      winnerTicket: tombola.winnerTicket,
+      winnerDrawnAt: tombola.winnerDrawnAt,
+    };
+  } catch (error: any) {
+    console.error("Error in getTombolaConfigAction:", error?.message);
+    return DEFAULT_TOMBOLA_CONFIG;
+  }
+}
+
+/**
+ * Admin action: Update full Tombola configuration (title, description, image, estimatedValue, endDate, ticketPrice, totalCases, status).
+ */
+export async function updateTombolaConfigAction(
+  payload: Partial<TombolaConfigItem>
+): Promise<{ success: boolean; config?: TombolaConfigItem; error?: string }> {
+  try {
+    if (!prisma) {
+      return { success: true };
+    }
+
+    let tombola = await prisma.tombola.findFirst({
+      orderBy: { createdAt: "desc" },
+    });
+
+    const updateData: any = {
+      updatedAt: new Date(),
+    };
+    if (payload.title !== undefined) updateData.title = payload.title;
+    if (payload.description !== undefined) updateData.description = payload.description;
+    if (payload.image !== undefined) updateData.image = payload.image;
+    if (payload.estimatedValue !== undefined) updateData.estimatedValue = payload.estimatedValue;
+    if (payload.endDate !== undefined) updateData.endDate = payload.endDate;
+    if (payload.ticketPrice !== undefined) updateData.ticketPrice = payload.ticketPrice;
+    if (payload.totalCases !== undefined) updateData.totalCases = payload.totalCases;
+    if (payload.status !== undefined) updateData.status = payload.status;
+    if (payload.winnerTicket !== undefined) updateData.winnerTicket = payload.winnerTicket;
+    if (payload.winnerDrawnAt !== undefined) updateData.winnerDrawnAt = payload.winnerDrawnAt;
+
+    let saved;
+    if (tombola) {
+      saved = await prisma.tombola.update({
+        where: { id: tombola.id },
+        data: updateData,
+      });
+    } else {
+      saved = await prisma.tombola.create({
+        data: {
+          title: payload.title || DEFAULT_TOMBOLA_CONFIG.title,
+          description: payload.description || DEFAULT_TOMBOLA_CONFIG.description,
+          image: payload.image || DEFAULT_TOMBOLA_CONFIG.image,
+          estimatedValue: payload.estimatedValue ?? DEFAULT_TOMBOLA_CONFIG.estimatedValue,
+          endDate: payload.endDate || DEFAULT_TOMBOLA_CONFIG.endDate,
+          totalCases: payload.totalCases ?? DEFAULT_TOMBOLA_CONFIG.totalCases,
+          ticketPrice: payload.ticketPrice ?? DEFAULT_TOMBOLA_CONFIG.ticketPrice,
+          status: payload.status || "active",
+        },
+      });
+    }
+
+    revalidatePath("/tombola");
+    revalidatePath("/admin/tombola");
+    revalidatePath("/");
+
+    return {
+      success: true,
+      config: {
+        id: saved.id,
+        title: saved.title,
+        description: saved.description,
+        image: saved.image,
+        estimatedValue: saved.estimatedValue,
+        endDate: saved.endDate,
+        totalCases: saved.totalCases,
+        ticketPrice: saved.ticketPrice,
+        status: (saved.status as any) || "active",
+        winnerTicket: saved.winnerTicket,
+        winnerDrawnAt: saved.winnerDrawnAt,
+      },
+    };
+  } catch (error: any) {
+    console.error("Error in updateTombolaConfigAction:", error?.message);
+    return { success: false, error: error?.message };
+  }
+}
+
+/**
+ * Admin action: Update Tombola status (active vs inactive).
+ */
+export async function updateTombolaStatusAction(
+  status: "active" | "inactive"
+): Promise<{ success: boolean; status?: string; error?: string }> {
+  try {
+    if (!prisma) {
+      return { success: true, status };
+    }
+
+    let tombola = await prisma.tombola.findFirst({
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (tombola) {
+      await prisma.tombola.update({
+        where: { id: tombola.id },
+        data: {
+          status,
+          updatedAt: new Date(),
+        },
+      });
+    } else {
+      await prisma.tombola.create({
+        data: {
+          title: DEFAULT_TOMBOLA_CONFIG.title,
+          description: DEFAULT_TOMBOLA_CONFIG.description,
+          image: DEFAULT_TOMBOLA_CONFIG.image,
+          estimatedValue: DEFAULT_TOMBOLA_CONFIG.estimatedValue,
+          endDate: DEFAULT_TOMBOLA_CONFIG.endDate,
+          totalCases: DEFAULT_TOMBOLA_CONFIG.totalCases,
+          ticketPrice: DEFAULT_TOMBOLA_CONFIG.ticketPrice,
+          status,
+        },
+      });
+    }
+
+    revalidatePath("/tombola");
+    revalidatePath("/admin/tombola");
+    revalidatePath("/");
+
+    return { success: true, status };
+  } catch (error: any) {
+    console.error("Error in updateTombolaStatusAction:", error?.message);
+    return { success: false, error: error?.message };
+  }
+}
+
 /**
  * Fetch all 50 tombola tickets. Ensures tickets 1 to 50 exist in DB.
  */
@@ -80,6 +279,12 @@ export async function reserveTicketAction(payload: {
   }
   if (!buyerName || buyerName.trim() === "") {
     return { success: false, error: "Le nom est obligatoire." };
+  }
+
+  // Check if tombola is active
+  const config = await getTombolaConfigAction();
+  if (config.status !== "active") {
+    return { success: false, error: "La tombola est actuellement fermée ou désactivée." };
   }
 
   try {

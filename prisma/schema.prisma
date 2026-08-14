@@ -208,4 +208,38 @@ model TombolaTicket {
   @@map("tombola_tickets")
 }
 
+model LotteryPrize {
+  id          String   @id @default(uuid())
+  title       String
+  subtitle    String?  @db.Text
+  icon        String   @default("🎁")
+  color       String   @default("#FF5500")
+  textColor   String   @default("#FFFFFF")
+  probability Float    @default(1.0)
+  stock       Int?
+  couponCode  String?
+  isActive    Boolean  @default(true)
+  position    Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  spins       LotterySpin[]
+
+  @@map("lottery_prizes")
+}
+
+model LotterySpin {
+  id         String       @id @default(uuid())
+  prizeId    String       @map("prize_id")
+  prizeTitle String       @map("prize_title")
+  userEmail  String?      @map("user_email")
+  userName   String?      @map("user_name")
+  createdAt  DateTime     @default(now()) @map("created_at")
+
+  prize      LotteryPrize @relation(fields: [prizeId], references: [id], onDelete: Cascade)
+
+  @@map("lottery_spins")
+}
+
+
 

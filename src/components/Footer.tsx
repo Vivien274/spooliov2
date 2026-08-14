@@ -123,6 +123,14 @@ export default function Footer({ className = "" }: FooterProps) {
             <span>👑 Mes Points & Fidélité</span>
           </Link>
 
+          {/* Roue de la Fortune Link */}
+          <Link
+            href="/loterie"
+            className="text-[#FF5500] hover:text-[#FF7700] font-extrabold transition-all flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF5500]/15 border border-[#FF5500]/30 hover:border-[#FF5500]/60 hover:bg-[#FF5500]/25 shadow-sm"
+          >
+            <span>🎰 Roue de la Fortune</span>
+          </Link>
+
           {/* Newsletter Club Spoolio Link */}
           <Link
             href="/inscription-newsletter-spoolio"

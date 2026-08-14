@@ -143,6 +143,15 @@ const navSections: NavSection[] = [
         ),
       },
       {
+        label: "Roue de la Loterie",
+        href: "/admin/loterie",
+        icon: (
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        ),
+      },
+      {
         label: "Paliers de Dons",
         href: "/admin/don",
         icon: (
@@ -283,6 +292,8 @@ function AdminShell({ children }: { children: React.ReactNode }) {
       title = "ADMIN - Cartes de Fidélité";
     } else if (pathname.includes("/admin/tombola")) {
       title = "ADMIN - Tombolas";
+    } else if (pathname.includes("/admin/loterie")) {
+      title = "ADMIN - Roue de la Loterie";
     } else if (pathname.includes("/admin/liens")) {
       title = "ADMIN - Liens";
     } else if (pathname.includes("/admin/seo")) {

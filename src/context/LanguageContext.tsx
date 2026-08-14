@@ -95,10 +95,34 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   );
 }
 
+const fallbackT = (key: string, replacements?: Record<string, string | number>): string => {
+  const keys = key.split(".");
+  let current: any = fr;
+  for (const k of keys) {
+    if (current && typeof current === "object" && k in current) {
+      current = current[k];
+    } else {
+      return key;
+    }
+  }
+  if (typeof current !== "string") return key;
+  let result = current;
+  if (replacements) {
+    Object.entries(replacements).forEach(([placeholder, value]) => {
+      result = result.replace(new RegExp(`{${placeholder}}`, "g"), String(value));
+    });
+  }
+  return result;
+};
+
 export function useTranslation() {
   const context = useContext(LanguageContext);
   if (!context) {
-    throw new Error("useTranslation must be used within a LanguageProvider");
+    return {
+      locale: "fr" as Locale,
+      setLocale: () => {},
+      t: fallbackT,
+    };
   }
   return context;
 }

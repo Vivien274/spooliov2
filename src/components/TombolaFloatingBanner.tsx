@@ -9,6 +9,7 @@ export default function TombolaFloatingBanner() {
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [isMinimized, setIsMinimized] = useState<boolean>(false);
   const [isClient, setIsClient] = useState<boolean>(false);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const [tombolaConfig, setTombolaConfig] = useState<{
     title: string;
     estimatedValue: number;
@@ -38,20 +39,6 @@ export default function TombolaFloatingBanner() {
       if (savedMinimized === "true") {
         setIsMinimized(true);
       }
-
-      // Check saved tombola config from admin
-      const savedConfig = localStorage.getItem("spoolio_tombola_config");
-      if (savedConfig) {
-        const parsed = JSON.parse(savedConfig);
-        if (parsed && parsed.title) {
-          setTombolaConfig({
-            title: parsed.title,
-            estimatedValue: parsed.estimatedValue ?? 85,
-            totalCases: parsed.totalCases ?? 40,
-            status: parsed.status || "active",
-          });
-        }
-      }
     } catch (e) {}
 
     // Fetch active tombola data configured in Admin
@@ -67,7 +54,10 @@ export default function TombolaFloatingBanner() {
           });
         }
       })
-      .catch((e) => console.warn("Failed to fetch tombola config for floating banner:", e));
+      .catch((e) => console.warn("Failed to fetch tombola config for floating banner:", e))
+      .finally(() => {
+        setIsLoaded(true);
+      });
   }, []);
 
   const handleClose = () => {
@@ -86,8 +76,15 @@ export default function TombolaFloatingBanner() {
     } catch (e) {}
   };
 
-  // Do not render on /tombola page or in /admin area
-  if (!isClient || !isVisible || pathname.startsWith("/tombola") || pathname.startsWith("/admin")) {
+  // Do not render on /tombola page, in /admin area, or when tombola is deactivated
+  if (
+    !isClient ||
+    !isLoaded ||
+    !isVisible ||
+    tombolaConfig.status !== "active" ||
+    pathname.startsWith("/tombola") ||
+    pathname.startsWith("/admin")
+  ) {
     return null;
   }
 

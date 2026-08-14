@@ -94,22 +94,25 @@ export default function RootLayout({
     >
       <head>
         <JsonLdScript data={organizationLd} id="spoolio-organization-jsonld" />
-        <Script id="theme-initializer" strategy="beforeInteractive">
-          {`
-            (function() {
-              try {
-                const theme = localStorage.getItem('theme');
-                if (theme === 'light') {
-                  document.documentElement.classList.add('light');
-                  document.documentElement.classList.remove('dark');
-                } else {
-                  document.documentElement.classList.remove('light');
-                  document.documentElement.classList.add('dark');
-                }
-              } catch (e) {}
-            })();
-          `}
-        </Script>
+        <script
+          id="theme-initializer"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme');
+                  if (theme === 'light') {
+                    document.documentElement.classList.add('light');
+                    document.documentElement.classList.remove('dark');
+                  } else {
+                    document.documentElement.classList.remove('light');
+                    document.documentElement.classList.add('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
       </head>
       <body className="min-h-full flex flex-col">
         {gaId && <GoogleAnalytics gaId={gaId} />}

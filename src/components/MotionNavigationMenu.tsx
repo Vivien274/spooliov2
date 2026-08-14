@@ -430,6 +430,33 @@ export default function MotionNavigationMenu() {
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>
+
+                  {/* Card 5: Roue de la Fortune Loterie */}
+                  <Link
+                    href="/loterie"
+                    className="group bg-gradient-to-br from-[#FF5500]/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-[#FF5500]/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg hover:shadow-[#FF5500]/10 col-span-2"
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <div className="p-2 rounded-xl bg-[#FF5500]/20 text-[#FF5500] group-hover:scale-110 transition-transform">
+                          <Sparkles className="w-5 h-5" />
+                        </div>
+                        <span className="bg-[#FF5500]/20 text-[#FF5500] text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
+                          🎰 KDO GRATUIT
+                        </span>
+                      </div>
+                      <h4 className="text-sm font-black text-white group-hover:text-[#FF5500] transition-colors font-extrabold">
+                        Roue de la Fortune Spoolio
+                      </h4>
+                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
+                        Tourne la roue et gagne des cadeaux 3D, fidgets et réductions instantanées !
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-between text-xs font-black text-[#FF5500]">
+                      <span>Lancer la Roue</span>
+                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
+                    </div>
+                  </Link>
                 </div>
               )}
 
