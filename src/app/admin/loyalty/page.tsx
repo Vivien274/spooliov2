@@ -24,7 +24,14 @@ import {
   Lock,
   Users,
   TrendingUp,
-  Sparkles
+  Sparkles,
+  Upload,
+  Image as ImageIcon,
+  Link2,
+  ChevronRight,
+  Euro,
+  Layers,
+  ArrowRight,
 } from "lucide-react";
 
 interface LoyaltyCard {
@@ -37,26 +44,43 @@ interface LoyaltyCard {
   history?: any;
 }
 
-function ImagePreview({ src, alt }: { src: string; alt: string }) {
+const REWARD_PRESET_IMAGES = [
+  { label: "Porte-clés Clavier", url: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp" },
+  { label: "Capsule Mystère", url: "/images/alien_capsule.jpg" },
+  { label: "Pochette Kraft", url: "/images/pochette-kraft.jpg" },
+  { label: "Porte-clés Figma", url: "/images/figma_keychains.jpg" },
+  { label: "Fidget 3D", url: "/images/hero_background.jpg" },
+  { label: "Canette 3D", url: "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=300&auto=format&fit=crop&q=80" },
+  { label: "Coffret Cadeau", url: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=300&auto=format&fit=crop&q=80" },
+];
+
+function ImagePreview({ src, alt, size = "md" }: { src: string; alt: string; size?: "sm" | "md" | "lg" }) {
   const [error, setError] = useState(false);
 
   useEffect(() => {
     setError(false);
   }, [src]);
 
+  const sizeCls =
+    size === "lg"
+      ? "w-24 h-24 sm:w-28 sm:h-28"
+      : size === "sm"
+      ? "w-12 h-12"
+      : "w-20 h-20 sm:w-24 sm:h-24";
+
   return (
-    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-black/50 border border-white/10 overflow-hidden flex items-center justify-center shrink-0 relative group">
+    <div className={`${sizeCls} rounded-2xl bg-black/60 border border-white/15 overflow-hidden flex items-center justify-center shrink-0 relative group shadow-inner`}>
       {src && !error ? (
         <img
           src={src}
           alt={alt}
           onError={() => setError(true)}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
         />
       ) : (
-        <div className="flex flex-col items-center justify-center text-gray-500 gap-1 p-2 text-center">
-          <Gift className="w-6 h-6 text-[#ff4f00]/70" />
-          <span className="text-[8px] uppercase tracking-wider font-bold">Miniature</span>
+        <div className="flex flex-col items-center justify-center text-neutral-500 gap-1.5 p-2 text-center">
+          <Gift className="w-6 h-6 text-[#ff4f00]" />
+          <span className="text-[9px] uppercase tracking-wider font-bold text-neutral-400">Sans visuel</span>
         </div>
       )}
     </div>
@@ -188,6 +212,63 @@ export default function AdminLoyaltyCardsPage() {
     localStorage.setItem("spoolio_loyalty_rewards", JSON.stringify(updated));
     setNewTierPts("");
     setShowAddTierForm(false);
+  };
+
+  const handleUploadTierImage = (pts: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new window.Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const maxDim = 800;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          const webpDataUrl = canvas.toDataURL("image/webp", 0.85);
+          const updated = {
+            ...rewards,
+            [pts]: { ...rewards[pts], image: webpDataUrl },
+          };
+          setRewards(updated);
+          localStorage.setItem("spoolio_loyalty_rewards", JSON.stringify(updated));
+        }
+      };
+      img.src = event.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleUpdateTierPoints = (oldPts: number, newPts: number) => {
+    if (!newPts || isNaN(newPts) || newPts <= 0 || oldPts === newPts) return;
+    if (rewards[newPts]) {
+      alert("Un palier avec ce nombre de points existe déjà.");
+      return;
+    }
+    const currentData = rewards[oldPts];
+    const updated = { ...rewards };
+    delete updated[oldPts];
+    updated[newPts] = currentData;
+    setRewards(updated);
+    localStorage.setItem("spoolio_loyalty_rewards", JSON.stringify(updated));
   };
 
   const handleDeleteTier = (pts: number) => {
@@ -994,137 +1075,187 @@ export default function AdminLoyaltyCardsPage() {
         </div>
       )}
 
-      {/* Modal - Configuration des Paliers/Récompenses (Refonte Studio) */}
+      {/* Modal - Configuration des Paliers/Récompenses (Refonte Studio Ultra-Clair) */}
       {showRewardsModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="bg-[#0e1017] border border-white/10 w-full max-w-3xl rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-2xl space-y-6 relative overflow-y-auto max-h-[90vh] font-sans text-white">
-            {/* Header */}
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-lg animate-in fade-in duration-200 font-sans">
+          <div className="bg-[#0b0c12] border border-white/15 w-full max-w-4xl rounded-3xl p-5 sm:p-8 shadow-2xl space-y-6 relative overflow-y-auto max-h-[92vh] text-white">
+            
+            {/* Modal Header */}
             <div className="flex items-start justify-between border-b border-white/10 pb-5">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ff4f00] to-[#ff7a00] flex items-center justify-center text-black shadow-lg shadow-[#ff4f00]/20 shrink-0">
-                  <Gift className="w-6 h-6" />
+              <div className="flex items-center gap-3.5">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ff4f00] to-[#ff8800] flex items-center justify-center text-black shadow-lg shadow-[#ff4f00]/25 shrink-0">
+                  <Gift className="w-6 h-6 stroke-[2.5]" />
                 </div>
                 <div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2.5">
                     <h3 className="text-xl font-black uppercase tracking-tight text-white">
                       Studio des Paliers Cadeaux
                     </h3>
-                    <span className="px-2.5 py-0.5 text-[10px] font-extrabold bg-[#ff4f00]/15 text-[#ff4f00] border border-[#ff4f00]/30 rounded-full">
-                      {Object.keys(rewards).length} paliers actifs
+                    <span className="px-2.5 py-0.5 text-xs font-black bg-[#ff4f00]/15 text-[#ff4f00] border border-[#ff4f00]/30 rounded-full font-mono">
+                      {Object.keys(rewards).length} paliers configurés
                     </span>
                   </div>
-                  <p className="text-xs text-gray-400 mt-0.5">
-                    Personnalisez les seuils de points, visuels, descriptions et valeurs de cadeaux offerts à vos clients.
+                  <p className="text-xs text-neutral-400 mt-1">
+                    Organisez l&apos;échelle de récompenses fidélité, les visuels, les descriptions et la valeur offerte aux clients.
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setShowRewardsModal(false)}
-                className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-xl transition-all"
+                className="p-2 text-neutral-400 hover:text-white hover:bg-white/10 rounded-xl transition-all cursor-pointer"
+                title="Fermer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Actions Bar */}
-            <div className="flex flex-wrap items-center justify-between gap-3 bg-white/[0.02] border border-white/5 rounded-xl p-3">
-              <div className="flex items-center gap-2">
-                {!showAddTierForm ? (
-                  <button
-                    onClick={() => setShowAddTierForm(true)}
-                    className="px-3.5 py-2 text-xs font-bold bg-[#ff4f00] text-black hover:bg-[#ff6a22] rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-md"
-                  >
-                    <Plus className="w-4 h-4" />
-                    Ajouter un palier
-                  </button>
-                ) : (
-                  <form onSubmit={handleAddTier} className="flex items-center gap-2">
-                    <input
-                      type="number"
-                      placeholder="Pts (ex: 80)"
-                      value={newTierPts}
-                      onChange={(e) => setNewTierPts(e.target.value === "" ? "" : parseInt(e.target.value))}
-                      className="w-28 bg-[#151722] border border-[#ff4f00]/50 rounded-xl px-3 py-1.5 text-xs text-white placeholder-gray-500 focus:outline-none"
-                      autoFocus
-                    />
-                    <button
-                      type="submit"
-                      className="px-3 py-1.5 text-xs font-bold bg-[#ff4f00] text-black rounded-xl hover:bg-[#ff6a22]"
-                    >
-                      Valider
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setShowAddTierForm(false)}
-                      className="p-1.5 text-gray-400 hover:text-white"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </form>
-                )}
+            {/* Progression Ribbon (Aperçu de l'échelle des paliers) */}
+            <div className="bg-black/40 border border-white/10 rounded-2xl p-3.5 space-y-2">
+              <div className="flex items-center justify-between text-[11px] font-bold text-neutral-400 uppercase tracking-wider">
+                <span className="flex items-center gap-1.5 text-white">
+                  <Layers className="w-3.5 h-3.5 text-[#ff4f00]" />
+                  Échelle de progression client
+                </span>
+                <span className="text-[10px] text-neutral-500 font-mono">
+                  {Object.keys(rewards).length} étapes déblocables
+                </span>
               </div>
+              <div className="flex items-center gap-2 overflow-x-auto py-1 scrollbar-thin">
+                {Object.keys(rewards)
+                  .map(Number)
+                  .filter((n) => !isNaN(n))
+                  .sort((a, b) => a - b)
+                  .map((pts, idx, arr) => (
+                    <div key={pts} className="flex items-center gap-2 shrink-0">
+                      <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs">
+                        <span className="w-5 h-5 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00] font-black text-[10px] flex items-center justify-center font-mono">
+                          #{idx + 1}
+                        </span>
+                        <span className="font-extrabold text-white">{pts} pts</span>
+                        <span className="text-neutral-500 text-[10px]">•</span>
+                        <span className="text-emerald-400 font-mono font-bold text-[11px]">
+                          {rewards[pts]?.value || 0}€
+                        </span>
+                        <span className="text-neutral-300 font-medium text-[11px] truncate max-w-[110px]">
+                          {rewards[pts]?.text.split(" ")[0]}...
+                        </span>
+                      </div>
+                      {idx < arr.length - 1 && (
+                        <ArrowRight className="w-3.5 h-3.5 text-neutral-600 shrink-0" />
+                      )}
+                    </div>
+                  ))}
+              </div>
+            </div>
+
+            {/* Action Bar */}
+            <div className="flex flex-wrap items-center justify-between gap-3 bg-white/[0.02] border border-white/5 rounded-2xl p-3">
+              {!showAddTierForm ? (
+                <button
+                  onClick={() => setShowAddTierForm(true)}
+                  className="px-4 py-2.5 text-xs font-black bg-gradient-to-r from-[#ff4f00] to-[#ff7700] hover:from-[#ff6600] hover:to-[#ff8800] text-black rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-[#ff4f00]/20 uppercase tracking-wider"
+                >
+                  <Plus className="w-4 h-4 stroke-[3]" />
+                  Ajouter un palier
+                </button>
+              ) : (
+                <form onSubmit={handleAddTier} className="flex flex-wrap items-center gap-2">
+                  <span className="text-xs font-bold text-neutral-300">Nouveau seuil :</span>
+                  <input
+                    type="number"
+                    placeholder="ex: 80"
+                    value={newTierPts}
+                    onChange={(e) =>
+                      setNewTierPts(e.target.value === "" ? "" : parseInt(e.target.value))
+                    }
+                    className="w-28 bg-[#151722] border border-[#ff4f00] rounded-xl px-3 py-1.5 text-xs text-white placeholder-neutral-500 focus:outline-none font-bold text-center"
+                    autoFocus
+                  />
+                  <span className="text-xs font-bold text-neutral-400">points</span>
+                  <button
+                    type="submit"
+                    className="px-3.5 py-1.5 text-xs font-bold bg-[#ff4f00] text-black rounded-xl hover:bg-[#ff6a22] cursor-pointer"
+                  >
+                    Valider
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowAddTierForm(false)}
+                    className="p-1.5 text-neutral-400 hover:text-white cursor-pointer"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </form>
+              )}
 
               <button
                 type="button"
                 onClick={handleResetDefaultTiers}
-                className="px-3 py-2 text-[11px] font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all flex items-center gap-1.5 border border-white/5 cursor-pointer"
+                className="px-3.5 py-2 text-xs font-semibold text-neutral-400 hover:text-white hover:bg-white/5 rounded-xl transition-all flex items-center gap-1.5 border border-white/5 cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                Réinitialiser par défaut
+                Réinitialiser par défaut (4 paliers)
               </button>
             </div>
 
-            {/* List of Tiers */}
-            <div className="space-y-4">
+            {/* List of Tiers (Cards bien espacées et structurées) */}
+            <div className="space-y-5">
               {Object.keys(rewards)
                 .map(Number)
-                .filter(n => !isNaN(n))
+                .filter((n) => !isNaN(n))
                 .sort((a, b) => a - b)
                 .map((pts, index) => {
                   const r = rewards[pts];
                   return (
                     <div
                       key={pts}
-                      className="bg-white/[0.02] border border-white/10 hover:border-white/20 rounded-2xl p-4 sm:p-5 space-y-4 transition-all duration-200 shadow-md"
+                      className="bg-[#11131c]/90 border border-white/10 hover:border-white/20 rounded-3xl p-5 sm:p-6 space-y-5 transition-all duration-200 shadow-xl relative group"
                     >
-                      {/* Tier Top Header */}
-                      <div className="flex items-center justify-between border-b border-white/5 pb-3">
-                        <div className="flex items-center gap-2.5">
-                          <span className="px-3 py-1 bg-gradient-to-r from-[#ff4f00]/20 to-[#ff7a00]/10 border border-[#ff4f00]/30 text-[#ff4f00] text-xs font-black rounded-lg uppercase tracking-wider flex items-center gap-1.5">
+                      {/* Tier Card Header */}
+                      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/5 pb-4">
+                        <div className="flex items-center gap-3">
+                          <span className="w-7 h-7 rounded-xl bg-white/10 text-neutral-300 font-mono font-black text-xs flex items-center justify-center border border-white/10">
+                            #{index + 1}
+                          </span>
+                          
+                          {/* Points badge & quick edit */}
+                          <div className="flex items-center gap-2 bg-[#ff4f00]/15 border border-[#ff4f00]/30 px-3.5 py-1.5 rounded-xl text-[#ff4f00]">
                             <Sparkles className="w-3.5 h-3.5" />
-                            Palier {pts} Points
-                          </span>
-                          <span className="text-[10px] text-gray-500 font-mono hidden sm:inline-block">
-                            #{index + 1} dans la progression
-                          </span>
+                            <span className="text-xs font-black uppercase tracking-wider font-mono">
+                              Palier {pts} Points
+                            </span>
+                          </div>
                         </div>
 
+                        {/* Right: Value input + Delete action */}
                         <div className="flex items-center gap-3">
-                          {/* Value input */}
-                          <div className="flex items-center gap-1.5 bg-black/40 border border-white/10 rounded-xl px-2.5 py-1 text-xs">
-                            <span className="text-gray-400 font-bold text-[11px]">Valeur:</span>
+                          {/* Value tag */}
+                          <div className="flex items-center gap-2 bg-black/50 border border-white/10 rounded-xl px-3 py-1.5 text-xs shadow-inner">
+                            <Euro className="w-3.5 h-3.5 text-emerald-400" />
+                            <span className="text-neutral-400 font-bold text-xs">Valeur cadeau :</span>
                             <input
                               type="number"
+                              min="0"
                               value={r.value}
                               onChange={(e) => {
                                 const val = parseInt(e.target.value) || 0;
                                 const updated = {
                                   ...rewards,
-                                  [pts]: { ...rewards[pts], value: val }
+                                  [pts]: { ...rewards[pts], value: val },
                                 };
                                 setRewards(updated);
                                 localStorage.setItem("spoolio_loyalty_rewards", JSON.stringify(updated));
                               }}
-                              className="w-12 bg-transparent text-center font-extrabold text-white focus:outline-none"
+                              className="w-12 bg-transparent text-center font-black text-emerald-400 focus:outline-none text-sm font-mono border-b border-white/20 focus:border-emerald-400"
                             />
-                            <span className="text-gray-400 font-bold text-[11px]">€</span>
+                            <span className="text-emerald-400 font-bold">€</span>
                           </div>
 
                           {/* Delete Tier Button */}
                           <button
                             type="button"
                             onClick={() => handleDeleteTier(pts)}
-                            className="p-1.5 text-gray-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all cursor-pointer"
+                            className="p-2 text-neutral-500 hover:text-rose-400 hover:bg-rose-500/10 rounded-xl transition-all cursor-pointer"
                             title="Supprimer ce palier"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -1132,74 +1263,132 @@ export default function AdminLoyaltyCardsPage() {
                         </div>
                       </div>
 
-                      {/* Tier Body Grid */}
-                      <div className="flex flex-col sm:flex-row gap-4 items-start">
-                        {/* Live Image Preview */}
-                        <ImagePreview src={r.image} alt={r.text} />
+                      {/* Tier Card Body (2 Columns Layout) */}
+                      <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
+                        
+                        {/* Left Column: Image Thumbnail & Upload/Presets (4 cols) */}
+                        <div className="md:col-span-4 flex flex-col items-center sm:items-start gap-3 bg-black/30 border border-white/5 rounded-2xl p-4">
+                          <label className="text-[10px] font-black text-neutral-400 uppercase tracking-wider flex items-center justify-between w-full">
+                            <span>Photo de la récompense</span>
+                            {r.image?.startsWith("data:image/webp") && (
+                              <span className="text-[9px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded font-mono">
+                                ⚡ WebP
+                              </span>
+                            )}
+                          </label>
 
-                        <div className="flex-1 space-y-3 w-full">
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            {/* Title */}
-                            <div className="flex flex-col gap-1">
-                              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                                Titre de la récompense
-                              </label>
-                              <input
-                                type="text"
-                                value={r.text}
-                                onChange={(e) => {
-                                  const updated = {
-                                    ...rewards,
-                                    [pts]: { ...rewards[pts], text: e.target.value }
-                                  };
-                                  setRewards(updated);
-                                  localStorage.setItem("spoolio_loyalty_rewards", JSON.stringify(updated));
-                                }}
-                                className="w-full bg-[#151722] border border-white/10 focus:border-[#ff4f00]/60 rounded-xl px-3 py-2 text-xs text-white font-medium focus:outline-none transition-all"
-                                placeholder="ex: Porte-clés Spoolio"
-                              />
-                            </div>
+                          <div className="flex items-center gap-3 w-full">
+                            <ImagePreview src={r.image} alt={r.text} size="lg" />
 
-                            {/* Image URL */}
-                            <div className="flex flex-col gap-1">
-                              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                                URL Image / Miniature
+                            <div className="flex flex-col gap-2 flex-1">
+                              {/* File Upload with Canvas WebP auto-compress */}
+                              <label className="w-full py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-[#ff4f00] rounded-xl text-[11px] font-bold text-neutral-300 hover:text-white transition-all cursor-pointer flex items-center justify-center gap-1.5 text-center">
+                                <Upload className="w-3.5 h-3.5 text-[#ff4f00]" />
+                                <span>Téléverser</span>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(e) => handleUploadTierImage(pts, e)}
+                                  className="hidden"
+                                />
                               </label>
-                              <input
-                                type="text"
-                                value={r.image}
-                                onChange={(e) => {
-                                  const updated = {
-                                    ...rewards,
-                                    [pts]: { ...rewards[pts], image: e.target.value }
-                                  };
-                                  setRewards(updated);
-                                  localStorage.setItem("spoolio_loyalty_rewards", JSON.stringify(updated));
-                                }}
-                                className="w-full bg-[#151722] border border-white/10 focus:border-[#ff4f00]/60 rounded-xl px-3 py-2 text-xs text-white font-mono placeholder-gray-600 focus:outline-none transition-all"
-                                placeholder="https://..."
-                              />
                             </div>
                           </div>
 
-                          {/* Description */}
-                          <div className="flex flex-col gap-1">
-                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                              Description & Conditions
+                          {/* Quick Preset Selector */}
+                          <div className="w-full space-y-1.5 pt-1">
+                            <span className="text-[10px] text-neutral-500 font-bold uppercase">Presets Spoolio :</span>
+                            <div className="grid grid-cols-4 gap-1.5">
+                              {REWARD_PRESET_IMAGES.slice(0, 4).map((preset, pIdx) => (
+                                <button
+                                  key={pIdx}
+                                  type="button"
+                                  onClick={() => {
+                                    const updated = {
+                                      ...rewards,
+                                      [pts]: { ...rewards[pts], image: preset.url },
+                                    };
+                                    setRewards(updated);
+                                    localStorage.setItem("spoolio_loyalty_rewards", JSON.stringify(updated));
+                                  }}
+                                  className={`aspect-square rounded-lg overflow-hidden border transition-all cursor-pointer relative group/preset ${
+                                    r.image === preset.url
+                                      ? "border-[#ff4f00] ring-1 ring-[#ff4f00]"
+                                      : "border-white/10 opacity-60 hover:opacity-100"
+                                  }`}
+                                  title={preset.label}
+                                >
+                                  <img src={preset.url} alt={preset.label} className="w-full h-full object-cover" />
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Collapsible/Direct Image URL input */}
+                          <div className="w-full space-y-1 pt-1">
+                            <label className="text-[9px] font-bold text-neutral-500 uppercase flex items-center gap-1">
+                              <Link2 className="w-3 h-3" />
+                              Ou URL directe :
+                            </label>
+                            <input
+                              type="text"
+                              value={r.image}
+                              onChange={(e) => {
+                                const updated = {
+                                  ...rewards,
+                                  [pts]: { ...rewards[pts], image: e.target.value },
+                                };
+                                setRewards(updated);
+                                localStorage.setItem("spoolio_loyalty_rewards", JSON.stringify(updated));
+                              }}
+                              className="w-full bg-[#0a0a0d] border border-white/10 focus:border-[#ff4f00] rounded-xl px-2.5 py-1.5 text-[11px] text-neutral-300 font-mono placeholder-neutral-600 focus:outline-none"
+                              placeholder="https://..."
+                            />
+                          </div>
+                        </div>
+
+                        {/* Right Column: Title & Description Form (8 cols) */}
+                        <div className="md:col-span-8 space-y-4">
+                          {/* Reward Title */}
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-bold text-neutral-300 uppercase tracking-wider flex items-center justify-between">
+                              <span>Nom & Titre de la Récompense</span>
+                              <span className="text-[#ff4f00] text-[10px]">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              value={r.text}
+                              onChange={(e) => {
+                                const updated = {
+                                  ...rewards,
+                                  [pts]: { ...rewards[pts], text: e.target.value },
+                                };
+                                setRewards(updated);
+                                localStorage.setItem("spoolio_loyalty_rewards", JSON.stringify(updated));
+                              }}
+                              className="w-full bg-[#0d0e14] border border-white/15 focus:border-[#ff4f00] rounded-2xl px-4 py-3 text-sm text-white font-bold placeholder-neutral-600 focus:outline-none transition-all shadow-inner"
+                              placeholder="ex: Porte-clés Clavier Mécanique ⌨️"
+                            />
+                          </div>
+
+                          {/* Description & Conditions */}
+                          <div className="space-y-1.5">
+                            <label className="text-xs font-bold text-neutral-300 uppercase tracking-wider">
+                              Description & Message affiché au client
                             </label>
                             <textarea
                               value={r.description}
                               onChange={(e) => {
                                 const updated = {
                                   ...rewards,
-                                  [pts]: { ...rewards[pts], description: e.target.value }
+                                  [pts]: { ...rewards[pts], description: e.target.value },
                                 };
                                 setRewards(updated);
                                 localStorage.setItem("spoolio_loyalty_rewards", JSON.stringify(updated));
                               }}
-                              rows={2}
-                              className="w-full bg-[#151722] border border-white/10 focus:border-[#ff4f00]/60 rounded-xl p-2.5 text-xs text-white placeholder-gray-600 resize-none focus:outline-none transition-all leading-relaxed"
-                              placeholder="Description du produit offert..."
+                              rows={3}
+                              className="w-full bg-[#0d0e14] border border-white/15 focus:border-[#ff4f00] rounded-2xl p-3.5 text-xs text-neutral-200 placeholder-neutral-600 resize-none focus:outline-none transition-all leading-relaxed shadow-inner"
+                              placeholder="Description attrayante du produit offert lorsqu'il atteint ce palier..."
                             />
                           </div>
                         </div>
@@ -1209,15 +1398,18 @@ export default function AdminLoyaltyCardsPage() {
                 })}
             </div>
 
-            {/* Footer */}
-            <div className="pt-2 border-t border-white/10 flex justify-end">
+            {/* Footer Actions */}
+            <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
+              <span className="text-xs text-neutral-400">
+                Les modifications sont automatiquement enregistrées en temps réel.
+              </span>
               <button
                 type="button"
                 onClick={() => setShowRewardsModal(false)}
-                className="w-full sm:w-auto px-6 py-3 text-xs font-black bg-[#ff4f00] hover:bg-[#ff6a22] text-black rounded-xl transition-all shadow-lg shadow-[#ff4f00]/20 flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
+                className="w-full sm:w-auto px-7 py-3.5 text-xs font-black bg-gradient-to-r from-[#ff4f00] to-[#ff7700] hover:from-[#ff6600] hover:to-[#ff8800] text-black rounded-2xl transition-all shadow-xl shadow-[#ff4f00]/25 flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider"
               >
                 <Check className="w-4 h-4 stroke-[3]" />
-                Fermer & Enregistrer la config
+                Enregistrer & Fermer le Studio
               </button>
             </div>
           </div>
