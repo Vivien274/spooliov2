@@ -33,6 +33,7 @@ import {
   Euro,
   Layers,
   ArrowRight,
+  Wand2,
 } from "lucide-react";
 
 interface LoyaltyCard {
@@ -361,6 +362,15 @@ export default function AdminLoyaltyCardsPage() {
     };
   }, [searchQuery]);
 
+  const generateCardId = () => {
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let code = "";
+    for (let i = 0; i < 6; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return `SP-${code}`;
+  };
+
   // États pour le modal de création
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [newCardId, setNewCardId] = useState("");
@@ -369,6 +379,15 @@ export default function AdminLoyaltyCardsPage() {
   const [newPoints, setNewPoints] = useState(2);
   const [newMaxPoints, setNewMaxPoints] = useState(100);
   const [creating, setCreating] = useState(false);
+
+  const handleOpenCreateModal = () => {
+    setNewCardId(generateCardId());
+    setNewCustomerName("");
+    setNewCustomerEmail("");
+    setNewPoints(2);
+    setNewMaxPoints(100);
+    setShowCreateModal(true);
+  };
 
   // États pour l'édition en ligne du nom, email, points et maxPoints
   const [editingCardId, setEditingCardId] = useState<string | null>(null);
@@ -692,7 +711,7 @@ export default function AdminLoyaltyCardsPage() {
             Paliers Cadeaux
           </button>
           <button
-            onClick={() => setShowCreateModal(true)}
+            onClick={handleOpenCreateModal}
             className="px-4 py-2 text-xs font-bold bg-[#ff4f00] text-black rounded-lg hover:bg-[#ff6a22] transition-all flex items-center gap-1.5 cursor-pointer"
           >
             <Plus className="w-3.5 h-3.5" />
@@ -1011,18 +1030,44 @@ export default function AdminLoyaltyCardsPage() {
               )}
 
               <div className="space-y-3 font-sans">
-                <div className="flex flex-col gap-1">
-                  <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest">
-                    Identifiant de la carte (UID)*
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={newCardId}
-                    onChange={(e) => setNewCardId(e.target.value)}
-                    placeholder="Saisir ou coller l'identifiant du badge"
-                    className="w-full bg-[#0d0d0f] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-[#ff4f00]/50"
-                  />
+                <div className="flex flex-col gap-1.5">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest flex items-center gap-1">
+                      <span>Identifiant de la carte (UID)</span>
+                      <span className="text-[#ff4f00]">*</span>
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setNewCardId(generateCardId())}
+                      className="text-[10px] font-bold text-[#ff4f00] hover:text-[#ff7a22] flex items-center gap-1 transition-colors cursor-pointer"
+                      title="Générer un nouvel ID aléatoire"
+                    >
+                      <Wand2 className="w-3 h-3" />
+                      Générer un ID
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      required
+                      value={newCardId}
+                      onChange={(e) => setNewCardId(e.target.value)}
+                      placeholder="ex: SP-A8F9K2 ou UID NFC"
+                      className="w-full bg-[#0d0d0f] border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white font-mono placeholder-gray-600 focus:outline-none focus:border-[#ff4f00]/60"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setNewCardId(generateCardId())}
+                      className="px-3 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#ff4f00]/50 rounded-xl text-xs font-bold text-neutral-300 hover:text-white transition-all cursor-pointer flex items-center gap-1 shrink-0"
+                      title="Générer un identifiant"
+                    >
+                      <Wand2 className="w-3.5 h-3.5 text-[#ff4f00]" />
+                      <span>Auto</span>
+                    </button>
+                  </div>
+                  <p className="text-[10px] text-neutral-500">
+                    💡 ID généré automatiquement ou UID de badge NFC scanné.
+                  </p>
                 </div>
 
                 <div className="flex flex-col gap-1">
