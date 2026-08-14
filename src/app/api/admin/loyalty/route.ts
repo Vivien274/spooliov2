@@ -3,45 +3,58 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With, apikey, Prefer",
+};
+
+// OPTIONS: Preflight request
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: corsHeaders,
+  });
+}
+
 // GET all loyalty cards (supports search by name, email, or id)
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const q = searchParams.get("q") || "";
 
+    if (!prisma) {
+      return NextResponse.json({ error: "Base de données indisponible." }, { status: 503, headers: corsHeaders });
+    }
+
     let cards: any[];
     if (q) {
       const lowerQ = q.trim().toLowerCase();
-      cards = (await Promise.race([
-        prisma.loyaltyCard.findMany({
-          where: {
-            OR: [
-              { id: { contains: lowerQ, mode: "insensitive" } },
-              { customerName: { contains: lowerQ, mode: "insensitive" } },
-              { customerEmail: { contains: lowerQ, mode: "insensitive" } }
-            ]
-          },
-          orderBy: { createdAt: "desc" }
-        }),
-        new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Admin Loyalty Timeout")), 2500))
-      ])) as any[];
+      cards = await prisma.loyaltyCard.findMany({
+        where: {
+          OR: [
+            { id: { contains: lowerQ, mode: "insensitive" } },
+            { customerName: { contains: lowerQ, mode: "insensitive" } },
+            { customerEmail: { contains: lowerQ, mode: "insensitive" } },
+          ],
+        },
+        orderBy: { createdAt: "desc" },
+      });
     } else {
-      cards = (await Promise.race([
-        prisma.loyaltyCard.findMany({
-          orderBy: { createdAt: "desc" }
-        }),
-        new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Admin Loyalty Timeout")), 2500))
-      ])) as any[];
+      cards = await prisma.loyaltyCard.findMany({
+        orderBy: { createdAt: "desc" },
+      });
     }
 
     const formattedCards = (cards || []).map((c) => ({
       ...c,
-      history: typeof c.history === "string" ? JSON.parse(c.history) : c.history
+      history: typeof c.history === "string" ? JSON.parse(c.history) : c.history,
     }));
 
-    return NextResponse.json({ success: true, cards: formattedCards });
+    return NextResponse.json({ success: true, cards: formattedCards }, { headers: corsHeaders });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message || "Erreur de chargement." }, { status: 500 });
+    console.error("GET /api/admin/loyalty error:", e?.message);
+    return NextResponse.json({ error: e.message || "Erreur de chargement." }, { status: 500, headers: corsHeaders });
   }
 }
 
@@ -50,51 +63,67 @@ export async function POST(request: Request) {
   try {
     const { id, customerName, customerEmail, points, maxPoints } = await request.json();
 
-    if (!id) {
-      return NextResponse.json({ error: "L'identifiant de la carte (UID/NFC) est requis." }, { status: 400 });
+    if (!id || typeof id !== "string" || !id.trim()) {
+      return NextResponse.json({ error: "L'identifiant de la carte (UID/NFC) est requis." }, { status: 400, headers: corsHeaders });
+    }
+
+    if (!prisma) {
+      return NextResponse.json({ error: "Base de données indisponible." }, { status: 503, headers: corsHeaders });
     }
 
     const cleanId = id.trim().toLowerCase();
+    const cleanEmail = customerEmail ? customerEmail.trim().toLowerCase() : null;
+    const pointsNum = points !== undefined ? parseInt(points, 10) : 0;
+    const maxPointsNum = maxPoints !== undefined ? parseInt(maxPoints, 10) : 100;
 
-    // Check if card already exists
-    const existing = (await Promise.race([
-      prisma.loyaltyCard.findUnique({
-        where: { id: cleanId }
-      }),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Admin Loyalty Check Timeout")), 2500))
-    ])) as any;
+    // Check if card already exists -> upsert / update
+    const existing = await prisma.loyaltyCard.findUnique({
+      where: { id: cleanId },
+    });
 
+    let card;
     if (existing) {
-      return NextResponse.json({ error: "Cette carte de fidélité existe déjà." }, { status: 400 });
-    }
-
-    const newCard = (await Promise.race([
-      prisma.loyaltyCard.create({
+      card = await prisma.loyaltyCard.update({
+        where: { id: cleanId },
+        data: {
+          customerName: customerName !== undefined ? (customerName ? customerName.trim() : null) : existing.customerName,
+          customerEmail: cleanEmail !== null ? cleanEmail : existing.customerEmail,
+          points: points !== undefined ? pointsNum : existing.points,
+          maxPoints: maxPoints !== undefined ? maxPointsNum : existing.maxPoints,
+        },
+      });
+    } else {
+      card = await prisma.loyaltyCard.create({
         data: {
           id: cleanId,
-          customerName: customerName || null,
-          customerEmail: customerEmail?.trim().toLowerCase() || null,
-          points: points !== undefined ? parseInt(points, 10) : 0,
-          maxPoints: maxPoints !== undefined ? parseInt(maxPoints, 10) : 100,
-          history: JSON.stringify([{
-            date: new Date().toISOString(),
-            points: `+${points || 0}`,
-            reason: "Création de la carte (Admin)"
-          }])
-        }
-      }),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Admin Loyalty Create Timeout")), 2500))
-    ])) as any;
+          customerName: customerName ? customerName.trim() : null,
+          customerEmail: cleanEmail,
+          points: pointsNum,
+          maxPoints: maxPointsNum,
+          history: JSON.stringify([
+            {
+              date: new Date().toISOString(),
+              points: `+${pointsNum}`,
+              reason: "Création de la carte (Spoolio Manager)",
+            },
+          ]),
+        },
+      });
+    }
 
-    return NextResponse.json({
-      success: true,
-      card: {
-        ...newCard,
-        history: JSON.parse(newCard.history as string)
-      }
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        card: {
+          ...card,
+          history: typeof card.history === "string" ? JSON.parse(card.history) : card.history,
+        },
+      },
+      { headers: corsHeaders }
+    );
   } catch (e: any) {
-    return NextResponse.json({ error: e.message || "Erreur de création." }, { status: 500 });
+    console.error("POST /api/admin/loyalty error:", e?.message);
+    return NextResponse.json({ error: e.message || "Erreur de création." }, { status: 500, headers: corsHeaders });
   }
 }
 
@@ -104,32 +133,39 @@ export async function PUT(request: Request) {
     const { id, customerName, customerEmail, points, maxPoints, history } = await request.json();
 
     if (!id) {
-      return NextResponse.json({ error: "L'identifiant de la carte est requis." }, { status: 400 });
+      return NextResponse.json({ error: "L'identifiant de la carte est requis." }, { status: 400, headers: corsHeaders });
     }
 
-    const updatedCard = (await Promise.race([
-      prisma.loyaltyCard.update({
-        where: { id },
-        data: {
-          customerName,
-          customerEmail: customerEmail ? customerEmail.trim().toLowerCase() : null,
-          points: points !== undefined ? parseInt(points, 10) : undefined,
-          maxPoints: maxPoints !== undefined ? parseInt(maxPoints, 10) : undefined,
-          history: history ? JSON.stringify(history) : undefined
-        }
-      }),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Admin Loyalty Update Timeout")), 2500))
-    ])) as any;
+    if (!prisma) {
+      return NextResponse.json({ error: "Base de données indisponible." }, { status: 503, headers: corsHeaders });
+    }
 
-    return NextResponse.json({
-      success: true,
-      card: {
-        ...updatedCard,
-        history: typeof updatedCard.history === "string" ? JSON.parse(updatedCard.history) : updatedCard.history
-      }
+    const cleanId = id.trim().toLowerCase();
+
+    const updatedCard = await prisma.loyaltyCard.update({
+      where: { id: cleanId },
+      data: {
+        customerName: customerName !== undefined ? (customerName ? customerName.trim() : null) : undefined,
+        customerEmail: customerEmail !== undefined ? (customerEmail ? customerEmail.trim().toLowerCase() : null) : undefined,
+        points: points !== undefined ? parseInt(points, 10) : undefined,
+        maxPoints: maxPoints !== undefined ? parseInt(maxPoints, 10) : undefined,
+        history: history ? (typeof history === "string" ? JSON.parse(history) : history) : undefined,
+      },
     });
+
+    return NextResponse.json(
+      {
+        success: true,
+        card: {
+          ...updatedCard,
+          history: typeof updatedCard.history === "string" ? JSON.parse(updatedCard.history) : updatedCard.history,
+        },
+      },
+      { headers: corsHeaders }
+    );
   } catch (e: any) {
-    return NextResponse.json({ error: e.message || "Erreur de modification." }, { status: 500 });
+    console.error("PUT /api/admin/loyalty error:", e?.message);
+    return NextResponse.json({ error: e.message || "Erreur de modification." }, { status: 500, headers: corsHeaders });
   }
 }
 
@@ -140,18 +176,20 @@ export async function DELETE(request: Request) {
     const id = searchParams.get("id");
 
     if (!id) {
-      return NextResponse.json({ error: "L'identifiant de la carte est requis." }, { status: 400 });
+      return NextResponse.json({ error: "L'identifiant de la carte est requis." }, { status: 400, headers: corsHeaders });
     }
 
-    await Promise.race([
-      prisma.loyaltyCard.delete({
-        where: { id }
-      }),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Admin Loyalty Delete Timeout")), 2500))
-    ]);
+    if (!prisma) {
+      return NextResponse.json({ error: "Base de données indisponible." }, { status: 503, headers: corsHeaders });
+    }
 
-    return NextResponse.json({ success: true });
+    await prisma.loyaltyCard.delete({
+      where: { id: id.trim().toLowerCase() },
+    });
+
+    return NextResponse.json({ success: true }, { headers: corsHeaders });
   } catch (e: any) {
-    return NextResponse.json({ error: e.message || "Erreur de suppression." }, { status: 500 });
+    console.error("DELETE /api/admin/loyalty error:", e?.message);
+    return NextResponse.json({ error: e.message || "Erreur de suppression." }, { status: 500, headers: corsHeaders });
   }
 }

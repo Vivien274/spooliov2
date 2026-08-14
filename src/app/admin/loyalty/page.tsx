@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useAdminTheme } from "../AdminThemeContext";
 import confetti from "canvas-confetti";
+import { supabase } from "@/lib/supabaseClient";
 import {
   Award,
   Search,
@@ -336,6 +337,28 @@ export default function AdminLoyaltyCardsPage() {
       fetchCards(searchQuery);
     }, 300);
     return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Supabase Realtime subscription for instant syncing with Spoolio Manager
+  useEffect(() => {
+    const channel = supabase
+      .channel("loyalty_cards_realtime_admin")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "loyalty_cards",
+        },
+        () => {
+          fetchCards(searchQuery);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [searchQuery]);
 
   // États pour le modal de création

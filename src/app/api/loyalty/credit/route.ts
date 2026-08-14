@@ -3,16 +3,31 @@ import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization, X-Requested-With, apikey, Prefer",
+};
+
+// OPTIONS: Preflight requests
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 200,
+    headers: corsHeaders,
+  });
+}
+
+// GET /api/loyalty/credit: Quick check
+export async function GET() {
+  return NextResponse.json(
+    { status: "online", message: "Spoolio Loyalty Credit API ready" },
+    { headers: corsHeaders }
+  );
+}
+
 /**
  * POST /api/loyalty/credit
  * Endpoint centralisé de gestion de fidélité pour Spoolio Manager (Caisse / Stand / Web)
- * 
- * Body parameters:
- * - query: ID de carte, QR Code, NFC UID ou Email client (Requis)
- * - pointsDelta: Nombre de points à ajouter (ex: +5) ou retirer (ex: -10) (Par défaut: 0)
- * - reason: Motif du mouvement (ex: "Achat Caisse Marché", "Utilisation Réduction 10€")
- * - customerName: Nom du client (optionnel lors de la création auto)
- * - customerEmail: Email du client (optionnel lors de la création auto)
  */
 export async function POST(request: Request) {
   try {
@@ -22,25 +37,29 @@ export async function POST(request: Request) {
     if (!query || typeof query !== "string" || !query.trim()) {
       return NextResponse.json(
         { error: "Veuillez fournir un identifiant de carte ou email (query)." },
-        { status: 400 }
+        { status: 400, headers: corsHeaders }
+      );
+    }
+
+    if (!prisma) {
+      return NextResponse.json(
+        { error: "Base de données indisponible." },
+        { status: 503, headers: corsHeaders }
       );
     }
 
     const cleanQuery = query.trim().toLowerCase();
     const deltaNum = typeof pointsDelta === "number" ? pointsDelta : parseInt(pointsDelta, 10) || 0;
 
-    // Search for existing card by ID or Email with 2.5s Promise.race timeout
-    let card = (await Promise.race([
-      prisma.loyaltyCard.findFirst({
-        where: {
-          OR: [
-            { id: cleanQuery },
-            { customerEmail: { equals: cleanQuery, mode: "insensitive" } }
-          ]
-        }
-      }),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Loyalty DB Timeout")), 2500))
-    ])) as any;
+    // Search for existing card by ID or Email
+    let card = await prisma.loyaltyCard.findFirst({
+      where: {
+        OR: [
+          { id: cleanQuery },
+          { customerEmail: { equals: cleanQuery, mode: "insensitive" } },
+        ],
+      },
+    });
 
     // Auto-create card if non-existent
     if (!card) {
@@ -50,71 +69,70 @@ export async function POST(request: Request) {
 
       const emailToUse = cleanQuery.includes("@") ? cleanQuery : (customerEmail?.trim().toLowerCase() || null);
 
-      card = (await Promise.race([
-        prisma.loyaltyCard.create({
-          data: {
-            id: cardId,
-            customerName: customerName || null,
-            customerEmail: emailToUse,
-            points: Math.max(0, deltaNum),
-            history: JSON.stringify([
-              {
-                date: new Date().toISOString(),
-                points: deltaNum >= 0 ? `+${deltaNum}` : `${deltaNum}`,
-                reason: reason || "Création de la carte (Spoolio Manager)"
-              }
-            ])
-          }
-        }),
-        new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Loyalty Create Timeout")), 2500))
-      ])) as any;
-    } else if (deltaNum !== 0) {
+      card = await prisma.loyaltyCard.create({
+        data: {
+          id: cardId,
+          customerName: customerName ? customerName.trim() : null,
+          customerEmail: emailToUse,
+          points: Math.max(0, deltaNum),
+          history: JSON.stringify([
+            {
+              date: new Date().toISOString(),
+              points: deltaNum >= 0 ? `+${deltaNum}` : `${deltaNum}`,
+              reason: reason || "Création de la carte (Spoolio Manager)",
+            },
+          ]),
+        },
+      });
+    } else if (deltaNum !== 0 || customerName || customerEmail) {
       // Update existing card points and history
       const currentHistory = typeof card.history === "string"
         ? JSON.parse(card.history)
         : (Array.isArray(card.history) ? card.history : []);
 
       const newPoints = Math.max(0, card.points + deltaNum);
-      const nextHistory = [
-        {
-          date: new Date().toISOString(),
-          points: deltaNum >= 0 ? `+${deltaNum}` : `${deltaNum}`,
-          reason: reason
-        },
-        ...currentHistory
-      ];
+      const nextHistory = deltaNum !== 0
+        ? [
+            {
+              date: new Date().toISOString(),
+              points: deltaNum >= 0 ? `+${deltaNum}` : `${deltaNum}`,
+              reason: reason,
+            },
+            ...currentHistory,
+          ]
+        : currentHistory;
 
-      card = (await Promise.race([
-        prisma.loyaltyCard.update({
-          where: { id: card.id },
-          data: {
-            points: newPoints,
-            customerName: customerName || card.customerName,
-            customerEmail: customerEmail?.trim().toLowerCase() || card.customerEmail,
-            history: JSON.stringify(nextHistory)
-          }
-        }),
-        new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Loyalty Update Timeout")), 2500))
-      ])) as any;
+      card = await prisma.loyaltyCard.update({
+        where: { id: card.id },
+        data: {
+          points: newPoints,
+          customerName: customerName ? customerName.trim() : card.customerName,
+          customerEmail: customerEmail?.trim().toLowerCase() || card.customerEmail,
+          history: JSON.stringify(nextHistory),
+        },
+      });
     }
 
-    return NextResponse.json({
-      success: true,
-      card: {
-        id: card.id,
-        customerName: card.customerName,
-        customerEmail: card.customerEmail,
-        points: card.points,
-        maxPoints: card.maxPoints,
-        createdAt: card.createdAt,
-        history: typeof card.history === "string" ? JSON.parse(card.history) : card.history
-      }
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        card: {
+          id: card.id,
+          customerName: card.customerName,
+          customerEmail: card.customerEmail,
+          points: card.points,
+          maxPoints: card.maxPoints,
+          createdAt: card.createdAt,
+          history: typeof card.history === "string" ? JSON.parse(card.history) : card.history,
+        },
+      },
+      { headers: corsHeaders }
+    );
   } catch (err: any) {
-    console.error("POST /api/loyalty/credit Error:", err.message);
+    console.error("POST /api/loyalty/credit Error:", err?.message);
     return NextResponse.json(
       { error: err.message || "Impossible de mettre à jour la carte de fidélité." },
-      { status: 500 }
+      { status: 500, headers: corsHeaders }
     );
   }
 }
