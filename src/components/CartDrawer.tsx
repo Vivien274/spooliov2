@@ -17,6 +17,8 @@ export default function CartDrawer() {
     updateQuantity,
     removeFromCart,
     cartTotal,
+    appliedPromo,
+    discountAmount,
   } = useCart();
 
   const router = useRouter();
@@ -308,14 +310,35 @@ export default function CartDrawer() {
             )}
 
             {/* Total Row */}
-            <div className="flex items-center justify-between font-sans">
-              <div className="flex flex-col">
-                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Sous-total</span>
-                <span className="text-[10px] text-gray-500 font-medium">TVA incluse • Frais de port calculés à l'étape suivante</span>
+            <div className="space-y-1.5 font-sans">
+              <div className="flex items-center justify-between text-xs text-gray-400">
+                <span>Sous-total</span>
+                <span className="font-extrabold text-white font-mono">{cartTotal.toFixed(2)}€</span>
               </div>
-              <span className="text-2xl font-black text-white font-antonio tracking-tight">
-                {cartTotal.toFixed(2)}€
-              </span>
+
+              {appliedPromo && (discountAmount > 0 || appliedPromo.discountType === "free_shipping") && (
+                <div className="flex items-center justify-between text-xs text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-1.5 rounded-xl border border-emerald-500/20">
+                  <span className="flex items-center gap-1.5">
+                    <span>🏷️</span>
+                    <span>Code {appliedPromo.code}</span>
+                  </span>
+                  <span className="font-extrabold font-mono">
+                    {appliedPromo.discountType === "free_shipping"
+                      ? "Port Offert"
+                      : `-${discountAmount.toFixed(2)}€`}
+                  </span>
+                </div>
+              )}
+
+              <div className="flex items-center justify-between pt-1 border-t border-white/10">
+                <div className="flex flex-col">
+                  <span className="text-xs font-bold text-gray-300 uppercase tracking-wider">Total</span>
+                  <span className="text-[10px] text-gray-500 font-medium">TVA incluse • Port calculé à l'étape suivante</span>
+                </div>
+                <span className="text-2xl font-black text-white font-antonio tracking-tight">
+                  {Math.max(0, cartTotal - discountAmount).toFixed(2)}€
+                </span>
+              </div>
             </div>
 
             {/* Sexy Checkout CTA Button */}
@@ -323,7 +346,7 @@ export default function CartDrawer() {
               onClick={handleGoToCart}
               className="w-full h-13 flex items-center justify-center gap-3 text-xs font-black text-white bg-gradient-to-r from-[#ff4f00] via-[#ff6600] to-[#ff4f00] hover:from-[#e04500] hover:to-[#ff4f00] rounded-xl transition-all shadow-[0_0_25px_rgba(255,79,0,0.35)] hover:shadow-[0_0_35px_rgba(255,79,0,0.6)] hover:scale-[1.01] active:scale-[0.99] cursor-pointer uppercase tracking-wider font-sans group/checkout"
             >
-              <span>Valider mon panier ({cartTotal.toFixed(2)}€)</span>
+              <span>Valider mon panier ({Math.max(0, cartTotal - discountAmount).toFixed(2)}€)</span>
               <ArrowRight className="w-4 h-4 text-white group-hover/checkout:translate-x-1 transition-transform" />
             </button>
           </div>

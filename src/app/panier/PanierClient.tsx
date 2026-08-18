@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useCart, SelectedRelay } from "@/context/CartContext";
 import UnicornIcon from "@/components/UnicornIcon";
 import checkoutIconData from "@/components/checkout-bag.json";
+import { Tag, X, CheckCircle2, Sparkles } from "lucide-react";
 
 export default function PanierClient() {
   const {
@@ -21,6 +22,10 @@ export default function PanierClient() {
     setSelectedRelay,
     shippingCost,
     cartTotalWithShipping,
+    appliedPromo,
+    discountAmount,
+    applyPromoCode,
+    removePromoCode,
   } = useCart();
 
   const router = useRouter();
@@ -29,6 +34,11 @@ export default function PanierClient() {
   const [isCheckoutHovered, setIsCheckoutHovered] = useState(false);
   const [pickupSlot, setPickupSlot] = useState<string>("");
   const [availableSlots, setAvailableSlots] = useState<string[]>([]);
+
+  // Promo code UI states
+  const [promoInput, setPromoInput] = useState<string>("");
+  const [promoLoading, setPromoLoading] = useState<boolean>(false);
+  const [promoMessage, setPromoMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   const eligibleTotal = cartItems
     .filter((item) => item.productId > 0 && !item.isLoyaltyReward)
@@ -41,6 +51,42 @@ export default function PanierClient() {
   const [loadingRelays, setLoadingRelays] = useState<boolean>(false);
   const [relayError, setRelayError] = useState<string | null>(null);
   const [showRelayFinder, setShowRelayFinder] = useState<boolean>(false);
+
+  // Auto-detect promo code from lottery wheel or URL
+  useEffect(() => {
+    try {
+      const activeCode = localStorage.getItem("spoolio_active_promo_code");
+      if (activeCode && !appliedPromo) {
+        setPromoInput(activeCode);
+        applyPromoCode(activeCode).then((res) => {
+          if (res.success) {
+            setPromoMessage({ type: "success", text: res.message || "Code promo appliqué !" });
+          }
+        });
+      }
+    } catch (e) {}
+  }, [appliedPromo, applyPromoCode]);
+
+  const handleApplyPromo = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!promoInput.trim()) return;
+    setPromoLoading(true);
+    setPromoMessage(null);
+    const res = await applyPromoCode(promoInput);
+    setPromoLoading(false);
+    if (res.success) {
+      setPromoMessage({ type: "success", text: res.message || "Code promo appliqué !" });
+      setPromoInput("");
+    } else {
+      setPromoMessage({ type: "error", text: res.error || "Code promo invalide." });
+    }
+  };
+
+  const handleRemovePromo = () => {
+    removePromoCode();
+    setPromoMessage(null);
+    setPromoInput("");
+  };
 
   useEffect(() => {
     const savedSlot = localStorage.getItem("spoolio_pickup_slot");
@@ -659,6 +705,95 @@ export default function PanierClient() {
           )}
         </div>
 
+        {/* Section Code Promo */}
+        <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 shadow-xl w-full">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-base font-extrabold text-white uppercase tracking-wider flex items-center gap-2">
+              <Tag className="w-4 h-4 text-[#ff4f00]" />
+              <span>Code Promo</span>
+            </h3>
+            {appliedPromo && (
+              <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full flex items-center gap-1">
+                <CheckCircle2 className="w-3 h-3" /> Actif
+              </span>
+            )}
+          </div>
+
+          {appliedPromo ? (
+            <div className="bg-emerald-500/10 border border-emerald-500/25 rounded-2xl p-3.5 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+                  <Sparkles className="w-4 h-4" />
+                </div>
+                <div className="truncate">
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-black text-white text-xs tracking-wider">
+                      {appliedPromo.code}
+                    </span>
+                    <span className="text-[10px] font-extrabold text-emerald-400 bg-emerald-400/20 px-1.5 py-0.5 rounded">
+                      {appliedPromo.discountType === "percentage"
+                        ? `-${appliedPromo.discountValue}%`
+                        : appliedPromo.discountType === "fixed"
+                        ? `-${appliedPromo.discountValue.toFixed(2)}€`
+                        : "Livraison Offerte"}
+                    </span>
+                  </div>
+                  {appliedPromo.description && (
+                    <span className="text-[10px] text-gray-400 block truncate mt-0.5">
+                      {appliedPromo.description}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <button
+                onClick={handleRemovePromo}
+                className="w-7 h-7 rounded-lg bg-white/5 hover:bg-red-500/20 text-gray-400 hover:text-red-400 flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                title="Retirer le code"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleApplyPromo} className="flex flex-col gap-2">
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    value={promoInput}
+                    onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
+                    placeholder="Ex: SPOOLIO10"
+                    className="w-full h-10 bg-spoolio-bg border border-spoolio-border focus:border-[#ff4f00] rounded-xl px-3 text-xs text-white font-mono uppercase tracking-wider focus:outline-none transition-colors"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={promoLoading || !promoInput.trim()}
+                  className="h-10 px-4 bg-white/10 hover:bg-white text-white hover:text-black disabled:bg-white/5 disabled:text-gray-500 font-extrabold text-xs rounded-xl transition-all cursor-pointer disabled:cursor-not-allowed shrink-0"
+                >
+                  {promoLoading ? "..." : "Appliquer"}
+                </button>
+              </div>
+
+              {promoMessage && (
+                <div
+                  className={`text-[11px] font-semibold px-3 py-2 rounded-xl flex items-center gap-1.5 ${
+                    promoMessage.type === "success"
+                      ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
+                      : "bg-red-500/10 border border-red-500/20 text-red-400"
+                  }`}
+                >
+                  {promoMessage.type === "success" ? (
+                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                  ) : (
+                    <X className="w-3.5 h-3.5 shrink-0" />
+                  )}
+                  <span>{promoMessage.text}</span>
+                </div>
+              )}
+            </form>
+          )}
+        </div>
+
         {/* Facturation & validation */}
         <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 shadow-xl w-full">
           <h3 className="text-base font-extrabold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
@@ -670,9 +805,26 @@ export default function PanierClient() {
               <span>Sous-total</span>
               <span className="text-white font-extrabold">{cartTotal.toFixed(2)}€</span>
             </div>
+
+            {appliedPromo && discountAmount > 0 && (
+              <div className="flex items-center justify-between text-emerald-400 font-bold bg-emerald-500/5 p-2 rounded-xl border border-emerald-500/15">
+                <span className="flex items-center gap-1">
+                  <Tag className="w-3 h-3" />
+                  <span>Remise ({appliedPromo.code})</span>
+                </span>
+                <span className="font-extrabold font-mono">-{discountAmount.toFixed(2)}€</span>
+              </div>
+            )}
+
             <div className="flex items-center justify-between">
               <span>Frais d'envoi</span>
-              <span className="text-white font-extrabold">{shippingCost === 0 ? "Offert" : `${shippingCost.toFixed(2)}€`}</span>
+              <span className="text-white font-extrabold">
+                {shippingCost === 0 ? (
+                  <span className="text-emerald-400 font-bold">Offert</span>
+                ) : (
+                  `${shippingCost.toFixed(2)}€`
+                )}
+              </span>
             </div>
 
             {/* Loyalty Points Banner */}

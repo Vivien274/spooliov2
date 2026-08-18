@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { sendOrderConfirmationEmail, sendAdminOrderNotificationEmail } from "@/lib/email";
 import { syncOrderToManager } from "@/lib/managerSync";
 import { extractAddressFromStripeSession } from "@/lib/stripeAddress";
+import { incrementPromoCodeUsage } from "@/app/actions/promoActions";
 import fs from "fs";
 import path from "path";
 
@@ -153,6 +154,15 @@ export async function POST(request: Request) {
             await syncOrderToManager(newOrderData);
           } catch (syncErr) {
             console.error("Manager sync error in Stripe Webhook:", syncErr);
+          }
+
+          // Track promo code usage if order used a promo code
+          if (session.metadata?.promo_code) {
+            try {
+              await incrementPromoCodeUsage(session.metadata.promo_code);
+            } catch (promoErr) {
+              console.error("Promo code increment error in Stripe Webhook:", promoErr);
+            }
           }
 
           // Loyalty Cards Point Credits (Option 1: Link automatically by email)

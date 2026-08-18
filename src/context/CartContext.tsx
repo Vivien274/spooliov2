@@ -26,6 +26,15 @@ export interface SelectedRelay {
   longitude?: string;
 }
 
+export interface AppliedPromo {
+  id?: string;
+  code: string;
+  description?: string | null;
+  discountType: "percentage" | "fixed" | "free_shipping";
+  discountValue: number;
+  minOrderAmount: number;
+}
+
 interface CartContextType {
   cartItems: CartItem[];
   isCartOpen: boolean;
@@ -42,6 +51,11 @@ interface CartContextType {
   setSelectedRelay: (relay: SelectedRelay | null) => void;
   shippingCost: number;
   cartTotalWithShipping: number;
+  appliedPromo: AppliedPromo | null;
+  discountAmount: number;
+  promoError: string | null;
+  applyPromoCode: (code: string) => Promise<{ success: boolean; error?: string; message?: string }>;
+  removePromoCode: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -51,9 +65,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const [shippingMethod, setShippingMethod] = useState<"pickup" | "relay" | "home">("home");
   const [selectedRelay, setSelectedRelay] = useState<SelectedRelay | null>(null);
+  const [appliedPromo, setAppliedPromo] = useState<AppliedPromo | null>(null);
+  const [promoError, setPromoError] = useState<string | null>(null);
   const [initialized, setInitialized] = useState<boolean>(false);
 
-  // Load cart and shipping details from localStorage on mount
+  // Load cart, shipping and promo details from localStorage on mount
   useEffect(() => {
     try {
       const savedCart = localStorage.getItem("spoolio_cart");
@@ -68,13 +84,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (savedRelay) {
         setSelectedRelay(JSON.parse(savedRelay));
       }
+      const savedPromo = localStorage.getItem("spoolio_applied_promo");
+      if (savedPromo) {
+        setAppliedPromo(JSON.parse(savedPromo));
+      }
     } catch (e) {
       console.error("Error loading cart data:", e);
     }
     setInitialized(true);
   }, []);
 
-  // Save cart and shipping to localStorage when changed
+  // Save cart, shipping and promo to localStorage when changed
   useEffect(() => {
     if (!initialized) return;
     try {
@@ -85,31 +105,41 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       } else {
         localStorage.removeItem("spoolio_selected_relay");
       }
+      if (appliedPromo) {
+        localStorage.setItem("spoolio_applied_promo", JSON.stringify(appliedPromo));
+      } else {
+        localStorage.removeItem("spoolio_applied_promo");
+      }
     } catch (e) {
       console.error("Error saving cart data:", e);
     }
-  }, [cartItems, shippingMethod, selectedRelay, initialized]);
+  }, [cartItems, shippingMethod, selectedRelay, appliedPromo, initialized]);
 
   // Recalculate dynamic roundup price dynamically when normal items change
   useEffect(() => {
     if (!initialized) return;
-    const roundUpItem = cartItems.find(item => item.productId === -1);
+    const roundUpItem = cartItems.find((item) => item.productId === -1);
     if (roundUpItem) {
       const normalTotal = cartItems
         .filter((item) => item.productId > 0)
         .reduce((acc, item) => acc + parseFloat(item.price) * item.quantity, 0);
-      
-      const expectedAmount = normalTotal > 0 
-        ? (Math.ceil(normalTotal) - normalTotal === 0 ? 1.00 : Math.ceil(normalTotal) - normalTotal)
-        : 0;
+
+      const expectedAmount =
+        normalTotal > 0
+          ? Math.ceil(normalTotal) - normalTotal === 0
+            ? 1.0
+            : Math.ceil(normalTotal) - normalTotal
+          : 0;
 
       if (expectedAmount > 0 && parseFloat(roundUpItem.price) !== expectedAmount) {
-        setCartItems(prev => prev.map(item => 
-          item.productId === -1 ? { ...item, price: expectedAmount.toFixed(2) } : item
-        ));
+        setCartItems((prev) =>
+          prev.map((item) =>
+            item.productId === -1 ? { ...item, price: expectedAmount.toFixed(2) } : item
+          )
+        );
       } else if (normalTotal === 0) {
         // If cart becomes empty of normal items, remove the roundup item
-        setCartItems(prev => prev.filter(item => item.productId !== -1));
+        setCartItems((prev) => prev.filter((item) => item.productId !== -1));
       }
     }
   }, [cartItems, initialized]);
@@ -123,13 +153,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     return `${productId}-${optionsKey}`;
   };
 
-  const addToCart = (item: Omit<CartItem, "id" | "quantity">, quantity: number = 1, openCart: boolean = true) => {
+  const addToCart = (
+    item: Omit<CartItem, "id" | "quantity">,
+    quantity: number = 1,
+    openCart: boolean = true
+  ) => {
     const id = getComboId(item.productId, item.selectedOptions);
-    
+
     setCartItems((prevItems) => {
       // If it is a donation (productId === -3), remove any previous donation and add the new one instead of aggregating
       if (item.productId === -3) {
-        const filtered = prevItems.filter(i => i.productId !== -3);
+        const filtered = prevItems.filter((i) => i.productId !== -3);
         return [...filtered, { ...item, id, quantity: 1 }];
       }
 
@@ -143,7 +177,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       // Add new item
       return [...prevItems, { ...item, id, quantity }];
     });
-    
+
     // Automatically open the cart drawer for premium UX feedback
     if (openCart) {
       setIsCartOpen(true);
@@ -166,26 +200,105 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clearCart = () => {
     setCartItems([]);
+    setAppliedPromo(null);
+    setPromoError(null);
+    try {
+      localStorage.removeItem("spoolio_applied_promo");
+    } catch (e) {}
   };
 
   // Compute aggregate totals
-  const cartCount = cartItems.filter(item => item.productId > 0).reduce((acc, item) => acc + item.quantity, 0);
+  const cartCount = cartItems
+    .filter((item) => item.productId > 0)
+    .reduce((acc, item) => acc + item.quantity, 0);
+
   const cartTotal = cartItems.reduce(
     (acc, item) => acc + parseFloat(item.price) * item.quantity,
     0
   );
 
-  // Compute Shipping costs dynamically (offered over 40€ of normal products)
-  const cartTotalNormal = cartItems.filter(item => item.productId > 0).reduce(
-    (acc, item) => acc + parseFloat(item.price) * item.quantity,
-    0
-  );
-  const isFreeShipping = cartTotalNormal >= 40;
-  const shippingCost = shippingMethod === "pickup"
-    ? 0
-    : (isFreeShipping ? 0 : (shippingMethod === "relay" ? 3.90 : 4.90));
+  // Normal products subtotal (eligible for discounts & free shipping calculation)
+  const cartTotalNormal = cartItems
+    .filter((item) => item.productId > 0 && !item.isLoyaltyReward)
+    .reduce((acc, item) => acc + parseFloat(item.price) * item.quantity, 0);
 
-  const cartTotalWithShipping = cartTotal + shippingCost;
+  // Compute discount amount dynamically
+  let discountAmount = 0;
+  if (appliedPromo) {
+    // Check if minimum order amount is satisfied
+    if (!appliedPromo.minOrderAmount || cartTotalNormal >= appliedPromo.minOrderAmount) {
+      if (appliedPromo.discountType === "percentage") {
+        discountAmount =
+          Math.round(((cartTotalNormal * appliedPromo.discountValue) / 100) * 100) / 100;
+        discountAmount = Math.min(cartTotalNormal, discountAmount);
+      } else if (appliedPromo.discountType === "fixed") {
+        discountAmount = Math.min(cartTotalNormal, appliedPromo.discountValue);
+      }
+    }
+  }
+
+  // Compute Shipping costs dynamically (offered over 40€ of normal products or with free_shipping promo)
+  const isFreeShippingByAmount = cartTotalNormal >= 40;
+  const isFreeShippingByPromo =
+    appliedPromo?.discountType === "free_shipping" &&
+    (!appliedPromo.minOrderAmount || cartTotalNormal >= appliedPromo.minOrderAmount);
+
+  const isFreeShipping = isFreeShippingByAmount || isFreeShippingByPromo;
+
+  const shippingCost =
+    shippingMethod === "pickup"
+      ? 0
+      : isFreeShipping
+      ? 0
+      : shippingMethod === "relay"
+      ? 3.90
+      : 4.90;
+
+  const cartTotalWithShipping = Math.max(0, cartTotal - discountAmount + shippingCost);
+
+  // Apply promo code action
+  const applyPromoCode = async (
+    code: string
+  ): Promise<{ success: boolean; error?: string; message?: string }> => {
+    const cleanCode = (code || "").trim().toUpperCase();
+    if (!cleanCode) {
+      const err = "Veuillez entrer un code promo.";
+      setPromoError(err);
+      return { success: false, error: err };
+    }
+
+    try {
+      const res = await fetch("/api/promo/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: cleanCode, cartTotal: cartTotalNormal }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.valid) {
+        const err = data.error || "Code promo invalide.";
+        setPromoError(err);
+        return { success: false, error: err };
+      }
+
+      setAppliedPromo(data.promo);
+      setPromoError(null);
+      return { success: true, message: data.message };
+    } catch (e: any) {
+      const err = "Erreur de connexion lors de la validation du code promo.";
+      setPromoError(err);
+      return { success: false, error: err };
+    }
+  };
+
+  const removePromoCode = () => {
+    setAppliedPromo(null);
+    setPromoError(null);
+    try {
+      localStorage.removeItem("spoolio_applied_promo");
+      localStorage.removeItem("spoolio_active_promo_code");
+    } catch (e) {}
+  };
 
   return (
     <CartContext.Provider
@@ -205,6 +318,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setSelectedRelay,
         shippingCost,
         cartTotalWithShipping,
+        appliedPromo,
+        discountAmount,
+        promoError,
+        applyPromoCode,
+        removePromoCode,
       }}
     >
       {children}

@@ -1,5 +1,26 @@
 [
   {
+    "id": "SP-68333",
+    "stripeSession": "cs_live_b1D5GCqt358XiIeGd31wuOajGh7tTlULgpFGdSQVHr8aLou8ascXdnBpS3",
+    "email": "francois.cools@free.fr",
+    "customerName": "Cools",
+    "customerPhone": null,
+    "shippingAddress": null,
+    "trackingNumber": null,
+    "items": "[{\"name\":\"Porte-clé NFC SOS enfant (Modèle: Panda)\",\"quantity\":1,\"price\":\"5.00\"},{\"name\":\"Clicker Mécanique Sur-Mesure (4 Touches Carré) (Forme: 4 Touches Carré, Couleur Boîtier: Bleu marine, Switchs: Linéaire Rouge, Touches: Touche #1 (Rouge Feu - Texture 'Lego'), Touche #2 (Jaune Soleil - Texture 'Fromage'), Touche #3 (Bleu Néon - Symbole ghost), Touche #4 (Violet Pailleté - Texture 'Caisse en bois'), Attache: Sans attache (Usage Bureau), _configUrl: /createur-cliqueur?cfg=eyJzaGFwZSI6InNxdWFyZV8yeDIiLCJjYXNlQ29sb3IiOiJibGV1X251aXQiLCJzd2l0Y2hUeXBlIjoicmVkIiwiYXR0YWNobWVudCI6Im5vbmUiLCJrZXljYXBNb2RlIjoiY3VzdG9tIiwiZ2xvYmFsS2V5Y2FwQ29sb3IiOiJvcmFuZ2UiLCJnbG9iYWxQZXJzbyI6eyJ0eXBlIjoic3ltYm9sIiwidmFsdWUiOiJzcGFya2xlcyJ9LCJrZXlDb25maWdzIjp7IjAiOnsidHlwZSI6InRleHR1cmUiLCJ2YWx1ZSI6ImxlZ28iLCJjb2xvciI6InJvdWdlIn0sIjEiOnsidHlwZSI6InRleHR1cmUiLCJ2YWx1ZSI6ImZyb21hZ2UiLCJjb2xvciI6ImphdW5lIn0sIjIiOnsidHlwZSI6InN5bWJvbCIsInZhbHVlIjoiZ2hvc3QiLCJjb2xvciI6ImN5YW4ifSwiMyI6eyJ0eXBlIjoidGV4dHVyZSIsInZhbHVlIjoiY2Fpc3NlIiwiY29sb3IiOiJ2aW9sZXQifX19)\",\"quantity\":1,\"price\":\"6.00\"},{\"name\":\"Vide poche \\\"coussin\\\" (Couleur: Bicolore Bleu-Violet)\",\"quantity\":1,\"price\":\"4.00\"},{\"name\":\"Fidget bague rotative (Modèle: C, Couleur: Bois (imitation bois chêne moyen))\",\"quantity\":1,\"price\":\"3.00\"},{\"name\":\"Fidget boule piquante (Couleur: Beige (cacahuète), Taille: Petite (diamètre 3,5cm))\",\"quantity\":1,\"price\":\"3.00\"}]",
+    "total": 21,
+    "shippingCost": 0,
+    "shippingMethod": "pickup",
+    "status": "attente_impression",
+    "archived": false,
+    "relayDetails": null,
+    "pickupSlotRequested": "Samedi : 8h - 20h",
+    "pickupSlotConfirmed": null,
+    "pickupStatus": "pending",
+    "createdAt": "2026-08-17T20:56:44.236Z",
+    "updatedAt": "2026-08-17T20:56:44.236Z"
+  },
+  {
     "id": "SP-22114",
     "stripeSession": "cs_live_b1iYE1WNWf91J0vZQpYJ66TkB9eDMpDePzwvzWSRzjwcqdWG42tCijzTsF",
     "email": "lauradepoppe@gmail.com",

@@ -115,6 +115,14 @@ export default function Footer({ className = "" }: FooterProps) {
         {/* Lower Section: Legal & Navigation Links */}
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-center text-gray-400 font-sans font-semibold">
           
+          {/* Application Enjeu Link */}
+          <Link
+            href="/liens"
+            className="text-indigo-300 hover:text-indigo-200 font-extrabold transition-all flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-600/20 border border-indigo-500/40 hover:border-indigo-400 hover:bg-indigo-600/35 shadow-sm"
+          >
+            <span>📱 Application Enjeu</span>
+          </Link>
+
           {/* Loyalty Club Spoolio Link */}
           <Link
             href="/fidelite"

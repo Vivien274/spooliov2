@@ -22,7 +22,15 @@ interface Product {
 
 export default function UpsellPage() {
   const router = useRouter();
-  const { cartItems, cartTotal, addToCart } = useCart();
+  const {
+    cartItems,
+    cartTotal,
+    addToCart,
+    appliedPromo,
+    discountAmount,
+    shippingCost,
+    cartTotalWithShipping,
+  } = useCart();
   const [catalog, setCatalog] = useState<Product[]>([]);
   const [suggestions, setSuggestions] = useState<Product[]>([]);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
@@ -127,6 +135,15 @@ export default function UpsellPage() {
       }
     }
 
+    const savedPromoStr = localStorage.getItem("spoolio_applied_promo");
+    let activePromoCode = appliedPromo?.code || null;
+    if (!activePromoCode && savedPromoStr) {
+      try {
+        const parsed = JSON.parse(savedPromoStr);
+        activePromoCode = parsed.code || null;
+      } catch (e) {}
+    }
+
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -136,6 +153,7 @@ export default function UpsellPage() {
           shippingMethod,
           selectedRelay,
           pickupSlot,
+          promoCode: activePromoCode,
         }),
       });
 
@@ -196,33 +214,41 @@ export default function UpsellPage() {
         </div>
 
         {/* Free Shipping Progress Indicator */}
-        <div className="w-full max-w-2xl bg-spoolio-card border border-spoolio-border rounded-[24px] p-5 mb-10 flex flex-col gap-3 font-sans select-none shadow-xl">
-          <div className="flex items-center justify-between text-xs font-bold font-sans">
-            {cartTotal < 40 ? (
-              <>
-                <span className="text-gray-400 font-sans">
-                  Plus que <strong className="text-[#ff4f00] text-sm font-sans">{(40 - cartTotal).toFixed(2)}€</strong> pour profiter de la <span className="text-white">livraison offerte</span> !
-                </span>
-                <span className="text-[#ff4f00] animate-bounce text-sm">🚀</span>
-              </>
-            ) : (
-              <>
-                <span className="text-emerald-400 flex items-center gap-1.5 text-sm font-sans">
-                  🎉 Livraison offerte active !
-                </span>
-                <span className="text-emerald-400 font-black uppercase tracking-wider text-[11px] font-sans">Offerte</span>
-              </>
-            )}
-          </div>
-          <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden relative">
-            <div 
-              className={`h-full rounded-full transition-all duration-500 ${
-                cartTotal < 40 ? "bg-gradient-to-r from-[#ff4f00]/60 to-[#ff4f00]" : "bg-emerald-400 shadow-[0_0_12px_#34d399]"
-              }`}
-              style={{ width: `${Math.min((cartTotal / 40) * 100, 100)}%` }}
-            />
-          </div>
-        </div>
+        {(() => {
+          const isFreeShipping = cartTotal >= 40 || appliedPromo?.discountType === "free_shipping";
+          const missingAmount = Math.max(0, 40 - cartTotal);
+          const progressPercent = isFreeShipping ? 100 : Math.min((cartTotal / 40) * 100, 100);
+
+          return (
+            <div className="w-full max-w-2xl bg-spoolio-card border border-spoolio-border rounded-[24px] p-5 mb-10 flex flex-col gap-3 font-sans select-none shadow-xl">
+              <div className="flex items-center justify-between text-xs font-bold font-sans">
+                {!isFreeShipping ? (
+                  <>
+                    <span className="text-gray-400 font-sans">
+                      Plus que <strong className="text-[#ff4f00] text-sm font-sans">{missingAmount.toFixed(2)}€</strong> pour profiter de la <span className="text-white">livraison offerte</span> !
+                    </span>
+                    <span className="text-[#ff4f00] animate-bounce text-sm">🚀</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-emerald-400 flex items-center gap-1.5 text-sm font-sans">
+                      🎉 Livraison offerte active !
+                    </span>
+                    <span className="text-emerald-400 font-black uppercase tracking-wider text-[11px] font-sans">Offerte</span>
+                  </>
+                )}
+              </div>
+              <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden relative">
+                <div 
+                  className={`h-full rounded-full transition-all duration-500 ${
+                    !isFreeShipping ? "bg-gradient-to-r from-[#ff4f00]/60 to-[#ff4f00]" : "bg-emerald-400 shadow-[0_0_12px_#34d399]"
+                  }`}
+                  style={{ width: `${progressPercent}%` }}
+                />
+              </div>
+            </div>
+          );
+        })()}
 
         {/* Grille des suggestions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-3xl mb-12">
@@ -291,15 +317,42 @@ export default function UpsellPage() {
 
         {/* Total Summary and checkout actions */}
         <div className="w-full max-w-md bg-spoolio-card border border-spoolio-border p-6 rounded-[28px] flex flex-col gap-4 font-sans text-center shadow-2xl">
-          <div className="flex items-center justify-between text-sm pb-3 border-b border-white/5">
-            <span className="text-gray-400 font-medium font-sans">Panier total actualisé :</span>
-            <div className="flex flex-col items-end">
-              <span className="font-black text-xl text-white">{cartTotal.toFixed(2)}€</span>
-              {cartTotal < 40 ? (
-                <span className="text-[10px] text-gray-500 font-semibold mt-0.5 font-sans">+ 3,90€ de port</span>
-              ) : (
-                <span className="text-[10px] text-emerald-400 font-bold mt-0.5 font-sans">Livraison offerte</span>
-              )}
+          <div className="flex flex-col gap-2 text-xs pb-3 border-b border-white/5 font-sans">
+            <div className="flex items-center justify-between text-gray-400">
+              <span>Sous-total</span>
+              <span className="font-extrabold text-white font-mono">{cartTotal.toFixed(2)}€</span>
+            </div>
+
+            {appliedPromo && (discountAmount > 0 || appliedPromo.discountType === "free_shipping") && (
+              <div className="flex items-center justify-between text-emerald-400 font-bold bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/20">
+                <span className="flex items-center gap-1.5">
+                  <span>🏷️</span>
+                  <span>Remise ({appliedPromo.code})</span>
+                </span>
+                <span className="font-mono font-black">
+                  {appliedPromo.discountType === "free_shipping"
+                    ? "Port Offert"
+                    : `-${discountAmount.toFixed(2)}€`}
+                </span>
+              </div>
+            )}
+
+            <div className="flex items-center justify-between text-gray-400">
+              <span>Frais de livraison</span>
+              <span className="font-extrabold text-white">
+                {shippingCost === 0 ? (
+                  <span className="text-emerald-400 font-bold">Offert</span>
+                ) : (
+                  `${shippingCost.toFixed(2)}€`
+                )}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between text-sm pt-2 border-t border-white/10">
+              <span className="text-gray-300 font-bold uppercase tracking-wider">Total final</span>
+              <span className="font-black text-2xl text-white font-antonio tracking-tight">
+                {cartTotalWithShipping.toFixed(2)}€
+              </span>
             </div>
           </div>
 
@@ -322,7 +375,7 @@ export default function UpsellPage() {
                 </svg>
               ) : (
                 <>
-                  <span>Payer ma commande</span>
+                  <span>Payer ma commande ({cartTotalWithShipping.toFixed(2)}€)</span>
                   <span>&rarr;</span>
                 </>
               )}

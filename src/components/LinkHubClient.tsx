@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import EnjeuBanner from "@/components/EnjeuBanner";
 import {
   ShieldCheck,
   Share2,
@@ -222,12 +223,12 @@ export default function LinkHubClient({ initialProfile, initialLinks, isPreview 
         </AnimatePresence>
 
 
-        {/* PROFILE HEADER HERO CARD */}
+        {/* PROFILE HEADER HERO (CLEAN FLUID HEADER, NO CARD) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-full p-6 sm:p-8 rounded-3xl bg-neutral-900/40 border border-white/10 backdrop-blur-2xl shadow-2xl flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left relative overflow-hidden"
+          className="w-full py-4 flex flex-col sm:flex-row items-center sm:items-start gap-5 text-center sm:text-left relative"
         >
           {/* Conic Ring Avatar */}
           <div className="relative group shrink-0">
@@ -254,7 +255,7 @@ export default function LinkHubClient({ initialProfile, initialLinks, isPreview 
           {/* Profile Text */}
           <div className="space-y-2 flex-1">
             <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-[family-name:var(--font-antonio)]">
+              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans">
                 {profile.title || "Spoolio.fr 🌀"}
               </h1>
               {profile.verifiedBadge !== false && (
@@ -275,13 +276,51 @@ export default function LinkHubClient({ initialProfile, initialLinks, isPreview 
           </div>
         </motion.div>
 
-
         {/* =========================================================================
             BENTO GRID LAYOUT (INTERACTIVE BENTO HUB)
            ========================================================================= */}
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
 
-          {/* BENTO CARD 1: HERO FEATURED CARD - CLICKER CREATOR (SPAN 2) */}
+          {/* 1. BOUTIQUE OFFICIELLE (SPAN 2 - EN PREMIER) */}
+          <motion.a
+            href="https://www.spoolio.fr/boutique"
+            onClick={() => handleLinkClick("link-boutique")}
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.05 }}
+            whileHover={{ scale: 1.015, y: -3 }}
+            whileTap={{ scale: 0.98 }}
+            className="sm:col-span-2 group relative p-6 rounded-3xl bg-gradient-to-r from-[#ff4f00]/30 via-neutral-900/90 to-neutral-950 border border-[#ff4f00]/60 hover:border-[#ff4f00] backdrop-blur-2xl shadow-[0_15px_40px_rgba(255,79,0,0.15)] flex items-center justify-between gap-4 overflow-hidden cursor-pointer"
+          >
+            <div className="flex items-center gap-4 relative z-10">
+              <div className="w-12 h-12 rounded-2xl bg-[#ff4f00] text-white flex items-center justify-center text-2xl shrink-0 shadow-lg border border-white/20">
+                🛒
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[10px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-[#ff4f00] text-white shadow">
+                    🛍️ ACCÈS DIRECT
+                  </span>
+                </div>
+                <h3 className="text-lg sm:text-xl font-black text-white group-hover:text-[#ff4f00] transition-colors">
+                  La Boutique Officielle Spoolio.fr
+                </h3>
+                <p className="text-xs text-neutral-300 font-medium leading-tight mt-0.5">
+                  Découvre toute notre collection d'objets, figurines &amp; fidgets 3D.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0 relative z-10">
+              <span className="text-xs font-bold text-white bg-[#ff4f00] px-4 py-2 rounded-xl shadow-md group-hover:bg-[#e04500] transition-colors hidden sm:inline-block">
+                Explorer le Shop
+              </span>
+              <ArrowUpRight className="w-5 h-5 text-white group-hover:translate-x-1 transition-transform" />
+            </div>
+          </motion.a>
+
+          {/* 2. CLICKER CREATOR (SPAN 2) */}
           <motion.a
             href="https://www.spoolio.fr/createur-cliqueur"
             onClick={() => handleLinkClick("link-clicker")}
@@ -290,13 +329,8 @@ export default function LinkHubClient({ initialProfile, initialLinks, isPreview 
             transition={{ duration: 0.4, delay: 0.1 }}
             whileHover={{ scale: 1.015, y: -3 }}
             whileTap={{ scale: 0.98 }}
-            className="sm:col-span-2 group relative p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-[#ff4f00]/30 via-neutral-900/90 to-neutral-950 border border-[#ff4f00]/60 hover:border-[#ff4f00] backdrop-blur-2xl shadow-[0_15px_40px_rgba(255,79,0,0.15)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 overflow-hidden cursor-pointer"
+            className="sm:col-span-2 group relative p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-[#ff4f00]/20 via-neutral-900/90 to-neutral-950 border border-neutral-800 hover:border-[#ff4f00]/60 backdrop-blur-2xl shadow-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 overflow-hidden cursor-pointer"
           >
-            {/* Ambient Beam Glow Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 pointer-events-none" />
-            <div className="absolute -top-12 -right-12 w-48 h-48 bg-[#ff4f00]/20 rounded-full blur-3xl pointer-events-none group-hover:scale-125 transition-transform" />
-
-            {/* Content */}
             <div className="space-y-3 relative z-10 flex-1">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-[#ff4f00] text-white shadow border border-white/20 flex items-center gap-1">
@@ -328,21 +362,19 @@ export default function LinkHubClient({ initialProfile, initialLinks, isPreview 
               </div>
             </div>
 
-            {/* Visual Mini 3D Badge */}
             <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-black/60 border border-white/20 shrink-0 flex flex-col items-center justify-center p-3 relative z-10 shadow-2xl group-hover:scale-105 transition-transform">
               <span className="text-3xl sm:text-4xl">⌨️</span>
               <span className="text-[9px] font-mono font-bold text-neutral-400 mt-1 uppercase">3D Custom</span>
             </div>
           </motion.a>
 
-
-          {/* BENTO CARD 2: POCHETTE SURPRISE (SPAN 2 OR SPAN 1) */}
+          {/* 3. POCHETTE SURPRISE (SPAN 1) */}
           <motion.a
             href="https://www.spoolio.fr/pochette-surprise"
             onClick={() => handleLinkClick("link-pochette")}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.2 }}
+            transition={{ duration: 0.4, delay: 0.15 }}
             whileHover={{ scale: 1.015, y: -2 }}
             whileTap={{ scale: 0.98 }}
             className="group relative p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-purple-600/25 via-neutral-900/90 to-neutral-950 border border-purple-500/50 hover:border-purple-400 backdrop-blur-2xl shadow-xl flex flex-col justify-between gap-4 overflow-hidden cursor-pointer"
@@ -373,14 +405,13 @@ export default function LinkHubClient({ initialProfile, initialLinks, isPreview 
             </div>
           </motion.a>
 
-
-          {/* BENTO CARD 3: TOMBOLA & JEU CONCOURS (SPAN 1) */}
+          {/* 4. TOMBOLA & JEU CONCOURS (SPAN 1) */}
           <motion.a
             href="https://www.spoolio.fr/tombola"
             onClick={() => handleLinkClick("link-tombola")}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.25 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
             whileHover={{ scale: 1.015, y: -2 }}
             whileTap={{ scale: 0.98 }}
             className="group relative p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-amber-500/20 via-neutral-900/90 to-neutral-950 border border-amber-500/50 hover:border-amber-400 backdrop-blur-2xl shadow-xl flex flex-col justify-between gap-4 overflow-hidden cursor-pointer"
@@ -411,8 +442,17 @@ export default function LinkHubClient({ initialProfile, initialLinks, isPreview 
             </div>
           </motion.a>
 
+          {/* 5. APPLI ENJEU (SPAN 2 - SECONDAIRE COMPACT) */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.25 }}
+            className="sm:col-span-2 w-full"
+          >
+            <EnjeuBanner variant="link-hub" className="w-full text-left" />
+          </motion.div>
 
-          {/* BENTO CARD 4: BOUSSOLE SENSORIELLE TDAH (SPAN 1) */}
+          {/* 6. BOUSSOLE SENSORIELLE TDAH (SPAN 1) */}
           <motion.a
             href="https://www.spoolio.fr/boussole-sensorielle"
             onClick={() => handleLinkClick("link-boussole")}
@@ -449,8 +489,7 @@ export default function LinkHubClient({ initialProfile, initialLinks, isPreview 
             </div>
           </motion.a>
 
-
-          {/* BENTO CARD 5: AVIS CLIENTS (SPAN 1) */}
+          {/* 7. AVIS CLIENTS (SPAN 1) */}
           <motion.a
             href="https://www.spoolio.fr/#avis"
             onClick={() => handleLinkClick("link-reviews")}
@@ -484,41 +523,6 @@ export default function LinkHubClient({ initialProfile, initialLinks, isPreview 
             <div className="flex items-center justify-between pt-1 text-xs text-amber-400 font-bold">
               <span>Lire les témoignages</span>
               <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-            </div>
-          </motion.a>
-
-
-          {/* BENTO CARD 6: FULL BOUTIQUE BANNER (SPAN 2) */}
-          <motion.a
-            href="https://www.spoolio.fr/boutique"
-            onClick={() => handleLinkClick("link-boutique")}
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.4 }}
-            whileHover={{ scale: 1.01, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            className="sm:col-span-2 group relative p-6 rounded-3xl bg-gradient-to-r from-neutral-900 via-neutral-900/90 to-neutral-950 border border-neutral-800 hover:border-[#ff4f00]/60 backdrop-blur-xl shadow-xl flex items-center justify-between gap-4 overflow-hidden cursor-pointer"
-          >
-            <div className="flex items-center gap-4 relative z-10">
-              <div className="w-12 h-12 rounded-2xl bg-[#ff4f00]/20 border border-[#ff4f00]/40 text-[#ff4f00] flex items-center justify-center text-2xl shrink-0 shadow-inner">
-                🛒
-              </div>
-
-              <div>
-                <h3 className="text-base sm:text-lg font-black text-white group-hover:text-[#ff4f00] transition-colors">
-                  La Boutique Officielle Spoolio.fr
-                </h3>
-                <p className="text-xs text-neutral-400 leading-tight mt-0.5">
-                  Découvre toute notre collection d'objets, figurines &amp; fidgets 3D.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 shrink-0 relative z-10">
-              <span className="text-xs font-bold text-white bg-[#ff4f00] px-4 py-2 rounded-xl shadow-md group-hover:bg-[#e04500] transition-colors hidden sm:inline-block">
-                Explorer le Shop
-              </span>
-              <ArrowUpRight className="w-5 h-5 text-neutral-400 group-hover:text-white group-hover:translate-x-1 transition-transform" />
             </div>
           </motion.a>
 

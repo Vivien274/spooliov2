@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Product } from "@/components/ProductCard";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import EnjeuBanner from "@/components/EnjeuBanner";
 import UnicornIcon from "@/components/UnicornIcon";
 import { useCart } from "@/context/CartContext";
 import { parseNoiseLevel, formatNoiseLevelText } from "@/lib/sensoryUtils";
@@ -1804,6 +1805,31 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
             </button>
           </div>
         </section>
+
+        {/* Enjeu App Companion Banner (shown for board game products / accessories) */}
+        {(() => {
+          const slugLower = (slug || "").toLowerCase();
+          const nameLower = (displayName || product?.name || "").toLowerCase();
+          const descLower = (displayFullDesc || "").toLowerCase();
+          const isGameProduct =
+            slugLower.includes("carte") ||
+            slugLower.includes("jeu") ||
+            slugLower.includes("des") ||
+            slugLower.includes("pince") ||
+            nameLower.includes("carte") ||
+            nameLower.includes("jeu") ||
+            nameLower.includes("tour") ||
+            descLower.includes("jeu de société") ||
+            descLower.includes("cartes de jeu");
+
+          if (!isGameProduct) return null;
+
+          return (
+            <div className="mt-12">
+              <EnjeuBanner productName={displayName || product?.name} />
+            </div>
+          );
+        })()}
 
         {/* Frequently Bought Together */}
         {relatedProducts.length > 0 && (

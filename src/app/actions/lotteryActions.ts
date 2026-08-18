@@ -275,8 +275,15 @@ export async function createLotteryPrizeAdminAction(payload: {
       },
     });
 
+    try {
+      const { syncLotteryPromoCodes } = await import("./promoActions");
+      await syncLotteryPromoCodes();
+    } catch (e) {}
+
     revalidatePath("/loterie");
     revalidatePath("/admin/loterie");
+    revalidatePath("/admin/promos");
+    revalidatePath("/panier");
 
     return { success: true, prize: created };
   } catch (error: any) {
@@ -323,8 +330,15 @@ export async function updateLotteryPrizeAdminAction(
       data: dataToUpdate,
     });
 
+    try {
+      const { syncLotteryPromoCodes } = await import("./promoActions");
+      await syncLotteryPromoCodes();
+    } catch (e) {}
+
     revalidatePath("/loterie");
     revalidatePath("/admin/loterie");
+    revalidatePath("/admin/promos");
+    revalidatePath("/panier");
 
     return { success: true, prize: updated };
   } catch (error: any) {
@@ -344,8 +358,15 @@ export async function deleteLotteryPrizeAdminAction(id: string) {
       where: { id },
     });
 
+    try {
+      const { syncLotteryPromoCodes } = await import("./promoActions");
+      await syncLotteryPromoCodes();
+    } catch (e) {}
+
     revalidatePath("/loterie");
     revalidatePath("/admin/loterie");
+    revalidatePath("/admin/promos");
+    revalidatePath("/panier");
 
     return { success: true };
   } catch (error: any) {

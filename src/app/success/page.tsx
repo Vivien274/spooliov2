@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import EnjeuBanner from "@/components/EnjeuBanner";
 
 function SuccessPageContent() {
   const { clearCart } = useCart();
@@ -133,6 +134,9 @@ function SuccessPageContent() {
             </span>
           </div>
         </div>
+
+        {/* Enjeu Companion App Download Invite (Compact format) */}
+        <EnjeuBanner variant="compact" className="w-full mb-8 text-left" />
 
         {/* Loyalty Card widget */}
         {loyaltyCard && (() => {

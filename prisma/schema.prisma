@@ -241,5 +241,20 @@ model LotterySpin {
   @@map("lottery_spins")
 }
 
+model PromoCode {
+  id              String    @id @default(uuid())
+  code            String    @unique
+  description     String?   @db.Text
+  discountType    String    @default("percentage") // percentage | fixed | free_shipping
+  discountValue   Float     @default(0)
+  minOrderAmount  Float     @default(0)
+  maxUses         Int?
+  usedCount       Int       @default(0)
+  startDate       DateTime?
+  endDate         DateTime?
+  isActive        Boolean   @default(true)
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
 
-
+  @@map("promo_codes")
+}
