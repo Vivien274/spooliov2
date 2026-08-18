@@ -332,15 +332,15 @@ export default function MotionNavigationMenu() {
                 </div>
               )}
 
-              {/* DROPDOWN TAB 2: EXPÉRIENCES & JEUX (Harmonized 2x2 Grid) */}
+              {/* DROPDOWN TAB 2: EXPÉRIENCES & JEUX (Stable Harmonized Grid) */}
               {activeTab === "univers" && (
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3.5">
                   {/* Card 1: Pochettes Surprises 3D */}
                   <Link
                     href="/pochette-surprise"
-                    className="group bg-gradient-to-br from-[#ff4f00]/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-[#ff4f00]/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg hover:shadow-[#ff4f00]/10"
+                    className="group bg-gradient-to-br from-[#ff4f00]/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-[#ff4f00]/60 transition-all duration-200 flex flex-col justify-between h-[150px] shadow-lg hover:shadow-[#ff4f00]/10"
                   >
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <div className="flex items-center justify-between">
                         <div className="p-2 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] group-hover:scale-110 transition-transform">
                           <Gift className="w-5 h-5" />
@@ -356,7 +356,7 @@ export default function MotionNavigationMenu() {
                         {t("nav_menu.surprise_pack_sub")}
                       </p>
                     </div>
-                    <div className="flex items-center justify-between text-xs font-black text-[#ff4f00]">
+                    <div className="flex items-center justify-between text-xs font-black text-[#ff4f00] pt-1">
                       <span>{t("nav_menu.open_pack")}</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
@@ -365,9 +365,9 @@ export default function MotionNavigationMenu() {
                   {/* Card 2: Boussole Sensorielle */}
                   <Link
                     href="/boussole-sensorielle"
-                    className="group bg-gradient-to-br from-cyan-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-cyan-400/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg hover:shadow-cyan-500/10"
+                    className="group bg-gradient-to-br from-cyan-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-cyan-400/60 transition-all duration-200 flex flex-col justify-between h-[150px] shadow-lg hover:shadow-cyan-500/10"
                   >
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <div className="flex items-center justify-between">
                         <div className="p-2 rounded-xl bg-cyan-500/20 text-cyan-400 group-hover:scale-110 transition-transform">
                           <Compass className="w-5 h-5" />
@@ -383,7 +383,7 @@ export default function MotionNavigationMenu() {
                         {t("nav_menu.boussole_desc")}
                       </p>
                     </div>
-                    <div className="flex items-center justify-between text-xs font-black text-cyan-400">
+                    <div className="flex items-center justify-between text-xs font-black text-cyan-400 pt-1">
                       <span>{t("nav_menu.launch_test")}</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
@@ -392,9 +392,9 @@ export default function MotionNavigationMenu() {
                   {/* Card 3: Créateur de Clicker 3D */}
                   <Link
                     href="/createur-cliqueur"
-                    className="group bg-gradient-to-br from-purple-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-purple-400/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg hover:shadow-purple-500/10"
+                    className="group bg-gradient-to-br from-purple-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-purple-400/60 transition-all duration-200 flex flex-col justify-between h-[150px] shadow-lg hover:shadow-purple-500/10"
                   >
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <div className="flex items-center justify-between">
                         <div className="p-2 rounded-xl bg-purple-500/20 text-purple-400 group-hover:scale-110 transition-transform">
                           <Gamepad2 className="w-5 h-5" />
@@ -410,49 +410,18 @@ export default function MotionNavigationMenu() {
                         {t("nav_menu.clicker_studio_desc")}
                       </p>
                     </div>
-                    <div className="flex items-center justify-between text-xs font-black text-purple-400">
+                    <div className="flex items-center justify-between text-xs font-black text-purple-400 pt-1">
                       <span>{t("nav_menu.create_clicker")}</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>
 
-                  {/* Card 4: Tombola du Moment (Conditionnel) */}
-                  {isTombolaActive && (
-                    <Link
-                      href="/tombola"
-                      className="group bg-gradient-to-br from-amber-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-amber-400/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg hover:shadow-amber-500/10"
-                    >
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400 group-hover:scale-110 transition-transform">
-                            <Ticket className="w-5 h-5" />
-                          </div>
-                          <span className="bg-amber-500/20 text-amber-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
-                            🎟️ JEU CONCOURS
-                          </span>
-                        </div>
-                        <h4 className="text-sm font-black text-white group-hover:text-amber-400 transition-colors font-extrabold">
-                          {t("nav_menu.tombola_title")}
-                        </h4>
-                        <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                          {t("nav_menu.tombola_desc")}
-                        </p>
-                      </div>
-                      <div className="flex items-center justify-between text-xs font-black text-amber-400">
-                        <span>{t("nav_menu.try_luck")}</span>
-                        <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
-                      </div>
-                    </Link>
-                  )}
-
-                  {/* Card 5: Roue de la Fortune Loterie */}
+                  {/* Card 4: Roue de la Fortune Loterie */}
                   <Link
                     href="/loterie"
-                    className={`group bg-gradient-to-br from-[#FF5500]/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-[#FF5500]/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg hover:shadow-[#FF5500]/10 ${
-                      isTombolaActive ? "col-span-2" : "col-span-3"
-                    }`}
+                    className="group bg-gradient-to-br from-[#FF5500]/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-[#FF5500]/60 transition-all duration-200 flex flex-col justify-between h-[150px] shadow-lg hover:shadow-[#FF5500]/10"
                   >
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <div className="flex items-center justify-between">
                         <div className="p-2 rounded-xl bg-[#FF5500]/20 text-[#FF5500] group-hover:scale-110 transition-transform">
                           <Sparkles className="w-5 h-5" />
@@ -462,17 +431,48 @@ export default function MotionNavigationMenu() {
                         </span>
                       </div>
                       <h4 className="text-sm font-black text-white group-hover:text-[#FF5500] transition-colors font-extrabold">
-                        Roue de la Fortune Spoolio
+                        Roue de la Fortune
                       </h4>
                       <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        Tourne la roue et gagne des cadeaux 3D, fidgets et réductions instantanées !
+                        Tourne la roue et gagne des cadeaux 3D et réductions instantanées !
                       </p>
                     </div>
-                    <div className="flex items-center justify-between text-xs font-black text-[#FF5500]">
+                    <div className="flex items-center justify-between text-xs font-black text-[#FF5500] pt-1">
                       <span>Lancer la Roue</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     </div>
                   </Link>
+
+                  {/* Card 5: Tombola (Conditionnelle) */}
+                  {isTombolaActive && (
+                    <Link
+                      href="/tombola"
+                      className="col-span-2 group bg-gradient-to-r from-amber-500/20 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-amber-400/60 transition-all duration-200 flex items-center justify-between shadow-lg hover:shadow-amber-500/10"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-400 group-hover:scale-110 transition-transform">
+                          <Ticket className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h4 className="text-sm font-black text-white group-hover:text-amber-400 transition-colors font-extrabold">
+                              Tombola Spoolio
+                            </h4>
+                            <span className="bg-amber-500/20 text-amber-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
+                              🎟️ JEU
+                            </span>
+                          </div>
+                          <p className="text-xs text-gray-300 leading-snug">
+                            {t("nav_menu.tombola_desc")}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1 text-xs font-black text-amber-400 shrink-0">
+                        <span>{t("nav_menu.try_luck")}</span>
+                        <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </Link>
+                  )}
                 </div>
               )}
 
