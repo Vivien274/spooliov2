@@ -298,26 +298,6 @@ export default function MobileMenuDrawer({
             <span>Soutenir l&apos;Atelier</span>
           </Link>
         </div>
-
-        {/* Bottom Theme Toggle */}
-        <div className="pt-3 border-t border-white/10">
-          <button
-            onClick={toggleTheme}
-            className="w-full h-10 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 flex items-center justify-center gap-2 text-xs font-bold transition-all cursor-pointer active:scale-95"
-          >
-            {theme === "dark" ? (
-              <>
-                <Sun className="w-3.5 h-3.5 text-amber-400" />
-                <span>Mode Clair</span>
-              </>
-            ) : (
-              <>
-                <Moon className="w-3.5 h-3.5 text-purple-400" />
-                <span>Mode Sombre</span>
-              </>
-            )}
-          </button>
-        </div>
       </div>
     </div>
   );
