@@ -144,6 +144,105 @@ export interface SingleKeyPerso {
   color: ColorOption;
 }
 
+export interface ClickerPreset {
+  id: string;
+  name: string;
+  badge: string;
+  icon: string;
+  desc: string;
+  shapeId: string;
+  caseColorId: string;
+  switchId: "blue" | "brown" | "red";
+  attachmentId: string;
+  keycapMode: "all" | "custom";
+  globalKeycapColorId?: string;
+  globalPerso?: { type: KeyCustomizationType; value: string };
+  keyConfigs?: Record<number, { type: KeyCustomizationType; value: string; colorId: string }>;
+}
+
+export const POPULAR_PRESETS: ClickerPreset[] = [
+  {
+    id: "spoolio_signature",
+    name: "Spoolio Signature",
+    badge: "🔥 Best-Seller",
+    icon: "🍊",
+    desc: "Boîtier Noir Mat + Touches Orange & Jaune Spoolio",
+    shapeId: "square_2x2",
+    caseColorId: "noir",
+    switchId: "blue",
+    attachmentId: "clip",
+    keycapMode: "custom",
+    keyConfigs: {
+      0: { type: "letter", value: "S", colorId: "orange" },
+      1: { type: "letter", value: "P", colorId: "jaune" },
+      2: { type: "letter", value: "O", colorId: "jaune" },
+      3: { type: "letter", value: "O", colorId: "orange" },
+    },
+  },
+  {
+    id: "cyberpunk_neon",
+    name: "Cyberpunk Néon",
+    badge: "⚡ Populaire",
+    icon: "🌆",
+    desc: "Gris Carbone + Néon Cyan & Rose avec switch Clicky",
+    shapeId: "duo",
+    caseColorId: "gris",
+    switchId: "blue",
+    attachmentId: "chain",
+    keycapMode: "custom",
+    keyConfigs: {
+      0: { type: "symbol", value: "lightning", colorId: "cyan" },
+      1: { type: "symbol", value: "gamepad", colorId: "rose" },
+    },
+  },
+  {
+    id: "stealth_bureau",
+    name: "Stealth Discret",
+    badge: "🤫 Bureau",
+    icon: "💼",
+    desc: "Noir & Blanc avec switch Linéaire Silencieux",
+    shapeId: "mono",
+    caseColorId: "noir",
+    switchId: "red",
+    attachmentId: "none",
+    keycapMode: "all",
+    globalKeycapColorId: "blanc",
+    globalPerso: { type: "symbol", value: "star" },
+  },
+  {
+    id: "gamer_wasd",
+    name: "Gamer WASD",
+    badge: "🎮 Gaming",
+    icon: "🕹️",
+    desc: "4 touches WASD Violet & Cyan pour vos sessions",
+    shapeId: "shape_t",
+    caseColorId: "violet",
+    switchId: "brown",
+    attachmentId: "ring",
+    keycapMode: "custom",
+    keyConfigs: {
+      1: { type: "letter", value: "W", colorId: "cyan" },
+      3: { type: "letter", value: "A", colorId: "cyan" },
+      4: { type: "letter", value: "S", colorId: "violet" },
+      5: { type: "letter", value: "D", colorId: "cyan" },
+    },
+  },
+  {
+    id: "glow_night",
+    name: "Glow Phospho",
+    badge: "✨ Brille la nuit",
+    icon: "🌙",
+    desc: "Boîtier Phosphorescent qui brille dans le noir !",
+    shapeId: "duo",
+    caseColorId: "glow",
+    switchId: "blue",
+    attachmentId: "clip",
+    keycapMode: "all",
+    globalKeycapColorId: "glow",
+    globalPerso: { type: "symbol", value: "heart" },
+  },
+];
+
 const WORD_SUGGESTIONS = ["WASD", "ESC", "CTRL", "ALT", "PLAY", "BOSS", "SHIFT", "LOL", "LVL", "WIN", "GAME", "OK"];
 const QUICK_LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
 
@@ -175,6 +274,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
 
   // Active key index in custom mode
   const [activeKeyIndex, setActiveKeyIndex] = useState<number>(0);
+  const [activePresetId, setActivePresetId] = useState<string | null>("spoolio_signature");
 
   // Pressed keys visual feedback state
   const [pressedKey, setPressedKey] = useState<number | null>(null);
@@ -501,6 +601,41 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
   const attachmentPrice = typeof attachment.price === "number" ? attachment.price : parseFloat(attachment.price) || 0;
   const totalPrice = shapePrice + attachmentPrice;
 
+  // Apply a popular preset in 1 click
+  const handleApplyPreset = (preset: ClickerPreset) => {
+    setActivePresetId(preset.id);
+    const foundShape = shapesList.find((s) => s.id === preset.shapeId) || shapesList[0];
+    const foundCase = colorsList.find((c) => c.id === preset.caseColorId) || colorsList[0];
+    const foundSwitch = switchesList.find((sw) => sw.id === preset.switchId) || switchesList[0];
+    const foundAtt = attachmentsList.find((a) => a.id === preset.attachmentId) || attachmentsList[0];
+
+    setSelectedShape(foundShape);
+    setCaseColor(foundCase);
+    setSwitchType(foundSwitch);
+    setAttachment(foundAtt);
+    setKeycapMode(preset.keycapMode);
+
+    if (preset.keycapMode === "all") {
+      const foundColor = KEYCAP_COLORS.find((c) => c.id === preset.globalKeycapColorId) || KEYCAP_COLORS[0];
+      setGlobalKeycapColor(foundColor);
+      setGlobalPerso(preset.globalPerso || { type: "blank", value: "" });
+    } else if (preset.keyConfigs) {
+      const newKeys: Record<number, SingleKeyPerso> = {};
+      foundShape.validIndices.forEach((idx) => {
+        const item = preset.keyConfigs?.[idx];
+        const keyColor = item
+          ? KEYCAP_COLORS.find((c) => c.id === item.colorId) || KEYCAP_COLORS[0]
+          : KEYCAP_COLORS[0];
+        newKeys[idx] = {
+          type: item ? item.type : "blank",
+          value: item ? item.value : "",
+          color: keyColor,
+        };
+      });
+      setKeyConfigs(newKeys);
+    }
+  };
+
   // Add custom clicker to cart
   const handleAddToCart = () => {
     const keyDetails = selectedShape.validIndices.map((idx, i) => {
@@ -566,7 +701,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
         {/* =========================================================================
             LEFT COLUMN : INTERACTIVE 3D/2D VISUALIZER & SOUND SANDBOX
            ========================================================================= */}
-        <div className="lg:col-span-6 sticky top-24 space-y-4 select-none">
+        <div className="lg:col-span-6 lg:sticky lg:top-28 lg:self-start z-20 space-y-4 select-none">
           {/* View Mode Mode Toggle Header */}
           <div className="flex items-center justify-between bg-neutral-900/80 border border-neutral-800 rounded-2xl p-2">
             <div className="flex items-center gap-1 bg-black/50 p-1 rounded-xl border border-neutral-800 text-xs">
@@ -758,6 +893,52 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
            ========================================================================= */}
         <div className="lg:col-span-6 space-y-8">
           
+          {/* POPULAR PRESETS IN 1 CLICK (Point 5 UX) */}
+          <div className="p-4 rounded-3xl bg-gradient-to-br from-[#181822] via-[#14141c] to-[#0d0d12] border border-neutral-700/80 shadow-xl space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-base">✨</span>
+                <h3 className="text-xs font-black uppercase tracking-wider text-white">
+                  Presets Populaires en 1 Clic
+                </h3>
+              </div>
+              <span className="text-[10px] font-mono text-neutral-400">Gagnez du temps</span>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              {POPULAR_PRESETS.map((preset) => {
+                const isActive = activePresetId === preset.id;
+                return (
+                  <button
+                    key={preset.id}
+                    type="button"
+                    onClick={() => handleApplyPreset(preset)}
+                    className={`p-2.5 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between group ${
+                      isActive
+                        ? "bg-[#ff4f00]/15 border-[#ff4f00] text-white ring-1 ring-[#ff4f00]/50 shadow-md shadow-[#ff4f00]/10"
+                        : "bg-black/40 border-neutral-800 text-neutral-300 hover:border-neutral-700 hover:bg-black/60"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-lg group-hover:scale-110 transition-transform">{preset.icon}</span>
+                      <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded-md bg-white/10 text-neutral-300">
+                        {preset.badge}
+                      </span>
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-bold text-white leading-tight truncate">
+                        {preset.name}
+                      </div>
+                      <div className="text-[9px] text-neutral-400 line-clamp-1 mt-0.5 font-medium">
+                        {preset.desc}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
           {/* STEP 1 : Forme & Nombre de Touches */}
           <div className="space-y-3">
             <div className="flex items-center gap-2">

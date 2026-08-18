@@ -1,31 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 import {
   ShoppingBag,
   Sparkles,
-  Compass,
+  Keyboard,
+  Shapes,
   Gift,
+  Compass,
   Ticket,
-  Heart,
-  Gamepad2,
-  Smile,
-  Key,
+  ShieldCheck,
   Palette,
   Building2,
-  BookOpen,
   HelpCircle,
   Search,
   X,
   ChevronRight,
   Sun,
   Moon,
-  ChevronDown,
-  Layers,
-  ShieldCheck,
+  Heart,
 } from "lucide-react";
 
 interface MobileMenuDrawerProps {
@@ -45,8 +40,18 @@ export default function MobileMenuDrawer({
   toggleTheme,
   t,
 }: MobileMenuDrawerProps) {
-  const [categoriesExpanded, setCategoriesExpanded] = useState<boolean>(true);
-  const [atelierExpanded, setAtelierExpanded] = useState<boolean>(false);
+  const [isTombolaActive, setIsTombolaActive] = useState<boolean>(false);
+
+  useEffect(() => {
+    fetch("/api/tombola")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.tombola?.status === "active") {
+          setIsTombolaActive(true);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   if (!isOpen) return null;
 
@@ -55,21 +60,21 @@ export default function MobileMenuDrawer({
       {/* Backdrop overlay */}
       <div
         onClick={onClose}
-        className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-md transition-opacity"
+        className="fixed inset-0 bg-black/75 backdrop-blur-sm transition-opacity"
       />
 
       {/* Drawer Container (slide-in from left) */}
-      <div className="mobile-drawer-bg relative w-[350px] max-w-[90vw] h-full bg-white dark:bg-[#121215]/98 backdrop-blur-3xl border-r border-gray-200 dark:border-white/15 flex flex-col justify-between p-5 shadow-[0_0_50px_rgba(0,0,0,0.15)] dark:shadow-[0_0_50px_rgba(0,0,0,0.8)] z-10 animate-in slide-in-from-left duration-300 text-gray-900 dark:text-white">
+      <div className="relative w-[340px] max-w-[85vw] h-full bg-[#0e0e12] border-r border-white/10 flex flex-col justify-between p-5 shadow-[0_0_50px_rgba(0,0,0,0.9)] z-10 animate-in slide-in-from-left duration-300 text-white">
         
         {/* Top Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-white/10">
+        <div className="flex items-center justify-between pb-4 border-b border-white/10">
           <Link href="/" onClick={onClose} className="flex items-center gap-2">
             <Image
               src="/images/logo.png"
               alt="Spoolio Logo"
-              width={110}
-              height={32}
-              className="mobile-drawer-logo h-8 w-auto object-contain"
+              width={100}
+              height={30}
+              className="h-7 w-auto object-contain"
             />
           </Link>
           <div className="flex items-center gap-2">
@@ -78,14 +83,14 @@ export default function MobileMenuDrawer({
                 onClose();
                 onOpenSearch();
               }}
-              className="mobile-drawer-close w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all cursor-pointer active:scale-95"
+              className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white transition-all cursor-pointer active:scale-95"
               aria-label="Rechercher"
             >
               <Search className="w-4 h-4" />
             </button>
             <button
               onClick={onClose}
-              className="mobile-drawer-close w-10 h-10 flex items-center justify-center rounded-xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all cursor-pointer active:scale-95"
+              className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 text-gray-300 hover:text-white transition-all cursor-pointer active:scale-95"
               aria-label="Fermer le menu"
             >
               <X className="w-4 h-4" />
@@ -93,337 +98,222 @@ export default function MobileMenuDrawer({
           </div>
         </div>
 
-        {/* Scrollable Content */}
-        <div className="flex-1 overflow-y-auto pr-1 py-4 space-y-5 custom-scrollbar">
+        {/* Scrollable Navigation Items */}
+        <div className="flex-1 overflow-y-auto py-4 space-y-6 custom-scrollbar pr-1">
           
-          {/* Quick Search Banner */}
-          <button
-            onClick={() => {
-              onClose();
-              onOpenSearch();
-            }}
-            className="mobile-drawer-btn w-full h-12 px-4 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 border border-gray-200 dark:border-white/10 rounded-2xl flex items-center justify-between text-xs text-gray-700 dark:text-gray-300 transition-all cursor-pointer group active:scale-[0.99]"
-          >
-            <span className="flex items-center gap-3">
-              <Search className="w-4 h-4 text-gray-400 group-hover:text-[#ff4f00] transition-colors" />
-              <span className="font-semibold">{t("header.search_placeholder")}</span>
-            </span>
-            <span className="mobile-drawer-badge text-[10px] font-bold px-2 py-0.5 rounded-md bg-gray-200 dark:bg-white/10 text-gray-600 dark:text-gray-400">
-              ⌘K
-            </span>
-          </button>
-
-          {/* Featured 2x2 Grid of Experiences */}
-          <div className="space-y-2.5">
-            <span className="mobile-drawer-header text-[11px] font-black uppercase tracking-wider text-gray-500 dark:text-gray-400 px-1">
-              {t("header.experiences")}
+          {/* Main Direct Navigation */}
+          <div className="space-y-1.5">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-gray-400 px-2 mb-1 block">
+              Boutique &amp; Univers
             </span>
 
-            <div className="grid grid-cols-2 gap-2.5">
-              <Link
-                href="/pochette-surprise"
-                onClick={onClose}
-                className="group p-3.5 rounded-2xl bg-gradient-to-br from-[#ff4f00]/15 via-gray-100 dark:via-white/5 to-transparent border border-gray-200 dark:border-white/10 hover:border-[#ff4f00]/50 transition-all flex flex-col justify-between min-h-[105px] active:scale-[0.98]"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="p-2 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00]">
-                    <Gift className="w-4 h-4" />
-                  </div>
-                  <span className="text-[9px] font-black px-1.5 py-0.5 rounded bg-[#ff4f00] text-white uppercase no-invert">
-                    FUN
-                  </span>
+            {/* 1. Toute la Boutique */}
+            <Link
+              href="/boutique"
+              onClick={onClose}
+              className="flex items-center justify-between p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/15 transition-all group active:scale-[0.99]"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-[#ff4f00]/15 border border-[#ff4f00]/30 flex items-center justify-center text-[#ff4f00] shrink-0">
+                  <ShoppingBag className="w-4 h-4" />
                 </div>
-                <div>
-                  <h4 className="text-xs font-bold text-gray-900 dark:text-white group-hover:text-[#ff4f00] transition-colors leading-tight">
-                    {t("nav_menu.surprise_pack")}
-                  </h4>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate mt-0.5">{t("nav_menu.surprise_sub")}</p>
-                </div>
-              </Link>
+                <span className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors">
+                  Toute la Boutique
+                </span>
+              </div>
+              <ChevronRight className="w-4 h-4 text-gray-500 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
 
-              <Link
-                href="/boussole-sensorielle"
-                onClick={onClose}
-                className="group p-3.5 rounded-2xl bg-gradient-to-br from-cyan-500/15 via-gray-100 dark:via-white/5 to-transparent border border-gray-200 dark:border-white/10 hover:border-cyan-400/50 transition-all flex flex-col justify-between min-h-[105px] active:scale-[0.98]"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="p-2 rounded-xl bg-cyan-500/20 text-cyan-500 dark:text-cyan-400">
-                    <Compass className="w-4 h-4" />
-                  </div>
-                  <span className="text-[9px] font-black px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 uppercase no-invert">
-                    TEST
-                  </span>
+            {/* 2. Fidgets Anti-Stress */}
+            <Link
+              href="/categorie/Fidgets"
+              onClick={onClose}
+              className="flex items-center justify-between p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/15 transition-all group active:scale-[0.99]"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-[#ff4f00]/15 border border-[#ff4f00]/30 flex items-center justify-center text-[#ff4f00] shrink-0">
+                  <Sparkles className="w-4 h-4" />
                 </div>
-                <div>
-                  <h4 className="text-xs font-bold text-gray-900 dark:text-white group-hover:text-cyan-500 dark:group-hover:text-cyan-400 transition-colors leading-tight">
-                    {t("nav_menu.boussole_title")}
-                  </h4>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate mt-0.5">{t("nav_menu.boussole_sub")}</p>
-                </div>
-              </Link>
+                <span className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors">
+                  Fidgets &amp; Anti-Stress
+                </span>
+              </div>
+              <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30">
+                TDAH
+              </span>
+            </Link>
 
-              <Link
-                href="/createur-cliqueur"
-                onClick={onClose}
-                className="group p-3.5 rounded-2xl bg-gradient-to-br from-purple-500/15 via-gray-100 dark:via-white/5 to-transparent border border-gray-200 dark:border-white/10 hover:border-purple-400/50 transition-all flex flex-col justify-between min-h-[105px] active:scale-[0.98]"
-              >
-                <div className="flex items-center justify-between">
-                  <div className="p-2 rounded-xl bg-purple-500/20 text-purple-500 dark:text-purple-400">
-                    <Gamepad2 className="w-4 h-4" />
-                  </div>
-                  <span className="text-[9px] font-black px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-600 dark:text-purple-400 uppercase no-invert">
-                    3D
-                  </span>
+            {/* 3. Studio Clicker 3D */}
+            <Link
+              href="/createur-cliqueur"
+              onClick={onClose}
+              className="flex items-center justify-between p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/15 transition-all group active:scale-[0.99]"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
+                  <Keyboard className="w-4 h-4" />
                 </div>
-                <div>
-                  <h4 className="text-xs font-bold text-gray-900 dark:text-white group-hover:text-purple-500 dark:group-hover:text-purple-400 transition-colors leading-tight">
-                    {t("nav_menu.clicker_studio")}
-                  </h4>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate mt-0.5">{t("nav_menu.clicker_studio_sub")}</p>
-                </div>
-              </Link>
+                <span className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors">
+                  Studio Clickers 3D
+                </span>
+              </div>
+              <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+                Sur-Mesure
+              </span>
+            </Link>
 
+            {/* 4. Dragons & Figurines */}
+            <Link
+              href="/categorie/Animaux %26 Figurines"
+              onClick={onClose}
+              className="flex items-center justify-between p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/15 transition-all group active:scale-[0.99]"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 shrink-0">
+                  <Shapes className="w-4 h-4" />
+                </div>
+                <span className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors">
+                  Dragons &amp; Figurines
+                </span>
+              </div>
+              <ChevronRight className="w-4 h-4 text-gray-500 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+
+            {/* 5. Pochettes Surprises */}
+            <Link
+              href="/pochette-surprise"
+              onClick={onClose}
+              className="flex items-center justify-between p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/15 transition-all group active:scale-[0.99]"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+                  <Gift className="w-4 h-4" />
+                </div>
+                <span className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">
+                  Pochettes Surprises
+                </span>
+              </div>
+              <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                Dès 10€
+              </span>
+            </Link>
+          </div>
+
+          {/* Expériences & Outils */}
+          <div className="space-y-1.5 pt-2 border-t border-white/10">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-gray-400 px-2 mb-1 block">
+              Expériences &amp; Outils
+            </span>
+
+            <Link
+              href="/boussole-sensorielle"
+              onClick={onClose}
+              className="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 transition-all group text-xs text-gray-300 hover:text-white"
+            >
+              <div className="flex items-center gap-2.5">
+                <Compass className="w-4 h-4 text-cyan-400" />
+                <span>Boussole Sensorielle TDAH</span>
+              </div>
+              <ChevronRight className="w-3.5 h-3.5 text-gray-600" />
+            </Link>
+
+            {/* Tombola (Uniquement si active en admin) */}
+            {isTombolaActive && (
               <Link
                 href="/tombola"
                 onClick={onClose}
-                className="group p-3.5 rounded-2xl bg-gradient-to-br from-amber-500/15 via-gray-100 dark:via-white/5 to-transparent border border-gray-200 dark:border-white/10 hover:border-amber-400/50 transition-all flex flex-col justify-between min-h-[105px] active:scale-[0.98]"
+                className="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 transition-all group text-xs text-gray-300 hover:text-white"
               >
-                <div className="flex items-center justify-between">
-                  <div className="p-2 rounded-xl bg-amber-500/20 text-amber-500 dark:text-amber-400">
-                    <Ticket className="w-4 h-4" />
-                  </div>
-                  <span className="text-[9px] font-black px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-600 dark:text-amber-400 uppercase no-invert">
-                    JEU
-                  </span>
+                <div className="flex items-center gap-2.5">
+                  <Ticket className="w-4 h-4 text-amber-400" />
+                  <span>Tombola Spoolio</span>
                 </div>
-                <div>
-                  <h4 className="text-xs font-bold text-gray-900 dark:text-white group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors leading-tight">
-                    {t("nav_menu.tombola_title")}
-                  </h4>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate mt-0.5">{t("nav_menu.tombola_sub")}</p>
-                </div>
+                <ChevronRight className="w-3.5 h-3.5 text-gray-600" />
               </Link>
-            </div>
-          </div>
-
-          {/* Section: Boutique & Catégories (Accordion Header - Clean transparent top level) */}
-          <div className="space-y-2 pt-2 border-t border-gray-200 dark:border-white/10">
-            <button
-              onClick={() => setCategoriesExpanded(!categoriesExpanded)}
-              className="w-full min-h-[44px] px-1 py-2 flex items-center justify-between text-xs font-black uppercase tracking-wider text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-white/80 transition-colors cursor-pointer"
-            >
-              <span className="flex items-center gap-2.5">
-                <div className="p-1.5 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00]">
-                  <ShoppingBag className="w-4 h-4" />
-                </div>
-                <span>{t("header.shop")}</span>
-              </span>
-              <div className={`p-1 transition-transform duration-200 ${categoriesExpanded ? "rotate-180" : ""}`}>
-                <ChevronDown className="w-4 h-4 text-gray-400" />
-              </div>
-            </button>
-
-            {categoriesExpanded && (
-              <div className="space-y-2 pt-1">
-                {/* Full shop banner */}
-                <Link
-                  href="/boutique"
-                  onClick={onClose}
-                  className="min-h-[50px] px-4 py-3 rounded-2xl bg-gradient-to-r from-[#2F3CD9]/20 via-[#5163FF]/20 to-[#2F3CD9]/15 border border-[#2F3CD9]/40 text-gray-900 dark:text-white font-bold text-xs flex items-center justify-between hover:border-[#2F3CD9] transition-all active:scale-[0.99]"
-                >
-                  <span className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-xl bg-[#2F3CD9] text-white">
-                      <Layers className="w-4 h-4" />
-                    </div>
-                    <span className="font-extrabold text-gray-900 dark:text-white">{t("nav_menu.see_all_shop")}</span>
-                  </span>
-                  <ChevronRight className="w-4 h-4 text-gray-400" />
-                </Link>
-
-                {/* Touch-Friendly Category Rows */}
-                <Link
-                  href="/categorie/Fidgets"
-                  onClick={onClose}
-                  className="mobile-drawer-link min-h-[48px] px-3.5 py-2.5 rounded-xl bg-gray-100/80 dark:bg-white/[0.04] hover:bg-gray-200/80 dark:hover:bg-white/[0.08] border border-gray-200/80 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/15 flex items-center justify-between text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white transition-all active:scale-[0.99]"
-                >
-                  <span className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00]">
-                      <Sparkles className="w-4 h-4" />
-                    </div>
-                    <span>{t("header.categories.fidgets")}</span>
-                  </span>
-                  <span className="text-[9px] font-black px-2 py-0.5 rounded-md bg-[#ff4f00] text-white no-invert">
-                    HOT
-                  </span>
-                </Link>
-
-                <Link
-                  href="/categorie/Geek %2F Gaming"
-                  onClick={onClose}
-                  className="mobile-drawer-link min-h-[48px] px-3.5 py-2.5 rounded-xl bg-gray-100/80 dark:bg-white/[0.04] hover:bg-gray-200/80 dark:hover:bg-white/[0.08] border border-gray-200/80 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/15 flex items-center justify-between text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white transition-all active:scale-[0.99]"
-                >
-                  <span className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-500 dark:text-cyan-400">
-                      <Gamepad2 className="w-4 h-4" />
-                    </div>
-                    <span>{t("nav_menu.geek_gaming")}</span>
-                  </span>
-                  <span className="text-[9px] font-black px-2 py-0.5 rounded-md bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 no-invert">
-                    NEW
-                  </span>
-                </Link>
-
-                <Link
-                  href="/categorie/Porte clés"
-                  onClick={onClose}
-                  className="mobile-drawer-link min-h-[48px] px-3.5 py-2.5 rounded-xl bg-gray-100/80 dark:bg-white/[0.04] hover:bg-gray-200/80 dark:hover:bg-white/[0.08] border border-gray-200/80 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/15 flex items-center justify-between text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white transition-all active:scale-[0.99]"
-                >
-                  <span className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-lg bg-amber-500/20 text-amber-500 dark:text-amber-400">
-                      <Key className="w-4 h-4" />
-                    </div>
-                    <span>{t("nav_menu.keychain_title")}</span>
-                  </span>
-                  <ChevronRight className="mobile-drawer-arrow w-4 h-4 text-gray-400" />
-                </Link>
-
-                <Link
-                  href="/categorie/Animaux %26 Figurines"
-                  onClick={onClose}
-                  className="mobile-drawer-link min-h-[48px] px-3.5 py-2.5 rounded-xl bg-gray-100/80 dark:bg-white/[0.04] hover:bg-gray-200/80 dark:hover:bg-white/[0.08] border border-gray-200/80 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/15 flex items-center justify-between text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white transition-all active:scale-[0.99]"
-                >
-                  <span className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-500 dark:text-emerald-400">
-                      <Smile className="w-4 h-4" />
-                    </div>
-                    <span>{t("nav_menu.animals_title")}</span>
-                  </span>
-                  <ChevronRight className="mobile-drawer-arrow w-4 h-4 text-gray-400" />
-                </Link>
-
-                <Link
-                  href="/medaillon-nfc-chien-chat"
-                  onClick={onClose}
-                  className="mobile-drawer-link min-h-[48px] px-3.5 py-2.5 rounded-xl bg-[#ff4f00]/10 dark:bg-[#ff4f00]/15 hover:bg-[#ff4f00]/20 border border-[#ff4f00]/30 flex items-center justify-between text-xs sm:text-sm font-bold text-gray-900 dark:text-white transition-all active:scale-[0.99]"
-                >
-                  <span className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00]">
-                      <ShieldCheck className="w-4 h-4" />
-                    </div>
-                    <span>{t("nav_menu.nfc_title")}</span>
-                  </span>
-                  <span className="text-[9px] font-black px-2 py-0.5 rounded-md bg-[#ff4f00] text-white no-invert">
-                    SOS
-                  </span>
-                </Link>
-              </div>
             )}
-          </div>
 
-          {/* Section: L'Atelier & Infos (Accordion Header - Clean transparent top level) */}
-          <div className="space-y-2 pt-2 border-t border-gray-200 dark:border-white/10">
-            <button
-              onClick={() => setAtelierExpanded(!atelierExpanded)}
-              className="w-full min-h-[44px] px-1 py-2 flex items-center justify-between text-xs font-black uppercase tracking-wider text-gray-900 dark:text-white hover:text-gray-700 dark:hover:text-white/80 transition-colors cursor-pointer"
+            <Link
+              href="/medaillon-nfc-chien-chat"
+              onClick={onClose}
+              className="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 transition-all group text-xs text-gray-300 hover:text-white"
             >
-              <span className="flex items-center gap-2.5">
-                <div className="p-1.5 rounded-lg bg-purple-500/20 text-purple-500 dark:text-purple-400">
-                  <Palette className="w-4 h-4" />
-                </div>
-                <span>{t("header.workshop")}</span>
-              </span>
-              <div className={`p-1 transition-transform duration-200 ${atelierExpanded ? "rotate-180" : ""}`}>
-                <ChevronDown className="w-4 h-4 text-gray-400" />
+              <div className="flex items-center gap-2.5">
+                <ShieldCheck className="w-4 h-4 text-[#ff4f00]" />
+                <span>Médaillon SOS NFC Chien &amp; Chat</span>
               </div>
-            </button>
-
-            {atelierExpanded && (
-              <div className="space-y-2 pt-1">
-                <Link
-                  href="/a-propos"
-                  onClick={onClose}
-                  className="mobile-drawer-link min-h-[48px] px-3.5 py-2.5 rounded-xl bg-gray-100/80 dark:bg-white/[0.04] hover:bg-gray-200/80 dark:hover:bg-white/[0.08] border border-gray-200/80 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/15 flex items-center justify-between text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white transition-all active:scale-[0.99]"
-                >
-                  <span className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00]">
-                      <Palette className="w-4 h-4" />
-                    </div>
-                    <span>{t("nav_menu.our_story")}</span>
-                  </span>
-                  <ChevronRight className="mobile-drawer-arrow w-4 h-4 text-gray-400" />
-                </Link>
-
-                <Link
-                  href="/pro"
-                  onClick={onClose}
-                  className="mobile-drawer-link min-h-[48px] px-3.5 py-2.5 rounded-xl bg-gray-100/80 dark:bg-white/[0.04] hover:bg-gray-200/80 dark:hover:bg-white/[0.08] border border-gray-200/80 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/15 flex items-center justify-between text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white transition-all active:scale-[0.99]"
-                >
-                  <span className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-lg bg-blue-500/20 text-blue-500 dark:text-blue-400">
-                      <Building2 className="w-4 h-4" />
-                    </div>
-                    <span>{t("nav_menu.pro_space")}</span>
-                  </span>
-                  <ChevronRight className="mobile-drawer-arrow w-4 h-4 text-gray-400" />
-                </Link>
-
-                <Link
-                  href="/blog"
-                  onClick={onClose}
-                  className="mobile-drawer-link min-h-[48px] px-3.5 py-2.5 rounded-xl bg-gray-100/80 dark:bg-white/[0.04] hover:bg-gray-200/80 dark:hover:bg-white/[0.08] border border-gray-200/80 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/15 flex items-center justify-between text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white transition-all active:scale-[0.99]"
-                >
-                  <span className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-lg bg-purple-500/20 text-purple-500 dark:text-purple-400">
-                      <BookOpen className="w-4 h-4" />
-                    </div>
-                    <span>{t("nav_menu.blog_title")}</span>
-                  </span>
-                  <ChevronRight className="mobile-drawer-arrow w-4 h-4 text-gray-400" />
-                </Link>
-
-                <Link
-                  href="/faq"
-                  onClick={onClose}
-                  className="mobile-drawer-link min-h-[48px] px-3.5 py-2.5 rounded-xl bg-gray-100/80 dark:bg-white/[0.04] hover:bg-gray-200/80 dark:hover:bg-white/[0.08] border border-gray-200/80 dark:border-white/5 hover:border-gray-300 dark:hover:border-white/15 flex items-center justify-between text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-100 hover:text-gray-900 dark:hover:text-white transition-all active:scale-[0.99]"
-                >
-                  <span className="flex items-center gap-3">
-                    <div className="p-1.5 rounded-lg bg-emerald-500/20 text-emerald-500 dark:text-emerald-400">
-                      <HelpCircle className="w-4 h-4" />
-                    </div>
-                    <span>{t("nav_menu.faq_title")}</span>
-                  </span>
-                  <ChevronRight className="mobile-drawer-arrow w-4 h-4 text-gray-400" />
-                </Link>
-              </div>
-            )}
+              <ChevronRight className="w-3.5 h-3.5 text-gray-600" />
+            </Link>
           </div>
 
-          {/* Highlighted CTA: Nous soutenir */}
+          {/* L'Atelier Spoolio */}
+          <div className="space-y-1.5 pt-2 border-t border-white/10">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-gray-400 px-2 mb-1 block">
+              L&apos;Atelier
+            </span>
+
+            <Link
+              href="/a-propos"
+              onClick={onClose}
+              className="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 transition-all group text-xs text-gray-300 hover:text-white"
+            >
+              <div className="flex items-center gap-2.5">
+                <Palette className="w-4 h-4 text-purple-400" />
+                <span>Notre Histoire &amp; Éco-conception</span>
+              </div>
+              <ChevronRight className="w-3.5 h-3.5 text-gray-600" />
+            </Link>
+
+            <Link
+              href="/faq"
+              onClick={onClose}
+              className="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 transition-all group text-xs text-gray-300 hover:text-white"
+            >
+              <div className="flex items-center gap-2.5">
+                <HelpCircle className="w-4 h-4 text-emerald-400" />
+                <span>FAQ &amp; Contact</span>
+              </div>
+              <ChevronRight className="w-3.5 h-3.5 text-gray-600" />
+            </Link>
+
+            <Link
+              href="/pro"
+              onClick={onClose}
+              className="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 transition-all group text-xs text-gray-300 hover:text-white"
+            >
+              <div className="flex items-center gap-2.5">
+                <Building2 className="w-4 h-4 text-blue-400" />
+                <span>Espace Professionnels (B2B)</span>
+              </div>
+              <ChevronRight className="w-3.5 h-3.5 text-gray-600" />
+            </Link>
+          </div>
+
+          {/* Soutenir Spoolio Button */}
           <Link
             href="/don"
             onClick={onClose}
-            className="w-full min-h-[50px] py-3.5 px-4 rounded-2xl bg-gradient-to-r from-[#ff4f00] via-[#FF6600] to-[#FF8800] text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-[#ff4f00]/30 hover:scale-[1.02] active:scale-[0.98] transition-transform no-invert"
+            className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#ff4f00] to-[#ff7700] text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-[#ff4f00]/25 active:scale-[0.98] transition-transform no-invert"
           >
-            <span>{t("footer.support_workshop")}</span>
+            <Heart className="w-4 h-4 fill-white" />
+            <span>Soutenir l&apos;Atelier</span>
           </Link>
         </div>
 
-        {/* Bottom Preferences (Language Switcher & Theme Toggle) */}
-        <div className="pt-3 border-t border-gray-200 dark:border-white/10 flex flex-col gap-2.5">
-          <LanguageSwitcher variant="mobile" />
+        {/* Bottom Theme Toggle */}
+        <div className="pt-3 border-t border-white/10">
           <button
             onClick={toggleTheme}
-            className="mobile-drawer-btn w-full h-12 px-4 rounded-xl bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 border border-gray-200 dark:border-white/10 text-gray-800 dark:text-gray-200 flex items-center justify-center gap-2.5 text-xs font-bold transition-all cursor-pointer active:scale-95"
+            className="w-full h-10 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 flex items-center justify-center gap-2 text-xs font-bold transition-all cursor-pointer active:scale-95"
           >
             {theme === "dark" ? (
               <>
-                <Sun className="w-4 h-4 text-amber-500" />
-                <span>Passer au thème clair</span>
+                <Sun className="w-3.5 h-3.5 text-amber-400" />
+                <span>Mode Clair</span>
               </>
             ) : (
               <>
-                <Moon className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-                <span>Passer au thème sombre</span>
+                <Moon className="w-3.5 h-3.5 text-purple-400" />
+                <span>Mode Sombre</span>
               </>
             )}
           </button>

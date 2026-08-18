@@ -35,8 +35,20 @@ export default function MotionNavigationMenu() {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
+  const [isTombolaActive, setIsTombolaActive] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    fetch("/api/tombola")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success && data.tombola?.status === "active") {
+          setIsTombolaActive(true);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const menuItems: MenuItem[] = [
     { id: "boutique", label: t("header.shop"), href: "/boutique", hasDropdown: true },
@@ -404,37 +416,41 @@ export default function MotionNavigationMenu() {
                     </div>
                   </Link>
 
-                  {/* Card 4: Tombola du Moment */}
-                  <Link
-                    href="/tombola"
-                    className="group bg-gradient-to-br from-amber-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-amber-400/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg hover:shadow-amber-500/10"
-                  >
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400 group-hover:scale-110 transition-transform">
-                          <Ticket className="w-5 h-5" />
+                  {/* Card 4: Tombola du Moment (Conditionnel) */}
+                  {isTombolaActive && (
+                    <Link
+                      href="/tombola"
+                      className="group bg-gradient-to-br from-amber-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-amber-400/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg hover:shadow-amber-500/10"
+                    >
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <div className="p-2 rounded-xl bg-amber-500/20 text-amber-400 group-hover:scale-110 transition-transform">
+                            <Ticket className="w-5 h-5" />
+                          </div>
+                          <span className="bg-amber-500/20 text-amber-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
+                            🎟️ JEU CONCOURS
+                          </span>
                         </div>
-                        <span className="bg-amber-500/20 text-amber-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
-                          🎟️ JEU CONCOURS
-                        </span>
+                        <h4 className="text-sm font-black text-white group-hover:text-amber-400 transition-colors font-extrabold">
+                          {t("nav_menu.tombola_title")}
+                        </h4>
+                        <p className="text-xs text-gray-300 leading-snug line-clamp-2">
+                          {t("nav_menu.tombola_desc")}
+                        </p>
                       </div>
-                      <h4 className="text-sm font-black text-white group-hover:text-amber-400 transition-colors font-extrabold">
-                        {t("nav_menu.tombola_title")}
-                      </h4>
-                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        {t("nav_menu.tombola_desc")}
-                      </p>
-                    </div>
-                    <div className="flex items-center justify-between text-xs font-black text-amber-400">
-                      <span>{t("nav_menu.try_luck")}</span>
-                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
-                    </div>
-                  </Link>
+                      <div className="flex items-center justify-between text-xs font-black text-amber-400">
+                        <span>{t("nav_menu.try_luck")}</span>
+                        <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
+                      </div>
+                    </Link>
+                  )}
 
                   {/* Card 5: Roue de la Fortune Loterie */}
                   <Link
                     href="/loterie"
-                    className="group bg-gradient-to-br from-[#FF5500]/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-[#FF5500]/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg hover:shadow-[#FF5500]/10 col-span-2"
+                    className={`group bg-gradient-to-br from-[#FF5500]/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-[#FF5500]/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg hover:shadow-[#FF5500]/10 ${
+                      isTombolaActive ? "col-span-2" : "col-span-3"
+                    }`}
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">

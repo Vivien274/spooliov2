@@ -130,16 +130,16 @@ export default function SpoolioProductGrid({
         </div>
       )}
 
-      {/* Bento-style product grid with auto-fill minmax 280px */}
+      {/* Bento-style product grid with auto-fill minmax 280px on desktop & horizontal snap scroll on mobile */}
       {loading ? (
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
+        <div className="flex sm:grid overflow-x-auto sm:overflow-visible pb-4 sm:pb-0 gap-4 sm:gap-6 sm:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] snap-x snap-mandatory scrollbar-none">
           {Array.from({ length: 6 }).map((_, index) => (
             <div
               key={index}
-              className="flex flex-col justify-between h-full bg-spoolio-card border border-spoolio-border rounded-xl p-4 animate-pulse"
+              className="min-w-[260px] sm:min-w-0 max-w-[280px] sm:max-w-none shrink-0 sm:shrink snap-center flex flex-col justify-between h-full bg-spoolio-card border border-spoolio-border rounded-2xl p-4 animate-pulse"
             >
               <div>
-                <div className="w-full aspect-square rounded-lg bg-spoolio-bg/60 border border-spoolio-border/40 mb-4" />
+                <div className="w-full aspect-square rounded-xl bg-spoolio-bg/60 border border-spoolio-border/40 mb-4" />
                 <div className="h-5 w-3/4 rounded bg-spoolio-bg/60 mb-2" />
                 <div className="h-3 w-1/2 rounded bg-spoolio-bg/60 mb-4" />
               </div>
@@ -154,9 +154,11 @@ export default function SpoolioProductGrid({
           ))}
         </div>
       ) : filteredProducts.length > 0 ? (
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
+        <div className="flex sm:grid overflow-x-auto sm:overflow-visible pb-4 sm:pb-0 gap-4 sm:gap-6 sm:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] snap-x snap-mandatory scrollbar-none px-1">
           {filteredProducts.map((product, index) => (
-            <ProductCard key={product.id} product={product} compact={compact} priority={index < 4} />
+            <div key={product.id} className="min-w-[260px] sm:min-w-0 max-w-[285px] sm:max-w-none shrink-0 sm:shrink snap-center flex flex-col">
+              <ProductCard product={product} compact={compact} priority={index < 4} />
+            </div>
           ))}
         </div>
       ) : (

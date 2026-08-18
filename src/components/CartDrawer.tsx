@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import UnicornIcon from "@/components/UnicornIcon";
 import checkoutIconData from "@/components/checkout-bag.json";
+import CartCrossSell from "@/components/CartCrossSell";
 import { ShoppingBag, X, Plus, Minus, Trash2, ArrowRight, ShieldCheck, Sparkles, Truck } from "lucide-react";
 
 export default function CartDrawer() {
@@ -270,6 +271,11 @@ export default function CartDrawer() {
                     </button>
                   </div>
                 ))}
+
+                {/* 1-Click Cross-Sell Add-ons */}
+                <div className="pt-2">
+                  <CartCrossSell variant="drawer" />
+                </div>
               </div>
           )}
         </div>

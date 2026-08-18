@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useCart, SelectedRelay } from "@/context/CartContext";
 import UnicornIcon from "@/components/UnicornIcon";
 import checkoutIconData from "@/components/checkout-bag.json";
+import CartCrossSell from "@/components/CartCrossSell";
 import { Tag, X, CheckCircle2, Sparkles } from "lucide-react";
 
 export default function PanierClient() {
@@ -477,6 +478,11 @@ export default function PanierClient() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* 1-Click Cross-Sell Section */}
+        <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 shadow-xl">
+          <CartCrossSell variant="page" />
         </div>
 
         {/* Section Soutien (Dons) */}

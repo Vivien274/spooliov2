@@ -10,6 +10,7 @@ import HomeLoader from "@/components/HomeLoader";
 import CurvedTextScrollAnimation from "@/components/CurvedTextScrollAnimation";
 import SpotlightMarqueeBanner from "@/components/SpotlightMarqueeBanner";
 import BoutiqueCTAButton from "@/components/BoutiqueCTAButton";
+import { Sparkles, Keyboard, Shapes, Gift } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import fs from "fs";
 import path from "path";
@@ -252,44 +253,38 @@ export default async function HomePage() {
       {/* 1. Full-Width Animated Hero Section */}
       <AnimatedHero {...(hero as any)} />
 
-      {/* 2. Sleek Minimalist Text Marquee */}
-      <section className="hero-marquee-section w-full bg-transparent py-4 overflow-hidden text-gray-900 dark:text-white select-none">
-        <div className="flex whitespace-nowrap animate-marquee text-xs uppercase tracking-widest text-gray-900 dark:text-white font-extrabold gap-8 select-none font-sans items-center">
+      {/* 2. Sleek Bordered Value-Props Marquee Ticker */}
+      <section className="w-full border-y border-white/10 bg-[#0a0a0e]/90 backdrop-blur-md py-3 overflow-hidden text-gray-300 select-none">
+        <div className="flex whitespace-nowrap animate-marquee text-xs uppercase tracking-widest text-gray-300 font-bold gap-8 select-none font-sans items-center">
           {[1, 2, 3].map((loop) => (
             <div key={loop} className="flex items-center gap-8 shrink-0">
-              <span className="flex items-center gap-2 text-gray-900 dark:text-white">
+              <span className="flex items-center gap-2">
+                <span>🇫🇷</span>
+                <span className="text-white font-extrabold">{lang === "en" ? "HANDMADE IN COMINES (NORD)" : "FAIT MAIN À COMINES (NORD)"}</span>
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
+
+              <span className="flex items-center gap-2">
                 <span>🚚</span>
                 <span>{lang === "en" ? "FREE SHIPPING OVER €40" : "LIVRAISON OFFERTE DÈS 40€"}</span>
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
 
-              <span className="flex items-center gap-2 text-gray-900 dark:text-white">
+              <span className="flex items-center gap-2">
                 <span>🌱</span>
-                <span>{lang === "en" ? "BIO-SOURCED PLA PLASTIC" : "PLA BIOSOURCÉ"}</span>
+                <span>{lang === "en" ? "BIO-SOURCED PLA PLASTIC" : "PLA BIOSOURCÉ SANS PÉTROLE"}</span>
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
 
-              <span className="flex items-center gap-2 text-gray-900 dark:text-white">
+              <span className="flex items-center gap-2">
                 <span>⚡</span>
-                <span>{lang === "en" ? "ZERO OVERSTOCK • MADE TO ORDER" : "ZÉRO SURSTOCK • FABRICATION À LA COMMANDE"}</span>
+                <span>{lang === "en" ? "ZERO OVERSTOCK • MADE TO ORDER" : "ZÉRO SURSTOCK • FABRICATION ARTISANALE"}</span>
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
 
-              <span className="flex items-center gap-2 text-gray-900 dark:text-white">
-                <span>🇫🇷</span>
-                <span>{lang === "en" ? "HANDMADE IN COMINES (FRANCE)" : "FAIT MAIN À COMINES (NORD)"}</span>
-              </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
-
-              <span className="flex items-center gap-2 text-gray-900 dark:text-white">
-                <span>⌨️</span>
-                <span>{lang === "en" ? "CUSTOMIZABLE 3D CLICKERS" : "CLICKERS 3D CUSTOMISABLES"}</span>
-              </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
-
-              <span className="flex items-center gap-2 text-gray-900 dark:text-white">
-                <span>🎁</span>
-                <span>{lang === "en" ? "SURPRISE PACKS FROM €10.00" : "POCHETTES SURPRISE DÈS 10.00€"}</span>
+              <span className="flex items-center gap-2">
+                <span>⭐</span>
+                <span>{lang === "en" ? "4.9/5 VERIFIED REVIEWS" : "4.9 / 5.0 (AVIS VÉRIFIÉS)"}</span>
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
             </div>
@@ -297,55 +292,77 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 3. Discreet Bento Reassurance Grid (Directly below Marquee) */}
-      <section className="w-full max-w-[1200px] mx-auto px-4 my-6 select-none">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-          <div className="bento-reassurance-item flex items-center gap-3 p-3 sm:py-3.5 sm:px-4 rounded-2xl bg-white/70 dark:bg-[#0e0e12]/80 backdrop-blur-md border border-gray-200/70 dark:border-neutral-800/80 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:border-emerald-500/30 dark:hover:border-emerald-500/30 hover:shadow-md transition-all duration-300 group">
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/10 dark:bg-emerald-500/15 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
-              🌱
+      {/* 3. Portes d'entrée par Univers (Design Épuré & Structuré) */}
+      <section className="w-full max-w-[1200px] mx-auto px-4 mt-8 mb-4 select-none font-sans">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          {/* 1. Fidgets & Anti-Stress */}
+          <Link
+            href="/categorie/fidgets"
+            className="group relative p-4 rounded-2xl bg-[#0f0f14] hover:bg-[#14141d] border border-white/10 hover:border-[#ff4f00]/60 hover:shadow-[0_0_25px_rgba(255,79,0,0.15)] transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
+          >
+            <div className="w-11 h-11 rounded-xl bg-[#ff4f00]/10 border border-[#ff4f00]/30 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-[#ff4f00]/20 transition-all">
+              <Sparkles className="w-5 h-5 text-[#ff4f00]" />
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="text-[10px] uppercase tracking-wider font-mono text-gray-500 dark:text-gray-400 font-semibold">{t("home.bento.eco_label")}</span>
-              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">{t("home.bento.eco_val")}</strong>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#ff4f00]">TDAH &amp; Focus</span>
+              <strong className="text-xs sm:text-sm font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate">
+                Fidgets Anti-Stress
+              </strong>
             </div>
-          </div>
+          </Link>
 
-          <div className="bento-reassurance-item flex items-center gap-3 p-3 sm:py-3.5 sm:px-4 rounded-2xl bg-white/70 dark:bg-[#0e0e12]/80 backdrop-blur-md border border-gray-200/70 dark:border-neutral-800/80 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:border-blue-500/30 dark:hover:border-blue-500/30 hover:shadow-md transition-all duration-300 group">
-            <div className="w-8 h-8 rounded-xl bg-blue-500/10 dark:bg-blue-500/15 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
-              🇫🇷
+          {/* 2. Studio Clicker 3D */}
+          <Link
+            href="/createur-cliqueur"
+            className="group relative p-4 rounded-2xl bg-[#0f0f14] hover:bg-[#14141d] border border-white/10 hover:border-cyan-500/60 hover:shadow-[0_0_25px_rgba(6,182,212,0.15)] transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
+          >
+            <div className="w-11 h-11 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all">
+              <Keyboard className="w-5 h-5 text-cyan-400" />
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="text-[10px] uppercase tracking-wider font-mono text-gray-500 dark:text-gray-400 font-semibold">{t("home.bento.artisan_label")}</span>
-              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">{t("home.bento.artisan_val")}</strong>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-400">Sur-Mesure</span>
+              <strong className="text-xs sm:text-sm font-bold text-white group-hover:text-cyan-400 transition-colors truncate">
+                Studio Clickers 3D
+              </strong>
             </div>
-          </div>
+          </Link>
 
-          <div className="bento-reassurance-item flex items-center gap-3 p-3 sm:py-3.5 sm:px-4 rounded-2xl bg-white/70 dark:bg-[#0e0e12]/80 backdrop-blur-md border border-gray-200/70 dark:border-neutral-800/80 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:border-orange-500/30 dark:hover:border-orange-500/30 hover:shadow-md transition-all duration-300 group">
-            <div className="w-8 h-8 rounded-xl bg-orange-500/10 dark:bg-orange-500/15 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
-              🚚
+          {/* 3. Dragons & Figurines */}
+          <Link
+            href="/categorie/figurines"
+            className="group relative p-4 rounded-2xl bg-[#0f0f14] hover:bg-[#14141d] border border-white/10 hover:border-purple-500/60 hover:shadow-[0_0_25px_rgba(168,85,247,0.15)] transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
+          >
+            <div className="w-11 h-11 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all">
+              <Shapes className="w-5 h-5 text-purple-400" />
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="text-[10px] uppercase tracking-wider font-mono text-gray-500 dark:text-gray-400 font-semibold">{t("home.bento.shipping_label")}</span>
-              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">{t("home.bento.shipping_val")}</strong>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-purple-400">Articulé 3D</span>
+              <strong className="text-xs sm:text-sm font-bold text-white group-hover:text-purple-400 transition-colors truncate">
+                Dragons &amp; Flexis
+              </strong>
             </div>
-          </div>
+          </Link>
 
-          <div className="bento-reassurance-item flex items-center gap-3 p-3 sm:py-3.5 sm:px-4 rounded-2xl bg-white/70 dark:bg-[#0e0e12]/80 backdrop-blur-md border border-gray-200/70 dark:border-neutral-800/80 shadow-[0_2px_8px_rgba(0,0,0,0.03)] hover:border-amber-500/30 dark:hover:border-amber-500/30 hover:shadow-md transition-all duration-300 group">
-            <div className="w-8 h-8 rounded-xl bg-amber-500/10 dark:bg-amber-500/15 flex items-center justify-center text-base shrink-0 group-hover:scale-110 transition-transform">
-              ⭐
+          {/* 4. Pochettes Surprises */}
+          <Link
+            href="/pochette-surprise"
+            className="group relative p-4 rounded-2xl bg-[#0f0f14] hover:bg-[#14141d] border border-white/10 hover:border-emerald-500/60 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
+          >
+            <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-emerald-500/20 transition-all">
+              <Gift className="w-5 h-5 text-emerald-400" />
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="text-[10px] uppercase tracking-wider font-mono text-amber-500 font-bold flex items-center gap-1">
-                <span>★★★★★</span>
-              </span>
-              <strong className="text-xs sm:text-xs font-bold text-gray-900 dark:text-white truncate">{t("home.bento.reviews_val")}</strong>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-400">Dès 10.00€</span>
+              <strong className="text-xs sm:text-sm font-bold text-white group-hover:text-emerald-400 transition-colors truncate">
+                Pochettes Surprises
+              </strong>
             </div>
-          </div>
+          </Link>
         </div>
       </section>
 
       {/* 5. Product Grid Header & List */}
-      <section className="w-full max-w-[1200px] px-4 py-12 relative z-10 flex flex-col gap-16">
+      <section className="w-full max-w-[1200px] px-4 py-8 relative z-10 flex flex-col gap-14">
         {/* Title Block */}
         <div className="text-center">
           <h2 className="text-4xl md:text-5xl font-extrabold uppercase tracking-tight font-antonio text-neon-flow">

@@ -45,16 +45,81 @@ export default function Clicker3DViewer({
   const isDraggingRef = useRef<boolean>(false);
   const startMouseRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
-  // Calculate layout grid for 3D Keycaps
+  // Calculate layout grid & shape parameters for 3D Keycaps
   let cols = 1;
   let rows = 1;
+  let layoutSlots: { slotIdx: number; keyIdx: number | null }[] = [];
+  let keySize = 72; // default keycap size in px
 
-  if (keyCount === 2) { cols = 2; rows = 1; }
-  else if (keyCount === 3) { cols = 3; rows = 1; }
-  else if (keyCount === 4) { cols = 2; rows = 2; }
-  else if (keyCount === 6) { cols = 3; rows = 2; }
-  else if (keyCount === 9) { cols = 3; rows = 3; }
-  else { cols = keyCount; rows = 1; }
+  if (shapeId === "mono") {
+    cols = 1;
+    rows = 1;
+    layoutSlots = [{ slotIdx: 0, keyIdx: 0 }];
+  } else if (shapeId === "duo") {
+    cols = 2;
+    rows = 1;
+    layoutSlots = [
+      { slotIdx: 0, keyIdx: 0 },
+      { slotIdx: 1, keyIdx: 1 },
+    ];
+  } else if (shapeId === "trio") {
+    cols = 3;
+    rows = 1;
+    layoutSlots = [
+      { slotIdx: 0, keyIdx: 0 },
+      { slotIdx: 1, keyIdx: 1 },
+      { slotIdx: 2, keyIdx: 2 },
+    ];
+  } else if (shapeId === "line_4") {
+    cols = 4;
+    rows = 1;
+    keySize = 64;
+    layoutSlots = [
+      { slotIdx: 0, keyIdx: 0 },
+      { slotIdx: 1, keyIdx: 1 },
+      { slotIdx: 2, keyIdx: 2 },
+      { slotIdx: 3, keyIdx: 3 },
+    ];
+  } else if (shapeId === "square_2x2") {
+    cols = 2;
+    rows = 2;
+    keySize = 70;
+    layoutSlots = [
+      { slotIdx: 0, keyIdx: 0 },
+      { slotIdx: 1, keyIdx: 1 },
+      { slotIdx: 2, keyIdx: 2 },
+      { slotIdx: 3, keyIdx: 3 },
+    ];
+  } else if (shapeId === "shape_t") {
+    cols = 3;
+    rows = 2;
+    keySize = 64;
+    // WASD / T shape layout:
+    // Row 1: [empty, Slot 1 (W), empty]
+    // Row 2: [Slot 3 (A), Slot 4 (S), Slot 5 (D)]
+    layoutSlots = [
+      { slotIdx: 0, keyIdx: null },
+      { slotIdx: 1, keyIdx: 1 },
+      { slotIdx: 2, keyIdx: null },
+      { slotIdx: 3, keyIdx: 3 },
+      { slotIdx: 4, keyIdx: 4 },
+      { slotIdx: 5, keyIdx: 5 },
+    ];
+  } else if (shapeId === "line_7") {
+    cols = 7;
+    rows = 1;
+    keySize = 46;
+    layoutSlots = Array.from({ length: 7 }, (_, i) => ({ slotIdx: i, keyIdx: i }));
+  } else if (shapeId === "grid_3x3") {
+    cols = 3;
+    rows = 3;
+    keySize = 58;
+    layoutSlots = Array.from({ length: 9 }, (_, i) => ({ slotIdx: i, keyIdx: i }));
+  } else {
+    cols = keyCount === 4 ? 2 : keyCount <= 3 ? keyCount : keyCount;
+    rows = keyCount === 4 ? 2 : 1;
+    layoutSlots = Array.from({ length: keyCount }, (_, i) => ({ slotIdx: i, keyIdx: i }));
+  }
 
   // Drag rotation handlers
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
@@ -99,6 +164,9 @@ export default function Clicker3DViewer({
   // Switch Stem Color Helper
   const switchStemColor = switchType === "blue" ? "#3b82f6" : switchType === "brown" ? "#92400e" : "#ef4444";
 
+  const caseWidth = cols * (keySize + 14) + 26;
+  const caseHeight = rows * (keySize + 14) + 26;
+
   return (
     <div
       ref={containerRef}
@@ -126,7 +194,7 @@ export default function Clicker3DViewer({
       >
         {/* 3D CLICKER CASE BODY */}
         <div
-          className="relative rounded-3xl p-5 shadow-2xl transition-all duration-300 flex flex-col justify-center items-center"
+          className="relative rounded-3xl p-3 sm:p-4 shadow-2xl transition-all duration-300 flex flex-col justify-center items-center"
           style={{
             transformStyle: "preserve-3d",
             backgroundColor: caseColor.hex,
@@ -136,8 +204,8 @@ export default function Clicker3DViewer({
               inset 0 -8px 12px rgba(0,0,0,0.6),
               0 0 35px ${caseColor.isGlow ? "#a3e63588" : caseColor.hex + "44"}
             `,
-            width: `${cols * 85 + 40}px`,
-            height: `${rows * 85 + 40}px`,
+            width: `${caseWidth}px`,
+            height: `${caseHeight}px`,
           }}
         >
           {/* Bevelled Side Walls Simulation for Case Body */}
@@ -164,15 +232,27 @@ export default function Clicker3DViewer({
 
           {/* Keycaps Grid Layout */}
           <div
-            className="grid gap-4.5 relative z-10"
+            className="grid gap-3.5 relative z-10"
             style={{
               gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+              gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))`,
               transformStyle: "preserve-3d",
             }}
           >
-            {Array.from({ length: keyCount }).map((_, idx) => {
-              const keyConfig = keyconfigs[idx] || { type: "blank", value: "", color: globalKeycapColor.id };
-              
+            {layoutSlots.map((slot, slotIndex) => {
+              if (slot.keyIdx === null) {
+                return (
+                  <div
+                    key={`empty-${slotIndex}`}
+                    className="opacity-0 pointer-events-none"
+                    style={{ width: `${keySize}px`, height: `${keySize}px` }}
+                  />
+                );
+              }
+
+              const actualKeyIdx = slot.keyIdx;
+              const keyConfig = keyconfigs[actualKeyIdx] || { type: "blank", value: "", color: globalKeycapColor.id };
+
               // Find matching color object
               let capColorObj = globalKeycapColor;
               if (keycapMode === "custom") {
@@ -182,21 +262,26 @@ export default function Clicker3DViewer({
 
               return (
                 <div
-                  key={idx}
+                  key={`key-${actualKeyIdx}`}
                   className="relative group transition-all duration-200"
-                  style={{ transformStyle: "preserve-3d", transform: "translateZ(28px)" }}
+                  style={{
+                    width: `${keySize}px`,
+                    height: `${keySize}px`,
+                    transformStyle: "preserve-3d",
+                    transform: "translateZ(28px)",
+                  }}
                 >
                   {/* Switch Base & Stem under keycap */}
                   <div
-                    className="absolute inset-0 m-auto w-8 h-8 rounded-md border border-neutral-700 bg-neutral-900 flex items-center justify-center shadow-inner"
+                    className="absolute inset-0 m-auto w-7 h-7 rounded-md border border-neutral-700 bg-neutral-900 flex items-center justify-center shadow-inner"
                     style={{ transform: "translateZ(-14px)" }}
                   >
-                    <div className="w-3.5 h-3.5 rounded-sm" style={{ backgroundColor: switchStemColor }} />
+                    <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: switchStemColor }} />
                   </div>
 
                   {/* 3D Keycap Box */}
                   <div
-                    className="w-18 h-18 sm:w-20 sm:h-20 rounded-2xl flex flex-col items-center justify-center relative shadow-2xl font-bold transition-transform duration-150 active:translate-z-2"
+                    className="w-full h-full rounded-2xl flex flex-col items-center justify-center relative shadow-2xl font-bold transition-transform duration-150 active:translate-z-2"
                     style={{
                       transformStyle: "preserve-3d",
                       backgroundColor: capColorObj.hex,
@@ -211,41 +296,41 @@ export default function Clicker3DViewer({
                   >
                     {/* Keycap Volumetric Side Walls */}
                     <div
-                      className="absolute top-0 inset-x-0 h-4 rounded-t-xl origin-top pointer-events-none"
+                      className="absolute top-0 inset-x-0 h-3 rounded-t-xl origin-top pointer-events-none"
                       style={{ backgroundColor: capColorObj.hex, filter: "brightness(1.2)", transform: "rotateX(-90deg)" }}
                     />
                     <div
-                      className="absolute bottom-0 inset-x-0 h-4 rounded-b-xl origin-bottom pointer-events-none"
+                      className="absolute bottom-0 inset-x-0 h-3 rounded-b-xl origin-bottom pointer-events-none"
                       style={{ backgroundColor: capColorObj.hex, filter: "brightness(0.65)", transform: "rotateX(90deg)" }}
                     />
                     <div
-                      className="absolute left-0 inset-y-0 w-4 rounded-l-xl origin-left pointer-events-none"
+                      className="absolute left-0 inset-y-0 w-3 rounded-l-xl origin-left pointer-events-none"
                       style={{ backgroundColor: capColorObj.hex, filter: "brightness(0.85)", transform: "rotateY(90deg)" }}
                     />
                     <div
-                      className="absolute right-0 inset-y-0 w-4 rounded-r-xl origin-right pointer-events-none"
+                      className="absolute right-0 inset-y-0 w-3 rounded-r-xl origin-right pointer-events-none"
                       style={{ backgroundColor: capColorObj.hex, filter: "brightness(0.75)", transform: "rotateY(-90deg)" }}
                     />
                     <div
                       className="absolute inset-0 rounded-2xl pointer-events-none"
-                      style={{ backgroundColor: capColorObj.hex, filter: "brightness(0.5)", transform: "translateZ(-16px)" }}
+                      style={{ backgroundColor: capColorObj.hex, filter: "brightness(0.5)", transform: "translateZ(-14px)" }}
                     />
 
                     {/* Keycap Key Number Badge */}
-                    <span className="absolute top-1.5 left-2 text-[9px] font-mono opacity-40 font-black z-10">
-                      #{idx + 1}
+                    <span className="absolute top-1 left-1.5 text-[8px] font-mono opacity-40 font-black z-10">
+                      #{actualKeyIdx + 1}
                     </span>
 
                     {/* Keycap Engraved Custom Content */}
-                    <div className="text-center px-1 font-black text-sm uppercase tracking-tight flex flex-col items-center justify-center z-10">
+                    <div className="text-center px-1 font-black text-xs sm:text-sm uppercase tracking-tight flex flex-col items-center justify-center z-10">
                       {keyConfig.type === "letter" && (
-                        <span className="text-xl sm:text-2xl font-mono tracking-widest">{keyConfig.value || "A"}</span>
+                        <span className="text-lg sm:text-xl font-mono tracking-widest">{keyConfig.value || "A"}</span>
                       )}
                       {keyConfig.type === "word" && (
-                        <span className="text-xs sm:text-sm font-extrabold">{keyConfig.value || "SPOOLIO"}</span>
+                        <span className="text-[10px] sm:text-xs font-extrabold">{keyConfig.value || "SPOOLIO"}</span>
                       )}
                       {keyConfig.type === "symbol" && (
-                        <span className="text-lg sm:text-xl">{keyConfig.value || "⚡"}</span>
+                        <span className="text-base sm:text-lg">{keyConfig.value || "⚡"}</span>
                       )}
                       {keyConfig.type === "texture" && (
                         <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ transformStyle: "preserve-3d" }}>

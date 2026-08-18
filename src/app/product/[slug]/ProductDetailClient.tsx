@@ -36,6 +36,22 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
   const [quantity, setQuantity] = useState<number>(1);
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [includeNfcBadge, setIncludeNfcBadge] = useState(false);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+  const mainCtaRef = useRef<HTMLDivElement>(null);
+
+  // Scroll listener for Mobile Sticky Add-to-Cart Bar (Point 6 UX)
+  useEffect(() => {
+    const handleScroll = () => {
+      if (mainCtaRef.current) {
+        const rect = mainCtaRef.current.getBoundingClientRect();
+        setShowStickyBar(rect.bottom < 0);
+      } else {
+        setShowStickyBar(window.scrollY > 500);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const displayName = (locale === "en" && (product?.nameEn || product?.name_en))
     ? (product?.nameEn || product?.name_en)!
@@ -1451,7 +1467,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
 
 
             {/* Call to action with Quantity Selector */}
-            <div className="flex items-center gap-4">
+            <div ref={mainCtaRef} className="flex items-center gap-4">
               {/* Quantity Selector */}
               <div className={`flex items-center bg-spoolio-card border border-spoolio-border rounded-xl h-14 px-3 select-none ${isNotAvailableToBuy ? "opacity-40" : ""}`}>
                 <button
@@ -2171,6 +2187,50 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
           </div>
         )}
       </main>
+
+      {/* Mobile Sticky Add-To-Cart Bar (Point 6 UX) */}
+      {product && !isNotAvailableToBuy && (
+        <div
+          className={`fixed bottom-0 left-0 right-0 z-40 bg-[#0c0c10]/95 backdrop-blur-2xl border-t border-white/15 p-3 sm:hidden transition-transform duration-300 shadow-[0_-12px_35px_rgba(0,0,0,0.8)] ${
+            showStickyBar ? "translate-y-0" : "translate-y-full pointer-events-none"
+          }`}
+        >
+          <div className="flex items-center justify-between gap-3 max-w-md mx-auto">
+            {/* Image + Title + Price */}
+            <div className="flex items-center gap-2.5 min-w-0 flex-1">
+              <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-black/40 border border-white/10 shrink-0">
+                <Image
+                  src={product.images[0]?.src || "/images/figma_keychains.jpg"}
+                  alt={product.name}
+                  fill
+                  className="object-cover"
+                  sizes="44px"
+                />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="text-xs font-black text-white truncate leading-tight">
+                  {displayName}
+                </span>
+                <span className="text-xs font-mono font-black text-[#ff4f00]">
+                  {currentPrice}€
+                </span>
+              </div>
+            </div>
+
+            {/* Quick CTA Button */}
+            <button
+              onClick={handleAddToCartClick}
+              className={`h-11 px-5 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shrink-0 cursor-pointer shadow-lg active:scale-95 ${
+                isAdded
+                  ? "bg-emerald-500 text-white shadow-emerald-500/30"
+                  : "bg-[#ff4f00] hover:bg-[#e04500] text-white shadow-[#ff4f00]/30"
+              }`}
+            >
+              <span>{isAdded ? "✓ Ajouté !" : "Ajouter au panier"}</span>
+            </button>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </div>

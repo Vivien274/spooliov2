@@ -124,10 +124,10 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
       <section
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
-        className="w-full relative rounded-b-[36px] sm:rounded-b-[56px] border-b border-white/20 bg-[#070709] text-white min-h-[600px] sm:min-h-[660px] flex flex-col justify-between group/hero shadow-[0_15px_60px_rgba(255,255,255,0.12)] dark:shadow-[0_20px_70px_rgba(255,255,255,0.15)] overflow-hidden"
+        className="w-full relative border-b border-white/20 bg-[#070709] text-white min-h-[600px] sm:min-h-[660px] flex flex-col justify-between group/hero shadow-[0_15px_60px_rgba(255,255,255,0.12)] dark:shadow-[0_20px_70px_rgba(255,255,255,0.15)] overflow-hidden"
       >
 
-        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden rounded-b-[36px] sm:rounded-b-[56px]">
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeSlide.id || activeIndex}
@@ -187,9 +187,9 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                 transition={{ duration: 0.4 }}
                 className="w-full flex flex-col items-center text-center space-y-4 sm:space-y-6"
               >
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-[11px] sm:text-xs font-mono font-extrabold text-neutral-200 tracking-wider shadow-lg uppercase">
-                  <span>{activeSlide.badge || "FABRICATION ARTISANALE À COMINES (59) • PLA BIOSOURCÉ 🌱"}</span>
-                </div>
+                <span className="text-xs sm:text-sm font-mono font-extrabold text-[#ff4f00] tracking-widest uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] -mb-2 sm:-mb-3">
+                  {activeSlide.badge || "FABRICATION ARTISANALE À COMINES (59) • PLA BIOSOURCÉ 🌱"}
+                </span>
 
                 <div className="min-h-[75px] sm:min-h-[115px] flex items-center justify-center w-full">
                   <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white font-antonio leading-[1.03] drop-shadow-[0_4px_25px_rgba(0,0,0,0.95)] max-w-4xl">
@@ -197,14 +197,14 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                   </h1>
                 </div>
 
-                <div className="min-h-[36px] sm:min-h-[48px] flex items-center justify-center w-full -mt-1 sm:-mt-2">
+                <div className="min-h-[36px] sm:min-h-[48px] flex items-center justify-center w-full -mt-2 sm:-mt-3">
                   <p className="text-xs sm:text-base text-white font-sans font-extrabold leading-relaxed max-w-2xl mx-auto line-clamp-2 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
                     {activeSlide.subtitle}
                   </p>
                 </div>
 
                 {/* Single Centered Action Button */}
-                <div className="flex items-center justify-center w-full sm:w-auto pt-4 sm:pt-6">
+                <div className="flex items-center justify-center w-full sm:w-auto pt-3 sm:pt-4">
                   <Link
                     href={activeSlide.buttonLink || "/boutique"}
                     className="w-full sm:w-auto h-13 sm:h-14 px-8 sm:px-9 inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#2F3CD9] via-[#3b49f5] to-[#2F3CD9] hover:from-[#2532c7] hover:to-[#2F3CD9] text-white font-black text-xs sm:text-sm uppercase tracking-wider rounded-2xl transition-all shadow-[0_0_30px_rgba(47,60,217,0.65)] hover:shadow-[0_0_45px_rgba(47,60,217,0.9)] hover:scale-[1.03] active:scale-[0.98] cursor-pointer border border-[#6b79ff]/60 group/btn"
@@ -215,21 +215,6 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                 </div>
               </motion.div>
             </AnimatePresence>
-          </div>
-
-          <div className="flex items-center justify-center gap-3 pt-2 text-xs text-neutral-400 font-sans">
-            <div className="flex -space-x-2">
-              <div className="flex h-7 w-7 items-center justify-center rounded-full ring-2 ring-neutral-900 bg-orange-500 text-white font-black text-[11px] leading-none shrink-0">C</div>
-              <div className="flex h-7 w-7 items-center justify-center rounded-full ring-2 ring-neutral-900 bg-blue-500 text-white font-black text-[11px] leading-none shrink-0">J</div>
-              <div className="flex h-7 w-7 items-center justify-center rounded-full ring-2 ring-neutral-900 bg-emerald-500 text-white font-black text-[11px] leading-none shrink-0">S</div>
-            </div>
-            <div className="flex flex-col text-left">
-              <div className="flex items-center gap-1 text-amber-400 font-bold text-[11px]">
-                <span>★★★★★</span>
-                <span className="text-white font-black">4.9 / 5.0</span>
-              </div>
-              <span className="text-[10px] text-neutral-400 font-medium">Recommandé par +500 passionnés</span>
-            </div>
           </div>
 
           {/* Slider Pagination Dots Centered */}
