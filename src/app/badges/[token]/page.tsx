@@ -13,7 +13,7 @@ const SPOOLIO_BLUE = '#2F3CD9';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { token } = await params;
-  const fiche = getBadgeByToken(token);
+  const fiche = await getBadgeByToken(token);
   const type = fiche?.type ?? 'festivalier';
   const name =
     type === 'animal' ? fiche?.data?.nom :
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BadgePublicPage({ params }: Props) {
   const { token } = await params;
-  const fiche = getBadgeByToken(token);
+  const fiche = await getBadgeByToken(token);
 
   if (!fiche) {
     // If not found in badges.json, render a clean fallback preview

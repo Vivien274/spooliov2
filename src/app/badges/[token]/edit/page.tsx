@@ -51,16 +51,16 @@ export default function EditBadgePage({ params }: { params: Promise<{ token: str
         body: JSON.stringify({
           token,
           type,
-          claimCode,
-          password,
           data: formData,
         }),
       });
 
       const result = await res.json();
       if (res.ok && result.success) {
-        setMessage({ type: "success", text: result.message || "Fiche mise à jour avec succès !" });
-        fetchBadge();
+        setMessage({ type: "success", text: result.message || "Fiche enregistrée avec succès !" });
+        setTimeout(() => {
+          window.location.href = `/badges/${token}`;
+        }, 800);
       } else {
         setMessage({ type: "error", text: result.error || "Erreur de sauvegarde." });
       }
@@ -134,22 +134,6 @@ export default function EditBadgePage({ params }: { params: Promise<{ token: str
               ))}
             </div>
           </div>
-
-          {!fiche?.is_claimed && fiche?.claim_code && (
-            <div className="space-y-1">
-              <label className="text-xs font-bold uppercase text-amber-400">
-                Code d&apos;Activation (fourni avec le badge) <span className="text-red-400">*</span>
-              </label>
-              <input
-                type="text"
-                value={claimCode}
-                onChange={(e) => setClaimCode(e.target.value)}
-                placeholder="Ex: 123456"
-                className="w-full bg-black/50 border border-amber-500/40 rounded-xl px-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400 font-mono font-bold"
-                required
-              />
-            </div>
-          )}
 
           {/* Form fields based on selected badge type */}
           {type === "festivalier" && (

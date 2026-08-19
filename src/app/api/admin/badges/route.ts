@@ -16,7 +16,7 @@ export async function GET() {
       return NextResponse.json({ error: "Accès non autorisé" }, { status: 401 });
     }
 
-    const badges = getBadges();
+    const badges = await getBadges();
     return NextResponse.json({ success: true, badges });
   } catch (err: any) {
     return NextResponse.json({ error: err.message || "Erreur serveur" }, { status: 500 });
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { action, badgeId, count, type } = body;
 
-    const badges = getBadges();
+    const badges = await getBadges();
 
     if (action === "encode_nfc" && badgeId) {
       const idx = badges.findIndex(b => b.id === badgeId);
