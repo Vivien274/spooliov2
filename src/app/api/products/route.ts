@@ -128,6 +128,7 @@ function mapProduct(p: any) {
     attributes: parsedAttributes,
     tags: tagsList,
     stock: typeof p.stock === 'number' ? p.stock : (typeof p.stock_quantity === 'number' ? p.stock_quantity : -1),
+    productType: p.productType || "simple",
     status: p.status || "publish",
     show_in_sensory_compass: !!(p.showInSensoryCompass || p.show_in_sensory_compass),
     sensory_noise_level: p.sensoryNoiseLevel || p.sensory_noise_level || null,

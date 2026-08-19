@@ -159,66 +159,68 @@ export default function Header({
         : "bg-transparent border-b border-white/5"
       }`}>
       <div className={`mx-auto w-full flex items-center justify-between transition-all duration-300 relative z-10 ${isSticky
-          ? "h-16 md:h-20 px-6 md:px-12 max-w-7xl"
-          : "h-24 px-6 max-w-[1200px]"
+          ? "h-16 md:h-20 px-4 sm:px-6 md:px-10 max-w-7xl"
+          : "h-20 md:h-24 px-4 sm:px-6 md:px-10 max-w-7xl"
         }`}>
-        {/* Mobile Burger Button (left on mobile) */}
-        <div className="flex md:hidden mr-2">
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="w-10 h-10 flex items-center justify-center bg-white/5 hover:bg-white/15 text-white rounded-full border border-white/10 transition-all cursor-pointer z-50"
-            title="Menu"
-            aria-label={isMobileMenuOpen ? "Fermer le menu mobile" : "Ouvrir le menu mobile"}
+        {/* LEFT COLUMN: Mobile burger button & Logo (flex-1 to balance right side) */}
+        <div className="flex items-center justify-start flex-1 min-w-0">
+          {/* Mobile Burger Button (left on mobile) */}
+          <div className="flex md:hidden mr-2">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="w-10 h-10 flex items-center justify-center bg-white/5 hover:bg-white/15 text-white rounded-full border border-white/10 transition-all cursor-pointer z-50"
+              title="Menu"
+              aria-label={isMobileMenuOpen ? "Fermer le menu mobile" : "Ouvrir le menu mobile"}
+            >
+              {isMobileMenuOpen ? (
+                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+              )}
+            </button>
+          </div>
+
+          {/* Logo */}
+          <Link
+            href="/"
+            onClick={(e) => {
+              if (typeof window !== "undefined") {
+                const clicks = (window as any)._spoolioLogoClicks = ((window as any)._spoolioLogoClicks || 0) + 1;
+                if (clicks >= 3) {
+                  window.dispatchEvent(new CustomEvent("unlock-spooly"));
+                  (window as any)._spoolioLogoClicks = 0;
+                } else {
+                  setTimeout(() => {
+                    (window as any)._spoolioLogoClicks = 0;
+                  }, 1500);
+                }
+              }
+            }}
+            className="relative z-50 flex items-center gap-2 group cursor-pointer shrink-0"
           >
-            {isMobileMenuOpen ? (
-              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            )}
-          </button>
+            <Image
+              src="/images/logo.png"
+              alt="Spoolio Logo"
+              width={130}
+              height={38}
+              priority
+              className={`h-9 md:h-10 w-auto object-contain transition-all ${isSticky && theme === "light" ? "filter invert" : ""}`}
+            />
+          </Link>
         </div>
 
-        {/* Logo */}
-        <Link
-          href="/"
-          onClick={(e) => {
-            if (typeof window !== "undefined") {
-              const clicks = (window as any)._spoolioLogoClicks = ((window as any)._spoolioLogoClicks || 0) + 1;
-              if (clicks >= 3) {
-                window.dispatchEvent(new CustomEvent("unlock-spooly"));
-                (window as any)._spoolioLogoClicks = 0;
-              } else {
-                setTimeout(() => {
-                  (window as any)._spoolioLogoClicks = 0;
-                }, 1500);
-              }
-            }
-          }}
-          className="relative z-50 flex items-center gap-2 group cursor-pointer"
-        >
-          <Image
-            src="/images/logo.png"
-            alt="Spoolio Logo"
-            width={130}
-            height={38}
-            priority
-            className={`h-10 w-auto object-contain transition-all ${isSticky && theme === "light" ? "filter invert" : ""
-              }`}
-          />
-        </Link>
-
-        {/* Central Motion Navigation Menu with Morphing Dropdowns & Sliding Pill */}
-        <div className="hidden md:flex items-center gap-3">
+        {/* CENTER COLUMN: Central Motion Navigation Menu & Search (Mathematically Centered) */}
+        <div className="hidden md:flex items-center justify-center gap-2.5 shrink-0">
           <MotionNavigationMenu />
 
           {/* Search magnifier bubble */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="w-10 h-10 rounded-full bg-white/10 dark:bg-white/10 light:bg-gray-100 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer shadow-sm border border-white/10 light:border-gray-200"
+            className="w-10 h-10 rounded-full bg-white/10 dark:bg-white/10 light:bg-gray-100 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer shadow-sm border border-white/10 light:border-gray-200 shrink-0"
             title="Rechercher (Cmd+K)"
             aria-label="Rechercher"
           >
@@ -228,15 +230,12 @@ export default function Header({
           </button>
         </div>
 
-        {/* Header Actions (Language Switcher + Theme Toggle + Cart) */}
-        <div className="flex items-center gap-3">
-          {/* Language Switcher (Masqué pour l'instant) */}
-          {/* <LanguageSwitcher variant="header" className="hidden md:inline-block" /> */}
-
+        {/* RIGHT COLUMN: Header Actions (Cart + Mobile Search) (flex-1 to balance left side) */}
+        <div className="flex items-center justify-end flex-1 min-w-0 gap-3">
           {/* Mobile Search Button */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="flex md:hidden w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 items-center justify-center transition-all cursor-pointer border border-white/10"
+            className="flex md:hidden w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 items-center justify-center transition-all cursor-pointer border border-white/10"
             title="Rechercher"
             aria-label="Rechercher"
           >
@@ -248,11 +247,11 @@ export default function Header({
           {/* Cart Button */}
           <button
             onClick={() => setIsCartOpen(true)}
-            className={`relative w-12 h-12 flex items-center justify-center bg-[#ff4f00] hover:bg-[#e04500] text-white rounded-full transition-colors shadow-lg shadow-[#ff4f00]/15 cursor-pointer ${isBouncing ? "animate-bouncy-cart" : ""}`}
+            className={`relative w-10 h-10 md:w-11 md:h-11 flex items-center justify-center bg-[#ff4f00] hover:bg-[#e04500] text-white rounded-full transition-colors shadow-lg shadow-[#ff4f00]/20 cursor-pointer shrink-0 ${isBouncing ? "animate-bouncy-cart" : ""}`}
             title="Ouvrir le panier"
             aria-label="Ouvrir le panier"
           >
-            <svg className="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4 md:w-4.5 md:h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
             {cartCount > 0 && (
@@ -262,6 +261,7 @@ export default function Header({
             )}
           </button>
         </div>
+      </div>
 
         {/* Global Search Dialog Modal */}
         {mounted && isSearchOpen && createPortal(
@@ -488,7 +488,6 @@ export default function Header({
           />,
           document.body
         )}
-      </div>
     </header>
   );
 }

@@ -12,6 +12,7 @@ import {
   Compass,
   Ticket,
   ShieldCheck,
+  Dices,
   Palette,
   Building2,
   HelpCircle,
@@ -216,6 +217,8 @@ export default function MobileMenuDrawer({
               </div>
               <ChevronRight className="w-3.5 h-3.5 text-gray-600" />
             </Link>
+
+
 
             {/* Tombola (Uniquement si active en admin) */}
             {isTombolaActive && (

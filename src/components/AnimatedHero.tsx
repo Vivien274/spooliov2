@@ -203,14 +203,37 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                   </p>
                 </div>
 
-                {/* Single Centered Action Button */}
+                {/* Single Centered Action Button - Full Neon Blue Style */}
                 <div className="flex items-center justify-center w-full sm:w-auto pt-3 sm:pt-4">
                   <Link
                     href={activeSlide.buttonLink || "/boutique"}
-                    className="w-full sm:w-auto h-13 sm:h-14 px-8 sm:px-9 inline-flex items-center justify-center gap-3 bg-gradient-to-r from-[#2F3CD9] via-[#3b49f5] to-[#2F3CD9] hover:from-[#2532c7] hover:to-[#2F3CD9] text-white font-black text-xs sm:text-sm uppercase tracking-wider rounded-2xl transition-all shadow-[0_0_30px_rgba(47,60,217,0.65)] hover:shadow-[0_0_45px_rgba(47,60,217,0.9)] hover:scale-[1.03] active:scale-[0.98] cursor-pointer border border-[#6b79ff]/60 group/btn"
+                    className="relative group/btn w-full sm:w-auto inline-flex items-center justify-center cursor-pointer active:scale-95 transition-all duration-300"
                   >
-                    <span>{activeSlide.buttonText || "DÉCOUVRIR LA BOUTIQUE"}</span>
-                    <ArrowRight className="w-4 h-4 text-white group-hover/btn:translate-x-1 transition-transform" />
+                    {/* Pulsing Neon Blue Ambient Halo */}
+                    <div
+                      className="absolute -inset-1.5 rounded-2xl blur-lg opacity-80 group-hover/btn:opacity-100 group-hover/btn:blur-xl transition-all duration-300 animate-pulse pointer-events-none"
+                      style={{
+                        background: "linear-gradient(90deg, #1b2bd8, #3b50ff, #2546ff, #1b2bd8)",
+                      }}
+                    />
+
+                    {/* Outer Neon Blue Body Wrap */}
+                    <div
+                      className="relative w-full sm:w-auto h-13 sm:h-14 px-8 sm:px-10 inline-flex items-center justify-center gap-3 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider text-white overflow-hidden transition-all duration-300 border border-[#8fa0ff]/60 group-hover/btn:border-white shadow-[0_0_30px_rgba(47,68,255,0.75),0_0_60px_rgba(37,70,255,0.4),inset_0_1.5px_2px_rgba(255,255,255,0.7)] group-hover/btn:scale-[1.03]"
+                      style={{
+                        background: "linear-gradient(135deg, #1e2ce0 0%, #3448ff 50%, #1a28d4 100%)",
+                        boxShadow: "0 0 28px rgba(47, 68, 255, 0.8), 0 0 55px rgba(37, 70, 255, 0.45), inset 0 1.5px 2px rgba(255, 255, 255, 0.7), inset 0 -2px 6px rgba(0, 0, 0, 0.35)"
+                      }}
+                    >
+                      {/* Neon Shimmer Beam (Balayage lumineux) */}
+                      <div className="absolute inset-0 -translate-x-full group-hover/btn:translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-1000 ease-out pointer-events-none" />
+
+                      {/* Button Label & Icon with Drop Shadow */}
+                      <span className="relative z-10 font-black tracking-widest drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] text-white">
+                        {activeSlide.buttonText || "DÉCOUVRIR LA BOUTIQUE"}
+                      </span>
+                      <ArrowRight className="relative z-10 w-4 h-4 text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] group-hover/btn:translate-x-1 transition-transform" />
+                    </div>
                   </Link>
                 </div>
               </motion.div>

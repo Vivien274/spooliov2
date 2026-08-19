@@ -22,6 +22,7 @@ import {
   HelpCircle,
   Shapes,
   ShieldCheck,
+  Dices,
 } from "lucide-react";
 
 interface MenuItem {
@@ -443,11 +444,13 @@ export default function MotionNavigationMenu() {
                     </div>
                   </Link>
 
-                  {/* Card 5: Tombola (Conditionnelle) */}
+
+
+                  {/* Card 6: Tombola (Conditionnelle) */}
                   {isTombolaActive && (
                     <Link
                       href="/tombola"
-                      className="col-span-2 group bg-gradient-to-r from-amber-500/20 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-amber-400/60 transition-all duration-200 flex items-center justify-between shadow-lg hover:shadow-amber-500/10"
+                      className="col-span-2 group bg-gradient-to-r from-amber-500/20 via-white/5 to-transparent p-3.5 rounded-2xl border border-white/15 hover:border-amber-400/60 transition-all duration-200 flex items-center justify-between shadow-lg hover:shadow-amber-500/10"
                     >
                       <div className="flex items-center gap-3">
                         <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-400 group-hover:scale-110 transition-transform">

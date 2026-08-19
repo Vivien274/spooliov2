@@ -135,7 +135,7 @@ export default function EditBadgePage({ params }: { params: Promise<{ token: str
             </div>
           </div>
 
-          {!fiche?.is_claimed && (
+          {!fiche?.is_claimed && fiche?.claim_code && (
             <div className="space-y-1">
               <label className="text-xs font-bold uppercase text-amber-400">
                 Code d&apos;Activation (fourni avec le badge) <span className="text-red-400">*</span>
