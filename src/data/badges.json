@@ -1,28 +1,3624 @@
 [
   {
-    "id": "badge-demo-01",
-    "token": "DEMO123",
-    "claim_code": "123456",
-    "nfc_encoded_at": "2026-08-07T08:52:00.426Z",
-    "password_hash": null,
-    "type": "festivalier",
+    "id": "684fbb3e-ee3f-4ad6-88ad-1ede60cc9133",
+    "token": "5J3IO4V9adOoALK8oDYyKI7A",
+    "claim_code": null,
+    "password_hash": "$2b$12$n6B3//i7C6dnDuLnquhlE.JA2XUZvtmwgsFkWnRorYGtLx0zGnVHO",
     "is_claimed": true,
     "data": {
-      "prenom": "Alex",
-      "intro": "Passionné d'impression 3D & Fidgets Spoolio !",
-      "contact1_nom": "Marie (Proche)",
-      "contact1_tel": "06 12 34 56 78",
-      "contact2_nom": "Thomas (Frère)",
-      "contact2_tel": "06 98 76 54 32",
-      "infos_medicales": "Aucune allergie connue",
-      "groupe_sanguin": "O+",
-      "camping": "Zone A - Stand Spoolio",
-      "langues": "Français, Anglais",
-      "message": "Scannez ce badge pour m'identifier !"
+      "prenom": "Mélissa",
+      "langues": "Francais",
+      "message": "Si tu me trouves ko, merci de me mettre en sécurité, et de contacter les secours et/ou mes proches. Mais n’importe quoi toi ! La seconde option : Apporte moi kebab salade tomates oignons, de l’eau et remets moi sur pieds, la soirée n’est pas terminée 🤣",
+      "contact1_nom": "Papa",
+      "contact1_tel": "06 41 02 04 52",
+      "contact2_nom": "Melany",
+      "contact2_tel": "06 26 33 98 14",
+      "groupe_sanguin": "AB-",
+      "infos_medicales": "Allergie au débridat"
     },
     "failed_attempts": 0,
     "locked_until": null,
-    "created_at": "2026-08-07T08:52:00.426Z",
-    "updated_at": "2026-08-07T08:52:00.426Z"
+    "created_at": "2026-06-02T14:33:05.093992+00:00",
+    "updated_at": "2026-06-02T15:45:45.983441+00:00",
+    "type": "festivalier",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "c728756c-95b8-4b00-8003-1202836fcf5f",
+    "token": "9cf72dcfaddafecf3332bfb135191398",
+    "claim_code": "XZAQPUBQ",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "ref": "SP-1001",
+      "prenom": "William",
+      "message": "Bonjour je m'appelle William merci de m'aider à appeler mes parents ! Je suis très gentil et j'adore les Lego",
+      "tel_parent_1": "0634725513",
+      "tel_parent_2": "0635259113"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:03.423119+00:00",
+    "updated_at": "2026-06-05T16:58:46.444987+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "5755618d-7ac7-4fed-aa97-ce4f2deb14a4",
+    "token": "8ae655606aa8b44aa42e9b22fa7faf83",
+    "claim_code": "R5R66CAB",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "ref": "SP-1002",
+      "prenom": "Agathe",
+      "tel_parent_1": "0689269799",
+      "tel_parent_2": "0688337202"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:03.606889+00:00",
+    "updated_at": "2026-06-05T16:58:46.527499+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "74b8cb4b-9ebc-4bd4-a6b9-c0710c5993c8",
+    "token": "580d541fb7909c4968174e7514d39d67",
+    "claim_code": "S9J5P8FG",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "ref": "SP-1003",
+      "prenom": "Rose",
+      "tel_parent_1": "0689269799",
+      "tel_parent_2": "0688337202"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:03.713174+00:00",
+    "updated_at": "2026-06-05T16:58:46.61196+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "532ea59c-4255-410d-8fdc-3cafc57fc53b",
+    "token": "556254b2217ea69ef78f1d46eeb438b5",
+    "claim_code": "Z5XHVJNW",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "ref": "SP-1004",
+      "prenom": "Eve",
+      "tel_parent_1": "0689269799",
+      "tel_parent_2": "0688337202"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:03.801429+00:00",
+    "updated_at": "2026-06-05T16:58:46.701881+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "f831fc47-f91c-4865-9273-e5984243b113",
+    "token": "00afa6fc65d0ec254c71b894a1555c3d",
+    "claim_code": "YS2MLCK6",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "ref": "SP-1005",
+      "prenom": "Coline",
+      "tel_parent_1": "0645606876",
+      "tel_parent_2": "0643810026"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:03.962971+00:00",
+    "updated_at": "2026-06-05T16:58:46.785454+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "cc6069d4-3adb-4cd1-9b9e-f091fb858269",
+    "token": "c9a754798bba8c10d9180e70db218429",
+    "claim_code": "RN4SWMGG",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "ref": "SP-1006",
+      "prenom": "Capucine",
+      "tel_parent_1": "0643810026",
+      "tel_parent_2": "0645606876"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:04.033641+00:00",
+    "updated_at": "2026-06-05T16:58:46.95547+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "e0193cdf-6f2f-4a12-b15d-1e9a4cbd1cde",
+    "token": "6f6656ea2167a5a473c8ed9e9c30901f",
+    "claim_code": "UDU52W6N",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1007"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:04.100479+00:00",
+    "updated_at": "2026-06-05T16:58:47.040108+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "dbfe4ec3-0929-403d-b63e-9004de1df29e",
+    "token": "b8cecb24ad23793a7ed05c385fbf76ea",
+    "claim_code": "2W2V744M",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1008"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:04.183029+00:00",
+    "updated_at": "2026-06-05T16:58:47.130458+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "98047593-bbb5-4b75-b316-177e44af19ba",
+    "token": "5af116d28e08a345a30e199a69b42277",
+    "claim_code": "26BD6ZTV",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "ref": "SP-1009",
+      "prenom": "Emna",
+      "message": "Veuillez nous contacter Hakim et Margot",
+      "tel_parent_1": "0603367235",
+      "tel_parent_2": "0616014062"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:04.26106+00:00",
+    "updated_at": "2026-06-05T16:58:47.213004+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "b7eaa879-f61e-4d2f-84b7-f4569a1bcb3c",
+    "token": "5d1cff57e870f75eb29279dbefe05b61",
+    "claim_code": "3R2TJC6U",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "ref": "SP-1010",
+      "prenom": "Melissandre",
+      "message": "Adresse 2 rue des ecoles 59560 comines",
+      "tel_parent_1": "0668657061",
+      "tel_parent_2": "0689975412"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:04.340982+00:00",
+    "updated_at": "2026-06-05T16:58:47.306076+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "3d23f36d-1677-4f13-a60f-e26fe9fea508",
+    "token": "3bd3e9db7e5792bed7227fc63f69ff73",
+    "claim_code": "P2EQWW66",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1011"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:04.475272+00:00",
+    "updated_at": "2026-06-05T16:58:47.47707+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "c48c38a4-8441-451a-9f0f-940198bf7c28",
+    "token": "cd6f2fdf3c008221509969dfc7be9dfe",
+    "claim_code": "RF2TPDYY",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1012"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:23.932913+00:00",
+    "updated_at": "2026-06-05T16:58:47.562066+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "8e4cbcdf-6312-4352-aacc-f444bbcde88a",
+    "token": "db8b11ace1111c9826d5d27a094dce14",
+    "claim_code": "BNB4SYM3",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1013"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:24.001043+00:00",
+    "updated_at": "2026-06-05T16:58:47.643603+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "9b3ed1a3-8692-482a-a031-154affbd314d",
+    "token": "b136e03a60afaae843cf03cc2df3f4f6",
+    "claim_code": "WZXNAHAX",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1014"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:24.065113+00:00",
+    "updated_at": "2026-06-05T16:58:47.734912+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "a1a4f72e-525d-4b69-b220-9b6d12870cd7",
+    "token": "9e02cf418c9b1e1f9d4dc7264e100365",
+    "claim_code": "MHDRDRFZ",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1015"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:24.140714+00:00",
+    "updated_at": "2026-06-05T16:58:47.815901+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "5292cb14-5946-478f-bac6-9e7989a46c29",
+    "token": "ff77b54bc8d56139f670ad9e6b4bff72",
+    "claim_code": "P6M3P5YZ",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1016"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:24.213761+00:00",
+    "updated_at": "2026-06-05T16:58:47.961336+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "94605609-663d-4143-b73a-61cd99e79ed4",
+    "token": "938ed7a148b3655f1f8c575ea08b70bf",
+    "claim_code": "754U8UEK",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1017"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:24.400807+00:00",
+    "updated_at": "2026-06-05T16:58:48.0448+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "bd08223d-fcdd-4b86-98a8-006954237e22",
+    "token": "9f30dca018520b06f0acc3f841ab38c2",
+    "claim_code": "DF9VQL6J",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1018"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:24.474125+00:00",
+    "updated_at": "2026-06-05T16:58:48.123948+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "6ae3f976-ddc1-46e6-ac91-8357f4b5bee0",
+    "token": "1195c42b68d07d706bdfbebc9389e482",
+    "claim_code": "JAFHMY3Q",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1019"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:24.543041+00:00",
+    "updated_at": "2026-06-05T16:58:48.218346+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "dbc84fcd-f73d-4015-ad12-96571f39d4ac",
+    "token": "db542fb09c584376ddf9f94dbd6530cd",
+    "claim_code": "47S83SP5",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1020"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:24.611235+00:00",
+    "updated_at": "2026-06-05T16:58:48.295826+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "b673f573-06be-4517-93b0-4b1652e53f45",
+    "token": "d6662f61f1bf36b98d3f9278b9334a52",
+    "claim_code": "F7C5HDHS",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1021"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:24.68349+00:00",
+    "updated_at": "2026-06-05T16:58:48.380112+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "b9abed9d-e045-47a8-9ea0-ca749e2529ac",
+    "token": "acfd5c6a9a6a8438459f9f8b9cff9d9f",
+    "claim_code": "XG7VVG56",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1022"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:24.749329+00:00",
+    "updated_at": "2026-06-05T16:58:48.518277+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "9c1af5bf-f466-4995-9d06-3041511d07ed",
+    "token": "ec6a1c034c996084317b26bb3f5fd6b8",
+    "claim_code": "TY3D6T8J",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1023"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:24.887256+00:00",
+    "updated_at": "2026-06-05T16:58:48.598115+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "cfda40bd-205c-488e-a404-21578f4482b9",
+    "token": "d1d04b97a2507481534d88468fc1af3d",
+    "claim_code": "GS4RC7UR",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1024"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:24.958239+00:00",
+    "updated_at": "2026-06-05T16:58:48.69079+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "56af3332-c191-4284-a836-ae3829b174c1",
+    "token": "24801aa264ff6c15dac0ed9fbf92d22e",
+    "claim_code": "UV9N5GJ2",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1025"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:25.024754+00:00",
+    "updated_at": "2026-06-05T16:58:48.766421+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "979f9b66-b51b-4b43-9a69-ab4fe0ca7fa9",
+    "token": "ef9b28333f53e503967d928c069ce596",
+    "claim_code": "M7HFCB48",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1026"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:25.091162+00:00",
+    "updated_at": "2026-06-05T16:58:48.894596+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "b60f85ce-2224-4f90-a649-36242852794a",
+    "token": "a103869206621922a92c9a8a45709b06",
+    "claim_code": "VQXG3T6U",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1027"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:25.160608+00:00",
+    "updated_at": "2026-06-05T16:58:49.053748+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "0c895ed5-1ec8-409b-85f1-ee1f405d2040",
+    "token": "512843fd4806402ce006400eb108560f",
+    "claim_code": "24JX7VVT",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1028"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:25.239381+00:00",
+    "updated_at": "2026-06-05T16:58:49.135553+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "23126bc5-4ed2-4470-adbc-ff67d0b2cc72",
+    "token": "55a84e01cf6cd04c8b259131904480e5",
+    "claim_code": "QMMJLXYT",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1029"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:25.30581+00:00",
+    "updated_at": "2026-06-05T16:58:49.220166+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "7ba09060-e9bc-4468-bb2b-9e3b9f5555fb",
+    "token": "e0a146aa7d2e5f8dac7288638158bca2",
+    "claim_code": "B57NXNR7",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "ref": "SP-1030",
+      "prenom": "Vivien",
+      "medical": "Hémorroïdes",
+      "message": "Message personnel",
+      "tel_parent_1": "0634725513",
+      "tel_parent_2": "0635259113"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:25.440281+00:00",
+    "updated_at": "2026-06-05T16:58:49.321954+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "87050844-7381-4376-af43-ba6a55aa3c27",
+    "token": "a297f6ec120b4f24394c98ad3ff9700b",
+    "claim_code": "ZTSB2J3Z",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1031"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:25.506269+00:00",
+    "updated_at": "2026-06-05T16:58:49.411404+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "c3e9e82f-3824-4787-b125-704a546fd7ca",
+    "token": "af77e5f7eec704fe7ee86cb97c1a7a63",
+    "claim_code": "4AG2TAZC",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1032"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:25.574051+00:00",
+    "updated_at": "2026-06-05T16:58:49.59391+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "db53c8dc-d24b-46b8-8a8a-ab140fbd585a",
+    "token": "cbbd2a5348acc72be77e87a8d6243587",
+    "claim_code": "BVKJJWSU",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1033"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:25.640321+00:00",
+    "updated_at": "2026-06-05T16:58:49.680248+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "252df76f-3ddc-4fef-bc9f-ba75163e386c",
+    "token": "d09fcf0e3a757b950abb2d2f8d83bdb8",
+    "claim_code": "DZSQX35P",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1034"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:25.715088+00:00",
+    "updated_at": "2026-06-05T16:58:49.783264+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "247c4eb4-1252-446e-b853-01fac0bb6cde",
+    "token": "f26a64d32a72cde02bc611eb020fdbfe",
+    "claim_code": "SSZ3UGGF",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1035"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:25.795357+00:00",
+    "updated_at": "2026-06-05T16:58:49.877033+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "b4a3e9d7-1936-4f6e-b194-a09853caefff",
+    "token": "83b468661d503937a341783a1a63d474",
+    "claim_code": "HQL8A9M9",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1036"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:25.939482+00:00",
+    "updated_at": "2026-06-05T16:58:50.064469+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "fec3f598-2174-422c-aac4-ca4f20a3c34d",
+    "token": "a0aa283bf25f540a51bf30e8481e25fe",
+    "claim_code": "Q6Q9WAEN",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1037"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:26.008343+00:00",
+    "updated_at": "2026-06-05T16:58:50.153354+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "5e269508-bf89-4e56-b57e-ddde29230d09",
+    "token": "b0e6126858006e910a4e8f356f0ace9b",
+    "claim_code": "F4YVH62U",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1038"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:26.088543+00:00",
+    "updated_at": "2026-06-05T16:58:50.236363+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "b2b9d0c7-e608-444e-8e79-c6d682c4aa9a",
+    "token": "5210cb0ffe65220978e7dfe721089970",
+    "claim_code": "XJU9GCWY",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1039"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:26.160772+00:00",
+    "updated_at": "2026-06-05T16:58:50.337315+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "e2abc90d-cea5-4cef-8f69-d24c23359210",
+    "token": "5c79bdcb831c73c82855facc6281b5ed",
+    "claim_code": "EPWETHGK",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1040"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:26.249908+00:00",
+    "updated_at": "2026-06-05T16:58:50.431938+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "a5dc9f08-ec19-438c-830b-3590c1621402",
+    "token": "2a6b0b7e48acc17fa5865c08125dd5c3",
+    "claim_code": "DFLNA5XR",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "ref": "SP-1041",
+      "prenom": "Vivien",
+      "tel_parent_1": "0634725513",
+      "tel_parent_2": "0635259113"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:26.318055+00:00",
+    "updated_at": "2026-06-05T16:58:50.580975+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "caf47bd1-d2b2-4681-bc65-b5d42100e272",
+    "token": "eb9346a8d264a91f8e0615601657f441",
+    "claim_code": "35DVA3RT",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1042"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:26.457382+00:00",
+    "updated_at": "2026-06-05T16:58:50.664259+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "c9a918ed-60fd-49d3-8f75-49a3aeb6d323",
+    "token": "f2e7ef3d63136f50a582f12ad384da98",
+    "claim_code": "35VEL4NU",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1043"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:26.533726+00:00",
+    "updated_at": "2026-06-05T16:58:50.745383+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "3a638aab-f868-49a3-878e-c3b1e1711b7b",
+    "token": "df4a427b35660fe0591dae8e06d99f35",
+    "claim_code": "6QRF9B8J",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1044"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:26.610035+00:00",
+    "updated_at": "2026-06-05T16:58:50.829073+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "92c814b0-e25e-4f09-a86d-1d6f2f571c2c",
+    "token": "56a8a1eb50469596b709f72cb008d462",
+    "claim_code": "RWTFTBCF",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "ref": "SP-1045",
+      "prenom": "Bernard",
+      "message": "Coucouc c'est moi",
+      "tel_parent_1": "0635259113",
+      "tel_parent_2": "0634725513"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:26.674045+00:00",
+    "updated_at": "2026-06-05T16:58:50.925262+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "9456d39c-caf2-4eef-b827-2721d686d999",
+    "token": "64d33a1df72c6fa4bc230ef6b1e81192",
+    "claim_code": "TZUYBJAC",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1046",
+      "prenom": "Anatole",
+      "medical": "Asthme",
+      "message": "Test modifier",
+      "tel_parent_1": "0635259113",
+      "tel_parent_2": "0634725513"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:26.746245+00:00",
+    "updated_at": "2026-06-05T16:58:51.099969+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "957d20c5-841d-4a40-8d6a-a0c9a3537020",
+    "token": "d215119bf2220e9092e748e68be199aa",
+    "claim_code": "97Z23S6F",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1047"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:26.812058+00:00",
+    "updated_at": "2026-06-05T16:58:51.188596+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "74f75c4a-9e44-4f89-9982-d14388f2efe8",
+    "token": "66aefaf72f6486412513f68e5b907fe3",
+    "claim_code": "T864XC7D",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1048"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:26.876761+00:00",
+    "updated_at": "2026-06-05T16:58:51.274633+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "2605c24a-b560-46aa-a4c3-a28c476cec1b",
+    "token": "63545e40ae076191ae9d2708d90c033d",
+    "claim_code": "UV4H5C5S",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "ref": "SP-1049",
+      "prenom": "Bastien",
+      "message": "Coucou c'est nous",
+      "tel_parent_1": "0634725513",
+      "tel_parent_2": "0987654322"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:27.008991+00:00",
+    "updated_at": "2026-06-05T16:58:51.356175+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "e2e7f64d-91e4-47d5-a424-74807df9bc83",
+    "token": "7af70476f6f7643eafa4235c5a61673a",
+    "claim_code": "NWWXSPYW",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1050"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:27.082178+00:00",
+    "updated_at": "2026-06-05T16:58:51.449483+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "f0eae748-e599-4ab1-a7f2-348763185024",
+    "token": "795f946c40b2e0efec629526b3657bea",
+    "claim_code": "R3VTQ4MU",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1051"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:27.159334+00:00",
+    "updated_at": "2026-06-05T16:58:51.534069+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "917afffb-e3e3-40cc-8a19-56e94bb8ff3f",
+    "token": "702b39f7e98980bf3e2cc25f138e342e",
+    "claim_code": "YXPS9AEG",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1052"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:27.229746+00:00",
+    "updated_at": "2026-06-05T16:58:51.666251+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "aa856d5d-0979-4cbf-ae4e-a5300b09ee2c",
+    "token": "4f67b1a3ddf1ab423b7c28509f3184a0",
+    "claim_code": "Z7XURCKE",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1053"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:27.295056+00:00",
+    "updated_at": "2026-06-05T16:58:51.743682+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "28280654-c97f-40fb-a294-abe36546cb9b",
+    "token": "7b0a660c6ec17fa03d1b6a1ddbde64a7",
+    "claim_code": "Y2CGTATT",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1054"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:27.360796+00:00",
+    "updated_at": "2026-06-05T16:58:51.818984+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "b134dccf-259f-421e-bc3f-ef2d0a274a28",
+    "token": "d4857843c523bc58bf017ab521b0b12c",
+    "claim_code": "VXP3VT8A",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1055"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:27.50336+00:00",
+    "updated_at": "2026-06-05T16:58:51.895902+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "bb56b97e-aadc-4ae2-8aa4-ece11de3f52f",
+    "token": "9f7dbee352bfefb95730e796d97f4ef7",
+    "claim_code": "DMX7GZUN",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1056"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:27.564439+00:00",
+    "updated_at": "2026-06-05T16:58:51.977307+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "ab6f1f2f-fded-4e38-99e4-c16127367845",
+    "token": "d9e5c90108f9f59ebbfc6f1c487e8822",
+    "claim_code": "EWKBBBSY",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1057"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:27.636739+00:00",
+    "updated_at": "2026-06-05T16:58:52.16125+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "d2e5ac55-41f3-4999-aab6-17b336e0bbc5",
+    "token": "efce691e5b097f9324066242724c53e6",
+    "claim_code": "8LLMUGQF",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1058"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:27.705514+00:00",
+    "updated_at": "2026-06-05T16:58:52.242443+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "7945e0f4-2cd7-4069-bde7-5479e04ce461",
+    "token": "d773e2a6190e5a9ebd01b478fab1e198",
+    "claim_code": "E8RHDGHW",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1059"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:27.768389+00:00",
+    "updated_at": "2026-06-05T16:58:52.321045+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "24b97dfd-1213-4c1f-bd7e-20419e0542e8",
+    "token": "0f80da127c2d3509b2e096fe642f4142",
+    "claim_code": "GX6664LX",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1060"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:27.83832+00:00",
+    "updated_at": "2026-06-05T16:58:52.408416+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "f30de318-0408-44b9-9481-d3ea37e6e2fe",
+    "token": "6a7254dc8ec418d589b50541aaa627fc",
+    "claim_code": "SMFVAJBX",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1061"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:27.915824+00:00",
+    "updated_at": "2026-06-05T16:58:52.490627+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "c1e53805-38f3-48d6-ad30-270cca9dbfe7",
+    "token": "f157c42110baf77b316d01f9fbf5c7a1",
+    "claim_code": "C9QY4HDY",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1062"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:28.07017+00:00",
+    "updated_at": "2026-06-05T16:58:52.570993+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "e67bb781-4a01-447f-b128-95efb49185da",
+    "token": "0044e3d2f6f1436e32127c7533d277bf",
+    "claim_code": "KAA6ZZVS",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1063"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:28.135894+00:00",
+    "updated_at": "2026-06-05T16:58:52.72255+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "e020633c-5995-4bce-83bc-6e7022bafa64",
+    "token": "b8e3022e9bb39aaf9a62a124e5289495",
+    "claim_code": "3R664UPU",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1064"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:28.211312+00:00",
+    "updated_at": "2026-06-05T16:58:52.797033+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "87538a49-a021-4c1d-b4e0-44c0b01ba7ad",
+    "token": "f5fc4b4ebfe25286381097cbbf463216",
+    "claim_code": "PWYF7NHJ",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1065"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:28.284033+00:00",
+    "updated_at": "2026-06-05T16:58:52.874904+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "bbcbdc54-85d6-4cf9-987a-e645127f0f78",
+    "token": "1eccb4512742148ebb01f3c35cf18aa2",
+    "claim_code": "TBP9X5E2",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1066"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:28.377211+00:00",
+    "updated_at": "2026-06-05T16:58:52.954554+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "5b827b95-4aa4-45d9-9aa7-04af305e7b94",
+    "token": "954554dd1ef4acf47d6444393cae3148",
+    "claim_code": "P9QM8FHY",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1067"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:28.444845+00:00",
+    "updated_at": "2026-06-05T16:58:53.047637+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "99b87bd9-084d-43d6-ae12-c0a9bcaebced",
+    "token": "3aaa492c0c97bf4d2a451905341912b1",
+    "claim_code": "RCMLMYMD",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1068"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:28.589323+00:00",
+    "updated_at": "2026-06-05T16:58:53.202961+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "67cc2ce2-d7ef-4376-84cc-e71813da5f76",
+    "token": "930ae30d81db7e62cf28e3f8c7c62a97",
+    "claim_code": "6LPUCTCX",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1069"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:28.699098+00:00",
+    "updated_at": "2026-06-05T16:58:53.280728+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "68b7c21e-f8dc-44f3-8251-eb6ebe50c505",
+    "token": "0fe6acb5af29327e9d08dbf0ab357058",
+    "claim_code": "7GLPVNCY",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1070"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:28.762225+00:00",
+    "updated_at": "2026-06-05T16:58:53.355902+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "09255613-5bfb-4f69-a60c-c79d6039d40c",
+    "token": "25a6521e6924a7f9d97364bece4d6862",
+    "claim_code": "DZD4XJEF",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1071"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:28.821717+00:00",
+    "updated_at": "2026-06-05T16:58:53.441683+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "6512e683-9894-426d-a464-81c7d6663c60",
+    "token": "06d61b5d825f2b1b35cb0932d25d5ae4",
+    "claim_code": "JSQFZL8G",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1072"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:28.886777+00:00",
+    "updated_at": "2026-06-05T16:58:53.53956+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "12a13f5e-5d86-4f51-a3f7-5ae058999ac1",
+    "token": "f5d3b4b6715f91293a746a1b4eda5849",
+    "claim_code": "5EN9R56C",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1073"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:28.955687+00:00",
+    "updated_at": "2026-06-05T16:58:53.615083+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "d152abca-4e53-4d78-8b8f-245716f9a1c4",
+    "token": "1373b8ffa34dee9e9f1121b68ef390f6",
+    "claim_code": "UB7S8N6C",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1074"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:29.108449+00:00",
+    "updated_at": "2026-06-05T16:58:53.759972+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "ee0233db-9992-4eae-90a7-51bb3298e7a6",
+    "token": "0dde642c03034014c4498f75b74e38b0",
+    "claim_code": "8UDY5XE9",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1075"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:29.166886+00:00",
+    "updated_at": "2026-06-05T16:58:53.833761+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "cf48f4ba-cbe9-4d03-a227-0505a144f552",
+    "token": "ad0f75d78755f7e5293bb038c5b346a3",
+    "claim_code": "PN8RUCTL",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1076"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:29.238483+00:00",
+    "updated_at": "2026-06-05T16:58:53.919817+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "f589e94f-535a-4d0a-abfb-3ae6c063d3b4",
+    "token": "ee115a50002d4dd06e2a8659aef6b3b6",
+    "claim_code": "BD6JES2Q",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1077"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:29.305091+00:00",
+    "updated_at": "2026-06-05T16:58:54.009067+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "0d3a7913-d2ea-47a4-bd24-016ea0dca3f9",
+    "token": "5f8e50c9376ab4741dfe34a4b9e5f275",
+    "claim_code": "2PURP99F",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1078"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:29.368153+00:00",
+    "updated_at": "2026-06-05T16:58:54.093374+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "c1079762-fc42-40c4-a407-0f7c0d8ca30d",
+    "token": "2c51869dafcce262356d1808afce8429",
+    "claim_code": "U5SSWQGR",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1079"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:29.432908+00:00",
+    "updated_at": "2026-06-05T16:58:54.246032+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "d3d78731-8660-4b45-b800-8f2cda91c334",
+    "token": "d5345960ae1d3a4198aaa6a7956f6ae4",
+    "claim_code": "C2DZUFV6",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1080"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:29.498355+00:00",
+    "updated_at": "2026-06-05T16:58:54.342355+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "049037b1-622f-4d50-8904-d2cc53591213",
+    "token": "96818c890e385ccd1bc5ffa6163909ed",
+    "claim_code": "K7GNCAUY",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1081"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:29.641912+00:00",
+    "updated_at": "2026-06-05T16:58:54.427843+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "21bc8b4d-c6b2-4db8-aeb9-9640721d561c",
+    "token": "6d8fe9ab9dd4a43652341aa0fbd973c8",
+    "claim_code": "AVXS9YHK",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1082"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:29.708393+00:00",
+    "updated_at": "2026-06-05T16:58:54.510482+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "10b3fef0-6b4e-4f47-8ebb-4c7933e499a9",
+    "token": "b223411cba0a15b1d6bcc06cadf00a92",
+    "claim_code": "LLD5TSTT",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1083"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:29.864886+00:00",
+    "updated_at": "2026-06-05T16:58:54.589443+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "9c8f009b-0ad0-4469-80a3-4a965b4ac802",
+    "token": "56b329fdf639506deb2d1caa1c830c35",
+    "claim_code": "C8M9JXLV",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1084"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:29.994079+00:00",
+    "updated_at": "2026-06-05T16:58:54.671821+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "1c976124-a245-4e3f-b0cd-b52e3ec91799",
+    "token": "dd5a24d522a04e3eb231f498ee541aae",
+    "claim_code": "MMTQQL85",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1085"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:30.155936+00:00",
+    "updated_at": "2026-06-05T16:58:54.81578+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "f03ac34b-54ca-466c-8c4a-df1efcc48379",
+    "token": "8524a4989adecead45b521044bbec920",
+    "claim_code": "PBXMFF4G",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1086"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:30.251454+00:00",
+    "updated_at": "2026-06-05T16:58:54.894824+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "d138a58b-fbbf-41cd-92fb-d75669455c77",
+    "token": "144660b1b788c99664f5ed86aec13223",
+    "claim_code": "JAUNTZFF",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1087"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:30.322101+00:00",
+    "updated_at": "2026-06-05T16:58:54.970435+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "335ea0d0-ba96-4866-8514-5006bfacfa24",
+    "token": "1a8dbd72a2d62a6fc8fa7588cf55668e",
+    "claim_code": "38HUGLQF",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1088"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:30.425827+00:00",
+    "updated_at": "2026-06-05T16:58:55.059697+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "2d1e68ba-0ae9-42fd-bec7-bc755c8aad2e",
+    "token": "51734b31f25ea62257533487b9722de7",
+    "claim_code": "YU4M9SQ7",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1089"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:30.493547+00:00",
+    "updated_at": "2026-06-05T16:58:55.162076+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "963b42cd-e787-48b1-afe6-7ce7d77780e2",
+    "token": "e0d60aa9111944aaff2a980b6b9a8984",
+    "claim_code": "7LF6UB23",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1090"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:30.647812+00:00",
+    "updated_at": "2026-06-05T16:58:55.299518+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "76c9e9ee-d6d9-4628-8940-82089290676f",
+    "token": "fa206c943975f5b4a3c69a1888c83fcf",
+    "claim_code": "VN2UHGMN",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1091"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:30.728021+00:00",
+    "updated_at": "2026-06-05T16:58:55.382191+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "ef548516-7471-43e9-8b20-f992cc8436ee",
+    "token": "bed7846934aaddf6f139263f533d14a9",
+    "claim_code": "XNKUNS92",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1092"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:30.795867+00:00",
+    "updated_at": "2026-06-05T16:58:55.458682+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "a1e1528c-1617-49d1-9bd8-c0c4cbb7fae3",
+    "token": "c921bd9f6141dfe5bb8ffac8c35e0a49",
+    "claim_code": "8BYHC3TN",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1093"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:30.859687+00:00",
+    "updated_at": "2026-06-05T16:58:55.542895+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "e25e4835-3b93-4704-bc40-891d0cde9556",
+    "token": "af9978dcd06ae077934b4af489d9d66b",
+    "claim_code": "4CMZHTFN",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1094"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:30.924352+00:00",
+    "updated_at": "2026-06-05T16:58:55.614183+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "62fad1cb-6b35-47df-bd0a-e11dd6fc41a5",
+    "token": "023eba2b184c043ec31ad10a393e4e11",
+    "claim_code": "H673GVUA",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1095"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:31.009117+00:00",
+    "updated_at": "2026-06-05T16:58:55.696476+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "68940360-ecc1-462a-8cb8-825fbda27594",
+    "token": "41aa031a3d239421725f50d1e290f48a",
+    "claim_code": "JMHRT82U",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1096"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:31.167711+00:00",
+    "updated_at": "2026-06-05T16:58:55.859615+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "af94231f-8d7d-497f-bfd4-08c2a5245cec",
+    "token": "9e49f977822107c6b3e27cf698b1577f",
+    "claim_code": "F353372M",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1097"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:31.258514+00:00",
+    "updated_at": "2026-06-05T16:58:55.943294+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "99856377-731c-4366-bdf0-2f1059d2330e",
+    "token": "c9a34a78af427271ff798b3fa7e775b7",
+    "claim_code": "FWWWZTPC",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1098"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:31.324193+00:00",
+    "updated_at": "2026-06-05T16:58:56.02546+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "a26ad633-5b0b-4b3e-8ce6-e30e4411a3b0",
+    "token": "15b78c4e1a99295ed694aea440bb9b88",
+    "claim_code": "5RXKZGU9",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1099"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:31.390041+00:00",
+    "updated_at": "2026-06-05T16:58:56.10641+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "850b8607-f57d-4174-be9a-bf7d889da119",
+    "token": "389e0445d2f22082e5c1d2afe208a58e",
+    "claim_code": "BZF6SUZD",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "SP-1100"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:31.455031+00:00",
+    "updated_at": "2026-06-05T16:58:56.199465+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "36c1adc9-5d9b-4641-b34a-b3088269b362",
+    "token": "01d3a207f7df94ef24af1a3af855241b",
+    "claim_code": "EVSGLY2W",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "test"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:31.520864+00:00",
+    "updated_at": "2026-06-05T16:58:56.346071+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "d81458d4-8251-4aa8-bb12-bf2e9884bbd2",
+    "token": "a6af2e969b00c1f02610bf4e4d7a25ab",
+    "claim_code": "PR3C8SNT",
+    "password_hash": "$2b$12$D9GFfrocjjd1co.M0XD/5OghROFV0nTvx6ThtIyUDBdj/T0d/EbmC",
+    "is_claimed": true,
+    "data": {
+      "nom": "Cheddar",
+      "race": "Golden Retriever",
+      "medical": "Souffle au coeur",
+      "message": "Cheddar est très gentil et tolère tout le monde. \r\nIl est OK enfants, et aime courir après les chats.\r\n\r\nNe pas lui donner autre chose que de la nourriture pour chien.",
+      "veto_nom": "Dr Bernard",
+      "photo_url": "https://jzimmgrwekvlnlrcbymo.supabase.co/storage/v1/object/public/badge-photos/a6af2e969b00c1f02610bf4e4d7a25ab",
+      "photo_path": "a6af2e969b00c1f02610bf4e4d7a25ab",
+      "type_animal": "Chien",
+      "veto_adresse": "Clinique les Acanthes, rue d'Hurlupin à Comines",
+      "tel_proprio_1": "0634725513",
+      "tel_proprio_2": "0635259113"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:31.594741+00:00",
+    "updated_at": "2026-07-03T12:24:03.551005+00:00",
+    "type": "animal",
+    "nfc_encoded_at": "2026-07-03T12:22:21.691+00:00"
+  },
+  {
+    "id": "a8f68e9a-ace1-44c6-907c-ea428c5624cf",
+    "token": "6a61205f41db7b7b8f2c93934b1d15f3",
+    "claim_code": "L5A3ARZ5",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "nom": "Socket",
+      "ref": "PET 1002",
+      "race": "Jack russel",
+      "email": "quentin.alavoine@outlook.fr",
+      "type_animal": "Chien",
+      "veto_adresse": "62 Chau. Pierre Curie, 59200 Tourcoing",
+      "tel_proprio_1": "0677641218",
+      "tel_proprio_2": "0665537619"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:31.732648+00:00",
+    "updated_at": "2026-06-05T16:58:56.538707+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "e52e6c06-7c74-412d-a3ff-07bedd3e8768",
+    "token": "6ec54860f9c743226f48faa6e1c6dc20",
+    "claim_code": "VECSCBMZ",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "nom": "Sunny",
+      "ref": "PET 1003",
+      "race": "Boxer",
+      "email": "quentin.alavoine@outlook.fr",
+      "type_animal": "Chien",
+      "veto_adresse": "62 Chau. Pierre Curie, 59200 Tourcoing",
+      "tel_proprio_1": "0677641218",
+      "tel_proprio_2": "0665537619"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:31.802245+00:00",
+    "updated_at": "2026-06-05T16:58:56.616554+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "ed308f64-d791-442f-9c28-84eb640a8005",
+    "token": "f7be79d46a4459cf1a8211637be05e26",
+    "claim_code": "F5ZYD3EJ",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "nom": "LOKY",
+      "ref": "PET 1004",
+      "race": "Européen",
+      "email": "nz88@hotmail.fr",
+      "medical": "Pas de croquettes \r\nChat sous alimentation hypoallergen",
+      "message": "Merci de me contacter nous habitons sur Comines France",
+      "type_animal": "Chat",
+      "tel_proprio_1": "0668657061",
+      "tel_proprio_2": "0689975412"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:31.867102+00:00",
+    "updated_at": "2026-06-05T16:58:56.695427+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "f45bdfd5-567e-4b39-b29f-b7053a9516d8",
+    "token": "ee72ef360496cdb32fe7bf081bd28599",
+    "claim_code": "CNDFBXNX",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "nom": "Vlad",
+      "ref": "PET 1005",
+      "race": "Bull terrier",
+      "email": "arthurperso2213@gmail.com",
+      "type_animal": "Chien",
+      "veto_adresse": "3 RUE DE LA HAVANE",
+      "tel_proprio_1": "0787736946"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:31.940639+00:00",
+    "updated_at": "2026-06-05T16:58:56.771552+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "3242ee24-3c77-40d8-9f4e-4369846fbad4",
+    "token": "e701401c8b22fe41f439530ac27439cc",
+    "claim_code": "DRNX6ZTM",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1006"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:32.006086+00:00",
+    "updated_at": "2026-06-05T16:58:56.903992+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "2e44c598-f593-407a-b2c7-d3eb306d57b5",
+    "token": "79176a57c98e79c63420fcc2fa3f1bf2",
+    "claim_code": "KUYKEN3Q",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "nom": "Pixelle",
+      "ref": "PET 1007",
+      "email": "lenabananatus@gmail.com",
+      "message": "Chatte très craintive",
+      "type_animal": "Chat",
+      "veto_adresse": "18 Chaussée Watt - 59200 Tourcoing",
+      "tel_proprio_1": "0686516060"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:32.072037+00:00",
+    "updated_at": "2026-06-05T16:58:56.986442+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "fd7c4c2b-88c4-467a-9967-46a9f46b1b6d",
+    "token": "7eda19b2f517514735db663e42f03fc5",
+    "claim_code": "SGPXXPT3",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "nom": "Pulco Chevalier",
+      "ref": "PET 1008",
+      "race": "Berger Allemand",
+      "email": "guillchevalier@aol.com",
+      "medical": "Oreille gauche douloureuse (conduit auditif écrasé + otite). Faiblesse du train arrière due à de la maltraitance dans sa jeunesse.\r\nVue déclinante.",
+      "message": "Pulco est un chien qui n'a pas eu d'enfance. C'est donc un gros bébé de 35 kg qui adore jouer (parfois brusquement). Il est habitué aux enfants. Cependant, IL EST RÉACTIF AVEC LES AUTRES ANIMAUX (dû à de mauvaises expériences). Évitez de toucher ses oreilles, elles lui sont douloureuses.",
+      "type_animal": "Chien",
+      "veto_adresse": "598 Av. de Dunkerque, 59160 Lille",
+      "tel_proprio_1": "+33672380251",
+      "tel_proprio_2": "+33684201838"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:32.221717+00:00",
+    "updated_at": "2026-06-05T16:58:57.070156+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "74d1be62-e1c7-44bc-a24d-da431c93c880",
+    "token": "9d0e31740c11c7d65f531e01c95390fb",
+    "claim_code": "T6H3D3AB",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1009"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:32.28783+00:00",
+    "updated_at": "2026-06-05T16:58:57.151205+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "272d94de-3ded-428d-b786-dd2178f3186e",
+    "token": "063d05a9a9fb84fe6012f5e7bb92b7fc",
+    "claim_code": "WMVHLCJZ",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "nom": "Hiro Yos",
+      "ref": "PET 1010",
+      "race": "Shiba ino",
+      "email": "andreeapetrik@yahoo.fr",
+      "message": "Merci de me contacter rapidement ! Ne pas courir car il a peur. Il est gentil",
+      "type_animal": "Chien",
+      "tel_proprio_1": "0677193289"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:32.376538+00:00",
+    "updated_at": "2026-06-05T16:58:57.234377+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "8b7ce697-5d93-4b66-93b7-f0903eae25fd",
+    "token": "0eeeedf185c0c75ab5826585439c15a7",
+    "claim_code": "HZJSKKMP",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "nom": "Alfy",
+      "ref": "PET 1011",
+      "race": "Croisé",
+      "email": "orianne.delerue@gmail.com",
+      "type_animal": "Chien",
+      "veto_adresse": "101 rue de Roubaix, mouvaux",
+      "tel_proprio_1": "0647963614",
+      "tel_proprio_2": "0612428584"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:32.447468+00:00",
+    "updated_at": "2026-06-05T16:58:57.390495+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "901c1016-9f00-4a96-9d29-54a1c3eed6ab",
+    "token": "6c72e484dd0a667a183d85bad03c1f68",
+    "claim_code": "L5YEP64B",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1012"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:32.517268+00:00",
+    "updated_at": "2026-06-05T16:58:57.477151+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "2cbe3f2f-6b81-4359-a7a8-e794442e3ff0",
+    "token": "41cd02c918e7e63b266d89d1c12994ec",
+    "claim_code": "UR53XF6M",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1013"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:32.596452+00:00",
+    "updated_at": "2026-06-05T16:58:57.556202+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "4368f4f2-1eb3-421b-8757-4fc41793d024",
+    "token": "f5213be84a8bd3d13022e6ce9ae9d7b9",
+    "claim_code": "6VZ3LFZB",
+    "password_hash": null,
+    "is_claimed": true,
+    "data": {
+      "nom": "Sir Watson",
+      "ref": "PET 1014",
+      "race": "Beagle",
+      "email": "sylvie.rochowiak@free.fr",
+      "message": "Merci de me contacter au plus vite. Watson est très gentil.",
+      "type_animal": "Chien",
+      "tel_proprio_1": "0768953729"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:32.74846+00:00",
+    "updated_at": "2026-06-05T16:58:57.641642+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "4c8009e6-23e5-475b-b0dc-1a18c47202a5",
+    "token": "e350efdef70784e0726e8ef60cb92f90",
+    "claim_code": "VNG643JR",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1015"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:32.822639+00:00",
+    "updated_at": "2026-06-05T16:58:57.717885+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "3c31d441-9e31-48d6-af21-0b04f682d936",
+    "token": "42e274c1cd8d859f57d95a9f0b52052b",
+    "claim_code": "RBVFQ3ZZ",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1016"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:32.891034+00:00",
+    "updated_at": "2026-06-05T16:58:57.792736+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "7f88b12a-8fbe-4cf5-ab6f-91c0347521af",
+    "token": "7e763aeab13b88a241a50024932baa0f",
+    "claim_code": "Z4ATPUQ5",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1017"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:32.971281+00:00",
+    "updated_at": "2026-06-05T16:58:57.963766+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "268cd3f2-59d8-46cf-9574-4894bd93a39d",
+    "token": "88ed2737ddad46c1fe5e5bc3b2f36602",
+    "claim_code": "3YQTX3TM",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1018"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:33.036175+00:00",
+    "updated_at": "2026-06-05T16:58:58.04018+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "e91aaf76-5715-470c-8ee6-d60cd8e2e982",
+    "token": "2ebbaacbbe317569f45f439d8c8d47b9",
+    "claim_code": "VX2ALW97",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1019"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:33.111031+00:00",
+    "updated_at": "2026-06-05T16:58:58.108895+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "ea211055-59b3-4b60-b3c6-653fd55c3769",
+    "token": "8c68dc382bb7c57e85b1dc96a5f6b372",
+    "claim_code": "ZTRTWFCU",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1020"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:33.277603+00:00",
+    "updated_at": "2026-06-05T16:58:58.18924+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "d7998934-53c0-45cd-9d9c-1591793d6a04",
+    "token": "c8a2b4ca87a408893b4874763bf864aa",
+    "claim_code": "F8JEV9BQ",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1021"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:33.356474+00:00",
+    "updated_at": "2026-06-05T16:58:58.267234+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "3ee55b37-997f-4baa-bd74-f073ee7c844b",
+    "token": "432f4bcfd16465dbc5ab1217e7c3252b",
+    "claim_code": "T9R7ZQGN",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1022"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:33.430555+00:00",
+    "updated_at": "2026-06-05T16:58:58.344314+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "02ae54ef-0694-4773-ac72-18a3ac0d7d36",
+    "token": "34c088ae43c6cfbd7aee6a4164175c22",
+    "claim_code": "XK37XZBB",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1023"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:33.529641+00:00",
+    "updated_at": "2026-06-05T16:58:58.476652+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "55c1073d-967b-411a-b5db-7f6a970dc984",
+    "token": "e1b0f91cb3eda30b7f3b7f34386c94ee",
+    "claim_code": "6GJMHE6B",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1024"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:33.599902+00:00",
+    "updated_at": "2026-06-05T16:58:58.561215+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "2684f0f3-0cc1-4f4e-aef2-4b9293e3a65e",
+    "token": "061a1b5947f5d7f1d585c19b0630b884",
+    "claim_code": "R9JKYC3W",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1025"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:33.668234+00:00",
+    "updated_at": "2026-06-05T16:58:58.633548+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "5c653a1f-809a-4675-920d-85f2db9fb075",
+    "token": "7fb420cecab259aa37c73655aca0ecb2",
+    "claim_code": "HNAFEK9P",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1026"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:33.833788+00:00",
+    "updated_at": "2026-06-05T16:58:58.72933+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "2f6ceabe-b126-44e2-8035-65a97ecd66d7",
+    "token": "95928e2325acff9784891b8935cc0c40",
+    "claim_code": "ZT36WS6L",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1027"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:33.912225+00:00",
+    "updated_at": "2026-06-05T16:58:58.810388+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "fac4c62c-b34e-4b81-951f-38cb1558fcc4",
+    "token": "c92399f3a98ca5e7536bb7c5807d3cb2",
+    "claim_code": "KDKAQHPB",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1028"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:33.978447+00:00",
+    "updated_at": "2026-06-05T16:58:58.970805+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "73cdf283-ced5-4264-a1cc-5dcad03b2569",
+    "token": "be63bdeeb99322674e43d2a401cc49d9",
+    "claim_code": "JZD2VC3V",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1029"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:34.097065+00:00",
+    "updated_at": "2026-06-05T16:58:59.046513+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "eb1f6c11-8df7-4dfa-85aa-fb08f3ad7e42",
+    "token": "3529fd75811bac23b50dfe57797c4e07",
+    "claim_code": "T2KA6BRX",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1030"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:34.162856+00:00",
+    "updated_at": "2026-06-05T16:58:59.129529+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "926df054-9ae1-4fb6-9059-5a3e78ebfae0",
+    "token": "1fd7b0b9ae8f59d147d23eddc27bc66d",
+    "claim_code": "8D8DRLUT",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1031"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:34.321882+00:00",
+    "updated_at": "2026-06-05T16:58:59.211211+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "9da7cc1b-88e6-412e-9db9-a6fbfbfa83a4",
+    "token": "65ace9e96a29e700a00429e91d5a3344",
+    "claim_code": "A8QS8SQ6",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1032"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:34.391646+00:00",
+    "updated_at": "2026-06-05T16:58:59.286231+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "fcdf958e-6b55-418f-9b51-1908198812b5",
+    "token": "023766c4fef674e66dd5c5df4fdd29c8",
+    "claim_code": "G6RSEJP7",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1033"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:34.456747+00:00",
+    "updated_at": "2026-06-05T16:58:59.361068+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "572e502f-1839-49cd-927d-ae308185b17a",
+    "token": "26056310fd4ab46d100dd7393a5feae5",
+    "claim_code": "SPDVB5M5",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1034"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:34.540749+00:00",
+    "updated_at": "2026-06-05T16:58:59.520901+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "0e2d9259-4bdb-463b-b1a2-27e924827259",
+    "token": "bc5214b690c4a32b028f7444fe24631e",
+    "claim_code": "PDPC5C47",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1035"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:34.602878+00:00",
+    "updated_at": "2026-06-05T16:58:59.600259+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "69a929dd-a5f3-4847-8712-e251d2db6010",
+    "token": "54cb24eb88229e5474e77f87da1348c4",
+    "claim_code": "J28A6QD9",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1036"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:34.678067+00:00",
+    "updated_at": "2026-06-05T16:58:59.679409+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "61b8740c-a633-4059-983f-5c738a2f643b",
+    "token": "1bd0b7c1fa5a5144c8b5738dabc41acc",
+    "claim_code": "QXKDYEH4",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1037"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:34.842792+00:00",
+    "updated_at": "2026-06-05T16:58:59.772068+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "6b1139b9-53fa-4ff8-9db1-011480b7ef0c",
+    "token": "d32fe0cab782e19f8e204d6985a2047b",
+    "claim_code": "352FG37J",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1038"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:34.917157+00:00",
+    "updated_at": "2026-06-05T16:58:59.849924+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "76239adc-ceb1-4ff9-85cf-4dae11670180",
+    "token": "3494b734387a9e7254eec9d6e857a59c",
+    "claim_code": "3Y8S7XF8",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1039"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:34.982133+00:00",
+    "updated_at": "2026-06-05T16:59:00.013388+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "7be256cd-67d8-4f95-b6a3-aef122b8289e",
+    "token": "88440ff6017b1abc631761d4556bc520",
+    "claim_code": "T3T4MQJ7",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1040"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:35.062718+00:00",
+    "updated_at": "2026-06-05T16:59:00.098731+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "13638d52-b32a-4411-befe-20d217fd4735",
+    "token": "105ba5017115dcf14b32a31916fb21d4",
+    "claim_code": "W738Q3XE",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1041"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:35.132365+00:00",
+    "updated_at": "2026-06-05T16:59:00.18444+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "c2cff42b-7043-4cdf-8132-d59100095291",
+    "token": "b53669c4cb2bef1ed6956f3356f5363f",
+    "claim_code": "24NM3SMF",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1042"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:35.199082+00:00",
+    "updated_at": "2026-06-05T16:59:00.267237+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "6380f932-f5e8-4cea-b383-335324331b89",
+    "token": "7589ec981e17b656eba3ac2dacc05237",
+    "claim_code": "4R9XFVPL",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1043"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:35.263645+00:00",
+    "updated_at": "2026-06-05T16:59:00.350861+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "dcf75f68-19e9-4c95-907e-b83f76f48160",
+    "token": "1253c7cacc15d557b7287fefa5ab152f",
+    "claim_code": "4T722DCT",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1044"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:35.401094+00:00",
+    "updated_at": "2026-06-05T16:59:00.43192+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "ab3c3c52-655a-4933-996e-1007af4ffa2c",
+    "token": "0097d84317d88e4e438eb8c49a37376e",
+    "claim_code": "K6A3TWRN",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1045"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:35.467734+00:00",
+    "updated_at": "2026-06-05T16:59:00.590374+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "3ab665ab-9b36-4744-aad9-cdabf7dcbc59",
+    "token": "da28ca1c581fb74647b48d6523ab3810",
+    "claim_code": "MV72GKWJ",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1046"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:35.528551+00:00",
+    "updated_at": "2026-06-05T16:59:00.672026+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "9a3b99c0-5c99-4be1-a00f-bb266901a599",
+    "token": "bbfababe8e27f590f70394cb33a56e4d",
+    "claim_code": "9XXUHVTQ",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1047"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:35.64854+00:00",
+    "updated_at": "2026-06-05T16:59:00.770562+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "0efc658a-2898-41b0-bd02-9dbd88a0cfb3",
+    "token": "39a593b017a5ebdafb09c57471518f6e",
+    "claim_code": "A769GT7G",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1048"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:35.756071+00:00",
+    "updated_at": "2026-06-05T16:59:00.851152+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "7789d4df-8a7c-4ba3-b115-9a7328bc9241",
+    "token": "a13a1cad983f034973ae3aad575f2340",
+    "claim_code": "X95YYNQF",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1049"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:35.894377+00:00",
+    "updated_at": "2026-06-05T16:59:00.936836+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "5ee6ceec-dfe5-43db-b953-327ca91396be",
+    "token": "8b69e5ee393a594c80a79b6ff5c0eb2e",
+    "claim_code": "WE46FYGC",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1050"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:35.963719+00:00",
+    "updated_at": "2026-06-05T16:59:01.130836+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "2c6d9d51-c5ac-4dbb-8b94-b5096ee8143e",
+    "token": "485b3be7fa02099881d88d42318eafed",
+    "claim_code": "UHUC39ES",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1051"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:36.029118+00:00",
+    "updated_at": "2026-06-05T16:59:01.213194+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "788c9c99-ca5d-4b91-b240-a5f5d20b1c54",
+    "token": "b8da2a8cf1cab9596fbe61803be4f738",
+    "claim_code": "E97XE6HE",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1052"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:36.098346+00:00",
+    "updated_at": "2026-06-05T16:59:01.306577+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "147aeeca-f3bc-4731-92b0-66b1bd09ff59",
+    "token": "f8466020a526087983ba138a76a62e77",
+    "claim_code": "G865GDEZ",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1053"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:36.167432+00:00",
+    "updated_at": "2026-06-05T16:59:01.407458+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "bc762457-094d-4b2b-a1ec-b65fe82f349d",
+    "token": "4d0d3d1d68abde8ed49bf7c628dad6c6",
+    "claim_code": "6WJ7D8J7",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1054"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:36.233772+00:00",
+    "updated_at": "2026-06-05T16:59:01.491787+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "67379aa2-3ea9-414b-a5dd-e3b3eb4a4298",
+    "token": "934f0be065cb993546701840c36c61ab",
+    "claim_code": "BVH7W6TD",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1055"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:36.303006+00:00",
+    "updated_at": "2026-06-05T16:59:01.647381+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "6da5a1b0-55e6-49ee-a1ff-5d37a42bb205",
+    "token": "7ee791a639d2e81e9a415104d8dda1ae",
+    "claim_code": "UXJFHXJL",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1056"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:36.469616+00:00",
+    "updated_at": "2026-06-05T16:59:01.733169+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "d63d9d69-43c1-4460-9fe0-6da8abe0cdc2",
+    "token": "4b29a7cc4e9f481d51451a773e853c38",
+    "claim_code": "FFU7ZUE2",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1057"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:36.537667+00:00",
+    "updated_at": "2026-06-05T16:59:01.844554+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "dabb9e49-e2a0-4775-a865-1d8c09b4f884",
+    "token": "b4f2147c1ce18302dea330e779658261",
+    "claim_code": "BWKGT355",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1058"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:36.614148+00:00",
+    "updated_at": "2026-06-05T16:59:01.93233+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "d9891785-952f-48c8-8155-caf859e77dcc",
+    "token": "881ba3ddd43a3cdc9cec772eb6b6666f",
+    "claim_code": "9QXR9V3R",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1059"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:36.682826+00:00",
+    "updated_at": "2026-06-05T16:59:02.016408+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "bad2c50c-2303-44a9-a226-3ab2e75dc36d",
+    "token": "c04c6935a31468ad297d591169a1efd7",
+    "claim_code": "DYTCMMXA",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1060"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:36.749055+00:00",
+    "updated_at": "2026-06-05T16:59:02.165203+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "97cab681-9f06-45ce-b885-59bdf6d627ff",
+    "token": "49c61610aef1e1874b51c8bdfe7cae40",
+    "claim_code": "733J7KW4",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1061"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:36.819749+00:00",
+    "updated_at": "2026-06-05T16:59:02.245427+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "88f38cad-7b50-47a3-88d7-4d9408e4cc9b",
+    "token": "1b4d9b7388a2716b96be102b07906eb7",
+    "claim_code": "CWWY38KN",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1062"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:37.044152+00:00",
+    "updated_at": "2026-06-05T16:59:02.338565+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "74023ce9-613f-4fc1-b4da-aefac77bb513",
+    "token": "2f516baf3f42e1bf5b8873f2a8c43d9d",
+    "claim_code": "68M2RHPQ",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1063"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:37.111873+00:00",
+    "updated_at": "2026-06-05T16:59:02.415946+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "3439414c-2345-427c-9955-cd8d43c6648c",
+    "token": "b6759d18409de41759dd23d8eb2353db",
+    "claim_code": "Z4XVHRRM",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1064"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:37.181925+00:00",
+    "updated_at": "2026-06-05T16:59:02.496656+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "a53ed29d-d6af-4705-9d96-2b0e0450b168",
+    "token": "fdd9df24e92c14945784243c671bb8fa",
+    "claim_code": "7X6YA8JY",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1065"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:37.250668+00:00",
+    "updated_at": "2026-06-05T16:59:02.640878+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "90708c59-ad11-421d-9362-8b9adc371491",
+    "token": "f7ae20d79da712f797999f419696cc14",
+    "claim_code": "MBRAHK94",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1066"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:37.315057+00:00",
+    "updated_at": "2026-06-05T16:59:02.749138+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "7c3ad65a-38d2-4416-99d6-924c7c6c7389",
+    "token": "bfab10d5e38114fdaa15b3635219a52c",
+    "claim_code": "WFPDARYD",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1067"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:37.466442+00:00",
+    "updated_at": "2026-06-05T16:59:02.880192+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "74690509-1409-42ba-94b9-e73849f08499",
+    "token": "5eec93c8867354841b9a632f321e1a33",
+    "claim_code": "SYN73RZD",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1068"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:37.562048+00:00",
+    "updated_at": "2026-06-05T16:59:02.95634+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "f27eaf27-d8d6-4df3-88f5-8e3752f9a793",
+    "token": "bdeae5945abaf65150c01cbc629eb6db",
+    "claim_code": "ZP6BYQF9",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1069"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:37.625264+00:00",
+    "updated_at": "2026-06-05T16:59:03.047157+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "1f363afe-dc02-4ad4-bfee-c2977dff45fc",
+    "token": "340781b2f89807b8110583e6e8f2f27c",
+    "claim_code": "QZUEJ5DU",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1070"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:37.688815+00:00",
+    "updated_at": "2026-06-05T16:59:03.20091+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "59ce33fc-5972-41ae-8f2e-cf84636d9220",
+    "token": "8a9c5d1fc33792a3aa0d66101b029fc0",
+    "claim_code": "PL4GTGEL",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1071"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:37.752566+00:00",
+    "updated_at": "2026-06-05T16:59:03.273761+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "b2db904b-84ba-4b0f-8a85-7d8d161774af",
+    "token": "403c9f05fd3b4ccc50dcf65593141307",
+    "claim_code": "PETYZC8U",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1072"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:37.866747+00:00",
+    "updated_at": "2026-06-05T16:59:03.35919+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "6e86777e-fa5d-4a0b-9fa1-c92cdc194c15",
+    "token": "22676fda13bdb0366e1d9fd02a4a94d5",
+    "claim_code": "962RYD7L",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1073"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:38.063048+00:00",
+    "updated_at": "2026-06-05T16:59:03.446484+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "632c0d58-8e96-4051-af3f-56237ea980a6",
+    "token": "af1fe6e49dc7f0440cdb9b52d74f54e2",
+    "claim_code": "95MQLV78",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1074"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:38.14081+00:00",
+    "updated_at": "2026-06-05T16:59:03.525071+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "8a510ca5-7493-42a2-a523-b2c566d640d9",
+    "token": "a3d796b3b5e8ec45bacc257f18240b51",
+    "claim_code": "PHVMWE4X",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1075"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:38.208537+00:00",
+    "updated_at": "2026-06-05T16:59:04.097717+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "cd6f7502-66cc-4fd3-bab7-7ef84b6b6020",
+    "token": "a2f341aec573fa74331844161d14933d",
+    "claim_code": "7LXC7P33",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1076"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:38.27184+00:00",
+    "updated_at": "2026-06-05T16:59:04.396175+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "d1860367-a183-4fd2-bb37-aa2947d97e18",
+    "token": "f9279fce7eb5e3a9003804a14abd5779",
+    "claim_code": "GP6W4DCA",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1077"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:38.340231+00:00",
+    "updated_at": "2026-06-05T16:59:04.480102+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "69ab6c36-fd15-4679-9906-24e8dfc643d3",
+    "token": "3aa2ffce71da707e5aea46538d0b3fda",
+    "claim_code": "U2YBXECC",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1078"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:38.408468+00:00",
+    "updated_at": "2026-06-05T16:59:04.56364+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "13f88c30-b26c-46ca-ac3f-8be1b2bccf61",
+    "token": "dcd72800905a73efe44c3289afb6dc48",
+    "claim_code": "7TGGNX8L",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1079"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:38.567075+00:00",
+    "updated_at": "2026-06-05T16:59:04.726078+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "2086f7a1-74a0-4ece-9acf-5290f47f2a37",
+    "token": "f719c3aa04be4f8c07f039fc933f52a5",
+    "claim_code": "NYG2TTW3",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1080"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:38.636425+00:00",
+    "updated_at": "2026-06-05T16:59:04.799589+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "5e466e91-82a7-4d88-bb65-b0ede619b863",
+    "token": "2891a412a91916d92f61b87ecf3492b1",
+    "claim_code": "443JB2DE",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1081"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:38.709449+00:00",
+    "updated_at": "2026-06-05T16:59:04.885337+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "a37fcf72-c9df-4bba-94f7-2cbeb5c29046",
+    "token": "d98780f3864a0bc09cf9c8ac8df10e56",
+    "claim_code": "YZPD88N8",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1082"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:38.799034+00:00",
+    "updated_at": "2026-06-05T16:59:04.968647+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "d9b49470-2568-423c-9626-813761e6eb19",
+    "token": "6463f2797b06a6eb05f52769e825f4fc",
+    "claim_code": "6BKE7QSP",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1083"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:38.859332+00:00",
+    "updated_at": "2026-06-05T16:59:05.05475+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "3dccd31c-cc71-4075-85b9-7d7355eac759",
+    "token": "6d4561ad7b95d7af02d0ffc0a7664171",
+    "claim_code": "LDC795BC",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1084"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:38.930469+00:00",
+    "updated_at": "2026-06-05T16:59:05.128069+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "793368a4-ac90-4a2b-97c4-1dec39b8f1c9",
+    "token": "a28df52884b872a061b9b7d640617a29",
+    "claim_code": "SJHKE3ND",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1085"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:39.074621+00:00",
+    "updated_at": "2026-06-05T16:59:05.293141+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "39ca8244-f9fc-4fb9-9340-f7f472d260d7",
+    "token": "ac6d4da752f5c49e4b4edde03b8e94ff",
+    "claim_code": "RM2XHQQZ",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1086"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:39.136705+00:00",
+    "updated_at": "2026-06-05T16:59:05.389432+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "effa0255-489f-4f16-a65a-beff4288f5ef",
+    "token": "df865de17c1cb2ec363cf73bf53f3dd3",
+    "claim_code": "TSXP9QSR",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1087"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:39.205894+00:00",
+    "updated_at": "2026-06-05T16:59:05.468208+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "12bb55db-aa2e-4d20-9afe-807185a8e243",
+    "token": "e625586fd73f69cbd71eb0d88cf21bd4",
+    "claim_code": "4GXHUFEG",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1088"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:39.281287+00:00",
+    "updated_at": "2026-06-05T16:59:05.549942+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "3ffea16e-5d62-4e10-b418-08a02f7f8c50",
+    "token": "9e956670af6f68c317f2de8c1fde827b",
+    "claim_code": "RQCCZ6KC",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1089"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:39.344668+00:00",
+    "updated_at": "2026-06-05T16:59:05.630121+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "f7a8e76c-efd5-47da-b3e7-1c35cb9ceb12",
+    "token": "55b9ba4a152e99f0d5c7a5a6da4157e7",
+    "claim_code": "M67ZNX7S",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1090"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:39.410731+00:00",
+    "updated_at": "2026-06-05T16:59:05.780504+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "ad2776d5-f5e3-4363-aa0f-41d38bb9a2d8",
+    "token": "2b0b35a177f1acf5cb5ebcb571ac3991",
+    "claim_code": "WQ2GSYYW",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1091"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:39.560737+00:00",
+    "updated_at": "2026-06-05T16:59:05.860132+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "888aaa83-2f20-4c63-84ff-c63c648fa2a8",
+    "token": "246c46d0c6e88972d6905ebc7e9cdd0f",
+    "claim_code": "XXW7EHYX",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1092"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:39.63173+00:00",
+    "updated_at": "2026-06-05T16:59:05.93405+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "ba3c9a14-9bf6-4f4c-b3ec-a66ab7482b73",
+    "token": "c94f05e4ce4aab82bf6b0b17e2766648",
+    "claim_code": "AGAXVPWR",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1093"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:39.694526+00:00",
+    "updated_at": "2026-06-05T16:59:06.018375+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "7996c014-8f54-4d49-8d75-5839249fff2a",
+    "token": "7370342af9eca20007c9d3de5014179d",
+    "claim_code": "DZP78F6T",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1094"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:39.757988+00:00",
+    "updated_at": "2026-06-05T16:59:06.09815+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "67e31021-5fe6-4f5a-b994-e721b9f2da5d",
+    "token": "a35117cdf9127678869350bda058e482",
+    "claim_code": "7M5BYM8V",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1095"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:39.841745+00:00",
+    "updated_at": "2026-06-05T16:59:06.18505+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "70e02aab-41e0-4621-b888-c7a0e693bbe9",
+    "token": "e5afdc06c80c8cd66ea52c4fe2e379ff",
+    "claim_code": "BUY5A3XK",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1096"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:39.91805+00:00",
+    "updated_at": "2026-06-05T16:59:06.350961+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "ea75ef73-4360-448d-8125-5a36f54720af",
+    "token": "f5eda4bba73066d6d7d683113bd0f0c5",
+    "claim_code": "Q42AM5Y8",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1097"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:39.994505+00:00",
+    "updated_at": "2026-06-05T16:59:06.436658+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "9fda15a2-3fd4-4217-ba83-b22f2ab6f87d",
+    "token": "2085a22b4f2c3c4bfaa39467d24a6e4b",
+    "claim_code": "GP5BSBFT",
+    "password_hash": "$2b$12$wOcnMFdNPNE1ieLJaUSDf.DrQeie4.RwCfjBlUwRK//ITjpGuD4vG",
+    "is_claimed": true,
+    "data": {
+      "nom": "Belline",
+      "race": "Labrador",
+      "message": "Merci de me contacter si vous trouvez Belline.",
+      "veto_nom": "Anim’Alpes",
+      "photo_url": "https://jzimmgrwekvlnlrcbymo.supabase.co/storage/v1/object/public/badge-photos/2085a22b4f2c3c4bfaa39467d24a6e4b",
+      "photo_path": "2085a22b4f2c3c4bfaa39467d24a6e4b",
+      "type_animal": "Chien",
+      "veto_adresse": "Claix",
+      "tel_proprio_1": "0683837343"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:40.134117+00:00",
+    "updated_at": "2026-08-17T08:07:25.390409+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "92b5d3ab-fa91-4d85-af2e-dc4ea9d384f8",
+    "token": "6422046e607656dff2a581f982cec4f9",
+    "claim_code": "UZCQ2LGR",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1099"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:40.197263+00:00",
+    "updated_at": "2026-07-03T12:26:02.444157+00:00",
+    "type": "animal",
+    "nfc_encoded_at": "2026-07-03T12:26:02.192+00:00"
+  },
+  {
+    "id": "18f04ca5-ea06-4344-b274-c22ceddca3c9",
+    "token": "96713f7e356b4fab8414a246f9d260d1",
+    "claim_code": "8LEECMXW",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {
+      "ref": "PET 1100"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-05T16:58:40.269282+00:00",
+    "updated_at": "2026-07-03T12:02:56.370462+00:00",
+    "type": "animal",
+    "nfc_encoded_at": "2026-07-03T12:02:55.911+00:00"
+  },
+  {
+    "id": "cbb88688-45dc-4ab5-bf46-2817247c7538",
+    "token": "gJWCmsWyFS3CXKfsoOkQYnpd",
+    "claim_code": null,
+    "password_hash": "$2b$12$bCugT/9qXTuVktfpfP/3EekcyrbMKc4qYgeU0MAk.s.5c6PQosSGi",
+    "is_claimed": true,
+    "data": {
+      "prenom": "Vivien",
+      "contact1_nom": "Stéphanie",
+      "contact1_tel": "0635259113"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-07T10:01:55.073271+00:00",
+    "updated_at": "2026-06-07T10:27:21.259567+00:00",
+    "type": "festivalier",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "430f4615-0b2c-4510-a1cb-58d3471cb0db",
+    "token": "T0MdbHqPYe2dE5V6ko1vRcRV",
+    "claim_code": null,
+    "password_hash": "$2b$12$ePXvpIFjoe4Xj..3H4rv/uD.8KmWa4adlWfveQRSL8piaC.W.mCGK",
+    "is_claimed": true,
+    "data": {
+      "intro": "Appelle vite ma femme n°1",
+      "prenom": "Vivien",
+      "camping": "Camping B17, allée 781, tente rouge et bleu",
+      "langues": "Francais et moldave",
+      "message": "Si tu me trouves KO, prend des photos souvenir frère",
+      "photo_url": "https://jzimmgrwekvlnlrcbymo.supabase.co/storage/v1/object/public/badge-photos/T0MdbHqPYe2dE5V6ko1vRcRV",
+      "photo_path": "T0MdbHqPYe2dE5V6ko1vRcRV",
+      "contact1_nom": "Femme 1",
+      "contact1_tel": "0612233456",
+      "contact2_nom": "Maitresse",
+      "contact2_tel": "0634572136",
+      "groupe_sanguin": "O+",
+      "infos_medicales": "Allergique aux piqûres de papillon"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-07T10:02:02.777921+00:00",
+    "updated_at": "2026-06-22T07:18:32.738491+00:00",
+    "type": "festivalier",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "ae140388-c6c0-4d97-8690-8903127cb9bd",
+    "token": "LLJs2snA7C9JmMOOckD_YZ2O",
+    "claim_code": "UFSN3CCP",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {},
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-22T13:46:48.721112+00:00",
+    "updated_at": "2026-06-22T13:46:48.721112+00:00",
+    "type": "festivalier",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "b31abe4f-56fc-4262-b1b6-edb68accd1da",
+    "token": "fyyGqsMh9nH_T_5-CLWuxukC",
+    "claim_code": "KQ93CFHN",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {},
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-06-26T14:50:29.175373+00:00",
+    "updated_at": "2026-06-26T14:50:29.175373+00:00",
+    "type": "festivalier",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "aa3550d2-d723-4999-b45e-65cf626a70e6",
+    "token": "N7DcKxOqcrW-huobfkzbYfBr",
+    "claim_code": "54UAX7J2",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {},
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-07-02T12:25:32.759764+00:00",
+    "updated_at": "2026-07-02T12:50:57.89487+00:00",
+    "type": "animal",
+    "nfc_encoded_at": "2026-07-02T12:50:58.918+00:00"
+  },
+  {
+    "id": "bb193495-7e2f-428a-bda5-19c905d76831",
+    "token": "L9lUJZPqS7nltZ8IVnJwN7v9",
+    "claim_code": "7RLC6YMY",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {},
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-07-02T12:25:32.759764+00:00",
+    "updated_at": "2026-07-02T12:50:48.468091+00:00",
+    "type": "animal",
+    "nfc_encoded_at": "2026-07-02T12:50:49.327+00:00"
+  },
+  {
+    "id": "e340e6fc-1e0b-4cfd-af7e-d93c3163e794",
+    "token": "8KpGVjp3YO_D2yh1Kp8sGoPW",
+    "claim_code": "DE9DTHS7",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {},
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-07-02T12:25:32.759764+00:00",
+    "updated_at": "2026-07-02T12:51:21.937255+00:00",
+    "type": "animal",
+    "nfc_encoded_at": "2026-07-02T12:51:22.939+00:00"
+  },
+  {
+    "id": "b6300333-8656-4b38-a500-d7f4a6f794d5",
+    "token": "oP_c6pTrStMJ05tAKFRfNPq5",
+    "claim_code": "KMTPGCQQ",
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {},
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-07-02T12:25:32.759764+00:00",
+    "updated_at": "2026-07-02T12:51:30.321803+00:00",
+    "type": "animal",
+    "nfc_encoded_at": "2026-07-02T12:51:31.364+00:00"
+  },
+  {
+    "id": "8f6deecd-9190-40b3-8e62-b93d9cf2d13c",
+    "token": "wBZJpeF7CrcvO6HU997hGFFL",
+    "claim_code": "4HFCX7FX",
+    "password_hash": "$2b$12$/36UcWCv8eaBroMUC4BsKev6wTz.pFAqpYhhz3WHklyh7t3deBoDy",
+    "is_claimed": true,
+    "data": {
+      "nom": "Pedro",
+      "race": "Labrador musqué",
+      "medical": "Allergique aux cons",
+      "message": "Chien très agressif, ne pas s'approcher, ne pas scanner le badge.",
+      "veto_nom": "Dr Oui",
+      "photo_url": "https://jzimmgrwekvlnlrcbymo.supabase.co/storage/v1/object/public/badge-photos/wBZJpeF7CrcvO6HU997hGFFL",
+      "photo_path": "wBZJpeF7CrcvO6HU997hGFFL",
+      "type_animal": "Chien",
+      "veto_adresse": "12 rue des connard, laPute",
+      "tel_proprio_1": "0634725513",
+      "tel_proprio_2": "0635259113"
+    },
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-07-02T12:25:32.759764+00:00",
+    "updated_at": "2026-07-02T14:47:53.812609+00:00",
+    "type": "animal",
+    "nfc_encoded_at": "2026-07-02T12:51:14.374+00:00"
+  },
+  {
+    "id": "87b16638-1c75-4554-a0f6-01baa9e27222",
+    "token": "ngLIJmgxm3rZJ6OA-oCbS4jV",
+    "claim_code": null,
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {},
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-07-03T12:01:20.588628+00:00",
+    "updated_at": "2026-07-03T12:03:57.107893+00:00",
+    "type": "animal",
+    "nfc_encoded_at": "2026-07-03T12:03:56.981+00:00"
+  },
+  {
+    "id": "513355e1-55ab-4f48-9ee0-5e8de8d29cce",
+    "token": "ItK6ecNPREvdXq9aA0ZYGbPy",
+    "claim_code": null,
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {},
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-07-03T12:01:20.588628+00:00",
+    "updated_at": "2026-07-03T12:04:02.151684+00:00",
+    "type": "animal",
+    "nfc_encoded_at": "2026-07-03T12:04:01.926+00:00"
+  },
+  {
+    "id": "aa869374-6b46-4a0c-b510-f825594cfdc5",
+    "token": "JtLmlELQFh3wH_YNXNU4L04p",
+    "claim_code": null,
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {},
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-07-03T12:01:20.588628+00:00",
+    "updated_at": "2026-07-03T12:04:07.670331+00:00",
+    "type": "animal",
+    "nfc_encoded_at": "2026-07-03T12:04:07.59+00:00"
+  },
+  {
+    "id": "5240fa34-8cef-409c-ab4a-d0b54d790762",
+    "token": "ei4j5jqbO0HFVtiVqtoO-8Ci",
+    "claim_code": null,
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {},
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-07-03T12:01:20.588628+00:00",
+    "updated_at": "2026-07-03T12:14:02.584806+00:00",
+    "type": "animal",
+    "nfc_encoded_at": "2026-07-03T12:14:02.314+00:00"
+  },
+  {
+    "id": "5d62c873-90df-4d42-912c-5fcc23615a37",
+    "token": "n_KoinRaYjIpnFq0Cudes5AW",
+    "claim_code": null,
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {},
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-07-03T12:01:20.588628+00:00",
+    "updated_at": "2026-07-03T12:03:10.934733+00:00",
+    "type": "animal",
+    "nfc_encoded_at": "2026-07-03T12:03:10.691+00:00"
+  },
+  {
+    "id": "842e6810-f2d7-4dff-adc0-1f9654db84d5",
+    "token": "dwjiTavmu9a1RZDu-E5ZB4bk",
+    "claim_code": null,
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {},
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-08-07T08:29:28.379194+00:00",
+    "updated_at": "2026-08-07T08:29:28.379194+00:00",
+    "type": "animal",
+    "nfc_encoded_at": null
+  },
+  {
+    "id": "5855a84b-46c4-4ff8-ba33-1657db839d3d",
+    "token": "8W283dBJ2tC5hTjsNUXkK9Fp",
+    "claim_code": null,
+    "password_hash": null,
+    "is_claimed": false,
+    "data": {},
+    "failed_attempts": 0,
+    "locked_until": null,
+    "created_at": "2026-08-19T08:39:51.549024+00:00",
+    "updated_at": "2026-08-19T08:39:51.549024+00:00",
+    "type": "enfant",
+    "nfc_encoded_at": null
   }
 ]
