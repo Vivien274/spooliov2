@@ -258,3 +258,20 @@ model PromoCode {
 
   @@map("promo_codes")
 }
+
+model Badge {
+  id             String    @id @default(uuid())
+  token          String    @unique
+  claimCode      String?   @map("claim_code")
+  nfcEncodedAt   DateTime? @map("nfc_encoded_at")
+  passwordHash   String?   @map("password_hash")
+  type           String    @default("festivalier")
+  isClaimed      Boolean   @default(false) @map("is_claimed")
+  data           Json      @default("{}")
+  failedAttempts Int       @default(0) @map("failed_attempts")
+  lockedUntil    DateTime? @map("locked_until")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+
+  @@map("badges")
+}

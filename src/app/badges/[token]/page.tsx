@@ -9,6 +9,9 @@ import { getBadgeByToken } from '@/lib/badgesData';
 
 type Props = { params: Promise<{ token: string }> };
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const SPOOLIO_BLUE = '#2F3CD9';
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
