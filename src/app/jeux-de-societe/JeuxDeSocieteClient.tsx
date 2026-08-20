@@ -334,10 +334,31 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
 
           const [votes, setVotes] = useState<Record<number, number>>(INITIAL_VOTES);
 
-          const handleVote = (optionId: number) => {
+          // Fetch real server votes on mount
+          useEffect(() => {
+            async function fetchVotes() {
+              try {
+                const res = await fetch("/api/poll/boardgames");
+                if (res.ok) {
+                  const data = await res.json();
+                  if (data && data[1]) {
+                    setVotes({
+                      1: data[1],
+                      2: data[2],
+                      3: data[3],
+                      4: data[4],
+                    });
+                  }
+                }
+              } catch (e) {}
+            }
+            fetchVotes();
+          }, []);
+
+          const handleVote = async (optionId: number) => {
             if (votedOption !== null) return; // Already voted
 
-            const updatedVotes = { ...votes, [optionId]: votes[optionId] + 1 };
+            const updatedVotes = { ...votes, [optionId]: (votes[optionId] || 0) + 1 };
             setVotes(updatedVotes);
             setVotedOption(optionId);
 
@@ -345,16 +366,27 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
               localStorage.setItem(POLL_KEY, optionId.toString());
             } catch (e) {}
 
-            // Send silent analytics vote POST
-            fetch("/api/contact", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                name: "Vote Sondage Jeux",
-                email: "vote@spoolio.fr",
-                message: `Option votée : ${optionId}`,
-              }),
-            }).catch(() => {});
+            // Send live vote to server API
+            try {
+              const res = await fetch("/api/poll/boardgames", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ optionId }),
+              });
+              if (res.ok) {
+                const result = await res.json();
+                if (result.data) {
+                  setVotes({
+                    1: result.data[1],
+                    2: result.data[2],
+                    3: result.data[3],
+                    4: result.data[4],
+                  });
+                }
+              }
+            } catch (err) {
+              console.error("Poll vote error:", err);
+            }
           };
 
           const totalVotes = Object.values(votes).reduce((a, b) => a + b, 0);
