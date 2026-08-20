@@ -12,30 +12,17 @@ interface FooterProps {
 
 export default function Footer({ className = "" }: FooterProps) {
   const { t } = useTranslation();
-  const [isLegalOpen, setIsLegalOpen] = useState<boolean>(false);
-  const legalRef = useRef<HTMLDivElement>(null);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (legalRef.current && !legalRef.current.contains(event.target as Node)) {
-        setIsLegalOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   return (
-    <footer className={`w-full border-t border-white/10 bg-[#0a0a0c] py-12 text-xs text-gray-500 relative z-10 ${className} no-invert`}>
-      <div className="max-w-[1200px] mx-auto px-6 flex flex-col gap-8">
+    <footer className={`w-full border-t border-white/10 bg-[#0a0a0c] pt-12 pb-8 text-xs text-gray-400 relative z-10 ${className} no-invert font-sans`}>
+      <div className="max-w-[1200px] mx-auto px-6 space-y-10">
         
-        {/* Upper Section: Brand Description & Social Networks */}
+        {/* Upper Section: Brand Bio & Social Networks */}
         <div className="flex flex-col md:flex-row items-start justify-between gap-8 pb-8 border-b border-white/10">
           
-          {/* Brand & Description with Vivien Avatar */}
+          {/* Brand & Bio */}
           <div className="flex items-start gap-4 max-w-md">
-            <div className="relative w-20 h-20 sm:w-22 sm:h-22 rounded-2xl bg-white shrink-0 shadow-2xl overflow-hidden group hover:scale-105 transition-transform">
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white shrink-0 shadow-xl overflow-hidden group hover:scale-105 transition-transform">
               <Image
                 src="/images/vivien-avatar.png"
                 alt="Vivien - Fondateur Spoolio"
@@ -45,25 +32,21 @@ export default function Footer({ className = "" }: FooterProps) {
             </div>
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center gap-2">
-                <span className="font-black text-white text-base tracking-wider uppercase font-antonio">Spoolio</span>
-                <span className="text-[10px] text-[#ff4f00] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#ff4f00]/10 border border-[#ff4f00]/30">{t("footer.brand_by")}</span>
+                <span className="font-black text-white text-lg tracking-wider uppercase font-antonio">Spoolio</span>
+                <span className="text-[10px] text-[#ff4f00] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#ff4f00]/10 border border-[#ff4f00]/30">
+                  {t("footer.brand_by")}
+                </span>
               </div>
-              <p className="text-[11px] text-gray-400 leading-relaxed font-sans font-medium">
+              <p className="text-[11px] text-gray-400 leading-relaxed font-medium">
                 {t("footer.description")}
               </p>
-              <div className="text-[10px] text-gray-500 font-medium">
-                &copy; {new Date().getFullYear()} Spoolio. {t("footer.rights")}
-              </div>
             </div>
           </div>
 
-          {/* Social Networks & Club Spoolio Block */}
-          <div className="flex flex-col md:items-end gap-3 font-sans">
-            <div className="flex items-center gap-3">
-              <div className="text-xs font-black text-gray-300 uppercase tracking-widest">
-                {t("footer.join_adventure")}
-              </div>
-              {/* <LanguageSwitcher variant="footer" /> */}
+          {/* Social Networks Icons */}
+          <div className="flex flex-col md:items-end gap-3">
+            <div className="text-xs font-black text-gray-300 uppercase tracking-widest font-antonio">
+              {t("footer.join_adventure")}
             </div>
             
             <div className="flex items-center gap-3">
@@ -112,100 +95,106 @@ export default function Footer({ className = "" }: FooterProps) {
           </div>
         </div>
 
-        {/* Lower Section: Legal & Navigation Links */}
-        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-center text-gray-400 font-sans font-semibold">
+        {/* Structured Columns Navigation */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-8 border-b border-white/10">
           
-          {/* Application Enjeu Link */}
-          <Link
-            href="/liens"
-            className="text-indigo-300 hover:text-indigo-200 font-extrabold transition-all flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-600/20 border border-indigo-500/40 hover:border-indigo-400 hover:bg-indigo-600/35 shadow-sm"
-          >
-            <span>📱 Application Enjeu</span>
-          </Link>
-
-          {/* Loyalty Club Spoolio Link */}
-          <Link
-            href="/fidelite"
-            className="text-amber-400 hover:text-amber-300 font-extrabold transition-all flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 hover:border-amber-500/60 hover:bg-amber-500/25 shadow-sm"
-          >
-            <span>👑 Mes Points & Fidélité</span>
-          </Link>
-
-          {/* Roue de la Fortune Link */}
-          <Link
-            href="/loterie"
-            className="text-[#FF5500] hover:text-[#FF7700] font-extrabold transition-all flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF5500]/15 border border-[#FF5500]/30 hover:border-[#FF5500]/60 hover:bg-[#FF5500]/25 shadow-sm"
-          >
-            <span>🎰 Roue de la Fortune</span>
-          </Link>
-
-          {/* Newsletter Club Spoolio Link */}
-          <Link
-            href="/inscription-newsletter-spoolio"
-            className="text-blue-400 hover:text-blue-300 font-extrabold transition-all flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2F3CD9]/15 border border-[#2F3CD9]/30 hover:border-[#2F3CD9]/60 hover:bg-[#2F3CD9]/25 shadow-sm"
-          >
-            <span>{t("footer.club_spoolio")}</span>
-          </Link>
-
-          <Link href="/don" className="text-[#ff4f00] hover:underline transition-colors">{t("footer.support_workshop")}</Link>
-          <Link href="/a-propos" className="hover:text-[#ff4f00] transition-colors">{t("footer.about")}</Link>
-          <Link href="/pro" className="hover:text-[#ff4f00] transition-colors">{t("footer.pro_space")}</Link>
-          <Link href="/contact" className="hover:text-[#ff4f00] transition-colors">{t("footer.contact")}</Link>
-          <Link href="/faq" className="hover:text-[#ff4f00] transition-colors">{t("footer.faq")}</Link>
-
-          {/* Submenu for Legal Pages */}
-          <div
-            ref={legalRef}
-            className="relative inline-block text-left group"
-            onMouseEnter={() => setIsLegalOpen(true)}
-            onMouseLeave={() => setIsLegalOpen(false)}
-          >
-            <button
-              onClick={() => setIsLegalOpen(!isLegalOpen)}
-              className="flex items-center gap-1 hover:text-white transition-colors cursor-pointer py-1"
-              aria-expanded={isLegalOpen}
-            >
-              <span>{t("footer.legal_info")}</span>
-              <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${isLegalOpen ? "rotate-180 text-white" : "text-gray-400 group-hover:rotate-180"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-
-            {/* Legal Dropdown Menu with zero gap bridge wrapper */}
-            <div className={`absolute bottom-full left-1/2 -translate-x-1/2 pb-2.5 z-50 ${isLegalOpen ? "block" : "hidden group-hover:block"}`}>
-              <div className="w-56 bg-[#131316]/95 border border-white/15 rounded-2xl p-2 shadow-[0_20px_50px_rgba(0,0,0,0.8)] backdrop-blur-2xl flex flex-col gap-1 text-left animate-scale-up">
-                <Link
-                  href="/mentions-legales"
-                  onClick={() => setIsLegalOpen(false)}
-                  className="px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium block"
-                >
-                  {t("footer.links.legal")}
+          {/* Column 1: Expérience & Récompenses */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-black text-amber-300 uppercase tracking-widest font-antonio">
+              ⭐ Expériences & Club
+            </h4>
+            <ul className="space-y-2 font-medium">
+              <li>
+                <Link href="/fidelite" className="hover:text-amber-300 transition-colors flex items-center gap-1.5">
+                  <span>👑 Points & Fidélité</span>
                 </Link>
-                <Link
-                  href="/cgv"
-                  onClick={() => setIsLegalOpen(false)}
-                  className="px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium block"
-                >
-                  {t("footer.links.cgv")}
+              </li>
+              <li>
+                <Link href="/loterie" className="hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
+                  <span>🎰 Roue de la Fortune</span>
                 </Link>
-                <Link
-                  href="/cookies"
-                  onClick={() => setIsLegalOpen(false)}
-                  className="px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium block"
-                >
-                  {t("footer.links.cookies")}
+              </li>
+              <li>
+                <Link href="/inscription-newsletter-spoolio" className="hover:text-blue-300 transition-colors flex items-center gap-1.5">
+                  <span>🎁 Club Spoolio</span>
                 </Link>
-                <Link
-                  href="/retours"
-                  onClick={() => setIsLegalOpen(false)}
-                  className="px-3 py-2 rounded-xl text-gray-300 hover:text-white hover:bg-white/10 transition-colors text-xs font-medium block"
-                >
-                  {t("footer.links.returns")}
+              </li>
+              <li>
+                <Link href="/don" className="hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
+                  <span>🚀 Soutenir l'Atelier</span>
                 </Link>
-              </div>
-            </div>
+              </li>
+            </ul>
           </div>
 
+          {/* Column 2: À Propos & Support */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-black text-gray-200 uppercase tracking-widest font-antonio">
+              ℹ️ Spoolio & Aide
+            </h4>
+            <ul className="space-y-2 font-medium">
+              <li>
+                <Link href="/a-propos" className="hover:text-[#ff4f00] transition-colors">
+                  {t("footer.about")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="hover:text-[#ff4f00] transition-colors">
+                  {t("footer.faq")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-[#ff4f00] transition-colors">
+                  {t("footer.contact")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/pro" className="hover:text-[#ff4f00] transition-colors">
+                  {t("footer.pro_space")}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3: Informations Légales */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-black text-gray-200 uppercase tracking-widest font-antonio">
+              ⚖️ Informations Légales
+            </h4>
+            <ul className="space-y-2 font-medium text-gray-400">
+              <li>
+                <Link href="/mentions-legales" className="hover:text-white transition-colors">
+                  {t("footer.links.legal")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/cgv" className="hover:text-white transition-colors">
+                  {t("footer.links.cgv")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/cookies" className="hover:text-white transition-colors">
+                  {t("footer.links.cookies")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/retours" className="hover:text-white transition-colors">
+                  {t("footer.links.returns")}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+        {/* Bottom Bar: Copyright & Location Badge */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-gray-500 font-medium">
+          <div>
+            &copy; {new Date().getFullYear()} Spoolio. {t("footer.rights")}
+          </div>
+          <div className="flex items-center gap-2 text-gray-400">
+            <span>🇫🇷 Imprimé & assemblé à Comines (59)</span>
+          </div>
         </div>
 
       </div>
