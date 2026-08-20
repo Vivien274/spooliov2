@@ -28,12 +28,12 @@ import {
   Zap,
 } from "lucide-react";
 
-const POLL_KEY = "spoolio_boardgame_poll_voted_option";
+const POLL_KEY = "spoolio_boardgame_poll_v3";
 const INITIAL_VOTES: Record<number, number> = {
-  1: 142, // Dés qui tombent
-  2: 189, // Feuilles de score volantes
-  3: 98,  // Cartes en main
-  4: 124, // Paris & historique
+  1: 0,
+  2: 0,
+  3: 0,
+  4: 0,
 };
 
 interface Product {
@@ -74,24 +74,30 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
   const [votes, setVotes] = useState<Record<number, number>>(INITIAL_VOTES);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem(POLL_KEY);
-      if (saved) {
-        setVotedOption(parseInt(saved, 10));
-      }
-    }
-
     async function fetchVotes() {
       try {
-        const res = await fetch("/api/poll/boardgames");
+        const res = await fetch("/api/poll/boardgames", { cache: "no-store" });
         if (res.ok) {
           const data = await res.json();
-          if (data && data[1]) {
+          if (data && typeof data[1] === "number") {
+            const fetchedTotal = (data[1] || 0) + (data[2] || 0) + (data[3] || 0) + (data[4] || 0);
+
+            if (fetchedTotal === 0 && typeof window !== "undefined") {
+              localStorage.removeItem(POLL_KEY);
+              localStorage.removeItem("spoolio_boardgame_poll_voted_option");
+              setVotedOption(null);
+            } else if (typeof window !== "undefined") {
+              const saved = localStorage.getItem(POLL_KEY) || localStorage.getItem("spoolio_boardgame_poll_voted_option");
+              if (saved) {
+                setVotedOption(parseInt(saved, 10));
+              }
+            }
+
             setVotes({
-              1: data[1],
-              2: data[2],
-              3: data[3],
-              4: data[4],
+              1: data[1] || 0,
+              2: data[2] || 0,
+              3: data[3] || 0,
+              4: data[4] || 0,
             });
           }
         }
