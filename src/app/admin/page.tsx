@@ -103,6 +103,18 @@ export default function AdminDashboard() {
       cta: "Gérer les promos",
     },
     {
+      title: "Calendrier de l'Avent 🎄",
+      description: "Gérer le packaging, le pipeline de production des 24 objets 3D et le dévoilement au jour le jour.",
+      href: "/admin/calendrier-avent",
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      ),
+      color: "#f59e0b",
+      cta: "Calendrier de l'Avent",
+    },
+    {
       title: "Modération des avis",
       description: "Valider les avis des acheteurs vérifiés ou modérer les retours sur la boutique.",
       href: "/admin/reviews",
