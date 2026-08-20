@@ -133,6 +133,17 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
     }
   };
 
+  // Screenshot Gallery state
+  const [activeScreenshotIndex, setActiveScreenshotIndex] = useState<number>(0);
+
+  const enjeuScreenshots = [
+    { id: 1, src: "/images/enjeu/1.png", label: "Hub & Score", badge: "Vue Globale", desc: "Toutes vos feuilles de score au même endroit" },
+    { id: 2, src: "/images/enjeu/2.png", label: "Calculs Skull King", badge: "Automatique", desc: "Calculs automatiques & règles officielles" },
+    { id: 3, src: "/images/enjeu/3.png", label: "Gages & Paris", badge: "Piquant", desc: "Pimentez vos soirées avec des gages & paris" },
+    { id: 4, src: "/images/enjeu/4.png", label: "Feuille Libre", badge: "Universel", desc: "Feuille libre pour tous vos jeux de société" },
+    { id: 5, src: "/images/enjeu/5.png", label: "Boutique 3D", badge: "Spoolio", desc: "Accessoires de jeux 3D éco-conçus en France" },
+  ];
+
   // Email Early Access state
   const [emailInput, setEmailInput] = useState<string>("");
   const [subscribed, setSubscribed] = useState<boolean>(false);
@@ -643,29 +654,42 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
       {/* =========================================================================
           4. FOCUS APPLICATION ENJEU (APP COMPAGNON)
          ========================================================================= */}
-      <section id="enjeu-app" className="relative rounded-3xl sm:rounded-[36px] bg-gradient-to-br from-[#0c0d1c] via-[#10132b] to-[#18112e] border border-indigo-500/30 p-6 sm:p-12 overflow-hidden shadow-2xl scroll-mt-28">
+      <section id="enjeu-app" className="relative rounded-3xl sm:rounded-[36px] bg-gradient-to-br from-[#0c0d1c] via-[#10132b] to-[#18112e] border border-indigo-500/30 p-6 sm:p-12 overflow-hidden shadow-2xl scroll-mt-28 space-y-12">
         
         {/* Glow ambient */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/20 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-pink-500/15 blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/20 blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-pink-500/15 blur-3xl pointer-events-none" />
 
+        {/* TOP ROW: Présentation + Maquette Smartphone des Captures d'Écran */}
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
-          {/* Left Column: Présentation Enjeu */}
+          {/* Left Column: Présentation & Logo Enjeu */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 text-xs font-mono font-bold uppercase tracking-wider">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Bientôt disponible • 100% Gratuite</span>
+            <div className="flex items-center gap-4">
+              <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden shadow-xl border border-indigo-400/40 shrink-0 bg-black">
+                <Image
+                  src="/images/enjeu/enjeu-logo.png"
+                  alt="Logo Officiel Enjeu App"
+                  fill
+                  className="object-cover no-invert"
+                  sizes="64px"
+                />
+              </div>
+
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 text-[11px] font-mono font-bold uppercase tracking-wider mb-1">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Application Compagnon Officielle</span>
+                </div>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase text-white font-antonio tracking-tight leading-none">
+                  L'Application <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4f00] via-purple-300 to-indigo-400">Enjeu.</span>
+                </h2>
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase text-white font-antonio tracking-tight">
-                L'Application <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-400">Enjeu.</span>
-              </h2>
-              <p className="text-xs sm:text-sm text-gray-300 leading-relaxed max-w-xl">
-                L'application compagnon conçue pour remplacer définitivement les feuilles volantes et pimenter vos soirées jeux avec des paris amusants.
-              </p>
-            </div>
+            <p className="text-xs sm:text-sm text-gray-300 leading-relaxed max-w-xl font-sans">
+              Comptez vos points, défiez vos amis et pimentez vos soirées jeux de société ! Remplacement définitif des feuilles volantes + système de gages amusants.
+            </p>
 
             {/* Feature Bullet Points */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -729,65 +753,111 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
             </div>
           </div>
 
-          {/* Right Column: Early Access Form Card */}
-          <div className="lg:col-span-5 bg-[#0a0a14]/90 backdrop-blur-xl border border-indigo-400/30 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl relative">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between gap-2 flex-wrap">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="w-5 h-5 text-amber-400" />
-                  <h3 className="text-lg font-black text-white font-antonio uppercase tracking-wide">
-                    Rejoins la Bêta Android Enjeu
-                  </h3>
-                </div>
-                <span className="text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                  <span>🤖</span> Android Uniquement
-                </span>
+          {/* Right Column: Interactive Smartphone Mockup Showcase */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center space-y-4">
+            {/* Phone Bevel Frame Container */}
+            <div className="relative w-full max-w-[270px] sm:max-w-[290px] aspect-[9/18] rounded-[40px] bg-[#07070a] border-[5px] border-slate-700/80 p-2 shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_40px_rgba(99,102,241,0.25)] overflow-hidden transition-all duration-500 group">
+              
+              {/* Dynamic Island / Notch */}
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-20 h-4 bg-black rounded-full z-30 flex items-center justify-center border border-white/10">
+                <div className="w-2.5 h-2.5 rounded-full bg-indigo-900/80 border border-indigo-400/50" />
               </div>
-              <p className="text-xs text-gray-300 leading-relaxed font-sans">
-                Sois prévenu(e) en avant-première lors de l'ouverture du test sur Android (Google Play), et reçois un <strong className="text-amber-400">cadeau exclusif Spoolio</strong> dans ta boîte mail.
-              </p>
+
+              {/* Active Screenshot Display */}
+              <div className="relative w-full h-full rounded-[32px] overflow-hidden bg-black">
+                <Image
+                  src={enjeuScreenshots[activeScreenshotIndex].src}
+                  alt={enjeuScreenshots[activeScreenshotIndex].label}
+                  fill
+                  className="object-cover transition-all duration-500 no-invert"
+                  sizes="290px"
+                  priority
+                />
+              </div>
             </div>
 
-            {subscribed ? (
-              <div className="p-4 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold space-y-1 text-center">
-                <div className="text-xl">🎉</div>
-                <p className="font-extrabold text-sm text-white">Merci pour ton inscription à la Bêta Android !</p>
-                <p className="text-emerald-300 font-normal">Tu seras parmi les tout premiers à tester l'application Enjeu sur Android.</p>
+            {/* Screenshot Selector Pills */}
+            <div className="flex items-center justify-center gap-1.5 flex-wrap max-w-xs sm:max-w-sm pt-1">
+              {enjeuScreenshots.map((scr, idx) => (
+                <button
+                  key={scr.id}
+                  type="button"
+                  onClick={() => setActiveScreenshotIndex(idx)}
+                  className={`px-3 py-1.5 rounded-xl text-[11px] font-mono font-bold transition-all cursor-pointer ${
+                    activeScreenshotIndex === idx
+                      ? "bg-gradient-to-r from-[#ff4f00] to-indigo-600 text-white border border-white/30 shadow-lg scale-105"
+                      : "bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10"
+                  }`}
+                >
+                  {scr.badge}
+                </button>
+              ))}
+            </div>
+            
+            <p className="text-[11px] text-gray-400 text-center font-sans italic max-w-xs">
+              📲 {enjeuScreenshots[activeScreenshotIndex].desc}
+            </p>
+          </div>
+        </div>
+
+        {/* BOTTOM ROW: Béta Registration Form */}
+        <div className="relative z-10 bg-[#0a0a14]/90 backdrop-blur-xl border border-indigo-400/30 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-amber-400" />
+                <h3 className="text-lg font-black text-white font-antonio uppercase tracking-wide">
+                  Rejoins la Bêta Android Enjeu
+                </h3>
               </div>
-            ) : (
-              <form onSubmit={handleSubscribe} className="space-y-3">
-                <div>
-                  <input
-                    type="email"
-                    required
-                    value={emailInput}
-                    onChange={(e) => setEmailInput(e.target.value)}
-                    placeholder="Ton adresse email (Compte Google Play / Android)..."
-                    className="w-full h-12 px-4 rounded-xl bg-white/5 border border-white/15 focus:border-indigo-400 focus:outline-none text-white text-xs font-sans placeholder:text-gray-500 transition-colors"
-                  />
-                </div>
+              <span className="text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                <span>🤖</span> Android Uniquement
+              </span>
+            </div>
+            <p className="text-xs text-gray-300 leading-relaxed font-sans">
+              Sois prévenu(e) en avant-première lors de l'ouverture du test sur Android (Google Play), et reçois un <strong className="text-amber-400">cadeau exclusif Spoolio</strong> dans ta boîte mail.
+            </p>
+          </div>
+
+          {subscribed ? (
+            <div className="p-4 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-bold space-y-1 text-center">
+              <div className="text-xl">🎉</div>
+              <p className="font-extrabold text-sm text-white">Merci pour ton inscription à la Bêta Android !</p>
+              <p className="text-emerald-300 font-normal">Tu seras parmi les tout premiers à tester l'application Enjeu sur Android.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubscribe} className="space-y-3 max-w-xl">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <input
+                  type="email"
+                  required
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
+                  placeholder="Ton adresse email (Compte Google Play / Android)..."
+                  className="flex-1 h-12 px-4 rounded-xl bg-white/5 border border-white/15 focus:border-indigo-400 focus:outline-none text-white text-xs font-sans placeholder:text-gray-500 transition-colors"
+                />
 
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full h-12 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 transition-all cursor-pointer disabled:opacity-50"
+                  className="h-12 px-6 rounded-xl bg-gradient-to-r from-[#ff4f00] via-indigo-600 to-purple-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 transition-all cursor-pointer disabled:opacity-50 shrink-0"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>{submitting ? "Inscription..." : "Rejoindre la Bêta Android 🤖"}</span>
                 </button>
+              </div>
 
-                <p className="text-[10px] text-gray-500 text-center">
-                  🔒 Zéro spam. Inscription synchronisée avec le tag Mailchimp <code>Beta-App-Enjeu</code>.
-                </p>
-              </form>
-            )}
+              <p className="text-[10px] text-gray-500">
+                🔒 Zéro spam. Inscription synchronisée avec le tag Mailchimp <code>Beta-App-Enjeu</code>.
+              </p>
+            </form>
+          )}
 
-            {/* Badges Stores */}
-            <div className="pt-2 border-t border-white/10 flex items-center justify-center gap-3 text-xs text-gray-400">
-              <span className="flex items-center gap-1.5 font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-xl">
-                <span>🤖</span> Disponible en Bêta sur Android uniquement
-              </span>
-            </div>
+          {/* Badges Stores */}
+          <div className="pt-2 border-t border-white/10 flex items-center justify-center gap-3 text-xs text-gray-400">
+            <span className="flex items-center gap-1.5 font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-xl">
+              <span>🤖</span> Disponible en Bêta sur Android uniquement
+            </span>
           </div>
         </div>
       </section>
