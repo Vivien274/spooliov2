@@ -338,14 +338,17 @@ export default function AdminClickersPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newGallery),
       });
-      if (res.ok) {
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success) {
         setSavedMessage(true);
         setTimeout(() => setSavedMessage(false), 3000);
       } else {
-        alert("⚠️ Erreur lors de la sauvegarde de la galerie sur le serveur.");
+        const errorDetails = data?.error || `Code HTTP ${res.status}`;
+        alert(`⚠️ Échec de la sauvegarde : ${errorDetails}`);
       }
-    } catch (e) {
+    } catch (e: any) {
       console.error("Error saving clicker gallery:", e);
+      alert(`⚠️ Erreur réseau : ${e?.message || "Impossible de contacter le serveur"}`);
     }
   };
 
