@@ -12,23 +12,34 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function JeuxDeSocietePage() {
-  // Fetch STRICTLY products from "Jeux & activités" category
+  // Fetch STRICTLY products with the "jeuxsociete" tag or category
   let gameProducts: any[] = [];
   try {
     gameProducts = await prisma.product.findMany({
       where: {
         status: "publish",
-        categories: {
-          some: {
-            name: {
-              contains: "Jeux",
+        OR: [
+          {
+            categories: {
+              some: {
+                name: {
+                  contains: "jeuxsociete",
+                  mode: "insensitive",
+                },
+              },
+            },
+          },
+          {
+            attributes: {
+              contains: "jeuxsociete",
               mode: "insensitive",
             },
           },
-        },
+        ],
       },
       include: {
         images: true,
+        categories: true,
       },
       orderBy: {
         id: "desc",
