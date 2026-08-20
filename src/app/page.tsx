@@ -6,7 +6,6 @@ import AnimatedHero from "@/components/AnimatedHero";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReviewsSection from "@/components/ReviewsSection";
-import HomeLoader from "@/components/HomeLoader";
 import CurvedTextScrollAnimation from "@/components/CurvedTextScrollAnimation";
 import SpotlightMarqueeBanner from "@/components/SpotlightMarqueeBanner";
 import BoutiqueCTAButton from "@/components/BoutiqueCTAButton";
@@ -231,9 +230,6 @@ export default async function HomePage() {
 
   return (
     <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
-      {/* React Home Loading Screen */}
-      <HomeLoader />
-
       {/* Background Decorative Glows */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <div
