@@ -847,7 +847,7 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
               </div>
 
               <p className="text-[10px] text-gray-500">
-                🔒 Zéro spam. Inscription synchronisée avec le tag Mailchimp <code>Beta-App-Enjeu</code>.
+                🔒 Zéro spam. En cliquant sur "rejoindre" vous acceptez d'être inscrit à la newsletter Spoolio. Désinscription en 1 clic.
               </p>
             </form>
           )}
