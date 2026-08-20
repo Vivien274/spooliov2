@@ -14,38 +14,61 @@ export interface HeroSlide {
   buttonLink: string;
   image: string;
   accentColor: string;
+
+  // Floating product card
+  cardProductId?: number | string;
+  cardTitle?: string;
+  cardDescription?: string;
+  cardPrice?: string;
+  cardImage?: string;
+  cardLink?: string;
 }
 
 const DEFAULT_SLIDES: HeroSlide[] = [
   {
     id: 1,
-    badge: "🌀 COLLECTION FIDGETS",
+    badge: "PACKS SENSORIELS TDAH",
     title: "LA FOLIE DES FIDGETS SENSORIELS ⚡",
     subtitle: "Décompresser, toucher, cliquer : découvrez nos créations 3D originales faites main en France 🌱",
     buttonText: "DÉCOUVRIR LA BOUTIQUE",
     buttonLink: "/boutique",
     image: "/images/hero_background.jpg",
     accentColor: "#ff4f00",
+    cardTitle: "Pack Fidget Sensory TDAH",
+    cardDescription: "Assortiment anti-stress fabriqué en PLA biosourcé.",
+    cardPrice: "14.90€",
+    cardImage: "/images/hero_background.jpg",
+    cardLink: "/boutique"
   },
   {
     id: 2,
-    badge: "⌨️ SUR-MESURE & ASMR",
+    badge: "STUDIO CLICKER 3D",
     title: "CRÉE TON CLICKER 3D SUR-MESURE 🎨",
     subtitle: "Choisis tes couleurs de switch, le nombre de touches et la finition de ton fidget clicker",
     buttonText: "CRÉER MON CLICKER",
     buttonLink: "/createur-cliqueur",
     image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
     accentColor: "#2F3CD9",
+    cardTitle: "Fidget Clicker 3D Custom",
+    cardDescription: "Sensations ASMR avec switchs interchangeables.",
+    cardPrice: "À partir de 3.00€",
+    cardImage: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    cardLink: "/createur-cliqueur"
   },
   {
     id: 3,
-    badge: "🎁 ÉDITIONS LIMITÉES",
+    badge: "ÉDITIONS LIMITÉES",
     title: "LA POCHETTE SURPRISE SPOOLIO 📦",
     subtitle: "Un assortiment mystère d'objets funs & fidgets 3D inédits dès 10.00€",
     buttonText: "VOIR LES POCHETTES",
     buttonLink: "/pochette-surprise",
     image: "/images/imported/PochetteM-1.png",
     accentColor: "#FF7700",
+    cardTitle: "Pochette Surprise Spoolio",
+    cardDescription: "3 à 5 créations 3D et fidgets mystères inédits.",
+    cardPrice: "10.00€",
+    cardImage: "/images/imported/PochetteM-1.png",
+    cardLink: "/pochette-surprise"
   },
 ];
 
@@ -58,11 +81,11 @@ const DEFAULT_HERO = {
   secondaryButtonText: "🛍️ VOIR LA BOUTIQUE",
   secondaryButtonLink: "/boutique",
   cardBadge: "🔥 PRODUIT STAR 3D",
-  cardTitle: "⌨️ Fidget Clicker 3D Custom",
-  cardPrice: "À partir de 3.00€",
-  cardTags: "🎨 12 Couleurs PLA • ⚡ 1 à 9 Touches • 🌱 PLA Biosourcé",
-  cardLink: "/createur-cliqueur",
-  cardImage: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+  cardTitle: "Pack Fidget Sensory TDAH",
+  cardPrice: "14.90€",
+  cardTags: "Assortiment anti-stress fabriqué en PLA biosourcé.",
+  cardLink: "/boutique",
+  cardImage: "/images/hero_background.jpg",
   imageUrl: "/images/hero_background.jpg",
   imagePosition: "center center",
   slides: DEFAULT_SLIDES,

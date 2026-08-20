@@ -3,7 +3,19 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import React from "react";
 import { useAdminTheme } from "../AdminThemeContext";
+
+function renderFormattedText(text: string) {
+  if (!text) return null;
+  const parts = text.split(/<br\s*\/?>|\n/gi);
+  return parts.map((part, index) => (
+    <React.Fragment key={index}>
+      {part}
+      {index < parts.length - 1 && <br />}
+    </React.Fragment>
+  ));
+}
 
 const ADMIN_BLUE = "#2F3CD9";
 
@@ -16,6 +28,14 @@ export interface HeroSlide {
   buttonLink: string;
   image: string;
   accentColor: string;
+
+  // Floating product card
+  cardProductId?: number | string;
+  cardTitle?: string;
+  cardDescription?: string;
+  cardPrice?: string;
+  cardImage?: string;
+  cardLink?: string;
 }
 
 const DEFAULT_SLIDES: HeroSlide[] = [
@@ -28,6 +48,11 @@ const DEFAULT_SLIDES: HeroSlide[] = [
     buttonLink: "/boutique",
     image: "/images/hero_background.jpg",
     accentColor: "#ff4f00",
+    cardTitle: "Pack Fidget Sensory TDAH",
+    cardDescription: "Assortiment anti-stress fabriqué en PLA biosourcé.",
+    cardPrice: "14.90€",
+    cardImage: "/images/hero_background.jpg",
+    cardLink: "/boutique"
   },
   {
     id: 2,
@@ -38,6 +63,11 @@ const DEFAULT_SLIDES: HeroSlide[] = [
     buttonLink: "/createur-cliqueur",
     image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
     accentColor: "#2F3CD9",
+    cardTitle: "Fidget Clicker 3D Custom",
+    cardDescription: "Sensations ASMR avec switchs interchangeables.",
+    cardPrice: "À partir de 3.00€",
+    cardImage: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    cardLink: "/createur-cliqueur"
   },
   {
     id: 3,
@@ -48,6 +78,11 @@ const DEFAULT_SLIDES: HeroSlide[] = [
     buttonLink: "/pochette-surprise",
     image: "/images/imported/PochetteM-1.png",
     accentColor: "#FF7700",
+    cardTitle: "Pochette Surprise Spoolio",
+    cardDescription: "3 à 5 créations 3D et fidgets mystères inédits.",
+    cardPrice: "10.00€",
+    cardImage: "/images/imported/PochetteM-1.png",
+    cardLink: "/pochette-surprise"
   },
 ];
 
@@ -60,13 +95,28 @@ interface HeroConfig {
   slides: HeroSlide[];
 }
 
+interface CatalogProduct {
+  id: number;
+  name: string;
+  slug: string;
+  price: string;
+  images?: Array<{ src: string }>;
+  short_description?: string;
+  description?: string;
+}
+
 export default function HeroCustomizerPage() {
   const { cls, theme } = useAdminTheme();
   const [slides, setSlides] = useState<HeroSlide[]>(DEFAULT_SLIDES);
+  const [catalogProducts, setCatalogProducts] = useState<CatalogProduct[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState<boolean>(true);
   const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
   const [loadingHero, setLoadingHero] = useState<boolean>(true);
   const [savingHero, setSavingHero] = useState<boolean>(false);
   const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
+  const [productSearchQuery, setProductSearchQuery] = useState<string>("");
+  const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
+  const [uploadingCardIndex, setUploadingCardIndex] = useState<number | null>(null);
   const [heroSuccess, setHeroSuccess] = useState<string | null>(null);
   const [heroError, setHeroError] = useState<string | null>(null);
 
@@ -87,16 +137,99 @@ export default function HeroCustomizerPage() {
     }
   };
 
+  const fetchCatalogProducts = async () => {
+    setLoadingProducts(true);
+    try {
+      const res = await fetch("/api/products?status=publish");
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setCatalogProducts(data);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load catalog products:", err);
+    } finally {
+      setLoadingProducts(false);
+    }
+  };
+
   useEffect(() => {
     fetchHeroConfig();
+    fetchCatalogProducts();
   }, []);
 
-  const handleSlideChange = (index: number, field: keyof HeroSlide, value: string) => {
+  const handleSlideChange = (index: number, field: keyof HeroSlide, value: any) => {
     setSlides((prev) => {
       const updated = [...prev];
       updated[index] = { ...updated[index], [field]: value };
       return updated;
     });
+  };
+
+  const handleSelectProductForSlide = (slideIndex: number, selectedProductIdStr: string) => {
+    const prodId = Number(selectedProductIdStr);
+    const selectedProd = catalogProducts.find((p) => Number(p.id) === prodId);
+
+    setSlides((prev) => {
+      const updated = [...prev];
+      const slide = { ...updated[slideIndex] };
+
+      if (selectedProd) {
+        const rawDesc = selectedProd.short_description || selectedProd.description || "";
+        const cleanDesc = rawDesc.replace(/<[^>]*>?/gm, "").trim();
+
+        const prodImage = selectedProd.images && selectedProd.images[0]?.src
+          ? selectedProd.images[0].src
+          : slide.image;
+
+        const formattedPrice = selectedProd.price
+          ? (selectedProd.price.includes("€") ? selectedProd.price : `${selectedProd.price}€`)
+          : "14.90€";
+
+        slide.cardProductId = selectedProd.id;
+        slide.cardTitle = selectedProd.name;
+        slide.cardPrice = formattedPrice;
+        slide.cardDescription = cleanDesc || "Fabriqué à Comines en PLA biosourcé.";
+        slide.cardImage = prodImage;
+        slide.cardLink = `/product/${selectedProd.slug}`;
+      } else {
+        slide.cardProductId = undefined;
+      }
+
+      updated[slideIndex] = slide;
+      return updated;
+    });
+  };
+
+  const handleCardImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, slideIndex: number) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingCardIndex(slideIndex);
+    setHeroError(null);
+    setHeroSuccess(null);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok) {
+        handleSlideChange(slideIndex, "cardImage", data.imageUrl);
+        setHeroSuccess(`Image miniature produit pour la slide #${slideIndex + 1} téléversée !`);
+      } else {
+        setHeroError(data.error || "Erreur de téléversement.");
+      }
+    } catch (err) {
+      setHeroError("Impossible d'uploader l'image.");
+    } finally {
+      setUploadingCardIndex(null);
+    }
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, slideIndex: number) => {
@@ -200,7 +333,7 @@ export default function HeroCustomizerPage() {
   const currentActiveSlide = slides[activeSlideIndex] || slides[0] || DEFAULT_SLIDES[0];
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 font-sans pb-16">
+    <div className="max-w-[1720px] mx-auto w-full px-2 sm:px-4 lg:px-6 space-y-8 font-sans pb-16">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -376,7 +509,7 @@ export default function HeroCustomizerPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <div className="sm:col-span-2 flex flex-col gap-1.5">
                     <label className={`text-[10px] font-black uppercase tracking-wider ${cls.textFaint}`}>
-                      Image d'Arrière-Plan
+                      Image d'Arrière-Plan (Photo Hero)
                     </label>
                     <div className="flex gap-2">
                       <input
@@ -420,6 +553,214 @@ export default function HeroCustomizerPage() {
                   </div>
                 </div>
 
+                {/* Section : Carte Produit Flottante (La Bulle à Droite) */}
+                <div className="pt-4 border-t border-white/10 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-mono font-bold text-[#ff4f00] uppercase tracking-wider">
+                      🛍️ Produit de la Bulle Flottante (Sur l'image à droite)
+                    </span>
+                  </div>
+
+                  {/* Dynamic Product Search Field from Catalog */}
+                  <div className="flex flex-col gap-2 p-3.5 rounded-2xl bg-white/5 border border-white/10 space-y-1 relative">
+                    <div className="flex items-center justify-between">
+                      <label className={`text-[10px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                        🔎 Rechercher le Produit du Catalogue pour la Bulle
+                      </label>
+                      {currentActiveSlide.cardTitle && (
+                        <span className="text-[10px] text-emerald-400 font-mono font-bold">
+                          ✓ Produit associé
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Active Selected Product Badge */}
+                    {currentActiveSlide.cardTitle && (
+                      <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/10 border border-white/20 text-xs">
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div className="relative w-9 h-9 rounded-lg overflow-hidden shrink-0 bg-black/40 border border-white/20">
+                            <Image
+                              src={currentActiveSlide.cardImage || "/images/hero_background.jpg"}
+                              alt={currentActiveSlide.cardTitle}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="font-bold text-white truncate text-xs">{currentActiveSlide.cardTitle}</div>
+                            <div className="text-[10px] text-gray-300 font-mono">{currentActiveSlide.cardPrice || "14.90€"}</div>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setProductSearchQuery("");
+                            setIsSearchFocused(true);
+                          }}
+                          className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-[10px] text-gray-300 font-bold transition-colors shrink-0"
+                        >
+                          Changer de produit
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Search Bar Input */}
+                    <div className="relative">
+                      <input
+                        type="text"
+                        value={productSearchQuery}
+                        onChange={(e) => {
+                          setProductSearchQuery(e.target.value);
+                          setIsSearchFocused(true);
+                        }}
+                        onFocus={() => setIsSearchFocused(true)}
+                        placeholder="Tapez le nom d'un produit (ex: Clicker, Dragon, Pochette...)"
+                        className={`w-full h-11 border rounded-xl px-3 text-xs font-bold outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#ff4f00]`}
+                      />
+
+                      {/* Dropdown Popup with filtered results */}
+                      {isSearchFocused && (
+                        <>
+                          <div
+                            className="fixed inset-0 z-40"
+                            onClick={() => setIsSearchFocused(false)}
+                          />
+                          <div className="absolute top-full left-0 right-0 mt-1 max-h-64 overflow-y-auto rounded-2xl bg-[#111116] border border-white/20 shadow-2xl z-50 divide-y divide-white/10">
+                            {loadingProducts ? (
+                              <div className="p-3 text-xs text-gray-400 font-mono italic text-center">
+                                Chargement du catalogue...
+                              </div>
+                            ) : catalogProducts.filter((p) => p.name.toLowerCase().includes(productSearchQuery.toLowerCase())).length === 0 ? (
+                              <div className="p-3.5 text-xs text-neutral-400 italic text-center">
+                                Aucun produit ne correspond à "{productSearchQuery}"
+                              </div>
+                            ) : (
+                              catalogProducts
+                                .filter((p) => p.name.toLowerCase().includes(productSearchQuery.toLowerCase()))
+                                .slice(0, 8)
+                                .map((prod) => (
+                                  <button
+                                    key={prod.id}
+                                    type="button"
+                                    onClick={() => {
+                                      handleSelectProductForSlide(activeSlideIndex, String(prod.id));
+                                      setProductSearchQuery("");
+                                      setIsSearchFocused(false);
+                                    }}
+                                    className="w-full p-2.5 flex items-center gap-3 text-left hover:bg-white/10 transition-colors cursor-pointer"
+                                  >
+                                    <div className="relative w-9 h-9 rounded-lg overflow-hidden shrink-0 bg-white/10 border border-white/15">
+                                      <Image
+                                        src={prod.images && prod.images[0]?.src ? prod.images[0].src : "/images/hero_background.jpg"}
+                                        alt={prod.name}
+                                        fill
+                                        className="object-cover"
+                                      />
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                      <div className="text-xs font-bold text-white truncate">{prod.name}</div>
+                                      <div className="text-[10px] text-gray-400 font-mono">
+                                        {prod.price ? (prod.price.includes("€") ? prod.price : `${prod.price}€`) : "3.00€"}
+                                      </div>
+                                    </div>
+                                    <span className="text-[10px] font-bold text-[#ff4f00] bg-[#ff4f00]/10 border border-[#ff4f00]/30 px-2 py-0.5 rounded-full shrink-0">
+                                      Associer
+                                    </span>
+                                  </button>
+                                ))
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </div>
+
+                    <p className="text-[10px] text-gray-400 leading-normal">
+                      Rechercher et associer un produit remplit automatiquement l'image miniature, le prix, la description et le lien vers la fiche produit.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="flex flex-col gap-1.5">
+                      <label className={`text-[10px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                        Titre du Produit dans la Bulle
+                      </label>
+                      <input
+                        type="text"
+                        value={currentActiveSlide.cardTitle || ""}
+                        onChange={(e) => handleSlideChange(activeSlideIndex, "cardTitle", e.target.value)}
+                        placeholder="Ex: Pack Fidget Sensory TDAH"
+                        className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className={`text-[10px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                        Prix du Produit
+                      </label>
+                      <input
+                        type="text"
+                        value={currentActiveSlide.cardPrice || ""}
+                        onChange={(e) => handleSlideChange(activeSlideIndex, "cardPrice", e.target.value)}
+                        placeholder="Ex: 14.90€"
+                        className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className={`text-[10px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                      Description Courte
+                    </label>
+                    <input
+                      type="text"
+                      value={currentActiveSlide.cardDescription || ""}
+                      onChange={(e) => handleSlideChange(activeSlideIndex, "cardDescription", e.target.value)}
+                      placeholder="Ex: Assortiment anti-stress fabriqué en PLA biosourcé."
+                      className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="flex flex-col gap-1.5">
+                      <label className={`text-[10px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                        Image Miniature de la Bulle
+                      </label>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={currentActiveSlide.cardImage || ""}
+                          onChange={(e) => handleSlideChange(activeSlideIndex, "cardImage", e.target.value)}
+                          placeholder="Ex: /images/hero_background.jpg"
+                          className={`flex-1 h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
+                        />
+                        <label className="h-10 px-3 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1 transition-colors cursor-pointer shrink-0 border border-white/20">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(e) => handleCardImageUpload(e, activeSlideIndex)}
+                            disabled={uploadingCardIndex === activeSlideIndex}
+                          />
+                          {uploadingCardIndex === activeSlideIndex ? "..." : "Miniature"}
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                      <label className={`text-[10px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                        Lien du Produit (Fiche produit)
+                      </label>
+                      <input
+                        type="text"
+                        value={currentActiveSlide.cardLink || ""}
+                        onChange={(e) => handleSlideChange(activeSlideIndex, "cardLink", e.target.value)}
+                        placeholder="Ex: /product/pack-fidget-tdah"
+                        className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 {heroSuccess && (
                   <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg text-xs leading-normal">
                     ✓ {heroSuccess}
@@ -453,7 +794,7 @@ export default function HeroCustomizerPage() {
             <p className={`text-xs ${cls.textMuted} mt-0.5`}>Visualisez exactement l'aspect final sur la page d'accueil.</p>
           </div>
 
-          <div className="relative overflow-hidden rounded-3xl border border-neutral-800 bg-[#08080a] text-white p-6 min-h-[380px] flex flex-col justify-between shadow-2xl">
+          <div className="relative overflow-hidden rounded-[28px] border border-neutral-800 bg-[#08080a] text-white p-5 min-h-[420px] flex flex-col justify-between shadow-2xl">
             {/* Slide Background Image Preview */}
             <div className="absolute inset-0 z-0">
               {currentActiveSlide.image && (
@@ -461,10 +802,10 @@ export default function HeroCustomizerPage() {
                   src={currentActiveSlide.image}
                   alt={currentActiveSlide.title || "Slide"}
                   fill
-                  className="object-cover opacity-35 filter contrast-125 saturate-125"
+                  className="object-cover opacity-50 filter contrast-125 saturate-125"
                 />
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#08080a] via-[#08080a]/75 to-[#08080a]/40 z-10" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#08080a] via-[#08080a]/80 to-transparent z-10" />
               <div
                 className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full filter blur-[80px] pointer-events-none z-10 opacity-30"
                 style={{ backgroundColor: currentActiveSlide.accentColor || "#ff4f00" }}
@@ -478,23 +819,41 @@ export default function HeroCustomizerPage() {
             </div>
 
             {/* Slide Content Preview */}
-            <div className="relative z-20 my-auto text-center space-y-3 py-6">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-[10px] font-mono font-black text-white">
+            <div className="relative z-20 my-auto space-y-4 py-4">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-[10px] font-mono font-black text-[#ff4f00]">
                 {currentActiveSlide.badge}
               </div>
 
-              <h2 className="text-xl font-black uppercase text-white font-antonio leading-tight">
-                {currentActiveSlide.title}
+              <h2 className="text-xl font-black uppercase text-white font-antonio leading-tight max-w-xs">
+                {renderFormattedText(currentActiveSlide.title)}
               </h2>
 
-              <p className="text-xs text-gray-300 font-sans leading-relaxed max-w-xs mx-auto">
-                {currentActiveSlide.subtitle}
+              <p className="text-xs text-gray-300 font-sans leading-relaxed max-w-xs line-clamp-2">
+                {renderFormattedText(currentActiveSlide.subtitle)}
               </p>
 
-              <div className="pt-2">
-                <span className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#ff4f00] to-[#FF7700] text-white font-black text-[11px] uppercase tracking-wider rounded-full px-5 py-2.5 shadow-lg">
+              <div>
+                <span className="inline-flex items-center justify-center gap-2 bg-[#1b2bd8] border border-blue-400/50 text-white font-black text-[10px] uppercase tracking-wider rounded-xl px-4 py-2 shadow-lg">
                   {currentActiveSlide.buttonText} &rarr;
                 </span>
+              </div>
+
+              {/* Floating Product Card Preview */}
+              <div className="pt-2">
+                <div className="backdrop-blur-md bg-black/70 border border-white/20 rounded-2xl p-3 flex items-center gap-3">
+                  <div className="relative w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-white/20 bg-white/10">
+                    <Image
+                      src={currentActiveSlide.cardImage || currentActiveSlide.image || "/images/hero_background.jpg"}
+                      alt={currentActiveSlide.cardTitle || "Produit"}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="text-xs font-bold text-white truncate">{currentActiveSlide.cardTitle || "Produit Spoolio"}</h4>
+                    <span className="text-[10px] font-mono text-gray-300 font-bold">{currentActiveSlide.cardPrice || "14.90€"}</span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -516,3 +875,4 @@ export default function HeroCustomizerPage() {
     </div>
   );
 }
+

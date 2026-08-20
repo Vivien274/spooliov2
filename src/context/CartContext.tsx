@@ -35,6 +35,10 @@ export interface AppliedPromo {
   minOrderAmount: number;
 }
 
+import { DEFAULT_SHIPPING_CONFIG, ShippingConfig } from "@/types/shipping";
+
+export type { ShippingConfig };
+
 interface CartContextType {
   cartItems: CartItem[];
   isCartOpen: boolean;
@@ -54,6 +58,7 @@ interface CartContextType {
   appliedPromo: AppliedPromo | null;
   discountAmount: number;
   promoError: string | null;
+  shippingConfig: ShippingConfig;
   applyPromoCode: (code: string) => Promise<{ success: boolean; error?: string; message?: string }>;
   removePromoCode: () => void;
 }
@@ -68,6 +73,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [appliedPromo, setAppliedPromo] = useState<AppliedPromo | null>(null);
   const [promoError, setPromoError] = useState<string | null>(null);
   const [initialized, setInitialized] = useState<boolean>(false);
+  const [shippingConfig, setShippingConfig] = useState<ShippingConfig>(DEFAULT_SHIPPING_CONFIG);
+
+  // Fetch dynamic shipping config from API
+  useEffect(() => {
+    fetch("/api/shipping-config")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.config) {
+          setShippingConfig(data.config);
+        }
+      })
+      .catch((err) => console.warn("Could not fetch shipping config:", err));
+  }, []);
 
   // Load cart, shipping and promo details from localStorage on mount
   useEffect(() => {
@@ -237,9 +255,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  // Compute Shipping costs dynamically (offered over 40€ of normal products or with free_shipping promo)
-  const isFreeShippingByAmount = cartTotalNormal >= 40;
+  // Net total eligible for free shipping calculation (subtotal after discounts)
+  const netTotalNormal = Math.max(0, cartTotalNormal - discountAmount);
+
+  // Compute Shipping costs dynamically from dynamic config
+  const isFreeShippingByAmount = netTotalNormal >= shippingConfig.freeShippingThreshold;
   const isFreeShippingByPromo =
+    shippingConfig.enablePromoFreeShipping &&
     appliedPromo?.discountType === "free_shipping" &&
     (!appliedPromo.minOrderAmount || cartTotalNormal >= appliedPromo.minOrderAmount);
 
@@ -247,12 +269,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const shippingCost =
     shippingMethod === "pickup"
-      ? 0
+      ? shippingConfig.pickupShippingCost
       : isFreeShipping
       ? 0
       : shippingMethod === "relay"
-      ? 3.90
-      : 4.90;
+      ? shippingConfig.relayShippingCost
+      : shippingConfig.homeShippingCost;
 
   const cartTotalWithShipping = Math.max(0, cartTotal - discountAmount + shippingCost);
 
@@ -321,6 +343,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         appliedPromo,
         discountAmount,
         promoError,
+        shippingConfig,
         applyPromoCode,
         removePromoCode,
       }}
