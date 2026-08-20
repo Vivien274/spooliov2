@@ -72,9 +72,6 @@ export default function CreateurCliqueurPage() {
         {/* Dedicated Clicker Configurator Client */}
         <ClickerConfiguratorClient className="w-full mb-12" />
 
-        {/* Dynamic Photo Gallery of Real Creations */}
-        <ClickerGalleryClient initialItems={galleryItems} />
-
         {/* Reassurance Badges Row */}
         <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 border-t border-neutral-800 text-center font-[family-name:var(--font-plus-jakarta)]">
           <div className="p-4 rounded-2xl reassurance-card bg-neutral-900/60 border border-neutral-800 shadow-sm flex flex-col items-center gap-2">

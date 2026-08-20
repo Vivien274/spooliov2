@@ -364,7 +364,8 @@ export default function AdminClickersPage() {
         });
         return updated;
       });
-      alert(`🎉 ${successCount} photo${successCount > 1 ? "s" : ""} téléversée${successCount > 1 ? "s" : ""} et ajoutée${successCount > 1 ? "s" : ""} à la galerie !`);
+      setSavedMessage(true);
+      setTimeout(() => setSavedMessage(false), 3000);
     }
 
     setIsUploading(false);
@@ -405,6 +406,9 @@ export default function AdminClickersPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updated),
     });
+
+    setSavedMessage(true);
+    setTimeout(() => setSavedMessage(false), 3000);
   };
 
   const handleDeletePhoto = (id: number) => {
@@ -415,10 +419,24 @@ export default function AdminClickersPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updated),
     });
+
+    setSavedMessage(true);
+    setTimeout(() => setSavedMessage(false), 3000);
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6 font-sans">
+    <div className="max-w-7xl mx-auto space-y-6 font-sans relative">
+      {/* Floating Success Toast Banner */}
+      {savedMessage && (
+        <div className="fixed bottom-8 right-8 z-50 px-6 py-4 rounded-2xl bg-emerald-600 text-white font-bold text-xs uppercase tracking-wider shadow-2xl border border-emerald-400 flex items-center gap-3 animate-bounce">
+          <span className="text-lg">✅</span>
+          <div>
+            <p className="font-extrabold text-sm text-white">Modifications sauvegardées avec succès !</p>
+            <p className="text-[11px] text-emerald-200 font-normal">Elles sont immédiatement mises à jour en vue publique.</p>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
@@ -452,10 +470,10 @@ export default function AdminClickersPage() {
             type="button"
             onClick={handleSaveConfigs}
             className={`text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition-all cursor-pointer ${
-              savedMessage ? "bg-emerald-500 text-white" : "bg-white text-black hover:bg-white/90 shadow-md"
+              savedMessage ? "bg-emerald-500 text-white shadow-lg scale-105" : "bg-white text-black hover:bg-white/90 shadow-md"
             }`}
           >
-            {savedMessage ? "Sauvegardé !" : "Sauvegarder"}
+            {savedMessage ? "✅ Sauvegardé !" : "💾 Sauvegarder"}
           </button>
         </div>
       </div>
@@ -902,15 +920,24 @@ export default function AdminClickersPage() {
       {/* TAB 6 : GALLERY MANAGEMENT */}
       {activeTab === "gallery" && (
         <div className={`p-6 rounded-3xl ${cls.cardBg} border ${cls.border} space-y-6 shadow-sm`}>
-          <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center justify-between flex-wrap gap-4 border-b border-white/10 pb-4">
             <div>
               <h3 className={`text-base font-bold ${cls.textMain} uppercase tracking-wider`}>
                 Gestion de la Galerie Photos Client
               </h3>
               <p className={`text-xs ${cls.textMuted}`}>
-                Téléversez ou renseignez des photos de réalisations pour les afficher sur la vue publique.
+                Téléversez ou renseignez des photos de réalisations pour les afficher sur le configurateur public.
               </p>
             </div>
+            <button
+              type="button"
+              onClick={handleSaveConfigs}
+              className={`text-xs font-extrabold uppercase tracking-wider px-6 py-3 rounded-xl transition-all cursor-pointer shadow-lg flex items-center gap-2 ${
+                savedMessage ? "bg-emerald-500 text-white scale-105" : "bg-[#2F3CD9] hover:bg-[#202bb8] text-white"
+              }`}
+            >
+              <span>{savedMessage ? "✅ Galerie Enregistrée !" : "💾 Sauvegarder la Galerie Photos"}</span>
+            </button>
           </div>
 
           {/* Add Photo Form Box */}
