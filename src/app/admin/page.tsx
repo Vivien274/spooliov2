@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAdminTheme } from "./AdminThemeContext";
 import { parseItemName } from "@/lib/orderUtils";
+import { recommendPackaging } from "@/lib/packagingUtils";
 import OrderItemOptionsViewer from "@/components/OrderItemOptionsViewer";
 
 const ADMIN_BLUE = "#2F3CD9";
@@ -43,84 +44,75 @@ export default function AdminDashboard() {
   const modules = [
     {
       title: "Gestion des produits",
-      description: "Créer, modifier et supprimer des produits. Gérer les variations, prix, photos et données SEO.",
+      description: "Créer, modifier et supprimer des produits. Gérer les déclinaisons, prix, photos et données SEO.",
       href: "/admin/products",
       icon: (
-        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
         </svg>
       ),
       color: ADMIN_BLUE,
-      stats: [
-        { label: "Produits actifs", value: "207" },
-        { label: "Catégories", value: "20" },
-        { label: "En promo", value: "Oui" },
-      ],
-      cta: "Gérer les produits",
+      cta: "Catalogue Produits",
     },
     {
       title: "Commandes clients",
-      description: "Suivre les commandes, modifier le statut de livraison (attente impression, expédié...) et voir les relais Mondial Relay.",
+      description: "Historique complet des commandes, états d'impression 3D, étiquettes Boxtal et expéditions.",
       href: "/admin/orders",
       icon: (
-        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
         </svg>
       ),
       color: "#e11d48",
-      stats: [
-        { label: "Suivi des ventes", value: "Actif" },
-        { label: "Stripe", value: "Connecté" },
-      ],
-      cta: "Voir les commandes",
+      cta: "Toutes les commandes",
     },
     {
-      title: "Configuration des Dons",
-      description: "Gérer les différents paliers d'entraide (Café, Buse, Plateau PEI...) affichés aux clients sur la boutique.",
-      href: "/admin/don",
+      title: "Finances & Livraison",
+      description: "Ajuster le seuil de port offert (ex: 60€), les tarifs de livraison relais / domicile et réassurance.",
+      href: "/admin/shipping",
       icon: (
-        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20" />
         </svg>
       ),
-      color: "#0d9488",
-      stats: [
-        { label: "Paliers actifs", value: donationTiersCount === null ? "..." : donationTiersCount.toString() },
-        { label: "Don libre", value: "Actif" },
-      ],
-      cta: "Gérer les dons",
+      color: "#ff4f00",
+      cta: "Tarifs & Finances",
+    },
+    {
+      title: "Design Hero Accueil",
+      description: "Choisir l'image de fond, le produit mis en avant dans la bulle flottante et les textes du slider.",
+      href: "/admin/hero",
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+      ),
+      color: "#8b5cf6",
+      cta: "Personnaliser Hero",
+    },
+    {
+      title: "Codes Promo & Offres",
+      description: "Gérer les codes réduction (pourcentage, fixe ou livraison offerte) et opérations spéciales.",
+      href: "/admin/promos",
+      icon: (
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+        </svg>
+      ),
+      color: "#ec4899",
+      cta: "Gérer les promos",
     },
     {
       title: "Modération des avis",
-      description: "Valider les avis des acheteurs ou supprimer les spams pour les afficher sur la boutique.",
+      description: "Valider les avis des acheteurs vérifiés ou modérer les retours sur la boutique.",
       href: "/admin/reviews",
       icon: (
-        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
         </svg>
       ),
       color: "#d97706",
-      stats: [
-        { label: "Avis modérés", value: "En direct" },
-        { label: "Contrôle spam", value: "Actif" },
-      ],
       cta: "Modérer les avis",
-    },
-    {
-      title: "SEO Pages Principales 🎯",
-      description: "Optimiser les métadonnées Google (Title, Description, OpenGraph) pour l'accueil, la boutique, la tombola...",
-      href: "/admin/seo",
-      icon: (
-        <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-      ),
-      color: "#10b981",
-      stats: [
-        { label: "Pages gérées", value: "9" },
-        { label: "Aperçu SERP", value: "En direct" },
-      ],
-      cta: "Gérer le SEO",
     },
   ];
 
@@ -477,261 +469,264 @@ export default function AdminDashboard() {
 
       {activeTab === "dashboard" ? (
         <>
-          {/* KPI bar */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { label: "Produits totaux", value: "207", delta: "Catalogue MySQL" },
-              { label: "Commandes reçues", value: orders.length.toString(), delta: "Enregistrées en base" },
-              { label: "Retrait Atelier", value: orders.filter(o => o.shippingMethod === "pickup").length.toString(), delta: "À Comines" },
-              { label: "Points Relais / Colissimo", value: orders.filter(o => o.shippingMethod !== "pickup").length.toString(), delta: "Via Boxtal/Stripe" },
-            ].map((kpi) => (
-              <div key={kpi.label} className={`${cls.cardBg} border ${cls.border} rounded-2xl p-4 flex flex-col gap-1 transition-colors duration-300`}>
-                <span className={`text-[11px] ${cls.textFaint} uppercase tracking-widest font-semibold`}>{kpi.label}</span>
-                <span className={`text-2xl font-black ${cls.textMain}`}>{kpi.value}</span>
-                <span className={`text-[11px] ${cls.textFaint}`}>{kpi.delta}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* 4 Main Modules */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {modules.map((mod) => (
-              <div key={mod.href} className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 flex flex-col gap-5 transition-colors duration-300 hover:border-white/10`}>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0" style={{ background: `${mod.color}18`, color: mod.color }}>
-                    {mod.icon}
-                  </div>
-                  <div>
-                    <h2 className={`text-base font-bold ${cls.textMain} font-antonio uppercase tracking-wide leading-tight`}>{mod.title}</h2>
-                    <p className={`text-xs ${cls.textMuted} mt-1 leading-relaxed`}>{mod.description}</p>
-                  </div>
-                </div>
-
-                <div className={`grid gap-2 ${mod.stats.length === 2 ? "grid-cols-2" : "grid-cols-3"}`}>
-                  {mod.stats.map((s) => (
-                    <div key={s.label} className={`${cls.inputBg} rounded-xl p-3 flex flex-col gap-0.5 border ${cls.border} transition-colors duration-300`}>
-                      <span className={`text-lg font-black ${cls.textMain}`}>{s.value}</span>
-                      <span className={`text-[10px] ${cls.textFaint} leading-tight`}>{s.label}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <Link
-                  href={mod.href}
-                  className="mt-auto w-full py-2.5 rounded-xl text-center text-xs font-bold tracking-wider uppercase transition-all border"
-                  style={{ background: `${mod.color}15`, borderColor: `${mod.color}30`, color: mod.color }}
-                >
-                  {mod.cta} →
-                </Link>
-              </div>
-            ))}
-          </div>
-
-          {/* Orders Manager Table Section */}
-          <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 transition-colors duration-300`}>
-            <div className="flex items-center justify-between mb-6">
+          {/* SECTION 1: RÉCAPITULATIF DU TRAFIC & VISITES EN DIRECT */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
               <div>
-                <h3 className={`text-base font-bold ${cls.textMain} uppercase tracking-widest font-antonio`}>Gestion des Commandes</h3>
-                <p className={`text-xs ${cls.textMuted} mt-0.5`}>Mettez à jour le statut des impressions 3D et des livraisons en temps réel.</p>
+                <h2 className={`text-lg font-black ${cls.textMain} font-antonio uppercase tracking-wide flex items-center gap-2`}>
+                  <span>📊</span>
+                  <span>Récapitulatif du Trafic & Visites</span>
+                </h2>
+                <p className={`text-xs ${cls.textMuted}`}>Statistiques de fréquentation enregistrées en temps réel.</p>
               </div>
-              <div className="flex gap-2">
+              <button
+                onClick={fetchVisitsStats}
+                disabled={loadingStats}
+                className={`text-xs font-bold px-3.5 py-1.5 rounded-xl border border-white/10 ${cls.inputBg} hover:bg-white/10 ${cls.textMain} transition-all flex items-center gap-1.5 cursor-pointer shadow-sm`}
+              >
+                <span>🔄</span>
+                <span>{loadingStats ? "Mise à jour..." : "Actualiser"}</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {/* KPI 1: Live Active Users */}
+              <div className={`p-4 rounded-2xl ${cls.cardBg} border border-white/10 flex flex-col justify-between shadow-lg relative overflow-hidden`}>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-400">En Direct (5 min)</span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+                </div>
+                <span className="text-3xl font-black font-mono text-white my-1">{visitsStats?.liveActiveUsers || 0}</span>
+                <span className="text-[10px] text-emerald-400 font-bold">🟢 Utilisateur(s) connecté(s)</span>
+              </div>
+
+              {/* KPI 2: Today Visits */}
+              <div className={`p-4 rounded-2xl ${cls.cardBg} border border-white/10 flex flex-col justify-between shadow-lg`}>
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-400">Visites Aujourd'hui</span>
+                <span className="text-3xl font-black font-mono text-white my-1">{visitsStats?.todayVisits || 0}</span>
+                <span className="text-[10px] text-gray-400">{visitsStats?.uniqueToday || 0} visiteur(s) unique(s)</span>
+              </div>
+
+              {/* KPI 3: Week Visits */}
+              <div className={`p-4 rounded-2xl ${cls.cardBg} border border-white/10 flex flex-col justify-between shadow-lg`}>
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-400">Visites (7 derniers jours)</span>
+                <span className="text-3xl font-black font-mono text-white my-1">{visitsStats?.weekVisits || 0}</span>
+                <span className="text-[10px] text-gray-400">{visitsStats?.uniqueWeek || 0} uniques cette semaine</span>
+              </div>
+
+              {/* KPI 4: Top Product */}
+              <div className={`p-4 rounded-2xl ${cls.cardBg} border border-white/10 flex flex-col justify-between shadow-lg`}>
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-400">Produit #1 Consulté</span>
+                <span className="text-sm font-black text-white truncate my-1" title={visitsStats?.topProducts?.[0]?.name || "—"}>
+                  {visitsStats?.topProducts?.[0]?.name || "En attente de visites"}
+                </span>
+                <span className="text-[10px] text-gray-300 font-bold font-mono">
+                  {visitsStats?.topProducts?.[0]?.count || 0} vue(s) enregistrée(s)
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION 2: COMMANDES À TRAITER (À l'Atelier) */}
+          <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 transition-colors duration-300 space-y-4`}>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className={`text-lg font-black ${cls.textMain} uppercase tracking-widest font-antonio`}>
+                    ⚡ Commandes à Traiter à l'Atelier
+                  </h3>
+                  {(() => {
+                    const pending = orders.filter(o => o.status !== "expedie" && !(o as any).archived);
+                    return (
+                      <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-white/10 border border-white/20 text-white">
+                        {pending.length} en attente
+                      </span>
+                    );
+                  })()}
+                </div>
+                <p className={`text-xs ${cls.textMuted} mt-0.5`}>
+                  Commandes actives nécessitant une impression, un emballage ou une remise en main propre (hors clôturées/archivées).
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
                 <button
                   onClick={handleExportBoxtalCSV}
-                  className="text-xs px-3 py-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white cursor-pointer transition-all font-bold"
+                  className="text-xs px-3 py-2 rounded-xl border border-white/10 bg-white/5 text-gray-300 hover:text-white hover:bg-white/10 cursor-pointer transition-all font-bold"
                 >
                   Exporter pour Boxtal 📤
                 </button>
-                <button
-                  onClick={fetchOrders}
-                  className={`text-xs px-3 py-1.5 rounded-lg border ${cls.border} ${cls.inputBg} hover:text-white cursor-pointer transition-colors`}
+                <Link
+                  href="/admin/orders"
+                  className="text-xs px-3.5 py-2 rounded-xl border border-white/10 bg-white/5 text-gray-300 hover:text-white hover:bg-white/10 transition-all font-bold"
                 >
-                  Rafraîchir
-                </button>
+                  Historique complet →
+                </Link>
               </div>
             </div>
 
             {loadingOrders ? (
               <div className="py-12 text-center text-xs text-gray-500 font-bold uppercase tracking-widest font-sans">
-                Chargement des commandes...
+                Chargement des commandes à traiter...
               </div>
-            ) : orders.length === 0 ? (
-              <div className="py-12 text-center text-xs text-gray-500 font-sans">
-                Aucune commande enregistrée pour le moment.
-              </div>
-            ) : (
-              <div className="overflow-x-auto -mx-6 px-6">
-                <table className="w-full text-left border-collapse text-xs font-sans">
-                  <thead>
-                    <tr className={`border-b ${cls.border} text-gray-500 font-bold uppercase tracking-wider text-[10px]`}>
-                      <th className="py-3 pr-4">ID</th>
-                      <th className="py-3 px-4">Client</th>
-                      <th className="py-3 px-4">Articles</th>
-                      <th className="py-3 px-4">Mode Livraison</th>
-                      <th className="py-3 px-4">Total</th>
-                      <th className="py-3 px-4">Statut</th>
-                      <th className="py-3 pl-4 text-right">Actions rapides</th>
-                    </tr>
-                  </thead>
-                  <tbody className={`divide-y ${cls.divider}`}>
-                    {orders.map((o) => (
-                      <tr key={o.id} className="hover:bg-white/[0.02] transition-colors">
-                        <td className="py-4 pr-4 font-mono font-bold text-gray-300 select-all shrink-0">
-                          {o.id}
-                        </td>
-                        <td className="py-4 px-4 max-w-[220px]">
-                          <span className={`block font-bold ${cls.textMain}`}>{o.customerName || "—"}</span>
-                          <span className={`block text-[10px] ${cls.textFaint}`}>{o.email}</span>
-                          {o.customerPhone && (
-                            <span className={`block text-[10px] text-gray-400 mt-0.5 font-mono select-all`}>📞 {o.customerPhone}</span>
-                          )}
-                          {o.shippingAddress && (
-                            <span 
-                              className={`block text-[9px] text-gray-400 mt-1 bg-white/[0.03] border border-white/5 rounded-lg p-1.5 select-all whitespace-pre-line leading-relaxed max-w-[200px] font-sans`}
-                              title="Adresse de livraison"
-                            >
-                              📍 {o.shippingAddress}
-                            </span>
-                          )}
-                        </td>
-                        <td className="py-4 px-4 min-w-[220px]">
-                          <div className="space-y-1.5">
-                            {(o.items || []).slice(0, 3).map((item, idx) => {
-                              const { mainName, options } = parseItemName(item.name);
-                              const isDonation = mainName.toLowerCase().includes("don de soutien");
-                              const isTombola = mainName.toLowerCase().includes("tombola") || mainName.toLowerCase().includes("ticket");
-                              
-                              return (
-                                <div key={idx} className="flex flex-col gap-0.5">
-                                  <div className="flex items-center gap-1.5">
-                                    <span className={`inline-flex items-center justify-center font-mono font-black text-[10px] px-1.5 py-0.5 rounded-md shrink-0 ${
-                                      isDonation 
-                                        ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
-                                        : isTombola
-                                        ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-                                        : "bg-[#ff4f00]/15 text-[#ff4f00] border border-[#ff4f00]/25"
-                                    }`}>
-                                      x{item.quantity}
-                                    </span>
-                                    <span className="font-bold text-gray-100 text-xs truncate max-w-[180px]" title={mainName}>
-                                      {isDonation && "❤️ "}
-                                      {isTombola && "🎟️ "}
-                                      {mainName}
-                                    </span>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                            {o.items && o.items.length > 3 && (
-                              <div className="text-[#ff4f00] font-bold text-[10px] mt-1 pl-1">
-                                + {o.items.length - 3} autre(s)...
-                              </div>
-                            )}
-                          </div>
-                        </td>
-                        <td className="py-4 px-4">
-                          <span className={`block font-bold ${cls.textMain}`}>
-                            {o.shippingMethod === "pickup" ? "Retrait Atelier" : (o.shippingMethod === "relay" ? "Point Relais" : "Colissimo Domicile")}
-                          </span>
-                          {o.relayDetails && (
-                            <span className={`block text-[10px] ${cls.textFaint} truncate max-w-[150px]`} title={o.relayDetails.name}>
-                              {o.relayDetails.name}
-                            </span>
-                          )}
-                          {o.shippingMethod !== "pickup" && (
-                            <div className="flex gap-2 mt-1 select-none">
-                              <a
-                                href={`https://dashboard.stripe.com/search?query=${o.stripeSession}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[9px] text-[#ff4f00] hover:text-[#ff6a22] transition-colors font-bold uppercase"
-                              >
-                                Stripe 💳
-                              </a>
-                              <span className="text-gray-700 text-[9px] select-none">|</span>
-                              <a
-                                href="https://www.boxtal.com/fr/fr/espace-client/envois/a-preparer"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-[9px] text-blue-400 hover:text-blue-300 transition-colors font-bold uppercase"
-                              >
-                                Boxtal 📦
-                              </a>
-                            </div>
-                          )}
-                        </td>
-                        <td className={`py-4 px-4 font-bold ${cls.textMain}`}>
-                          {o.total.toFixed(2)}€
-                        </td>
-                        <td className="py-4 px-4">
-                          <span className={`inline-flex px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${
-                            o.status === "attente_impression" ? "bg-orange-500/10 text-orange-400" :
-                            o.status === "impression" ? "bg-blue-500/10 text-blue-400 animate-pulse" :
-                            o.status === "emballe" ? "bg-purple-500/10 text-purple-400" :
-                            "bg-emerald-500/10 text-emerald-400"
-                          }`}>
-                            {getStatusLabel(o.status)}
-                          </span>
-                        </td>
-                        <td className="py-4 pl-4 text-right">
-                          <div className="flex justify-end gap-1.5 items-center">
-                            <button
-                              onClick={() => handleRequestReview(o)}
-                              disabled={requestReviewLoading === o.id}
-                              className={`px-2 py-1.5 rounded-lg font-bold text-[10px] transition-colors cursor-pointer border ${
-                                (o as any).reviewRequestedAt
-                                  ? "bg-purple-500/20 text-purple-300 border-purple-500/40"
-                                  : "bg-amber-500/10 text-amber-300 border-amber-500/30 hover:bg-amber-500/20"
-                              }`}
-                              title={(o as any).reviewRequestedAt ? "Relance d'avis déjà envoyée le " + new Date((o as any).reviewRequestedAt).toLocaleDateString("fr-FR") : "Envoyer un e-mail de relance d'avis client (Google + Site)"}
-                            >
-                              {requestReviewLoading === o.id
-                                ? "Envoi..."
-                                : (o as any).reviewRequestedAt
-                                ? "Avis Relancé ✓"
-                                : "Relancer Avis ⭐️"}
-                            </button>
-                            {o.status === "attente_impression" && (
-                              <button
-                                onClick={() => handleUpdateStatus(o.id, "impression")}
-                                disabled={statusChangeLoading === o.id}
-                                className="px-2.5 py-1.5 rounded-lg bg-blue-500 hover:bg-blue-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
-                              >
-                                Lancer Impression 🛠️
-                              </button>
-                            )}
-                            {o.status === "impression" && (
-                              <button
-                                onClick={() => handleUpdateStatus(o.id, "emballe")}
-                                disabled={statusChangeLoading === o.id}
-                                className="px-2.5 py-1.5 rounded-lg bg-purple-500 hover:bg-purple-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
-                              >
-                                Emballer 📦
-                              </button>
-                            )}
-                            {o.status === "emballe" && (
-                              <button
-                                onClick={() => handleUpdateStatus(o.id, "expedie")}
-                                disabled={statusChangeLoading === o.id}
-                                className="px-2.5 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-[10px] transition-colors cursor-pointer"
-                              >
-                                {o.shippingMethod === "pickup" ? "Prêt au Retrait ✓" : "Expédier 🚚"}
-                              </button>
-                            )}
-                            {o.status === "expedie" && (
-                              <span className={`text-[10px] ${cls.textFaint} italic`}>Clôturée</span>
-                            )}
-                          </div>
-                        </td>
+            ) : (() => {
+              const pendingOrders = orders.filter(o => o.status !== "expedie" && !(o as any).archived);
+              
+              if (pendingOrders.length === 0) {
+                return (
+                  <div className="py-10 text-center rounded-2xl bg-white/[0.03] border border-white/10 text-emerald-400 space-y-1">
+                    <span className="text-xl block">🎉</span>
+                    <span className="text-xs font-bold uppercase tracking-wider block">Toutes les commandes sont traitées !</span>
+                    <span className="text-[11px] text-gray-400 block">Aucune commande en attente d'impression ou d'emballage pour le moment.</span>
+                  </div>
+                );
+              }
+
+              return (
+                <div className="overflow-x-auto -mx-6 px-6">
+                  <table className="w-full text-left border-collapse text-xs font-sans">
+                    <thead>
+                      <tr className={`border-b ${cls.border} text-gray-500 font-bold uppercase tracking-wider text-[10px]`}>
+                        <th className="py-3 pr-4">ID</th>
+                        <th className="py-3 px-4">Client</th>
+                        <th className="py-3 px-4">Articles</th>
+                        <th className="py-3 px-4">Mode / Packaging</th>
+                        <th className="py-3 px-4">Total</th>
+                        <th className="py-3 px-4">Statut</th>
+                        <th className="py-3 pl-4 text-right">Action rapide</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+                    </thead>
+                    <tbody className={`divide-y ${cls.divider}`}>
+                      {pendingOrders.map((o) => {
+                        const pkg = recommendPackaging(o.items, o.shippingMethod);
+
+                        return (
+                          <tr key={o.id} className="hover:bg-white/[0.02] transition-colors">
+                            <td className="py-4 pr-4 font-mono font-bold text-gray-300 select-all shrink-0">
+                              {o.id}
+                            </td>
+                            <td className="py-4 px-4 max-w-[200px]">
+                              <span className={`block font-bold ${cls.textMain}`}>{o.customerName || "—"}</span>
+                              <span className={`block text-[10px] ${cls.textFaint}`}>{o.email}</span>
+                            </td>
+                            <td className="py-4 px-4 min-w-[220px]">
+                              <div className="space-y-1.5">
+                                {(o.items || []).slice(0, 3).map((item, idx) => {
+                                  const { mainName } = parseItemName(item.name);
+                                  return (
+                                    <div key={idx} className="flex items-center gap-1.5">
+                                      <span className="inline-flex items-center justify-center font-mono font-black text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-white border border-white/20 shrink-0">
+                                        x{item.quantity}
+                                      </span>
+                                      <span className="font-bold text-gray-100 text-xs truncate max-w-[180px]" title={mainName}>
+                                        {mainName}
+                                      </span>
+                                    </div>
+                                  );
+                                })}
+                                {o.items && o.items.length > 3 && (
+                                  <div className="text-gray-400 font-bold text-[10px] mt-1 pl-1">
+                                    + {o.items.length - 3} autre(s)...
+                                  </div>
+                                )}
+                              </div>
+                            </td>
+                            <td className="py-4 px-4">
+                              <div className="space-y-1">
+                                <span className={`block font-bold ${cls.textMain}`}>
+                                  {o.shippingMethod === "pickup" ? "Retrait Atelier 📅" : (o.shippingMethod === "relay" ? "Point Relais 📦" : "Colissimo Domicile 🚚")}
+                                </span>
+                                <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border ${pkg.bgClass} ${pkg.borderClass} ${pkg.textClass}`}>
+                                  {pkg.badgeTitle}
+                                </span>
+                              </div>
+                            </td>
+                            <td className={`py-4 px-4 font-bold ${cls.textMain} font-mono`}>
+                              {o.total.toFixed(2)}€
+                            </td>
+                            <td className="py-4 px-4">
+                              <span className={`inline-flex px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${
+                                o.status === "attente_impression" ? "bg-orange-500/10 text-orange-400 border border-orange-500/20" :
+                                o.status === "impression" ? "bg-blue-500/10 text-blue-400 border border-blue-500/20 animate-pulse" :
+                                o.status === "emballe" ? "bg-purple-500/10 text-purple-400 border border-purple-500/20" :
+                                "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                              }`}>
+                                {getStatusLabel(o.status)}
+                              </span>
+                            </td>
+                            <td className="py-4 pl-4 text-right">
+                              <div className="flex justify-end gap-1.5 items-center">
+                                {o.status === "attente_impression" && (
+                                  <button
+                                    onClick={() => handleUpdateStatus(o.id, "impression")}
+                                    disabled={statusChangeLoading === o.id}
+                                    className="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-[11px] transition-colors cursor-pointer shadow"
+                                  >
+                                    Lancer Impression 🛠️
+                                  </button>
+                                )}
+                                {o.status === "impression" && (
+                                  <button
+                                    onClick={() => handleUpdateStatus(o.id, "emballe")}
+                                    disabled={statusChangeLoading === o.id}
+                                    className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-[11px] transition-colors cursor-pointer shadow"
+                                  >
+                                    Emballer 📦
+                                  </button>
+                                )}
+                                {o.status === "emballe" && (
+                                  <button
+                                    onClick={() => handleUpdateStatus(o.id, "expedie")}
+                                    disabled={statusChangeLoading === o.id}
+                                    className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] transition-colors cursor-pointer shadow"
+                                  >
+                                    {o.shippingMethod === "pickup" ? "Prêt au Retrait ✓" : "Expédier 🚚"}
+                                  </button>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              );
+            })()}
+          </div>
+
+          {/* SECTION 3: RACCOURCIS MODULES (Monochrome Clean Cards) */}
+          <div className="space-y-4">
+            <h2 className={`text-lg font-black ${cls.textMain} font-antonio uppercase tracking-wide flex items-center gap-2`}>
+              <span>⚙️</span>
+              <span>Raccourcis de Gestion Spoolio</span>
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {modules.map((mod) => (
+                <div key={mod.href} className={`${cls.cardBg} border border-white/10 hover:border-white/25 rounded-3xl p-5 flex flex-col justify-between gap-4 transition-all duration-300 shadow-md`}>
+                  <div className="flex items-start gap-3.5">
+                    <div className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 text-white flex items-center justify-center shrink-0">
+                      {mod.icon}
+                    </div>
+                    <div>
+                      <h3 className={`text-base font-bold ${cls.textMain} font-antonio uppercase tracking-wide leading-tight`}>{mod.title}</h3>
+                      <p className={`text-xs ${cls.textMuted} mt-1 leading-relaxed`}>{mod.description}</p>
+                    </div>
+                  </div>
+
+                  <Link
+                    href={mod.href}
+                    className="w-full py-2.5 rounded-xl text-center text-xs font-bold font-mono tracking-wider uppercase transition-all bg-white/5 hover:bg-white/10 text-white border border-white/10 mt-2"
+                  >
+                    {mod.cta} →
+                  </Link>
+                </div>
+              ))}
+            </div>
           </div>
         </>
-      ) : activeTab === "stats" ? (
-        <div className="space-y-6">
+      ) : activeTab === "stats" ? (      <div className="space-y-6">
           {/* Header & Refresh */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
             <div>
