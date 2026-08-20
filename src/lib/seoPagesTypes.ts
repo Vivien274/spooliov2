@@ -69,5 +69,12 @@ export const DEFAULT_PAGES_SEO: Record<string, PageSeoConfig> = {
     keywords: "faq spoolio, livraison mondial relay, materiau pla",
     ogImage: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
     noIndex: false
+  },
+  "jeux-de-societe": {
+    title: "Jeux de Société & App Enjeu 🎲 | Accessoires 3D & Soirées Jeux Spoolio",
+    description: "Boostez vos soirées jeux de société avec nos accessoires 3D (tours à dés, pinces à cartes, compteurs) et découvrez Enjeu, l'application compagnon gratuite de calcul de score et paris amicaux.",
+    keywords: "jeux de societe, accessoires jeux 3d, tour a de 3d, porte cartes, enjeu app, calcul score jeux de societe, spoolio",
+    ogImage: "/images/enjeu/1.png",
+    noIndex: false
   }
 };

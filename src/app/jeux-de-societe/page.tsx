@@ -49,8 +49,42 @@ export default async function JeuxDeSocietePage() {
     console.error("Error fetching board game accessories:", e);
   }
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "https://spoolio.fr/jeux-de-societe#webpage",
+        "url": "https://spoolio.fr/jeux-de-societe",
+        "name": "Jeux de Société & App Enjeu 🎲 | Accessoires 3D & Soirées Jeux Spoolio",
+        "description": "Boostez vos soirées jeux de société avec nos accessoires 3D (tours à dés, pinces à cartes, compteurs) et découvrez Enjeu, l'application compagnon gratuite de calcul de score et paris amicaux.",
+        "publisher": {
+          "@type": "Organization",
+          "name": "Spoolio",
+          "url": "https://spoolio.fr"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Enjeu",
+        "operatingSystem": "Android",
+        "applicationCategory": "GameApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        },
+        "description": "L'application compagnon 100% gratuite et sans pub pour les jeux de société : calculs de scores simplifiés, statistiques individuelles et paris amicaux."
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-[#070709] text-white flex flex-col selection:bg-[#ff4f00] selection:text-white font-sans overflow-x-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Header />
       <main className="flex-1 w-full pt-24 sm:pt-28 pb-16">
         <JeuxDeSocieteClient initialProducts={gameProducts} />
