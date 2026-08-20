@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -27,6 +27,14 @@ import {
   Send,
   Zap,
 } from "lucide-react";
+
+const POLL_KEY = "spoolio_boardgame_poll_voted_option";
+const INITIAL_VOTES: Record<number, number> = {
+  1: 142, // Dés qui tombent
+  2: 189, // Feuilles de score volantes
+  3: 98,  // Cartes en main
+  4: 124, // Paris & historique
+};
 
 interface Product {
   id: number;
@@ -60,6 +68,70 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
   const [activeProfile, setActiveProfile] = useState<"apero" | "famille" | "expert">("apero");
   const [justAddedId, setJustAddedId] = useState<number | null>(null);
   const [hoveredCardId, setHoveredCardId] = useState<number | null>(null);
+
+  // Poll State & Effects
+  const [votedOption, setVotedOption] = useState<number | null>(null);
+  const [votes, setVotes] = useState<Record<number, number>>(INITIAL_VOTES);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem(POLL_KEY);
+      if (saved) {
+        setVotedOption(parseInt(saved, 10));
+      }
+    }
+
+    async function fetchVotes() {
+      try {
+        const res = await fetch("/api/poll/boardgames");
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data[1]) {
+            setVotes({
+              1: data[1],
+              2: data[2],
+              3: data[3],
+              4: data[4],
+            });
+          }
+        }
+      } catch (e) {}
+    }
+    fetchVotes();
+  }, []);
+
+  const handleVote = async (optionId: number) => {
+    if (votedOption !== null) return;
+
+    const updatedVotes = { ...votes, [optionId]: (votes[optionId] || 0) + 1 };
+    setVotes(updatedVotes);
+    setVotedOption(optionId);
+
+    try {
+      localStorage.setItem(POLL_KEY, optionId.toString());
+    } catch (e) {}
+
+    try {
+      const res = await fetch("/api/poll/boardgames", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ optionId }),
+      });
+      if (res.ok) {
+        const result = await res.json();
+        if (result.data) {
+          setVotes({
+            1: result.data[1],
+            2: result.data[2],
+            3: result.data[3],
+            4: result.data[4],
+          });
+        }
+      }
+    } catch (err) {
+      console.error("Poll vote error:", err);
+    }
+  };
 
   // Email Early Access state
   const [emailInput, setEmailInput] = useState<string>("");
@@ -315,80 +387,6 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
 
         {/* Poll Component with Live Results & Local Storage */}
         {(() => {
-          // Poll state
-          const POLL_KEY = "spoolio_boardgame_poll_voted_option";
-          const INITIAL_VOTES: Record<number, number> = {
-            1: 142, // Dés qui tombent
-            2: 189, // Feuilles de score volantes
-            3: 98,  // Cartes en main
-            4: 124, // Paris & historique
-          };
-
-          const [votedOption, setVotedOption] = useState<number | null>(() => {
-            if (typeof window !== "undefined") {
-              const saved = localStorage.getItem(POLL_KEY);
-              return saved ? parseInt(saved, 10) : null;
-            }
-            return null;
-          });
-
-          const [votes, setVotes] = useState<Record<number, number>>(INITIAL_VOTES);
-
-          // Fetch real server votes on mount
-          useEffect(() => {
-            async function fetchVotes() {
-              try {
-                const res = await fetch("/api/poll/boardgames");
-                if (res.ok) {
-                  const data = await res.json();
-                  if (data && data[1]) {
-                    setVotes({
-                      1: data[1],
-                      2: data[2],
-                      3: data[3],
-                      4: data[4],
-                    });
-                  }
-                }
-              } catch (e) {}
-            }
-            fetchVotes();
-          }, []);
-
-          const handleVote = async (optionId: number) => {
-            if (votedOption !== null) return; // Already voted
-
-            const updatedVotes = { ...votes, [optionId]: (votes[optionId] || 0) + 1 };
-            setVotes(updatedVotes);
-            setVotedOption(optionId);
-
-            try {
-              localStorage.setItem(POLL_KEY, optionId.toString());
-            } catch (e) {}
-
-            // Send live vote to server API
-            try {
-              const res = await fetch("/api/poll/boardgames", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ optionId }),
-              });
-              if (res.ok) {
-                const result = await res.json();
-                if (result.data) {
-                  setVotes({
-                    1: result.data[1],
-                    2: result.data[2],
-                    3: result.data[3],
-                    4: result.data[4],
-                  });
-                }
-              }
-            } catch (err) {
-              console.error("Poll vote error:", err);
-            }
-          };
-
           const totalVotes = Object.values(votes).reduce((a, b) => a + b, 0);
 
           const options = [
