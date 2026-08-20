@@ -330,6 +330,25 @@ export default function AdminClickersPage() {
     }
   };
 
+  const saveGalleryData = async (newGallery: GalleryItem[]) => {
+    setGalleryItems(newGallery);
+    try {
+      const res = await fetch("/api/admin/clicker-gallery", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newGallery),
+      });
+      if (res.ok) {
+        setSavedMessage(true);
+        setTimeout(() => setSavedMessage(false), 3000);
+      } else {
+        alert("⚠️ Erreur lors de la sauvegarde de la galerie sur le serveur.");
+      }
+    } catch (e) {
+      console.error("Error saving clicker gallery:", e);
+    }
+  };
+
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
@@ -355,17 +374,8 @@ export default function AdminClickersPage() {
     }
 
     if (newItems.length > 0) {
-      setGalleryItems((prev) => {
-        const updated = [...newItems, ...prev];
-        fetch("/api/admin/clicker-gallery", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(updated),
-        });
-        return updated;
-      });
-      setSavedMessage(true);
-      setTimeout(() => setSavedMessage(false), 3000);
+      const updated = [...newItems, ...galleryItems];
+      await saveGalleryData(updated);
     }
 
     setIsUploading(false);
@@ -387,41 +397,24 @@ export default function AdminClickersPage() {
     saveFullConfig({ icons: updated });
   };
 
-  const handleAddPhoto = () => {
-    if (!newPhotoUrl.trim() || !newPhotoTitle.trim()) return;
+  const handleAddPhoto = async () => {
+    if (!newPhotoUrl.trim()) return;
     const newItem: GalleryItem = {
       id: Date.now(),
       src: newPhotoUrl.trim(),
-      title: newPhotoTitle.trim(),
-      caption: newPhotoCaption.trim() || "Création personnalisée sur-mesure Spoolio 3D",
+      title: newPhotoTitle.trim() || "Création Clicker Spoolio 3D",
+      caption: newPhotoCaption.trim() || "Réalisation personnalisée sur-mesure imprimée en 3D",
     };
     const updated = [newItem, ...galleryItems];
-    setGalleryItems(updated);
     setNewPhotoUrl("");
     setNewPhotoTitle("");
     setNewPhotoCaption("");
-
-    fetch("/api/admin/clicker-gallery", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updated),
-    });
-
-    setSavedMessage(true);
-    setTimeout(() => setSavedMessage(false), 3000);
+    await saveGalleryData(updated);
   };
 
-  const handleDeletePhoto = (id: number) => {
+  const handleDeletePhoto = async (id: number) => {
     const updated = galleryItems.filter((item) => item.id !== id);
-    setGalleryItems(updated);
-    fetch("/api/admin/clicker-gallery", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updated),
-    });
-
-    setSavedMessage(true);
-    setTimeout(() => setSavedMessage(false), 3000);
+    await saveGalleryData(updated);
   };
 
   return (
@@ -1017,7 +1010,7 @@ export default function AdminClickersPage() {
             <button
               type="button"
               onClick={handleAddPhoto}
-              disabled={!newPhotoUrl.trim() || !newPhotoTitle.trim()}
+              disabled={!newPhotoUrl.trim()}
               className="px-4 py-2.5 rounded-xl bg-[#2F3CD9] hover:bg-[#202bb8] disabled:opacity-50 text-white text-xs font-bold transition-colors cursor-pointer"
             >
               Ajouter à la Galerie

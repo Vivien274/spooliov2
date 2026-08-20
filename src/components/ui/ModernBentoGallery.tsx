@@ -43,10 +43,6 @@ export default function ModernBentoGallery({
             {subtitle}
           </p>
         </div>
-
-        <div className="text-xs font-mono text-neutral-400 bg-neutral-900 border border-neutral-800 px-3.5 py-2 rounded-xl shrink-0">
-          {items.length} {items.length > 1 ? "modèles exposés" : "modèle exposé"}
-        </div>
       </div>
 
       {/* Modern Bento Cards Grid */}
