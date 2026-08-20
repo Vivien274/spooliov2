@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAdminTheme } from "../AdminThemeContext";
 import { getItemProductUrl, parseItemName, printOrderPackingSlip } from "@/lib/orderUtils";
+import { recommendPackaging } from "@/lib/packagingUtils";
 import OrderItemOptionsViewer from "@/components/OrderItemOptionsViewer";
 import ProductionColorBatcher from "@/components/ProductionColorBatcher";
 
@@ -933,25 +934,41 @@ export default function AdminOrdersPage() {
                           </span>
                         ) : (
                           <>
-                            <span className={`block font-semibold ${cls.textMain}`}>
-                              {o.shippingMethod === "pickup" ? "Retrait Atelier 📅" : (o.shippingMethod === "relay" ? "Mondial Relay 📦" : "Colissimo Domicile 🚚")}
-                            </span>
-                            {o.relayDetails && (
-                              <span className={`block text-[10px] ${cls.textFaint}`}>
-                                {o.relayDetails.name} ({o.relayDetails.zip})
-                              </span>
-                            )}
-                            {o.shippingMethod === "pickup" && (
-                              <div className="mt-1">
-                                <span className={`block text-[10px] font-bold ${
-                                  o.pickupStatus === "confirmed" ? "text-emerald-400" :
-                                  o.pickupStatus === "proposed" ? "text-yellow-400" :
-                                  "text-orange-400"
-                                }`}>
-                                  Créneau : {formatPickupSlot(o.pickupSlotConfirmed || o.pickupSlotRequested)}
-                                </span>
-                              </div>
-                            )}
+                            {(() => {
+                              const pkg = recommendPackaging(o.items, o.shippingMethod);
+                              return (
+                                <div className="space-y-1">
+                                  <span className={`block font-semibold ${cls.textMain}`}>
+                                    {o.shippingMethod === "pickup" ? "Retrait Atelier 📅" : (o.shippingMethod === "relay" ? "Mondial Relay 📦" : "Colissimo Domicile 🚚")}
+                                  </span>
+                                  {o.relayDetails && (
+                                    <span className={`block text-[10px] ${cls.textFaint}`}>
+                                      {o.relayDetails.name} ({o.relayDetails.zip})
+                                    </span>
+                                  )}
+                                  {/* Recommended Packaging Badge */}
+                                  <div className="pt-0.5">
+                                    <span
+                                      className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border ${pkg.bgClass} ${pkg.borderClass} ${pkg.textClass}`}
+                                      title={pkg.description}
+                                    >
+                                      <span>{pkg.badgeTitle}</span>
+                                    </span>
+                                  </div>
+                                  {o.shippingMethod === "pickup" && (
+                                    <div className="mt-0.5">
+                                      <span className={`block text-[10px] font-bold ${
+                                        o.pickupStatus === "confirmed" ? "text-emerald-400" :
+                                        o.pickupStatus === "proposed" ? "text-yellow-400" :
+                                        "text-orange-400"
+                                      }`}>
+                                        Créneau : {formatPickupSlot(o.pickupSlotConfirmed || o.pickupSlotRequested)}
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })()}
                           </>
                         )}
                       </td>
@@ -1088,6 +1105,26 @@ export default function AdminOrdersPage() {
                   <span>👤</span>
                   <span>Informations Client & Expédition</span>
                 </div>
+
+                {/* Recommended Packaging Banner */}
+                {(() => {
+                  const pkg = recommendPackaging(selectedOrder.items, selectedOrder.shippingMethod);
+                  return (
+                    <div className={`p-3.5 rounded-2xl border ${pkg.bgClass} ${pkg.borderClass} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3`}>
+                      <div className="flex items-center gap-3">
+                        <div className="text-2xl shrink-0">{pkg.icon}</div>
+                        <div>
+                          <span className="text-[10px] uppercase font-mono font-bold text-gray-400 block">Recommandation Packaging Atelier</span>
+                          <div className={`text-xs font-black uppercase ${pkg.textClass}`}>{pkg.label}</div>
+                          <span className="text-[11px] text-gray-300 block leading-snug">{pkg.description}</span>
+                        </div>
+                      </div>
+                      <div className={`text-xs font-mono font-extrabold px-3 py-1 rounded-xl border ${pkg.borderClass} ${pkg.textClass} bg-black/40 shrink-0`}>
+                        {pkg.dimensions}
+                      </div>
+                    </div>
+                  );
+                })()}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {/* Left: Customer Info */}
