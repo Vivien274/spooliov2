@@ -647,6 +647,44 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
               </div>
             );
           })}
+
+          {/* =========================================================
+              CUSTOM IDEA TILE: "UNE IDÉE ? PROPOSE-LA !"
+             ========================================================= */}
+          <div className="group relative aspect-square w-full rounded-[28px] bg-gradient-to-br from-[#1c182d] via-[#120f20] to-[#0a0812] border-2 border-dashed border-[#ff4f00]/40 hover:border-[#ff4f00] p-6 flex flex-col justify-between overflow-hidden transition-all duration-300 shadow-xl hover:shadow-[#ff4f00]/20 hover:scale-[1.02]">
+            {/* Ambient Decorative Glow */}
+            <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#ff4f00]/20 rounded-full blur-2xl pointer-events-none group-hover:bg-[#ff4f00]/35 transition-all duration-500" />
+            
+            {/* Top Badge & Icon */}
+            <div className="flex items-center justify-between z-10">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff4f00]/15 border border-[#ff4f00]/30 text-[#ff4f00] text-[11px] font-mono font-bold uppercase tracking-wider">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Sur-Mesure</span>
+              </span>
+              <span className="text-2xl group-hover:scale-125 transition-transform duration-300">💡</span>
+            </div>
+
+            {/* Center Content */}
+            <div className="space-y-2 z-10 my-auto">
+              <h3 className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight font-antonio leading-tight group-hover:text-[#ff4f00] transition-colors">
+                Une idée ? Propose-la !
+              </h3>
+              <p className="text-xs text-gray-300 leading-relaxed font-sans line-clamp-3">
+                Tu cherches un accessoire 3D spécifique pour ton jeu préféré (tour, pince, compteur...) ? On le conçoit pour toi !
+              </p>
+            </div>
+
+            {/* Bottom Link Button */}
+            <div className="z-10 pt-2">
+              <Link
+                href="/contact"
+                className="w-full py-3 px-4 rounded-full bg-[#ff4f00] hover:bg-[#e04500] text-white text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-95"
+              >
+                <span>Proposer mon idée 🚀</span>
+                <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
