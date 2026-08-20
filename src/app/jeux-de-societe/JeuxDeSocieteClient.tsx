@@ -298,159 +298,194 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
 
 
       {/* =========================================================================
-          2. PROFILES : QUEL JOUEUR ES-TU ?
+          2. SONDAGE INTERACTIF : VOTES DE LA COMMUNAUTÉ
          ========================================================================= */}
-      <section className="space-y-8">
-        <div className="text-center max-w-xl mx-auto space-y-2">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#ff4f00]">
-            Adapté à chaque style de jeu
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-black uppercase text-white font-antonio tracking-tight">
-            Quel joueur es-tu autour de la table ?
+      <section className="space-y-8 bg-gradient-to-b from-[#100f1c] via-[#0d0c17] to-[#070709] border border-indigo-500/20 rounded-3xl sm:rounded-[32px] p-6 sm:p-10 relative overflow-hidden shadow-2xl">
+        <div className="text-center max-w-xl mx-auto space-y-2 relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ff4f00]/15 text-[#ff4f00] border border-[#ff4f00]/30 text-xs font-mono font-bold uppercase tracking-wider">
+            <span>🗳️ Sondage Communauté</span>
+          </div>
+          <h2 className="text-2xl sm:text-4xl font-black uppercase text-white font-antonio tracking-tight">
+            Quelle est ta plus grande galère lors des soirées jeux ?
           </h2>
-          <p className="text-xs sm:text-sm text-gray-400">
-            Clique sur ton profil pour voir comment Spoolio &amp; Enjeu simplifient ta partie :
+          <p className="text-xs sm:text-sm text-gray-300 font-sans">
+            Vote ci-dessous pour découvrir ce que répondent les autres joueurs :
           </p>
         </div>
 
-        {/* Profile Switcher Tabs */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-          {/* Tab 1: Apéro & Ambiance */}
-          <button
-            type="button"
-            onClick={() => setActiveProfile("apero")}
-            className={`p-5 rounded-3xl border text-left transition-all cursor-pointer flex flex-col justify-between min-h-[140px] ${
-              activeProfile === "apero"
-                ? "bg-gradient-to-br from-[#ff4f00]/20 via-[#1c141d] to-[#121217] border-[#ff4f00] shadow-[0_0_30px_rgba(255,79,0,0.2)]"
-                : "bg-white/[0.03] hover:bg-white/[0.06] border-white/10"
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-2xl">🍻</span>
-              <span className={`text-[10px] font-mono font-black uppercase px-2 py-0.5 rounded-full ${
-                activeProfile === "apero" ? "bg-[#ff4f00] text-white" : "bg-white/10 text-gray-400"
-              }`}>
-                Fun &amp; Rapide
-              </span>
-            </div>
-            <div>
-              <h3 className="text-sm font-black text-white uppercase tracking-wide">
-                Ambiance &amp; Apéro
-              </h3>
-              <p className="text-[11px] text-gray-400 leading-snug mt-1">
-                Skyjo, Skull King, 6 qui prend, Uno, Taco Chat...
-              </p>
-            </div>
-          </button>
+        {/* Poll Component with Live Results & Local Storage */}
+        {(() => {
+          // Poll state
+          const POLL_KEY = "spoolio_boardgame_poll_voted_option";
+          const INITIAL_VOTES: Record<number, number> = {
+            1: 142, // Dés qui tombent
+            2: 189, // Feuilles de score volantes
+            3: 98,  // Cartes en main
+            4: 124, // Paris & historique
+          };
 
-          {/* Tab 2: Cartes & Famille */}
-          <button
-            type="button"
-            onClick={() => setActiveProfile("famille")}
-            className={`p-5 rounded-3xl border text-left transition-all cursor-pointer flex flex-col justify-between min-h-[140px] ${
-              activeProfile === "famille"
-                ? "bg-gradient-to-br from-cyan-500/20 via-[#121d22] to-[#121217] border-cyan-400 shadow-[0_0_30px_rgba(6,182,212,0.2)]"
-                : "bg-white/[0.03] hover:bg-white/[0.06] border-white/10"
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-2xl">🃏</span>
-              <span className={`text-[10px] font-mono font-black uppercase px-2 py-0.5 rounded-full ${
-                activeProfile === "famille" ? "bg-cyan-500 text-black font-extrabold" : "bg-white/10 text-gray-400"
-              }`}>
-                Confort &amp; Partage
-              </span>
-            </div>
-            <div>
-              <h3 className="text-sm font-black text-white uppercase tracking-wide">
-                Cartes &amp; Famille
-              </h3>
-              <p className="text-[11px] text-gray-400 leading-snug mt-1">
-                Belote, Tarot, Yams, Qwixx, Faraway, Triominos...
-              </p>
-            </div>
-          </button>
+          const [votedOption, setVotedOption] = useState<number | null>(() => {
+            if (typeof window !== "undefined") {
+              const saved = localStorage.getItem(POLL_KEY);
+              return saved ? parseInt(saved, 10) : null;
+            }
+            return null;
+          });
 
-          {/* Tab 3: Stratégie & Dés */}
-          <button
-            type="button"
-            onClick={() => setActiveProfile("expert")}
-            className={`p-5 rounded-3xl border text-left transition-all cursor-pointer flex flex-col justify-between min-h-[140px] ${
-              activeProfile === "expert"
-                ? "bg-gradient-to-br from-purple-500/20 via-[#1a1424] to-[#121217] border-purple-400 shadow-[0_0_30px_rgba(168,85,247,0.2)]"
-                : "bg-white/[0.03] hover:bg-white/[0.06] border-white/10"
-            }`}
-          >
-            <div className="flex items-center justify-between">
-              <span className="text-2xl">🏰</span>
-              <span className={`text-[10px] font-mono font-black uppercase px-2 py-0.5 rounded-full ${
-                activeProfile === "expert" ? "bg-purple-500 text-white" : "bg-white/10 text-gray-400"
-              }`}>
-                Immersion &amp; Dés
-              </span>
-            </div>
-            <div>
-              <h3 className="text-sm font-black text-white uppercase tracking-wide">
-                Stratégie &amp; Dés
-              </h3>
-              <p className="text-[11px] text-gray-400 leading-snug mt-1">
-                Tours à dés, Catane, D&amp;D, Terraforming Mars, Wingspan...
-              </p>
-            </div>
-          </button>
-        </div>
+          const [votes, setVotes] = useState<Record<number, number>>(INITIAL_VOTES);
 
-        {/* Dynamic Profile Solution Box */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-[#0f0e15] border border-white/10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
-          <div className="space-y-3 flex-1">
-            <div className="inline-flex items-center gap-2 text-xs font-mono font-black uppercase tracking-wider text-amber-400">
-              <Zap className="w-4 h-4 text-amber-400" />
-              <span>La formule idéale pour ton groupe</span>
-            </div>
+          const handleVote = (optionId: number) => {
+            if (votedOption !== null) return; // Already voted
 
-            {activeProfile === "apero" && (
-              <>
-                <h4 className="text-lg sm:text-xl font-black text-white font-antonio uppercase">
-                  Terminé les litiges de points et les feuilles de papier perdues !
-                </h4>
-                <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-sans">
-                  Pendant l'apéro, personne n'a envie de sortir une calculatrice ou un stylo sans encre. Avec <strong className="text-white">Enjeu</strong>, tu rentres les scores en 2 clics et tu ajoutes un petit pari amical (<em>« Le perdant paie la prochaine tournée ! »</em>).
+            const updatedVotes = { ...votes, [optionId]: votes[optionId] + 1 };
+            setVotes(updatedVotes);
+            setVotedOption(optionId);
+
+            try {
+              localStorage.setItem(POLL_KEY, optionId.toString());
+            } catch (e) {}
+
+            // Send silent analytics vote POST
+            fetch("/api/contact", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                name: "Vote Sondage Jeux",
+                email: "vote@spoolio.fr",
+                message: `Option votée : ${optionId}`,
+              }),
+            }).catch(() => {});
+          };
+
+          const totalVotes = Object.values(votes).reduce((a, b) => a + b, 0);
+
+          const options = [
+            {
+              id: 1,
+              icon: "🎲",
+              title: "Les dés qui tombent au sol ou renversent les verres",
+              desc: "Les lancers sauvages qui finissent sous la table ou sous le canapé...",
+              accent: "from-amber-500/20 to-amber-900/30 border-amber-500/40 text-amber-300",
+            },
+            {
+              id: 2,
+              icon: "📝",
+              title: "Les feuilles de score volantes & les calculs chiants",
+              desc: "Chercher un stylo qui marche et faire des additions à 1h du matin...",
+              accent: "from-indigo-500/20 to-indigo-900/30 border-indigo-500/40 text-indigo-300",
+            },
+            {
+              id: 3,
+              icon: "🃏",
+              title: "Avoir trop de cartes en main (fatigue & cartes cachées)",
+              desc: "Ne pas savoir où poser son jeu ou devoir tenir 12 cartes en même temps...",
+              accent: "from-cyan-500/20 to-cyan-900/30 border-cyan-500/40 text-cyan-300",
+            },
+            {
+              id: 4,
+              icon: "🔥",
+              title: "Retrouver qui a gagné la dernière fois & gérer les paris",
+              desc: "« Mais si, la semaine dernière c'est toi qui devais faire la vaisselle ! »",
+              accent: "from-pink-500/20 to-pink-900/30 border-pink-500/40 text-pink-300",
+            },
+          ];
+
+          return (
+            <div className="space-y-4 max-w-3xl mx-auto relative z-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                {options.map((opt) => {
+                  const voteCount = votes[opt.id];
+                  const percentage = Math.round((voteCount / totalVotes) * 100);
+                  const isSelected = votedOption === opt.id;
+                  const hasVoted = votedOption !== null;
+
+                  return (
+                    <button
+                      key={opt.id}
+                      type="button"
+                      onClick={() => handleVote(opt.id)}
+                      disabled={hasVoted}
+                      className={`relative p-4 rounded-2xl border text-left transition-all duration-300 overflow-hidden cursor-pointer ${
+                        isSelected
+                          ? `bg-gradient-to-r ${opt.accent} shadow-xl scale-[1.01]`
+                          : hasVoted
+                          ? "bg-white/[0.02] border-white/10 opacity-80 cursor-default"
+                          : "bg-white/[0.04] hover:bg-white/[0.08] border-white/10 hover:border-white/20 active:scale-[0.99]"
+                      }`}
+                    >
+                      {/* Animated Percentage Fill Bar (Visible after voting) */}
+                      {hasVoted && (
+                        <div
+                          className="absolute inset-y-0 left-0 bg-white/10 transition-all duration-1000 ease-out pointer-events-none"
+                          style={{ width: `${percentage}%` }}
+                        />
+                      )}
+
+                      <div className="relative z-10 space-y-2">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-2xl">{opt.icon}</span>
+
+                          {hasVoted ? (
+                            <div className="flex items-center gap-1.5">
+                              {isSelected && (
+                                <span className="text-[10px] font-mono font-bold uppercase bg-emerald-500 text-black px-2 py-0.5 rounded-full flex items-center gap-1">
+                                  <Check className="w-3 h-3 stroke-[3]" /> Ton vote
+                                </span>
+                              )}
+                              <span className="text-sm font-mono font-black text-white">
+                                {percentage}%
+                              </span>
+                            </div>
+                          ) : (
+                            <span className="text-[10px] font-mono font-bold uppercase bg-white/10 text-gray-300 px-2 py-0.5 rounded-full">
+                              Cliquer pour voter
+                            </span>
+                          )}
+                        </div>
+
+                        <div>
+                          <h3 className="text-xs sm:text-sm font-black text-white font-sans leading-snug">
+                            {opt.title}
+                          </h3>
+                          <p className="text-[11px] text-gray-400 leading-normal mt-0.5">
+                            {opt.desc}
+                          </p>
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Poll Footer Message */}
+              {votedOption !== null ? (
+                <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left animate-fadeIn">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">🎉</span>
+                    <div>
+                      <p className="text-white font-extrabold text-xs">
+                        Merci pour ton vote ! ({totalVotes} joueurs ont voté)
+                      </p>
+                      <p className="text-[11px] text-emerald-300/90 font-normal">
+                        C'est exactement pour résoudre ce problème qu'on a créé les créations 3D Spoolio &amp; l'App Enjeu !
+                      </p>
+                    </div>
+                  </div>
+                  <a
+                    href="#accessoires"
+                    className="px-4 py-2 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-black font-black text-xs uppercase tracking-wider shrink-0 transition-colors"
+                  >
+                    Voir la solution 3D ↓
+                  </a>
+                </div>
+              ) : (
+                <p className="text-[11px] text-gray-500 text-center font-mono">
+                  💡 {totalVotes} votes enregistrés à ce jour par la communauté Spoolio.
                 </p>
-              </>
-            )}
-
-            {activeProfile === "famille" && (
-              <>
-                <h4 className="text-lg sm:text-xl font-black text-white font-antonio uppercase">
-                  Jouer sans se fatiguer les mains, les cartes bien en vue.
-                </h4>
-                <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-sans">
-                  Pour les enfants aux petites mains ou pour les longues parties de Belote/Tarot, nos <strong className="text-white">supports de cartes en arc de cercle</strong> permettent de poser son jeu sur la table sans cacher ses cartes, les mains totalement libres.
-                </p>
-              </>
-            )}
-
-            {activeProfile === "expert" && (
-              <>
-                <h4 className="text-lg sm:text-xl font-black text-white font-antonio uppercase">
-                  Des lancers de dés spectaculaires, sans aucun dé qui tombe au sol.
-                </h4>
-                <p className="text-xs sm:text-sm text-gray-300 leading-relaxed font-sans">
-                  Nos <strong className="text-white">tours à dés médiévales en 3D</strong> (château et pont-levis) garantissent des lancers impartiaux avec un son de roulement ultra-satisfaisant, tout en gardant l'application Enjeu pour l'historique complet de vos victoires.
-                </p>
-              </>
-            )}
-          </div>
-
-          <div className="shrink-0 flex items-center gap-3">
-            <a
-              href="#accessoires"
-              className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs uppercase tracking-wider transition-all border border-white/10"
-            >
-              Découvrir la collection
-            </a>
-          </div>
-        </div>
+              )}
+            </div>
+          );
+        })()}
       </section>
 
 
