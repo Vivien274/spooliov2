@@ -724,12 +724,12 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
               </div>
 
               <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
-                <div className="flex items-center gap-2 text-cyan-300 font-bold text-xs">
-                  <Clock className="w-4 h-4 text-cyan-400 shrink-0" />
-                  <span>Minuteur &amp; Dés Intégrés</span>
+                <div className="flex items-center gap-2 text-emerald-300 font-bold text-xs">
+                  <Shield className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>100% Gratuite &amp; Sans Pub</span>
                 </div>
                 <p className="text-[11px] text-gray-400">
-                  Chronomètre pour les joueurs lents et générateur de dés virtuels en cas de besoin.
+                  Zéro publicité pour ne jamais interrompre vos parties. 100% du contenu gratuit pour vos soirées.
                 </p>
               </div>
             </div>
@@ -776,26 +776,25 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
               </div>
             </div>
 
-            {/* Screenshot Selector Pills */}
-            <div className="flex items-center justify-center gap-1.5 flex-wrap max-w-xs sm:max-w-sm pt-1">
+            {/* Screenshot Selector Dots (Points de navigation slider) */}
+            <div className="flex items-center justify-center gap-2 pt-1">
               {enjeuScreenshots.map((scr, idx) => (
                 <button
                   key={scr.id}
                   type="button"
                   onClick={() => setActiveScreenshotIndex(idx)}
-                  className={`px-3 py-1.5 rounded-xl text-[11px] font-mono font-bold transition-all cursor-pointer ${
+                  aria-label={`Voir capture ${idx + 1}`}
+                  className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer outline-none ${
                     activeScreenshotIndex === idx
-                      ? "bg-gradient-to-r from-[#ff4f00] to-indigo-600 text-white border border-white/30 shadow-lg scale-105"
-                      : "bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10"
+                      ? "w-8 bg-[#ff4f00] shadow-[0_0_12px_rgba(255,79,0,0.6)]"
+                      : "w-2.5 bg-white/20 hover:bg-white/40"
                   }`}
-                >
-                  {scr.badge}
-                </button>
+                />
               ))}
             </div>
             
-            <p className="text-[11px] text-gray-400 text-center font-sans italic max-w-xs">
-              📲 {enjeuScreenshots[activeScreenshotIndex].desc}
+            <p className="text-[11px] text-gray-300 text-center font-sans font-medium max-w-xs h-8 flex items-center justify-center">
+              📸 {enjeuScreenshots[activeScreenshotIndex].desc}
             </p>
           </div>
         </div>
