@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const CONFIG_FILE = path.join(process.cwd(), "src/data/clicker_config.json");
 
 export async function GET() {

@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
+import nextDynamic from "next/dynamic";
+import fs from "fs";
+import path from "path";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ClickerGalleryClient from "@/components/ClickerGalleryClient";
+import { getPageSeoMetadata } from "@/lib/seoPages";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Dynamic import for heavy interactive configurator component
-const ClickerConfiguratorClient = dynamic(
+const ClickerConfiguratorClient = nextDynamic(
   () => import("@/components/ClickerConfiguratorClient"),
   {
     loading: () => (
@@ -16,13 +22,21 @@ const ClickerConfiguratorClient = dynamic(
   }
 );
 
-import { getPageSeoMetadata } from "@/lib/seoPages";
-
 export async function generateMetadata(): Promise<Metadata> {
   return getPageSeoMetadata("createur-cliqueur");
 }
 
 export default function CreateurCliqueurPage() {
+  let galleryItems: any[] = [];
+  try {
+    const galleryFile = path.join(process.cwd(), "src/data/clicker_gallery.json");
+    if (fs.existsSync(galleryFile)) {
+      galleryItems = JSON.parse(fs.readFileSync(galleryFile, "utf-8"));
+    }
+  } catch (e) {
+    console.error("Error reading clicker_gallery.json on server:", e);
+  }
+
   return (
     <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-[#FF5500] selection:text-black">
       {/* Background Decorative Glows */}
@@ -59,7 +73,7 @@ export default function CreateurCliqueurPage() {
         <ClickerConfiguratorClient className="w-full mb-12" />
 
         {/* Dynamic Photo Gallery of Real Creations */}
-        <ClickerGalleryClient />
+        <ClickerGalleryClient initialItems={galleryItems} />
 
         {/* Reassurance Badges Row */}
         <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 border-t border-neutral-800 text-center font-[family-name:var(--font-plus-jakarta)]">

@@ -227,7 +227,7 @@ export default function AdminClickersPage() {
       })
       .catch((e) => console.error("Error loading clicker config:", e));
 
-    fetch("/api/admin/clicker-gallery")
+    fetch("/api/admin/clicker-gallery", { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setGalleryItems(data);

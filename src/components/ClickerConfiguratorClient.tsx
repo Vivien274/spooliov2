@@ -349,7 +349,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
       }
     }
 
-    fetch("/api/admin/clicker-config")
+    fetch("/api/admin/clicker-config", { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
         if (data.shapes && Array.isArray(data.shapes)) {
@@ -405,7 +405,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
       })
       .catch((e) => console.error("Error loading clicker dynamic config:", e));
 
-    fetch("/api/admin/clicker-gallery")
+    fetch("/api/admin/clicker-gallery", { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {

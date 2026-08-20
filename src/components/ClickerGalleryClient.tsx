@@ -15,7 +15,7 @@ export default function ClickerGalleryClient({ initialItems = [] }: { initialIte
   const [activeItem, setActiveItem] = useState<GalleryItem | null>(null);
 
   useEffect(() => {
-    fetch("/api/admin/clicker-gallery")
+    fetch("/api/admin/clicker-gallery", { cache: "no-store" })
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
