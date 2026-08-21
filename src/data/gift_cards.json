@@ -1,0 +1,20 @@
+[
+  {
+    "id": "gc_1787316244289_20",
+    "code": "SPOOLIO-3CDB-AADB",
+    "initialAmount": 25,
+    "remainingAmount": 25,
+    "buyerName": "SSA",
+    "buyerEmail": "vivien274@gmail.com",
+    "recipientName": null,
+    "recipientEmail": null,
+    "customMessage": null,
+    "isActive": true,
+    "isPaid": false,
+    "stripeSession": null,
+    "history": [],
+    "expiresAt": "2027-08-21T12:44:04.289Z",
+    "createdAt": "2026-08-21T12:44:04.289Z",
+    "updatedAt": "2026-08-21T12:44:04.289Z"
+  }
+]
