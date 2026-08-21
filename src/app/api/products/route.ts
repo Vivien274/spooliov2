@@ -24,7 +24,7 @@ function decodeHtml(str: string): string {
     .replace(/&nbsp;/g, " ");
 }
 
-function mapProduct(p: any) {
+function mapProduct(p: any, viewCountMap: Record<string, number> = {}) {
   // Clean images structure to match what ProductCard expects
   const rawImages = p.images || [];
   const images = rawImages.map((img: any, idx: number) => ({
@@ -95,6 +95,9 @@ function mapProduct(p: any) {
     }
   }
 
+  const slugStr = p.slug || "";
+  const calculatedViews = viewCountMap[slugStr] || 0;
+
   return {
     id: p.id,
     name: decodeHtml(p.name),
@@ -135,6 +138,7 @@ function mapProduct(p: any) {
     sensory_size: p.sensorySize || p.sensory_size || null,
     sensory_category: p.sensoryCategory || p.sensory_category || null,
     sensory_profiles: p.sensoryProfiles ? (typeof p.sensoryProfiles === "string" ? p.sensoryProfiles.split(",").map((s: string) => s.trim()) : p.sensoryProfiles) : [],
+    views: calculatedViews,
   };
 }
 
@@ -143,6 +147,37 @@ async function fetchAllProducts(status: string) {
   const wcUrl = process.env.NEXT_PUBLIC_WC_URL;
   const consumerKey = process.env.WC_CONSUMER_KEY;
   const consumerSecret = process.env.WC_CONSUMER_SECRET;
+
+  // Calculate view counts per product slug from Visit model
+  let viewCountMap: Record<string, number> = {};
+  if (prisma) {
+    try {
+      const visits = await prisma.visit.groupBy({
+        by: ['url'],
+        _count: {
+          url: true,
+        },
+        where: {
+          url: {
+            contains: '/product/',
+          },
+        },
+      });
+
+      visits.forEach((v) => {
+        const urlWithoutQuery = (v.url || "").split('?')[0].replace(/\/$/, '');
+        const parts = urlWithoutQuery.split('/product/');
+        if (parts.length > 1) {
+          const slug = parts[1].trim();
+          if (slug) {
+            viewCountMap[slug] = (viewCountMap[slug] || 0) + v._count.url;
+          }
+        }
+      });
+    } catch (e: any) {
+      console.warn("Could not calculate visit counts:", e.message);
+    }
+  }
 
   // 1. Try Prisma Database client first (with a timeout race)
   try {
@@ -167,7 +202,7 @@ async function fetchAllProducts(status: string) {
 
     if (dbProducts && dbProducts.length > 0) {
       console.log("Successfully fetched products from Prisma Database.");
-      return dbProducts.map(mapProduct);
+      return dbProducts.map((p: any) => mapProduct(p, viewCountMap));
     }
   } catch (e: any) {
     console.warn("Prisma query failed or timed out, trying local JSON...", e.message);
@@ -185,7 +220,7 @@ async function fetchAllProducts(status: string) {
         const filtered = status === 'all'
           ? parsed
           : parsed.filter((p: any) => p.status === 'publish' || !p.status);
-        return filtered.map(mapProduct);
+        return filtered.map((p: any) => mapProduct(p, viewCountMap));
       }
     }
   } catch (e: any) {
@@ -211,7 +246,7 @@ async function fetchAllProducts(status: string) {
           const filtered = status === 'all'
             ? data
             : data.filter((p: any) => p.status === 'publish' || !p.status);
-          return filtered.map(mapProduct);
+          return filtered.map((p: any) => mapProduct(p, viewCountMap));
         }
       } else {
         console.warn(`WooCommerce API returned status ${response.status}`);

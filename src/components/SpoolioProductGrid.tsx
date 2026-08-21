@@ -63,15 +63,25 @@ export default function SpoolioProductGrid({
     if (filterType === "latest") {
       // Already sorted by date_created in fetch
     } else if (filterType === "best-of") {
-      const bestOf = result.filter(p => 
-        p.tags?.some(t => ["coup de coeur", "coup de cœur", "best-of", "best of", "populaire", "popular", "vedette", "stars"].includes(t.name?.toLowerCase() || ""))
-      );
-      // Fallback: take on_sale products or slice of main list if no tag matches
-      result = bestOf.length > 0 
-        ? bestOf 
-        : result.filter(p => p.on_sale).concat(result).slice(3, 8);
-      // Deduplicate fallback just in case
-      result = Array.from(new Set(result.map(p => p.id))).map(id => result.find(p => p.id === id)!);
+      // Sort products primarily by customer view count (most viewed products first)
+      const sortedByViews = [...result].sort((a, b) => {
+        const viewsA = a.views || 0;
+        const viewsB = b.views || 0;
+
+        if (viewsB !== viewsA) {
+          return viewsB - viewsA;
+        }
+
+        // Secondary sort: Tagged as "coup de coeur" / "best-of" / "populaire"
+        const tagA = a.tags?.some(t => ["coup de coeur", "coup de cœur", "best-of", "best of", "populaire", "popular", "vedette", "stars"].includes((typeof t === 'object' ? t.name : t)?.toLowerCase() || "")) ? 1 : 0;
+        const tagB = b.tags?.some(t => ["coup de coeur", "coup de cœur", "best-of", "best of", "populaire", "popular", "vedette", "stars"].includes((typeof t === 'object' ? t.name : t)?.toLowerCase() || "")) ? 1 : 0;
+        if (tagB !== tagA) return tagB - tagA;
+
+        // Tertiary sort: On sale items
+        return (b.on_sale ? 1 : 0) - (a.on_sale ? 1 : 0);
+      });
+
+      result = sortedByViews;
     } else if (filterType === "all" && activeCategory !== "TOUT") {
       result = result.filter((product) =>
         product.categories?.some(

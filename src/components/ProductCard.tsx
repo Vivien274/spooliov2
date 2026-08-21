@@ -34,6 +34,7 @@ export interface Product {
   attributes?: any;
   stock?: number;
   tags?: any[];
+  views?: number;
 }
 
 interface ProductCardProps {
@@ -202,6 +203,14 @@ export default function ProductCard({ product, compact = false, priority = false
             </div>
           )}
         </Link>
+
+        {/* View count badge if present */}
+        {typeof product.views === "number" && product.views > 0 && (
+          <span className="absolute top-3.5 right-3.5 px-2.5 py-1 text-[9px] font-mono font-extrabold bg-black/80 backdrop-blur-md text-white border border-white/20 rounded-full shadow-lg z-20 flex items-center gap-1 no-invert">
+            <span className="text-yellow-400">🔥</span>
+            <span>{product.views} {product.views > 1 ? "vues" : "vue"}</span>
+          </span>
+        )}
 
         {/* Apple Specular Bevel Edge (Liseré de verre supérieur) */}
         <div className="absolute inset-0 pointer-events-none rounded-[28px] border-t border-l border-white/20 shadow-[inset_0_1.5px_0_rgba(255,255,255,0.3)] z-10" />
