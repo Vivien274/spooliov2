@@ -843,7 +843,7 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
           </div>
         </div>
 
-        {/* BOTTOM ROW: Béta Registration Form */}
+        {/* BOTTOM ROW: Béta Registration Form & Direct Test Link */}
         <div className="relative z-10 bg-[#0a0a14]/90 backdrop-blur-xl border border-indigo-400/30 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2 flex-wrap">
@@ -854,12 +854,34 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
                 </h3>
               </div>
               <span className="text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                <span>🤖</span> Android Uniquement
+                <span>🤖</span> Test Interne Android Ouvert
               </span>
             </div>
             <p className="text-xs text-gray-300 leading-relaxed font-sans">
-              Sois prévenu(e) en avant-première lors de l'ouverture du test sur Android (Google Play), et reçois un <strong className="text-amber-400">cadeau exclusif Spoolio</strong> dans ta boîte mail.
+              L'application est dès maintenant accessible en test interne sur le Play Store ! Tu peux y accéder directement via le bouton ci-dessous, ou t'inscrire avec ton email pour recevoir les prochaines nouveautés et un <strong className="text-amber-400">cadeau exclusif Spoolio</strong>.
             </p>
+          </div>
+
+          {/* Direct Link to Google Play Internal Test */}
+          <div className="p-4 rounded-2xl bg-indigo-950/60 border border-indigo-500/40 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-indigo-600/30 border border-indigo-400/40 flex items-center justify-center text-xl shrink-0">
+                🤖
+              </div>
+              <div>
+                <h4 className="text-xs font-black text-white uppercase tracking-wider">Accès Direct au Test Interne</h4>
+                <p className="text-[11px] text-indigo-200">Rejoins le test directement sur le Google Play Store</p>
+              </div>
+            </div>
+            <a
+              href="https://play.google.com/apps/internaltest/4700908194255410878"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto h-11 px-5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md hover:scale-[1.02] active:scale-95 transition-all border border-indigo-400/30 shrink-0"
+            >
+              <span>Tester sur Google Play</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
 
           {subscribed ? (
@@ -897,10 +919,18 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
           )}
 
           {/* Badges Stores */}
-          <div className="pt-2 border-t border-white/10 flex items-center justify-center gap-3 text-xs text-gray-400">
+          <div className="pt-2 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400">
             <span className="flex items-center gap-1.5 font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-xl">
-              <span>🤖</span> Disponible en Bêta sur Android uniquement
+              <span>🤖</span> En test interne sur Android
             </span>
+            <a
+              href="https://play.google.com/apps/internaltest/4700908194255410878"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-bold text-indigo-300 hover:text-indigo-200 underline transition-colors"
+            >
+              Lien direct Google Play →
+            </a>
           </div>
         </div>
       </section>

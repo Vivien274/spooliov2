@@ -328,6 +328,27 @@ export default function MotionNavigationMenu() {
                         </div>
                         <ArrowUpRight className="w-3.5 h-3.5 text-[#ff4f00] group-hover:translate-x-0.5 transition-all" />
                       </Link>
+
+                      <Link
+                        href="/jeux-de-societe"
+                        className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-indigo-400/30 transition-all bg-indigo-500/10"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 rounded-lg bg-indigo-500/20 text-indigo-400">
+                            <Dices className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <h5 className="text-xs font-bold text-white group-hover:text-indigo-400 transition-colors flex items-center gap-1.5">
+                              <span>Jeux &amp; Accessoires 3D</span>
+                              <span className="text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-indigo-500 text-white">App Enjeu</span>
+                            </h5>
+                            <p className="text-[11px] text-gray-400">
+                              Tours à dés, porte-cartes &amp; scores
+                            </p>
+                          </div>
+                        </div>
+                        <ArrowUpRight className="w-3.5 h-3.5 text-indigo-400 group-hover:translate-x-0.5 transition-all" />
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -441,6 +462,35 @@ export default function MotionNavigationMenu() {
                     <div className="flex items-center justify-between text-xs font-black text-[#FF5500] pt-1">
                       <span>Lancer la Roue</span>
                       <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
+                    </div>
+                  </Link>
+
+                  {/* Card 5: Jeux de Société & App Enjeu */}
+                  <Link
+                    href="/jeux-de-societe"
+                    className="col-span-2 group bg-gradient-to-r from-indigo-500/20 via-purple-500/10 to-transparent p-3.5 rounded-2xl border border-indigo-500/30 hover:border-indigo-400/70 transition-all duration-200 flex items-center justify-between shadow-lg hover:shadow-indigo-500/20"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="p-2.5 rounded-xl bg-indigo-500/25 text-indigo-300 group-hover:scale-110 transition-transform">
+                        <Dices className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h4 className="text-sm font-black text-white group-hover:text-indigo-300 transition-colors font-extrabold">
+                            Jeux de Société &amp; App Enjeu
+                          </h4>
+                          <span className="bg-emerald-500/20 text-emerald-300 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider border border-emerald-500/30 no-invert">
+                            🎲 APP GRATUITE
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-300 leading-snug">
+                          Accessoires 3D (tours à dés, porte-cartes) &amp; App de calcul de score.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1 text-xs font-black text-indigo-300 shrink-0">
+                      <span>Découvrir</span>
+                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </Link>
 

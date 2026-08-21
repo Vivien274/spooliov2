@@ -57,11 +57,11 @@ export default function EnjeuBanner({
 
           <div className="flex items-center gap-2 shrink-0">
             <a
-              href="https://play.google.com"
+              href="https://play.google.com/apps/internaltest/4700908194255410878"
               target="_blank"
               rel="noopener noreferrer"
               className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-[11px] rounded-lg shadow transition-all flex items-center gap-1.5 border border-indigo-400/30"
-              title="Disponible sur Google Play"
+              title="Tester sur Google Play (Test Interne)"
             >
               <span>Android</span>
               <span className="text-[10px]">📥</span>
@@ -111,7 +111,7 @@ export default function EnjeuBanner({
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 pt-2 border-t border-white/10">
             {/* Google Play Direct Button */}
             <a
-              href="https://play.google.com"
+              href="https://play.google.com/apps/internaltest/4700908194255410878"
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs rounded-xl shadow transition-all border border-indigo-400/30"
@@ -264,7 +264,7 @@ export default function EnjeuBanner({
             </div>
 
             <a
-              href="https://play.google.com"
+              href="https://play.google.com/apps/internaltest/4700908194255410878"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-3 px-5 py-2.5 bg-indigo-600 text-white hover:bg-indigo-500 font-extrabold text-xs rounded-xl shadow-lg transition-transform hover:scale-[1.02] active:scale-95 border border-indigo-400/30"

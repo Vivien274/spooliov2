@@ -125,6 +125,28 @@ export default function MobileMenuDrawer({
               <ChevronRight className="w-4 h-4 text-gray-500 group-hover:translate-x-0.5 transition-transform" />
             </Link>
 
+            {/* 1.5. Jeux de Société & App Enjeu */}
+            <Link
+              href="/jeux-de-societe"
+              onClick={onClose}
+              className="flex items-center justify-between p-3 rounded-2xl bg-gradient-to-r from-indigo-950/60 via-purple-950/40 to-indigo-950/60 hover:from-indigo-900/80 hover:to-purple-900/80 border border-indigo-500/30 transition-all group active:scale-[0.99]"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center text-indigo-300 shrink-0">
+                  <Dices className="w-4 h-4" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs font-bold text-white group-hover:text-indigo-300 transition-colors">
+                    Jeux de Société &amp; App Enjeu
+                  </span>
+                  <span className="text-[10px] text-gray-400">Accessoires 3D &amp; App Gratuite</span>
+                </div>
+              </div>
+              <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                Nouveau
+              </span>
+            </Link>
+
             {/* 2. Fidgets Anti-Stress */}
             <Link
               href="/categorie/Fidgets"

@@ -6,7 +6,7 @@ import AnimatedHero from "@/components/AnimatedHero";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReviewsSection from "@/components/ReviewsSection";
-import CurvedTextScrollAnimation from "@/components/CurvedTextScrollAnimation";
+import HomeEnjeuBanner from "@/components/HomeEnjeuBanner";
 import SpotlightMarqueeBanner from "@/components/SpotlightMarqueeBanner";
 import BoutiqueCTAButton from "@/components/BoutiqueCTAButton";
 import { Sparkles, Keyboard, Shapes, Gift } from "lucide-react";
@@ -427,8 +427,8 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        {/* Curved Text Path Scroll Animation (CodeFronts style) */}
-        <CurvedTextScrollAnimation />
+        {/* Encart Dédié : Jeux de Société & App Enjeu */}
+        <HomeEnjeuBanner />
 
         {/* Section 3: Tout le Catalogue */}
         <div className="flex flex-col gap-6 font-sans">
