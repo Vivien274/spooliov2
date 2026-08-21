@@ -2,6 +2,8 @@
 
 import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
+import fs from "fs";
+import path from "path";
 
 export interface GiftCardInput {
   amount: number;
@@ -10,6 +12,32 @@ export interface GiftCardInput {
   recipientName?: string;
   recipientEmail?: string;
   customMessage?: string;
+}
+
+const JSON_FILE_PATH = path.join(process.cwd(), "src/data/gift_cards.json");
+
+function readLocalGiftCards(): any[] {
+  try {
+    if (fs.existsSync(JSON_FILE_PATH)) {
+      const raw = fs.readFileSync(JSON_FILE_PATH, "utf-8");
+      return JSON.parse(raw || "[]");
+    }
+  } catch (e) {
+    console.error("Error reading local gift_cards.json:", e);
+  }
+  return [];
+}
+
+function writeLocalGiftCards(cards: any[]) {
+  try {
+    const dir = path.dirname(JSON_FILE_PATH);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(JSON_FILE_PATH, JSON.stringify(cards, null, 2), "utf-8");
+  } catch (e) {
+    console.error("Error writing local gift_cards.json:", e);
+  }
 }
 
 function generateGiftCardCode(): string {
@@ -25,14 +53,22 @@ export async function validateGiftCardAction(rawCode: string) {
     }
 
     const cleanCode = rawCode.trim().toUpperCase();
+    let giftCard: any = null;
 
-    if (!prisma) {
-      return { valid: false, error: "Base de données indisponible." };
+    if (prisma && (prisma as any).giftCard) {
+      try {
+        giftCard = await (prisma as any).giftCard.findUnique({
+          where: { code: cleanCode },
+        });
+      } catch (dbErr) {
+        console.warn("Prisma giftCard findUnique warning:", dbErr);
+      }
     }
 
-    const giftCard = await prisma.giftCard.findUnique({
-      where: { code: cleanCode },
-    });
+    if (!giftCard) {
+      const localCards = readLocalGiftCards();
+      giftCard = localCards.find((c) => c.code === cleanCode) || null;
+    }
 
     if (!giftCard) {
       return { valid: false, error: "Code de carte cadeau introuvable." };
@@ -77,42 +113,92 @@ export async function createGiftCardRecord(input: GiftCardInput, isPaid: boolean
   let code = generateGiftCardCode();
 
   while (attempts < 5) {
-    const existing = await prisma.giftCard.findUnique({ where: { code } });
+    let existing = null;
+    if (prisma && (prisma as any).giftCard) {
+      try {
+        existing = await (prisma as any).giftCard.findUnique({ where: { code } });
+      } catch (e) {}
+    }
+    if (!existing) {
+      const local = readLocalGiftCards();
+      existing = local.find((c) => c.code === code) || null;
+    }
+
     if (!existing) break;
     code = generateGiftCardCode();
     attempts++;
   }
 
-  // Expires 1 year from purchase
   const expiresAt = new Date();
   expiresAt.setFullYear(expiresAt.getFullYear() + 1);
 
-  const card = await prisma.giftCard.create({
-    data: {
-      code,
-      initialAmount: input.amount,
-      remainingAmount: input.amount,
-      buyerName: input.buyerName || null,
-      buyerEmail: input.buyerEmail,
-      recipientName: input.recipientName || null,
-      recipientEmail: input.recipientEmail || null,
-      customMessage: input.customMessage || null,
-      isActive: true,
-      isPaid,
-      stripeSession: stripeSessionId || null,
-      expiresAt,
-    },
-  });
+  const newCardData = {
+    id: `gc_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
+    code,
+    initialAmount: input.amount,
+    remainingAmount: input.amount,
+    buyerName: input.buyerName || null,
+    buyerEmail: input.buyerEmail,
+    recipientName: input.recipientName || null,
+    recipientEmail: input.recipientEmail || null,
+    customMessage: input.customMessage || null,
+    isActive: true,
+    isPaid,
+    stripeSession: stripeSessionId || null,
+    history: [],
+    expiresAt: expiresAt.toISOString(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
 
-  return card;
+  let card = null;
+
+  if (prisma && (prisma as any).giftCard) {
+    try {
+      card = await (prisma as any).giftCard.create({
+        data: {
+          code,
+          initialAmount: input.amount,
+          remainingAmount: input.amount,
+          buyerName: input.buyerName || null,
+          buyerEmail: input.buyerEmail,
+          recipientName: input.recipientName || null,
+          recipientEmail: input.recipientEmail || null,
+          customMessage: input.customMessage || null,
+          isActive: true,
+          isPaid,
+          stripeSession: stripeSessionId || null,
+          expiresAt,
+        },
+      });
+    } catch (e) {
+      console.warn("Could not insert gift card in Prisma, saving to local JSON fallback:", e);
+    }
+  }
+
+  // Also sync to local JSON
+  const localCards = readLocalGiftCards();
+  localCards.unshift(card || newCardData);
+  writeLocalGiftCards(localCards);
+
+  return card || newCardData;
 }
 
 export async function getGiftCardsAdminAction() {
   try {
-    if (!prisma) return { success: false, giftCards: [] };
-    const giftCards = await prisma.giftCard.findMany({
-      orderBy: { createdAt: "desc" },
-    });
+    let giftCards: any[] = [];
+    if (prisma && (prisma as any).giftCard) {
+      try {
+        giftCards = await (prisma as any).giftCard.findMany({
+          orderBy: { createdAt: "desc" },
+        });
+      } catch (e) {}
+    }
+
+    if (giftCards.length === 0) {
+      giftCards = readLocalGiftCards();
+    }
+
     return { success: true, giftCards };
   } catch (error: any) {
     console.error("Error fetching gift cards for admin:", error);
@@ -122,11 +208,21 @@ export async function getGiftCardsAdminAction() {
 
 export async function toggleGiftCardStatusAdminAction(id: string, isActive: boolean) {
   try {
-    const updated = await prisma.giftCard.update({
-      where: { id },
-      data: { isActive },
-    });
-    return { success: true, giftCard: updated };
+    let updated = null;
+    if (prisma && (prisma as any).giftCard) {
+      try {
+        updated = await (prisma as any).giftCard.update({
+          where: { id },
+          data: { isActive },
+        });
+      } catch (e) {}
+    }
+
+    const localCards = readLocalGiftCards();
+    const updatedLocal = localCards.map((c) => (c.id === id ? { ...c, isActive } : c));
+    writeLocalGiftCards(updatedLocal);
+
+    return { success: true, giftCard: updated || updatedLocal.find((c) => c.id === id) };
   } catch (error: any) {
     console.error("Error toggling gift card status:", error);
     return { success: false, error: error.message };

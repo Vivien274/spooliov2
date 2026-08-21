@@ -57,9 +57,9 @@ export async function POST(request: Request) {
         // Gift card purchase checkout completion
         if (session.metadata?.type === "gift_card") {
           const giftCardId = session.metadata.giftCardId;
-          if (giftCardId && prisma) {
+          if (giftCardId && prisma && (prisma as any).giftCard) {
             try {
-              await prisma.giftCard.update({
+              await (prisma as any).giftCard.update({
                 where: { id: giftCardId },
                 data: { isPaid: true, stripeSession: session.id }
               });
