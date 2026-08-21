@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useTranslation } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -10,7 +11,6 @@ import {
   Compass,
   Gift,
   Ticket,
-  Heart,
   ChevronDown,
   ArrowUpRight,
   Gamepad2,
@@ -20,14 +20,22 @@ import {
   Building2,
   BookOpen,
   HelpCircle,
-  Shapes,
   ShieldCheck,
   Dices,
+  Flame,
+  Zap,
+  Leaf,
+  MessageSquare,
+  HelpCircle as QuestionIcon,
+  PhoneCall,
+  ArrowRight,
 } from "lucide-react";
 
 interface MenuItem {
   id: string;
   label: string;
+  badge?: string;
+  badgeColor?: string;
   href?: string;
   hasDropdown?: boolean;
 }
@@ -52,9 +60,27 @@ export default function MotionNavigationMenu() {
   }, []);
 
   const menuItems: MenuItem[] = [
-    { id: "boutique", label: t("header.shop"), href: "/boutique", hasDropdown: true },
-    { id: "univers", label: t("header.experiences"), hasDropdown: true },
-    { id: "atelier", label: t("header.workshop"), href: "/a-propos", hasDropdown: true },
+    {
+      id: "boutique",
+      label: t("header.shop"),
+      href: "/boutique",
+      hasDropdown: true,
+      badge: "HOT",
+      badgeColor: "bg-[#ff4f00]",
+    },
+    {
+      id: "univers",
+      label: t("header.experiences"),
+      hasDropdown: true,
+      badge: "JEUX",
+      badgeColor: "bg-indigo-500",
+    },
+    {
+      id: "atelier",
+      label: t("header.workshop"),
+      href: "/a-propos",
+      hasDropdown: true,
+    },
   ];
 
   const handleMouseEnter = (id: string) => {
@@ -71,7 +97,7 @@ export default function MotionNavigationMenu() {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
       setActiveTab(null);
-    }, 180);
+    }, 200);
   };
 
   const handleDropdownMouseEnter = () => {
@@ -88,7 +114,7 @@ export default function MotionNavigationMenu() {
     };
   }, []);
 
-  // Close dropdown when pressing Escape
+  // Close dropdown on Escape press
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
@@ -101,9 +127,13 @@ export default function MotionNavigationMenu() {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative hidden lg:flex items-center" onMouseLeave={handleMouseLeave}>
-      {/* Navigation Pills Bar (Translucent Glassmorphism) */}
-      <nav className="relative flex items-center gap-1.5 p-1.5 bg-black/40 dark:bg-black/40 backdrop-blur-2xl border border-white/20 rounded-full shadow-2xl shadow-black/60">
+    <div
+      ref={containerRef}
+      className="relative hidden lg:flex items-center"
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Mega Navigation Pills Bar Container */}
+      <nav className="relative flex items-center gap-1.5 p-1.5 bg-black/50 backdrop-blur-2xl border border-white/15 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.5)] ring-1 ring-white/10">
         {menuItems.map((item) => {
           const isSelected = activeTab === item.id;
           const isHovered = hoveredTab === item.id;
@@ -114,531 +144,619 @@ export default function MotionNavigationMenu() {
               className="relative px-4 py-2 rounded-full cursor-pointer select-none transition-all duration-200"
               onMouseEnter={() => handleMouseEnter(item.id)}
             >
-              {/* Animated Hover Pill Background */}
+              {/* Animated Active Backdrop */}
               {(isHovered || isSelected) && (
                 <motion.div
-                  layoutId="motion-nav-pill"
-                  className="absolute inset-0 bg-gradient-to-r from-white/15 to-white/10 rounded-full border border-white/20 shadow-md"
-                  transition={{ type: "spring", stiffness: 450, damping: 32 }}
+                  layoutId="motion-nav-pill-active"
+                  className="absolute inset-0 bg-gradient-to-r from-white/20 via-white/15 to-white/10 rounded-full border border-white/25 shadow-lg shadow-black/40"
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
 
-              {/* Tab Title & Chevron */}
-              {item.href && !item.hasDropdown ? (
-                <Link
-                  href={item.href}
-                  className="relative z-10 flex items-center gap-1.5 text-xs font-bold text-white tracking-wide"
-                >
-                  <span>{item.label}</span>
-                </Link>
-              ) : (
-                <div className="relative z-10 flex items-center gap-1.5 text-xs font-bold text-white tracking-wide">
-                  <span>{item.label}</span>
-                  {item.hasDropdown && (
-                    <motion.div
-                      animate={{ rotate: isSelected ? 180 : 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <ChevronDown className="w-3.5 h-3.5 text-white/80" />
-                    </motion.div>
-                  )}
-                </div>
-              )}
+              {/* Label & Indicators */}
+              <div className="relative z-10 flex items-center gap-2 text-xs font-black text-white tracking-wide">
+                <span>{item.label}</span>
+
+                {item.badge && (
+                  <span
+                    className={`text-[8px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full text-white shadow-sm no-invert ${item.badgeColor}`}
+                  >
+                    {item.badge}
+                  </span>
+                )}
+
+                {item.hasDropdown && (
+                  <motion.div
+                    animate={{ rotate: isSelected ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ChevronDown className="w-3.5 h-3.5 text-white/70" />
+                  </motion.div>
+                )}
+              </div>
             </div>
           );
         })}
 
-        {/* Highlighted CTA Badge */}
+        {/* Featured Workshop CTA Button */}
         <Link
           href="/don"
-          className="relative px-4 py-2 ml-1 rounded-full bg-gradient-to-r from-[#ff4f00] via-[#FF6600] to-[#FF8800] text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-[#ff4f00]/30 hover:scale-105 transition-all duration-200 cursor-pointer no-invert group"
+          className="relative px-4 py-2 ml-1 rounded-full bg-gradient-to-r from-[#ff4f00] via-[#FF6600] to-[#FF8800] text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow-lg shadow-[#ff4f00]/30 hover:scale-105 transition-all duration-200 cursor-pointer no-invert group overflow-hidden"
         >
+          <motion.div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+          <Sparkles className="w-3.5 h-3.5 text-yellow-200 animate-pulse" />
           <span>{t("footer.support_workshop")}</span>
         </Link>
       </nav>
 
-      {/* Morphing Mega Dropdown Panel Container with Invisible Hover Bridge */}
+      {/* Morphing Mega Dropdown Panel */}
       <AnimatePresence>
         {activeTab && (
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.97 }}
+            initial={{ opacity: 0, y: 12, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 8, scale: 0.97 }}
-            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute top-full left-0 pt-2.5 z-[999999] origin-top-left"
+            exit={{ opacity: 0, y: 8, scale: 0.98 }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-[999999] origin-top"
             onMouseEnter={handleDropdownMouseEnter}
           >
-            <div className="w-[660px] bg-[#121215]/98 backdrop-blur-3xl border border-white/20 rounded-3xl p-6 shadow-[0_30px_70px_rgba(0,0,0,0.7)] ring-1 ring-white/10">
-              
-              {/* DROPDOWN TAB 1: BOUTIQUE */}
+            {/* Panel Body Container */}
+            <div className="w-[860px] bg-[#0d0d10]/98 backdrop-blur-3xl border border-white/20 rounded-[32px] p-6 shadow-[0_35px_80px_rgba(0,0,0,0.85)] ring-1 ring-white/10 relative overflow-hidden">
+              {/* Subtle ambient lighting glows */}
+              <div className="absolute -top-20 -left-20 w-56 h-56 bg-[#ff4f00]/15 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-20 -right-20 w-56 h-56 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
+
+              {/* ============================================================ */}
+              {/* TAB 1: BOUTIQUE & CATALOGUE                                  */}
+              {/* ============================================================ */}
               {activeTab === "boutique" && (
-                <div className="space-y-4">
-                  {/* Top Banner: Voir toute la boutique */}
-                  <Link
-                    href="/boutique"
-                    className="group flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-[#2F3CD9]/30 via-[#ff4f00]/20 to-[#FF8800]/20 hover:from-[#2F3CD9]/45 hover:via-[#ff4f00]/35 hover:to-[#FF8800]/35 border border-white/20 shadow-xl transition-all duration-300"
-                  >
-                    <div className="flex items-center gap-3.5">
-                      <div className="p-3 rounded-xl bg-gradient-to-br from-[#2F3CD9] to-[#5163FF] text-white shadow-lg shadow-[#2F3CD9]/40 group-hover:scale-110 transition-transform no-invert">
-                        <ShoppingBag className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h4 className="text-sm font-black text-white group-hover:text-[#ff4f00] transition-colors font-extrabold">
-                            {t("nav_menu.see_all_shop")}
-                          </h4>
-                          <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-[#ff4f00] text-white shadow-sm no-invert">
-                            {t("nav_menu.full_catalog_badge")}
-                          </span>
-                        </div>
-                        <p className="text-xs text-gray-300 font-medium mt-0.5">
-                          {t("nav_menu.full_catalog_desc")}
-                        </p>
-                      </div>
+                <div className="grid grid-cols-12 gap-6 relative z-10">
+                  {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 5) */}
+                  <div className="col-span-5 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-[#ff4f00]/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group shadow-xl">
+                    <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity pointer-events-none">
+                      <Image
+                        src="/images/marcel_octopus.jpg"
+                        alt="Spoolio 3D Creations"
+                        fill
+                        className="object-cover object-center no-invert filter brightness-90 group-hover:scale-105 transition-transform duration-500"
+                      />
                     </div>
-                    <div className="flex items-center gap-1 text-xs font-black text-[#ff4f00] group-hover:translate-x-1 transition-transform pr-2">
-                      <span>{t("common.see_all")}</span>
-                      <ArrowUpRight className="w-4 h-4" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent z-10" />
+
+                    <div className="relative z-20 space-y-2.5">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#ff4f00] text-white text-[10px] font-black uppercase tracking-wider shadow-lg no-invert">
+                        <Flame className="w-3 h-3 text-yellow-300 animate-pulse" />
+                        Catalogue Spoolio 3D
+                      </span>
+                      <h4 className="text-xl font-black text-white leading-tight">
+                        Créations 3D Artisanales &amp; Ludiques
+                      </h4>
+                      <p className="text-xs text-gray-300 font-medium leading-relaxed">
+                        Fidgets articulés, objets déco, accessoires gaming &amp; produits personnalisés zéro déchet.
+                      </p>
                     </div>
-                  </Link>
 
-                  <div className="grid grid-cols-12 gap-5">
-                    {/* Featured Left Card */}
-                    <div className="col-span-5 bg-gradient-to-br from-[#ff4f00]/25 via-[#ff4f00]/10 to-transparent p-5 rounded-2xl border border-[#ff4f00]/35 flex flex-col justify-between relative overflow-hidden group hover:border-[#ff4f00]/60 transition-all">
-                      <div className="space-y-2.5">
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#ff4f00] text-white text-[9px] font-black uppercase tracking-wider shadow-md no-invert">
-                          {t("nav_menu.must_have_badge")}
-                        </span>
-                        <h4 className="text-base font-black text-white leading-tight font-extrabold">
-                          {t("nav_menu.fidgets_card_title")}
-                        </h4>
-                        <p className="text-xs text-gray-300 leading-relaxed font-medium">
-                          {t("nav_menu.fidgets_card_desc")}
-                        </p>
-                      </div>
-
+                    <div className="relative z-20 pt-6">
                       <Link
-                        href="/categorie/Fidgets"
-                        className="mt-5 inline-flex items-center justify-between text-xs font-black text-[#ff4f00] group-hover:translate-x-1 transition-transform"
+                        href="/boutique"
+                        onClick={() => setActiveTab(null)}
+                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-black font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all shadow-lg group/btn no-invert"
                       >
-                        <span>{t("nav_menu.discover_fidgets")}</span>
-                        <ArrowUpRight className="w-4 h-4" />
+                        <span>Tout le catalogue</span>
+                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                       </Link>
                     </div>
+                  </div>
 
-                    {/* Right Categories Grid */}
-                    <div className="col-span-7 grid grid-cols-1 gap-2">
-                      <Link
-                        href="/categorie/Fidgets"
-                        className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00]">
-                            <Sparkles className="w-4 h-4" />
+                  {/* RIGHT SECTION: 2 SUB-COLUMNS + BOTTOM ACTION BAR (Col 6 to 12) */}
+                  <div className="col-span-7 flex flex-col justify-between space-y-4">
+                    {/* Top 2 Vertical Columns */}
+                    <div className="grid grid-cols-2 gap-4">
+                      {/* Column A: Nos Collections */}
+                      <div className="space-y-1.5">
+                        <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-2">
+                          Nos Collections
+                        </h5>
+
+                        <Link
+                          href="/categorie/Fidgets"
+                          onClick={() => setActiveTab(null)}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <Sparkles className="w-4.5 h-4.5" />
                           </div>
-                          <div>
-                            <h5 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors">
+                          <div className="min-w-0">
+                            <h6 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate">
                               {t("header.categories.fidgets")}
-                            </h5>
-                            <p className="text-[11px] text-gray-400">
+                            </h6>
+                            <p className="text-[11px] text-gray-400 truncate">
                               {t("nav_menu.fidgets_sub")}
                             </p>
                           </div>
-                        </div>
-                        <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
-                      </Link>
+                        </Link>
 
-                      <Link
-                        href="/categorie/Geek %2F Gaming"
-                        className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 rounded-lg bg-cyan-500/20 text-cyan-400">
-                            <Gamepad2 className="w-4 h-4" />
+                        <Link
+                          href="/categorie/Geek %2F Gaming"
+                          onClick={() => setActiveTab(null)}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <Gamepad2 className="w-4.5 h-4.5" />
                           </div>
-                          <div>
-                            <h5 className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors">
+                          <div className="min-w-0">
+                            <h6 className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors truncate">
                               {t("nav_menu.geek_gaming")}
-                            </h5>
-                            <p className="text-[11px] text-gray-400">
+                            </h6>
+                            <p className="text-[11px] text-gray-400 truncate">
                               {t("nav_menu.geek_sub")}
                             </p>
                           </div>
-                        </div>
-                        <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
-                      </Link>
+                        </Link>
 
-                      <Link
-                        href="/categorie/Porte clés"
-                        className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 rounded-lg bg-amber-500/20 text-amber-400">
-                            <Key className="w-4 h-4" />
+                        <Link
+                          href="/categorie/Porte clés"
+                          onClick={() => setActiveTab(null)}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <Key className="w-4.5 h-4.5" />
                           </div>
-                          <div>
-                            <h5 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors">
+                          <div className="min-w-0">
+                            <h6 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors truncate">
                               {t("nav_menu.keychain_title")}
-                            </h5>
-                            <p className="text-[11px] text-gray-400">
+                            </h6>
+                            <p className="text-[11px] text-gray-400 truncate">
                               {t("nav_menu.keychain_sub")}
                             </p>
                           </div>
-                        </div>
-                        <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
-                      </Link>
+                        </Link>
 
-                      <Link
-                        href="/categorie/Animaux %26 Figurines"
-                        className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 rounded-lg bg-emerald-500/20 text-emerald-400">
-                            <Smile className="w-4 h-4" />
+                        <Link
+                          href="/categorie/Animaux %26 Figurines"
+                          onClick={() => setActiveTab(null)}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <Smile className="w-4.5 h-4.5" />
                           </div>
-                          <div>
-                            <h5 className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">
+                          <div className="min-w-0">
+                            <h6 className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors truncate">
                               {t("nav_menu.animals_title")}
-                            </h5>
-                            <p className="text-[11px] text-gray-400">
+                            </h6>
+                            <p className="text-[11px] text-gray-400 truncate">
                               {t("nav_menu.animals_sub")}
                             </p>
                           </div>
-                        </div>
-                        <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
-                      </Link>
+                        </Link>
+                      </div>
 
-                      <Link
-                        href="/medaillon-nfc-chien-chat"
-                        className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-[#ff4f00]/30 transition-all bg-[#ff4f00]/5"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00]">
-                            <ShieldCheck className="w-4 h-4" />
+                      {/* Column B: Spécialités Spoolio */}
+                      <div className="space-y-1.5">
+                        <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-2">
+                          Spécialités &amp; Innovations
+                        </h5>
+
+                        <Link
+                          href="/medaillon-nfc-chien-chat"
+                          onClick={() => setActiveTab(null)}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <ShieldCheck className="w-4.5 h-4.5" />
                           </div>
-                          <div>
-                            <h5 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
+                          <div className="min-w-0">
+                            <h6 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate flex items-center gap-1.5">
                               <span>{t("nav_menu.nfc_title")}</span>
-                              <span className="text-[9px] font-black uppercase px-1.5 py-0.2 rounded bg-[#ff4f00] text-black">SOS</span>
-                            </h5>
-                            <p className="text-[11px] text-gray-400">
+                              <span className="text-[8px] font-black px-1.5 py-0.2 rounded bg-[#ff4f00] text-black">
+                                SOS
+                              </span>
+                            </h6>
+                            <p className="text-[11px] text-gray-400 truncate">
                               {t("nav_menu.nfc_sub")}
                             </p>
                           </div>
-                        </div>
-                        <ArrowUpRight className="w-3.5 h-3.5 text-[#ff4f00] group-hover:translate-x-0.5 transition-all" />
-                      </Link>
+                        </Link>
 
-                      <Link
-                        href="/jeux-de-societe"
-                        className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-indigo-400/30 transition-all bg-indigo-500/10"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 rounded-lg bg-indigo-500/20 text-indigo-400">
-                            <Dices className="w-4 h-4" />
+                        <Link
+                          href="/jeux-de-societe"
+                          onClick={() => setActiveTab(null)}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <Dices className="w-4.5 h-4.5" />
                           </div>
-                          <div>
-                            <h5 className="text-xs font-bold text-white group-hover:text-indigo-400 transition-colors flex items-center gap-1.5">
+                          <div className="min-w-0">
+                            <h6 className="text-xs font-bold text-white group-hover:text-indigo-400 transition-colors truncate flex items-center gap-1.5">
                               <span>Jeux &amp; Accessoires 3D</span>
-                              <span className="text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-indigo-500 text-white">App Enjeu</span>
-                            </h5>
-                            <p className="text-[11px] text-gray-400">
-                              Tours à dés, porte-cartes &amp; scores
+                              <span className="text-[8px] font-black px-1.5 py-0.2 rounded bg-indigo-500 text-white">
+                                ENJEU
+                              </span>
+                            </h6>
+                            <p className="text-[11px] text-gray-400 truncate">
+                              Tours à dés &amp; calcul de score
                             </p>
                           </div>
-                        </div>
-                        <ArrowUpRight className="w-3.5 h-3.5 text-indigo-400 group-hover:translate-x-0.5 transition-all" />
+                        </Link>
+
+                        <Link
+                          href="/pochette-surprise"
+                          onClick={() => setActiveTab(null)}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <Gift className="w-4.5 h-4.5" />
+                          </div>
+                          <div className="min-w-0">
+                            <h6 className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors truncate">
+                              {t("nav_menu.surprise_pack")}
+                            </h6>
+                            <p className="text-[11px] text-gray-400 truncate">
+                              Packs mystères 3D multi-objets
+                            </p>
+                          </div>
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* Bottom Action Bar (Matches "Need assist choosing service? -> Contact us") */}
+                    <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-4 mt-2">
+                      <div className="min-w-0">
+                        <h6 className="text-xs font-black text-white">
+                          Besoin d'aide pour choisir votre création 3D ?
+                        </h6>
+                        <p className="text-[11px] text-gray-400 truncate">
+                          Notre équipe est disponible pour vous conseiller dans l'atelier.
+                        </p>
+                      </div>
+
+                      <Link
+                        href="/faq"
+                        onClick={() => setActiveTab(null)}
+                        className="px-4 py-2 rounded-full bg-white/10 hover:bg-[#ff4f00] text-white hover:text-white text-xs font-black shrink-0 transition-colors border border-white/15 cursor-pointer no-invert"
+                      >
+                        Contacter l'Atelier
                       </Link>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* DROPDOWN TAB 2: EXPÉRIENCES & JEUX (Stable Harmonized Grid) */}
+              {/* ============================================================ */}
+              {/* TAB 2: EXPÉRIENCES & JEUX                                   */}
+              {/* ============================================================ */}
               {activeTab === "univers" && (
-                <div className="grid grid-cols-2 gap-3.5">
-                  {/* Card 1: Pochettes Surprises 3D */}
-                  <Link
-                    href="/pochette-surprise"
-                    className="group bg-gradient-to-br from-[#ff4f00]/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-[#ff4f00]/60 transition-all duration-200 flex flex-col justify-between h-[150px] shadow-lg hover:shadow-[#ff4f00]/10"
-                  >
-                    <div className="space-y-1.5">
-                      <div className="flex items-center justify-between">
-                        <div className="p-2 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] group-hover:scale-110 transition-transform">
-                          <Gift className="w-5 h-5" />
-                        </div>
-                        <span className="bg-[#ff4f00]/20 text-[#ff4f00] text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
-                          ✨ NOUVEAU
-                        </span>
-                      </div>
-                      <h4 className="text-sm font-black text-white group-hover:text-[#ff4f00] transition-colors font-extrabold">
-                        {t("nav_menu.surprise_pack")}
+                <div className="grid grid-cols-12 gap-6 relative z-10">
+                  {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 5) */}
+                  <div className="col-span-5 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-indigo-600/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group shadow-xl">
+                    <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity pointer-events-none">
+                      <Image
+                        src="/images/enjeu/Enjeu_banniere.png"
+                        alt="Spoolio Experiences & Games"
+                        fill
+                        className="object-cover object-center no-invert filter brightness-90 group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent z-10" />
+
+                    <div className="relative z-20 space-y-2.5">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-indigo-500 text-white text-[10px] font-black uppercase tracking-wider shadow-lg no-invert">
+                        <Dices className="w-3.5 h-3.5 text-emerald-300 animate-pulse" />
+                        Expériences &amp; Jeux
+                      </span>
+                      <h4 className="text-xl font-black text-white leading-tight">
+                        L'Univers Interactif Spoolio 🎲
                       </h4>
-                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        {t("nav_menu.surprise_pack_sub")}
+                      <p className="text-xs text-gray-300 font-medium leading-relaxed">
+                        Applications Web gratuites, outils de personnalisation 3D et accessoires de jeux de plateau.
                       </p>
                     </div>
-                    <div className="flex items-center justify-between text-xs font-black text-[#ff4f00] pt-1">
-                      <span>{t("nav_menu.open_pack")}</span>
-                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
-                    </div>
-                  </Link>
 
-                  {/* Card 2: Boussole Sensorielle */}
-                  <Link
-                    href="/boussole-sensorielle"
-                    className="group bg-gradient-to-br from-cyan-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-cyan-400/60 transition-all duration-200 flex flex-col justify-between h-[150px] shadow-lg hover:shadow-cyan-500/10"
-                  >
-                    <div className="space-y-1.5">
-                      <div className="flex items-center justify-between">
-                        <div className="p-2 rounded-xl bg-cyan-500/20 text-cyan-400 group-hover:scale-110 transition-transform">
-                          <Compass className="w-5 h-5" />
-                        </div>
-                        <span className="bg-cyan-500/20 text-cyan-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
-                          🧭 INTERACTIF
-                        </span>
-                      </div>
-                      <h4 className="text-sm font-black text-white group-hover:text-cyan-400 transition-colors font-extrabold">
-                        {t("nav_menu.boussole_title")}
-                      </h4>
-                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        {t("nav_menu.boussole_desc")}
-                      </p>
+                    <div className="relative z-20 pt-6">
+                      <Link
+                        href="/jeux-de-societe"
+                        onClick={() => setActiveTab(null)}
+                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-black font-black text-xs uppercase tracking-wider hover:bg-indigo-500 hover:text-white transition-all shadow-lg group/btn no-invert"
+                      >
+                        <span>Découvrir l'App Enjeu</span>
+                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                      </Link>
                     </div>
-                    <div className="flex items-center justify-between text-xs font-black text-cyan-400 pt-1">
-                      <span>{t("nav_menu.launch_test")}</span>
-                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
-                    </div>
-                  </Link>
+                  </div>
 
-                  {/* Card 3: Créateur de Clicker 3D */}
-                  <Link
-                    href="/createur-cliqueur"
-                    className="group bg-gradient-to-br from-purple-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-purple-400/60 transition-all duration-200 flex flex-col justify-between h-[150px] shadow-lg hover:shadow-purple-500/10"
-                  >
-                    <div className="space-y-1.5">
-                      <div className="flex items-center justify-between">
-                        <div className="p-2 rounded-xl bg-purple-500/20 text-purple-400 group-hover:scale-110 transition-transform">
-                          <Gamepad2 className="w-5 h-5" />
-                        </div>
-                        <span className="bg-purple-500/20 text-purple-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
-                          🎨 SUR-MESURE
-                        </span>
-                      </div>
-                      <h4 className="text-sm font-black text-white group-hover:text-purple-400 transition-colors font-extrabold">
-                        {t("nav_menu.clicker_studio")}
-                      </h4>
-                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        {t("nav_menu.clicker_studio_desc")}
-                      </p>
-                    </div>
-                    <div className="flex items-center justify-between text-xs font-black text-purple-400 pt-1">
-                      <span>{t("nav_menu.create_clicker")}</span>
-                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
-                    </div>
-                  </Link>
+                  {/* RIGHT SECTION: 2 SUB-COLUMNS + BOTTOM ACTION BAR (Col 6 to 12) */}
+                  <div className="col-span-7 flex flex-col justify-between space-y-4">
+                    {/* Top 2 Vertical Columns */}
+                    <div className="grid grid-cols-2 gap-4">
+                      {/* Column A: Jeux & Compagnons */}
+                      <div className="space-y-1.5">
+                        <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-2">
+                          Jeux &amp; Compagnons Web
+                        </h5>
 
-                  {/* Card 4: Roue de la Fortune Loterie */}
-                  <Link
-                    href="/loterie"
-                    className="group bg-gradient-to-br from-[#FF5500]/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-[#FF5500]/60 transition-all duration-200 flex flex-col justify-between h-[150px] shadow-lg hover:shadow-[#FF5500]/10"
-                  >
-                    <div className="space-y-1.5">
-                      <div className="flex items-center justify-between">
-                        <div className="p-2 rounded-xl bg-[#FF5500]/20 text-[#FF5500] group-hover:scale-110 transition-transform">
-                          <Sparkles className="w-5 h-5" />
-                        </div>
-                        <span className="bg-[#FF5500]/20 text-[#FF5500] text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
-                          🎰 KDO GRATUIT
-                        </span>
-                      </div>
-                      <h4 className="text-sm font-black text-white group-hover:text-[#FF5500] transition-colors font-extrabold">
-                        Roue de la Fortune
-                      </h4>
-                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        Tourne la roue et gagne des cadeaux 3D et réductions instantanées !
-                      </p>
-                    </div>
-                    <div className="flex items-center justify-between text-xs font-black text-[#FF5500] pt-1">
-                      <span>Lancer la Roue</span>
-                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
-                    </div>
-                  </Link>
+                        <Link
+                          href="/jeux-de-societe"
+                          onClick={() => setActiveTab(null)}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <Dices className="w-4.5 h-4.5" />
+                          </div>
+                          <div className="min-w-0">
+                            <h6 className="text-xs font-bold text-white group-hover:text-indigo-300 transition-colors truncate flex items-center gap-1">
+                              <span>Jeux de Société &amp; App</span>
+                              <span className="text-[8px] font-black px-1 py-0.2 rounded bg-emerald-500 text-black">
+                                GRATUIT
+                              </span>
+                            </h6>
+                            <p className="text-[11px] text-gray-400 truncate">
+                              Calculateur de score &amp; accessoires
+                            </p>
+                          </div>
+                        </Link>
 
-                  {/* Card 5: Jeux de Société & App Enjeu */}
-                  <Link
-                    href="/jeux-de-societe"
-                    className="col-span-2 group bg-gradient-to-r from-indigo-500/20 via-purple-500/10 to-transparent p-3.5 rounded-2xl border border-indigo-500/30 hover:border-indigo-400/70 transition-all duration-200 flex items-center justify-between shadow-lg hover:shadow-indigo-500/20"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="p-2.5 rounded-xl bg-indigo-500/25 text-indigo-300 group-hover:scale-110 transition-transform">
-                        <Dices className="w-5 h-5" />
+                        <Link
+                          href="/loterie"
+                          onClick={() => setActiveTab(null)}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <Sparkles className="w-4.5 h-4.5" />
+                          </div>
+                          <div className="min-w-0">
+                            <h6 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors truncate">
+                              Roue de la Fortune
+                            </h6>
+                            <p className="text-[11px] text-gray-400 truncate">
+                              Gagnez des cadeaux &amp; réductions 3D
+                            </p>
+                          </div>
+                        </Link>
+
+                        {isTombolaActive && (
+                          <Link
+                            href="/tombola"
+                            onClick={() => setActiveTab(null)}
+                            className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          >
+                            <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                              <Ticket className="w-4.5 h-4.5" />
+                            </div>
+                            <div className="min-w-0">
+                              <h6 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors truncate">
+                                Tombola Spoolio
+                              </h6>
+                              <p className="text-[11px] text-gray-400 truncate">
+                                {t("nav_menu.tombola_desc")}
+                              </p>
+                            </div>
+                          </Link>
+                        )}
                       </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h4 className="text-sm font-black text-white group-hover:text-indigo-300 transition-colors font-extrabold">
-                            Jeux de Société &amp; App Enjeu
-                          </h4>
-                          <span className="bg-emerald-500/20 text-emerald-300 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider border border-emerald-500/30 no-invert">
-                            🎲 APP GRATUITE
-                          </span>
-                        </div>
-                        <p className="text-xs text-gray-300 leading-snug">
-                          Accessoires 3D (tours à dés, porte-cartes) &amp; App de calcul de score.
+
+                      {/* Column B: Outils & Studio 3D */}
+                      <div className="space-y-1.5">
+                        <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-2">
+                          Outils &amp; Studio 3D
+                        </h5>
+
+                        <Link
+                          href="/boussole-sensorielle"
+                          onClick={() => setActiveTab(null)}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <Compass className="w-4.5 h-4.5" />
+                          </div>
+                          <div className="min-w-0">
+                            <h6 className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors truncate">
+                              {t("nav_menu.boussole_title")}
+                            </h6>
+                            <p className="text-[11px] text-gray-400 truncate">
+                              {t("nav_menu.boussole_desc")}
+                            </p>
+                          </div>
+                        </Link>
+
+                        <Link
+                          href="/createur-cliqueur"
+                          onClick={() => setActiveTab(null)}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <Gamepad2 className="w-4.5 h-4.5" />
+                          </div>
+                          <div className="min-w-0">
+                            <h6 className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors truncate">
+                              {t("nav_menu.clicker_studio")}
+                            </h6>
+                            <p className="text-[11px] text-gray-400 truncate">
+                              {t("nav_menu.clicker_studio_desc")}
+                            </p>
+                          </div>
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* Bottom Action Bar */}
+                    <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-4 mt-2">
+                      <div className="min-w-0">
+                        <h6 className="text-xs font-black text-white">
+                          Une idée de jeu de société ou d'accessoire ?
+                        </h6>
+                        <p className="text-[11px] text-gray-400 truncate">
+                          Partagez vos idées pour enrichir les prochaines créations 3D.
                         </p>
                       </div>
+
+                      <Link
+                        href="/jeux-de-societe#communaute"
+                        onClick={() => setActiveTab(null)}
+                        className="px-4 py-2 rounded-full bg-white/10 hover:bg-indigo-500 text-white hover:text-white text-xs font-black shrink-0 transition-colors border border-white/15 cursor-pointer no-invert"
+                      >
+                        Suggérer une idée
+                      </Link>
                     </div>
-                    <div className="flex items-center gap-1 text-xs font-black text-indigo-300 shrink-0">
-                      <span>Découvrir</span>
-                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </Link>
-
-
-
-                  {/* Card 6: Tombola (Conditionnelle) */}
-                  {isTombolaActive && (
-                    <Link
-                      href="/tombola"
-                      className="col-span-2 group bg-gradient-to-r from-amber-500/20 via-white/5 to-transparent p-3.5 rounded-2xl border border-white/15 hover:border-amber-400/60 transition-all duration-200 flex items-center justify-between shadow-lg hover:shadow-amber-500/10"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="p-2.5 rounded-xl bg-amber-500/20 text-amber-400 group-hover:scale-110 transition-transform">
-                          <Ticket className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h4 className="text-sm font-black text-white group-hover:text-amber-400 transition-colors font-extrabold">
-                              Tombola Spoolio
-                            </h4>
-                            <span className="bg-amber-500/20 text-amber-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
-                              🎟️ JEU
-                            </span>
-                          </div>
-                          <p className="text-xs text-gray-300 leading-snug">
-                            {t("nav_menu.tombola_desc")}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1 text-xs font-black text-amber-400 shrink-0">
-                        <span>{t("nav_menu.try_luck")}</span>
-                        <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </Link>
-                  )}
+                  </div>
                 </div>
               )}
 
-              {/* DROPDOWN TAB 3: L'ATELIER (Balanced 2x2 Grid) */}
+              {/* ============================================================ */}
+              {/* TAB 3: L'ATELIER                                             */}
+              {/* ============================================================ */}
               {activeTab === "atelier" && (
-                <div className="grid grid-cols-2 gap-4">
-                  {/* Card 1: Histoire & Atelier */}
-                  <Link
-                    href="/a-propos"
-                    className="group bg-gradient-to-br from-[#ff4f00]/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-[#ff4f00]/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg"
-                  >
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <div className="p-2 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] group-hover:scale-110 transition-transform">
-                          <Palette className="w-5 h-5" />
-                        </div>
-                        <span className="bg-[#ff4f00]/20 text-[#ff4f00] text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
-                          ✨ ARTISANAL
-                        </span>
-                      </div>
-                      <h4 className="text-sm font-black text-white group-hover:text-[#ff4f00] transition-colors font-extrabold">
-                        {t("nav_menu.our_story")}
-                      </h4>
-                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        {t("nav_menu.our_story_desc")}
-                      </p>
+                <div className="grid grid-cols-12 gap-6 relative z-10">
+                  {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 5) */}
+                  <div className="col-span-5 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-emerald-600/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group shadow-xl">
+                    <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity pointer-events-none">
+                      <Image
+                        src="/images/hero_background.jpg"
+                        alt="Atelier Spoolio"
+                        fill
+                        className="object-cover object-center no-invert filter brightness-90 group-hover:scale-105 transition-transform duration-500"
+                      />
                     </div>
-                    <div className="flex items-center justify-between text-xs font-black text-[#ff4f00]">
-                      <span>{t("nav_menu.discover_workshop")}</span>
-                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
-                    </div>
-                  </Link>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent z-10" />
 
-                  {/* Card 2: Espace Pro */}
-                  <Link
-                    href="/pro"
-                    className="group bg-gradient-to-br from-blue-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-blue-400/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg"
-                  >
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <div className="p-2 rounded-xl bg-blue-500/20 text-blue-400 group-hover:scale-110 transition-transform">
-                          <Building2 className="w-5 h-5" />
-                        </div>
-                        <span className="bg-blue-500/20 text-blue-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
-                          🏢 PROJETS 3D
-                        </span>
-                      </div>
-                      <h4 className="text-sm font-black text-white group-hover:text-blue-400 transition-colors font-extrabold">
-                        {t("nav_menu.pro_space")}
+                    <div className="relative z-20 space-y-2.5">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-500 text-black text-[10px] font-black uppercase tracking-wider shadow-lg no-invert">
+                        <Leaf className="w-3.5 h-3.5 text-black animate-bounce" />
+                        Impression 3D Eco 🇫🇷
+                      </span>
+                      <h4 className="text-xl font-black text-white leading-tight">
+                        Savoir-Faire &amp; Engagement Spoolio
                       </h4>
-                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        {t("nav_menu.pro_space_desc")}
+                      <p className="text-xs text-gray-300 font-medium leading-relaxed">
+                        Chaque objet est conçu en France à partir de bioplastiques compostables &amp; recyclables.
                       </p>
                     </div>
-                    <div className="flex items-center justify-between text-xs font-black text-blue-400">
-                      <span>{t("nav_menu.custom_projects")}</span>
-                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
-                    </div>
-                  </Link>
 
-                  {/* Card 3: Le Blog Spoolio */}
-                  <Link
-                    href="/blog"
-                    className="group bg-gradient-to-br from-purple-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-purple-400/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg"
-                  >
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <div className="p-2 rounded-xl bg-purple-500/20 text-purple-400 group-hover:scale-110 transition-transform">
-                          <BookOpen className="w-5 h-5" />
-                        </div>
-                        <span className="bg-purple-500/20 text-purple-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
-                          📖 GUIDES &amp; ASMR
-                        </span>
-                      </div>
-                      <h4 className="text-sm font-black text-white group-hover:text-purple-400 transition-colors font-extrabold">
-                        {t("nav_menu.blog_title")}
-                      </h4>
-                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        {t("nav_menu.blog_desc")}
-                      </p>
+                    <div className="relative z-20 pt-6">
+                      <Link
+                        href="/a-propos"
+                        onClick={() => setActiveTab(null)}
+                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-black font-black text-xs uppercase tracking-wider hover:bg-emerald-500 hover:text-black transition-all shadow-lg group/btn no-invert"
+                      >
+                        <span>Découvrir l'Atelier</span>
+                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                      </Link>
                     </div>
-                    <div className="flex items-center justify-between text-xs font-black text-purple-400">
-                      <span>{t("nav_menu.read_articles")}</span>
-                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
-                    </div>
-                  </Link>
+                  </div>
 
-                  {/* Card 4: FAQ & Support */}
-                  <Link
-                    href="/faq"
-                    className="group bg-gradient-to-br from-emerald-500/15 via-white/5 to-transparent p-4 rounded-2xl border border-white/15 hover:border-emerald-400/60 transition-all duration-200 flex flex-col justify-between h-40 shadow-lg"
-                  >
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <div className="p-2 rounded-xl bg-emerald-500/20 text-emerald-400 group-hover:scale-110 transition-transform">
-                          <HelpCircle className="w-5 h-5" />
-                        </div>
-                        <span className="bg-emerald-500/20 text-emerald-400 text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider no-invert">
-                          ❓ AIDE &amp; LIVRAISON
-                        </span>
+                  {/* RIGHT SECTION: 2 SUB-COLUMNS + BOTTOM ACTION BAR (Col 6 to 12) */}
+                  <div className="col-span-7 flex flex-col justify-between space-y-4">
+                    {/* Top 2 Vertical Columns */}
+                    <div className="grid grid-cols-2 gap-4">
+                      {/* Column A: L'Univers Spoolio */}
+                      <div className="space-y-1.5">
+                        <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-2">
+                          L'Univers Spoolio
+                        </h5>
+
+                        <Link
+                          href="/a-propos"
+                          onClick={() => setActiveTab(null)}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <Palette className="w-4.5 h-4.5" />
+                          </div>
+                          <div className="min-w-0">
+                            <h6 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate">
+                              {t("nav_menu.our_story")}
+                            </h6>
+                            <p className="text-[11px] text-gray-400 truncate">
+                              {t("nav_menu.our_story_desc")}
+                            </p>
+                          </div>
+                        </Link>
+
+                        <Link
+                          href="/blog"
+                          onClick={() => setActiveTab(null)}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <BookOpen className="w-4.5 h-4.5" />
+                          </div>
+                          <div className="min-w-0">
+                            <h6 className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors truncate">
+                              {t("nav_menu.blog_title")}
+                            </h6>
+                            <p className="text-[11px] text-gray-400 truncate">
+                              {t("nav_menu.blog_desc")}
+                            </p>
+                          </div>
+                        </Link>
                       </div>
-                      <h4 className="text-sm font-black text-white group-hover:text-emerald-400 transition-colors font-extrabold">
-                        {t("nav_menu.faq_title")}
-                      </h4>
-                      <p className="text-xs text-gray-300 leading-snug line-clamp-2">
-                        {t("nav_menu.faq_desc")}
-                      </p>
+
+                      {/* Column B: Services & Support */}
+                      <div className="space-y-1.5">
+                        <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-2">
+                          Services &amp; Support
+                        </h5>
+
+                        <Link
+                          href="/pro"
+                          onClick={() => setActiveTab(null)}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <Building2 className="w-4.5 h-4.5" />
+                          </div>
+                          <div className="min-w-0">
+                            <h6 className="text-xs font-bold text-white group-hover:text-blue-400 transition-colors truncate flex items-center gap-1">
+                              <span>{t("nav_menu.pro_space")}</span>
+                              <span className="text-[8px] font-black px-1 py-0.2 rounded bg-blue-500 text-white">
+                                B2B
+                              </span>
+                            </h6>
+                            <p className="text-[11px] text-gray-400 truncate">
+                              Projets sur-mesure &amp; séries 3D
+                            </p>
+                          </div>
+                        </Link>
+
+                        <Link
+                          href="/faq"
+                          onClick={() => setActiveTab(null)}
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                        >
+                          <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <HelpCircle className="w-4.5 h-4.5" />
+                          </div>
+                          <div className="min-w-0">
+                            <h6 className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors truncate">
+                              {t("nav_menu.faq_title")}
+                            </h6>
+                            <p className="text-[11px] text-gray-400 truncate">
+                              {t("nav_menu.faq_desc")}
+                            </p>
+                          </div>
+                        </Link>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between text-xs font-black text-emerald-400">
-                      <span>{t("nav_menu.view_faq")}</span>
-                      <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
+
+                    {/* Bottom Action Bar */}
+                    <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-4 mt-2">
+                      <div className="min-w-0">
+                        <h6 className="text-xs font-black text-white">
+                          Un projet d'impression 3D sur-mesure pour votre entreprise ?
+                        </h6>
+                        <p className="text-[11px] text-gray-400 truncate">
+                          Demandez une étude de faisabilité et un devis rapide.
+                        </p>
+                      </div>
+
+                      <Link
+                        href="/pro"
+                        onClick={() => setActiveTab(null)}
+                        className="px-4 py-2 rounded-full bg-white/10 hover:bg-blue-500 text-white hover:text-white text-xs font-black shrink-0 transition-colors border border-white/15 cursor-pointer no-invert"
+                      >
+                        Demander un devis
+                      </Link>
                     </div>
-                  </Link>
+                  </div>
                 </div>
               )}
             </div>
