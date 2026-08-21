@@ -8,7 +8,7 @@ import { useCart, SelectedRelay } from "@/context/CartContext";
 import UnicornIcon from "@/components/UnicornIcon";
 import checkoutIconData from "@/components/checkout-bag.json";
 import CartCrossSell from "@/components/CartCrossSell";
-import { Tag, X, CheckCircle2, Sparkles } from "lucide-react";
+import { Tag, X, CheckCircle2, Sparkles, Gift } from "lucide-react";
 
 export default function PanierClient() {
   const {
@@ -27,6 +27,11 @@ export default function PanierClient() {
     discountAmount,
     applyPromoCode,
     removePromoCode,
+    appliedGiftCard,
+    giftCardDiscount,
+    giftCardError,
+    applyGiftCardCode,
+    removeGiftCardCode,
   } = useCart();
 
   const router = useRouter();
@@ -711,93 +716,166 @@ export default function PanierClient() {
           )}
         </div>
 
-        {/* Section Code Promo */}
-        <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 shadow-xl w-full">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-base font-extrabold text-white uppercase tracking-wider flex items-center gap-2">
-              <Tag className="w-4 h-4 text-[#ff4f00]" />
-              <span>Code Promo</span>
-            </h3>
-            {appliedPromo && (
-              <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3" /> Actif
-              </span>
+        {/* Section Code Promo & Carte Cadeau */}
+        <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 shadow-xl w-full space-y-6">
+          {/* 1. Code Promo */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-base font-extrabold text-white uppercase tracking-wider flex items-center gap-2">
+                <Tag className="w-4 h-4 text-[#ff4f00]" />
+                <span>Code Promo</span>
+              </h3>
+              {appliedPromo && (
+                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3" /> Actif
+                </span>
+              )}
+            </div>
+
+            {appliedPromo ? (
+              <div className="bg-emerald-500/10 border border-emerald-500/25 rounded-2xl p-3.5 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+                    <Sparkles className="w-4 h-4" />
+                  </div>
+                  <div className="truncate">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono font-black text-white text-xs tracking-wider">
+                        {appliedPromo.code}
+                      </span>
+                      <span className="text-[10px] font-extrabold text-emerald-400 bg-emerald-400/20 px-1.5 py-0.5 rounded">
+                        {appliedPromo.discountType === "percentage"
+                          ? `-${appliedPromo.discountValue}%`
+                          : appliedPromo.discountType === "fixed"
+                          ? `-${appliedPromo.discountValue.toFixed(2)}€`
+                          : "Livraison Offerte"}
+                      </span>
+                    </div>
+                    {appliedPromo.description && (
+                      <span className="text-[10px] text-gray-400 block truncate mt-0.5">
+                        {appliedPromo.description}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <button
+                  onClick={handleRemovePromo}
+                  className="w-7 h-7 rounded-lg bg-white/5 hover:bg-red-500/20 text-gray-400 hover:text-red-400 flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                  title="Retirer le code"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleApplyPromo} className="flex flex-col gap-2">
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <input
+                      type="text"
+                      value={promoInput}
+                      onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
+                      placeholder="Ex: SPOOLIO10"
+                      className="w-full h-10 bg-spoolio-bg border border-spoolio-border focus:border-[#ff4f00] rounded-xl px-3 text-xs text-white font-mono uppercase tracking-wider focus:outline-none transition-colors"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={promoLoading || !promoInput.trim()}
+                    className="h-10 px-4 bg-white/10 hover:bg-white text-white hover:text-black disabled:bg-white/5 disabled:text-gray-500 font-extrabold text-xs rounded-xl transition-all cursor-pointer disabled:cursor-not-allowed shrink-0"
+                  >
+                    {promoLoading ? "..." : "Appliquer"}
+                  </button>
+                </div>
+
+                {promoMessage && (
+                  <div
+                    className={`text-[11px] font-semibold px-3 py-2 rounded-xl flex items-center gap-1.5 ${
+                      promoMessage.type === "success"
+                        ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
+                        : "bg-red-500/10 border border-red-500/20 text-red-400"
+                    }`}
+                  >
+                    {promoMessage.type === "success" ? (
+                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                    ) : (
+                      <X className="w-3.5 h-3.5 shrink-0" />
+                    )}
+                    <span>{promoMessage.text}</span>
+                  </div>
+                )}
+              </form>
             )}
           </div>
 
-          {appliedPromo ? (
-            <div className="bg-emerald-500/10 border border-emerald-500/25 rounded-2xl p-3.5 flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2.5 min-w-0">
-                <div className="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
-                  <Sparkles className="w-4 h-4" />
-                </div>
-                <div className="truncate">
-                  <div className="flex items-center gap-2">
-                    <span className="font-mono font-black text-white text-xs tracking-wider">
-                      {appliedPromo.code}
-                    </span>
-                    <span className="text-[10px] font-extrabold text-emerald-400 bg-emerald-400/20 px-1.5 py-0.5 rounded">
-                      {appliedPromo.discountType === "percentage"
-                        ? `-${appliedPromo.discountValue}%`
-                        : appliedPromo.discountType === "fixed"
-                        ? `-${appliedPromo.discountValue.toFixed(2)}€`
-                        : "Livraison Offerte"}
-                    </span>
-                  </div>
-                  {appliedPromo.description && (
-                    <span className="text-[10px] text-gray-400 block truncate mt-0.5">
-                      {appliedPromo.description}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <button
-                onClick={handleRemovePromo}
-                className="w-7 h-7 rounded-lg bg-white/5 hover:bg-red-500/20 text-gray-400 hover:text-red-400 flex items-center justify-center transition-colors cursor-pointer shrink-0"
-                title="Retirer le code"
-              >
-                <X className="w-4 h-4" />
-              </button>
+          {/* 2. Carte Cadeau */}
+          <div className="pt-4 border-t border-white/10">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-base font-extrabold text-white uppercase tracking-wider flex items-center gap-2">
+                <Gift className="w-4 h-4 text-indigo-400" />
+                <span>Carte Cadeau</span>
+              </h3>
+              {appliedGiftCard && (
+                <span className="text-[10px] font-black uppercase tracking-wider text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded-full flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3" /> Appliquée
+                </span>
+              )}
             </div>
-          ) : (
-            <form onSubmit={handleApplyPromo} className="flex flex-col gap-2">
-              <div className="flex gap-2">
-                <div className="relative flex-1">
-                  <input
-                    type="text"
-                    value={promoInput}
-                    onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
-                    placeholder="Ex: SPOOLIO10"
-                    className="w-full h-10 bg-spoolio-bg border border-spoolio-border focus:border-[#ff4f00] rounded-xl px-3 text-xs text-white font-mono uppercase tracking-wider focus:outline-none transition-colors"
-                  />
+
+            {appliedGiftCard ? (
+              <div className="bg-indigo-500/10 border border-indigo-500/25 rounded-2xl p-3.5 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="w-8 h-8 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 shrink-0">
+                    <Gift className="w-4 h-4" />
+                  </div>
+                  <div className="truncate">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono font-black text-white text-xs tracking-wider">
+                        {appliedGiftCard.code}
+                      </span>
+                      <span className="text-[10px] font-extrabold text-indigo-400 bg-indigo-400/20 px-1.5 py-0.5 rounded">
+                        Solde: {appliedGiftCard.remainingAmount.toFixed(2)}€
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 <button
-                  type="submit"
-                  disabled={promoLoading || !promoInput.trim()}
-                  className="h-10 px-4 bg-white/10 hover:bg-white text-white hover:text-black disabled:bg-white/5 disabled:text-gray-500 font-extrabold text-xs rounded-xl transition-all cursor-pointer disabled:cursor-not-allowed shrink-0"
+                  onClick={removeGiftCardCode}
+                  className="w-7 h-7 rounded-lg bg-white/5 hover:bg-red-500/20 text-gray-400 hover:text-red-400 flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                  title="Retirer la carte cadeau"
                 >
-                  {promoLoading ? "..." : "Appliquer"}
+                  <X className="w-4 h-4" />
                 </button>
               </div>
-
-              {promoMessage && (
-                <div
-                  className={`text-[11px] font-semibold px-3 py-2 rounded-xl flex items-center gap-1.5 ${
-                    promoMessage.type === "success"
-                      ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
-                      : "bg-red-500/10 border border-red-500/20 text-red-400"
-                  }`}
-                >
-                  {promoMessage.type === "success" ? (
-                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                  ) : (
-                    <X className="w-3.5 h-3.5 shrink-0" />
-                  )}
-                  <span>{promoMessage.text}</span>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    id="gift-card-input-panier"
+                    placeholder="Ex: SPOOLIO-A8K2-9M4P"
+                    className="flex-1 h-10 bg-spoolio-bg border border-spoolio-border focus:border-indigo-500 rounded-xl px-3 text-xs text-white font-mono uppercase tracking-wider focus:outline-none transition-colors"
+                  />
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      const input = document.getElementById("gift-card-input-panier") as HTMLInputElement;
+                      if (input && input.value) {
+                        await applyGiftCardCode(input.value);
+                      }
+                    }}
+                    className="h-10 px-4 bg-indigo-500/20 hover:bg-indigo-500 text-indigo-300 hover:text-white font-extrabold text-xs rounded-xl transition-all cursor-pointer border border-indigo-500/30 shrink-0"
+                  >
+                    Activer
+                  </button>
                 </div>
-              )}
-            </form>
-          )}
+                {giftCardError && (
+                  <span className="text-[10px] text-red-400 font-bold px-1">
+                    ⚠️ {giftCardError}
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Facturation & validation */}
@@ -819,6 +897,16 @@ export default function PanierClient() {
                   <span>Remise ({appliedPromo.code})</span>
                 </span>
                 <span className="font-extrabold font-mono">-{discountAmount.toFixed(2)}€</span>
+              </div>
+            )}
+
+            {appliedGiftCard && giftCardDiscount > 0 && (
+              <div className="flex items-center justify-between text-indigo-400 font-bold bg-indigo-500/5 p-2 rounded-xl border border-indigo-500/15">
+                <span className="flex items-center gap-1">
+                  <Gift className="w-3 h-3" />
+                  <span>Carte Cadeau ({appliedGiftCard.code})</span>
+                </span>
+                <span className="font-extrabold font-mono">-{giftCardDiscount.toFixed(2)}€</span>
               </div>
             )}
 

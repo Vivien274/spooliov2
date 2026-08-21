@@ -275,3 +275,24 @@ model Badge {
 
   @@map("badges")
 }
+
+model GiftCard {
+  id              String    @id @default(uuid())
+  code            String    @unique
+  initialAmount   Float     @map("initial_amount")
+  remainingAmount Float     @map("remaining_amount")
+  buyerName       String?   @map("buyer_name")
+  buyerEmail      String    @map("buyer_email")
+  recipientName   String?   @map("recipient_name")
+  recipientEmail  String?   @map("recipient_email")
+  customMessage   String?   @map("custom_message") @db.Text
+  isActive        Boolean   @default(true) @map("is_active")
+  isPaid          Boolean   @default(false) @map("is_paid")
+  stripeSession   String?   @map("stripe_session")
+  history         Json      @default("[]")
+  expiresAt       DateTime? @map("expires_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("gift_cards")
+}

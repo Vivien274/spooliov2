@@ -35,6 +35,16 @@ export interface AppliedPromo {
   minOrderAmount: number;
 }
 
+export interface AppliedGiftCard {
+  id: string;
+  code: string;
+  initialAmount: number;
+  remainingAmount: number;
+  buyerName?: string | null;
+  recipientName?: string | null;
+  customMessage?: string | null;
+}
+
 import { DEFAULT_SHIPPING_CONFIG, ShippingConfig } from "@/types/shipping";
 
 export type { ShippingConfig };
@@ -58,9 +68,14 @@ interface CartContextType {
   appliedPromo: AppliedPromo | null;
   discountAmount: number;
   promoError: string | null;
+  appliedGiftCard: AppliedGiftCard | null;
+  giftCardDiscount: number;
+  giftCardError: string | null;
   shippingConfig: ShippingConfig;
   applyPromoCode: (code: string) => Promise<{ success: boolean; error?: string; message?: string }>;
   removePromoCode: () => void;
+  applyGiftCardCode: (code: string) => Promise<{ success: boolean; error?: string; message?: string }>;
+  removeGiftCardCode: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -72,6 +87,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [selectedRelay, setSelectedRelay] = useState<SelectedRelay | null>(null);
   const [appliedPromo, setAppliedPromo] = useState<AppliedPromo | null>(null);
   const [promoError, setPromoError] = useState<string | null>(null);
+  const [appliedGiftCard, setAppliedGiftCard] = useState<AppliedGiftCard | null>(null);
+  const [giftCardError, setGiftCardError] = useState<string | null>(null);
   const [initialized, setInitialized] = useState<boolean>(false);
   const [shippingConfig, setShippingConfig] = useState<ShippingConfig>(DEFAULT_SHIPPING_CONFIG);
 
@@ -87,7 +104,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       .catch((err) => console.warn("Could not fetch shipping config:", err));
   }, []);
 
-  // Load cart, shipping and promo details from localStorage on mount
+  // Load cart, shipping, promo and gift card from localStorage on mount
   useEffect(() => {
     try {
       const savedCart = localStorage.getItem("spoolio_cart");
@@ -106,13 +123,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (savedPromo) {
         setAppliedPromo(JSON.parse(savedPromo));
       }
+      const savedGiftCard = localStorage.getItem("spoolio_applied_gift_card");
+      if (savedGiftCard) {
+        setAppliedGiftCard(JSON.parse(savedGiftCard));
+      }
     } catch (e) {
       console.error("Error loading cart data:", e);
     }
     setInitialized(true);
   }, []);
 
-  // Save cart, shipping and promo to localStorage when changed
+  // Save cart, shipping, promo & gift card to localStorage when changed
   useEffect(() => {
     if (!initialized) return;
     try {
@@ -128,10 +149,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       } else {
         localStorage.removeItem("spoolio_applied_promo");
       }
+      if (appliedGiftCard) {
+        localStorage.setItem("spoolio_applied_gift_card", JSON.stringify(appliedGiftCard));
+      } else {
+        localStorage.removeItem("spoolio_applied_gift_card");
+      }
     } catch (e) {
       console.error("Error saving cart data:", e);
     }
-  }, [cartItems, shippingMethod, selectedRelay, appliedPromo, initialized]);
+  }, [cartItems, shippingMethod, selectedRelay, appliedPromo, appliedGiftCard, initialized]);
 
   // Recalculate dynamic roundup price dynamically when normal items change
   useEffect(() => {
@@ -156,13 +182,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
           )
         );
       } else if (normalTotal === 0) {
-        // If cart becomes empty of normal items, remove the roundup item
         setCartItems((prev) => prev.filter((item) => item.productId !== -1));
       }
     }
   }, [cartItems, initialized]);
 
-  // Compute unique key for variation combo
   const getComboId = (productId: number, selectedOptions: Record<string, string>) => {
     const optionsKey = Object.entries(selectedOptions)
       .sort(([a], [b]) => a.localeCompare(b))
@@ -179,7 +203,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const id = getComboId(item.productId, item.selectedOptions);
 
     setCartItems((prevItems) => {
-      // If it is a donation (productId === -3), remove any previous donation and add the new one instead of aggregating
       if (item.productId === -3) {
         const filtered = prevItems.filter((i) => i.productId !== -3);
         return [...filtered, { ...item, id, quantity: 1 }];
@@ -187,16 +210,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
       const existingIndex = prevItems.findIndex((i) => i.id === id);
       if (existingIndex > -1) {
-        // Increment quantity of existing item
         const newItems = [...prevItems];
         newItems[existingIndex].quantity += quantity;
         return newItems;
       }
-      // Add new item
       return [...prevItems, { ...item, id, quantity }];
     });
 
-    // Automatically open the cart drawer for premium UX feedback
     if (openCart) {
       setIsCartOpen(true);
     }
@@ -220,12 +240,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setCartItems([]);
     setAppliedPromo(null);
     setPromoError(null);
+    setAppliedGiftCard(null);
+    setGiftCardError(null);
     try {
       localStorage.removeItem("spoolio_applied_promo");
+      localStorage.removeItem("spoolio_applied_gift_card");
     } catch (e) {}
   };
 
-  // Compute aggregate totals
   const cartCount = cartItems
     .filter((item) => item.productId > 0)
     .reduce((acc, item) => acc + item.quantity, 0);
@@ -235,15 +257,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     0
   );
 
-  // Normal products subtotal (eligible for discounts & free shipping calculation)
   const cartTotalNormal = cartItems
     .filter((item) => item.productId > 0 && !item.isLoyaltyReward)
     .reduce((acc, item) => acc + parseFloat(item.price) * item.quantity, 0);
 
-  // Compute discount amount dynamically
   let discountAmount = 0;
   if (appliedPromo) {
-    // Check if minimum order amount is satisfied
     if (!appliedPromo.minOrderAmount || cartTotalNormal >= appliedPromo.minOrderAmount) {
       if (appliedPromo.discountType === "percentage") {
         discountAmount =
@@ -255,10 +274,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  // Net total eligible for free shipping calculation (subtotal after discounts)
   const netTotalNormal = Math.max(0, cartTotalNormal - discountAmount);
 
-  // Compute Shipping costs dynamically from dynamic config
   const isFreeShippingByAmount = netTotalNormal >= shippingConfig.freeShippingThreshold;
   const isFreeShippingByPromo =
     shippingConfig.enablePromoFreeShipping &&
@@ -276,9 +293,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       ? shippingConfig.relayShippingCost
       : shippingConfig.homeShippingCost;
 
-  const cartTotalWithShipping = Math.max(0, cartTotal - discountAmount + shippingCost);
+  // Calculate Subtotal with shipping before gift card
+  const totalBeforeGiftCard = Math.max(0, cartTotal - discountAmount + shippingCost);
 
-  // Apply promo code action
+  // Compute gift card discount up to remainingAmount or totalBeforeGiftCard
+  let giftCardDiscount = 0;
+  if (appliedGiftCard) {
+    giftCardDiscount = Math.min(appliedGiftCard.remainingAmount, totalBeforeGiftCard);
+  }
+
+  const cartTotalWithShipping = Math.max(0, totalBeforeGiftCard - giftCardDiscount);
+
   const applyPromoCode = async (
     code: string
   ): Promise<{ success: boolean; error?: string; message?: string }> => {
@@ -318,7 +343,48 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setPromoError(null);
     try {
       localStorage.removeItem("spoolio_applied_promo");
-      localStorage.removeItem("spoolio_active_promo_code");
+    } catch (e) {}
+  };
+
+  const applyGiftCardCode = async (
+    code: string
+  ): Promise<{ success: boolean; error?: string; message?: string }> => {
+    const cleanCode = (code || "").trim().toUpperCase();
+    if (!cleanCode) {
+      const err = "Veuillez entrer un code de carte cadeau.";
+      setGiftCardError(err);
+      return { success: false, error: err };
+    }
+
+    try {
+      const res = await fetch("/api/gift-card/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: cleanCode }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.valid) {
+        const err = data.error || "Code carte cadeau invalide ou expiré.";
+        setGiftCardError(err);
+        return { success: false, error: err };
+      }
+
+      setAppliedGiftCard(data.giftCard);
+      setGiftCardError(null);
+      return { success: true, message: `Carte cadeau de ${data.giftCard.remainingAmount.toFixed(2)}€ appliquée !` };
+    } catch (e: any) {
+      const err = "Erreur de connexion lors de la vérification de la carte cadeau.";
+      setGiftCardError(err);
+      return { success: false, error: err };
+    }
+  };
+
+  const removeGiftCardCode = () => {
+    setAppliedGiftCard(null);
+    setGiftCardError(null);
+    try {
+      localStorage.removeItem("spoolio_applied_gift_card");
     } catch (e) {}
   };
 
@@ -343,9 +409,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         appliedPromo,
         discountAmount,
         promoError,
+        appliedGiftCard,
+        giftCardDiscount,
+        giftCardError,
         shippingConfig,
         applyPromoCode,
         removePromoCode,
+        applyGiftCardCode,
+        removeGiftCardCode,
       }}
     >
       {children}

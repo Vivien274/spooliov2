@@ -9,6 +9,7 @@ import ReviewsSection from "@/components/ReviewsSection";
 import HomeEnjeuBanner from "@/components/HomeEnjeuBanner";
 import SpotlightMarqueeBanner from "@/components/SpotlightMarqueeBanner";
 import BoutiqueCTAButton from "@/components/BoutiqueCTAButton";
+import ThemeRibbon from "@/components/ThemeRibbon";
 import { Sparkles, Keyboard, Shapes, Gift } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import fs from "fs";
@@ -288,74 +289,8 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 3. Portes d'entrée par Univers (Design Épuré & Structuré) */}
-      <section className="w-full max-w-[1200px] mx-auto px-4 mt-8 mb-4 select-none font-sans">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-          {/* 1. Fidgets & Anti-Stress */}
-          <Link
-            href="/categorie/fidgets"
-            className="group relative p-4 rounded-2xl bg-[#0f0f14] hover:bg-[#14141d] border border-white/10 hover:border-[#ff4f00]/60 hover:shadow-[0_0_25px_rgba(255,79,0,0.15)] transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
-          >
-            <div className="w-11 h-11 rounded-xl bg-[#ff4f00]/10 border border-[#ff4f00]/30 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-[#ff4f00]/20 transition-all">
-              <Sparkles className="w-5 h-5 text-[#ff4f00]" />
-            </div>
-            <div className="flex flex-col min-w-0">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#ff4f00]">TDAH &amp; Focus</span>
-              <strong className="text-xs sm:text-sm font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate">
-                Fidgets Anti-Stress
-              </strong>
-            </div>
-          </Link>
-
-          {/* 2. Studio Clicker 3D */}
-          <Link
-            href="/createur-cliqueur"
-            className="group relative p-4 rounded-2xl bg-[#0f0f14] hover:bg-[#14141d] border border-white/10 hover:border-cyan-500/60 hover:shadow-[0_0_25px_rgba(6,182,212,0.15)] transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
-          >
-            <div className="w-11 h-11 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all">
-              <Keyboard className="w-5 h-5 text-cyan-400" />
-            </div>
-            <div className="flex flex-col min-w-0">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-cyan-400">Sur-Mesure</span>
-              <strong className="text-xs sm:text-sm font-bold text-white group-hover:text-cyan-400 transition-colors truncate">
-                Studio Clickers 3D
-              </strong>
-            </div>
-          </Link>
-
-          {/* 3. Dragons & Figurines */}
-          <Link
-            href="/categorie/figurines"
-            className="group relative p-4 rounded-2xl bg-[#0f0f14] hover:bg-[#14141d] border border-white/10 hover:border-purple-500/60 hover:shadow-[0_0_25px_rgba(168,85,247,0.15)] transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
-          >
-            <div className="w-11 h-11 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all">
-              <Shapes className="w-5 h-5 text-purple-400" />
-            </div>
-            <div className="flex flex-col min-w-0">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-purple-400">Articulé 3D</span>
-              <strong className="text-xs sm:text-sm font-bold text-white group-hover:text-purple-400 transition-colors truncate">
-                Dragons &amp; Flexis
-              </strong>
-            </div>
-          </Link>
-
-          {/* 4. Pochettes Surprises */}
-          <Link
-            href="/pochette-surprise"
-            className="group relative p-4 rounded-2xl bg-[#0f0f14] hover:bg-[#14141d] border border-white/10 hover:border-emerald-500/60 hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] transition-all duration-300 flex items-center gap-3.5 overflow-hidden"
-          >
-            <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:bg-emerald-500/20 transition-all">
-              <Gift className="w-5 h-5 text-emerald-400" />
-            </div>
-            <div className="flex flex-col min-w-0">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-400">Dès 10.00€</span>
-              <strong className="text-xs sm:text-sm font-bold text-white group-hover:text-emerald-400 transition-colors truncate">
-                Pochettes Surprises
-              </strong>
-            </div>
-          </Link>
-        </div>
-      </section>
+      {/* 3. Ruban de pastilles d'accès par Thème / Envie (Style L'Avant Gardiste) */}
+      <ThemeRibbon />
 
       {/* 5. Product Grid Header & List */}
       <section className="w-full max-w-[1200px] px-4 py-8 relative z-10 flex flex-col gap-14">

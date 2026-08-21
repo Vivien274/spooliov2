@@ -1,0 +1,117 @@
+"use client";
+
+import Link from "next/link";
+import {
+  Brain,
+  Gamepad2,
+  Shapes,
+  ShieldCheck,
+  Gift,
+  Dices,
+  Keyboard,
+  Tag,
+  ArrowRight,
+} from "lucide-react";
+
+export interface ThemePill {
+  id: string;
+  label: string;
+  href: string;
+  icon: any;
+}
+
+const THEMES: ThemePill[] = [
+  {
+    id: "anti-stress",
+    label: "Anti-Stress",
+    href: "/categorie/Fidgets",
+    icon: Brain,
+  },
+  {
+    id: "gaming",
+    label: "Gaming & Setup",
+    href: "/categorie/Geek %2F Gaming",
+    icon: Gamepad2,
+  },
+
+  {
+    id: "animaux-nfc",
+    label: "Animaux & SOS",
+    href: "/medaillon-nfc-chien-chat",
+    icon: ShieldCheck,
+  },
+  {
+    id: "pochettes",
+    label: "Surprises 3D",
+    href: "/pochette-surprise",
+    icon: Gift,
+  },
+  {
+    id: "app-enjeu",
+    label: "Jeux & App",
+    href: "/jeux-de-societe",
+    icon: Dices,
+  },
+  {
+    id: "studio-clicker",
+    label: "Studio Clicker",
+    href: "/createur-cliqueur",
+    icon: Keyboard,
+  },
+  {
+    id: "petits-budgets",
+    label: "Moins de 15€",
+    href: "/boutique",
+    icon: Tag,
+  },
+];
+
+export default function ThemeRibbon() {
+  return (
+    <section className="w-full max-w-[1200px] mx-auto px-4 mt-6 mb-2 font-sans select-none">
+      {/* Background Banner Box with 5% white translucent background */}
+      <div className="w-full bg-white/5 border border-white/10 rounded-3xl p-5 sm:p-6 backdrop-blur-md shadow-xl">
+        {/* Sleek Minimalist Header */}
+        <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
+          <h3 className="text-xs font-mono font-bold text-gray-300 uppercase tracking-widest flex items-center gap-2">
+            <span>PAR ENVIE &amp; THÈME</span>
+            <span className="w-8 h-px bg-white/20" />
+          </h3>
+
+          <Link
+            href="/boutique"
+            className="text-xs font-semibold text-gray-400 hover:text-[#ff4f00] transition-colors flex items-center gap-1 group"
+          >
+            <span>Tout explorer</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        </div>
+
+        {/* Sleek Circle Bubbles with Lucide Icons */}
+        <div className="flex items-center justify-between gap-3 sm:gap-5 overflow-x-auto pt-1 pb-1 scrollbar-none snap-x snap-mandatory">
+          {THEMES.map((theme) => {
+            const Icon = theme.icon;
+
+            return (
+              <Link
+                key={theme.id}
+                href={theme.href}
+                className="group flex flex-col items-center gap-2.5 min-w-[85px] sm:min-w-[100px] shrink-0 snap-start transition-transform duration-200 active:scale-95 cursor-pointer"
+              >
+                {/* Circle Bubble with Lucide Icon */}
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/10 border border-white/15 flex items-center justify-center transition-all duration-300 group-hover:bg-[#ff4f00] group-hover:border-[#ff4f00] group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(255,79,0,0.4)]">
+                  <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-white/90 group-hover:text-white transition-colors duration-300" />
+                </div>
+
+                {/* Clean Label */}
+                <span className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors text-center line-clamp-1">
+                  {theme.label}
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}

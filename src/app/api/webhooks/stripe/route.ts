@@ -54,6 +54,22 @@ export async function POST(request: Request) {
       const session = event.data?.object;
       
       if (session) {
+        // Gift card purchase checkout completion
+        if (session.metadata?.type === "gift_card") {
+          const giftCardId = session.metadata.giftCardId;
+          if (giftCardId && prisma) {
+            try {
+              await prisma.giftCard.update({
+                where: { id: giftCardId },
+                data: { isPaid: true, stripeSession: session.id }
+              });
+              console.log(`[Stripe Webhook] Gift card ${session.metadata.giftCardCode} activated successfully.`);
+            } catch (err) {
+              console.error("[Stripe Webhook Error] Failed to activate gift card:", err);
+            }
+          }
+          return NextResponse.json({ received: true });
+        }
         const sessionId = session.id;
         const email = session.customer_details?.email || "";
         const customerName = session.customer_details?.name || "";

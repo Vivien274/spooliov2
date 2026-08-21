@@ -120,6 +120,11 @@ export default function Footer({ className = "" }: FooterProps) {
                 </Link>
               </li>
               <li>
+                <Link href="/carte-cadeau" className="hover:text-amber-300 transition-colors flex items-center gap-1.5">
+                  <span>🎁 Carte Cadeau 3D</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/don" className="hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
                   <span>🚀 Soutenir l'Atelier</span>
                 </Link>
