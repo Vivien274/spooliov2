@@ -25,9 +25,6 @@ import {
   Flame,
   Zap,
   Leaf,
-  MessageSquare,
-  HelpCircle as QuestionIcon,
-  PhoneCall,
   ArrowRight,
 } from "lucide-react";
 
@@ -212,13 +209,16 @@ export default function MotionNavigationMenu() {
               {activeTab === "boutique" && (
                 <div className="grid grid-cols-12 gap-6 relative z-10">
                   {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 5) */}
-                  <div className="col-span-5 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-[#ff4f00]/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group shadow-xl">
-                    <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity pointer-events-none">
+                  <div className="col-span-5 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-[#ff4f00]/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group/hero shadow-xl">
+                    {/* Light Sweep Reflection animation */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] group-hover/hero:translate-x-[150%] transition-transform duration-1000 z-20 pointer-events-none" />
+
+                    <div className="absolute inset-0 opacity-40 group-hover/hero:opacity-65 transition-opacity duration-500 pointer-events-none">
                       <Image
                         src="/images/marcel_octopus.jpg"
                         alt="Spoolio 3D Creations"
                         fill
-                        className="object-cover object-center no-invert filter brightness-90 group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover object-center no-invert filter brightness-90 group-hover/hero:scale-105 transition-transform duration-700 ease-out"
                       />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent z-10" />
@@ -232,7 +232,7 @@ export default function MotionNavigationMenu() {
                         Créations 3D Artisanales &amp; Ludiques
                       </h4>
                       <p className="text-xs text-gray-300 font-medium leading-relaxed">
-                        Fidgets articulés, objets déco, accessoires gaming &amp; produits personnalisés zéro déchet.
+                        Fidgets articulés, objet déco &amp; accessoires gaming zéro déchet.
                       </p>
                     </div>
 
@@ -240,10 +240,10 @@ export default function MotionNavigationMenu() {
                       <Link
                         href="/boutique"
                         onClick={() => setActiveTab(null)}
-                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-black font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all shadow-lg group/btn no-invert"
+                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-black font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all duration-300 shadow-lg group/btn no-invert"
                       >
                         <span>Tout le catalogue</span>
-                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-300" />
                       </Link>
                     </div>
                   </div>
@@ -261,17 +261,20 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/categorie/Fidgets"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                          <div className="w-9 h-9 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
                             <Sparkles className="w-4.5 h-4.5" />
                           </div>
-                          <div className="min-w-0">
-                            <h6 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate">
-                              {t("header.categories.fidgets")}
-                            </h6>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <h6 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate">
+                                {t("header.categories.fidgets")}
+                              </h6>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                            </div>
                             <p className="text-[11px] text-gray-400 truncate">
-                              {t("nav_menu.fidgets_sub")}
+                              Jouets tactiles &amp; anti-stress 3D
                             </p>
                           </div>
                         </Link>
@@ -279,17 +282,20 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/categorie/Geek %2F Gaming"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                          <div className="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
                             <Gamepad2 className="w-4.5 h-4.5" />
                           </div>
-                          <div className="min-w-0">
-                            <h6 className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors truncate">
-                              {t("nav_menu.geek_gaming")}
-                            </h6>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <h6 className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors truncate">
+                                {t("nav_menu.geek_gaming")}
+                              </h6>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                            </div>
                             <p className="text-[11px] text-gray-400 truncate">
-                              {t("nav_menu.geek_sub")}
+                              Supports manette &amp; accessoires
                             </p>
                           </div>
                         </Link>
@@ -297,17 +303,20 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/categorie/Porte clés"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                          <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
                             <Key className="w-4.5 h-4.5" />
                           </div>
-                          <div className="min-w-0">
-                            <h6 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors truncate">
-                              {t("nav_menu.keychain_title")}
-                            </h6>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <h6 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors truncate">
+                                {t("nav_menu.keychain_title")}
+                              </h6>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                            </div>
                             <p className="text-[11px] text-gray-400 truncate">
-                              {t("nav_menu.keychain_sub")}
+                              Porte-clés originaux &amp; fun
                             </p>
                           </div>
                         </Link>
@@ -315,17 +324,20 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/categorie/Animaux %26 Figurines"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                          <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
                             <Smile className="w-4.5 h-4.5" />
                           </div>
-                          <div className="min-w-0">
-                            <h6 className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors truncate">
-                              {t("nav_menu.animals_title")}
-                            </h6>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <h6 className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors truncate">
+                                {t("nav_menu.animals_title")}
+                              </h6>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                            </div>
                             <p className="text-[11px] text-gray-400 truncate">
-                              {t("nav_menu.animals_sub")}
+                              Dragons articulés &amp; figurines
                             </p>
                           </div>
                         </Link>
@@ -340,20 +352,23 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/medaillon-nfc-chien-chat"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                          <div className="w-9 h-9 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
                             <ShieldCheck className="w-4.5 h-4.5" />
                           </div>
-                          <div className="min-w-0">
-                            <h6 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate flex items-center gap-1.5">
-                              <span>{t("nav_menu.nfc_title")}</span>
-                              <span className="text-[8px] font-black px-1.5 py-0.2 rounded bg-[#ff4f00] text-black">
-                                SOS
-                              </span>
-                            </h6>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <h6 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate flex items-center gap-1.5">
+                                <span>{t("nav_menu.nfc_title")}</span>
+                                <span className="text-[8px] font-black px-1.5 py-0.2 rounded bg-[#ff4f00] text-black">
+                                  SOS
+                                </span>
+                              </h6>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                            </div>
                             <p className="text-[11px] text-gray-400 truncate">
-                              {t("nav_menu.nfc_sub")}
+                              Puce d'urgence pour animaux
                             </p>
                           </div>
                         </Link>
@@ -361,20 +376,23 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/jeux-de-societe"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                          <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
                             <Dices className="w-4.5 h-4.5" />
                           </div>
-                          <div className="min-w-0">
-                            <h6 className="text-xs font-bold text-white group-hover:text-indigo-400 transition-colors truncate flex items-center gap-1.5">
-                              <span>Jeux &amp; Accessoires 3D</span>
-                              <span className="text-[8px] font-black px-1.5 py-0.2 rounded bg-indigo-500 text-white">
-                                ENJEU
-                              </span>
-                            </h6>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <h6 className="text-xs font-bold text-white group-hover:text-indigo-400 transition-colors truncate flex items-center gap-1.5">
+                                <span>Jeux &amp; Accessoires 3D</span>
+                                <span className="text-[8px] font-black px-1.5 py-0.2 rounded bg-indigo-500 text-white">
+                                  ENJEU
+                                </span>
+                              </h6>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                            </div>
                             <p className="text-[11px] text-gray-400 truncate">
-                              Tours à dés &amp; calcul de score
+                              Accessoires 3D &amp; compteur de score
                             </p>
                           </div>
                         </Link>
@@ -382,24 +400,27 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/pochette-surprise"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                          <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
                             <Gift className="w-4.5 h-4.5" />
                           </div>
-                          <div className="min-w-0">
-                            <h6 className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors truncate">
-                              {t("nav_menu.surprise_pack")}
-                            </h6>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <h6 className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors truncate">
+                                {t("nav_menu.surprise_pack")}
+                              </h6>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                            </div>
                             <p className="text-[11px] text-gray-400 truncate">
-                              Packs mystères 3D multi-objets
+                              Packs mystères multi-objets
                             </p>
                           </div>
                         </Link>
                       </div>
                     </div>
 
-                    {/* Bottom Action Bar (Matches "Need assist choosing service? -> Contact us") */}
+                    {/* Bottom Action Bar */}
                     <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-4 mt-2">
                       <div className="min-w-0">
                         <h6 className="text-xs font-black text-white">
@@ -413,7 +434,7 @@ export default function MotionNavigationMenu() {
                       <Link
                         href="/faq"
                         onClick={() => setActiveTab(null)}
-                        className="px-4 py-2 rounded-full bg-white/10 hover:bg-[#ff4f00] text-white hover:text-white text-xs font-black shrink-0 transition-colors border border-white/15 cursor-pointer no-invert"
+                        className="px-4 py-2 rounded-full bg-white/10 hover:bg-[#ff4f00] text-white hover:text-white text-xs font-black shrink-0 transition-all duration-200 border border-white/15 cursor-pointer no-invert hover:scale-105 shadow-md"
                       >
                         Contacter l'Atelier
                       </Link>
@@ -428,13 +449,16 @@ export default function MotionNavigationMenu() {
               {activeTab === "univers" && (
                 <div className="grid grid-cols-12 gap-6 relative z-10">
                   {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 5) */}
-                  <div className="col-span-5 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-indigo-600/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group shadow-xl">
-                    <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity pointer-events-none">
+                  <div className="col-span-5 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-indigo-600/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group/hero shadow-xl">
+                    {/* Light Sweep Reflection animation */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] group-hover/hero:translate-x-[150%] transition-transform duration-1000 z-20 pointer-events-none" />
+
+                    <div className="absolute inset-0 opacity-40 group-hover/hero:opacity-65 transition-opacity duration-500 pointer-events-none">
                       <Image
                         src="/images/enjeu/Enjeu_banniere.png"
                         alt="Spoolio Experiences & Games"
                         fill
-                        className="object-cover object-center no-invert filter brightness-90 group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover object-center no-invert filter brightness-90 group-hover/hero:scale-105 transition-transform duration-700 ease-out"
                       />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent z-10" />
@@ -448,7 +472,7 @@ export default function MotionNavigationMenu() {
                         L'Univers Interactif Spoolio 🎲
                       </h4>
                       <p className="text-xs text-gray-300 font-medium leading-relaxed">
-                        Applications Web gratuites, outils de personnalisation 3D et accessoires de jeux de plateau.
+                        Apps Web gratuites, studio 3D &amp; accessoires de jeu.
                       </p>
                     </div>
 
@@ -456,10 +480,10 @@ export default function MotionNavigationMenu() {
                       <Link
                         href="/jeux-de-societe"
                         onClick={() => setActiveTab(null)}
-                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-black font-black text-xs uppercase tracking-wider hover:bg-indigo-500 hover:text-white transition-all shadow-lg group/btn no-invert"
+                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-black font-black text-xs uppercase tracking-wider hover:bg-indigo-500 hover:text-white transition-all duration-300 shadow-lg group/btn no-invert"
                       >
                         <span>Découvrir l'App Enjeu</span>
-                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-300" />
                       </Link>
                     </div>
                   </div>
@@ -477,20 +501,23 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/jeux-de-societe"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                          <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
                             <Dices className="w-4.5 h-4.5" />
                           </div>
-                          <div className="min-w-0">
-                            <h6 className="text-xs font-bold text-white group-hover:text-indigo-300 transition-colors truncate flex items-center gap-1">
-                              <span>Jeux de Société &amp; App</span>
-                              <span className="text-[8px] font-black px-1 py-0.2 rounded bg-emerald-500 text-black">
-                                GRATUIT
-                              </span>
-                            </h6>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <h6 className="text-xs font-bold text-white group-hover:text-indigo-300 transition-colors truncate flex items-center gap-1">
+                                <span>Jeux &amp; App Enjeu</span>
+                                <span className="text-[8px] font-black px-1 py-0.2 rounded bg-emerald-500 text-black">
+                                  GRATUIT
+                                </span>
+                              </h6>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                            </div>
                             <p className="text-[11px] text-gray-400 truncate">
-                              Calculateur de score &amp; accessoires
+                              Calculateur de score &amp; tours à dés
                             </p>
                           </div>
                         </Link>
@@ -498,17 +525,20 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/loterie"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                          <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
                             <Sparkles className="w-4.5 h-4.5" />
                           </div>
-                          <div className="min-w-0">
-                            <h6 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors truncate">
-                              Roue de la Fortune
-                            </h6>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <h6 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors truncate">
+                                Roue de la Fortune
+                              </h6>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                            </div>
                             <p className="text-[11px] text-gray-400 truncate">
-                              Gagnez des cadeaux &amp; réductions 3D
+                              Tournez la roue &amp; gagnez des promos
                             </p>
                           </div>
                         </Link>
@@ -517,15 +547,18 @@ export default function MotionNavigationMenu() {
                           <Link
                             href="/tombola"
                             onClick={() => setActiveTab(null)}
-                            className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                            className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                           >
-                            <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                            <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
                               <Ticket className="w-4.5 h-4.5" />
                             </div>
-                            <div className="min-w-0">
-                              <h6 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors truncate">
-                                Tombola Spoolio
-                              </h6>
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center justify-between">
+                                <h6 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors truncate">
+                                  Tombola Spoolio
+                                </h6>
+                                <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              </div>
                               <p className="text-[11px] text-gray-400 truncate">
                                 {t("nav_menu.tombola_desc")}
                               </p>
@@ -543,17 +576,20 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/boussole-sensorielle"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                          <div className="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
                             <Compass className="w-4.5 h-4.5" />
                           </div>
-                          <div className="min-w-0">
-                            <h6 className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors truncate">
-                              {t("nav_menu.boussole_title")}
-                            </h6>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <h6 className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors truncate">
+                                {t("nav_menu.boussole_title")}
+                              </h6>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                            </div>
                             <p className="text-[11px] text-gray-400 truncate">
-                              {t("nav_menu.boussole_desc")}
+                              Trouvez votre fidget idéal en 3 clics
                             </p>
                           </div>
                         </Link>
@@ -561,17 +597,20 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/createur-cliqueur"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                          <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
                             <Gamepad2 className="w-4.5 h-4.5" />
                           </div>
-                          <div className="min-w-0">
-                            <h6 className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors truncate">
-                              {t("nav_menu.clicker_studio")}
-                            </h6>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <h6 className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors truncate">
+                                {t("nav_menu.clicker_studio")}
+                              </h6>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                            </div>
                             <p className="text-[11px] text-gray-400 truncate">
-                              {t("nav_menu.clicker_studio_desc")}
+                              Personnalisez votre clicker en 3D
                             </p>
                           </div>
                         </Link>
@@ -592,7 +631,7 @@ export default function MotionNavigationMenu() {
                       <Link
                         href="/jeux-de-societe#communaute"
                         onClick={() => setActiveTab(null)}
-                        className="px-4 py-2 rounded-full bg-white/10 hover:bg-indigo-500 text-white hover:text-white text-xs font-black shrink-0 transition-colors border border-white/15 cursor-pointer no-invert"
+                        className="px-4 py-2 rounded-full bg-white/10 hover:bg-indigo-500 text-white hover:text-white text-xs font-black shrink-0 transition-all duration-200 border border-white/15 cursor-pointer no-invert hover:scale-105 shadow-md"
                       >
                         Suggérer une idée
                       </Link>
@@ -607,13 +646,16 @@ export default function MotionNavigationMenu() {
               {activeTab === "atelier" && (
                 <div className="grid grid-cols-12 gap-6 relative z-10">
                   {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 5) */}
-                  <div className="col-span-5 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-emerald-600/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group shadow-xl">
-                    <div className="absolute inset-0 opacity-40 group-hover:opacity-60 transition-opacity pointer-events-none">
+                  <div className="col-span-5 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-emerald-600/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group/hero shadow-xl">
+                    {/* Light Sweep Reflection animation */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] group-hover/hero:translate-x-[150%] transition-transform duration-1000 z-20 pointer-events-none" />
+
+                    <div className="absolute inset-0 opacity-40 group-hover/hero:opacity-65 transition-opacity duration-500 pointer-events-none">
                       <Image
                         src="/images/hero_background.jpg"
                         alt="Atelier Spoolio"
                         fill
-                        className="object-cover object-center no-invert filter brightness-90 group-hover:scale-105 transition-transform duration-500"
+                        className="object-cover object-center no-invert filter brightness-90 group-hover/hero:scale-105 transition-transform duration-700 ease-out"
                       />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent z-10" />
@@ -627,7 +669,7 @@ export default function MotionNavigationMenu() {
                         Savoir-Faire &amp; Engagement Spoolio
                       </h4>
                       <p className="text-xs text-gray-300 font-medium leading-relaxed">
-                        Chaque objet est conçu en France à partir de bioplastiques compostables &amp; recyclables.
+                        Objets conçus en France à partir de bioplastiques compostables.
                       </p>
                     </div>
 
@@ -635,10 +677,10 @@ export default function MotionNavigationMenu() {
                       <Link
                         href="/a-propos"
                         onClick={() => setActiveTab(null)}
-                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-black font-black text-xs uppercase tracking-wider hover:bg-emerald-500 hover:text-black transition-all shadow-lg group/btn no-invert"
+                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-black font-black text-xs uppercase tracking-wider hover:bg-emerald-500 hover:text-black transition-all duration-300 shadow-lg group/btn no-invert"
                       >
                         <span>Découvrir l'Atelier</span>
-                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-300" />
                       </Link>
                     </div>
                   </div>
@@ -656,17 +698,20 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/a-propos"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                          <div className="w-9 h-9 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
                             <Palette className="w-4.5 h-4.5" />
                           </div>
-                          <div className="min-w-0">
-                            <h6 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate">
-                              {t("nav_menu.our_story")}
-                            </h6>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <h6 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate">
+                                {t("nav_menu.our_story")}
+                              </h6>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                            </div>
                             <p className="text-[11px] text-gray-400 truncate">
-                              {t("nav_menu.our_story_desc")}
+                              Savoir-faire &amp; engagements éco
                             </p>
                           </div>
                         </Link>
@@ -674,17 +719,20 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/blog"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                          <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
                             <BookOpen className="w-4.5 h-4.5" />
                           </div>
-                          <div className="min-w-0">
-                            <h6 className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors truncate">
-                              {t("nav_menu.blog_title")}
-                            </h6>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <h6 className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors truncate">
+                                {t("nav_menu.blog_title")}
+                              </h6>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                            </div>
                             <p className="text-[11px] text-gray-400 truncate">
-                              {t("nav_menu.blog_desc")}
+                              Guides 3D, coulisses &amp; ASMR
                             </p>
                           </div>
                         </Link>
@@ -699,20 +747,23 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/pro"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                          <div className="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
                             <Building2 className="w-4.5 h-4.5" />
                           </div>
-                          <div className="min-w-0">
-                            <h6 className="text-xs font-bold text-white group-hover:text-blue-400 transition-colors truncate flex items-center gap-1">
-                              <span>{t("nav_menu.pro_space")}</span>
-                              <span className="text-[8px] font-black px-1 py-0.2 rounded bg-blue-500 text-white">
-                                B2B
-                              </span>
-                            </h6>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <h6 className="text-xs font-bold text-white group-hover:text-blue-400 transition-colors truncate flex items-center gap-1">
+                                <span>{t("nav_menu.pro_space")}</span>
+                                <span className="text-[8px] font-black px-1 py-0.2 rounded bg-blue-500 text-white">
+                                  B2B
+                                </span>
+                              </h6>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                            </div>
                             <p className="text-[11px] text-gray-400 truncate">
-                              Projets sur-mesure &amp; séries 3D
+                              Goodies &amp; séries 3D sur-mesure
                             </p>
                           </div>
                         </Link>
@@ -720,17 +771,20 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/faq"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/10 transition-all group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                          <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
                             <HelpCircle className="w-4.5 h-4.5" />
                           </div>
-                          <div className="min-w-0">
-                            <h6 className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors truncate">
-                              {t("nav_menu.faq_title")}
-                            </h6>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between">
+                              <h6 className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors truncate">
+                                {t("nav_menu.faq_title")}
+                              </h6>
+                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                            </div>
                             <p className="text-[11px] text-gray-400 truncate">
-                              {t("nav_menu.faq_desc")}
+                              Livraison, retours &amp; questions
                             </p>
                           </div>
                         </Link>
@@ -751,7 +805,7 @@ export default function MotionNavigationMenu() {
                       <Link
                         href="/pro"
                         onClick={() => setActiveTab(null)}
-                        className="px-4 py-2 rounded-full bg-white/10 hover:bg-blue-500 text-white hover:text-white text-xs font-black shrink-0 transition-colors border border-white/15 cursor-pointer no-invert"
+                        className="px-4 py-2 rounded-full bg-white/10 hover:bg-blue-500 text-white hover:text-white text-xs font-black shrink-0 transition-all duration-200 border border-white/15 cursor-pointer no-invert hover:scale-105 shadow-md"
                       >
                         Demander un devis
                       </Link>
