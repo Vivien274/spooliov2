@@ -8,13 +8,15 @@ interface SpoolioProductGridProps {
   filterType?: "latest" | "best-of" | "all";
   showFilters?: boolean;
   compact?: boolean;
+  excludeIds?: (number | string)[];
 }
 
 export default function SpoolioProductGrid({
   limit,
   filterType = "all",
   showFilters = true,
-  compact = false
+  compact = false,
+  excludeIds = []
 }: SpoolioProductGridProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -60,28 +62,47 @@ export default function SpoolioProductGrid({
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
+    // Filter out any explicitly excluded IDs
+    if (excludeIds && excludeIds.length > 0) {
+      result = result.filter(
+        (p) => !excludeIds.includes(p.id) && !excludeIds.includes(String(p.id)) && !excludeIds.includes(p.slug)
+      );
+    }
+
     if (filterType === "latest") {
-      // Already sorted by date_created in fetch
-    } else if (filterType === "best-of") {
-      // Sort products primarily by customer view count (most viewed products first)
-      const sortedByViews = [...result].sort((a, b) => {
-        const viewsA = a.views || 0;
-        const viewsB = b.views || 0;
-
-        if (viewsB !== viewsA) {
-          return viewsB - viewsA;
-        }
-
-        // Secondary sort: Tagged as "coup de coeur" / "best-of" / "populaire"
-        const tagA = a.tags?.some(t => ["coup de coeur", "coup de cœur", "best-of", "best of", "populaire", "popular", "vedette", "stars"].includes((typeof t === 'object' ? t.name : t)?.toLowerCase() || "")) ? 1 : 0;
-        const tagB = b.tags?.some(t => ["coup de coeur", "coup de cœur", "best-of", "best of", "populaire", "popular", "vedette", "stars"].includes((typeof t === 'object' ? t.name : t)?.toLowerCase() || "")) ? 1 : 0;
-        if (tagB !== tagA) return tagB - tagA;
-
-        // Tertiary sort: On sale items
-        return (b.on_sale ? 1 : 0) - (a.on_sale ? 1 : 0);
+      // Sort strictly by date_created (newest to oldest)
+      result.sort((a, b) => {
+        const timeA = a.date_created ? new Date(a.date_created).getTime() : 0;
+        const timeB = b.date_created ? new Date(b.date_created).getTime() : 0;
+        return timeB - timeA;
       });
+    } else if (filterType === "best-of") {
+      // Exclude top 3 newest products (shown in "Dernières créations") to guarantee zero duplicates on home
+      const latestIds = [...products]
+        .sort((a, b) => {
+          const timeA = a.date_created ? new Date(a.date_created).getTime() : 0;
+          const timeB = b.date_created ? new Date(b.date_created).getTime() : 0;
+          return timeB - timeA;
+        })
+        .slice(0, 3)
+        .map((p) => p.id);
 
-      result = sortedByViews;
+      result = result.filter((p) => !latestIds.includes(p.id));
+
+      const hasRecordedViews = result.some((p) => (p.views || 0) > 0);
+      if (hasRecordedViews) {
+        // Sort products primarily by customer view count (most viewed first)
+        result.sort((a, b) => {
+          const viewsA = a.views || 0;
+          const viewsB = b.views || 0;
+          if (viewsB !== viewsA) return viewsB - viewsA;
+          // Pseudo-random fallback for ties
+          return ((b.id * 13) % 11) - ((a.id * 13) % 11);
+        });
+      } else {
+        // Randomized selection fallback if no views recorded yet
+        result.sort((a, b) => ((a.id * 31 + 7) % 19) - ((b.id * 31 + 7) % 19));
+      }
     } else if (filterType === "all" && activeCategory !== "TOUT") {
       result = result.filter((product) =>
         product.categories?.some(
