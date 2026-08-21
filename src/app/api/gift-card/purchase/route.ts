@@ -56,10 +56,6 @@ export async function POST(request: Request) {
       });
     }
 
-    // Stripe Live / Test Mode
-    const Stripe = require("stripe");
-    const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
-
     // Pending gift card record created in DB
     const pendingCard = await createGiftCardRecord(
       {
@@ -74,38 +70,46 @@ export async function POST(request: Request) {
       undefined
     );
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      customer_email: buyerEmail,
-      line_items: [
-        {
-          price_data: {
-            currency: "eur",
-            product_data: {
-              name: `Carte Cadeau Spoolio 3D - ${parsedAmount.toFixed(2)}€`,
-              description: recipientName
-                ? `Offerte à ${recipientName} de la part de ${buyerName || buyerEmail}`
-                : `Carte Cadeau Spoolio 3D de ${parsedAmount.toFixed(2)}€`,
-              images: [`${origin}/images/hero_background.jpg`],
-            },
-            unit_amount: Math.round(parsedAmount * 100),
-          },
-          quantity: 1,
-        },
-      ],
-      mode: "payment",
-      metadata: {
-        type: "gift_card",
-        giftCardId: pendingCard.id,
-        giftCardCode: pendingCard.code,
-        buyerEmail,
-        recipientEmail: recipientEmail || "",
+    // Call real Stripe REST API via native fetch (no stripe npm dependency required)
+    const stripeBody = new URLSearchParams();
+    stripeBody.append("mode", "payment");
+    stripeBody.append("customer_email", buyerEmail);
+    stripeBody.append("success_url", `${origin}/carte-cadeau?success=true&code=${pendingCard.code}&amount=${parsedAmount}`);
+    stripeBody.append("cancel_url", `${origin}/carte-cadeau?cancelled=true`);
+
+    stripeBody.append("line_items[0][price_data][currency]", "eur");
+    stripeBody.append("line_items[0][price_data][product_data][name]", `Carte Cadeau Spoolio 3D - ${parsedAmount.toFixed(2)}€`);
+    stripeBody.append(
+      "line_items[0][price_data][product_data][description]",
+      recipientName
+        ? `Offerte à ${recipientName} de la part de ${buyerName || buyerEmail}`
+        : `Carte Cadeau Spoolio 3D de ${parsedAmount.toFixed(2)}€`
+    );
+    stripeBody.append("line_items[0][price_data][unit_amount]", String(Math.round(parsedAmount * 100)));
+    stripeBody.append("line_items[0][quantity]", "1");
+
+    stripeBody.append("metadata[type]", "gift_card");
+    stripeBody.append("metadata[giftCardId]", pendingCard.id);
+    stripeBody.append("metadata[giftCardCode]", pendingCard.code);
+    stripeBody.append("metadata[buyerEmail]", buyerEmail);
+
+    const stripeRes = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${stripeKey}`,
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      success_url: `${origin}/carte-cadeau?success=true&code=${pendingCard.code}&amount=${parsedAmount}`,
-      cancel_url: `${origin}/carte-cadeau?cancelled=true`,
+      body: stripeBody.toString(),
     });
 
-    return NextResponse.json({ url: session.url, session_id: session.id });
+    if (!stripeRes.ok) {
+      const errorText = await stripeRes.text();
+      console.error("[Stripe Error] Gift card checkout session creation failed:", errorText);
+      return NextResponse.json({ error: "Erreur lors de la création de la session Stripe." }, { status: 500 });
+    }
+
+    const sessionData = await stripeRes.json();
+    return NextResponse.json({ url: sessionData.url, session_id: sessionData.id });
   } catch (error: any) {
     console.error("Gift card purchase error:", error);
     return NextResponse.json({ error: error.message || "Erreur serveur" }, { status: 500 });
