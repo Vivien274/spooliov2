@@ -197,8 +197,8 @@ export default function MotionNavigationMenu() {
             className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-[999999] origin-top"
             onMouseEnter={handleDropdownMouseEnter}
           >
-            {/* Panel Body Container */}
-            <div className="w-[860px] bg-[#0d0d10]/98 backdrop-blur-3xl border border-white/20 rounded-[32px] p-6 shadow-[0_35px_80px_rgba(0,0,0,0.85)] ring-1 ring-white/10 relative overflow-hidden">
+            {/* Panel Body Container (Élargi à 980px pour un confort de lecture maximal) */}
+            <div className="w-[980px] bg-[#0d0d10]/98 backdrop-blur-3xl border border-white/20 rounded-[32px] p-6 shadow-[0_35px_80px_rgba(0,0,0,0.85)] ring-1 ring-white/10 relative overflow-hidden">
               {/* Subtle ambient lighting glows */}
               <div className="absolute -top-20 -left-20 w-56 h-56 bg-[#ff4f00]/15 rounded-full blur-3xl pointer-events-none" />
               <div className="absolute -bottom-20 -right-20 w-56 h-56 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
@@ -208,8 +208,8 @@ export default function MotionNavigationMenu() {
               {/* ============================================================ */}
               {activeTab === "boutique" && (
                 <div className="grid grid-cols-12 gap-6 relative z-10">
-                  {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 5) */}
-                  <div className="col-span-5 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-[#ff4f00]/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group/hero shadow-xl">
+                  {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 4) */}
+                  <div className="col-span-4 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-[#ff4f00]/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group/hero shadow-xl">
                     {/* Light Sweep Reflection animation */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] group-hover/hero:translate-x-[150%] transition-transform duration-1000 z-20 pointer-events-none" />
 
@@ -248,10 +248,10 @@ export default function MotionNavigationMenu() {
                     </div>
                   </div>
 
-                  {/* RIGHT SECTION: 2 SUB-COLUMNS + BOTTOM ACTION BAR (Col 6 to 12) */}
-                  <div className="col-span-7 flex flex-col justify-between space-y-4">
+                  {/* RIGHT SECTION: 2 SUB-COLUMNS + BOTTOM ACTION BAR (Col 5 to 12) */}
+                  <div className="col-span-8 flex flex-col justify-between space-y-4">
                     {/* Top 2 Vertical Columns */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-5">
                       {/* Column A: Nos Collections */}
                       <div className="space-y-1.5">
                         <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-2">
@@ -448,8 +448,8 @@ export default function MotionNavigationMenu() {
               {/* ============================================================ */}
               {activeTab === "univers" && (
                 <div className="grid grid-cols-12 gap-6 relative z-10">
-                  {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 5) */}
-                  <div className="col-span-5 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-indigo-600/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group/hero shadow-xl">
+                  {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 4) */}
+                  <div className="col-span-4 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-indigo-600/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group/hero shadow-xl">
                     {/* Light Sweep Reflection animation */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] group-hover/hero:translate-x-[150%] transition-transform duration-1000 z-20 pointer-events-none" />
 
@@ -488,10 +488,10 @@ export default function MotionNavigationMenu() {
                     </div>
                   </div>
 
-                  {/* RIGHT SECTION: 2 SUB-COLUMNS + BOTTOM ACTION BAR (Col 6 to 12) */}
-                  <div className="col-span-7 flex flex-col justify-between space-y-4">
+                  {/* RIGHT SECTION: 2 SUB-COLUMNS + BOTTOM ACTION BAR (Col 5 to 12) */}
+                  <div className="col-span-8 flex flex-col justify-between space-y-4">
                     {/* Top 2 Vertical Columns */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-5">
                       {/* Column A: Jeux & Compagnons */}
                       <div className="space-y-1.5">
                         <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-2">
@@ -645,8 +645,8 @@ export default function MotionNavigationMenu() {
               {/* ============================================================ */}
               {activeTab === "atelier" && (
                 <div className="grid grid-cols-12 gap-6 relative z-10">
-                  {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 5) */}
-                  <div className="col-span-5 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-emerald-600/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group/hero shadow-xl">
+                  {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 4) */}
+                  <div className="col-span-4 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-emerald-600/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group/hero shadow-xl">
                     {/* Light Sweep Reflection animation */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] group-hover/hero:translate-x-[150%] transition-transform duration-1000 z-20 pointer-events-none" />
 
@@ -685,10 +685,10 @@ export default function MotionNavigationMenu() {
                     </div>
                   </div>
 
-                  {/* RIGHT SECTION: 2 SUB-COLUMNS + BOTTOM ACTION BAR (Col 6 to 12) */}
-                  <div className="col-span-7 flex flex-col justify-between space-y-4">
+                  {/* RIGHT SECTION: 2 SUB-COLUMNS + BOTTOM ACTION BAR (Col 5 to 12) */}
+                  <div className="col-span-8 flex flex-col justify-between space-y-4">
                     {/* Top 2 Vertical Columns */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-5">
                       {/* Column A: L'Univers Spoolio */}
                       <div className="space-y-1.5">
                         <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-2">
