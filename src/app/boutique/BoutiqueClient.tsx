@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo, Suspense } from "react";
+import { useEffect, useState, useMemo, useRef, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -25,6 +25,8 @@ import {
   TrendingUp,
   TrendingDown,
   SortAsc,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 const PRODUCTS_PER_PAGE = 12;
@@ -35,10 +37,13 @@ function getCategoryLucideIcon(catName: string, className = "w-4 h-4") {
   if (cat === "all" || cat.includes("toutes")) {
     return <LayoutGrid className={className} />;
   }
+  if (cat.includes("cadeau") || cat.includes("pochette") || cat.includes("surprise") || cat.includes("gift")) {
+    return <Gift className={className} />;
+  }
   if (cat.includes("fidget") || cat.includes("stress") || cat.includes("cliqueur") || cat.includes("clicker") || cat.includes("sensori")) {
     return <Zap className={className} />;
   }
-  if (cat.includes("jeu") || cat.includes("société") || cat.includes("societe") || cat.includes("dice") || cat.includes("carte")) {
+  if (cat.includes("jeu") || cat.includes("société") || cat.includes("societe") || cat.includes("dice") || cat.includes("cartes")) {
     return <Dices className={className} />;
   }
   if (cat.includes("geek") || cat.includes("gaming") || cat.includes("console") || cat.includes("switch")) {
@@ -49,9 +54,6 @@ function getCategoryLucideIcon(catName: string, className = "w-4 h-4") {
   }
   if (cat.includes("boite") || cat.includes("boîte") || cat.includes("sac") || cat.includes("emballage") || cat.includes("packaging")) {
     return <Box className={className} />;
-  }
-  if (cat.includes("cadeau") || cat.includes("pochette") || cat.includes("surprise")) {
-    return <Gift className={className} />;
   }
   if (cat.includes("bijou") || cat.includes("bague") || cat.includes("collier")) {
     return <Gem className={className} />;
@@ -81,6 +83,15 @@ function BoutiqueClientContent() {
   const [onlyOnSale, setOnlyOnSale] = useState<boolean>(false);
   const [sortOption, setSortOption] = useState<string>("newest");
   const [visibleCount, setVisibleCount] = useState<number>(PRODUCTS_PER_PAGE);
+
+  // Pills horizontal scroll ref & helper
+  const pillsRef = useRef<HTMLDivElement>(null);
+  const scrollPills = (direction: "left" | "right") => {
+    if (pillsRef.current) {
+      const amount = direction === "left" ? -280 : 280;
+      pillsRef.current.scrollBy({ left: amount, behavior: "smooth" });
+    }
+  };
 
   // Update selected category and search query when parameters change
   useEffect(() => {
@@ -283,35 +294,65 @@ function BoutiqueClientContent() {
           </div>
         </section>
 
-        {/* Category Pills Bar for 1-Tap Direct Filtering (Point 1 UX) */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-6 scrollbar-none select-none snap-x font-sans">
-          {categorySelectOptions.map((cat) => {
-            const isSelected = selectedCategory === cat.value;
-            return (
-              <button
-                key={cat.value}
-                type="button"
-                onClick={() => setSelectedCategory(cat.value)}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer snap-start ${
-                  isSelected
-                    ? "bg-[#ff4f00] text-white border border-[#ff4f00] shadow-md shadow-[#ff4f00]/20 scale-[1.02]"
-                    : "bg-spoolio-card text-gray-300 hover:text-white border border-spoolio-border hover:border-white/20"
-                }`}
-              >
-                <span>{cat.icon}</span>
-                <span>{cat.label}</span>
-                {cat.count !== undefined && (
-                  <span
-                    className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono font-bold ${
-                      isSelected ? "bg-black/30 text-white" : "bg-white/10 text-gray-400"
-                    }`}
-                  >
-                    {cat.count}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+        {/* Category Pills Bar with Navigation Chevrons & Mouse Wheel Support (Point 1 UX) */}
+        <div className="relative group/pills mb-6 select-none font-sans">
+          {/* Scroll Left Button */}
+          <button
+            type="button"
+            onClick={() => scrollPills("left")}
+            className="absolute -left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/80 hover:bg-[#ff4f00] border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer shadow-lg backdrop-blur-md opacity-0 group-hover/pills:opacity-100 hidden sm:flex"
+            title="Défiler vers la gauche"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+
+          {/* Scroll Right Button */}
+          <button
+            type="button"
+            onClick={() => scrollPills("right")}
+            className="absolute -right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/80 hover:bg-[#ff4f00] border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer shadow-lg backdrop-blur-md opacity-0 group-hover/pills:opacity-100 hidden sm:flex"
+            title="Défiler vers la droite"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+
+          <div
+            ref={pillsRef}
+            onWheel={(e) => {
+              if (pillsRef.current && Math.abs(e.deltaY) > 0) {
+                pillsRef.current.scrollLeft += e.deltaY;
+              }
+            }}
+            className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none snap-x scroll-smooth"
+          >
+            {categorySelectOptions.map((cat) => {
+              const isSelected = selectedCategory === cat.value;
+              return (
+                <button
+                  key={cat.value}
+                  type="button"
+                  onClick={() => setSelectedCategory(cat.value)}
+                  className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer snap-start ${
+                    isSelected
+                      ? "bg-[#ff4f00] text-white border border-[#ff4f00] shadow-md shadow-[#ff4f00]/20 scale-[1.02]"
+                      : "bg-spoolio-card text-gray-300 hover:text-white border border-spoolio-border hover:border-white/20"
+                  }`}
+                >
+                  <span className={isSelected ? "text-white" : "text-gray-400"}>{cat.icon}</span>
+                  <span>{cat.label}</span>
+                  {cat.count !== undefined && (
+                    <span
+                      className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono font-bold ${
+                        isSelected ? "bg-black/30 text-white" : "bg-white/10 text-gray-400"
+                      }`}
+                    >
+                      {cat.count}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Filter Toolbar Section */}
