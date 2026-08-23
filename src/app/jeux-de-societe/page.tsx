@@ -86,7 +86,7 @@ export default async function JeuxDeSocietePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Header />
-      <main className="flex-1 w-full pt-24 sm:pt-28 pb-16">
+      <main className="flex-1 w-full pt-28 sm:pt-36 lg:pt-40 pb-16">
         <JeuxDeSocieteClient initialProducts={gameProducts} />
       </main>
       <Footer />

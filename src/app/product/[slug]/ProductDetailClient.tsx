@@ -162,12 +162,28 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
     setZoomPos({ x, y });
   };
 
-  // Swipe states for mobile image gallery
+  // Lightbox zoom level state (Point 3 UX)
+  const [lightboxZoom, setLightboxZoom] = useState<number>(1);
+  const lastTapRef = useRef<number>(0);
+
+  useEffect(() => {
+    setLightboxZoom(1);
+  }, [activeImageIndex, isLightboxOpen]);
+
+  // Swipe states & Double tap zoom for mobile image gallery (Point 5 UX)
   const [touchStartX, setTouchStartX] = useState<number | null>(null);
   const [touchEndX, setTouchEndX] = useState<number | null>(null);
   const [isAdded, setIsAdded] = useState<boolean>(false);
 
   const onTouchStart = (e: React.TouchEvent) => {
+    const now = Date.now();
+    const DOUBLE_TAP_DELAY = 300;
+    if (now - lastTapRef.current < DOUBLE_TAP_DELAY) {
+      // Double tap detected on mobile touch screen -> Toggle Zoom
+      setIsZooming((prev) => !prev);
+    }
+    lastTapRef.current = now;
+
     setTouchEndX(null);
     setTouchStartX(e.targetTouches[0].clientX);
   };
@@ -881,8 +897,31 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
 
                 {/* Bottom-Right Image Count Badge */}
                 {hasImage && product.images.length > 1 && (
-                  <div className="absolute bottom-4 right-4 z-20 px-3 py-1 rounded-full bg-black/75 text-white text-[11px] font-extrabold tracking-wider border border-white/15 backdrop-blur-md select-none">
+                  <div className="absolute bottom-4 right-4 z-20 px-3 py-1 rounded-full bg-black/75 text-white text-[11px] font-extrabold tracking-wider border border-white/15 backdrop-blur-md select-none hidden sm:block">
                     {activeImageIndex + 1} / {product.images.length}
+                  </div>
+                )}
+
+                {/* Bottom Center Dynamic Pagination Dots (Point 1 UX) */}
+                {hasImage && product.images.length > 1 && (
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/65 border border-white/15 backdrop-blur-md select-none">
+                    {product.images.map((_, idx) => (
+                      <button
+                        key={`dot-main-${idx}`}
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveImageIndex(idx);
+                        }}
+                        className={`transition-all duration-300 cursor-pointer ${
+                          activeImageIndex === idx
+                            ? "w-5 h-1.5 rounded-full bg-[#ff4f00] shadow-sm shadow-[#ff4f00]/50"
+                            : "w-1.5 h-1.5 rounded-full bg-white/40 hover:bg-white/80"
+                        }`}
+                        title={`Photo ${idx + 1}`}
+                        aria-label={`Photo ${idx + 1}`}
+                      />
+                    ))}
                   </div>
                 )}
 
@@ -921,20 +960,24 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
             {product.images.length > 1 && (
               <div className="relative mt-4 group/thumbs">
                 {/* Scroll Left Button */}
-                <button
-                  type="button"
-                  onClick={() => scrollThumbnails("left")}
-                  className="absolute -left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/85 hover:bg-[#ff4f00] text-white flex items-center justify-center border border-white/20 shadow-xl opacity-0 group-hover/thumbs:opacity-100 transition-all duration-200 hover:scale-110 cursor-pointer font-bold text-lg"
-                  title="Photos précédentes"
-                >
-                  ‹
-                </button>
+                {product.images.length >= 5 && (
+                  <button
+                    type="button"
+                    onClick={() => scrollThumbnails("left")}
+                    className="absolute -left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/85 hover:bg-[#ff4f00] text-white flex items-center justify-center border border-white/20 shadow-xl opacity-0 group-hover/thumbs:opacity-100 transition-all duration-200 hover:scale-110 cursor-pointer font-bold text-lg"
+                    title="Photos précédentes"
+                  >
+                    ‹
+                  </button>
+                )}
 
-                {/* Thumbnail Strip */}
+                {/* Thumbnail Strip (Point 4 UX: Centered when < 5 images) */}
                 <div
                   ref={thumbnailsRef}
                   onWheel={handleThumbnailWheel}
-                  className="flex gap-3 overflow-x-auto pb-2 pt-1 px-1 select-none scroll-smooth touch-pan-x no-scrollbar"
+                  className={`flex gap-3 overflow-x-auto pb-2 pt-1 px-1 select-none scroll-smooth touch-pan-x no-scrollbar ${
+                    product.images.length < 5 ? "justify-center" : "justify-start"
+                  }`}
                 >
                   {product.images.map((img, idx) => {
                     const isVid = isVideoMedia(img.src);
@@ -2084,24 +2127,61 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
           </div>
         </section>
 
-        {/* Lightbox Modal */}
+        {/* Lightbox Modal (Point 3 UX) */}
         {isLightboxOpen && hasImage && (
           <div
             onClick={() => setIsLightboxOpen(false)}
-            className="fixed inset-0 bg-black/95 z-[100] flex flex-col items-center justify-center p-4 backdrop-blur-sm cursor-zoom-out"
+            className="fixed inset-0 bg-black/95 z-[100] flex flex-col items-center justify-center p-4 backdrop-blur-sm cursor-zoom-out select-none"
           >
-            {/* Close button */}
-            <button
-              onClick={() => setIsLightboxOpen(false)}
-              className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer text-2xl font-bold select-none border border-white/5"
-            >
-              &times;
-            </button>
+            {/* Top Toolbar: Zoom Controls & Close Button */}
+            <div className="absolute top-4 left-4 right-4 z-50 flex items-center justify-between pointer-events-none">
+              {/* Zoom Controls */}
+              <div onClick={(e) => e.stopPropagation()} className="pointer-events-auto flex items-center gap-2 bg-black/75 border border-white/20 rounded-full px-3 py-1.5 backdrop-blur-md shadow-xl text-xs text-white">
+                <button
+                  type="button"
+                  onClick={() => setLightboxZoom(prev => Math.max(1, +(prev - 0.5).toFixed(1)))}
+                  className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#ff4f00] flex items-center justify-center font-black text-sm transition-colors cursor-pointer"
+                  title="Dézoomer"
+                >
+                  −
+                </button>
+                <span className="font-mono text-xs font-bold text-gray-200 w-12 text-center select-none">
+                  {Math.round(lightboxZoom * 100)}%
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setLightboxZoom(prev => Math.min(3.5, +(prev + 0.5).toFixed(1)))}
+                  className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#ff4f00] flex items-center justify-center font-black text-sm transition-colors cursor-pointer"
+                  title="Zoomer"
+                >
+                  +
+                </button>
+                {lightboxZoom > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => setLightboxZoom(1)}
+                    className="ml-1 px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 hover:bg-amber-500 hover:text-black font-extrabold text-[10px] uppercase transition-colors cursor-pointer"
+                  >
+                    RAZ
+                  </button>
+                )}
+              </div>
 
-            {/* Main Lightbox Image / Video */}
+              {/* Close Button */}
+              <button
+                type="button"
+                onClick={() => setIsLightboxOpen(false)}
+                className="pointer-events-auto w-11 h-11 rounded-full bg-black/75 hover:bg-[#ff4f00] text-white flex items-center justify-center transition-colors cursor-pointer text-2xl font-bold border border-white/20 backdrop-blur-md shadow-xl"
+                title="Fermer"
+              >
+                &times;
+              </button>
+            </div>
+
+            {/* Main Lightbox Image / Video Display Container */}
             <div
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-4xl aspect-square md:aspect-[4/3] rounded-2xl overflow-hidden bg-black flex items-center justify-center cursor-default"
+              className="relative w-full max-w-4xl aspect-square md:aspect-[4/3] rounded-2xl overflow-hidden bg-black/80 border border-white/10 flex items-center justify-center cursor-default shadow-2xl"
             >
               {(() => {
                 const lightboxSrc = product.images[activeImageIndex]?.src;
@@ -2122,24 +2202,30 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                 }
 
                 return (
-                  <Image
-                    src={lightboxSrc}
-                    alt={product.images[activeImageIndex]?.alt || "Product image"}
-                    fill
-                    sizes="(max-width: 1200px) 100vw, 1200px"
-                    className="object-contain"
-                  />
+                  <div
+                    className="w-full h-full relative transition-transform duration-200 ease-out"
+                    style={{ transform: `scale(${lightboxZoom})` }}
+                  >
+                    <Image
+                      src={lightboxSrc}
+                      alt={product.images[activeImageIndex]?.alt || "Product image"}
+                      fill
+                      sizes="(max-width: 1200px) 100vw, 1200px"
+                      className="object-contain no-invert"
+                    />
+                  </div>
                 );
               })()}
 
               {/* Previous Button */}
               {product.images.length > 1 && (
                 <button
+                  type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     setActiveImageIndex(prev => (prev === 0 ? product.images.length - 1 : prev - 1));
                   }}
-                  className="absolute left-4 w-12 h-12 rounded-full bg-black/50 hover:bg-black/80 border border-white/10 text-white flex items-center justify-center transition-colors cursor-pointer text-xl font-bold select-none"
+                  className="absolute left-4 w-12 h-12 rounded-full bg-black/65 hover:bg-[#ff4f00] border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer text-xl font-bold select-none shadow-xl hover:scale-105 active:scale-95"
                 >
                   &#8592;
                 </button>
@@ -2148,11 +2234,12 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               {/* Next Button */}
               {product.images.length > 1 && (
                 <button
+                  type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     setActiveImageIndex(prev => (prev === product.images.length - 1 ? 0 : prev + 1));
                   }}
-                  className="absolute right-4 w-12 h-12 rounded-full bg-black/50 hover:bg-black/80 border border-white/10 text-white flex items-center justify-center transition-colors cursor-pointer text-xl font-bold select-none"
+                  className="absolute right-4 w-12 h-12 rounded-full bg-black/65 hover:bg-[#ff4f00] border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer text-xl font-bold select-none shadow-xl hover:scale-105 active:scale-95"
                 >
                   &#8594;
                 </button>
@@ -2162,10 +2249,11 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
             {/* Fullscreen Lightbox Bottom Bar with Thumbnails & Shortcuts */}
             <div onClick={(e) => e.stopPropagation()} className="mt-4 flex flex-col items-center gap-3 select-none z-10">
               {product.images.length > 1 && (
-                <div className="flex gap-2 max-w-xl overflow-x-auto pb-1 px-2 no-scrollbar">
+                <div className="flex gap-2 max-w-xl overflow-x-auto pb-1 px-2 no-scrollbar justify-center">
                   {product.images.map((img, idx) => (
                     <button
                       key={`lightbox-thumb-${idx}`}
+                      type="button"
                       onClick={() => setActiveImageIndex(idx)}
                       className={`relative w-12 h-12 rounded-lg overflow-hidden border transition-all shrink-0 cursor-pointer ${
                         activeImageIndex === idx
@@ -2181,7 +2269,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               <div className="flex items-center gap-3 text-xs text-gray-400 font-sans">
                 <span className="font-bold text-white">{activeImageIndex + 1} / {product.images.length}</span>
                 <span className="text-gray-600">|</span>
-                <span className="hidden sm:inline-block text-[11px] text-gray-500">Utilisez les flèches <kbd className="px-1.5 py-0.5 bg-white/10 rounded border border-white/10 text-gray-300">←</kbd> <kbd className="px-1.5 py-0.5 bg-white/10 rounded border border-white/10 text-gray-300">→</kbd> pour naviguer ou <kbd className="px-1.5 py-0.5 bg-white/10 rounded border border-white/10 text-gray-300">Échap</kbd> pour fermer</span>
+                <span className="hidden sm:inline-block text-[11px] text-gray-400 font-medium">Utilisez les flèches <kbd className="px-1.5 py-0.5 bg-white/10 rounded border border-white/10 text-gray-200 font-mono">←</kbd> <kbd className="px-1.5 py-0.5 bg-white/10 rounded border border-white/10 text-gray-200 font-mono">→</kbd> pour naviguer ou <kbd className="px-1.5 py-0.5 bg-white/10 rounded border border-white/10 text-gray-200 font-mono">Échap</kbd> pour fermer</span>
               </div>
             </div>
           </div>
