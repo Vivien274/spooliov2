@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import SpoolioProductGrid from "@/components/SpoolioProductGrid";
+import HomeTabbedProductGrid from "@/components/HomeTabbedProductGrid";
 import AnimatedHero from "@/components/AnimatedHero";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -250,137 +251,52 @@ export default async function HomePage() {
       {/* 1. Full-Width Animated Hero Section */}
       <AnimatedHero {...(hero as any)} />
 
-      {/* 2. Sleek Bordered Value-Props Marquee Ticker */}
-      <section className="w-full border-y border-white/10 bg-[#0a0a0e]/90 backdrop-blur-md py-3 overflow-hidden text-gray-300 select-none">
-        <div className="flex whitespace-nowrap animate-marquee text-xs uppercase tracking-widest text-gray-300 font-bold gap-8 select-none font-sans items-center">
-          {[1, 2, 3].map((loop) => (
-            <div key={loop} className="flex items-center gap-8 shrink-0">
-              <span className="flex items-center gap-2">
-                <span>🇫🇷</span>
-                <span className="text-white font-extrabold">{lang === "en" ? "HANDMADE IN COMINES (NORD)" : "FAIT MAIN À COMINES (NORD)"}</span>
-              </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
+      {/* 5. Tabbed Product Showcase & 2-Column Banner */}
+      <section className="w-full max-w-[1200px] px-4 py-8 relative z-10 flex flex-col gap-10">
+        {/* Tabbed Product Showcase (Incontournables, Nouveautés, Jeux de société, Tout le catalogue) */}
+        <HomeTabbedProductGrid />
 
-              <span className="flex items-center gap-2">
-                <span>🚚</span>
-                <span>{lang === "en" ? "FREE SHIPPING OVER €40" : "LIVRAISON OFFERTE DÈS 40€"}</span>
-              </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
+        {/* 2-Column Section (1/3 + 2/3): Aider l'Atelier + App Enjeu */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 my-4 items-stretch font-sans">
+          {/* Left Column (1/3): Aider l'Atelier (Donation) */}
+          <div className="lg:col-span-1 relative rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-[#cf3b00]/90 via-[#b03200] to-[#802200] border border-[#cf3b00]/40 dark:bg-gradient-to-br dark:from-[#ff4f00]/15 dark:via-[#131316] dark:to-[#1a1412] dark:border-[#ff4f00]/30 overflow-hidden flex flex-col justify-between gap-6 shadow-xl backdrop-blur-md group hover:border-[#ff4f00]/50 transition-all duration-500">
+            <div className="absolute -left-12 -top-12 w-48 h-48 rounded-full bg-[#ff4f00]/15 blur-3xl pointer-events-none animate-pulse hidden dark:block" />
+            <div className="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-[#ff4f00]/10 blur-3xl pointer-events-none hidden dark:block" />
 
-              <span className="flex items-center gap-2">
-                <span>🌱</span>
-                <span>{lang === "en" ? "BIO-SOURCED PLA PLASTIC" : "PLA BIOSOURCÉ SANS PÉTROLE"}</span>
-              </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
+            <div className="relative z-10 flex flex-col items-start gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-white/20 dark:bg-gradient-to-br dark:from-[#ff4f00] dark:to-[#e04500] flex items-center justify-center shrink-0 shadow-lg shadow-black/10 dark:shadow-[#ff4f00]/20 select-none animate-bounce">
+                  <span className="text-xl">🧡</span>
+                </div>
+                <span className="inline-block px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-white/20 text-white border border-white/30 dark:bg-[#ff4f00]/20 dark:text-[#ff4f00] dark:border-[#ff4f00]/30 animate-pulse no-invert">
+                  {t("home.donation.badge")}
+                </span>
+              </div>
 
-              <span className="flex items-center gap-2">
-                <span>⚡</span>
-                <span>{lang === "en" ? "ZERO OVERSTOCK • MADE TO ORDER" : "ZÉRO SURSTOCK • FABRICATION ARTISANALE"}</span>
-              </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
-
-              <span className="flex items-center gap-2">
-                <span>⭐</span>
-                <span>{lang === "en" ? "4.9/5 VERIFIED REVIEWS" : "4.9 / 5.0 (AVIS VÉRIFIÉS)"}</span>
-              </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
+              <div className="space-y-2">
+                <h4 className="text-2xl sm:text-3xl font-black text-white tracking-wide uppercase font-antonio leading-tight no-invert">
+                  {t("home.donation.title")}
+                </h4>
+                <p className="text-xs sm:text-sm text-white/90 dark:text-gray-300 leading-relaxed font-medium">
+                  {t("home.donation.description")}
+                </p>
+              </div>
             </div>
-          ))}
-        </div>
-      </section>
 
-      {/* 3. Ruban de pastilles d'accès par Thème / Envie (Style L'Avant Gardiste) */}
-      <ThemeRibbon />
-
-      {/* 5. Product Grid Header & List */}
-      <section className="w-full max-w-[1200px] px-4 py-8 relative z-10 flex flex-col gap-14">
-        {/* Title Block */}
-        <div className="text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold uppercase tracking-tight font-antonio text-neon-flow">
-            {t("home.collection.title")}
-          </h2>
-          <p className="text-xs md:text-sm text-gray-400 font-sans mt-2 max-w-md mx-auto leading-relaxed">
-            {t("home.collection.subtitle")}
-          </p>
-        </div>
-
-        {/* Section 1: Derniers Ajouts */}
-        <div className="flex flex-col gap-6">
-          <div className="flex items-center gap-3 pb-2 border-b border-white/5 font-sans">
-            <span className="text-xl">🌱</span>
-            <div className="flex flex-col">
-              <h3 className="text-lg font-bold text-white uppercase tracking-tight">
-                {t("home.grid.latest_title")}
-              </h3>
-              <p className="text-[10px] text-gray-400 font-medium">{t("home.grid.latest_sub")}</p>
-            </div>
-          </div>
-          <SpoolioProductGrid filterType="latest" limit={3} showFilters={false} compact={true} />
-        </div>
-
-        {/* Section 2: Best Of */}
-        <div className="flex flex-col gap-6">
-          <div className="flex items-center gap-3 pb-2 border-b border-white/5 font-sans">
-            <span className="text-xl">✨</span>
-            <div className="flex flex-col">
-              <h3 className="text-lg font-bold text-white uppercase tracking-tight">
-                {t("home.grid.favorites_title")}
-              </h3>
-              <p className="text-[10px] text-gray-400 font-medium">{t("home.grid.favorites_sub")}</p>
-            </div>
-          </div>
-          <SpoolioProductGrid filterType="best-of" limit={3} showFilters={false} compact={true} />
-        </div>
-
-        {/* Donation Call-to-action Ribbon (Voyant & Premium) */}
-        <div className="relative rounded-3xl p-8 bg-gradient-to-r from-[#cf3b00] to-[#b03200] border border-[#cf3b00]/30 dark:bg-gradient-to-r dark:from-[#ff4f00]/10 dark:via-[#131316]/90 dark:to-[#131316]/90 dark:border-[#ff4f00]/30 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_0_30px_rgba(207,59,0,0.15)] dark:shadow-[0_0_30px_rgba(255,79,0,0.1)] backdrop-blur-md font-sans group hover:border-[#cf3b00]/50 dark:hover:border-[#ff4f00]/50 transition-all duration-500">
-          {/* Permanent Glow in Background (only dark mode) */}
-          <div className="absolute -left-12 -top-12 w-48 h-48 rounded-full bg-[#ff4f00]/15 blur-3xl pointer-events-none animate-pulse hidden dark:block" />
-          <div className="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-[#ff4f00]/10 blur-3xl pointer-events-none hidden dark:block" />
-
-          <div className="relative z-10 flex flex-col md:flex-row items-center gap-5 text-center md:text-left">
-            <div className="w-14 h-14 rounded-2xl bg-white/20 dark:bg-gradient-to-br dark:from-[#ff4f00] dark:to-[#e04500] flex items-center justify-center shrink-0 shadow-lg shadow-black/10 dark:shadow-[#ff4f00]/20 select-none animate-bounce">
-              <span className="text-2xl">🧡</span>
-            </div>
-            <div className="space-y-1.5 max-w-xl">
-              <h4 className="text-[23px] font-black text-white tracking-wide uppercase font-antonio flex flex-wrap items-center justify-center md:justify-start gap-2 leading-none no-invert">
-                <span>{t("home.donation.title")}</span>
-                <span className="inline-block px-2 py-0.5 rounded-full text-[8px] font-black tracking-widest bg-white/20 text-white border border-white/30 dark:bg-[#ff4f00]/20 dark:text-[#ff4f00] dark:border-[#ff4f00]/30 animate-pulse no-invert">{t("home.donation.badge")}</span>
-              </h4>
-              <p className="text-xs text-white/90 dark:text-gray-400 leading-relaxed font-sans font-medium">
-                {t("home.donation.description")}
-              </p>
+            <div className="relative z-10 pt-2">
+              <Link
+                href="/don"
+                className="w-full h-12 px-6 rounded-xl bg-white text-[#cf3b00] hover:bg-white/95 dark:bg-[#ff4f00] dark:text-white dark:hover:bg-[#e04500] font-black text-xs uppercase tracking-wider transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
+              >
+                <span>{t("home.donation.button")}</span>
+                <span className="transition-transform duration-300 group-hover:translate-x-1 text-sm">&rarr;</span>
+              </Link>
             </div>
           </div>
 
-          <Link
-            href="/don"
-            className="relative z-10 shrink-0 h-13 px-8 rounded-xl bg-white text-[#cf3b00] hover:bg-white/95 dark:bg-[#cf3b00] dark:text-white dark:hover:bg-[#b03200] font-black text-xs uppercase tracking-wider transition-all shadow-xl shadow-black/10 dark:shadow-[#cf3b00]/25 hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
-          >
-            <span>{t("home.donation.button")}</span>
-            <span className="transition-transform duration-300 group-hover:translate-x-1 text-sm">&rarr;</span>
-          </Link>
+          {/* Right Column (2/3): App Enjeu */}
+          <HomeEnjeuBanner className="lg:col-span-2 h-full my-0" />
         </div>
-
-        {/* Encart Dédié : Jeux de Société & App Enjeu */}
-        <HomeEnjeuBanner />
-
-        {/* Section 3: Tout le Catalogue */}
-        <div className="flex flex-col gap-6 font-sans">
-          <div className="flex items-center gap-3 pb-2 border-b border-white/5">
-            <span className="text-xl">🧩</span>
-            <div className="flex flex-col">
-              <h3 className="text-lg font-bold text-white uppercase tracking-tight">
-                {t("home.grid.explore_title")}
-              </h3>
-              <p className="text-[10px] text-gray-400 font-medium">{t("home.grid.explore_sub")}</p>
-            </div>
-          </div>
-          <SpoolioProductGrid filterType="all" limit={9} showFilters={true} />
-        </div>
-
-        {/* Animated Ultra-Premium Magnetic "Voir toute la boutique" Call-To-Action */}
-        <BoutiqueCTAButton label={t("nav_menu.see_all_shop")} />
       </section>
 
       {/* 5. PLA Storytelling Timeline Section */}

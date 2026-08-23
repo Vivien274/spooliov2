@@ -5,7 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { Dices, Smartphone, ArrowRight } from "lucide-react";
 
-export default function HomeEnjeuBanner() {
+interface HomeEnjeuBannerProps {
+  className?: string;
+}
+
+export default function HomeEnjeuBanner({ className = "my-8" }: HomeEnjeuBannerProps) {
   const games = [
     { name: "Skull King", icon: "🏴‍☠️" },
     { name: "Skyjo", icon: "🔢" },
@@ -15,17 +19,16 @@ export default function HomeEnjeuBanner() {
   ];
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0c0d1b] via-[#12132a] to-[#18112e] border border-indigo-500/30 p-6 sm:p-8 lg:p-10 shadow-2xl shadow-indigo-950/50 text-white font-sans my-8">
+    <div className={`relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0c0d1b] via-[#12132a] to-[#18112e] border border-indigo-500/30 p-6 sm:p-8 lg:p-8 shadow-2xl shadow-indigo-950/50 text-white font-sans flex flex-col justify-between ${className}`}>
       {/* Ambient Glowing Orbs */}
       <div className="absolute -top-24 -right-24 w-72 h-72 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-[#ff4f00]/15 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+      <div className="relative z-10 flex flex-col xl:flex-row items-center justify-between gap-6">
         {/* Left Side Info */}
-        <div className="flex-1 space-y-4 text-center lg:text-left">
+        <div className="flex-1 space-y-3.5 text-center xl:text-left">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-500/15 border border-indigo-400/30 text-indigo-300 text-xs font-mono font-bold uppercase tracking-wider">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>🎲 Univers Jeux de Société &amp; App Enjeu</span>
+            <span>🎲 App Enjeu • 100% Gratuite &amp; Sans Pub</span>
           </div>
 
           <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase text-white font-antonio tracking-tight leading-tight">
@@ -37,7 +40,7 @@ export default function HomeEnjeuBanner() {
           </p>
 
           {/* Supported Games Chips */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 pt-1">
+          <div className="flex flex-wrap items-center justify-center xl:justify-start gap-2 pt-1">
             <span className="text-[11px] font-bold uppercase text-indigo-300/80 mr-1 font-mono">
               Feuilles de score incluses :
             </span>
@@ -53,7 +56,7 @@ export default function HomeEnjeuBanner() {
           </div>
 
           {/* Action CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-3">
+          <div className="flex flex-col sm:flex-row items-center justify-center xl:justify-start gap-3 pt-3">
             <Link
               href="/jeux-de-societe"
               className="w-full sm:w-auto h-12 px-6 rounded-xl bg-gradient-to-r from-[#ff4f00] to-[#e04500] hover:brightness-110 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-95 transition-all"
@@ -67,7 +70,7 @@ export default function HomeEnjeuBanner() {
               className="w-full sm:w-auto h-12 px-6 rounded-xl bg-indigo-600/90 hover:bg-indigo-500 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg border border-indigo-400/30 hover:scale-[1.02] active:scale-95 transition-all"
             >
               <Smartphone className="w-4 h-4" />
-              <span>Découvrir l'App Enjeu 🤖</span>
+              <span>Découvrir l'App Enjeu 📱</span>
             </Link>
           </div>
         </div>

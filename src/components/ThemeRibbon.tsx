@@ -4,7 +4,6 @@ import Link from "next/link";
 import {
   Brain,
   Gamepad2,
-  Shapes,
   ShieldCheck,
   Gift,
   Dices,
@@ -33,7 +32,6 @@ const THEMES: ThemePill[] = [
     href: "/categorie/Geek %2F Gaming",
     icon: Gamepad2,
   },
-
   {
     id: "animaux-nfc",
     label: "Animaux & SOS",
@@ -68,27 +66,13 @@ const THEMES: ThemePill[] = [
 
 export default function ThemeRibbon() {
   return (
-    <section className="w-full max-w-[1200px] mx-auto px-4 mt-6 mb-2 font-sans select-none">
-      {/* Background Banner Box with 5% white translucent background */}
-      <div className="w-full bg-white/5 border border-white/10 rounded-3xl p-5 sm:p-6 backdrop-blur-md shadow-xl">
-        {/* Sleek Minimalist Header */}
-        <div className="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
-          <h3 className="text-xs font-mono font-bold text-gray-300 uppercase tracking-widest flex items-center gap-2">
-            <span>PAR ENVIE &amp; THÈME</span>
-            <span className="w-8 h-px bg-white/20" />
-          </h3>
+    <section className="w-full border-y border-white/10 bg-[#0b0c10]/95 backdrop-blur-md py-3.5 px-4 select-none shadow-md">
+      <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-4 overflow-x-auto scrollbar-none snap-x snap-mandatory font-sans">
+        <span className="hidden xl:flex items-center gap-2 text-[10px] font-mono font-bold text-[#ff4f00] uppercase tracking-widest shrink-0 border-r border-white/10 pr-4">
+          <span>PAR ENVIE</span>
+        </span>
 
-          <Link
-            href="/boutique"
-            className="text-xs font-semibold text-gray-400 hover:text-[#ff4f00] transition-colors flex items-center gap-1 group"
-          >
-            <span>Tout explorer</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-        </div>
-
-        {/* Sleek Circle Bubbles with Lucide Icons */}
-        <div className="flex items-center justify-between gap-3 sm:gap-5 overflow-x-auto pt-1 pb-1 scrollbar-none snap-x snap-mandatory">
+        <div className="flex items-center justify-between w-full gap-2 sm:gap-4">
           {THEMES.map((theme) => {
             const Icon = theme.icon;
 
@@ -96,21 +80,26 @@ export default function ThemeRibbon() {
               <Link
                 key={theme.id}
                 href={theme.href}
-                className="group flex flex-col items-center gap-2.5 min-w-[85px] sm:min-w-[100px] shrink-0 snap-start transition-transform duration-200 active:scale-95 cursor-pointer"
+                className="group flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 hover:border-[#ff4f00]/50 transition-all duration-300 shrink-0 snap-start active:scale-95 cursor-pointer shadow-xs"
               >
-                {/* Circle Bubble with Lucide Icon */}
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/10 border border-white/15 flex items-center justify-center transition-all duration-300 group-hover:bg-[#ff4f00] group-hover:border-[#ff4f00] group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(255,79,0,0.4)]">
-                  <Icon className="w-6 h-6 sm:w-7 sm:h-7 text-white/90 group-hover:text-white transition-colors duration-300" />
+                <div className="w-6 h-6 rounded-full bg-white/10 group-hover:bg-[#ff4f00] flex items-center justify-center transition-colors duration-300">
+                  <Icon className="w-3.5 h-3.5 text-white/90 group-hover:text-white transition-colors" />
                 </div>
-
-                {/* Clean Label */}
-                <span className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors text-center line-clamp-1">
+                <span className="text-xs font-bold text-gray-300 group-hover:text-white transition-colors whitespace-nowrap">
                   {theme.label}
                 </span>
               </Link>
             );
           })}
         </div>
+
+        <Link
+          href="/boutique"
+          className="hidden md:flex items-center gap-1 text-xs font-semibold text-gray-400 hover:text-[#ff4f00] transition-colors shrink-0 border-l border-white/10 pl-4 group"
+        >
+          <span>Tout</span>
+          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+        </Link>
       </div>
     </section>
   );
