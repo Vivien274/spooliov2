@@ -2131,12 +2131,12 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
         {isLightboxOpen && hasImage && (
           <div
             onClick={() => setIsLightboxOpen(false)}
-            className="fixed inset-0 bg-black/95 z-[100] flex flex-col items-center justify-center p-4 backdrop-blur-sm cursor-zoom-out select-none"
+            className="fixed inset-0 bg-black/95 z-[999999] flex flex-col items-center justify-between p-4 pt-16 sm:pt-6 pb-6 backdrop-blur-md cursor-zoom-out select-none"
           >
             {/* Top Toolbar: Zoom Controls & Close Button */}
             <div className="absolute top-4 left-4 right-4 z-50 flex items-center justify-between pointer-events-none">
               {/* Zoom Controls */}
-              <div onClick={(e) => e.stopPropagation()} className="pointer-events-auto flex items-center gap-2 bg-black/75 border border-white/20 rounded-full px-3 py-1.5 backdrop-blur-md shadow-xl text-xs text-white">
+              <div onClick={(e) => e.stopPropagation()} className="pointer-events-auto flex items-center gap-2 bg-black/85 border border-white/20 rounded-full px-3 py-1.5 backdrop-blur-md shadow-2xl text-xs text-white">
                 <button
                   type="button"
                   onClick={() => setLightboxZoom(prev => Math.max(1, +(prev - 0.5).toFixed(1)))}
@@ -2145,7 +2145,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
                 >
                   −
                 </button>
-                <span className="font-mono text-xs font-bold text-gray-200 w-12 text-center select-none">
+                <span className="font-mono text-xs font-bold text-gray-200 w-10 text-center select-none">
                   {Math.round(lightboxZoom * 100)}%
                 </span>
                 <button
@@ -2171,7 +2171,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
               <button
                 type="button"
                 onClick={() => setIsLightboxOpen(false)}
-                className="pointer-events-auto w-11 h-11 rounded-full bg-black/75 hover:bg-[#ff4f00] text-white flex items-center justify-center transition-colors cursor-pointer text-2xl font-bold border border-white/20 backdrop-blur-md shadow-xl"
+                className="pointer-events-auto w-11 h-11 rounded-full bg-black/85 hover:bg-[#ff4f00] text-white flex items-center justify-center transition-colors cursor-pointer text-2xl font-bold border border-white/20 backdrop-blur-md shadow-2xl"
                 title="Fermer"
               >
                 &times;
@@ -2181,7 +2181,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
             {/* Main Lightbox Image / Video Display Container */}
             <div
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-4xl aspect-square md:aspect-[4/3] rounded-2xl overflow-hidden bg-black/80 border border-white/10 flex items-center justify-center cursor-default shadow-2xl"
+              className="relative w-full max-w-4xl max-h-[75vh] aspect-square md:aspect-[4/3] rounded-2xl overflow-hidden bg-black/80 border border-white/10 flex items-center justify-center cursor-default shadow-2xl my-auto"
             >
               {(() => {
                 const lightboxSrc = product.images[activeImageIndex]?.src;

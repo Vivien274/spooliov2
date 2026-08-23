@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import { Smartphone, ArrowRight } from "lucide-react";
 
 interface EnjeuBannerProps {
   productName?: string;
@@ -56,23 +58,12 @@ export default function EnjeuBanner({
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
-            <a
-              href="https://play.google.com/apps/internaltest/4700908194255410878"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-[11px] rounded-lg shadow transition-all flex items-center gap-1.5 border border-indigo-400/30"
-              title="Tester sur Google Play (Test Interne)"
+            <Link
+              href="/jeux-de-societe#enjeu-app"
+              className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs rounded-xl shadow transition-all flex items-center gap-1.5 border border-indigo-400/30"
             >
-              <span>Android</span>
-              <span className="text-[10px]">📥</span>
-            </a>
-            <div
-              className="px-2.5 py-1.5 bg-white/10 text-gray-300 font-bold text-[10px] rounded-lg border border-white/15 hidden sm:flex items-center gap-1"
-              title="iOS bientôt disponible"
-            >
-              <span>iOS</span>
-              <span className="text-[9px] text-amber-300 font-black">⏳ Bientôt</span>
-            </div>
+              <span>Voir la fiche de l'appli 📱</span>
+            </Link>
           </div>
         </div>
       </div>
@@ -107,33 +98,16 @@ export default function EnjeuBanner({
             </p>
           </div>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 pt-2 border-t border-white/10">
-            {/* Google Play Direct Button */}
-            <a
-              href="https://play.google.com/apps/internaltest/4700908194255410878"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs rounded-xl shadow transition-all border border-indigo-400/30"
+          {/* CTA Button */}
+          <div className="pt-2 border-t border-white/10">
+            <Link
+              href="/jeux-de-societe#enjeu-app"
+              className="w-full flex items-center justify-center gap-2 px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow transition-all border border-indigo-400/30"
             >
-              <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 512 512">
-                <path d="M325.3 234.3L104.6 13l280.8 161.2-59.8 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 59.2-34.1c17-9.8 17-46 0-56.1zM104.6 499l280.8-161.2-59.8-60.1L104.6 499z" />
-              </svg>
-              <span>Disponible sur Google Play</span>
-            </a>
-
-            {/* Apple App Store (Coming Soon) */}
-            <div className="flex-1 flex items-center justify-between gap-2 px-3.5 py-2 bg-white/95 text-slate-950 font-extrabold text-xs rounded-xl shadow border border-white/20 select-none">
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 fill-current shrink-0" viewBox="0 0 384 512">
-                  <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-91.9-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.5 26.4 2.1 52.1-14.3 69.5-33.9z" />
-                </svg>
-                <span className="text-xs font-black">App Store</span>
-              </div>
-              <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-300 shrink-0">
-                ⏳ Bientôt
-              </span>
-            </div>
+              <Smartphone className="w-4 h-4 text-emerald-300" />
+              <span>Voir la fiche de l'appli 📱</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
@@ -156,7 +130,7 @@ export default function EnjeuBanner({
         <div className="flex-1 flex flex-col gap-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-400/30 text-indigo-300 text-xs font-black uppercase tracking-wider w-fit">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            🔥 Nouveau • Application Compagnon Gratuite
+            🔥 Application Compagnon Gratuite
           </div>
 
           <h3 className="text-xl sm:text-2xl font-black tracking-tight text-white leading-tight font-sans">
@@ -191,93 +165,18 @@ export default function EnjeuBanner({
               ))}
             </div>
           </div>
-
-          {/* Features bullet points */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-2 pt-3 border-t border-white/10 text-xs text-gray-300 font-sans">
-            <div className="flex items-center gap-2">
-              <span className="text-emerald-400 text-base">⚡</span>
-              <span>Calculs automatiques</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-amber-400 text-base">🎲</span>
-              <span>Paris &amp; Défis fun</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-indigo-400 text-base">☁️</span>
-              <span>Synchro multi-joueurs</span>
-            </div>
-          </div>
         </div>
 
-        {/* Right Side: QR Code / Download CTA Box */}
-        <div className="w-full lg:w-auto shrink-0 flex flex-col sm:flex-row lg:flex-col items-center justify-center gap-4 bg-white/5 p-5 rounded-2xl border border-white/10 backdrop-blur-md">
-          {/* QR Code representation */}
-          <div className="hidden sm:flex flex-col items-center justify-center bg-white p-3 rounded-xl text-slate-900 shadow-md">
-            <div className="w-28 h-28 relative flex items-center justify-center bg-slate-950 rounded-lg p-2">
-              <svg viewBox="0 0 100 100" className="w-full h-full fill-white">
-                <rect x="0" y="0" width="30" height="30" />
-                <rect x="5" y="5" width="20" height="20" className="fill-slate-950" />
-                <rect x="10" y="10" width="10" height="10" />
-
-                <rect x="70" y="0" width="30" height="30" />
-                <rect x="75" y="5" width="20" height="20" className="fill-slate-950" />
-                <rect x="80" y="10" width="10" height="10" />
-
-                <rect x="0" y="70" width="30" height="30" />
-                <rect x="5" y="75" width="20" height="20" className="fill-slate-950" />
-                <rect x="10" y="80" width="10" height="10" />
-
-                <rect x="40" y="10" width="15" height="15" />
-                <rect x="40" y="40" width="20" height="20" />
-                <rect x="70" y="45" width="15" height="15" />
-                <rect x="15" y="40" width="15" height="15" />
-                <rect x="40" y="70" width="25" height="25" />
-                <rect x="75" y="75" width="15" height="15" />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <span className="bg-indigo-600 text-white text-[9px] font-black uppercase px-1.5 py-0.5 rounded shadow">
-                  ENJEU
-                </span>
-              </div>
-            </div>
-            <span className="text-[10px] font-bold text-slate-700 mt-2 uppercase tracking-wide font-sans">
-              Scannez pour installer
-            </span>
-          </div>
-
-          {/* Direct Mobile/Desktop Badges */}
-          <div className="flex flex-col gap-2.5 w-full sm:w-auto font-sans">
-            {/* Apple App Store (Coming Soon) */}
-            <div className="flex items-center justify-between gap-2.5 px-4 py-2.5 bg-white/95 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg border border-white/20 select-none">
-              <div className="flex items-center gap-3">
-                <svg className="w-5 h-5 fill-current shrink-0" viewBox="0 0 384 512">
-                  <path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-91.9-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.5 26.4 2.1 52.1-14.3 69.5-33.9z" />
-                </svg>
-                <div className="flex flex-col text-left leading-tight">
-                  <span className="text-[9px] uppercase font-bold text-amber-700">Bientôt sur</span>
-                  <span className="text-xs font-black">App Store</span>
-                </div>
-              </div>
-              <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-300 shrink-0">
-                ⏳ Bientôt
-              </span>
-            </div>
-
-            <a
-              href="https://play.google.com/apps/internaltest/4700908194255410878"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 px-5 py-2.5 bg-indigo-600 text-white hover:bg-indigo-500 font-extrabold text-xs rounded-xl shadow-lg transition-transform hover:scale-[1.02] active:scale-95 border border-indigo-400/30"
-            >
-              <svg className="w-5 h-5 fill-current shrink-0" viewBox="0 0 512 512">
-                <path d="M325.3 234.3L104.6 13l280.8 161.2-59.8 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 59.2-34.1c17-9.8 17-46 0-56.1zM104.6 499l280.8-161.2-59.8-60.1L104.6 499z" />
-              </svg>
-              <div className="flex flex-col text-left leading-tight">
-                <span className="text-[9px] uppercase font-medium text-indigo-200">Disponible sur</span>
-                <span className="text-xs font-black">Google Play</span>
-              </div>
-            </a>
-          </div>
+        {/* Right Side: CTA Button Link */}
+        <div className="w-full lg:w-auto shrink-0 flex items-center justify-center font-sans">
+          <Link
+            href="/jeux-de-societe#enjeu-app"
+            className="w-full lg:w-auto flex items-center justify-center gap-3 px-7 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider rounded-2xl shadow-xl shadow-indigo-950/60 transition-all hover:scale-[1.03] active:scale-95 border border-indigo-400/40"
+          >
+            <Smartphone className="w-4 h-4 text-emerald-300" />
+            <span>Voir la fiche de l'appli 📱</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </div>
     </section>
