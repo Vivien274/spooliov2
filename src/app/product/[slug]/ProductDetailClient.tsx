@@ -649,26 +649,46 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
   const videoMediaIndex = product?.images?.findIndex(img => isVideoMedia(img.src)) ?? -1;
   const hasVideoMedia = videoMediaIndex !== -1;
 
-  // Sensory noise level calculation (strictly restricted to Fidgets & products with noise level property)
+  // Sensory noise level calculation (strictly restricted to Fidgets & Anti-stress products)
   const getSensoryNoiseInfo = () => {
     if (!product) return null;
 
-    // 1. Check Categories (must contain "fidget")
+    // 1. Check Categories (must belong to Fidgets / Anti-stress)
     const categoryNames = Array.isArray(product.categories)
       ? product.categories.map((c) => (c.name || "").toLowerCase())
       : [];
-    const isFidgetCategory = categoryNames.some((cat) => cat.includes("fidget"));
+    const isFidgetCategory = categoryNames.some(
+      (cat) =>
+        cat.includes("fidget") ||
+        cat.includes("anti-stress") ||
+        cat.includes("antistress") ||
+        cat.includes("cliqueur") ||
+        cat.includes("clicker")
+    );
 
-    // 2. Check Name (must contain explicit fidget product types)
+    // 2. Check Name (must contain explicit fidget keywords)
     const nameLower = (product.name || "").toLowerCase();
     const isFidgetName =
       nameLower.includes("fidget") ||
       nameLower.includes("clicker") ||
       nameLower.includes("cliqueur") ||
       nameLower.includes("spinner") ||
-      nameLower.includes("bague");
+      (nameLower.includes("bague") && (nameLower.includes("fidget") || nameLower.includes("anti-stress")));
 
-    // 3. Check DB sensory_noise_level property
+    // 3. Check explicit "Bruit" / "Niveau sonore" attribute from product attributes list
+    const noiseAttr = attributesList?.find((attr: any) => {
+      const n = (attr.name || "").toLowerCase().trim();
+      return n.includes("bruit") || n.includes("sonore") || n.includes("niveau sonore") || n.includes("noise");
+    });
+    const hasNoiseAttr = Boolean(noiseAttr && noiseAttr.options && noiseAttr.options.length > 0);
+
+    // Strictly check if this product is ACTUALLY a Fidget/Anti-stress product
+    const isActuallyFidget = isFidgetCategory || isFidgetName || hasNoiseAttr;
+    if (!isActuallyFidget) {
+      return null;
+    }
+
+    // 4. Check DB sensory_noise_level property if explicitly present on this fidget
     const rawSensoryLevel = (product as any).sensory_noise_level ?? (product as any).sensoryNoiseLevel;
     const hasRawSensoryLevel =
       rawSensoryLevel !== undefined &&
@@ -676,18 +696,6 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
       rawSensoryLevel !== "" &&
       rawSensoryLevel !== "none" &&
       rawSensoryLevel !== "null";
-
-    // 4. Check explicit "Bruit" attribute from product attributes list
-    const noiseAttr = attributesList?.find((attr: any) => {
-      const n = (attr.name || "").toLowerCase().trim();
-      return n.includes("bruit") || n.includes("sonore") || n.includes("noise");
-    });
-    const hasNoiseAttr = Boolean(noiseAttr && noiseAttr.options && noiseAttr.options.length > 0);
-
-    // If NONE of these 4 strict conditions are met, it is NOT a fidget -> RETURN NULL!
-    if (!isFidgetCategory && !isFidgetName && !hasRawSensoryLevel && !hasNoiseAttr) {
-      return null;
-    }
 
     // 1. Process DB sensory_noise_level property if explicitly present
     if (hasRawSensoryLevel) {
