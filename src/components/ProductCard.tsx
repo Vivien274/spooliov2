@@ -281,7 +281,7 @@ export default function ProductCard({ product, compact = false, priority = false
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={tiltStyle}
-      className="group relative flex flex-col justify-between h-full bg-spoolio-card border border-[#1f1f23] rounded-[30px] overflow-hidden transition-all duration-300 hover:border-white shadow-lg shadow-black/30 card-holographic"
+      className="group relative flex flex-col justify-between h-full bg-spoolio-card border border-[#1f1f23] rounded-[22px] sm:rounded-[30px] overflow-hidden transition-all duration-300 hover:border-white shadow-lg shadow-black/30 card-holographic"
     >
       {/* Holographic Refractive Layer */}
       <div
@@ -316,34 +316,42 @@ export default function ProductCard({ product, compact = false, priority = false
           {/* Badges Overlays */}
           {/* Top-Left Category Badge */}
           {categoryName && (
-            <span className="absolute top-4 left-4 px-3 py-1.5 text-[10px] font-bold bg-[#f7eb12] text-black rounded-full shadow-md z-10 no-invert">
+            <span className="absolute top-2.5 left-2.5 sm:top-4 sm:left-4 px-2 sm:px-3 py-1 sm:py-1.5 text-[9px] sm:text-[10px] font-bold bg-[#f7eb12] text-black rounded-full shadow-md z-10 no-invert">
               {decodeHtml(categoryName)}
             </span>
           )}
         </div>
 
         {/* Content Container (Title, Description) with Padding */}
-        <div className="flex flex-col gap-3 p-6 pb-0 font-[family-name:var(--font-plus-jakarta)]">
+        <div className="flex flex-col gap-1.5 sm:gap-3 p-3.5 sm:p-5 lg:p-6 pb-0 font-[family-name:var(--font-plus-jakarta)]">
           {/* Title */}
-          <h3 className="text-[18px] font-bold text-white transition-colors duration-200">
+          <h3 className="text-xs sm:text-base lg:text-[18px] font-bold text-white transition-colors duration-200 line-clamp-2 leading-tight sm:leading-snug">
             {displayName}
           </h3>
 
-          {/* Description */}
-          <p className="text-[14px] text-gray-400 line-clamp-2 leading-relaxed">
+          {/* Description (Hidden on mobile grid to keep cards compact & max 3 lines on desktop) */}
+          <p
+            className="text-xs sm:text-[14px] text-gray-400 leading-relaxed hidden sm:block overflow-hidden"
+            style={{
+              display: "-webkit-box",
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
+          >
             {cleanDescription}
           </p>
         </div>
       </div>
 
-      <div className="p-6 pt-5">
+      <div className="p-3.5 sm:p-5 lg:p-6 pt-3 sm:pt-4 lg:pt-5">
         <div
           onMouseEnter={() => setIsButtonHovered(true)}
           onMouseLeave={() => setIsButtonHovered(false)}
-          className="w-full h-[50px] inline-flex items-center justify-center gap-2 px-4 text-xs font-bold text-white bg-[#005cff] hover:bg-[#004ecc] rounded-xl transition-colors shadow-[0_4px_10px_rgba(0,92,255,0.15)] select-none border-none cursor-pointer no-invert"
+          className="w-full h-10 sm:h-[46px] lg:h-[50px] inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 text-xs font-bold text-white bg-[#005cff] hover:bg-[#004ecc] rounded-xl transition-colors shadow-[0_4px_10px_rgba(0,92,255,0.15)] select-none border-none cursor-pointer no-invert"
         >
-          <UnicornIcon animationData={cartIconData} className="w-8 h-8 scale-[1.8]" isHovered={isButtonHovered} />
-          <span className="text-sm font-extrabold">{formatPrice(product.price)}</span>
+          <UnicornIcon animationData={cartIconData} className="w-6 h-6 sm:w-8 sm:h-8 scale-[1.6] sm:scale-[1.8]" isHovered={isButtonHovered} />
+          <span className="text-xs sm:text-sm font-extrabold">{formatPrice(product.price)}</span>
         </div>
       </div>
     </Link>

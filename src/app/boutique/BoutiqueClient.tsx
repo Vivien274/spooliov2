@@ -199,17 +199,68 @@ function BoutiqueClientContent() {
           <span className="text-white font-black">Boutique</span>
         </nav>
 
-        <section className="mb-10 text-left border-b border-spoolio-border/40 pb-8">
+        <section className="mb-6 text-left border-b border-spoolio-border/40 pb-6">
           <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mb-3">
             Boutique Spoolio 3D
           </h1>
           <p className="text-gray-400 text-sm max-w-3xl leading-relaxed font-sans">
             Découvrez nos créations exclusives imprimées en 3D en France. Des fidgets satisfaisants, des supports de bureaux designs et des cadeaux originaux, tous fabriqués de façon éco-responsable en PLA biodégradable à partir d'amidon de maïs. Faites le choix du fun et de la qualité locale !
           </p>
+
+          {/* Reassurance Micro Banner (Point 4 UX) */}
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md mt-6 font-sans text-xs text-gray-300">
+            <div className="flex items-center gap-2">
+              <span className="text-base">🚚</span>
+              <span><strong>Livraison OFFERTE</strong> dès 40€ d'achat</span>
+            </div>
+            <div className="hidden md:flex items-center gap-2">
+              <span className="text-base">🇫🇷</span>
+              <span><strong>Fabrication artisanale</strong> à Comines (59)</span>
+            </div>
+            <div className="hidden lg:flex items-center gap-2">
+              <span className="text-base">🌱</span>
+              <span><strong>PLA Biosourcé</strong> sans pétrole</span>
+            </div>
+            <div className="flex items-center gap-2 text-emerald-400 font-extrabold">
+              <span className="text-base">⚡</span>
+              <span>Zéro Surstock • Made in Nord</span>
+            </div>
+          </div>
         </section>
 
+        {/* Category Pills Bar for 1-Tap Direct Filtering (Point 1 UX) */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-6 scrollbar-none select-none snap-x font-sans">
+          {categorySelectOptions.map((cat) => {
+            const isSelected = selectedCategory === cat.value;
+            return (
+              <button
+                key={cat.value}
+                type="button"
+                onClick={() => setSelectedCategory(cat.value)}
+                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer snap-start ${
+                  isSelected
+                    ? "bg-[#ff4f00] text-white border border-[#ff4f00] shadow-md shadow-[#ff4f00]/20 scale-[1.02]"
+                    : "bg-spoolio-card text-gray-300 hover:text-white border border-spoolio-border hover:border-white/20"
+                }`}
+              >
+                <span>{cat.icon}</span>
+                <span>{cat.label}</span>
+                {cat.count !== undefined && (
+                  <span
+                    className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono font-bold ${
+                      isSelected ? "bg-black/30 text-white" : "bg-white/10 text-gray-400"
+                    }`}
+                  >
+                    {cat.count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+
         {/* Filter Toolbar Section */}
-        <section className="flex flex-col lg:flex-row gap-6 mb-10 items-stretch lg:items-center justify-between select-none">
+        <section className="flex flex-col lg:flex-row gap-6 mb-6 items-stretch lg:items-center justify-between select-none">
           {/* Search & Promo filter */}
           <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center flex-1">
             {/* Search Input */}
@@ -273,6 +324,61 @@ function BoutiqueClientContent() {
             />
           </div>
         </section>
+
+        {/* Active Filter Chips & Reset Button (Points 2 & 3 UX) */}
+        {(searchQuery.trim() !== "" || selectedCategory !== "all" || onlyOnSale || sortOption !== "newest") && (
+          <div className="flex flex-wrap items-center gap-2 mb-6 font-sans select-none">
+            <span className="text-xs text-gray-400 font-bold mr-1">Filtres actifs :</span>
+
+            {searchQuery && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 text-xs font-semibold">
+                <span>🔍 "{searchQuery}"</span>
+                <button onClick={() => setSearchQuery("")} className="hover:text-white font-bold cursor-pointer">
+                  &times;
+                </button>
+              </span>
+            )}
+
+            {selectedCategory !== "all" && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30 text-xs font-semibold">
+                <span>🏷️ {selectedCategory}</span>
+                <button onClick={() => setSelectedCategory("all")} className="hover:text-white font-bold cursor-pointer">
+                  &times;
+                </button>
+              </span>
+            )}
+
+            {onlyOnSale && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-400/30 text-xs font-semibold">
+                <span>🏷️ Promotions</span>
+                <button onClick={() => setOnlyOnSale(false)} className="hover:text-white font-bold cursor-pointer">
+                  &times;
+                </button>
+              </span>
+            )}
+
+            {sortOption !== "newest" && (
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-semibold">
+                <span>⚙️ {sortSelectOptions.find((o) => o.value === sortOption)?.label}</span>
+                <button onClick={() => setSortOption("newest")} className="hover:text-white font-bold cursor-pointer">
+                  &times;
+                </button>
+              </span>
+            )}
+
+            <button
+              onClick={() => {
+                setSearchQuery("");
+                setSelectedCategory("all");
+                setOnlyOnSale(false);
+                setSortOption("newest");
+              }}
+              className="text-xs text-gray-400 hover:text-white underline font-bold ml-2 cursor-pointer transition-colors"
+            >
+              Réinitialiser tout ↺
+            </button>
+          </div>
+        )}
 
         {/* Dynamic products count */}
         <div className="text-xs text-gray-500 mb-6 font-semibold font-sans">
