@@ -9,6 +9,7 @@ import { useTranslation } from "@/context/LanguageContext";
 import MotionNavigationMenu from "@/components/MotionNavigationMenu";
 import MobileMenuDrawer from "@/components/MobileMenuDrawer";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import VacationBanner from "@/components/VacationBanner";
 
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
@@ -158,6 +159,7 @@ export default function Header({
         ? "bg-black/65 dark:bg-[#0e0e12]/75 light:bg-white/85 backdrop-blur-2xl border-b border-white/10 dark:border-white/10 light:border-gray-200 shadow-md"
         : "bg-transparent border-b border-white/5"
       }`}>
+      <VacationBanner />
       <div className={`mx-auto w-full flex items-center justify-between transition-all duration-300 relative z-10 ${isSticky
           ? "h-16 md:h-20 px-4 sm:px-6 md:px-10 max-w-7xl"
           : "h-20 md:h-24 px-4 sm:px-6 md:px-10 max-w-7xl"
