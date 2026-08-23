@@ -6,7 +6,7 @@ export interface CustomSelectOption {
   value: string;
   label: string;
   count?: number;
-  icon?: string;
+  icon?: React.ReactNode;
 }
 
 interface CustomSelectProps {

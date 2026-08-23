@@ -9,7 +9,62 @@ import Footer from "@/components/Footer";
 import ProductCard, { Product } from "@/components/ProductCard";
 import CustomSelect, { CustomSelectOption } from "@/components/CustomSelect";
 
+import {
+  LayoutGrid,
+  Zap,
+  Gamepad2,
+  Dices,
+  PawPrint,
+  Box,
+  Gift,
+  Gem,
+  Palette,
+  Tag,
+  Wrench,
+  Sparkles,
+  TrendingUp,
+  TrendingDown,
+  SortAsc,
+} from "lucide-react";
+
 const PRODUCTS_PER_PAGE = 12;
+
+function getCategoryLucideIcon(catName: string, className = "w-4 h-4") {
+  const cat = catName.toLowerCase().trim();
+
+  if (cat === "all" || cat.includes("toutes")) {
+    return <LayoutGrid className={className} />;
+  }
+  if (cat.includes("fidget") || cat.includes("stress") || cat.includes("cliqueur") || cat.includes("clicker") || cat.includes("sensori")) {
+    return <Zap className={className} />;
+  }
+  if (cat.includes("jeu") || cat.includes("société") || cat.includes("societe") || cat.includes("dice") || cat.includes("carte")) {
+    return <Dices className={className} />;
+  }
+  if (cat.includes("geek") || cat.includes("gaming") || cat.includes("console") || cat.includes("switch")) {
+    return <Gamepad2 className={className} />;
+  }
+  if (cat.includes("animau") || cat.includes("figurine") || cat.includes("chien") || cat.includes("chat") || cat.includes("creature")) {
+    return <PawPrint className={className} />;
+  }
+  if (cat.includes("boite") || cat.includes("boîte") || cat.includes("sac") || cat.includes("emballage") || cat.includes("packaging")) {
+    return <Box className={className} />;
+  }
+  if (cat.includes("cadeau") || cat.includes("pochette") || cat.includes("surprise")) {
+    return <Gift className={className} />;
+  }
+  if (cat.includes("bijou") || cat.includes("bague") || cat.includes("collier")) {
+    return <Gem className={className} />;
+  }
+  if (cat.includes("déco") || cat.includes("deco") || cat.includes("maison") || cat.includes("bureau")) {
+    return <Palette className={className} />;
+  }
+  if (cat.includes("accessoire") || cat.includes("outil") || cat.includes("support")) {
+    return <Wrench className={className} />;
+  }
+
+  return <Tag className={className} />;
+}
 
 function BoutiqueClientContent() {
   const searchParams = useSearchParams();
@@ -88,21 +143,21 @@ function BoutiqueClientContent() {
     const sortedCats = Object.keys(counts).sort((a, b) => a.localeCompare(b, "fr"));
     
     return [
-      { value: "all", label: "Toutes les catégories", count: products.length, icon: "📁" },
+      { value: "all", label: "Toutes les catégories", count: products.length, icon: getCategoryLucideIcon("all") },
       ...sortedCats.map((cat) => ({
         value: cat,
         label: cat,
         count: counts[cat],
-        icon: "🏷️",
+        icon: getCategoryLucideIcon(cat),
       })),
     ];
   }, [products]);
 
   const sortSelectOptions: CustomSelectOption[] = [
-    { value: "newest", label: "Trier par : Nouveautés", icon: "✨" },
-    { value: "price-asc", label: "Prix : croissant", icon: "📈" },
-    { value: "price-desc", label: "Prix : décroissant", icon: "📉" },
-    { value: "name-asc", label: "Nom : A-Z", icon: "🔤" },
+    { value: "newest", label: "Trier par : Nouveautés", icon: <Sparkles className="w-4 h-4 text-amber-400" /> },
+    { value: "price-asc", label: "Prix : croissant", icon: <TrendingUp className="w-4 h-4 text-emerald-400" /> },
+    { value: "price-desc", label: "Prix : décroissant", icon: <TrendingDown className="w-4 h-4 text-rose-400" /> },
+    { value: "name-asc", label: "Nom : A-Z", icon: <SortAsc className="w-4 h-4 text-indigo-400" /> },
   ];
 
   // Reset scroll limit when filter or sorting changes
