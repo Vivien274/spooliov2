@@ -6,14 +6,14 @@ import ProductCard, { Product } from "./ProductCard";
 import { Sparkles, Flame, Dices, Grid, ArrowRight, RefreshCw } from "lucide-react";
 import { useTranslation } from "@/context/LanguageContext";
 
-type TabKey = "best-of" | "latest" | "jeux-de-societe" | "all";
+type TabKey = "latest" | "best-of" | "jeux-de-societe" | "all";
 
 export default function HomeTabbedProductGrid() {
   const { t } = useTranslation();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<TabKey>("best-of");
+  const [activeTab, setActiveTab] = useState<TabKey>("latest");
 
   useEffect(() => {
     async function fetchProducts() {
@@ -71,24 +71,58 @@ export default function HomeTabbedProductGrid() {
       return filtered.length > 0 ? filtered.slice(0, 8) : result.slice(0, 6);
     }
 
-    // "all"
-    return result.slice(0, 8);
+    // "all" : afficher d'autres produits du catalogue que les nouveautés
+    const latestIds = new Set(
+      [...products]
+        .sort((a, b) => {
+          const timeA = a.date_created ? new Date(a.date_created).getTime() : 0;
+          const timeB = b.date_created ? new Date(b.date_created).getTime() : 0;
+          return timeB - timeA;
+        })
+        .slice(0, 8)
+        .map((p) => p.id)
+    );
+
+    const nonLatest = products.filter((p) => !latestIds.has(p.id));
+
+    // Sélection diversifiée représentant le catalogue
+    const diverse: Product[] = [];
+    const seenCategories = new Set<string>();
+
+    for (const prod of nonLatest) {
+      if (/carte cadeau/i.test(prod.name || "")) continue;
+      const catName = prod.categories?.[0]?.name || "Autre";
+      if (!seenCategories.has(catName)) {
+        seenCategories.add(catName);
+        diverse.push(prod);
+      }
+      if (diverse.length >= 8) break;
+    }
+
+    for (const prod of nonLatest) {
+      if (diverse.length >= 8) break;
+      if (!diverse.some((d) => d.id === prod.id)) {
+        diverse.push(prod);
+      }
+    }
+
+    return diverse.slice(0, 8);
   }, [products, activeTab]);
 
   const tabs = [
-    {
-      id: "best-of" as TabKey,
-      label: "Les Incontournables",
-      icon: Flame,
-      badge: "Incontournable",
-      color: "text-[#ff4f00]",
-    },
     {
       id: "latest" as TabKey,
       label: "Nouveautés",
       icon: Sparkles,
       badge: "Récent",
       color: "text-amber-400",
+    },
+    {
+      id: "best-of" as TabKey,
+      label: "Les Incontournables",
+      icon: Flame,
+      badge: "Incontournable",
+      color: "text-[#ff4f00]",
     },
     {
       id: "jeux-de-societe" as TabKey,
