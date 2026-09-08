@@ -21,6 +21,12 @@ export async function POST(request: Request) {
     const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
     const userAgent = request.headers.get("user-agent") || "";
 
+    // Ignore search engine crawlers, SEO bots, and scanners to save DB storage and egress
+    const botPattern = /bot|crawl|spider|slurp|facebookexternalhit|bingbot|googlebot|semrush|ahrefs|yandex|duckduckbot|bytespider|gptbot/i;
+    if (botPattern.test(userAgent)) {
+      return NextResponse.json({ success: true, skipped: true, reason: "bot" });
+    }
+
     // Anonymize IP according to GDPR by hashing it with salt (daily changed)
     const todayStr = new Date().toISOString().split("T")[0];
     const ipHash = crypto

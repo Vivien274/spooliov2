@@ -303,7 +303,7 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
   useEffect(() => {
     async function fetchProduct() {
       try {
-        const res = await fetch(`/api/products/${slug}?t=${Date.now()}`);
+        const res = await fetch(`/api/products/${slug}`);
         if (!res.ok) {
           throw new Error("Produit introuvable");
         }
@@ -378,14 +378,11 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
   useEffect(() => {
     async function fetchRelated() {
       try {
-        const res = await fetch("/api/products");
+        const res = await fetch(`/api/products/related?slug=${encodeURIComponent(slug)}`);
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data)) {
-            const filtered = data
-              .filter((p: Product) => p.slug !== slug)
-              .slice(0, 3);
-            setRelatedProducts(filtered);
+            setRelatedProducts(data.slice(0, 3));
           }
         }
       } catch (e) {

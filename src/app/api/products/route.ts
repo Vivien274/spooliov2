@@ -5,8 +5,19 @@ import path from 'path';
 import { computeSeoScore } from '@/lib/seoUtils';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 0;
-export const fetchCache = 'force-no-store';
+
+// In-memory catalog cache for serverless instances
+let catalogCache: Record<string, { data: any[]; timestamp: number }> = {};
+const CATALOG_CACHE_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
+// View counts cache to avoid groupBy on entire Visit table on every request
+let cachedViewCountMap: Record<string, number> = {};
+let lastViewCountFetch = 0;
+const VIEW_COUNT_CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
+
+export function invalidateProductsCache() {
+  catalogCache = {};
+}
 
 function decodeHtml(str: string): string {
   if (!str) return "";
@@ -148,9 +159,13 @@ async function fetchAllProducts(status: string) {
   const consumerKey = process.env.WC_CONSUMER_KEY;
   const consumerSecret = process.env.WC_CONSUMER_SECRET;
 
-  // Calculate view counts per product slug from Visit model
-  let viewCountMap: Record<string, number> = {};
-  if (prisma) {
+  // Calculate view counts per product slug from Visit model (cached for 30 minutes)
+  let viewCountMap: Record<string, number> = cachedViewCountMap;
+  const shouldRefreshVisits =
+    Date.now() - lastViewCountFetch > VIEW_COUNT_CACHE_TTL_MS ||
+    Object.keys(cachedViewCountMap).length === 0;
+
+  if (prisma && shouldRefreshVisits) {
     try {
       const visits = await prisma.visit.groupBy({
         by: ['url'],
@@ -164,16 +179,20 @@ async function fetchAllProducts(status: string) {
         },
       });
 
+      const newMap: Record<string, number> = {};
       visits.forEach((v) => {
         const urlWithoutQuery = (v.url || "").split('?')[0].replace(/\/$/, '');
         const parts = urlWithoutQuery.split('/product/');
         if (parts.length > 1) {
           const slug = parts[1].trim();
           if (slug) {
-            viewCountMap[slug] = (viewCountMap[slug] || 0) + v._count.url;
+            newMap[slug] = (newMap[slug] || 0) + v._count.url;
           }
         }
       });
+      cachedViewCountMap = newMap;
+      lastViewCountFetch = Date.now();
+      viewCountMap = newMap;
     } catch (e: any) {
       console.warn("Could not calculate visit counts:", e.message);
     }
@@ -279,8 +298,38 @@ export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status') || 'publish';
+
+    // Serve from in-memory cache if available and fresh (for public catalog)
+    if (status !== 'all' && catalogCache[status]) {
+      const entry = catalogCache[status];
+      if (Date.now() - entry.timestamp < CATALOG_CACHE_TTL_MS) {
+        return NextResponse.json(entry.data, {
+          headers: {
+            'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+            'X-Cache': 'HIT',
+          },
+        });
+      }
+    }
+
     const products = await fetchAllProducts(status);
-    return NextResponse.json(products);
+
+    // Save to in-memory cache
+    if (status !== 'all') {
+      catalogCache[status] = {
+        data: products,
+        timestamp: Date.now(),
+      };
+    }
+
+    return NextResponse.json(products, {
+      headers: status !== 'all' ? {
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+        'X-Cache': 'MISS',
+      } : {
+        'Cache-Control': 'no-store',
+      },
+    });
   } catch (error: any) {
     console.error('Fatal error in products API route:', error);
     // Absolute backup safety response
@@ -338,6 +387,9 @@ export async function PATCH(request: Request) {
         }
       }
     } catch (e) {}
+
+    // Invalidate products cache
+    invalidateProductsCache();
 
     return NextResponse.json({ success: true, showInSensoryCompass: Boolean(showInSensoryCompass) });
   } catch (error: any) {

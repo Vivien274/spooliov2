@@ -192,7 +192,7 @@ export default function BoussoleSensoriellePage() {
     const fetchLiveSensoryProducts = async () => {
       setIsLoadingProducts(true);
       try {
-        const res = await fetch('/api/products?status=all', { cache: 'no-store' });
+        const res = await fetch('/api/products');
         if (res.ok) {
           const data = await res.json();
           if (Array.isArray(data)) {

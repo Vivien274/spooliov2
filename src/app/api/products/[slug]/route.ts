@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import fs from 'fs';
 import path from 'path';
+import { invalidateProductsCache } from '../route';
 
 export const dynamic = 'force-dynamic';
 
@@ -204,7 +205,13 @@ export async function GET(
     const status = searchParams.get('status') || 'publish';
     const product = await fetchSingleProduct(slug, status);
     if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 });
-    return NextResponse.json(product);
+    return NextResponse.json(product, {
+      headers: status !== 'all' ? {
+        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+      } : {
+        'Cache-Control': 'no-store',
+      },
+    });
   } catch (error: any) {
     return NextResponse.json({ error: 'Failed to load product' }, { status: 500 });
   }
@@ -426,6 +433,7 @@ export async function PUT(
       console.warn("Local JSON fallback bypassed:", jsonErr.message);
     }
 
+    invalidateProductsCache();
     return NextResponse.json({ success: true, product: updatedProduct });
   } catch (error: any) {
     console.error(`Error updating product ${slug}:`, error.message);
@@ -452,6 +460,8 @@ export async function DELETE(
         where: { slug }
       });
     }
+
+    invalidateProductsCache();
     return NextResponse.json({ success: true, message: 'Product deleted successfully' });
   } catch (error: any) {
     console.error(`Error deleting product ${slug}:`, error.message);
