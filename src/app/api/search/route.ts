@@ -5,6 +5,15 @@ import path from "path";
 
 export const dynamic = "force-dynamic";
 
+// In-memory caches to make search sub-millisecond and avoid repeated heavy DB queries
+let cachedSearchProducts: any[] | null = null;
+let lastSearchProductsFetch = 0;
+const SEARCH_PRODUCTS_CACHE_TTL = 15 * 60 * 1000; // 15 minutes
+
+let cachedSearchBlog: any[] | null = null;
+let lastSearchBlogFetch = 0;
+const SEARCH_BLOG_CACHE_TTL = 15 * 60 * 1000; // 15 minutes
+
 /**
  * Normalizes text: lowercase, removes accents and special diacritics
  */
@@ -96,55 +105,64 @@ async function searchResilient(q: string) {
     };
   }
 
-  // 1. Gather all catalog products for search
+  // 1. Gather all catalog products for search (cached for 15 minutes)
   let allProducts: any[] = [];
-  try {
-    if (prisma) {
-      const dbProducts = await withTimeout(
-        prisma.product.findMany({
-          where: { status: "publish" },
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-            price: true,
-            shortDescription: true,
-            description: true,
-            images: { take: 1, select: { src: true } },
-          },
-        })
-      );
-      allProducts = dbProducts.map((p) => ({
-        id: p.id,
-        name: p.name,
-        slug: p.slug,
-        price: p.price,
-        short_description: p.shortDescription || "",
-        description: p.description || "",
-        image: p.images?.[0]?.src || "/images/figma_keychains.jpg",
-      }));
-    }
-  } catch (e) {}
-
-  if (allProducts.length === 0) {
+  if (cachedSearchProducts && Date.now() - lastSearchProductsFetch < SEARCH_PRODUCTS_CACHE_TTL) {
+    allProducts = cachedSearchProducts;
+  } else {
     try {
-      const dataDir = path.join(process.cwd(), "src/data");
-      const productsPath = path.join(dataDir, "products.json");
-      if (fs.existsSync(productsPath)) {
-        const data = JSON.parse(fs.readFileSync(productsPath, "utf8"));
-        if (Array.isArray(data)) {
-          allProducts = data.map((p: any) => ({
-            id: p.id,
-            name: p.name,
-            slug: p.slug,
-            price: p.price || "4.00",
-            short_description: p.short_description || "",
-            description: p.description || "",
-            image: p.images?.[0]?.src || "/images/figma_keychains.jpg",
-          }));
-        }
+      if (prisma) {
+        const dbProducts = await withTimeout(
+          prisma.product.findMany({
+            where: { status: "publish" },
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+              price: true,
+              shortDescription: true,
+              description: true,
+              images: { take: 1, select: { src: true } },
+            },
+          })
+        );
+        allProducts = dbProducts.map((p) => ({
+          id: p.id,
+          name: p.name,
+          slug: p.slug,
+          price: p.price,
+          short_description: p.shortDescription || "",
+          description: p.description || "",
+          image: p.images?.[0]?.src || "/images/figma_keychains.jpg",
+        }));
       }
     } catch (e) {}
+
+    if (allProducts.length === 0) {
+      try {
+        const dataDir = path.join(process.cwd(), "src/data");
+        const productsPath = path.join(dataDir, "products.json");
+        if (fs.existsSync(productsPath)) {
+          const data = JSON.parse(fs.readFileSync(productsPath, "utf8"));
+          if (Array.isArray(data)) {
+            allProducts = data.map((p: any) => ({
+              id: p.id,
+              name: p.name,
+              slug: p.slug,
+              price: p.price || "4.00",
+              short_description: p.short_description || "",
+              description: p.description || "",
+              image: p.images?.[0]?.src || "/images/figma_keychains.jpg",
+            }));
+          }
+        }
+      } catch (e) {}
+    }
+
+    if (allProducts.length > 0) {
+      cachedSearchProducts = allProducts;
+      lastSearchProductsFetch = Date.now();
+    }
   }
 
   // Score and rank matched products
@@ -200,49 +218,55 @@ async function searchResilient(q: string) {
   scoredProducts.sort((a, b) => b.score - a.score);
   const matchedProducts = scoredProducts.slice(0, 6).map((s) => s.product);
 
-  // 2. Blog Posts search
+  // 3. Blog articles search (cached for 15 minutes)
   let matchedBlog: any[] = [];
-  try {
-    if (prisma) {
-      const dbBlog = await withTimeout(
-        prisma.blogPost.findMany({
-          where: { status: "publish" },
-          select: { id: true, title: true, slug: true, content: true },
-        })
-      );
-      matchedBlog = dbBlog
-        .filter(
-          (b) =>
-            normalize(b.title).includes(normQ) ||
-            normalize(stripHtml(b.content)).includes(normQ)
-        )
-        .slice(0, 4)
-        .map((b) => ({ id: b.id, title: b.title, slug: b.slug }));
-    }
-  } catch (e) {}
-
-  if (matchedBlog.length === 0) {
+  let allBlog: any[] = [];
+  if (cachedSearchBlog && Date.now() - lastSearchBlogFetch < SEARCH_BLOG_CACHE_TTL) {
+    allBlog = cachedSearchBlog;
+  } else {
     try {
-      const blogPath = path.join(process.cwd(), "src/data/blog.json");
-      if (fs.existsSync(blogPath)) {
-        const data = JSON.parse(fs.readFileSync(blogPath, "utf8"));
-        if (Array.isArray(data)) {
-          matchedBlog = data
-            .filter(
-              (b: any) =>
-                normalize(b.title?.rendered || b.title).includes(normQ) ||
-                normalize(stripHtml(b.content?.rendered || b.content)).includes(normQ)
-            )
-            .slice(0, 4)
-            .map((b: any) => ({
-              id: b.id,
-              title: b.title?.rendered || b.title || "",
-              slug: b.slug,
-            }));
-        }
+      if (prisma) {
+        const dbBlog = await withTimeout(
+          prisma.blogPost.findMany({
+            where: { status: "publish" },
+            select: { id: true, title: true, slug: true, content: true },
+          })
+        );
+        allBlog = dbBlog;
       }
     } catch (e) {}
+
+    if (allBlog.length === 0) {
+      try {
+        const blogPath = path.join(process.cwd(), "src/data/blog.json");
+        if (fs.existsSync(blogPath)) {
+          const data = JSON.parse(fs.readFileSync(blogPath, "utf8"));
+          if (Array.isArray(data)) {
+            allBlog = data.map((b: any) => ({
+              id: b.id,
+              title: b.title?.rendered || b.title,
+              slug: b.slug,
+              content: b.content?.rendered || b.content,
+            }));
+          }
+        }
+      } catch (e) {}
+    }
+
+    if (allBlog.length > 0) {
+      cachedSearchBlog = allBlog;
+      lastSearchBlogFetch = Date.now();
+    }
   }
+
+  matchedBlog = allBlog
+    .filter(
+      (b) =>
+        normalize(b.title).includes(normQ) ||
+        normalize(stripHtml(b.content)).includes(normQ)
+    )
+    .slice(0, 4)
+    .map((b) => ({ id: b.id, title: b.title, slug: b.slug }));
 
   // 3. Static Pages search
   const staticRoutes = [
@@ -281,7 +305,11 @@ export async function GET(request: Request) {
     const q = searchParams.get("q") || "";
     const results = await searchResilient(q);
 
-    return NextResponse.json(results);
+    return NextResponse.json(results, {
+      headers: {
+        "Cache-Control": "public, s-maxage=120, stale-while-revalidate=300",
+      },
+    });
   } catch (e: any) {
     console.error("Fatal search error:", e);
     return NextResponse.json({ products: [], blogPosts: [], pages: [] });
