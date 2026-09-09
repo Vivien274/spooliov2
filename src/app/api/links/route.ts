@@ -46,10 +46,15 @@ export async function GET() {
       .filter((link: any) => link.isPublished !== false)
       .sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
 
+    const publishedEvents = (data.events || [])
+      .filter((ev: any) => ev.isPublished !== false)
+      .sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
+
     return NextResponse.json({
       success: true,
       profile: data.profile,
       links: publishedLinks,
+      events: publishedEvents,
     });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error?.message }, { status: 500 });

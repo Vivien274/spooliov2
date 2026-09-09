@@ -18,19 +18,25 @@ function getInitialLinksData() {
         .filter((link: any) => link.isPublished !== false)
         .sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
 
+      const publishedEvents = (parsed.events || [])
+        .filter((ev: any) => ev.isPublished !== false)
+        .sort((a: any, b: any) => (a.order || 0) - (b.order || 0));
+
       return {
         profile: parsed.profile,
         links: publishedLinks,
+        events: publishedEvents,
       };
     }
   } catch (err) {
     console.error("Error reading links.json on server:", err);
   }
-  return { profile: undefined, links: undefined };
+  return { profile: undefined, links: undefined, events: undefined };
 }
 
 export default function LiensPage() {
-  const { profile, links } = getInitialLinksData();
+  const { profile, links, events } = getInitialLinksData();
 
-  return <LinkHubClient initialProfile={profile} initialLinks={links} />;
+  return <LinkHubClient initialProfile={profile} initialLinks={links} initialEvents={events} />;
 }
+

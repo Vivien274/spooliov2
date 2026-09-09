@@ -1,7 +1,7 @@
 {
   "profile": {
     "title": "Spoolio.fr",
-    "subtitle": "Impression 3D & Objets Fidgets Sensoriels TDAH 🇫🇷",
+    "subtitle": "Impression 3D & Objets Fidgets Sensoriels TDAH",
     "avatar": "https://ugc.production.linktr.ee/fdb01a4c-7a6f-4109-92fc-331e44f5bb26_Frame-294.png",
     "verifiedBadge": true,
     "theme": "spoolio-dark",
@@ -16,11 +16,11 @@
   "links": [
     {
       "id": "link-boutique",
-      "title": "🛍️ La Boutique Officielle Spoolio",
+      "title": "La Boutique Officielle Spoolio",
       "subtitle": "Découvre toute notre collection d'objets imprimés en France",
       "url": "https://www.spoolio.fr/boutique",
-      "icon": "🛒",
-      "badge": "",
+      "icon": "shopping-bag",
+      "badge": "ACCÈS DIRECT",
       "style": "highlight",
       "isPublished": true,
       "order": 1,
@@ -28,11 +28,11 @@
     },
     {
       "id": "link-clicker",
-      "title": "⌨️ Créateur de Clicker 3D Sur-Mesure",
+      "title": "Créateur de Clicker 3D Sur-Mesure",
       "subtitle": "Personnalise ton fidget clicker 3D avec 1 à 9 touches & tes gravures",
       "url": "https://www.spoolio.fr/createur-cliqueur",
-      "icon": "⌨️",
-      "badge": "🔥 BEST-SELLER",
+      "icon": "keyboard",
+      "badge": "BEST-SELLER",
       "style": "glow",
       "isPublished": true,
       "order": 2,
@@ -40,11 +40,11 @@
     },
     {
       "id": "link-pochette",
-      "title": "🎲 Pochette Surprise Spoolio",
+      "title": "Pochette Surprise Spoolio",
       "subtitle": "Déballe ta pochette mystère remplie d'objets 3D et fidgets !",
       "url": "https://www.spoolio.fr/pochette-surprise",
-      "icon": "🎁",
-      "badge": "✨ NOUVEAU",
+      "icon": "gift",
+      "badge": "NOUVEAU",
       "style": "pulse",
       "isPublished": true,
       "order": 3,
@@ -52,11 +52,11 @@
     },
     {
       "id": "link-loterie",
-      "title": "🎰 Roue de la Fortune Spoolio",
+      "title": "Roue de la Fortune Spoolio",
       "subtitle": "Tourne la roue et gagne des cadeaux 3D & bons d'achat instantanés !",
       "url": "https://www.spoolio.fr/loterie",
-      "icon": "🎰",
-      "badge": "🎁 KDO GRATUIT",
+      "icon": "dices",
+      "badge": "KDO GRATUIT",
       "style": "pulse",
       "isPublished": true,
       "order": 4,
@@ -64,11 +64,11 @@
     },
     {
       "id": "link-tombola",
-      "title": "🎟️ Grand Jeu Concours & Tombola",
+      "title": "Grand Jeu Concours & Tombola",
       "subtitle": "Tente de gagner le pack Mega Fidget 3D pour 2€ !",
       "url": "https://www.spoolio.fr/tombola",
-      "icon": "🎟️",
-      "badge": "⚡ JEU CONCOURS",
+      "icon": "ticket",
+      "badge": "JEU CONCOURS",
       "style": "highlight",
       "isPublished": true,
       "order": 5,
@@ -76,11 +76,11 @@
     },
     {
       "id": "link-boussole",
-      "title": "🧭 Boussole Sensorielle TDAH",
+      "title": "Boussole Sensorielle TDAH",
       "subtitle": "Trouve l'objet fidget parfait selon ton profil sensoriel",
       "url": "https://www.spoolio.fr/boussole-sensorielle",
-      "icon": "🧭",
-      "badge": "🧠 GUIDAGE",
+      "icon": "compass",
+      "badge": "GUIDAGE",
       "style": "normal",
       "isPublished": true,
       "order": 5,
@@ -88,15 +88,29 @@
     },
     {
       "id": "link-reviews",
-      "title": "⭐ Avis Clients Certifiés (4.9/5)",
+      "title": "Avis Clients Certifiés (4.9/5)",
       "subtitle": "Découvre ce que la communauté pense de nos créations 3D",
       "url": "https://www.spoolio.fr/#avis",
-      "icon": "⭐",
+      "icon": "star",
       "badge": "99% SATISFAIT",
       "style": "normal",
       "isPublished": true,
       "order": 6,
       "clicks": 41
+    }
+  ],
+  "events": [
+    {
+      "id": "event-1",
+      "title": "Marché",
+      "date": "Dimanche 13 Septembre",
+      "location": "Nieppe - Au Moulin de François",
+      "description": "Venez tester et concevoir vos clickers 3D en direct sur notre stand Spoolio !",
+      "linkUrl": "https://www.spoolio.fr/",
+      "linkLabel": "En savoir plus",
+      "badge": "STAND",
+      "isPublished": true,
+      "order": 1
     }
   ]
 }

@@ -13,7 +13,7 @@ function getLinksData() {
   } catch (err) {
     console.error("Error reading links.json:", err);
   }
-  return { profile: {}, links: [] };
+  return { profile: {}, links: [], events: [] };
 }
 
 function saveLinksData(data: any) {
@@ -24,7 +24,7 @@ function saveLinksData(data: any) {
   }
 }
 
-// GET: Return all links and full profile for admin management
+// GET: Return all links, events, and full profile for admin management
 export async function GET() {
   try {
     const data = getLinksData();
@@ -32,23 +32,25 @@ export async function GET() {
       success: true,
       profile: data.profile || {},
       links: (data.links || []).sort((a: any, b: any) => (a.order || 0) - (b.order || 0)),
+      events: (data.events || []).sort((a: any, b: any) => (a.order || 0) - (b.order || 0)),
     });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error?.message }, { status: 500 });
   }
 }
 
-// POST: Update link configuration & profile settings
+// POST: Update link configuration, events & profile settings
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { profile, links } = body;
+    const { profile, links, events } = body;
 
     const currentData = getLinksData();
 
     const newData = {
       profile: profile ? { ...currentData.profile, ...profile } : currentData.profile,
-      links: Array.isArray(links) ? links : currentData.links,
+      links: Array.isArray(links) ? links : (currentData.links || []),
+      events: Array.isArray(events) ? events : (currentData.events || []),
     };
 
     saveLinksData(newData);
@@ -57,6 +59,7 @@ export async function POST(request: Request) {
       success: true,
       profile: newData.profile,
       links: newData.links,
+      events: newData.events,
     });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error?.message }, { status: 500 });
