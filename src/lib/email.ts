@@ -3,6 +3,17 @@ import { NextResponse } from "next/server";
 const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://spoolio.fr').replace(/\/$/, "");
 const logoUrl = `${appUrl}/images/logo.png`;
 
+function getSenderEmail(rawFrom: string): string {
+  const match = rawFrom.match(/<([^>]+)>/);
+  return match ? match[1].trim() : rawFrom.trim();
+}
+
+function formatSender(displayName: string, rawFrom: string): string {
+  const email = getSenderEmail(rawFrom);
+  return `${displayName} <${email}>`;
+}
+
+
 interface OrderEmailParams {
   orderId: string;
   customerName: string;
@@ -509,20 +520,29 @@ export async function sendAdminOrderNotificationEmail({
       </html>
     `;
 
-    await fetch("https://api.resend.com/emails", {
+    console.log(`[Resend Email] Sending admin notification to ${recipient} for Order ${orderId}...`);
+    const emailRes = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${resendKey}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        from: `Spoolio Alertes <${fromAddress}>`,
+        from: formatSender("Spoolio Alertes", fromAddress),
         to: recipient,
         subject: `🎉 Nouvelle commande ${orderId} - Spoolio [${total.toFixed(2)}€]`,
         html: emailHtml
       })
     });
-    return true;
+
+    const emailData = await emailRes.json().catch(() => null);
+    if (emailRes.ok) {
+      console.log(`[Resend Email Success] Admin notification sent for order ${orderId} (ID: ${emailData?.id}) to ${recipient}`);
+      return true;
+    } else {
+      console.error("[Resend Email Error] Admin notification API error details:", emailData);
+      return false;
+    }
   } catch (e) {
     console.error("Failed to send admin order notification email:", e);
     return false;
@@ -625,7 +645,7 @@ export async function sendAbandonedCartEmail({
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        from: `Spoolio <${fromAddress}>`,
+        from: formatSender("Spoolio", fromAddress),
         to: recipient,
         subject: "Vous avez oublié quelque chose ? 🛒 - Spoolio",
         html: emailHtml
@@ -753,7 +773,7 @@ export async function sendOrderNoteEmail({
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        from: `Spoolio <${fromAddress}>`,
+        from: formatSender("Spoolio", fromAddress),
         to: recipients,
         subject: `Message concernant votre commande Spoolio [${orderId}]`,
         html: emailHtml
@@ -905,7 +925,7 @@ export async function sendReviewRequestEmail({
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        from: `Spoolio <${fromAddress}>`,
+        from: formatSender("Spoolio", fromAddress),
         to: [customerEmail],
         subject: `⭐️ Comment s'est passée votre commande Spoolio #${orderId} ?`,
         html: emailHtml
@@ -1051,7 +1071,7 @@ export async function sendLoyaltyCardEmail({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: fromAddress.includes("<") ? fromAddress : `Spoolio <${fromAddress}>`,
+        from: formatSender("Spoolio", fromAddress),
         to: recipient,
         subject: subject,
         html: emailHtml,
