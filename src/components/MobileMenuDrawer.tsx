@@ -108,6 +108,28 @@ export default function MobileMenuDrawer({
               Boutique &amp; Univers
             </span>
 
+            {/* 0. Calendrier de l'Avent Spoolio */}
+            <Link
+              href="/calendrier-avent"
+              onClick={onClose}
+              className="flex items-center justify-between p-3 rounded-2xl bg-gradient-to-r from-red-950/70 via-[#1f050a] to-red-950/70 hover:from-red-900/80 hover:to-[#2d0910] border border-red-500/40 transition-all group active:scale-[0.99] shadow-sm"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-300 shrink-0">
+                  <Gift className="w-4 h-4 text-amber-300" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs font-bold text-white group-hover:text-amber-300 transition-colors flex items-center gap-1.5">
+                    <span>Calendrier de l&apos;Avent 3D</span>
+                  </span>
+                  <span className="text-[10px] text-rose-200/80">Précommandes ouvertes • Édition 50 ex.</span>
+                </div>
+              </div>
+              <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                2026 🎄
+              </span>
+            </Link>
+
             {/* 1. Toute la Boutique */}
             <Link
               href="/boutique"
@@ -311,16 +333,34 @@ export default function MobileMenuDrawer({
               </div>
               <ChevronRight className="w-3.5 h-3.5 text-gray-600" />
             </Link>
-          </div>
 
-          {/* Soutenir Spoolio Button */}
+            <Link
+              href="/don"
+              onClick={onClose}
+              className="flex items-center justify-between p-2.5 rounded-xl hover:bg-white/5 transition-all group text-xs text-gray-300 hover:text-white"
+            >
+              <div className="flex items-center gap-2.5">
+                <Heart className="w-4 h-4 text-[#ff4f00] fill-[#ff4f00]" />
+                <span className="font-bold text-white group-hover:text-[#ff4f00] transition-colors">
+                  Soutenir Spoolio (Dons)
+                </span>
+              </div>
+              <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30">
+                💖 Merci
+              </span>
+            </Link>
+          </div>
+        </div>
+
+        {/* Pinned Bottom Action: Soutenir Spoolio */}
+        <div className="pt-3 border-t border-white/10 shrink-0">
           <Link
             href="/don"
             onClick={onClose}
-            className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#ff4f00] to-[#ff7700] text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-[#ff4f00]/25 active:scale-[0.98] transition-transform no-invert"
+            className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#ff4f00] via-[#FF6600] to-[#FF8800] text-white text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-[#ff4f00]/25 hover:opacity-95 active:scale-[0.98] transition-all no-invert"
           >
             <Heart className="w-4 h-4 fill-white" />
-            <span>Soutenir l&apos;Atelier</span>
+            <span>Soutenir l&apos;Atelier Spoolio</span>
           </Link>
         </div>
       </div>
