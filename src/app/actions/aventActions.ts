@@ -7,6 +7,7 @@ import { AdventData, AdventObjectItem, PackagingItem, AdventConfig } from "@/typ
 import { prisma } from "@/lib/prisma";
 
 const DATA_FILE_PATH = path.join(process.cwd(), "src", "data", "aventData.json");
+const ADVENT_PAGE_SLUG = "config-calendrier-avent";
 
 /**
  * Counts the actual number of advent calendars ordered across all valid orders in the database.
@@ -47,46 +48,88 @@ export async function countAdventCalendarsFromDB(): Promise<number> {
 }
 
 /**
- * Helper to read local JSON data and enrich with live DB order count.
+ * Helper to read advent data: prioritizes PostgreSQL database via Prisma (persistent on Vercel),
+ * falls back to local JSON file if not present in DB.
  */
 export async function getAdventDataAction(): Promise<AdventData> {
+  let data: AdventData | null = null;
+
+  // 1. Primary: Fetch from Postgres via Prisma
   try {
-    const fileContent = await fs.readFile(DATA_FILE_PATH, "utf-8");
-    const data = JSON.parse(fileContent) as AdventData;
-
-    // Dynamically calculate actual sold calendars from DB orders
-    const dbSold = await countAdventCalendarsFromDB();
-
-    if (!data.config.preorder) {
-      data.config.preorder = {
-        tier1Price: 45,
-        tier2Price: 50,
-        totalLimit: 50,
-        totalSold: dbSold,
-      };
-    } else {
-      // Use live DB count, or manual override if set higher
-      const storedSold = data.config.preorder.totalSold ?? 0;
-      data.config.preorder.totalSold = Math.max(dbSold, storedSold);
+    const page = await prisma.page.findUnique({
+      where: { slug: ADVENT_PAGE_SLUG },
+    });
+    if (page?.content) {
+      data = JSON.parse(page.content) as AdventData;
     }
+  } catch (dbError) {
+    console.warn("Could not read advent data from DB, attempting file fallback:", dbError);
+  }
 
-    return data;
-  } catch (error) {
-    console.error("Error reading aventData.json:", error);
+  // 2. Fallback: Read local JSON file if DB has nothing yet
+  if (!data) {
+    try {
+      const fileContent = await fs.readFile(DATA_FILE_PATH, "utf-8");
+      data = JSON.parse(fileContent) as AdventData;
+    } catch (fsError) {
+      console.error("Error reading adventData.json file:", fsError);
+    }
+  }
+
+  if (!data) {
     throw new Error("Impossible de lire les données du calendrier de l'Avent");
   }
+
+  // 3. Dynamically calculate actual sold calendars from DB orders
+  const dbSold = await countAdventCalendarsFromDB();
+
+  if (!data.config.preorder) {
+    data.config.preorder = {
+      tier1Price: 45,
+      tier2Price: 50,
+      totalLimit: 50,
+      totalSold: dbSold,
+    };
+  } else {
+    // Use live DB count, or manual override if set higher
+    const storedSold = data.config.preorder.totalSold ?? 0;
+    data.config.preorder.totalSold = Math.max(dbSold, storedSold);
+  }
+
+  return data;
 }
 
 /**
- * Helper to write updated local JSON data.
+ * Helper to write updated advent data:
+ * - Upserts into PostgreSQL database (always works on Vercel serverless)
+ * - Tries to update local JSON file if filesystem is writable (local dev)
  */
 async function saveAdventData(data: AdventData): Promise<void> {
+  const jsonContent = JSON.stringify(data, null, 2);
+
+  // 1. Primary: Save to PostgreSQL
+  try {
+    await prisma.page.upsert({
+      where: { slug: ADVENT_PAGE_SLUG },
+      update: { content: jsonContent },
+      create: {
+        slug: ADVENT_PAGE_SLUG,
+        title: "Configuration Calendrier de l'Avent",
+        content: jsonContent,
+        status: "publish",
+      },
+    });
+  } catch (dbError) {
+    console.error("Error writing adventData to DB:", dbError);
+    throw new Error("Impossible d'enregistrer les données du calendrier en base.");
+  }
+
+  // 2. Secondary: Update local file if writable (local dev)
   try {
     await fs.mkdir(path.dirname(DATA_FILE_PATH), { recursive: true });
-    await fs.writeFile(DATA_FILE_PATH, JSON.stringify(data, null, 2), "utf-8");
-  } catch (error) {
-    console.error("Error writing aventData.json:", error);
-    throw new Error("Impossible de sauvegarder les données du calendrier de l'Avent");
+    await fs.writeFile(DATA_FILE_PATH, jsonContent, "utf-8");
+  } catch (fsError) {
+    // Expected on Vercel serverless (read-only filesystem). Silently ignore.
   }
 }
 

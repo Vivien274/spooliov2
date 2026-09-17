@@ -22,10 +22,10 @@
       "category": "boite",
       "supplier": "Embaleo",
       "supplierUrl": "https://www.embaleo.com/boites-postales/4408-boite-postale-recyclee-30-24-10-cm.html",
-      "unitPrice": 0.72,
+      "unitPrice": 1.2,
       "quantityNeededPerCalendar": 1,
       "quantityInStock": 100,
-      "status": "a_commander",
+      "status": "en_stock",
       "notes": "Boîte principale d'expédition contenant l'ensemble du calendrier"
     },
     {
@@ -60,8 +60,8 @@
       "supplierUrl": "",
       "unitPrice": 0.6,
       "quantityNeededPerCalendar": 1,
-      "quantityInStock": 50,
-      "status": "recu",
+      "quantityInStock": 1250,
+      "status": "en_stock",
       "notes": "Planche de 24 stickers numérotés pour sceller chaque sachet"
     },
     {
@@ -73,7 +73,7 @@
       "unitPrice": 0.45,
       "quantityNeededPerCalendar": 1,
       "quantityInStock": 50,
-      "status": "a_commander",
+      "status": "en_stock",
       "notes": "Grande planche A4 de stickers décoratifs Spoolio dans la boîte"
     },
     {
@@ -84,8 +84,8 @@
       "supplierUrl": "",
       "unitPrice": 0.2,
       "quantityNeededPerCalendar": 1,
-      "quantityInStock": 100,
-      "status": "a_commander",
+      "quantityInStock": 250,
+      "status": "en_stock",
       "notes": "Flyer d'explication et vœux de fin d'année glissé dans la boîte"
     },
     {
@@ -97,7 +97,7 @@
       "unitPrice": 0.5,
       "quantityNeededPerCalendar": 1,
       "quantityInStock": 50,
-      "status": "en_stock",
+      "status": "a_commander",
       "notes": "Kit d'assemblage DIY pour les accessoires du calendrier"
     }
   ],

@@ -74,6 +74,7 @@ export default function AdminCalendrierAventPage() {
 
   // Edit Object Modal State
   const [editingObject, setEditingObject] = useState<AdventObjectItem | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState<boolean>(false);
 
   // Edit Packaging Modal State
   const [editingPackaging, setEditingPackaging] = useState<PackagingItem | null>(null);
@@ -98,6 +99,28 @@ export default function AdminCalendrierAventPage() {
   useEffect(() => {
     loadData();
   }, []);
+
+  const handleImageUpload = async (file: File) => {
+    setIsUploadingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const resData = await res.json();
+      if (res.ok && resData?.url) {
+        setEditingObject((prev) => (prev ? { ...prev, imageUrl: resData.url } : null));
+      } else {
+        alert("⚠️ Échec du téléversement : " + (resData?.error || "Veuillez réessayer"));
+      }
+    } catch (err: any) {
+      alert("⚠️ Erreur lors du téléversement : " + (err?.message || "Erreur réseau"));
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
 
   if (loading || !data) {
     return (
@@ -128,34 +151,54 @@ export default function AdminCalendrierAventPage() {
   const handleQuickStatusChange = (obj: AdventObjectItem, newStatus: ObjectProductionStatus) => {
     const updated = { ...obj, status: newStatus };
     startTransition(async () => {
-      const res = await updateAdventObjectAction(updated);
-      setData(res);
+      try {
+        const res = await updateAdventObjectAction(updated);
+        setData(res);
+      } catch (err: any) {
+        console.error("Quick status error:", err);
+        alert("Erreur lors de la mise à jour : " + (err?.message || "Erreur serveur"));
+      }
     });
   };
 
   const handleSaveObject = () => {
     if (!editingObject) return;
     startTransition(async () => {
-      const res = await updateAdventObjectAction(editingObject);
-      setData(res);
-      setEditingObject(null);
+      try {
+        const res = await updateAdventObjectAction(editingObject);
+        setData(res);
+        setEditingObject(null);
+      } catch (err: any) {
+        console.error("Save object error:", err);
+        alert("Erreur lors de la sauvegarde : " + (err?.message || "Erreur serveur"));
+      }
     });
   };
 
   const handleSavePackaging = () => {
     if (!editingPackaging) return;
     startTransition(async () => {
-      const res = await savePackagingItemAction(editingPackaging);
-      setData(res);
-      setEditingPackaging(null);
+      try {
+        const res = await savePackagingItemAction(editingPackaging);
+        setData(res);
+        setEditingPackaging(null);
+      } catch (err: any) {
+        console.error("Save packaging error:", err);
+        alert("Erreur lors de la sauvegarde packaging : " + (err?.message || "Erreur serveur"));
+      }
     });
   };
 
   const handleDeletePackaging = (id: string) => {
     if (!confirm("Voulez-vous vraiment supprimer cet article de packaging ?")) return;
     startTransition(async () => {
-      const res = await deletePackagingItemAction(id);
-      setData(res);
+      try {
+        const res = await deletePackagingItemAction(id);
+        setData(res);
+      } catch (err: any) {
+        console.error("Delete packaging error:", err);
+        alert("Erreur lors de la suppression : " + (err?.message || "Erreur serveur"));
+      }
     });
   };
 
@@ -200,8 +243,13 @@ export default function AdminCalendrierAventPage() {
     setDragOverIndex(null);
 
     startTransition(async () => {
-      const res = await reorderAdventObjectsAction(reordered);
-      setData(res);
+      try {
+        const res = await reorderAdventObjectsAction(reordered);
+        setData(res);
+      } catch (err: any) {
+        console.error("Reorder error:", err);
+        alert("Erreur lors de la réorganisation : " + (err?.message || "Erreur serveur"));
+      }
     });
   };
 
@@ -225,8 +273,13 @@ export default function AdminCalendrierAventPage() {
 
     setData({ ...data, objects: reordered });
     startTransition(async () => {
-      const res = await reorderAdventObjectsAction(reordered);
-      setData(res);
+      try {
+        const res = await reorderAdventObjectsAction(reordered);
+        setData(res);
+      } catch (err: any) {
+        console.error("Reorder error:", err);
+        alert("Erreur lors du déplacement : " + (err?.message || "Erreur serveur"));
+      }
     });
   };
 
@@ -865,9 +918,14 @@ export default function AdminCalendrierAventPage() {
             <button
               onClick={() =>
                 startTransition(async () => {
-                  const res = await updateAdventConfigAction(data.config);
-                  setData(res);
-                  alert("Configuration et précommandes sauvegardées !");
+                  try {
+                    const res = await updateAdventConfigAction(data.config);
+                    setData(res);
+                    alert("Configuration et précommandes sauvegardées !");
+                  } catch (err: any) {
+                    console.error("Config save error:", err);
+                    alert("Erreur lors de la sauvegarde : " + (err?.message || "Erreur serveur"));
+                  }
                 })
               }
               className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold flex items-center gap-2 transition-all shadow"
@@ -1030,19 +1088,21 @@ export default function AdminCalendrierAventPage() {
                     <input
                       type="file"
                       accept="image/*"
+                      disabled={isUploadingImage}
                       onChange={(e) => {
                         const file = e.target.files?.[0];
                         if (file) {
-                          const reader = new FileReader();
-                          reader.onload = (event) => {
-                            const base64 = event.target?.result as string;
-                            setEditingObject({ ...editingObject, imageUrl: base64 });
-                          };
-                          reader.readAsDataURL(file);
+                          handleImageUpload(file);
                         }
                       }}
-                      className="block w-full text-xs text-white/70 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-amber-500/20 file:text-amber-300 hover:file:bg-amber-500/30 cursor-pointer"
+                      className="block w-full text-xs text-white/70 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-amber-500/20 file:text-amber-300 hover:file:bg-amber-500/30 cursor-pointer disabled:opacity-50"
                     />
+                    {isUploadingImage && (
+                      <div className="flex items-center gap-2 text-xs text-amber-400 font-mono">
+                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                        <span>Téléversement vers le serveur en cours...</span>
+                      </div>
+                    )}
                     <input
                       type="text"
                       placeholder="Ou URL directe (ex: /images/produit.jpg)"
@@ -1064,10 +1124,11 @@ export default function AdminCalendrierAventPage() {
               </button>
               <button
                 onClick={handleSaveObject}
-                className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold flex items-center gap-2"
+                disabled={isUploadingImage || isPending}
+                className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-bold flex items-center gap-2"
               >
-                <Save className="w-4 h-4" />
-                <span>Enregistrer</span>
+                {isPending ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                <span>{isPending ? "Enregistrement..." : "Enregistrer"}</span>
               </button>
             </div>
           </div>
