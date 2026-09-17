@@ -780,207 +780,123 @@ export default function AdminDashboard() {
             </div>
           ) : (
             <>
-              {/* AI Smart Insight & Live Banner */}
-              {visitsStats.aiInsight && (
-                <div className="p-5 rounded-2xl bg-gradient-to-r from-[#FF5500]/15 via-amber-500/10 to-[#FF5500]/5 border border-[#FF5500]/30 shadow-lg space-y-2">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="p-1.5 rounded-lg bg-[#FF5500]/20 text-[#FF5500] font-bold text-sm">💡</span>
-                      <h4 className="text-sm font-black text-white font-antonio uppercase tracking-wider">
-                        {visitsStats.aiInsight.title}
-                      </h4>
-                    </div>
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#FF5500]/20 border border-[#FF5500]/40 text-[#FF5500]">
-                      {visitsStats.aiInsight.badge}
-                    </span>
-                  </div>
-                  <p className="text-xs text-neutral-300 leading-relaxed font-sans">
-                    {visitsStats.aiInsight.text}
-                  </p>
-                </div>
-              )}
-
-              {/* Analytics KPIs Row with Glowing Accents */}
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                {/* KPI 1: Visites Totales */}
-                <div className={`${cls.cardBg} border border-blue-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-blue-500/60 transition-all`}>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-blue-400">Visites Totales</span>
-                    <span className="text-sm">🌐</span>
-                  </div>
-                  <div className="mt-3">
-                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
-                      {visitsStats.totalVisits}
-                    </div>
-                    <span className="text-[10px] text-gray-400 font-medium">Pages consultées au total</span>
-                  </div>
-                </div>
-
-                {/* KPI 2: Visites Aujourd'hui */}
-                <div className={`${cls.cardBg} border border-[#ff4f00]/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-[#ff4f00]/60 transition-all`}>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-[#ff4f00]">Aujourd'hui</span>
-                    <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                      Direct
-                    </span>
-                  </div>
-                  <div className="mt-3">
-                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
-                      {visitsStats.todayVisits}
-                    </div>
-                    <span className="text-[10px] text-gray-400 font-medium">Pages vus ce jour</span>
-                  </div>
-                </div>
-
-                {/* KPI 3: Visiteurs Uniques (Jour) */}
+              {/* Analytics KPIs Row */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* KPI 1: En Direct (5 min) */}
                 <div className={`${cls.cardBg} border border-emerald-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-emerald-500/60 transition-all`}>
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-emerald-400">Uniques (Jour)</span>
-                    <span className="text-sm">👤</span>
-                  </div>
-                  <div className="mt-3">
-                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
-                      {visitsStats.uniqueToday}
-                    </div>
-                    <span className="text-[10px] text-gray-400 font-medium">Clients distincts (24h)</span>
-                  </div>
-                </div>
-
-                {/* KPI 4: Visiteurs Uniques (Semaine) */}
-                <div className={`${cls.cardBg} border border-purple-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-purple-500/60 transition-all`}>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-purple-400">Uniques (7j)</span>
-                    <span className="text-sm">📊</span>
-                  </div>
-                  <div className="mt-3">
-                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
-                      {visitsStats.uniqueWeek}
-                    </div>
-                    <span className="text-[10px] text-gray-400 font-medium">Audience hebdomadaire</span>
-                  </div>
-                </div>
-
-                {/* KPI 5: En Direct (5 min) */}
-                <div className={`${cls.cardBg} border border-emerald-500/40 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-emerald-500/70 transition-all`}>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-emerald-400">En Direct</span>
-                    <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-400">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                      5 min
+                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-emerald-400">En direct (5 min)</span>
+                    <span className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      Live
                     </span>
                   </div>
                   <div className="mt-3">
                     <div className="text-3xl font-black font-antonio text-white tracking-tight">
                       {visitsStats.liveActiveUsers || 0}
                     </div>
-                    <span className="text-[10px] text-gray-400 font-medium">Clients connectés sur le site</span>
+                    <span className="text-[10px] text-gray-400 font-medium">Visiteur{(visitsStats.liveActiveUsers || 0) > 1 ? "s" : ""} actif{(visitsStats.liveActiveUsers || 0) > 1 ? "s" : ""} sur le site</span>
+                  </div>
+                </div>
+
+                {/* KPI 2: Visiteurs Uniques */}
+                <div className={`${cls.cardBg} border border-blue-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-blue-500/60 transition-all`}>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-blue-400">Visiteurs Uniques</span>
+                    <span className="text-sm">👤</span>
+                  </div>
+                  <div className="mt-3">
+                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
+                      {visitsStats.uniqueToday || 0}
+                    </div>
+                    <span className="text-[10px] text-gray-400 font-medium">Aujourd'hui · <strong className="text-blue-300 font-mono">{visitsStats.uniqueWeek || 0}</strong> sur 7j</span>
+                  </div>
+                </div>
+
+                {/* KPI 3: Pages Vues */}
+                <div className={`${cls.cardBg} border border-[#ff4f00]/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-[#ff4f00]/60 transition-all`}>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-[#ff4f00]">Pages Vues</span>
+                    <span className="text-sm">📄</span>
+                  </div>
+                  <div className="mt-3">
+                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
+                      {visitsStats.todayVisits || 0}
+                    </div>
+                    <span className="text-[10px] text-gray-400 font-medium">Aujourd'hui · <strong className="text-amber-300 font-mono">{visitsStats.totalVisits || 0}</strong> total</span>
+                  </div>
+                </div>
+
+                {/* KPI 4: Taux de Conversion */}
+                <div className={`${cls.cardBg} border border-purple-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-purple-500/60 transition-all`}>
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-purple-400">Taux Conversion</span>
+                    <span className="text-sm">🎯</span>
+                  </div>
+                  <div className="mt-3">
+                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
+                      {visitsStats.conversionRate || 0}%
+                    </div>
+                    <span className="text-[10px] text-gray-400 font-medium">{visitsStats.funnel?.step3_orders || 0} commande{(visitsStats.funnel?.step3_orders || 0) > 1 ? "s" : ""} (7j)</span>
                   </div>
                 </div>
               </div>
 
-              {/* Funnel UX & Geo Delivery Section */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                {/* Funnel UX (7 cols) */}
-                <div className={`lg:col-span-7 ${cls.cardBg} border ${cls.border} rounded-3xl p-6 shadow-xl space-y-4`}>
-                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                    <div>
-                      <h4 className="text-sm font-black text-white font-antonio uppercase tracking-wider flex items-center gap-2">
-                        <span>🎯</span> Funnel de Conversion UX
-                      </h4>
-                      <p className="text-[11px] text-gray-400">Parcours des visiteurs de l'arrivée à la commande</p>
-                    </div>
-                    <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/30">
-                      Taux global: {visitsStats.conversionRate || 0}%
-                    </span>
+              {/* Funnel de Conversion UX épuré */}
+              <div className={`${cls.cardBg} border border-white/10 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3`}>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm">🎯</span>
+                    <h4 className="text-xs font-black text-white font-antonio uppercase tracking-wider">
+                      Parcours de Conversion (7 derniers jours)
+                    </h4>
                   </div>
-
-                  <div className="space-y-3 font-sans pt-1">
-                    {/* Step 1 */}
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-xs font-bold text-gray-300">
-                        <span>Étape 1: Visiteurs Uniques (7j)</span>
-                        <span className="font-mono text-white">{visitsStats.funnel?.step1_visitors || visitsStats.uniqueWeek}</span>
-                      </div>
-                      <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden p-0.5">
-                        <div className="h-full bg-blue-500 rounded-full w-full" />
-                      </div>
-                    </div>
-
-                    {/* Step 2 */}
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-xs font-bold text-gray-300">
-                        <span>Étape 2: Vues Produits</span>
-                        <span className="font-mono text-amber-400">{visitsStats.funnel?.step2_productViews || 0} vues</span>
-                      </div>
-                      <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden p-0.5">
-                        <div
-                          className="h-full bg-amber-500 rounded-full transition-all duration-500"
-                          style={{
-                            width: `${Math.min(100, Math.max(10, ((visitsStats.funnel?.step2_productViews || 0) / Math.max(visitsStats.funnel?.step1_visitors || 1, 1)) * 100))}%`,
-                          }}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Step 3 */}
-                    <div className="space-y-1">
-                      <div className="flex justify-between text-xs font-bold text-gray-300">
-                        <span>Étape 3: Commandes Finalisées</span>
-                        <span className="font-mono text-emerald-400">{visitsStats.funnel?.step3_orders || 0} commandes</span>
-                      </div>
-                      <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden p-0.5">
-                        <div
-                          className="h-full bg-emerald-500 rounded-full transition-all duration-500"
-                          style={{
-                            width: `${Math.min(100, Math.max(5, (visitsStats.conversionRate || 0) * 5))}%`,
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  <span className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                    Taux global : {visitsStats.conversionRate || 0}%
+                  </span>
                 </div>
 
-                {/* Geo & Delivery Breakdown (5 cols) */}
-                <div className={`lg:col-span-5 ${cls.cardBg} border ${cls.border} rounded-3xl p-6 shadow-xl space-y-4`}>
-                  <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                    <h4 className="text-sm font-black text-white font-antonio uppercase tracking-wider flex items-center gap-2">
-                      <span>📍</span> Villes & Livraisons Top
-                    </h4>
-                    <span className="text-[10px] font-bold text-gray-400 uppercase font-mono">Expéditions</span>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1 font-sans">
+                  {/* Step 1 */}
+                  <div className="bg-white/[0.03] border border-white/5 rounded-xl p-3 space-y-1.5">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-gray-400 font-medium">1. Visiteurs uniques</span>
+                      <span className="font-mono font-bold text-white text-sm">{visitsStats.funnel?.step1_visitors || visitsStats.uniqueWeek}</span>
+                    </div>
+                    <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-full bg-blue-500 rounded-full w-full" />
+                    </div>
                   </div>
 
-                  <div className="space-y-3 text-xs">
-                    <div>
-                      <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Top Villes de Livraison</span>
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        {visitsStats.geoDeliveryStats?.topCities?.length > 0 ? (
-                          visitsStats.geoDeliveryStats.topCities.map((c: any) => (
-                            <span key={c.name} className="px-2.5 py-1 rounded-xl bg-white/5 border border-white/10 text-white font-semibold flex items-center gap-1.5">
-                              <span>🏙️ {c.name}</span>
-                              <span className="font-mono text-[10px] text-amber-400">({c.count})</span>
-                            </span>
-                          ))
-                        ) : (
-                          <span className="text-gray-500 italic text-[11px]">Aucune adresse enregistrée</span>
-                        )}
-                      </div>
+                  {/* Step 2 */}
+                  <div className="bg-white/[0.03] border border-white/5 rounded-xl p-3 space-y-1.5">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-gray-400 font-medium">2. Vues fiches produits</span>
+                      <span className="font-mono font-bold text-amber-400 text-sm">{visitsStats.funnel?.step2_productViews || 0}</span>
                     </div>
+                    <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-amber-500 rounded-full transition-all duration-500"
+                        style={{
+                          width: `${Math.min(100, Math.max(10, ((visitsStats.funnel?.step2_productViews || 0) / Math.max(visitsStats.funnel?.step1_visitors || 1, 1)) * 100))}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
 
-                    <div className="pt-2 border-t border-white/10">
-                      <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Méthodes Expédition</span>
-                      <div className="space-y-1.5 mt-2 font-sans">
-                        {visitsStats.geoDeliveryStats?.shippingMethods?.length > 0 ? (
-                          visitsStats.geoDeliveryStats.shippingMethods.map((m: any) => (
-                            <div key={m.name} className="flex justify-between items-center text-xs">
-                              <span className="text-gray-300 font-medium">📦 {m.name}</span>
-                              <span className="font-mono font-bold text-white bg-white/10 px-2 py-0.5 rounded">{m.count}</span>
-                            </div>
-                          ))
-                        ) : (
-                          <span className="text-gray-500 italic text-[11px]">Commandes en cours...</span>
-                        )}
-                      </div>
+                  {/* Step 3 */}
+                  <div className="bg-white/[0.03] border border-white/5 rounded-xl p-3 space-y-1.5">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-gray-400 font-medium">3. Commandes finalisées</span>
+                      <span className="font-mono font-bold text-emerald-400 text-sm">{visitsStats.funnel?.step3_orders || 0}</span>
+                    </div>
+                    <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+                        style={{
+                          width: `${Math.min(100, Math.max(5, (visitsStats.conversionRate || 0) * 5))}%`,
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
