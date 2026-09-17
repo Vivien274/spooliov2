@@ -842,62 +842,6 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              {/* Funnel de Conversion UX épuré */}
-              <div className={`${cls.cardBg} border border-white/10 rounded-2xl p-5 shadow-sm space-y-3`}>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-white/70 uppercase tracking-wider font-antonio">
-                    Parcours de Conversion (7 derniers jours)
-                  </span>
-                  <span className="text-[11px] font-mono font-bold text-white/70 bg-white/5 px-2.5 py-0.5 rounded-full border border-white/10">
-                    Taux : {visitsStats.conversionRate || 0}%
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1 font-sans">
-                  {/* Step 1 */}
-                  <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3.5 space-y-1.5">
-                    <div className="flex justify-between items-center text-xs">
-                      <span className="text-white/60 font-medium">1. Visiteurs uniques</span>
-                      <span className="font-mono font-bold text-white">{visitsStats.funnel?.step1_visitors || visitsStats.uniqueWeek}</span>
-                    </div>
-                    <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                      <div className="h-full bg-white/40 rounded-full w-full" />
-                    </div>
-                  </div>
-
-                  {/* Step 2 */}
-                  <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3.5 space-y-1.5">
-                    <div className="flex justify-between items-center text-xs">
-                      <span className="text-white/60 font-medium">2. Vues de fiches produits</span>
-                      <span className="font-mono font-bold text-white">{visitsStats.funnel?.step2_productViews || 0}</span>
-                    </div>
-                    <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-white/70 rounded-full transition-all duration-500"
-                        style={{
-                          width: `${Math.min(100, Math.max(10, ((visitsStats.funnel?.step2_productViews || 0) / Math.max(visitsStats.funnel?.step1_visitors || 1, 1)) * 100))}%`,
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Step 3 */}
-                  <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3.5 space-y-1.5">
-                    <div className="flex justify-between items-center text-xs">
-                      <span className="text-white/60 font-medium">3. Commandes finalisées</span>
-                      <span className="font-mono font-bold text-amber-400">{visitsStats.funnel?.step3_orders || 0}</span>
-                    </div>
-                    <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-amber-400 rounded-full transition-all duration-500"
-                        style={{
-                          width: `${Math.min(100, Math.max(5, (visitsStats.conversionRate || 0) * 5))}%`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               {/* Main Content Grid: Graph on Left, Top Products & Pages on Right */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
