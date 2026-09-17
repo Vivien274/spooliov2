@@ -783,100 +783,97 @@ export default function AdminDashboard() {
               {/* Analytics KPIs Row */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* KPI 1: En Direct (5 min) */}
-                <div className={`${cls.cardBg} border border-emerald-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-emerald-500/60 transition-all`}>
+                <div className={`${cls.cardBg} border border-white/10 hover:border-white/20 rounded-2xl p-5 flex flex-col justify-between shadow-sm transition-all`}>
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-emerald-400">En direct (5 min)</span>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-white/60">En direct (5 min)</span>
                     <span className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                       Live
                     </span>
                   </div>
-                  <div className="mt-3">
+                  <div className="mt-4">
                     <div className="text-3xl font-black font-antonio text-white tracking-tight">
                       {visitsStats.liveActiveUsers || 0}
                     </div>
-                    <span className="text-[10px] text-gray-400 font-medium">Visiteur{(visitsStats.liveActiveUsers || 0) > 1 ? "s" : ""} actif{(visitsStats.liveActiveUsers || 0) > 1 ? "s" : ""} sur le site</span>
+                    <span className="text-[11px] text-white/40">Visiteur{(visitsStats.liveActiveUsers || 0) > 1 ? "s" : ""} actif{(visitsStats.liveActiveUsers || 0) > 1 ? "s" : ""}</span>
                   </div>
                 </div>
 
                 {/* KPI 2: Visiteurs Uniques */}
-                <div className={`${cls.cardBg} border border-blue-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-blue-500/60 transition-all`}>
+                <div className={`${cls.cardBg} border border-white/10 hover:border-white/20 rounded-2xl p-5 flex flex-col justify-between shadow-sm transition-all`}>
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-blue-400">Visiteurs Uniques</span>
-                    <span className="text-sm">👤</span>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-white/60">Visiteurs Uniques</span>
+                    <span className="text-white/40 text-xs">👤</span>
                   </div>
-                  <div className="mt-3">
+                  <div className="mt-4">
                     <div className="text-3xl font-black font-antonio text-white tracking-tight">
                       {visitsStats.uniqueToday || 0}
                     </div>
-                    <span className="text-[10px] text-gray-400 font-medium">Aujourd'hui · <strong className="text-blue-300 font-mono">{visitsStats.uniqueWeek || 0}</strong> sur 7j</span>
+                    <span className="text-[11px] text-white/40">Aujourd'hui · <strong className="text-white/80 font-mono">{visitsStats.uniqueWeek || 0}</strong> sur 7j</span>
                   </div>
                 </div>
 
                 {/* KPI 3: Pages Vues */}
-                <div className={`${cls.cardBg} border border-[#ff4f00]/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-[#ff4f00]/60 transition-all`}>
+                <div className={`${cls.cardBg} border border-white/10 hover:border-white/20 rounded-2xl p-5 flex flex-col justify-between shadow-sm transition-all`}>
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-[#ff4f00]">Pages Vues</span>
-                    <span className="text-sm">📄</span>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-white/60">Pages Vues</span>
+                    <span className="text-white/40 text-xs">📄</span>
                   </div>
-                  <div className="mt-3">
+                  <div className="mt-4">
                     <div className="text-3xl font-black font-antonio text-white tracking-tight">
                       {visitsStats.todayVisits || 0}
                     </div>
-                    <span className="text-[10px] text-gray-400 font-medium">Aujourd'hui · <strong className="text-amber-300 font-mono">{visitsStats.totalVisits || 0}</strong> total</span>
+                    <span className="text-[11px] text-white/40">Aujourd'hui · <strong className="text-white/80 font-mono">{visitsStats.totalVisits || 0}</strong> total</span>
                   </div>
                 </div>
 
                 {/* KPI 4: Taux de Conversion */}
-                <div className={`${cls.cardBg} border border-purple-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-purple-500/60 transition-all`}>
+                <div className={`${cls.cardBg} border border-white/10 hover:border-white/20 rounded-2xl p-5 flex flex-col justify-between shadow-sm transition-all`}>
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-purple-400">Taux Conversion</span>
-                    <span className="text-sm">🎯</span>
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-white/60">Conversion</span>
+                    <span className="text-white/40 text-xs">🎯</span>
                   </div>
-                  <div className="mt-3">
+                  <div className="mt-4">
                     <div className="text-3xl font-black font-antonio text-white tracking-tight">
                       {visitsStats.conversionRate || 0}%
                     </div>
-                    <span className="text-[10px] text-gray-400 font-medium">{visitsStats.funnel?.step3_orders || 0} commande{(visitsStats.funnel?.step3_orders || 0) > 1 ? "s" : ""} (7j)</span>
+                    <span className="text-[11px] text-white/40">{visitsStats.funnel?.step3_orders || 0} commande{(visitsStats.funnel?.step3_orders || 0) > 1 ? "s" : ""} sur 7j</span>
                   </div>
                 </div>
               </div>
 
               {/* Funnel de Conversion UX épuré */}
-              <div className={`${cls.cardBg} border border-white/10 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3`}>
+              <div className={`${cls.cardBg} border border-white/10 rounded-2xl p-5 shadow-sm space-y-3`}>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm">🎯</span>
-                    <h4 className="text-xs font-black text-white font-antonio uppercase tracking-wider">
-                      Parcours de Conversion (7 derniers jours)
-                    </h4>
-                  </div>
-                  <span className="text-[11px] font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
-                    Taux global : {visitsStats.conversionRate || 0}%
+                  <span className="text-xs font-bold text-white/70 uppercase tracking-wider font-antonio">
+                    Parcours de Conversion (7 derniers jours)
+                  </span>
+                  <span className="text-[11px] font-mono font-bold text-white/70 bg-white/5 px-2.5 py-0.5 rounded-full border border-white/10">
+                    Taux : {visitsStats.conversionRate || 0}%
                   </span>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1 font-sans">
                   {/* Step 1 */}
-                  <div className="bg-white/[0.03] border border-white/5 rounded-xl p-3 space-y-1.5">
+                  <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3.5 space-y-1.5">
                     <div className="flex justify-between items-center text-xs">
-                      <span className="text-gray-400 font-medium">1. Visiteurs uniques</span>
-                      <span className="font-mono font-bold text-white text-sm">{visitsStats.funnel?.step1_visitors || visitsStats.uniqueWeek}</span>
+                      <span className="text-white/60 font-medium">1. Visiteurs uniques</span>
+                      <span className="font-mono font-bold text-white">{visitsStats.funnel?.step1_visitors || visitsStats.uniqueWeek}</span>
                     </div>
-                    <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-                      <div className="h-full bg-blue-500 rounded-full w-full" />
+                    <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-full bg-white/40 rounded-full w-full" />
                     </div>
                   </div>
 
                   {/* Step 2 */}
-                  <div className="bg-white/[0.03] border border-white/5 rounded-xl p-3 space-y-1.5">
+                  <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3.5 space-y-1.5">
                     <div className="flex justify-between items-center text-xs">
-                      <span className="text-gray-400 font-medium">2. Vues fiches produits</span>
-                      <span className="font-mono font-bold text-amber-400 text-sm">{visitsStats.funnel?.step2_productViews || 0}</span>
+                      <span className="text-white/60 font-medium">2. Vues de fiches produits</span>
+                      <span className="font-mono font-bold text-white">{visitsStats.funnel?.step2_productViews || 0}</span>
                     </div>
-                    <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-amber-500 rounded-full transition-all duration-500"
+                        className="h-full bg-white/70 rounded-full transition-all duration-500"
                         style={{
                           width: `${Math.min(100, Math.max(10, ((visitsStats.funnel?.step2_productViews || 0) / Math.max(visitsStats.funnel?.step1_visitors || 1, 1)) * 100))}%`,
                         }}
@@ -885,14 +882,14 @@ export default function AdminDashboard() {
                   </div>
 
                   {/* Step 3 */}
-                  <div className="bg-white/[0.03] border border-white/5 rounded-xl p-3 space-y-1.5">
+                  <div className="bg-white/[0.02] border border-white/5 rounded-xl p-3.5 space-y-1.5">
                     <div className="flex justify-between items-center text-xs">
-                      <span className="text-gray-400 font-medium">3. Commandes finalisées</span>
-                      <span className="font-mono font-bold text-emerald-400 text-sm">{visitsStats.funnel?.step3_orders || 0}</span>
+                      <span className="text-white/60 font-medium">3. Commandes finalisées</span>
+                      <span className="font-mono font-bold text-amber-400">{visitsStats.funnel?.step3_orders || 0}</span>
                     </div>
-                    <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+                        className="h-full bg-amber-400 rounded-full transition-all duration-500"
                         style={{
                           width: `${Math.min(100, Math.max(5, (visitsStats.conversionRate || 0) * 5))}%`,
                         }}
@@ -904,28 +901,26 @@ export default function AdminDashboard() {
 
               {/* Main Content Grid: Graph on Left, Top Products & Pages on Right */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                {/* Left (8 cols): Interactive Bar Graph */}
-                <div className={`lg:col-span-8 ${cls.cardBg} border ${cls.border} rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-xl relative overflow-hidden min-h-[400px]`}>
+                {/* Left (7 cols): Interactive Bar Graph */}
+                <div className={`lg:col-span-7 ${cls.cardBg} border border-white/10 rounded-3xl p-6 sm:p-7 flex flex-col justify-between shadow-sm relative overflow-hidden min-h-[400px]`}>
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
                     <div>
-                      <span className="text-[10px] uppercase font-bold text-[#ff4f00] tracking-wider">Évolution 7 Derniers Jours</span>
-                      <h4 className="text-xl font-black text-white font-antonio uppercase tracking-tight">Trafic & Consultation Quotidienne</h4>
+                      <span className="text-[10px] uppercase font-bold text-white/50 tracking-wider">7 Derniers Jours</span>
+                      <h4 className="text-lg font-black text-white font-antonio uppercase tracking-tight">Trafic Quotidien</h4>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-gray-300 bg-white/5 border border-white/10 px-3 py-1 rounded-full">
-                        <span className="w-2 h-2 rounded-full bg-[#ff4f00]" />
-                        Pages Vues par Jour
-                      </span>
-                    </div>
+                    <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-white/60 bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+                      <span className="w-2 h-2 rounded-full bg-amber-500" />
+                      Pages Vues par Jour
+                    </span>
                   </div>
 
                   {/* SVG Reference Grid & Bar Chart */}
                   <div className="flex-1 flex items-end justify-between gap-3 sm:gap-4 h-56 mt-6 pt-6 border-b border-white/10 pb-3 relative z-0">
                     {/* Background Grid Lines */}
-                    <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20 z-0 pb-6">
-                      <div className="border-b border-dashed border-white/40 w-full" />
-                      <div className="border-b border-dashed border-white/30 w-full" />
-                      <div className="border-b border-dashed border-white/20 w-full" />
+                    <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-10 z-0 pb-6">
+                      <div className="border-b border-dashed border-white w-full" />
+                      <div className="border-b border-dashed border-white w-full" />
+                      <div className="border-b border-dashed border-white w-full" />
                     </div>
 
                     {visitsStats.dailyStats.map((day: any) => {
@@ -935,20 +930,20 @@ export default function AdminDashboard() {
                       return (
                         <div key={day.label} className="flex-1 flex flex-col items-center gap-2 group h-full justify-end relative z-10">
                           {/* Value Tag Above Bar */}
-                          <span className="text-[11px] font-black font-mono text-amber-300 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded-lg shadow-md group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-black transition-all cursor-pointer">
+                          <span className="text-[11px] font-mono font-bold text-white/90 bg-white/10 border border-white/10 px-2 py-0.5 rounded-lg shadow-sm group-hover:scale-105 group-hover:bg-amber-500 group-hover:text-black transition-all cursor-pointer">
                             {day.count}
                           </span>
                           
-                          {/* Vibrant Gradient Bar */}
-                          <div className="w-full max-w-[50px] bg-white/5 rounded-t-xl overflow-hidden flex items-end h-full p-0.5">
+                          {/* Clean Bar */}
+                          <div className="w-full max-w-[46px] bg-white/5 rounded-t-xl overflow-hidden flex items-end h-full p-0.5">
                             <div 
-                              className="w-full bg-gradient-to-t from-[#ff4f00] via-[#ff6600] to-[#ff9900] rounded-t-lg transition-all duration-500 group-hover:brightness-125 shadow-[0_0_20px_rgba(255,79,0,0.35)]"
+                              className="w-full bg-gradient-to-t from-amber-600/90 to-amber-500 rounded-t-lg transition-all duration-300 group-hover:brightness-125"
                               style={{ height: `${percent}%` }}
                             />
                           </div>
 
                           {/* Day Label */}
-                          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider text-center group-hover:text-white transition-colors">
+                          <span className="text-[10px] font-bold text-white/50 uppercase tracking-wider text-center group-hover:text-white transition-colors">
                             {day.label}
                           </span>
                         </div>
@@ -956,52 +951,47 @@ export default function AdminDashboard() {
                     })}
                   </div>
 
-                  <div className="mt-4 flex items-center justify-between text-[11px] text-gray-400 font-medium">
-                    <span>💡 Astuce : Survoler les barres pour faire défiler le nombre exact de pages lues.</span>
-                    <span className="font-mono text-[10px] text-gray-500">Mise à jour en temps réel</span>
+                  <div className="mt-3 flex items-center justify-between text-[11px] text-white/40">
+                    <span>Mise à jour automatique en temps réel</span>
                   </div>
 
                   {/* Hourly Peak Slots Widget */}
                   {visitsStats.hourlySlots && visitsStats.hourlySlots.length > 0 && (
                     <div className="mt-6 border-t border-white/10 pt-5">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-                        <div className="flex items-center gap-2">
-                          <span className="text-base">⏰</span>
-                          <div>
-                            <h5 className="text-xs font-black text-white font-antonio uppercase tracking-wider">Heures de Pointe & Pics d'Affluence</h5>
-                            <p className="text-[10px] text-gray-400">Distribution des visites par tranche horaire sur les 30 derniers jours.</p>
-                          </div>
+                        <div>
+                          <h5 className="text-xs font-bold text-white/70 uppercase tracking-wider font-antonio">Affluence par tranche horaire</h5>
+                          <p className="text-[10px] text-white/40">Distribution sur les 30 derniers jours.</p>
                         </div>
                         {visitsStats.peakSlot && (
-                          <span className="text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/40 flex items-center gap-1.5 self-start sm:self-auto">
-                            <span>🔥 Pic d'affluence :</span>
-                            <span className="text-white font-bold">{visitsStats.peakSlot.shortLabel}</span>
+                          <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20 flex items-center gap-1.5 self-start sm:self-auto">
+                            <span>Pic :</span>
+                            <span className="text-white font-mono">{visitsStats.peakSlot.shortLabel}</span>
                           </span>
                         )}
                       </div>
 
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                         {visitsStats.hourlySlots.map((slot: any) => {
                           const totalSlotVisits = visitsStats.hourlySlots.reduce((acc: number, s: any) => acc + (s.count || 0), 0);
                           const percent = totalSlotVisits > 0 ? Math.round((slot.count / totalSlotVisits) * 100) : 0;
                           const isPeak = visitsStats.peakSlot && visitsStats.peakSlot.key === slot.key;
 
                           return (
-                            <div key={slot.key} className={`bg-white/[0.03] border ${isPeak ? 'border-[#ff4f00]/50 bg-[#ff4f00]/5' : 'border-white/10'} rounded-2xl p-3 flex flex-col justify-between space-y-2 transition-all hover:bg-white/5`}>
-                              <div className="flex items-center justify-between text-[10px] font-bold">
-                                <span className={isPeak ? "text-[#ff4f00]" : "text-gray-300"}>{slot.label}</span>
-                                <span className="font-mono text-white text-[11px] font-black">{slot.count}</span>
+                            <div key={slot.key} className={`bg-white/[0.02] border ${isPeak ? 'border-amber-500/40 bg-amber-500/5' : 'border-white/5'} rounded-xl p-3 flex flex-col justify-between space-y-2 transition-all`}>
+                              <div className="flex items-center justify-between text-[11px]">
+                                <span className={isPeak ? "text-amber-300 font-bold" : "text-white/60"}>{slot.label}</span>
+                                <span className="font-mono text-white font-bold">{slot.count}</span>
                               </div>
                               <div className="space-y-1">
-                                <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden p-0.5">
+                                <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
                                   <div 
-                                    className={`h-full rounded-full transition-all duration-500 ${isPeak ? 'bg-[#ff4f00]' : 'bg-blue-500'}`}
+                                    className={`h-full rounded-full transition-all duration-500 ${isPeak ? 'bg-amber-400' : 'bg-white/30'}`}
                                     style={{ width: `${percent}%` }}
                                   />
                                 </div>
-                                <div className="flex justify-between text-[9px] font-mono text-gray-400">
-                                  <span>Trafic</span>
-                                  <span className="font-bold text-gray-200">{percent}%</span>
+                                <div className="flex justify-between text-[9px] font-mono text-white/40">
+                                  <span>{percent}%</span>
                                 </div>
                               </div>
                             </div>
@@ -1012,49 +1002,41 @@ export default function AdminDashboard() {
                   )}
                 </div>
 
-                {/* Right (4 cols): Top Products & Top Pages */}
-                <div className="lg:col-span-4 flex flex-col gap-6">
+                {/* Right (5 cols): Top Products & Top Pages */}
+                <div className="lg:col-span-5 flex flex-col gap-6">
                   {/* Top Products Card */}
-                  <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 flex-1 shadow-lg flex flex-col justify-between`}>
+                  <div className={`${cls.cardBg} border border-white/10 rounded-3xl p-6 flex-1 shadow-sm flex flex-col justify-between`}>
                     <div>
                       <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
-                        <div className="flex items-center gap-2">
-                          <span className="text-base">🔥</span>
-                          <h4 className="text-sm font-black text-white font-antonio uppercase tracking-wider">Top Produits Consultés</h4>
-                        </div>
-                        <span className="text-[10px] font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
-                          {visitsStats.topProducts.length} Fiches
+                        <h4 className="text-xs font-bold text-white/70 uppercase tracking-wider font-antonio">Top Produits Consultés</h4>
+                        <span className="text-[10px] font-mono text-white/50 bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
+                          {visitsStats.topProducts.length} fiches
                         </span>
                       </div>
                       
                       {visitsStats.topProducts.length === 0 ? (
-                        <div className="py-8 text-center text-xs text-gray-500 font-medium">
+                        <div className="py-8 text-center text-xs text-white/40">
                           Aucune vue produit enregistrée pour le moment.
                         </div>
                       ) : (
-                        <div className="space-y-3.5 font-sans">
+                        <div className="space-y-3 font-sans">
                           {visitsStats.topProducts.slice(0, 5).map((p: any, idx: number) => {
                             const maxCount = Math.max(...visitsStats.topProducts.map((pr: any) => pr.count), 1);
                             const barWidth = (p.count / maxCount) * 100;
                             return (
-                              <div key={p.url || idx} className="space-y-1.5 group">
+                              <div key={p.url || idx} className="space-y-1 group">
                                 <div className="flex items-center justify-between text-xs">
-                                  <div className="flex items-center gap-2 truncate max-w-[190px]">
-                                    <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-black shrink-0 ${
-                                      idx === 0 ? "bg-amber-500 text-black" :
-                                      idx === 1 ? "bg-gray-300 text-black" :
-                                      idx === 2 ? "bg-amber-700 text-white" :
-                                      "bg-white/10 text-gray-400"
-                                    }`}>
+                                  <div className="flex items-center gap-2 truncate max-w-[200px]">
+                                    <span className="w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-mono font-bold bg-white/10 text-white/70 shrink-0">
                                       {idx + 1}
                                     </span>
-                                    <span className="font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate">{p.name}</span>
+                                    <span className="text-white/90 group-hover:text-amber-300 transition-colors truncate">{p.name}</span>
                                   </div>
-                                  <span className="text-amber-400 font-extrabold font-mono text-[11px] shrink-0">{p.count} vues</span>
+                                  <span className="text-white/80 font-mono text-[11px] shrink-0">{p.count} vues</span>
                                 </div>
-                                <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden p-0.5">
+                                <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
                                   <div 
-                                    className="h-full bg-gradient-to-r from-blue-500 to-[#ff4f00] rounded-full transition-all duration-500" 
+                                    className="h-full bg-white/40 rounded-full transition-all duration-500 group-hover:bg-amber-400" 
                                     style={{ width: `${barWidth}%` }} 
                                   />
                                 </div>
@@ -1067,18 +1049,15 @@ export default function AdminDashboard() {
                   </div>
 
                   {/* Top Pages Card */}
-                  <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 flex-1 shadow-lg`}>
+                  <div className={`${cls.cardBg} border border-white/10 rounded-3xl p-6 flex-1 shadow-sm`}>
                     <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
-                      <div className="flex items-center gap-2">
-                        <span className="text-base">📄</span>
-                        <h4 className="text-sm font-black text-white font-antonio uppercase tracking-wider">Pages Les Plus Visitées</h4>
-                      </div>
-                      <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20">
+                      <h4 className="text-xs font-bold text-white/70 uppercase tracking-wider font-antonio">Pages Fréquentées</h4>
+                      <span className="text-[10px] font-mono text-white/50 bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
                         URLs
                       </span>
                     </div>
 
-                    <div className="space-y-2.5 font-sans">
+                    <div className="space-y-2 font-sans">
                       {visitsStats.topPages.slice(0, 6).map((p: any) => {
                         const pageLabel = p.url === "" || p.url === "/" ? "/ (Accueil)" : p.url;
                         const percentage = visitsStats.totalVisits > 0 
@@ -1086,13 +1065,13 @@ export default function AdminDashboard() {
                           : 0;
 
                         return (
-                          <div key={p.url} className="flex items-center justify-between text-xs py-1.5 px-2.5 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/10 group">
-                            <span className="font-mono text-[11px] text-gray-300 group-hover:text-white truncate max-w-[190px]">
+                          <div key={p.url} className="flex items-center justify-between text-xs py-1.5 px-2.5 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5 group">
+                            <span className="font-mono text-[11px] text-white/60 group-hover:text-white truncate max-w-[200px]">
                               {pageLabel}
                             </span>
                             <div className="flex items-center gap-2 shrink-0">
-                              <span className="text-[10px] font-bold text-gray-500 font-mono">{percentage}%</span>
-                              <span className="font-black text-white font-mono text-[11px] bg-white/10 px-2 py-0.5 rounded-md">
+                              <span className="text-[10px] text-white/40 font-mono">{percentage}%</span>
+                              <span className="font-mono text-[11px] text-white/90 bg-white/10 px-2 py-0.5 rounded-md">
                                 {p.count}
                               </span>
                             </div>
