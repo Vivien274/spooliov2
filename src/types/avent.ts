@@ -43,12 +43,14 @@ export interface AdventObjectItem {
 }
 
 export interface PreorderConfig {
-  tier1Price: number; // 45 €
-  tier1Limit: number; // 25
-  tier1Sold: number; // e.g. 0
-  tier2Price: number; // 50 €
-  tier2Limit: number; // 25
-  tier2Sold: number; // e.g. 0
+  tier1Price: number; // 45 € (remisé)
+  tier2Price: number; // 50 € (tarif normal)
+  totalLimit?: number; // 50 calendriers
+  totalSold?: number; // exemplaires précommandés
+  tier1Limit?: number; // legacy fallback
+  tier1Sold?: number; // legacy fallback
+  tier2Limit?: number; // legacy fallback
+  tier2Sold?: number; // legacy fallback
 }
 
 export interface AdventConfig {

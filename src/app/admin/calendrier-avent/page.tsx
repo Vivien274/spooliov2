@@ -628,98 +628,99 @@ export default function AdminCalendrierAventPage() {
             {/* Preorder Batches Control */}
             <div className="bg-white/5 border border-amber-500/30 rounded-2xl p-4 space-y-3">
               <h3 className="text-sm font-bold text-amber-300 flex items-center gap-2">
-                <span>⚡ Gestion des Précommandes (Offre Vagues)</span>
+                <span>⚡ Conditions des Précommandes (50 Exemplaires au total)</span>
               </h3>
+
+              <div className="p-3 bg-black/40 border border-white/10 rounded-xl space-y-1.5 text-xs text-white/80">
+                <div className="text-amber-300 font-bold">Rappel des 3 phases automatiques par date :</div>
+                <div>• <strong>Jusqu'au 30 Septembre :</strong> 45 € (remisé) + 25ème cadeau exclusif offert 🎁</div>
+                <div>• <strong>Du 1er au 15 Octobre :</strong> 45 € (remisé) sans 25ème cadeau</div>
+                <div>• <strong>À partir du 16 Octobre :</strong> 50 € (tarif normal)</div>
+              </div>
               
-              <div className="grid grid-cols-2 gap-4">
-                {/* Vague 1 Early Bird */}
-                <div className="bg-black/40 border border-emerald-500/30 rounded-xl p-3 space-y-2">
-                  <span className="text-emerald-400 font-bold text-xs block">Vague 1 (Early Bird - 45€)</span>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-white/70">Prix :</span>
-                    <input
-                      type="number"
-                      value={data.config.preorder?.tier1Price || 45}
-                      onChange={(e) =>
-                        setData({
-                          ...data,
-                          config: {
-                            ...data.config,
-                            preorder: {
-                              ...(data.config.preorder || { tier1Limit: 25, tier1Sold: 0, tier2Price: 50, tier2Limit: 25, tier2Sold: 0 }),
-                              tier1Price: parseFloat(e.target.value) || 45,
-                            },
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div className="bg-black/40 border border-emerald-500/30 rounded-xl p-3 space-y-1">
+                  <span className="text-emerald-400 font-bold text-[11px] block">Prix Remisé (€)</span>
+                  <input
+                    type="number"
+                    value={data.config.preorder?.tier1Price || 45}
+                    onChange={(e) =>
+                      setData({
+                        ...data,
+                        config: {
+                          ...data.config,
+                          preorder: {
+                            ...(data.config.preorder || { tier2Price: 50, totalLimit: 50, totalSold: 0 }),
+                            tier1Price: parseFloat(e.target.value) || 45,
                           },
-                        })
-                      }
-                      className="w-16 bg-black border border-white/20 rounded px-1.5 py-0.5 text-right font-mono text-white"
-                    />
-                  </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-white/70">Vendus (Max 25) :</span>
-                    <input
-                      type="number"
-                      value={data.config.preorder?.tier1Sold || 0}
-                      onChange={(e) =>
-                        setData({
-                          ...data,
-                          config: {
-                            ...data.config,
-                            preorder: {
-                              ...(data.config.preorder || { tier1Price: 45, tier1Limit: 25, tier2Price: 50, tier2Limit: 25, tier2Sold: 0 }),
-                              tier1Sold: parseInt(e.target.value) || 0,
-                            },
-                          },
-                        })
-                      }
-                      className="w-16 bg-black border border-white/20 rounded px-1.5 py-0.5 text-right font-mono text-emerald-400 font-bold"
-                    />
-                  </div>
+                        },
+                      })
+                    }
+                    className="w-full bg-black border border-white/20 rounded px-2 py-1 text-right font-mono text-white text-xs"
+                  />
                 </div>
 
-                {/* Vague 2 Standard */}
-                <div className="bg-black/40 border border-purple-500/30 rounded-xl p-3 space-y-2">
-                  <span className="text-purple-400 font-bold text-xs block">Vague 2 (Standard - 50€)</span>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-white/70">Prix :</span>
-                    <input
-                      type="number"
-                      value={data.config.preorder?.tier2Price || 50}
-                      onChange={(e) =>
-                        setData({
-                          ...data,
-                          config: {
-                            ...data.config,
-                            preorder: {
-                              ...(data.config.preorder || { tier1Price: 45, tier1Limit: 25, tier1Sold: 0, tier2Limit: 25, tier2Sold: 0 }),
-                              tier2Price: parseFloat(e.target.value) || 50,
-                            },
+                <div className="bg-black/40 border border-purple-500/30 rounded-xl p-3 space-y-1">
+                  <span className="text-purple-400 font-bold text-[11px] block">Prix Normal (€)</span>
+                  <input
+                    type="number"
+                    value={data.config.preorder?.tier2Price || 50}
+                    onChange={(e) =>
+                      setData({
+                        ...data,
+                        config: {
+                          ...data.config,
+                          preorder: {
+                            ...(data.config.preorder || { tier1Price: 45, totalLimit: 50, totalSold: 0 }),
+                            tier2Price: parseFloat(e.target.value) || 50,
                           },
-                        })
-                      }
-                      className="w-16 bg-black border border-white/20 rounded px-1.5 py-0.5 text-right font-mono text-white"
-                    />
-                  </div>
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-white/70">Vendus (Max 25) :</span>
-                    <input
-                      type="number"
-                      value={data.config.preorder?.tier2Sold || 0}
-                      onChange={(e) =>
-                        setData({
-                          ...data,
-                          config: {
-                            ...data.config,
-                            preorder: {
-                              ...(data.config.preorder || { tier1Price: 45, tier1Limit: 25, tier1Sold: 0, tier2Price: 50, tier2Limit: 25 }),
-                              tier2Sold: parseInt(e.target.value) || 0,
-                            },
+                        },
+                      })
+                    }
+                    className="w-full bg-black border border-white/20 rounded px-2 py-1 text-right font-mono text-white text-xs"
+                  />
+                </div>
+
+                <div className="bg-black/40 border border-white/20 rounded-xl p-3 space-y-1">
+                  <span className="text-white/80 font-bold text-[11px] block">Total Capacité</span>
+                  <input
+                    type="number"
+                    value={data.config.preorder?.totalLimit || 50}
+                    onChange={(e) =>
+                      setData({
+                        ...data,
+                        config: {
+                          ...data.config,
+                          preorder: {
+                            ...(data.config.preorder || { tier1Price: 45, tier2Price: 50, totalSold: 0 }),
+                            totalLimit: parseInt(e.target.value) || 50,
                           },
-                        })
-                      }
-                      className="w-16 bg-black border border-white/20 rounded px-1.5 py-0.5 text-right font-mono text-purple-400 font-bold"
-                    />
-                  </div>
+                        },
+                      })
+                    }
+                    className="w-full bg-black border border-white/20 rounded px-2 py-1 text-right font-mono text-white text-xs"
+                  />
+                </div>
+
+                <div className="bg-black/40 border border-amber-500/30 rounded-xl p-3 space-y-1">
+                  <span className="text-amber-400 font-bold text-[11px] block">Réservés (Sur 50)</span>
+                  <input
+                    type="number"
+                    value={data.config.preorder?.totalSold ?? (data.config.preorder?.tier1Sold || 0)}
+                    onChange={(e) =>
+                      setData({
+                        ...data,
+                        config: {
+                          ...data.config,
+                          preorder: {
+                            ...(data.config.preorder || { tier1Price: 45, tier2Price: 50, totalLimit: 50 }),
+                            totalSold: parseInt(e.target.value) || 0,
+                          },
+                        },
+                      })
+                    }
+                    className="w-full bg-black border border-white/20 rounded px-2 py-1 text-right font-mono text-amber-300 font-bold text-xs"
+                  />
                 </div>
               </div>
             </div>

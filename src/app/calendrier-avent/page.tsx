@@ -22,19 +22,32 @@ import {
   Flame,
   Award,
   Heart,
+  Truck,
+  Leaf,
+  ChevronDown,
+  Play,
+  Video,
+  Calendar,
+  Clock,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { AdventData, AdventObjectItem } from "@/types/avent";
 import { getAdventDataAction, likeAdventObjectAction } from "@/app/actions/aventActions";
+import { useCart } from "@/context/CartContext";
+import AdventMarqueeBanner from "@/components/AdventMarqueeBanner";
 
 export default function PublicCalendrierAventPage() {
   const router = useRouter();
+  const { addToCart } = useCart();
   const [data, setData] = useState<AdventData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [addedSuccess, setAddedSuccess] = useState<boolean>(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
   // Local Dev / Preview Simulation State
   const [simulatedDay, setSimulatedDay] = useState<number>(1);
   const [unlockAllDev, setUnlockAllDev] = useState<boolean>(false);
+  const [simulatedDateOverride, setSimulatedDateOverride] = useState<string>("auto");
 
   // Modal State for Object Detail
   const [selectedObject, setSelectedObject] = useState<AdventObjectItem | null>(null);
@@ -60,6 +73,13 @@ export default function PublicCalendrierAventPage() {
 
   // Automatic Redirection to Homepage if Page is Private & Not in Dev Mode
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("dev") === "true" || params.get("preview") === "true") {
+        setUnlockAllDev(true);
+        return;
+      }
+    }
     if (data && data.config.isPublicActive === false && !unlockAllDev) {
       router.replace("/");
     }
@@ -105,14 +125,16 @@ export default function PublicCalendrierAventPage() {
     // Trigger small heart confetti
     try {
       confetti({
-        particleCount: 25,
-        spread: 50,
+        particleCount: 40,
+        spread: 60,
         origin: { y: 0.7 },
-        colors: ["#ef4444", "#ec4899", "#f59e0b"],
+        colors: ["#f43f5e", "#fb7185", "#fda4af"],
       });
-    } catch (e) {}
+    } catch (e) {
+      console.error(e);
+    }
 
-    // Persist in local storage via server action
+    // Persist on server
     try {
       await likeAdventObjectAction(day);
     } catch (e) {
@@ -122,10 +144,10 @@ export default function PublicCalendrierAventPage() {
 
   if (loading || !data) {
     return (
-      <div className="min-h-screen bg-[#09040d] text-white flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-[#140306] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
           <RefreshCw className="w-8 h-8 text-amber-400 animate-spin" />
-          <span className="text-xs font-mono text-amber-200/80">Chargement de la féérie de Noël Spoolio...</span>
+          <span className="text-sm font-mono text-white/70">Chargement de l'Avent Spoolio...</span>
         </div>
       </div>
     );
@@ -134,23 +156,82 @@ export default function PublicCalendrierAventPage() {
   // Snowflake count for background
   const snowflakes = Array.from({ length: 28 });
 
-  // Calculated Preorder Pricing
+  // Preorder Capacity and Stock (50 total calendars)
   const preorder = data.config.preorder || {
     tier1Price: 45,
-    tier1Limit: 25,
-    tier1Sold: 8,
     tier2Price: 50,
-    tier2Limit: 25,
-    tier2Sold: 0,
+    totalLimit: 50,
+    totalSold: 0,
   };
 
-  const isVague1Active = preorder.tier1Sold < preorder.tier1Limit;
-  const currentPrice = isVague1Active ? preorder.tier1Price : preorder.tier2Price;
-  const currentSold = isVague1Active ? preorder.tier1Sold : preorder.tier2Sold;
-  const currentLimit = isVague1Active ? preorder.tier1Limit : preorder.tier2Limit;
+  const totalLimit = preorder.totalLimit || 50;
+  const totalSold = preorder.totalSold ?? (preorder.tier1Sold || 0);
+
+  // Date-based phase determination:
+  // Phase 1: jusqu'au 30 Septembre -> 45€ + 25ème cadeau inclus
+  // Phase 2: du 1er au 15 Octobre -> 45€ remisé (sans 25ème cadeau)
+  // Phase 3: à partir du 16 Octobre -> 50€ tarif normal
+  const realNow = new Date();
+  const currentYear = realNow.getFullYear();
+  const sept30 = new Date(currentYear, 8, 30, 23, 59, 59); // 30 Septembre
+  const oct15 = new Date(currentYear, 9, 15, 23, 59, 59); // 15 Octobre
+
+  // Simulation mode date calculation
+  const isSeptemberPhase =
+    simulatedDateOverride === "sept"
+      ? true
+      : simulatedDateOverride === "oct_early" || simulatedDateOverride === "oct_late"
+      ? false
+      : realNow <= sept30;
+
+  const isEarlyOctoberPhase =
+    simulatedDateOverride === "oct_early"
+      ? true
+      : simulatedDateOverride === "sept" || simulatedDateOverride === "oct_late"
+      ? false
+      : realNow > sept30 && realNow <= oct15;
+
+  const isStandardPhase =
+    simulatedDateOverride === "oct_late"
+      ? true
+      : simulatedDateOverride === "sept" || simulatedDateOverride === "oct_early"
+      ? false
+      : realNow > oct15;
+
+  const hasBonus25thGift = isSeptemberPhase;
+  const isPriceDiscounted = isSeptemberPhase || isEarlyOctoberPhase;
+  const currentPrice = isPriceDiscounted ? (preorder.tier1Price || 45) : (preorder.tier2Price || 50);
+
+  const handlePreorder = () => {
+    triggerConfetti();
+    setAddedSuccess(true);
+    setTimeout(() => setAddedSuccess(false), 3000);
+
+    addToCart(
+      {
+        productId: 202612,
+        name: data.config.title || "Calendrier de l'Avent Spoolio 2026",
+        slug: "calendrier-avent",
+        price: currentPrice.toFixed(2),
+        selectedOptions: {
+          "Formule": hasBonus25thGift
+            ? "Offre de Lancement (45€ + 25ème Cadeau Exclusif Offert)"
+            : isEarlyOctoberPhase
+            ? "Tarif Remisé Précommande (45€)"
+            : "Tarif Standard d'Achat (50€)",
+          "Contenu": hasBonus25thGift
+            ? "24 créations 3D + 25ème cadeau surprise + Kit Guirlande DIY"
+            : "24 créations 3D + Kit Guirlande DIY",
+        },
+        image: "/images/calendrier-avent-hero.jpg",
+      },
+      1,
+      true
+    );
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0a0512] via-[#0f091a] to-[#07030a] text-white relative overflow-hidden font-sans pb-28">
+    <div className="min-h-screen bg-gradient-to-b from-[#1a0509] via-[#120306] to-[#0a0204] text-white relative overflow-hidden font-sans pb-12">
       {/* CSS Animations for Floating Snow & Glowing Lights */}
       <style jsx global>{`
         @keyframes floatSnow {
@@ -194,7 +275,7 @@ export default function PublicCalendrierAventPage() {
           return (
             <div
               key={i}
-              className="snow-particle text-amber-100/60"
+              className="snow-particle text-white/80"
               style={{
                 left: `${left}%`,
                 animationDuration: `${duration}s`,
@@ -209,9 +290,10 @@ export default function PublicCalendrierAventPage() {
       </div>
 
       {/* Top Header & Navigation Bar */}
-      <header className="sticky top-0 z-30 bg-[#0a0512]/90 backdrop-blur-md border-b border-amber-500/20 shadow-lg">
+      <header className="sticky top-0 z-30 bg-[#140407]/90 backdrop-blur-md border-b border-red-500/25 shadow-lg">
+        <AdventMarqueeBanner />
         {/* Delicate String Lights along top border */}
-        <div className="w-full h-1 bg-gradient-to-r from-amber-500 via-rose-500 via-emerald-500 to-amber-500 opacity-80" />
+        <div className="w-full h-1 bg-gradient-to-r from-red-600 via-rose-400 via-amber-300 via-rose-400 to-red-600 opacity-90" />
 
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <Link
@@ -230,14 +312,14 @@ export default function PublicCalendrierAventPage() {
           </Link>
 
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold font-antonio tracking-widest uppercase text-amber-300 flex items-center gap-1.5">
-              <span>Village de Noël Spoolio</span>
+            <span className="text-xs font-bold font-antonio tracking-widest uppercase text-red-300 flex items-center gap-1.5">
+              <span>🎄 Village de Noël Spoolio</span>
             </span>
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-500/10 text-amber-300 border border-amber-500/20 text-xs font-bold font-mono">
-              <Sparkles className="w-3.5 h-3.5" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-red-600/20 text-red-200 border border-red-500/30 text-xs font-bold font-mono">
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
               <span className="hidden sm:inline">Édition Limitée</span>
               <span>2026</span>
             </span>
@@ -246,31 +328,31 @@ export default function PublicCalendrierAventPage() {
       </header>
 
       {/* Glow Orbs */}
-      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-full max-w-5xl h-80 bg-gradient-to-b from-amber-500/15 via-rose-500/10 to-transparent pointer-events-none blur-3xl" />
+      <div className="absolute top-10 left-1/2 -translate-x-1/2 w-full max-w-5xl h-80 bg-gradient-to-b from-red-600/25 via-rose-600/10 to-transparent pointer-events-none blur-3xl" />
 
       <div className="max-w-6xl mx-auto px-4 pt-8 pb-4 relative z-10 space-y-8">
         {/* Clean Hero Header */}
         <div className="text-center space-y-3 max-w-2xl mx-auto">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-2xl shadow-xl shadow-amber-500/10 mb-1">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-red-600/20 border border-red-500/40 text-red-300 text-2xl shadow-xl shadow-red-500/20 mb-1">
             🎁
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-black font-antonio tracking-wider uppercase bg-gradient-to-r from-amber-100 via-amber-200 to-rose-200 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-5xl font-black font-antonio tracking-wider uppercase bg-gradient-to-r from-white via-red-100 to-rose-200 bg-clip-text text-transparent">
             {data.config.title}
           </h1>
 
-          <p className="text-xs sm:text-sm text-amber-100/70 leading-relaxed font-light">
+          <p className="text-xs sm:text-sm text-slate-200/80 leading-relaxed font-light">
             {data.config.subtitle}
           </p>
 
           <div className="pt-1 flex items-center justify-center gap-3 text-[11px] font-mono flex-wrap">
-            <span className="flex items-center gap-1 bg-amber-500/20 text-amber-300 font-bold px-3 py-1 rounded-xl border border-amber-500/40 shadow-sm">
+            <span className="flex items-center gap-1 bg-amber-500/15 text-amber-300 font-bold px-3 py-1 rounded-xl border border-amber-500/30 shadow-sm">
               💎 80 € de Valeur Produits
             </span>
-            <span className="flex items-center gap-1 bg-white/5 text-amber-100/90 px-3 py-1 rounded-xl border border-white/10">
+            <span className="flex items-center gap-1 bg-white/10 text-white font-semibold px-3 py-1 rounded-xl border border-white/20">
               <span>🇫🇷</span> 100% Imprimé en France
             </span>
-            <span className="flex items-center gap-1 bg-white/5 text-amber-100/90 px-3 py-1 rounded-xl border border-white/10">
+            <span className="flex items-center gap-1 bg-red-600/20 text-red-200 font-semibold px-3 py-1 rounded-xl border border-red-500/40">
               <span>🎁</span> 24 Créations 3D
             </span>
           </div>
@@ -279,21 +361,22 @@ export default function PublicCalendrierAventPage() {
         {/* CONDITION 1: PREORDER PRODUCT HERO BLOCK (Avant le 1er Décembre) */}
         {isPreorderPhase ? (
           <div className="space-y-8">
-            <div className="bg-gradient-to-b from-[#180e29]/90 to-[#0e071a]/90 border-2 border-amber-400/40 rounded-3xl p-6 md:p-8 shadow-2xl shadow-amber-500/20 max-w-4xl mx-auto relative overflow-hidden backdrop-blur-xl">
+            <div className="bg-gradient-to-b from-[#24080e]/95 via-[#180509]/95 to-[#100306]/95 border-2 border-red-500/40 rounded-3xl p-6 md:p-8 lg:p-10 shadow-2xl shadow-red-950/60 w-full relative overflow-hidden backdrop-blur-xl">
               {/* Badge Top Offer */}
-              <div className="absolute top-0 right-0 bg-gradient-to-l from-rose-600 via-rose-500 to-amber-500 text-white font-mono font-bold text-[10px] sm:text-xs px-4 py-1.5 rounded-bl-2xl uppercase tracking-wider shadow-md">
+              <div className="absolute top-0 right-0 bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white font-mono font-bold text-[10px] sm:text-xs px-4 py-1.5 rounded-bl-2xl uppercase tracking-wider shadow-md">
                 🔥 Précommandes Ouvertes • Expédition Novembre
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center pt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 items-center pt-4">
                 {/* Left: Product Box Image */}
-                <div className="space-y-4">
-                  <div className="w-full h-72 rounded-2xl overflow-hidden relative border border-amber-500/30 shadow-2xl bg-black/60 group">
+                <div className="h-full flex flex-col justify-center">
+                  <div className="w-full aspect-square max-w-md mx-auto md:max-w-none rounded-2xl overflow-hidden relative border-2 border-red-500/40 shadow-2xl bg-black/60 group">
                     <Image
-                      src="/images/imported/Spoolio_Kit-Festival-16-scaled.webp"
-                      alt="Coffret Calendrier de l'Avent Spoolio"
+                      src="/images/calendrier-avent-hero.jpg"
+                      alt="Première édition : Calendrier de l'Avent Spoolio"
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      priority
                     />
                   </div>
                 </div>
@@ -301,7 +384,7 @@ export default function PublicCalendrierAventPage() {
                 {/* Right: Offer Details & Price */}
                 <div className="space-y-5">
                   <div>
-                    <span className="text-xs font-mono text-amber-300 font-bold uppercase tracking-wider">
+                    <span className="text-xs font-mono text-red-400 font-bold uppercase tracking-wider">
                       Coffret de Noël Édition Spéciale
                     </span>
                     <h2 className="text-2xl sm:text-3xl font-black text-white font-antonio tracking-wide uppercase leading-tight mt-1">
@@ -310,84 +393,124 @@ export default function PublicCalendrierAventPage() {
                   </div>
 
                   {/* Active Pricing & Jauge Stock */}
-                  <div className="bg-gradient-to-b from-black/60 to-black/30 border border-amber-500/30 p-5 rounded-2xl space-y-4 shadow-inner">
+                  <div className="bg-gradient-to-b from-black/70 to-black/40 border border-red-500/30 p-5 rounded-2xl space-y-4 shadow-inner">
                     {/* Price Row: Horizontal layout */}
                     <div className="flex items-center gap-3 flex-wrap">
-                      <span className="text-3xl sm:text-4xl font-black text-amber-300 font-mono tracking-tight whitespace-nowrap">
+                      <span className="text-3xl sm:text-4xl font-black text-white font-mono tracking-tight whitespace-nowrap">
                         {currentPrice.toFixed(2)} €
                       </span>
-                      {isVague1Active && (
+                      {isPriceDiscounted && (
                         <span className="text-base font-mono line-through text-white/40 whitespace-nowrap">
-                          {preorder.tier2Price.toFixed(2)} €
+                          {(preorder.tier2Price || 50).toFixed(2)} €
                         </span>
                       )}
-                      <span className="text-xs font-bold text-emerald-400 bg-emerald-500/15 px-3 py-1 rounded-full border border-emerald-500/30 whitespace-nowrap">
-                        {isVague1Active ? "⚡ Offre Lancement (-5€)" : "📦 Tarif Standard"}
+                      <span className="text-xs font-bold text-amber-300 bg-amber-500/20 px-3 py-1 rounded-full border border-amber-500/30 whitespace-nowrap">
+                        {hasBonus25thGift
+                          ? "⚡ Offre Lancement (-5€ & 25ème Cadeau Offert)"
+                          : isEarlyOctoberPhase
+                          ? "⚡ Tarif Remisé Précommande (-5€)"
+                          : "📦 Tarif Standard"}
                       </span>
+                    </div>
+
+                    {/* Conditions Banner */}
+                    <div className="space-y-1.5 pt-1">
+                      {hasBonus25thGift ? (
+                        <div className="p-2.5 rounded-xl bg-gradient-to-r from-red-600/30 to-amber-500/20 border border-amber-500/40 text-xs text-amber-200 flex items-center gap-2">
+                          <span className="text-base">🎁</span>
+                          <span>
+                            <strong>Bonus de Lancement :</strong> Commandez avant le <strong>30 Septembre</strong> et recevez un <strong>25ème cadeau exclusif</strong> dans votre coffret !
+                          </span>
+                        </div>
+                      ) : isEarlyOctoberPhase ? (
+                        <div className="p-2.5 rounded-xl bg-red-600/20 border border-red-500/40 text-xs text-rose-200 flex items-center gap-2">
+                          <span className="text-base">⏳</span>
+                          <span>
+                            <strong>Prix remisé à 45€ jusqu'au 15 Octobre</strong> (Passage à 50€ dès le 16/10).
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white/75 flex items-center gap-2">
+                          <span className="text-base">📦</span>
+                          <span>Tarif standard d'achat (50€) • Fin des expéditions mi-novembre, retrait atelier possible jusqu'au 1er décembre.</span>
+                        </div>
+                      )}
                     </div>
 
                     {/* Real Value Pill */}
                     <div>
-                      <span className="inline-flex items-center gap-2 text-xs font-mono text-amber-200/90 font-bold bg-amber-500/10 px-3.5 py-1.5 rounded-xl border border-amber-500/30">
+                      <span className="inline-flex items-center gap-2 text-xs font-mono text-red-100 font-bold bg-red-600/20 px-3.5 py-1.5 rounded-xl border border-red-500/30">
                         <span>🎁</span>
                         <span>Valeur réelle de produits :</span>
-                        <strong className="text-amber-300 font-extrabold">80,00 €</strong>
+                        <strong className="text-amber-300 font-extrabold">+80,00 €</strong>
                       </span>
                     </div>
 
-                    {/* Gauge Stock */}
+                    {/* Gauge Stock (50 total calendars) */}
                     <div className="space-y-1.5 pt-2 border-t border-white/10">
-                      <div className="flex items-center justify-between text-[11px] font-mono text-amber-200">
-                        <span>Exemplaires réservés :</span>
-                        <strong className="text-amber-300">
-                          {currentSold} / {currentLimit} ({Math.round((currentSold / currentLimit) * 100)}%)
+                      <div className="flex items-center justify-between text-[11px] font-mono text-rose-200">
+                        <span>Exemplaires réservés sur la série limitée :</span>
+                        <strong className="text-white">
+                          {totalSold} / {totalLimit} ({Math.round((totalSold / totalLimit) * 100)}%)
                         </strong>
                       </div>
                       <div className="w-full bg-white/10 rounded-full h-2.5 overflow-hidden">
                         <div
-                          className="bg-gradient-to-r from-amber-400 via-rose-500 to-emerald-400 h-2.5 rounded-full transition-all duration-500"
-                          style={{ width: `${(currentSold / currentLimit) * 100}%` }}
+                          className="bg-gradient-to-r from-rose-600 via-red-500 to-amber-400 h-2.5 rounded-full transition-all duration-500"
+                          style={{ width: `${Math.min(100, Math.round((totalSold / totalLimit) * 100))}%` }}
                         />
                       </div>
                     </div>
                   </div>
 
                   {/* Included Items Checklist */}
-                  <div className="space-y-2 text-xs text-white/80">
+                  <div className="space-y-2 text-xs text-white/90">
                     <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <CheckCircle2 className="w-4 h-4 text-red-400 shrink-0" />
                       <span><strong>24 sachets kraft numérotés</strong> avec 24 créations 3D exclusives</span>
                     </div>
+                    {hasBonus25thGift && (
+                      <div className="flex items-center gap-2 text-amber-300 font-bold">
+                        <Gift className="w-4 h-4 text-amber-400 shrink-0" />
+                        <span><strong>25ème cadeau exclusif</strong> offert (commande avant le 30/09)</span>
+                      </div>
+                    )}
                     <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                      <CheckCircle2 className="w-4 h-4 text-red-400 shrink-0" />
                       <span><strong>Kit DIY d'assemblage</strong> (cordons & fixations)</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                      <span><strong>Planche A4 de stickers Spoolio</strong> + Flyer de Noël</span>
+                      <CheckCircle2 className="w-4 h-4 text-red-400 shrink-0" />
+                      <span><strong>100% fait maison</strong>, dans notre atelier à Comines !</span>
                     </div>
                   </div>
 
                   {/* CTA Preorder */}
                   <button
-                    onClick={() => {
-                      alert(`Merci ! Votre calendrier a été ajouté au panier au tarif de ${currentPrice.toFixed(2)}€ !`);
-                    }}
-                    className="relative group w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-amber-500 via-rose-600 to-amber-500 hover:from-amber-400 hover:to-rose-500 text-white font-black text-sm uppercase tracking-widest transition-all duration-300 shadow-2xl shadow-amber-500/25 border border-amber-300/40 flex items-center justify-between gap-3 active:scale-[0.99] cursor-pointer overflow-hidden"
+                    onClick={handlePreorder}
+                    className={`relative group w-full py-4 px-6 rounded-2xl text-white font-black text-sm uppercase tracking-widest transition-all duration-300 shadow-2xl border flex items-center justify-between gap-3 active:scale-[0.99] cursor-pointer overflow-hidden ${
+                      addedSuccess
+                        ? "bg-gradient-to-r from-red-600 via-rose-600 to-red-700 border-red-300/60 shadow-red-500/30"
+                        : "bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-500 hover:to-rose-600 border-red-400/50 shadow-red-600/40"
+                    }`}
                   >
                     {/* Glossy hover shimmer overlay */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
 
                     <div className="flex items-center gap-2.5 z-10">
                       <div className="w-8 h-8 rounded-xl bg-white/20 border border-white/30 flex items-center justify-center shrink-0 shadow-sm">
-                        <Gift className="w-4 h-4 text-white" />
+                        {addedSuccess ? (
+                          <CheckCircle2 className="w-4 h-4 text-white" />
+                        ) : (
+                          <Gift className="w-4 h-4 text-white" />
+                        )}
                       </div>
                       <span className="font-antonio font-bold text-base tracking-wider text-white drop-shadow">
-                        Précommander Mon Calendrier
+                        {addedSuccess ? "Ajouté au Panier ! ✨" : "Précommander Mon Calendrier"}
                       </span>
                     </div>
 
-                    <div className="px-3.5 py-1.5 rounded-xl bg-black/40 border border-white/20 font-mono text-xs font-extrabold text-amber-200 shadow-inner z-10 whitespace-nowrap">
+                    <div className="px-3.5 py-1.5 rounded-xl bg-black/40 border border-white/20 font-mono text-xs font-extrabold text-white shadow-inner z-10 whitespace-nowrap">
                       {currentPrice.toFixed(2)} €
                     </div>
                   </button>
@@ -395,15 +518,527 @@ export default function PublicCalendrierAventPage() {
               </div>
             </div>
 
+            {/* PREORDER MILESTONES TIMELINE */}
+            <div className="bg-gradient-to-b from-[#20060b]/90 to-[#120306]/90 border-2 border-red-500/30 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-xl space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-300 shadow-sm">
+                    <Calendar className="w-4 h-4 text-red-300" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-white text-base sm:text-lg font-antonio tracking-wide uppercase">
+                      Calendrier des Précommandes & Jalons
+                    </h3>
+                    <p className="text-[11px] text-white/70 font-mono">
+                      Capacité totale strictement plafonnée à 50 exemplaires artisanaux
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1.5 self-start sm:self-auto">
+                  <span className="text-[10px] font-mono px-3 py-1 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 font-bold">
+                    ⏱️ Suivi en direct
+                  </span>
+                </div>
+              </div>
+
+              {/* Timeline Steps */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+                {/* Step 1: Jusqu'au 30 Septembre */}
+                <div
+                  className={`relative rounded-2xl p-4.5 border transition-all space-y-2.5 ${
+                    isSeptemberPhase
+                      ? "bg-gradient-to-b from-red-600/25 to-black/60 border-amber-400 shadow-lg shadow-red-950/60 ring-1 ring-amber-400/40"
+                      : "bg-black/40 border-white/10 opacity-75"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-300 bg-amber-400/15 px-2.5 py-0.5 rounded-full border border-amber-400/30">
+                      Jalon 1 • Lancement
+                    </span>
+                    {isSeptemberPhase && (
+                      <span className="flex items-center gap-1 text-[9px] font-mono font-bold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-md">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                        En cours
+                      </span>
+                    )}
+                  </div>
+
+                  <div>
+                    <div className="text-sm font-bold text-white font-antonio uppercase tracking-wide">
+                      Jusqu'au 30 Septembre
+                    </div>
+                    <div className="text-xl font-black font-mono text-amber-300 mt-0.5">
+                      45,00 € <span className="text-xs line-through text-white/40">50 €</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5 pt-1 border-t border-white/10 text-xs leading-relaxed text-white/85">
+                    <p className="flex items-start gap-1.5 text-amber-200">
+                      <Gift className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+                      <span><strong>25ème cadeau exclusif</strong> offert dans votre boîte !</span>
+                    </p>
+                    <p className="text-[11px] text-white/60">
+                      Le tarif le plus avantageux avec la surprise bonus.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 2: Du 1er au 15 Octobre */}
+                <div
+                  className={`relative rounded-2xl p-4.5 border transition-all space-y-2.5 ${
+                    isEarlyOctoberPhase
+                      ? "bg-gradient-to-b from-red-600/25 to-black/60 border-amber-400 shadow-lg shadow-red-950/60 ring-1 ring-amber-400/40"
+                      : "bg-black/40 border-white/10 opacity-75"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-rose-300 bg-red-500/15 px-2.5 py-0.5 rounded-full border border-red-500/30">
+                      Jalon 2 • Phase 2
+                    </span>
+                    {isEarlyOctoberPhase && (
+                      <span className="flex items-center gap-1 text-[9px] font-mono font-bold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-md">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                        En cours
+                      </span>
+                    )}
+                  </div>
+
+                  <div>
+                    <div className="text-sm font-bold text-white font-antonio uppercase tracking-wide">
+                      Du 1er au 15 Octobre
+                    </div>
+                    <div className="text-xl font-black font-mono text-white mt-0.5">
+                      45,00 € <span className="text-xs line-through text-white/40">50 €</span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5 pt-1 border-t border-white/10 text-xs leading-relaxed text-white/85">
+                    <p className="text-rose-200">
+                      <strong>Prix remisé maintenu</strong> à 45 €.
+                    </p>
+                    <p className="text-[11px] text-white/60">
+                      Fin de l'offre du 25ème cadeau bonus (24 créations dans le coffret).
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 3: À partir du 16 Octobre */}
+                <div
+                  className={`relative rounded-2xl p-4.5 border transition-all space-y-2.5 ${
+                    isStandardPhase
+                      ? "bg-gradient-to-b from-red-600/25 to-black/60 border-amber-400 shadow-lg shadow-red-950/60 ring-1 ring-amber-400/40"
+                      : "bg-black/40 border-white/10 opacity-75"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-white/70 bg-white/10 px-2.5 py-0.5 rounded-full border border-white/15">
+                      Jalon 3 • Achat Standard
+                    </span>
+                    {isStandardPhase && (
+                      <span className="flex items-center gap-1 text-[9px] font-mono font-bold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-md">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                        En cours
+                      </span>
+                    )}
+                  </div>
+
+                  <div>
+                    <div className="text-sm font-bold text-white font-antonio uppercase tracking-wide">
+                      Dès le 16 Octobre
+                    </div>
+                    <div className="text-xl font-black font-mono text-white mt-0.5">
+                      50,00 €
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5 pt-1 border-t border-white/10 text-xs leading-relaxed text-white/85">
+                    <p className="text-white/90">
+                      <strong>Tarif standard d'achat</strong>.
+                    </p>
+                    <p className="text-[11px] text-white/60">
+                      Ce n'est plus de la précommande : vente dans la limite des 50 pièces produites.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Step 4: Mi-Novembre Expédition & Retrait */}
+                <div className="bg-black/40 border border-white/10 rounded-2xl p-4.5 space-y-2.5 opacity-90">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-300 bg-emerald-500/15 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
+                      Jalon 4 • Réception
+                    </span>
+                    <Truck className="w-3.5 h-3.5 text-emerald-400" />
+                  </div>
+
+                  <div>
+                    <div className="text-sm font-bold text-white font-antonio uppercase tracking-wide">
+                      Mi-Nov. à 1er Décembre
+                    </div>
+                    <div className="text-xl font-black font-mono text-emerald-300 mt-0.5">
+                      Expéditions & Retrait 📦
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5 pt-1 border-t border-white/10 text-xs leading-relaxed text-white/85">
+                    <p className="text-emerald-200">
+                      <strong>Fin des expéditions mi-novembre</strong> (Colissimo / Relais).
+                    </p>
+                    <p className="text-[11px] text-white/70">
+                      Retrait atelier à Comines possible jusqu'au <strong>1er décembre</strong> !
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* MARKETING SECTION 1: LES 6 ATOUTS MAJEURS */}
+            <div className="space-y-6 pt-4">
+              <div className="text-center space-y-2 max-w-xl mx-auto">
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-red-600/20 border border-red-500/40 text-red-200 text-[11px] font-mono font-bold uppercase tracking-wider">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                  <span>Pourquoi choisir l'Avent Spoolio ?</span>
+                </span>
+                <h3 className="text-2xl sm:text-3xl font-black font-antonio uppercase tracking-wide text-white">
+                  24 Jours d'Émerveillement 3D Inédit
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-200/80 leading-relaxed font-light">
+                  Bien plus qu'un simple calendrier : chaque matin de décembre, découvrez une création originale et tactile, pensée pour durer et émerveiller.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {/* Atout 1: 24 créations exclusives */}
+                <div className="bg-gradient-to-b from-[#18080c]/90 to-black/70 border border-red-500/40 rounded-3xl p-5 hover:border-red-400 hover:shadow-xl hover:shadow-red-950/50 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between space-y-3 group">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-red-600/30 to-rose-700/20 border border-red-500/40 flex items-center justify-center text-red-400 shadow-md">
+                        <Sparkles className="w-5 h-5 text-red-300 group-hover:rotate-12 transition-transform" />
+                      </div>
+                      <span className="text-[10px] font-mono font-bold text-red-300 bg-red-500/20 px-2.5 py-0.5 rounded-full border border-red-500/30">
+                        100% Exclusif
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white text-base font-antonio tracking-wide uppercase">
+                        24 Modèles Inédits
+                      </h4>
+                      <p className="text-xs text-white/70 leading-relaxed mt-1">
+                        Zéro objet recyclé du catalogue standard ! Toutes les pièces ont été spécialement modélisées pour ce calendrier et ne sont vendues nulle part ailleurs.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="pt-2 border-t border-white/5 flex items-center gap-1.5 text-[11px] font-mono text-red-200/80">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                    <span>Zéro doublon garanti</span>
+                  </div>
+                </div>
+
+                {/* Atout 2: 80€ de valeur réelle */}
+                <div className="bg-gradient-to-b from-[#22070d]/90 to-black/70 border border-amber-500/30 rounded-3xl p-5 hover:border-amber-400 hover:shadow-xl hover:shadow-red-950/50 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between space-y-3 group">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500/30 to-rose-600/20 border border-amber-500/40 flex items-center justify-center text-amber-300 shadow-md">
+                        <Award className="w-5 h-5 text-amber-300 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <span className="text-[10px] font-mono font-bold text-amber-300 bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-500/30">
+                        -40% d'économie
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white text-base font-antonio tracking-wide uppercase">
+                        +80 € de Valeur Réelle
+                      </h4>
+                      <p className="text-xs text-white/70 leading-relaxed mt-1">
+                        À 45 € en Early Bird, chaque création revient à moins de 1,90 € pièce, alors que leur valeur individuelle en boutique oscille entre 3,50 € et 8,00 €.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="pt-2 border-t border-white/5 flex items-center gap-1.5 text-[11px] font-mono text-amber-300">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                    <span>Le meilleur deal de l'année</span>
+                  </div>
+                </div>
+
+                {/* Atout 3: 100% fait en France */}
+                <div className="bg-gradient-to-b from-[#1c060b]/90 to-black/70 border border-white/20 rounded-3xl p-5 hover:border-white/40 hover:shadow-xl hover:shadow-white/10 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between space-y-3 group">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-red-600/30 via-white/10 to-rose-600/20 border border-white/30 flex items-center justify-center text-white shadow-md">
+                        <Printer className="w-5 h-5 text-white group-hover:-rotate-12 transition-transform" />
+                      </div>
+                      <span className="text-[10px] font-mono font-bold text-white bg-white/15 px-2.5 py-0.5 rounded-full border border-white/30">
+                        🇫🇷 Made in France
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white text-base font-antonio tracking-wide uppercase">
+                        Artisanat & Impression 3D
+                      </h4>
+                      <p className="text-xs text-white/70 leading-relaxed mt-1">
+                        Pas d'importation de masse : chaque figurine et fidget est imprimé couche par couche et vérifié à la main dans notre atelier en France.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="pt-2 border-t border-white/5 flex items-center gap-1.5 text-[11px] font-mono text-slate-200">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-rose-400 shrink-0" />
+                    <span>Contrôle qualité pièce par pièce</span>
+                  </div>
+                </div>
+
+                {/* Atout 4: PLA Végétal */}
+                <div className="bg-gradient-to-b from-[#1a050a]/90 to-black/70 border border-red-500/30 rounded-3xl p-5 hover:border-red-400 hover:shadow-xl hover:shadow-red-950/50 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between space-y-3 group">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-red-600/30 to-amber-600/20 border border-red-500/40 flex items-center justify-center text-red-300 shadow-md">
+                        <Leaf className="w-5 h-5 text-red-300 group-hover:scale-110 transition-transform" />
+                      </div>
+                      <span className="text-[10px] font-mono font-bold text-red-200 bg-red-500/20 px-2.5 py-0.5 rounded-full border border-red-500/30">
+                        Biosourcé
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white text-base font-antonio tracking-wide uppercase">
+                        Matière Végétale Saine
+                      </h4>
+                      <p className="text-xs text-white/70 leading-relaxed mt-1">
+                        Imprimé exclusivement en PLA issu de ressources renouvelables (amidon de maïs). Sans odeur toxique, solide, lisse et agréable à manipuler au quotidien.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="pt-2 border-t border-white/5 flex items-center gap-1.5 text-[11px] font-mono text-rose-200">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                    <span>Sans pétrole ni solvants nocifs</span>
+                  </div>
+                </div>
+
+                {/* Atout 5: Rituel Magique & Kit DIY */}
+                <div className="bg-gradient-to-b from-[#18080c]/90 to-black/70 border border-red-500/40 rounded-3xl p-5 hover:border-red-400 hover:shadow-xl hover:shadow-red-950/50 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between space-y-3 group">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-red-600/30 to-amber-600/20 border border-red-500/40 flex items-center justify-center text-red-300 shadow-md">
+                        <Gift className="w-5 h-5 text-red-300 group-hover:rotate-6 transition-transform" />
+                      </div>
+                      <span className="text-[10px] font-mono font-bold text-red-300 bg-red-500/20 px-2.5 py-0.5 rounded-full border border-red-500/30">
+                        Kit Déco Inclus
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white text-base font-antonio tracking-wide uppercase">
+                        Un Rituel Poétique
+                      </h4>
+                      <p className="text-xs text-white/70 leading-relaxed mt-1">
+                        24 sachets kraft numérotés, fournis avec de la cordelette de jute et 24 mini-pinces en bois pour créer une authentique guirlande de l'Avent.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="pt-2 border-t border-white/5 flex items-center gap-1.5 text-[11px] font-mono text-red-200/80">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                    <span>Décoration festive prête à poser</span>
+                  </div>
+                </div>
+
+                {/* Atout 6: Livraison Garantie avant Décembre */}
+                <div className="bg-gradient-to-b from-[#20070e]/90 to-black/70 border border-red-500/35 rounded-3xl p-5 hover:border-red-400 hover:shadow-xl hover:shadow-red-950/50 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between space-y-3 group">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-red-600/30 to-amber-600/20 border border-red-500/40 flex items-center justify-center text-red-300 shadow-md">
+                        <Truck className="w-5 h-5 text-red-300 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                      <span className="text-[10px] font-mono font-bold text-red-200 bg-red-500/20 px-2.5 py-0.5 rounded-full border border-red-500/30">
+                        Départ Mi-Nov.
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white text-base font-antonio tracking-wide uppercase">
+                        Garanti Avant le 1er Décembre
+                      </h4>
+                      <p className="text-xs text-white/70 leading-relaxed mt-1">
+                        Toutes les précommandes sont expédiées mi-novembre en emballage carton kraft renforcé avec numéro de suivi. Zéro stress, votre calendrier sera là à l'heure.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="pt-2 border-t border-white/5 flex items-center gap-1.5 text-[11px] font-mono text-rose-200">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-red-400 shrink-0" />
+                    <span>Livraison Colissimo ou Point Relais</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* MARKETING SECTION 2: LE RENDEZ-VOUS VIDÉO CHAQUE MATIN */}
+            <div className="bg-gradient-to-b from-[#24080e]/95 via-[#180509]/95 to-[#0e0205]/95 border-2 border-red-500/35 rounded-3xl p-6 sm:p-8 backdrop-blur-xl space-y-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-5">
+                <div>
+                  <span className="text-xs font-mono font-bold text-red-300 uppercase tracking-widest flex items-center gap-1.5">
+                    <Video className="w-4 h-4 text-red-400" />
+                    <span>Rendez-vous Quotidien du 1er au 24 Décembre</span>
+                  </span>
+                  <h3 className="text-2xl sm:text-3xl font-black font-antonio uppercase tracking-wide text-white mt-1">
+                    Chaque matin, découvrez la surprise en mini-vidéo !
+                  </h3>
+                </div>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-2xl bg-red-600/20 border border-red-500/40 text-xs font-mono text-red-200 font-bold self-start md:self-auto">
+                  <span>🎬 24 Vidéos Inédites</span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="flex items-start gap-3.5 bg-black/50 border border-red-500/25 rounded-2xl p-5">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-red-600/30 to-rose-600/20 border border-red-500/40 flex items-center justify-center text-red-300 shrink-0 shadow-md">
+                    <Play className="w-6 h-6 text-red-300 fill-red-300/40 ml-0.5" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <h5 className="font-bold text-white text-base font-antonio tracking-wide uppercase">
+                      Une mini-vidéo de déballage par jour
+                    </h5>
+                    <p className="text-xs text-white/75 leading-relaxed">
+                      Chaque matin à 8h, nous ouvrirons la case du jour en direct de l'atelier ! Vous découvrirez la création en action, ses mouvements, sa couleur et ses secrets de conception.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3.5 bg-black/50 border border-amber-500/25 rounded-2xl p-5">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500/30 to-rose-600/20 border border-amber-500/40 flex items-center justify-center text-amber-300 shrink-0 shadow-md">
+                    <Eye className="w-6 h-6 text-amber-300" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <h5 className="font-bold text-white text-base font-antonio tracking-wide uppercase">
+                      Accès 100% gratuit pour voir ce que vous ratez
+                    </h5>
+                    <p className="text-xs text-white/75 leading-relaxed">
+                      Même si vous n'avez pas commandé votre calendrier à temps, toute la communauté pourra regarder gratuitement chaque déballage ici même... et mesurer tout ce que vous avez manqué ! 😉
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bonus Accessories Included Banner */}
+              <div className="bg-gradient-to-r from-red-600/20 via-rose-600/15 to-transparent border border-red-500/30 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-3">
+                  <div className="text-2xl">✨</div>
+                  <div>
+                    <span className="font-bold text-white block font-mono">
+                      + Tout le kit physique prêt à suspendre pour les précommandes :
+                    </span>
+                    <span className="text-white/80">
+                      24 créations 3D exclusives sous sachets kraft numérotés scellés + cordelette de jute naturelle + 24 pinces en bois.
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* MARKETING SECTION 3: URGENCE & ÉDITION LIMITÉE + REASSURANCE CTA */}
+            <div className="relative overflow-hidden bg-gradient-to-r from-[#2a070f]/95 via-[#1c050a]/95 to-[#120206]/95 border-2 border-red-500/50 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-5">
+              <div className="absolute top-0 right-0 -mt-8 -mr-8 w-48 h-48 bg-red-600/20 rounded-full blur-3xl pointer-events-none" />
+              
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+                <div className="space-y-2 max-w-xl">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/30 border border-red-500/50 text-red-200 font-mono font-bold text-xs">
+                    <Flame className="w-3.5 h-3.5 text-red-400 animate-pulse" />
+                    <span>Série Limitée à 50 Exemplaires Seulement</span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-black font-antonio uppercase tracking-wide text-white">
+                    Profitez des conditions de lancement
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-200/80 leading-relaxed font-light">
+                    Pour garantir un travail artisanal irréprochable et un emballage soigné à la main, notre atelier limite strictement la production à <strong>50 coffrets au total</strong> cette année.
+                  </p>
+                  <ul className="text-xs text-rose-200/90 space-y-1 font-mono pt-1">
+                    <li>• <strong>Jusqu'au 30 Septembre :</strong> 45 € + <strong>25ème cadeau exclusif</strong> inclus</li>
+                    <li>• <strong>Du 1er au 15 Octobre :</strong> 45 € (remisé, sans 25ème cadeau)</li>
+                    <li>• <strong>À partir du 16 Octobre :</strong> 50 € (tarif normal)</li>
+                  </ul>
+                </div>
+
+                <div className="shrink-0 space-y-2 text-center">
+                  <button
+                    onClick={handlePreorder}
+                    className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-500 hover:to-rose-600 text-white font-black text-sm uppercase tracking-widest transition-all duration-300 shadow-xl shadow-red-600/40 border border-white/20 flex items-center justify-center gap-3 cursor-pointer active:scale-95 group"
+                  >
+                    <Gift className="w-4 h-4 text-white group-hover:rotate-12 transition-transform" />
+                    <span>Réserver Mon Calendrier ({currentPrice.toFixed(2)} €)</span>
+                  </button>
+                  <p className="text-[11px] font-mono text-rose-200/80">
+                    ⚡ Expédition garantie mi-novembre 2026
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* MARKETING SECTION 4: FAQ (QUESTIONS FRÉQUENTES) */}
+            <div className="space-y-4 pt-2">
+              <div className="text-center space-y-1">
+                <span className="text-xs font-mono font-bold text-red-300 uppercase tracking-widest">
+                  Besoin d'en savoir plus ?
+                </span>
+                <h3 className="text-xl sm:text-2xl font-black font-antonio uppercase tracking-wide text-white">
+                  Questions Fréquentes sur le Calendrier
+                </h3>
+              </div>
+
+              <div className="space-y-2.5 max-w-3xl mx-auto">
+                {[
+                  {
+                    q: "Quelles sont les conditions et dates clés de précommande ?",
+                    a: "La production est plafonnée à 50 exemplaires : 1) Jusqu'au 30 septembre, vous bénéficiez du tarif remisé à 45 € et un 25ème cadeau exclusif est offert dans votre coffret. 2) Du 1er au 15 octobre, le tarif reste remisé à 45 € mais le 25ème cadeau n'est plus inclus. 3) À partir du 16 octobre, le calendrier passe à son tarif standard de 50 € dans la limite des 50 pièces disponibles.",
+                  },
+                  {
+                    q: "À quel public s'adresse ce calendrier de l'Avent ?",
+                    a: "Ce calendrier est pensé pour séduire tous les âges ! Les enfants (dès 4-5 ans) adoreront la découverte des petits animaux articulés et des objets rigolos, tandis que les adolescents et adultes apprécieront les fidgets tactiles, les mécanismes anti-stress et les créations originales pour leur bureau.",
+                  },
+                  {
+                    q: "Quand vais-je recevoir mon calendrier de l'Avent ?",
+                    a: "Toutes les commandes en livraison seront expédiées jusqu'à mi-novembre 2026 avec numéro de suivi afin de garantir une réception bien avant le 1er décembre. Si vous préférez venir le récupérer directement à notre atelier à Comines, le retrait sur place reste possible jusqu'au 1er décembre !",
+                  },
+                  {
+                    q: "Y a-t-il des doublons ou des objets déjà vendus sur le site ?",
+                    a: "Aucun doublon ! Les 24 créations sont toutes rigoureusement distinctes et ont été spécialement conçues pour ce coffret. Vous ne trouverez aucun de ces modèles dans la boutique standard de Spoolio.",
+                  },
+                  {
+                    q: "Comment s'installe le calendrier dans la maison ?",
+                    a: "C'est un véritable kit déco ! Vous recevez les 24 sachets kraft numérotés scellés, une bobine de cordelette naturelle en jute et 24 mini-pinces en bois. Vous pouvez accrocher la guirlande le long d'une rampe d'escalier, sur une branche de sapin ou sur un mur.",
+                  },
+                  {
+                    q: "Quels sont les frais de livraison pour le calendrier ?",
+                    a: "Vous pouvez choisir la livraison à domicile par Colissimo ou en Point Relais (Mondial Relay / Shop2Shop). De plus, comme le panier dépasse 40 €, vous profitez automatiquement de la livraison offerte en Point Relais !",
+                  },
+                ].map((faq, idx) => {
+                  const isOpen = openFaqIndex === idx;
+                  return (
+                    <div
+                      key={idx}
+                      className="bg-[#180509]/80 border border-red-500/25 hover:border-red-500/50 rounded-2xl overflow-hidden transition-colors"
+                    >
+                      <button
+                        onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                        className="w-full px-5 py-4 text-left flex items-center justify-between gap-4 hover:bg-white/[0.02] transition-colors cursor-pointer"
+                      >
+                        <span className="font-bold text-white text-xs sm:text-sm">{faq.q}</span>
+                        <ChevronDown
+                          className={`w-4 h-4 text-red-400 shrink-0 transition-transform duration-300 ${
+                            isOpen ? "rotate-180" : ""
+                          }`}
+                        />
+                      </button>
+                      {isOpen && (
+                        <div className="px-5 pb-4 pt-1 text-xs text-white/80 leading-relaxed border-t border-white/5 font-sans">
+                          {faq.a}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Locked Grid Teaser Banner */}
-            <div className="text-center space-y-3 pt-4 border-t border-white/10">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-amber-500/30 text-xs font-mono text-amber-200">
-                <Lock className="w-3.5 h-3.5 text-amber-400" />
+            <div className="text-center pt-4 border-t border-white/10">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-950/60 border border-red-500/30 text-xs font-mono text-red-200">
+                <Lock className="w-3.5 h-3.5 text-red-400" />
                 <span>La grille des 24 fenêtres s'ouvrira du 1er au 24 Décembre</span>
               </div>
-              <p className="text-xs text-white/50">
-                (Astuce dev : utilisez la barre en bas pour tester la grille ouverte ou simuler la date du 1er Décembre !)
-              </p>
             </div>
           </div>
         ) : null}
@@ -425,20 +1060,20 @@ export default function PublicCalendrierAventPage() {
                   className={`group relative min-h-[175px] rounded-3xl p-4 flex flex-col justify-between transition-all duration-500 cursor-pointer overflow-hidden border ${
                     isChristmasEve
                       ? isUnlocked
-                        ? "bg-gradient-to-b from-amber-500/30 via-rose-950/70 to-black border-2 border-amber-400 shadow-2xl shadow-amber-500/30 scale-[1.03] col-span-2 sm:col-span-1"
-                        : "bg-gradient-to-b from-amber-950/40 via-black to-rose-950/30 border-2 border-amber-500/40 shadow-lg"
+                        ? "bg-gradient-to-b from-red-700/60 via-amber-950/40 to-black border-2 border-amber-300 shadow-2xl shadow-red-600/40 scale-[1.03] col-span-2 sm:col-span-1"
+                        : "bg-gradient-to-b from-red-950/60 via-black to-red-950/40 border-2 border-red-500/50 shadow-lg"
                       : isUnlocked
                       ? isOpen
-                        ? "bg-gradient-to-b from-amber-500/20 via-black/90 to-amber-950/40 border-amber-500/50 shadow-xl shadow-amber-500/10 scale-[1.02]"
-                        : "bg-gradient-to-b from-rose-900/20 via-black/80 to-amber-950/30 border-amber-400/40 hover:border-amber-400 hover:shadow-2xl hover:shadow-amber-500/30 hover:-translate-y-1.5"
-                      : "bg-black/60 border-white/10 hover:border-white/20 opacity-80"
+                        ? "bg-gradient-to-b from-red-950/50 via-black/90 to-rose-950/40 border-red-400/60 shadow-xl shadow-red-600/20 scale-[1.02]"
+                        : "bg-gradient-to-b from-red-950/40 via-black/80 to-[#180509]/80 border-red-500/50 hover:border-red-400 hover:shadow-2xl hover:shadow-red-600/30 hover:-translate-y-1.5"
+                      : "bg-[#140407]/80 border-red-500/20 hover:border-red-500/40 opacity-80"
                   }`}
                 >
                   {/* Decorative Christmas Box Ribbon Overlay for unopened doors */}
                   {!isOpen && (
                     <>
-                      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-full bg-gradient-to-b from-amber-400/30 via-rose-500/20 to-transparent pointer-events-none" />
-                      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-full h-1.5 bg-gradient-to-r from-amber-400/30 via-rose-500/20 to-transparent pointer-events-none" />
+                      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1.5 h-full bg-gradient-to-b from-red-500/60 via-amber-300/40 to-transparent pointer-events-none" />
+                      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-full h-1.5 bg-gradient-to-r from-red-500/60 via-amber-300/40 to-transparent pointer-events-none" />
                     </>
                   )}
 
@@ -450,7 +1085,7 @@ export default function PublicCalendrierAventPage() {
                           isChristmasEve
                             ? "bg-gradient-to-tr from-amber-400 via-amber-300 to-yellow-500 text-black shadow-lg shadow-amber-500/40 font-extrabold"
                             : isUnlocked
-                            ? "bg-gradient-to-tr from-rose-500 to-amber-500 text-white shadow-md shadow-rose-500/30"
+                            ? "bg-gradient-to-tr from-red-600 via-rose-600 to-red-700 text-white shadow-md shadow-red-600/40"
                             : "bg-white/10 text-white/50 border border-white/10"
                         }`}
                       >
@@ -467,14 +1102,14 @@ export default function PublicCalendrierAventPage() {
                       <span
                         className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border ${
                           isOpen
-                            ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
-                            : "bg-amber-500/20 text-amber-300 border-amber-500/30 animate-pulse"
+                            ? "bg-amber-500/20 text-amber-300 border-amber-500/40"
+                            : "bg-red-600/25 text-red-200 border-red-500/40 animate-pulse"
                         }`}
                       >
                         {isOpen ? "Ouvert ✨" : "Débloqué 🎁"}
                       </span>
                     ) : (
-                      <Lock className="w-3.5 h-3.5 text-amber-200/40" />
+                      <Lock className="w-3.5 h-3.5 text-white/40" />
                     )}
                   </div>
 
@@ -483,24 +1118,24 @@ export default function PublicCalendrierAventPage() {
                     {isUnlocked ? (
                       isOpen ? (
                         <div className="space-y-1">
-                          <div className="w-14 h-14 rounded-2xl overflow-hidden relative border-2 border-amber-400/50 mx-auto shadow-md">
+                          <div className="w-14 h-14 rounded-2xl overflow-hidden relative border-2 border-red-500/40 mx-auto shadow-md">
                             {obj.imageUrl ? (
                               <Image src={obj.imageUrl} alt={obj.title} fill className="object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center text-sm">🎁</div>
                             )}
                           </div>
-                          <h4 className="text-[11px] font-bold text-amber-100 line-clamp-1 mt-1 font-antonio">
+                          <h4 className="text-[11px] font-bold text-white line-clamp-1 mt-1 font-antonio">
                             {obj.title}
                           </h4>
                         </div>
                       ) : (
                         <div className="space-y-1 group-hover:scale-110 transition-transform">
                           <div className="relative inline-block">
-                            <Gift className="w-9 h-9 text-amber-400 mx-auto drop-shadow-lg" />
-                            <Sparkles className="w-4 h-4 text-amber-200 absolute -top-1 -right-1 animate-spin" />
+                            <Gift className="w-9 h-9 text-red-400 mx-auto drop-shadow-lg" />
+                            <Sparkles className="w-4 h-4 text-amber-300 absolute -top-1 -right-1 animate-spin" />
                           </div>
-                          <span className="text-[10px] text-amber-300 font-extrabold block tracking-wider font-mono">
+                          <span className="text-[10px] text-red-300 font-extrabold block tracking-wider font-mono">
                             OUVRIR !
                           </span>
                         </div>
@@ -517,7 +1152,7 @@ export default function PublicCalendrierAventPage() {
 
                   {/* Teaser hint for locked door */}
                   {!isUnlocked && (
-                    <div className="text-[9px] text-amber-200/70 italic line-clamp-2 bg-black/70 p-1.5 rounded-xl border border-amber-500/20 backdrop-blur-sm z-10 font-sans">
+                    <div className="text-[9px] text-white/80 italic line-clamp-2 bg-black/80 p-1.5 rounded-xl border border-red-500/30 backdrop-blur-sm z-10 font-sans">
                       💡 "{obj.teaser}"
                     </div>
                   )}
@@ -531,7 +1166,7 @@ export default function PublicCalendrierAventPage() {
       {/* CHRISTMAS OBJECT DETAIL MODAL */}
       {selectedObject && (
         <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-lg flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-gradient-to-b from-[#1c122b] to-[#0e0719] border-2 border-amber-400/60 rounded-3xl p-6 max-w-lg w-full space-y-5 relative shadow-2xl shadow-amber-500/30">
+          <div className="bg-gradient-to-b from-[#24080e] via-[#160408] to-[#0c0204] border-2 border-red-500/60 rounded-3xl p-6 max-w-lg w-full space-y-5 relative shadow-2xl shadow-red-950/60">
             {/* Close button */}
             <button
               onClick={() => setSelectedObject(null)}
@@ -542,10 +1177,10 @@ export default function PublicCalendrierAventPage() {
 
             {/* Header / Day Pill */}
             <div className="flex items-center gap-3">
-              <span className="px-4 py-1 rounded-2xl bg-gradient-to-r from-amber-400 via-rose-500 to-amber-500 text-black font-black text-xs font-mono shadow-md">
+              <span className="px-4 py-1 rounded-2xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 text-white font-black text-xs font-mono shadow-md">
                 🎅 JOUR {selectedObject.day} DE NOËL
               </span>
-              <span className="text-xs font-mono text-amber-300 font-bold uppercase tracking-wider">
+              <span className="text-xs font-mono text-rose-300 font-bold uppercase tracking-wider">
                 {selectedObject.category}
               </span>
             </div>
@@ -556,7 +1191,7 @@ export default function PublicCalendrierAventPage() {
             </h2>
 
             {/* Object Image Preview */}
-            <div className="w-full h-60 rounded-2xl overflow-hidden bg-black/60 border border-amber-500/30 relative shadow-2xl">
+            <div className="w-full h-60 rounded-2xl overflow-hidden bg-black/60 border-2 border-red-500/40 relative shadow-2xl">
               {selectedObject.imageUrl ? (
                 <Image
                   src={selectedObject.imageUrl}
@@ -570,17 +1205,17 @@ export default function PublicCalendrierAventPage() {
             </div>
 
             {/* Color Pill */}
-            <div className="bg-white/5 border border-amber-500/20 rounded-2xl p-3 space-y-1">
-              <span className="text-[10px] text-amber-200/60 font-mono block uppercase font-bold">Couleur</span>
-              <span className="font-bold text-amber-300 block text-xs">{selectedObject.filamentColor}</span>
+            <div className="bg-white/5 border border-red-500/20 rounded-2xl p-3 space-y-1">
+              <span className="text-[10px] text-red-200/80 font-mono block uppercase font-bold">Couleur</span>
+              <span className="font-bold text-white block text-xs">{selectedObject.filamentColor}</span>
             </div>
 
             {/* Description */}
             <div className="space-y-1">
-              <span className="text-[11px] font-bold text-amber-300 font-mono uppercase block">
+              <span className="text-[11px] font-bold text-red-300 font-mono uppercase block">
                 ✨ Histoire de la création :
               </span>
-              <p className="text-xs text-white/90 leading-relaxed bg-black/40 p-3.5 rounded-2xl border border-white/10">
+              <p className="text-xs text-white/90 leading-relaxed bg-black/50 p-3.5 rounded-2xl border border-white/10">
                 {selectedObject.description}
               </p>
             </div>
@@ -608,7 +1243,7 @@ export default function PublicCalendrierAventPage() {
 
               <button
                 onClick={() => handleLikeObject(selectedObject.day)}
-                className="flex-1 py-3 px-6 rounded-2xl bg-gradient-to-r from-rose-600 via-rose-500 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white font-black text-xs transition-all shadow-xl flex items-center justify-center gap-2 active:scale-95"
+                className="flex-1 py-3 px-6 rounded-2xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-500 hover:to-rose-600 text-white font-black text-xs transition-all shadow-xl flex items-center justify-center gap-2 active:scale-95"
               >
                 <Heart className="w-4 h-4 fill-white text-white animate-bounce" />
                 <span>J'aime ({selectedObject.likesCount || 0})</span>
@@ -617,59 +1252,6 @@ export default function PublicCalendrierAventPage() {
           </div>
         </div>
       )}
-
-      {/* FLOATING LOCAL DEV SIMULATOR TOOLBAR */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-[#170e24]/95 border border-amber-500/50 backdrop-blur-xl px-5 py-3 rounded-3xl shadow-2xl flex items-center gap-4 z-40 text-xs shadow-amber-500/20">
-        <div className="flex items-center gap-2 text-amber-300 font-mono font-bold">
-          <Settings className="w-4 h-4 text-amber-400 animate-spin" />
-          <span>Simulateur Dev Local :</span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="text-white/70 font-mono text-[11px]">Jour simulé :</span>
-          <select
-            value={simulatedDay}
-            onChange={(e) => setSimulatedDay(parseInt(e.target.value))}
-            className="bg-black/60 border border-amber-500/40 text-amber-200 font-mono font-bold rounded-xl px-2 py-1 focus:outline-none cursor-pointer"
-          >
-            {Array.from({ length: 24 }).map((_, i) => (
-              <option key={i + 1} value={i + 1}>
-                Jour {i + 1}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <button
-          onClick={() => setIsPreorderPhase(!isPreorderPhase)}
-          className={`px-3.5 py-1.5 rounded-xl font-mono text-[11px] font-bold transition-all flex items-center gap-1.5 ${
-            isPreorderPhase
-              ? "bg-rose-500/20 text-rose-300 border border-rose-500/40"
-              : "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
-          }`}
-        >
-          <span>{isPreorderPhase ? "🛒 Mode Précommande (< 01/12)" : "🎁 Mode Grille Ouverte (≥ 01/12)"}</span>
-        </button>
-
-        <button
-          onClick={() => setUnlockAllDev(!unlockAllDev)}
-          className={`px-3.5 py-1.5 rounded-xl font-mono text-[11px] font-bold transition-all flex items-center gap-1.5 ${
-            unlockAllDev
-              ? "bg-amber-400 text-black shadow-lg"
-              : "bg-white/10 text-white hover:bg-white/20 border border-white/10"
-          }`}
-        >
-          <Eye className="w-3.5 h-3.5" />
-          <span>{unlockAllDev ? "Tout Déverrouillé ACTIVE" : "Tout Déverrouiller"}</span>
-        </button>
-
-        <Link
-          href="/admin/calendrier-avent"
-          className="px-3.5 py-1.5 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/40 hover:bg-purple-500/30 font-bold transition-all"
-        >
-          Admin Hub →
-        </Link>
-      </div>
     </div>
   );
 }

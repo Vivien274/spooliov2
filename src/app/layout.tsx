@@ -9,7 +9,6 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import VisitorTracker from "@/components/VisitorTracker";
 
 // Dynamic imports for secondary interactive components to optimize client JS bundle
-const AdminToolbar = dynamic(() => import("@/components/AdminToolbar"));
 const CartDrawer = dynamic(() => import("@/components/CartDrawer"));
 const CookieBanner = dynamic(() => import("@/components/CookieBanner"));
 const NewsletterPopup = dynamic(() => import("@/components/NewsletterPopup"));
@@ -119,7 +118,6 @@ export default function RootLayout({
         <LanguageProvider>
           <CartProvider>
             <VisitorTracker />
-            <AdminToolbar />
             <CartDrawer />
             <CookieBanner />
             <NewsletterPopup />

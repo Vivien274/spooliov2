@@ -34,6 +34,11 @@ body {
   animation: marquee 60s linear infinite;
 }
 
+.animate-marquee-banner {
+  display: inline-flex;
+  animation: marquee 28s linear infinite;
+}
+
 /* Theme light mode variables */
 html.light {
   --color-spoolio-bg: #f9f9fb;

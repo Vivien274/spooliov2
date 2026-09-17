@@ -409,6 +409,10 @@ export default function PanierClient() {
                       <Link href={item.selectedOptions._configUrl || "/createur-cliqueur"} className="hover:text-[#ff4f00] transition-colors">
                         {item.name}
                       </Link>
+                    ) : item.slug === "calendrier-avent" ? (
+                      <Link href="/calendrier-avent" className="hover:text-[#ff4f00] transition-colors">
+                        {item.name}
+                      </Link>
                     ) : item.productId < 0 ? (
                       <span>{item.name}</span>
                     ) : (

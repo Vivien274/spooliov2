@@ -172,6 +172,10 @@ export default function CartDrawer() {
                           <Link href="/tombola" onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
                             {item.name}
                           </Link>
+                        ) : item.slug === "calendrier-avent" ? (
+                          <Link href="/calendrier-avent" onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
+                            {item.name}
+                          </Link>
                         ) : item.slug === "clicker-mecanique-sur-mesure" ? (
                           <Link href={item.selectedOptions._configUrl || "/createur-cliqueur"} onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
                             {item.name}
