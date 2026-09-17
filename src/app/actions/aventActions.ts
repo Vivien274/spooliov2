@@ -121,6 +121,21 @@ export async function updateAdventObjectAction(updatedObject: AdventObjectItem):
 }
 
 /**
+ * Reorder advent calendar objects (glissé-déposé) and re-index their days 1..N.
+ */
+export async function reorderAdventObjectsAction(reorderedObjects: AdventObjectItem[]): Promise<AdventData> {
+  const data = await getAdventDataAction();
+  data.objects = reorderedObjects.map((obj, index) => ({
+    ...obj,
+    day: index + 1,
+  }));
+  await saveAdventData(data);
+  revalidatePath("/admin/calendrier-avent");
+  revalidatePath("/calendrier-avent");
+  return data;
+}
+
+/**
  * Update or add a packaging item.
  */
 export async function savePackagingItemAction(packagingItem: PackagingItem): Promise<AdventData> {
