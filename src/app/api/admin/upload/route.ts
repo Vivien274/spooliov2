@@ -52,30 +52,60 @@ export async function POST(request: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    let imageUrl = "";
+    // 1. If Supabase is configured, prioritize uploading to Supabase Storage (reliable on Vercel Serverless)
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
+    if (supabaseUrl && supabaseKey) {
+      try {
+        const { createClient } = await import("@supabase/supabase-js");
+        const supabase = createClient(supabaseUrl, supabaseKey);
+        const fileExtension = file.name.split(".").pop()?.toLowerCase() || "jpg";
+        const filename = `upload_${Date.now()}_${Math.random().toString(36).substring(2, 8)}.${fileExtension}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from("spoolio-uploads")
+          .upload(filename, buffer, {
+            contentType: file.type || "image/jpeg",
+            upsert: true,
+          });
+
+        if (!uploadError) {
+          const { data: pubData } = supabase.storage
+            .from("spoolio-uploads")
+            .getPublicUrl(filename);
+          if (pubData?.publicUrl) {
+            return NextResponse.json({ success: true, url: pubData.publicUrl, imageUrl: pubData.publicUrl });
+          }
+        } else {
+          console.warn("Supabase Storage error:", uploadError.message);
+        }
+      } catch (sbErr: any) {
+        console.warn("Supabase client upload failed:", sbErr.message);
+      }
+    }
+
+    // 2. Fallback to local disk (works in local dev mode)
     try {
-      // Create unique filename
-      const fileExtension = file.name.split(".").pop() || "jpg";
-      const filename = `blog_upload_${Date.now()}.${fileExtension}`;
+      const fileExtension = file.name.split(".").pop()?.toLowerCase() || "jpg";
+      const filename = `upload_${Date.now()}.${fileExtension}`;
       const uploadDir = path.join(process.cwd(), "public/uploads");
 
-      // Ensure uploads directory exists
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
       }
 
       const filePath = path.join(uploadDir, filename);
       fs.writeFileSync(filePath, buffer);
-      imageUrl = `/uploads/${filename}`;
+      const imageUrl = `/uploads/${filename}`;
+      return NextResponse.json({ success: true, url: imageUrl, imageUrl });
     } catch (fsErr: any) {
-      console.warn("Local disk write failed. Fallback to Base64 Data URL:", fsErr.message);
-      const mimeType = file.type || "image/webp";
-      const base64 = buffer.toString("base64");
-      imageUrl = `data:${mimeType};base64,${base64}`;
+      console.error("Local disk write failed:", fsErr.message);
+      return NextResponse.json(
+        { error: "Impossible de stocker l'image sur le serveur. Veuillez vérifier la configuration de stockage." },
+        { status: 500 }
+      );
     }
-
-    return NextResponse.json({ success: true, url: imageUrl, imageUrl });
   } catch (err: any) {
     console.error("Upload error:", err);
     return NextResponse.json(
