@@ -1,5 +1,20 @@
 [
   {
+    "id": "promo-avent10",
+    "code": "AVENT10",
+    "description": "Remise exclusive abonnés -10% Précommande Calendrier de l'Avent",
+    "discountType": "percentage",
+    "discountValue": 10,
+    "minOrderAmount": 0,
+    "maxUses": null,
+    "usedCount": 0,
+    "startDate": null,
+    "endDate": null,
+    "isActive": true,
+    "createdAt": "2026-09-17T12:00:00.000Z",
+    "updatedAt": "2026-09-17T12:00:00.000Z"
+  },
+  {
     "id": "promo-1787036715045",
     "code": "SPOOLIO10",
     "description": "Remise 10% panier",
