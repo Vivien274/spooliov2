@@ -1010,7 +1010,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 13146,
@@ -1561,7 +1563,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 13079,
@@ -2063,7 +2067,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 13086,
@@ -2785,7 +2791,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 13084,
@@ -3471,7 +3479,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 13083,
@@ -3837,7 +3847,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 13082,
@@ -4551,7 +4563,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 13080,
@@ -5119,7 +5133,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 12713,
@@ -5842,7 +5858,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 12673,
@@ -6932,7 +6950,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 12369,
@@ -7743,7 +7763,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 12422,
@@ -8372,7 +8394,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 12377,
@@ -9143,7 +9167,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 12050,
@@ -10096,7 +10122,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 12029,
@@ -10643,7 +10671,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 11801,
@@ -11560,7 +11590,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 11959,
@@ -12357,7 +12389,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 11906,
@@ -13368,7 +13402,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11898,
@@ -13948,7 +13984,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11860,
@@ -14575,7 +14613,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11813,
@@ -15288,7 +15328,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11795,
@@ -16212,7 +16254,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 11781,
@@ -16847,7 +16891,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 11766,
@@ -17435,7 +17481,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 11765,
@@ -17998,7 +18046,9 @@
       "anxiety",
       "autism"
     ],
-    "sensoryNoiseLevel": "1"
+    "sensoryNoiseLevel": "1",
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 11738,
@@ -18604,7 +18654,9 @@
       "anxiety",
       "focus"
     ],
-    "sensoryNoiseLevel": "9"
+    "sensoryNoiseLevel": "9",
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 11684,
@@ -19065,7 +19117,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 11633,
@@ -19760,7 +19814,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11583,
@@ -20309,7 +20365,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11582,
@@ -20840,7 +20898,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11581,
@@ -21384,7 +21444,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11580,
@@ -21928,7 +21990,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11579,
@@ -22477,7 +22541,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11578,
@@ -23008,7 +23074,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11577,
@@ -23547,7 +23615,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11479,
@@ -24290,7 +24360,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11478,
@@ -24847,7 +24919,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11477,
@@ -25406,7 +25480,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11476,
@@ -25937,7 +26013,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11475,
@@ -26494,7 +26572,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11474,
@@ -27066,7 +27146,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11457,
@@ -27600,7 +27682,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11456,
@@ -28172,7 +28256,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11407,
@@ -28747,7 +28833,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 11361,
@@ -29348,7 +29436,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7197,
@@ -29499,7 +29589,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8729,
@@ -30610,7 +30702,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 6986,
@@ -30879,7 +30973,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 11074,
@@ -31940,7 +32036,9 @@
       "anxiety",
       "autism"
     ],
-    "sensoryNoiseLevel": "1"
+    "sensoryNoiseLevel": "1",
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 11057,
@@ -32884,7 +32982,9 @@
       "focus",
       "autism"
     ],
-    "sensoryNoiseLevel": "2"
+    "sensoryNoiseLevel": "2",
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 11051,
@@ -33819,7 +33919,9 @@
       "focus",
       "tdah"
     ],
-    "sensoryNoiseLevel": "5"
+    "sensoryNoiseLevel": "5",
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 11035,
@@ -34966,7 +35068,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 11026,
@@ -36050,7 +36154,9 @@
       "anxiety",
       "autism"
     ],
-    "sensoryNoiseLevel": "1"
+    "sensoryNoiseLevel": "1",
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10955,
@@ -36713,7 +36819,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 10937,
@@ -37260,7 +37368,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10934,
@@ -38177,7 +38287,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 6672,
@@ -39429,7 +39541,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 10830,
@@ -40121,7 +40235,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10826,
@@ -40629,7 +40745,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 10817,
@@ -41179,7 +41297,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 10797,
@@ -41982,7 +42102,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 10787,
@@ -42657,7 +42779,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 10774,
@@ -43674,7 +43798,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 10760,
@@ -44551,7 +44677,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 10748,
@@ -45128,7 +45256,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10735,
@@ -45698,7 +45828,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10727,
@@ -46286,7 +46418,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10706,
@@ -46894,7 +47028,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 10557,
@@ -47515,7 +47651,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 10504,
@@ -48588,7 +48726,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 10493,
@@ -49153,7 +49293,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10466,
@@ -49907,7 +50049,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 10388,
@@ -50570,7 +50714,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 10412,
@@ -51276,7 +51422,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10398,
@@ -51930,7 +52078,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10386,
@@ -52424,7 +52574,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10092,
@@ -53546,7 +53698,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 10088,
@@ -54377,7 +54531,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10085,
@@ -54965,7 +55121,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9889,
@@ -55942,7 +56100,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10094,
@@ -56534,7 +56694,9 @@
       "tdah",
       "focus"
     ],
-    "sensoryNoiseLevel": "9"
+    "sensoryNoiseLevel": "9",
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10090,
@@ -57612,7 +57774,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10086,
@@ -58441,7 +58605,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10083,
@@ -59287,7 +59453,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10239,
@@ -59971,7 +60139,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 10010,
@@ -60616,7 +60786,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 10008,
@@ -61160,7 +61332,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 10007,
@@ -61750,7 +61924,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 10006,
@@ -62286,7 +62462,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 9994,
@@ -62825,7 +63003,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9942,
@@ -64000,7 +64180,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 9924,
@@ -64723,7 +64905,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9898,
@@ -65223,7 +65407,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9906,
@@ -65723,7 +65909,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9907,
@@ -66223,7 +66411,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9910,
@@ -66723,7 +66913,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9912,
@@ -67223,7 +67415,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9911,
@@ -67723,7 +67917,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9711,
@@ -68403,7 +68599,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 9704,
@@ -68991,7 +69189,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 9692,
@@ -69545,7 +69745,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 9685,
@@ -70114,7 +70316,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 9678,
@@ -70737,7 +70941,9 @@
       "anxiety",
       "focus"
     ],
-    "sensoryNoiseLevel": "8"
+    "sensoryNoiseLevel": "8",
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9663,
@@ -71351,7 +71557,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 9795,
@@ -71892,7 +72100,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 9755,
@@ -72493,7 +72703,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 9730,
@@ -73338,7 +73550,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 9672,
@@ -73895,7 +74109,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 9563,
@@ -74480,7 +74696,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 9536,
@@ -75389,7 +75607,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9483,
@@ -76190,7 +76410,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9463,
@@ -76957,7 +77179,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9431,
@@ -77499,7 +77723,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9421,
@@ -78335,7 +78561,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9267,
@@ -78992,7 +79220,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9287,
@@ -79802,7 +80032,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 9303,
@@ -80342,7 +80574,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 9313,
@@ -81276,7 +81510,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 9337,
@@ -82181,7 +82417,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 9351,
@@ -82962,7 +83200,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8949,
@@ -83468,7 +83708,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8938,
@@ -84390,7 +84632,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 8928,
@@ -85220,7 +85464,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8924,
@@ -85705,7 +85951,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8915,
@@ -86425,7 +86673,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8885,
@@ -86953,7 +87203,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8880,
@@ -87615,7 +87867,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 8815,
@@ -88110,7 +88364,9 @@
       ]
     },
     "show_in_sensory_compass": true,
-    "showInSensoryCompass": true
+    "showInSensoryCompass": true,
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8805,
@@ -88821,7 +89077,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 8779,
@@ -89455,7 +89713,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 8774,
@@ -89853,7 +90113,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 8762,
@@ -90448,7 +90710,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 8794,
@@ -91228,7 +91492,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8787,
@@ -92087,7 +92353,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8724,
@@ -92701,7 +92969,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 8719,
@@ -93117,7 +93387,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 8707,
@@ -93535,7 +93807,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8611,
@@ -94108,7 +94382,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8669,
@@ -94965,7 +95241,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8661,
@@ -95932,7 +96210,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8638,
@@ -96462,7 +96742,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 8628,
@@ -97150,7 +97432,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8633,
@@ -97560,7 +97844,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8528,
@@ -98066,7 +98352,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 8514,
@@ -98703,7 +98991,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8502,
@@ -99089,7 +99379,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 8482,
@@ -99505,7 +99797,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 8464,
@@ -100293,7 +100587,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8373,
@@ -100808,7 +101104,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8325,
@@ -101348,7 +101646,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8324,
@@ -101862,7 +102162,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 8323,
@@ -102286,7 +102588,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 8317,
@@ -102718,7 +103022,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 8314,
@@ -103381,7 +103687,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 8313,
@@ -103805,7 +104113,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 8177,
@@ -104799,7 +105109,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 8103,
@@ -105257,7 +105569,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 8073,
@@ -105898,7 +106212,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 8010,
@@ -107242,7 +107558,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7985,
@@ -108014,7 +108332,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7769,
@@ -109043,7 +109363,9 @@
       ]
     },
     "show_in_sensory_compass": true,
-    "showInSensoryCompass": true
+    "showInSensoryCompass": true,
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7933,
@@ -109983,7 +110305,9 @@
       ]
     },
     "show_in_sensory_compass": true,
-    "showInSensoryCompass": true
+    "showInSensoryCompass": true,
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7765,
@@ -110226,7 +110550,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7760,
@@ -110482,7 +110808,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7736,
@@ -111122,7 +111450,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7720,
@@ -111474,7 +111804,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7719,
@@ -112009,7 +112341,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 7696,
@@ -113125,7 +113459,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7692,
@@ -113394,7 +113730,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7691,
@@ -113642,7 +113980,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7690,
@@ -113916,7 +114256,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 7689,
@@ -114172,7 +114514,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7688,
@@ -114441,7 +114785,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7682,
@@ -115374,7 +115720,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7681,
@@ -115658,7 +116006,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7680,
@@ -116069,7 +116419,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 7634,
@@ -116299,7 +116651,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 7356,
@@ -116796,7 +117150,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7355,
@@ -117027,7 +117383,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7351,
@@ -117527,7 +117885,9 @@
       ]
     },
     "show_in_sensory_compass": true,
-    "showInSensoryCompass": true
+    "showInSensoryCompass": true,
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7334,
@@ -117786,7 +118146,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7198,
@@ -118209,7 +118571,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7331,
@@ -118576,7 +118940,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7315,
@@ -119344,7 +119710,9 @@
       ]
     },
     "show_in_sensory_compass": true,
-    "showInSensoryCompass": true
+    "showInSensoryCompass": true,
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7314,
@@ -119591,7 +119959,9 @@
       ]
     },
     "show_in_sensory_compass": true,
-    "showInSensoryCompass": true
+    "showInSensoryCompass": true,
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7309,
@@ -120235,7 +120605,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 7308,
@@ -120454,7 +120826,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7292,
@@ -121095,7 +121469,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7291,
@@ -121324,7 +121700,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7252,
@@ -122121,7 +122499,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7225,
@@ -122588,7 +122968,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 7217,
@@ -122806,7 +123188,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7214,
@@ -123488,7 +123872,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7213,
@@ -123730,7 +124116,9 @@
       ]
     },
     "show_in_sensory_compass": true,
-    "showInSensoryCompass": true
+    "showInSensoryCompass": true,
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7212,
@@ -124500,7 +124888,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_SUPPRIMER",
+    "admin_audit_tag": "A_SUPPRIMER"
   },
   {
     "id": 7211,
@@ -125164,7 +125554,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7204,
@@ -125668,7 +126060,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7203,
@@ -126206,7 +126600,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7202,
@@ -126474,7 +126870,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7201,
@@ -126867,7 +127265,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7200,
@@ -127150,7 +127550,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7199,
@@ -127431,7 +127833,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 7196,
@@ -127679,7 +128083,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 7193,
@@ -128355,7 +128761,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": "A_RETRAVAILLER",
+    "admin_audit_tag": "A_RETRAVAILLER"
   },
   {
     "id": 6899,
@@ -128736,7 +129144,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 6892,
@@ -129388,7 +129798,9 @@
       ]
     },
     "show_in_sensory_compass": true,
-    "showInSensoryCompass": true
+    "showInSensoryCompass": true,
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 6882,
@@ -129971,7 +130383,9 @@
           "href": "https://spoolio.fr/wp-json/wc/v3/products"
         }
       ]
-    }
+    },
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 1,
@@ -130062,7 +130476,9 @@
       "tdah",
       "focus"
     ],
-    "sensoryNoiseLevel": "8"
+    "sensoryNoiseLevel": "8",
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   },
   {
     "id": 6,
@@ -130181,6 +130597,8 @@
         "src": "data:image/webp;base64,UklGRvRmAABXRUJQVlA4WAoAAAAgAAAArwQAHwMASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDggBmUAAJAMA50BKrAEIAM+YTCUSCQirauiUujxsAwJZ27OoabijuovYcxAPfz/edsH6LvpC21nsBeEjzK5/nmU0i/+XyzDJ4J41+3/3e6k4Ve49H/Mg6Fzr+vfOD6XP4/6iP62/9D/G9hnze/uJ6ynqk/1PqF/3r0+fWb9CLy9PaJ/df94vap///Z0dJP3k9CPyr/Z8U/zj9T5d1ezd/51f/nx/+v05vkWdZxyUluwunnP/fzRfvv/m4IIjlVxO+UFBJFBQSRQUEkUFBJE7fXci5ieRpmvUu+UFBF6k9O+UE4i2o6zayVgoJIoKCSKN8/MZ8UFBQSPiHwegIJIUANMU8Cvrg4HnJp56mbhuY4wSRQUDVoHhTiXSWVQOfHxNySd/sW3Ou+sAvcOpIDc2OrFKdV5gsmWJWBsvbKpSCgoKElcmJx3tVx1m0iDvPx9qzQHRYBe/7kL2kEW5OwIbtzcrk/UqgyL6lcTveGngLHHDok5Tyl4knGYtuo6kHPNssBCEUbHWHtHZg+8ul/c2SH1N8mQ6RWOMs+XIy/l7bK7jsqQ24Tjq1InUS226XNOSgrGdaGui/1hL47yOxHSOtd/iHrAZ/cELqUaDRxNCIB3vo9lJX7pR0o61MdPvY3ouov1Y6IY0i6Frv8gFX94HyRcKVw8nMA4YU9u74wnAcNlBhKYRpDGM0l9RrGXqPy1gIFpAT7RDP6qwxBODv1C8HytQXksC0yRpkvrYYSUwTJqToMweQTaSSJVFF9CQ8Ja9N1Vhf4/RYMjGiLGltV1GbbpLezoWyqTBAyZkBRPbg9GcvuIHNiAoGx5yWgdlI6QQ3xovdg6PoEb9VwinDugLLer8J3EmBHm4IPI2t+sazJLEHBqx7LX2Ip4rhdwQaBeQQX715ZsYVhem59Qa6LrKY+tDB2+FlotW8Lw/ykxUEkFsnft/w9DQdoExEme1PzLWiigCNFWH8c3Nv75Gm7lD19T16SDXGumGA1o1Bl/DAcWG4r7Kot6ixDuIv0bjv9x90vreTGk2IZYWzMf3T7r25xIYCMf1Z0fGxDKs7HdMXBec/u8NEvn8+jlDA8D4oCqAcYuQk8/3bjRvjCN4igPRzd3st1eSLB4J6Mfl9+clsmRo8boleOzw1K278p1nhdc8vzqXl0apJAsl+FgTHbQ0ZtoaL/mEspUduBuLCcGE4v47CvSGM+zGLEkZ5Cdig97NqbV6EyxNXdShzL1OGGs03t0Veos/LS8z5jzQ6c0zkgXIKUdeQI4Sz7Uj9QsmIvKJ/mmHbKCu18axJ1OZJ0jVWAxG97vMm5XNv9kXl1+4OfSxOf2aW2QPL4/2xIoYIFg94wiTOm+2PsnLojJlSgzxVWovMpaVOefAA7KNZY70xZXSGAefYb3IttK7YkfExw9FwHWP6GD3KnndSspzgTaLxUXBiyxeSiGp6jq2G2KHSArAaqb9j9Anorn1Yt0X1edA8gs2QpNSaku3stIJ0qPSrGzrQLwjgz/rRRyxiR+0Nf4Rq3MO94zMXcuxAU4faOaoCQ6Zksmw9NMx0MEbTn2pfFNGAFoxzghrvaF5j+wcdz+jdKPv3BgrAjPkSFoS1fgwVxdmaCwSRRhioYqSJAzsXHY9O52EDCRTijX+qOVGPHCYqx7zWmMXBz5wvhaq/nzAKep83pug9kklKWEYsbu+cTj3Kmfn99+RUMHgFJPdi+q4xNXhRwGJb2b3Y5Pzsz2lXq77K0cYeeV9a3x7J8SoIOBuY5YHxQUbhWcvZys0hUyek/MaTRy+s+dypxoX7YCbqSYhP75KL0ENXtFKUaE+p/Cy0d5Ia1/ImWrLFT0In+S7aOH2cPCIs6d8ysfMe3uWdN+W8GJ9La+HM/CyT7McEp55j334YdxaMsYb6T4gK9Iqzc2a5av2Oxg/OhvOB+g1SaekCLA6AxAqZfpJzNrgeUNlRp4Gzdji495yqfw6QHEmy8XqWq0OPazEOO2F18V3EVKSVj9HMi4P/RGd/yJVPi5ljy75NZEz7OFO8bUcgOk+KSBtIn9CxHnaglp4mu2A5yQRDrfr+7yBIkH/5Rpmy15YaAxgld1r1pwJdGFFgqJVjFRbDtQ7aptXxduqaP0H8HzOjn9eGXLIRwLwZc31JwSVeJktdgXYDkhBtzpsspUe531uIToQSrZ8pFr6XBsEhSYoSJcwBQAmgWpEfC4LuFJiFTubfTlf7Hj9gTn8YcdOwwd/IpTjMZ8QIGIU7JPRib4C/OkMlYezTAiM939Y5R3LIubK/4JzGv5s1I9mwTxMvyJzdtsh5zSaoDhXHHf/nrvqoqNmfofnx8PBP0y/YNY0CU0JhozHKvAyO0UnLWU8O4xHlaUTNYlXzP2BsZnS6iYvoO/v8TvkVLNtcQfFoh22GKhauvLwsva0TsXqTuW8HVFAfpq5cia/3z+Q5hje442c6K7j/Jlqz4VGkmTtTiCguHoWzg5J362cM/FkP0hlnKNOGzVi5DAtkFmKhs6hgd50Jkxg1YJBPBGhhrGKfqdaesOEf+gC4VtGfvi6LojsSwl9LjLAVdJ/Bs39PJn17sby7UnMzPofyBulGSx19ml1K8/1HKJ9yCpZOLuaXFWHTAAIrxoHRXEhF6JPx8v6lKctBeLp/o8dAaL9IahwzQiV3oLJHCZDm4aAVSCQOc+kPBqhikZ/CJtI92YAVeQDEZe/Mkj/uy4aAvJkgaTIcUDGfp3DVnwEiw6E7qXM4sxaQPiSyAF0O1qKGvdVjFk3jxNIb1667/HoNA1lh+y2BmZGcFpPqKDDASf8EsXo+5WWrpxu16N3PXfHkqSI+fJF14jvAOQVT6cpWq2hDfaKtzjg+B08Dn44Senp8lwimMWMFV/YbpE0kxwGWEl6oIB/2X4/Z2vQy9SAMARCh4Cg+rX4RB8rzxqVKXavTJTv/JqlDaByRjce+KUfEJxdHIWDUG+hwOBZTxtJ3/b3oplON7JvNkqx69KSBwPrbD24fLMPGaIo441aHWafok70B7+08fAAlY8izQ3RVZpgVqQ7As5PgL9bmB0vuUul5fEg2pioGUhuvZI4qXFJx5ZJm4KZhsMF13BPzN6a0sT59YsAezuoxNPtBfpm60UR43HNCiuj3Ee9q/hLefCAGFTkWi4LTGyg2jQB2xJuelU2wa2NFlbF/ojaxVBBVJGcW0AKzIdA/42ibOTOBYw6ofJEU9bXRS7Cs3xNuA1dAM0Wnq3fwD67VR5EfSkARY2CqZEbqTF2pVCdrnp7J/v/GAlELO30x0xmYEAwjf8ahYqGQVpCmsGclbZrSm8jBgfcpHIZqYuPuEgtPIrXTRUEb6qEBHsbo2Xw5ch3NsMXjxM1WaBU6+QBnsxYi76g5m4P06feXri7BEnmMwypWh+O3el+BELTBUDq5raexcueI1uhdmkgrsAOgDDuvxRJveE/PvWge15NfbdQWXKXWlV0BK6tpBcftU5CjbERXD1s/ftvwXLFgpOTZFllpwjNwbur7V3H3mX5fRzdsK1DXkRPl/ztfR0tU/HpZUP8SjwaoxR0HbIGZR4cWkrZIJINtivr6vo23ywyS3+sxUwG2FyvPcGBIA351oC53AhxVTg0NgKvFNB+GlMuVQtoji19cC5pKT+4JsmxxXPcgmjqnaGF/ehTeJ4TNtdGXyowF5MZo1QZHErUiDwfgYwCv9V9A92qAW6adF0y0vf7VUZ5mCJCzTElW3g/N0q1bwExQYBRNDP6kFI1dm/h3OiHnWklnCzomBZZFVjcSo0MEj4rgoV8XtE9u1YeFg9JgYMg6vDloGiSIzzlvWOrMaKvG6XlrvbRsGXZMS/0UwE6l8H1sbdbl8Jz+9bIfKBNS8IHP53J2sp9JF+vBUhiX2qqD87vO+Hpn6QTGwa4lsWg5jJu1cIpaagNmYBYiqUj7XQYl1haaglgsmGKRlDg93I0rMw3NdSYRow6ZNQte5LrBkmXqW/8FYxr+VwRpyFBeCu+TSRqQPuqHs0Vw9fDuvyq/3WaEdxwy36PAcyP8O1bEbGD1z9NMQt+FFrR2LK6htQqA9GjNfgdWBhLkc/TtpG52GW/K0We0whdpLwDJG4OQZKM/9sG1+tKVDYh9SXoaNO3AazF7KAqQN0PRt5BBe3WlfT9Ux2C1iQzEH47MEYVA3rYOCV8odPj/GH7qz/c8jfCcdR2Q+48bs38BwzDCKMESR1J3l2KTmGwdiQG6q9RsZqDB2qMvrqUPu7onUNr6i528+kfbIdflyr2d7YZq02zd+pKLSS19iBhPBnN00ktgCk8KvjJxnoFgBlg+uRi/RVRfxO0i1gtcXgGZGw7r2W/R35Icp1nVNw2p+6eYQrndbetY73DMxVUesUPYJ8voK8kxoFX3CpxffaYbAkTbMKT6pQXBlp5OrKKsyJ3gOmxbs2U34SeBJTwbXrhRQ9pFUDotntAxSJuASOh+oz2nPYZgL7WRcWi5x2RurHV4OEOkOFXh9r86FZsnfw71aXf/+DCM4mQiIczMPniD153KhcwPKWe8B0MRpyP15sUQCWHaGNl+z+/dCeAVRZUjJmivOJf70oh0ZYSEVhFIEC9zFu8y3XlJoGWTHnjaKcOS6s0/Hc56Xk9oXE5+7xbsJy1jX4lAQ7P7zkPFP5o5N0m/7ADbJUcyMNUec9cU6qsDUbgMxVaZxEJ+08HTIMxCgCFJJE1va4OBwcgxsAJJGXGPJ4xjZo3XQ0ftR1MJtS2FvKbntDUXN+NvWqpHP3VqLm+Q8IjN0eHmyl1f/6WU3OEmHOU0Yi7lzxZr1DHfA8nNPoUoNLTjVQae2Xy/yvEepqFswyewX0aJD8m1/j1YKcFr4vawA9CE/sWahUkemoDiWDM5L8KkPCBFh72zAQ/o3HxkekwBoRSOcO+5BtpXeH50RUMQebtxNrtysk4KBlPTAUyLRqNsHQcn+SRl5SbuBAYJegNmpJ9j8o445YHap5+UxB+ycXhps0H/+lmHwukgP/K9/oWc8QWj+jpXATJZcoxsXsyaxduYDOFI7RG1d1nWZVgdYIW/oDkpOEfkIx8bGtkNAI6LsQHMm8yJpl9pkEI70dcWLLhaHAlj3FOpBZIiq+guuCN7TeUzDH2Wkn+h07Om/ezaExwXPY+LOxr3UFbpNzGgSbGyYxZevNVnKbvvrgGKq97DHh8TogNu3LqKK7hjnoLXPpR85F40+/ZXSDD7CAt1QSuKVoB5v6AAIKwsh15pp18xmKSW+Ymb6G2icBQVqcHhK1KA90A295VlikB6ARDCdKbV57wxVUQ9u0PQ6ubZ1OV6gjT+eE91uluCGmrtG3Ag7Ch7xful5WDPTVMUgYJp803pt14yc9YXBiHDGwmgIvjBai1fjq965mHMeXc7OH3vYHqf9odmiFMSoUTR9/cJJ1DAnkNUfarEfhWTK5yeQeOvhmJo5dcXngx9IcRAIO+Ve74rHRO5le6+LET54R2cQU94+0IyF2gJoNC7e4Q7bmU1S2ohJ0jV4RZb3JYF2E4XubjNSRX7aCM3whJErTXm/57+ye5q62Yp0O5KAsLSyYVeXZqwG46LSLAO9ZcbHichWFTymOunL2AN4yiqf9D58FfecJRy4qXQdIYDBAXzSXLoegPwDIQJlLTmV0LkWQQ+WCaROxpSENGg9ZY5YyX0lfLNor6djOALYZqGd40Oo34r5GKbs/baMfVdhq1cGPOuDTPRBGVAjCIXTUaIxAuBTX96+8+9Te3YYxncViTcheq0VNZZaHdh4piIclGFjuouw6pW18NdHZ99Q059/Zyj98AWJzNss/hcccqKapusNHlqrK3cCA+syjBDAqPuSw07Vg3kQ8gZWgwkbAPB6SUA4teLjagsHhC6xPhvP58jljzRZIO/PhmVOGphP5ulKP2QmWIx70amcjhwGWo7zP2+XtC0hmrPGQ6pcNCDhg++/u6IJMs49RrsIaEBnFMglnn43Gfz1PLtj2rlYuKQYoSSK853oTi62YsO3JWbIs8fCF16KvbHEfnsothtHITg1arr3cPdTdyxCle9E06JRzwem3ak+sxjmyZZciJ7NdODOvazJCZC6Ijl16r07SZAAAq1l1pi5F1ZbeYdv9LdcMl6MMRCkM38zivd/uvJlyBM/OjXBldssh8Vby7U1kSY1kfj8FOu/M6lpBotB4KndFG4I3QykKeB5cx/FpIXmt6Ow6UGTBJnOiVfZfK0DPW9vVo6+av2EAwXJoWNloJtvGCpjNW/r0bbVIAkYk47Mjs1am8DX+YXX20GKqhK1qqj/JuTbAeLQ9O9dWdn8T6KUln/8opb8PCpRmptsduH95ksce/fjJGzRQ55NKUQJsJrH8Q/Rnb0e8QbYo/we9ogDbTQGRb5Rokhr6kXw4k1Q3UsTXgigKHLgD3WlPlclurmGnvK6zlO5fbV9+87gtrEX7GYphuSxplRbvzyXQuEo3TN+x4qQQDPj5PBuTGtaeX2Th16zjk8pAdbDs0m61XdO/SjXeRPaYDix32TtY25QDsUdgmZrsqrS3eJpJV9GJtHFZ0n+tcIQtlyyPi6qRby72i53LXJe0mLyYW/DPLBobmyfhBSU8K5s/zr1KU+GP6aJspw+XqkuFDDV6W0RU6l52t1YnvhccjVKN+YQKxhuYQVfXUhlKqaeRDGIiRHlyflT5IdMUdVRJXK9pB0JdXcxgo3lZIqVD6BErNyfDvlG74fkbMyAcChDcvElfg5L7+4rCaGmHHUd7yRzGorYGb1QlbJZJ2OQIy6A4PZIxknNri/1s7bdA4230QfsDLFioAxrzc4tZljwDNRiCFsMpRAa5N7QyQspgkxC3+/c798Oh1iaEVXzhIDr19c12QgR5yNp0TOC6dtvw8Ja3cRP/xu602jix4OC7vVoNV1DwPrMwA542cwVkDmbmPhWqZuF4pNvMUGg+KJWteIoHe1Thsztxl2u6+drdVILKl4pDrZBTpq/zx6lDhjH/4UoMBnMxtWyGh/IIwdac7mZ5cQoxmITEDBPKfrcls9gJ2tj5NuPrNcaff4fXlPvdX+Ni5p1n/sbZKayfvGbMfhhFkCbod0TRWG2jnzwBbBEXLu37dyGQJRWUG6s+vJdel1bl6q12gFD29+RPAEz13oJ9y6F5ZquCShlM+gSbmwGsJvXdIgy3jxUjmezsK+ei+d3bThBNfgz0OD45sQ5TsBB7k+8UKIygKd8CnGaUL+18Xn70lxdc7/Kyp+kHBeBc2TwDyJj2mzJFMcTz+isPJdOLzR/phG9PCPInRBg66mA4MBCsnmWcXGBKj+d5Tqn+gKfKuNu33QElaitqG2Zdky/aNo5CzaQl7gCnU9dVfO8mPDHVs5sfdWv5/Z7n2ttGQ2N7FCVnP0VHhTXVeSP8o4iObS6zMF9xDy2SK61rSS+Ir7zexEk3QG1/Yf6Xwm7LlpEA7QwGy0+BWkQaJyPOUCOumknXYeypuwaO3aFslBUUbrMXECjbtJjw1AFRT9UQAWuwwC2IWShuSeILkw6KH5MMM7+jTQfWlFoEV3mApw50TfvyRqj/1HGb5Z5beIx1VZECErI9RrVpQvuhxVp2V9LwWe9nkA9SbyiqYNUsAGxCpQUlvudiRstIuiUQdZ8YNm9o+PGCaybRQ7FQS/ufZfJcdJGQ7yXkKgFkxVfRjkWGJefJR7cn+5daR4B87oTAqFyYcB/JT+Eafz87Q6zVD1ty79mFsVlqeaL+UozSSYZ3VrG9CjYiyDiScpH87KjA9bhIMqNgwIFW8+LwePVtHN9ehMv7PwBUvvq/cptxh+pKDii6eAfheMt3faDGniUgCq0C6KS2iMOkDszF95z4+2b3J5wOXaUZFgDaBF50lcDx8ACudd2Uh64zVQLC8dzYxzOeYvQebBGTtEEuHFwyj/hoX0BzZ6HgyGQYbTiVwPU1b6xn/ZHR2fYJu8MDQbO6i2EsnD9qMNPEjwiYBUKDifWQ73jzWI+LwIwoluh6ShaXQ/A+cSMM5gbes7gbclsVMERCqMg8o51wQJp/y7x85NVTCNJ+7jga6I9PnaazZsQm0U5apEoEOEoHlwi/9ERShJkweDzHkAodh96vbUFFqJZiRFjwbAkvGIWfZnMU6JTONcdoPBNmJJrx202Gtc3bnGiCpPnqAutn8OESdue16pd7IwnmGNMjF5BVHwfoPdpwk+UAHuu8MaioVuF+1hiE8xO+UFA1CGv6Hhaf+7LaUj2ulNWiGqa0NDDcyYWzYYHWN8c8ZaynExflF/4WHFDYUHfukfoxgxPoao+3CtqJmzIDuFyE0boKFQVa+LhR4ZHh+kry1uo62CnJR8ua2fskGvWUgRyqzzN/IsOqEICGb7PkeLwGylRu7bpctNStvz7HAastLAAA/u+zxyaKhxfpSeq6gdgLOwxMVu1nJDFli7TRzH5ihbltE3ijah/N2XNNhmUO3mDGmV5sgY9G/sero3B1mSW7IXjreFxCykBQSYkd2BIAAAVYM4ibn+zYTSwJNwAFBxgmdmjSqyt2KRcjryWTUCrwYAH9wAAAAABvwAPQxLfICUzQ7MSA+TmtV3unz0QF4CIV6eoV0B7tdwS9ACCrggMOJEAHZkAAAQF6FPm5pJp2iMRr8bKUAAIiAAhIpWiyE35byX9WEttDMgQ1pmVOeMHoPomTINnlOhLIVMo+Ym1BcrSPNJckDH08t+EKqc4B0fIQoQtCMwMeXWbviMHAesTE8PvwDyVf3Ur8pO2pRH+TewEd1/orYVgVODnYAAFNS4PDtc9KGhFO7YgiuYMkpggDgVsiH/kf9rrVC8bMOgbjbDRBuWu7rh8m8Ja04GcAAMgWa4AEjAZ8AACYtHCARm+B8SxojCPTWN2NXYWSbT6wsUMIBnXl4AgPerqK5VsqkuALnjydN6Ix4BADIAPfxetCUlGnzXJ1k2gRX+9Uq201YIpoZ4Wfg5kV5hrX2umwyhgAjyi0EAKD6gAAADqDEfwAfdPp4D4phNR1QKnFVJ4aTqAFevcNF0l7Mhj9NQOIlCH4Dtr5lnagaGrJOSwDeQEUA85qPiUAAQAaaDCECAMWK3FpigGDDt8fZ4bDkJALC54hcq/hfA4C/Blj7oF/9nqb84CIkZgBjqhyFuIFjjsAXSSOcJpC6ysFr5miRL+RjvhkZf5l52aZ4FdCr8lhDoTMDT+G9LIQAAAAim9cFKnJgIiZT9EW+78HnsVTO4LBYe2LnlmZlXNKJ4rxgFRSSDefrnEGpIIehvZ00+SLFKtCVklTIAAAHJlSAAC/zXM4AA+n/j1X03j6gtfI/m1RtbQ9icNdloIGNK7T9VlYkbO1wGlJol07iAua1CXlTf3BzxzOO9wjuBSo/sAqRacKWrJDvBx5cAjMcol9H8H6H7+CFB9T/q0Rcj8eh9zo0TF07F5c10M+nBvKUhTNY4gSwZWWCMyiz6Jt4O3J2ghAAAE4s5JyDOW2aUnLluoCYYR9nqeAftzxy1TYzhYc5LBlXqPAPUiTFl3Lqhxgax1voU8fCpWZIjSlYPR+r5RU6HOfoJ23bJhKOXAdsVJiCknQXQiSalIAx9pXwdEYMnGFosA8Egcqb3lm1L35RasmzHniPrPMQRZMI0DgBjQ3dwj3nQbX5DJ5ST/JnXgWE54CgFGEYogUg9MI2g52t2zJeprWqV0EeVGwBIAlsgDb0BaEkqgHYTZKAAAAwdgIZMaAAJBBSI3UlI7kZAf1tnUumSAd3rSsoVG3lGTzXWwT1G0h4YdfeKQBGVlwpbkfw7HG8VX9yHst28EHtSHAqF9J9N2WDWPHOxOzGKiQy85nDtnGRbk/Ok1Wd4xtMIt5s0zCWMrYkn2g9L06sAwWcZsbw3dfTNgeZkT3WIQa/HOBaXgBQrQlYyyPthZ+kahjhNmqp+DuWxP6h5TAxfgIGOz4pNJsQlA54vXSfLJwB3ijqVtIAAFz+o/CAAn+41G92HUeAdt/3/kFqpFiZRcD/Yu8Jtz9c2bzUghANkw4iZV81Bt1v0lrjJPbAXBBNTshdaHab97I8F2OG3QFxDy5PFw/KK3Vqbg1CYvh7P326fRr2SY9v9rGp0qHaAKEww/BYuizEoCePJ1yu2AQuuLhE3ziKK8nIcKzhVIkbs0ZxEwNOzN3I3JMrLnwUfpwLcG62ICwlFmpyx+JkqF549kcSoSh9z6B49qIDqR4YMzukjIW9/DcUmqYV5uDO4vFyhhxZHJgc+L4vzhP3xdcjd6HSI7WitDIx1AuwD7wkprvL3r8/qBHbODOyRkWBJKKNinFJpLB23mX3o4URIBo43jwonf8M1LQTitDGwaBLuf+oUMVI2unK7ggtyR/wbnf6HXv6nsRqrhIjn/N+NoyIgQVvpdxIzxa9DuXwv76Ero2KT042vN+nm0EvU88GfUEbHCGZqGgkxuswVLMRZqqJ8anSAXT3YkkuYnpq8nJh4t+Mql3HcJVV4r0ckvLbCZXbRImJ70CJstcpt6JhAAr+dReoj3fKLN7kI8rzpC4MlrMopOhF8e1c+O70P8zu2+p2wptRY+A47o8hdJQ05LMsqYb0R/OriozxOUfmxpPzajziU3HInUlbbu/pKa6DNt1IktZnLZf9qqgiNGZIgrpF55nUTKopA1aD21/DpdExsKyiXADy2Kjp/AOMsAsqpL//JXR5cSvEte9/E/I0gxljoDMhk1Cy6eXdri8s9vW+6poYgIAygkenfaZg8DS+AirKkR+ghf3TmJKZlK9NOyBBIaX0en/6eFtf7W6wOBfxi3t/XftkreQg78Yyjo87wrwErs2ggKoGtn91AdLsBYdypxOp43I5vKzP4sEJp+tP0RM7u0PIOxLdNxaTscJsUQH/diYUzpN16OOIt//83JzpYlXg5hoVrpzndG3NMymd6Lc8/tfGzWktL71Fr76wFWOj4Up951+Tg/0jrFOtmAsJWGz1mOi15nFEUTPyT7TiuA1UTv28YQx07/NSOuJTpdGfrjU0TBOEMJhdRfxLyrWc6v22dz5NO8FBIf9kEAUICrrVsTNjClraVMQY3lF1L8DBssPC6vjT8NHvkS2jm5rmefO9QQKWIufLdPv5n/zn9rmr0GJSL0BqQ7wCK/7xyYbEhNF96ieZ1CM/k3idMg3FwuYzGK6Vrd2fzgdVBRIRzAXVrUIFKzd+vichaxdtXLz5oR0mdSjKMhhjtVcKUdriI2Serrj70DCcaga9zVfy8lyUKF+HXmVaeHoGybdfbuUhTyMfLoB8kYm3PxMBgoVzhAF4vjZHwN07A9P51gmJJ5gJxowh185TfHFIFEusW9vH7gCsufxm88FdkNFVgDSElzhJy2nwIjrBJ8hka18vZHyijVs+xHCDYmpRrcXiKM6w+vtKeXFZfjwY8d8uHWESvl6OL23gQEX2T5gGeIm41UNFVQKrDYUpDZsU+p4NMTuPYrcdYmDovu6B2jrV9NTmvithmxuwHMf3g241ncAJgpJs+aDtlNsmtz9jTXdOPfGZn8WyW5+uQh7Ze/ElZF8qyzJc7uGQmCYnKgwtnsjOyGJXntU7jSbAXh4m9Fe8jn0k5M253Ojr0wSXeX/8Djtof6+f16pQwRZb2CVfICIvBgG8RhyAE0YCA+DbeYNefiXOXRxWtPl9q3/BncIK4OQhzvXEeIxdWGVUWsD2mxujlO+oUM1QIpSygCxUdvjcHtDemufVYSnwhHXtiLOF4O8AfcfxMDtbnu5BDd12Ml5932M8ZBfHlU+ogWZ7RaMwINx/JXyw3Q9HHKNILCzid9Dj9bAsahw9BiOO8MI29/FoLU+sC8R3MCLGTFY8iJVBko7q4UoYwlozPz8oOy3fbh7r9b1OApN5j98RqY1hXMotkgRTIWxX15RGBicynAryFdtiIzoT1kLJs80Co9FYdw/er/hvRn6hyRquedgInpTYzTs90AMjpKcvFR8IXqz6YNtw0o4JnFTm5i3nVEefmsdoZk4d1VpHiNOk25of+BYX4yaFY1gkPfBTM7/JwJZkEBQNcodRUVkaTgg4d+nzNVutPPvFdfg10JpNKOXmI5lxuNcAB6uI3qHva7pXPQokRgaZ68FPNMkwRAaZurTZyJTsPU51UrnoJBRTe4vcDVFGkEIdSFrUzBtRNeQ+Z259bVnHsyr1vywT3Qyaw3L1dQlWaryh2n8UjJEJvBukLdbwAhY8ocSX3S1XcqLKACnRYRbnkreNauRuyi5GNeduM+QykYYnOtoFjIFaXyQOWQmUq2KF2A4YD+fJmKg+zgLDTy4O43Tt9Q/iQiEGIvwFk2layVyg7706dO56+a0Ps/zUtuRzv05+E0XTeeS7bMR1c/XW4s8uqmOzYnZqfWO5P3flaMQAg5X6+F6wFjsRlvXIOeOHlmL+f/3HBfqJEr49FDQ/FVf1ejRTJ2dlNP7fv717RKwn2YXZ/LWfjFAP7If0MV6r9DM6Mrz0ukfJ6ve3TpqMNIU0Ie5C91TgY14P3bL7fvxYYXuLik9yiozza+lXs5VcnFfQFVgqjfyZhRMbt+i0YGlEr290FloncL0vQ8PkNI6MRZiBkvTToGDUH8lRvuqLF94eI5byif3h7qMxJ5ng16e28HuovW7zvtAhsPiEX0TxPnewwJ/gzPZVntO5r7qjEuQkRBTDXZgfShfrux8ywLkk40/45wFZxuW1ZNk/IC1S5CG318+6jPiUo1B1CCydqK2zUD8jcHFIH6HZh0pfj08tMLeM0fjTrHKhyoEH+wvSv3g62mkhqBN1Zv+w1N54VU8ocr0nyueQFp3cKJourwKBRx2Bk4TdBrbaUZE6BsQ70pYwABKyQFSKiYuqpDg+q7tG4oJ+DD/IMV6yTFdiUbW9LAXTgnAkrFteKi/2cYNFsCBFwKJFiE11Y9Bnqtzz9b24Wg/OsGl1VGpIKtQAQjKBP4Z9itgo8fkhmtcJ3jLWKpN2j8Ytm39WzNRhRe2ixi++jywUJUkb0Ay9jqjkiYNtwyIV+R138DNUmY8+tydssUJQ9mM4cwGWqs0XwSx2npBvK/3Gtb57MUNKRq8S0ZSOGOKijawG60BHByUGVB/8508NiI0ZyjnJycfEJtMPV2TNr/L/7by8M+O4yQABIEwa5r3BrANmDagWEg1tSS74Sa9sPlTCLDRBuSCP2rSbWXTggnszFBdLIrPGEtUol71VHI7TiwMHYIkKgfOmeYrNyw07VLKTmDuk6GgaHVAGHJeTi3BKE9JwcOzkRCBNxv6nAsvWkjuefb3QFNB8Y9Bnj5i938SoCw3gW6ABoOH1KIe5XsR/rh87aMvI8IColsdWqDz0Lg+MfGa2BQoZU7TpYKMmffvliVH4Rkkz4IUy6UeDfXGIX4OGyWr/E9GJ+xOe4afFoBYTMp0Yf7iP2buyHCOPphVY5YQKhOaLy9WokOwkB8o9P1Cxqfdy+bktXkc2BrLZK4U16ziBZ2qy3FDzSVzcijJz5miFf9rQcbxbwutlHHUAlRZpdpzrWDEUhw/dthJE36WOY/cinTclyfcd4hCijPRH+bhcLIvvyb9EQ45TuGbVns09OxxA1SXiJE3sDJdq0dCx69SAJYOsu7UsL8TWpqjA0MoJO92q3aBza5CfGWDehU837jlB1FlPNdziTcFI8akqBSnvx0rF+LYQFeSZP6Y+mN2mxN7JYPDI1sCgdvo98CrEzKPRrsALYdShWqOTwVAAE8Xwhe2mneoGNrLIltTF+DD/m3RHRQlwMgveEDkKlIUgFYyKIa4sJSt0V2NAo1gkQ4U4HA5HiqNt02ygdQYoifbRo92t2CGeWuuLM/AqLFXJjHF1T6x4YvuDVNQfeAcj/jc4Azn2HCj8PYQ/L9ld1ha50In0wVTgfpAvcohMG/Fr//0I8o1ErobF+Vr+R0ck+55id2I8sjJ/hDhfTkWdxmiiH8q1vCsVnBIfv/oCo26YKKJhLth39wOVkkwVWUReboibyy4b790KgcfxHCjK0012ya8YXC+hbZqw9w+1pXsxznUj7zEOu0iRiTejde76397Rkag2UJj4N098cUSfZLrP9Lx4cpv14fpYYuW4nDsmAgG8DPyY6YyYRz6wcWoNH8uVqj+xr78saWvv8NWWxdL+P0JPgJ2dcnHf1X4p8TN9M1da6v9NN6jy21UsSQsAisqD3Dzyelwjdz9SYh/jfBU6F1ispKiBBgyfpUFAY1/LqI4nzFOQ9GQefgkZNf3MlQpdaFWFv7oZEclQ1l3eNDhK5M2l8mi8iqcwNsaLUs2s7rxl2ImVz2ptefJTOFyhzlwc0CCw9l+evhcKmQGsd/P/I5DLzVSfiaswxf0DsX6c1a//mfOBpybInJlWvRmDuSLYAm/QpqvaD8dbdO8ItcJ46IRC8U2Zv/oqOX3eibov20wUnISH1hrEHDnPfY0WDYzS51uJ/U+pGqKjFJrNoAjPquzdSwNC/dWmwNkjbVmFSs4vnkcYdgg0TrP08iNyA2TszJAELWOU74IJwTD3YsKlNswvVJ90dQ+rx5g1eCawWlKvPMiWD2FxaxUNS1iv/2Myjl/rALG3sARm/PdQksqAPcfQtOgrfJVcftv5T2qS24GBIp4L+ksF6jShoCmkZduRhQ6AVtoBo0ybIwI2Hx9OSFksdSsIhcoKLSpwetjnzxOY3osT5xNIpBuDL/37Pc9UXbCS5G2nox9bVU1ugO4WBRVlLUi8fgA1CPR9Xm0nf4mxijQoSPsrGAdT660n5IK+QXSGIjYM8hk6lOAYNZCW8bePc8t237lW6Fsm8NqjbZLTXTKIF7oLH1CngVSAT0vCDG6Gz6NEYz2MnP1/eFaIjUF2N29fWkX7Ij+IYONZOzkZvjZno4xwB4xHCUAQDJUDnrqznGGSsZxh3qSW/fTUOJa5kImc1Ds+nkEKARGodrVtr81hPKXJkGzAnCypcC1gwGdmrXVLdhOAMxbWZeou9MnCo1ff5eLsc+Hy9YAOFMF19SUVK2HMI5WlO+h3I85hpG81gMNp/3GbnfxFP4xYxy5VhF4yMXwsOezoSkP8H7bohJa+IpFnF0yP5jgXsZJpQJ/seGii54A7N4OpVJNlANIqMJdulb8p8Wx57OIkTz311db0n/lmwGEjMaN/JcGXXmCTzFdvrQ5Ly5uWLLR6c0bGJjFUXPhmnx1Xhuaqcgf7/cJUAvFX0ZaM7QRZ/Fdfs5AmM/BkgN4CIsJScMQGBqAi2b+iiULIOZTW++nClKjl9TRi3U1V5L0fKh2dlYvIrECksAiBlgHDyDPyeSoyzE6i7USHNQgKHZy76Y8jrZ3aoTYK3weJhmeSZS+/6KkEXSHeEVaagP2VtIKPnZScwtHLQz+CQQ2EjI6I5Wust6ux+R/qTIsjPAuLwlIfcPt5VCzsRZugMrIOtplduf2WWyi1o6LN47iuvD/Wky5r2az6MByo11vlucv5jzq/iv6191LtRfQCJ1fzHhpfvW7imBwgkboYQfYA4x8NgZ8M9dZSGWyRLRsPT0Hs9eGEnRiaSKKdbwBAscl+vvn5kFllaOxSU3L/cZ6Km4N4cAarmr8aXd7QmAppJMbiaCJBk6XqL8h/nQuM8aDrhdZPwTfUXc2AdDET5R8hgbxe361RtZ53/qsM7YJTXRKr3R1ttA56/AfFuh3t2OsVCSt8X4AqHdDi6MFWzdlpKFOB+VrnQYS5wUSrd/+Qh1dN7MzAAAHHpYhLHJ/iUCty+4HfuPc7A6UleBgd0ROV6oHchcqXjW7TolKW1vALjuMYlkHIZMM6mWQ2RJO2+abZNl/FF8J23CB29bAU4JSf0CHG8nQlgxvHGUAcoT/S+MHu2lviSu4Ax9BtVPbvfvDStN1nLNORlE/3X3DVUSWsKb+Iq3aYGn6fTLR3YA1/8YYzbmoT3LMB9B9Squaq2xnNvZ30fD4RhwGgQXndhZbxULQx8CY8Yq8q9CQvIHBzAEJXSOEBAyqhEctK/VcIqRQCk7ozT5bFGOyumhGin9wq6c/tkp7mQAIvopO6Iiw3UUA3ScbgVjkZOy0aq7fsPATHi906ISVrImmtlXK7uRuhpa1UYEgbrhByYIgCAGuMbRJdmq3mGwEm6nytnvCiq6q7SEToNhUzxIRYq4jMCUJOEp6LP8JDNntaYKSJZcVvZXWefFjAU5GHWy0/2oJ3zYtvzh8B0n7Z/lgngipalt3c8JI27Vprre5bdhui+y63Nedd3YXHWOFhprWy96u2OCZEW0mkD8isxeqlORlQFMpUi75lj2N8ohTrLRi1q9H4tz5BMDH4qRo0WZ4Bvig6peiydAzMvHhureW2ruDCxOJ8rEP3uCAJeGfqw9tR3F+pvrV/wOV3V1/ehzGUIJoUVoIXwvelOlVznhTA5Hh4JuKpfZZK4C4+PUFbXlP4GfzEY8aJhGmu6nTm5SYLDFO6m7R27xDPMJrjHPb5fGJzGxAcEcwbLCt/tit3noLxJIO9t6yFj1MRq/d4yGr4l/7ZTGCAF49Fb19xK0CDaT9YKeeyi7TQ1Nau8yzWsJFUrj1cDO8cLJpzLjw4rqAKz1cavgUj50N38OqIeAFQOKGnckzAvtqNfs+R3F7mV9848M3IhS1j89NNR+2DAtJXAqHV//kyOMu04JVE+zpBNjN3G8++XlvxDCQE2TtcQMoaV2DCMRvbFlEXmc3BFoQQHuZUevnghhXk8gKR2eJI6WHe8KA9kC2u90MPF160LJBuHXXceM8BequHKmuXkgn2j2zx273h3nyHlaGHI5pT/Q0azuKVkkqwAAfiCSAqP8I+9IQwXobME+X/NredWmXI2Dk+sW3AS4l5nrfBW4dXt0768ojJBL+2/7nxzQyF2THYbeEx7+gNw6CV/FaPMXP409LFcDW/c/D6wvQWTfJe8kPfPaeFyUE9+ZVriL1PIs1jWrjd7jXl95EE4TxGipcQHXAKyREcmqqbe9Y37d/JzWTM6qME67zEmCjekxs+dBGJ2I2U2YzA3tC3RrrD8ZC+5p1EfXtZh5wXUDTguaVxxipv4tBirQpJROlLW3q1pQwk9lhcovSAS3/mYQQvlvzyJU/0zZao1AsCb3uaYUVmuXTzJdTOA3wnh/G9ysnRQYmPZWpBwLe2UZgeHKxHWX5K/g4DMik5LsY+2zP+CiJ8S7ZszV7yUGAXj5WtVU0vb2hCN7bJ+nD6KPHnaITouN/sU7F1XmQWQtDAKCUSh7nTKQCIzIrP4YTM5fP5Q1EAj3i8ywosr1JkjJlB+mPJ9tGjYaT2uCmWdnwuUptIQUZ1CCFjCNTHwD9WV+aHPj0V+e2XFweP+0SUsZ8yOUGMc15vctfy9rXxHZjVEPzFGHvb8QyL5Aol/JviQ2jYTCRVk9g4L4tqswYFTkjLDmtf5A5krqm1YMtKIMsM7KRWRIXgIo+ezi+1CFTJeE3UWqsMKRFMh2grC2gz60JYYu7zD81lDRPTF2Qb/xDbYX/GQ8fdmtYtnyTbY+55CWHHl9vXA4rsQMnPINkNzEPV+jQU09DM5JyMjTcNZ9evu3Q1LsxT816uzBYrUXNDNGpcb3iSPfaIQeuno3UvDU6RTN9kQN1+h+L+Ply7jSOn65aMSvF4Num9kEgsYs4mF3pR0fHCZFWktqS3LW30m+hZwKAW0nFo82mS32WpXKeKyGU8do2pZnIiM86tRhPF6lCd/kARoXs6sucuqcxTgNnjsn8PyPDed7Z/PSvR9XX45ijUaXAR2VYI/BLjmp/HjtGKfcIljONGcHxAB620c8aKTdAY/EzcA5P/Cw2tzYt65HyVK98RJnVwtBoZLCDKSSRfaXuJeh6kwvB/D1IhqrourrEZKAEKy72wGEBYDdui2FGr84MvEDJKlz+ZzbuoygHipCrsD/bAnPfgh8trL4T+FDPAWt3uIS9le2Vntnh7lpcAbjYqG5RzcR36O1o7o+QsyYWgDjar2g9JLAJI/UZCOuLtkiS0k4HbZLwA6lvfyP2zYaqcHSJbthY0bipUO1iXZQ+eMWKgQ/MXbfrJFrzzV8y4NV9DfORXVBEMhSqcePt7u9k9cArRnn+guIp+ptCVucqdTFDF9ARMFWP6ylBNLyimMo9vvk3ezY8bDqRd7SpW1lUv38+qFIl+neDVUGiPuxFcwJC0L7lmLppYcsF0Z5rnWmnepbJeCnvAfBGDv4hMfwwdL4vsvuDg1I6DXkTSXitGr4Y0kEa7GtOrg4r6o7zOUfDwyZp+tnozwd2+vbm1qlMPHrPp3LHjQjCZGnbQxdIJIRpY19ZufGRC/KIWQ1u1SW0n5e2v0yr2pm1Wf9EgIDTyucJJdSmxfH+JAV/B/v95z/HG6dxgoe3QWcPa+QtnHEV3P0QE2d/Xp4aAXagnxBTMGBDs34LGhz5u37JDyxa1ZrTOy0B4Cn2LMeDELbsrI+o6B6Y1uMtDM8of0/sX08kPdXbFGc4VWZKkA9E+k9R+s2yGova8tE+4e98SPhH3UR/CNO+FU8WvXrGq4X8SlK0ZMjMW+LSWcdIoxlaPciF0EzHznNDHmMVyL0s8X6JoqaTY2yTnr/l0bCpErJ4Ga41Yu29vPc8H/0+B9B/iqxRk23jB+TJ2CmLsVOlYj6IsSjhpdZqC4+5tMs94Ec2/O9Doo9P6CXMs26/ThyAhGDXMMZ+opoPXm1+bJUc1tySNHYhIF2xmkLoLMcFRbNk8uSkn9ttNhBBlS1WSDoYDManHSjnnOG+3DJyZAuv4U73e63ZjkKsj2No4C8uvItVnfTmcXenU2kT2wJkhKeEA/Vj48QiJksjy1I6pInZYNMBXTzHsrrx1LXnVeWOHY4p8gfUg+0J5OxpnMO+Pi6i1V5WTZTFgIOt2z8Q5E3RkPYC02TirPsUVW+SnsD6CinBJ0v4Eol4ue2CHJf0ui3CZBaAMU5EmgPSgEtMe7bpWLI+ya/wxKmSOfrxzHVePuDVA5QRA70alWNT5QUSP2aitEr5XgN+v877ZiL18xRK2jJSMwtteU3VbGism9io2sRLbS9Qdp6aChAroc1Ca4O8clBJqEDMjBhAseFczql8o3pU7o4WZSKlYA7Mck8JsK+7EP/wFJQTQlvcu7UmqaU1S5ouENE7hL4VP0ITC8m+kESdxbLyQ8lx+AvnObRPfI4PQNXoQRBLJMeam/n9Ig0WHWxVvnKZ4p14lVZHSVu5oIiu5LVa4OHXl9N2BLNB6ftYzPQW7YD8j3pN3U5CMlE451wBvA60hEPZko437lrQnDfHrWeuodM64gICV+nsOB/JH99wZubvzGesCofv52M6929nnKUUmxLmiStoA8CvuIHpQXZtgFRfve6UKBGPkdqVeV8Y/7hsMZtO7/b/Ycp25HUsxIag051MOjJVo1jiij2rSapWFdDpZzZ75MsPhkaHL0xnAUQD7BS1n+1b0DTWjlCmyQRWxZ+l58H4ZFfzcrIDbMVqBuZnY/HVa+glAHs0ceh0cHfQFKxY9L1wAk88fRp9xSA75H/MfLYnTpZyguBOTgvN4U+B8dVe4Ty5FlPBBAGbgANfIZ3ZeRxsCrsbOuKC2iDZrcRv/nCuWDvbXVfwaDXKU77PdgJKD99LOIUx7C7ts9daWAJelfAaT4gx4C4pVEfB5BkM7FFGE7vB01dHfxRgkh+CEVCNt2A35nQAWCt46nQfyJqN4F7M+YLtIOVOzz/x7nBgC3uKnPh0a/XjY4ra3GA0oMDWZt0whSVpVtU67DjRwGVad7LCvfOc+CW9nkQO6zMd2s896EkeJxxtO+0U7GU6T7t4gWA3iUUV79F7lW1XeoeWUyJZMypCVMqlxU7dIg3RY+7BlN58PNeNvpuyJKlG3WyqPuZkvz/4HTIvWSnyljOqBzaa1NTGEpYBHG4YQ241D5jOHQGNxe2aSMerkBzMs0ncV4glQ1qcYOuxAnwhbnuE9OGbcU9HGY94GqZRjQ0yveQBQt9nWXfuGiUywls9YjC+FNMRF1MEe2fSED4uHyuGLwKE5MX0keA3y5zDnOBw2w6iEgTZYZjiQeowjZs8klCJ+USO4Y52kjdI/w3aiMGFrR0/LfK7RmrJ3JgcCgMV3fcAwcCoG7hueaQQ1NwH4gTJrZNpo7dLZvYYghxPLx5VVCFusYFJ3LUYuPcxR+1QTZqMI75esA5r1sJAa6UCCleg9hK389WL3o+mlDvdz/OP8/9/bi1Z2LxgB61KcmweQEtPTgQFbtEoYEuEQrZ3uQtlpgP+tLv5XRgqd+LmPJ5TuYkYE/Gxxh8+a+xk9wA72HNe73Q4t7cSbonz+BJOlYjll4OuCA5E0KF+B0LvQ03lFh3E0kTrSuLZn6KbWs9uBxf+KbenMjUmgwi3NGCOQOEZoz3PTrj6xCDsrQhfoPn3rWHw1ul1tN2EcFQNlW3KjWx3Uz+XCbU8NbECantlPsKIjKaexUPkFyo4orPY4GIOmlbhq73uEfmdh91P2UVMvnxU8B5cN3MsZyt2f3zzP2v9fMLgwW2U1j+pRN0Sz3FpzxSkZrDu1TyoDKV3QaczQjHj6Y8pskNH38MGXG77Iuc0B2YHMSyamEKLkKpyfewVFjNz85MAajIHdJxbF4o1So+CZ2Yxp8NiZglofZpD80GaXrnUPFmftlSeg6TMK4csgAIG5oRa1uGC5rMIkWWHBgZKUNneueosXMZz7x/buF7rADIgGveDojoeijjPTAKqmGBOxIQiwgL262GqK9V3ctwl/t0MLT9C1nnud05me1eo7s0Icptu3Gp3aG2QvD8qN6jwHsFlr5LZlzMRW3w4VU/jB0mVs4zHTm3pMwWA1Fun9YyfQ865SLMhXDbCJF+Wneg70HOqCG877gtL/2DPZA4z6v+8rGC+LPl+NY/nWZxcaADO0ZwYnsi+VT3a8zPiDhBND3yBVwyJoF95xCq42XKHVIEkptoYe1ZFBN0RuUaEt9DcpaB1n/eWD3ZdGIA3mlcmf8Hvpg1dLg0pnLs2chdcFVB10WF78Wqyo/5QeGN9cOU4GD3/Cc5RsvaKgCI/jJGyideF2//hpmAb4imZqxcJIHnTVYmGx1Th3FOY4IBh3GLHvhBII2ZiwPitpHhNnpwilp6K6Kgo7P/TxS67t/1XKqgDJYyfknK5QY4CGhNvOq35b0nzX+U/s3XZOlgT0929HNzl9jAiYBgAgEdfWm+Hamaj4+9Bj30darUvGJZwQKzTb7BFjuNhhKbgFeVfPk6WrXax3i2iHvo7unc1McDWBAB0xr1evN+z43asXmRMSIgXuTgAd2rwRDpcY0V7EaTpDZIUupCwbAhMgSDyDdjWzhbGH4rW6eU42MtsKOmMncLKoXEcDx2IkzBN1fquAJSBmdIfuARcx8z1j1rb+fwr+QC2ghTCGnekJ6Tr27OyL/E2A/WekL/FUaytNxFwDeycUFSsC2u3CifF6DuCCTBE62/TOtlKfMo72MCmVgkYtUHmXtndGrRVpObLaX+scxm+oBYy02xffXPkZnXmVPgukjx6Ano9+470NRATf9HVCjSwhYRtoxFjGGXXGUof+F0PlxqOwWVdAzo9GQAK9Ir7ol539A7K8nk/Mb2ZeelLX0/KVWpQe3Nx3uhFav71im9zPqruyR5AkA56qSVtjxwZK4RY0hH0czxcJ/KMsks20Pd/qKvWzST5gcgyTtC9i1atbjjwZbrETK+SjHm0bNoXT74MP0PH0b/KTLP/U0F6m3mPVtneua2Ce2TNAX9kdb7SZOjvhM2BsEmVUyHozeuYfLZoyOtJEFl8CTVErTvteM6dPDUcursdxcTUiwrt8CezhqhsHr0S0bCYY5h4e+l4yK3xyRgZS26I145JTyUiZNHH5DrojTehltj8a6069aZoB4YodzgIf3818XPRlRneGjNeX/wBDcScq4js6MjSvszEgHSJbVUo9GN9eb16/ebSxiTPPaGCbmvVyyFp0Sa3+dYvz7nywStDBYKwdTKgi9bHAJb92osQ9q6OopyrQLZvVs3zQDav9fnPcEfqrhs/+3z9K763n7zyRpctnONLRvvQDLNZNwgkye4EBoFt8pZJJAW0gQ6pLHFFQqTpvP4NsQ7WMeXbNx0UkfbpPrWOmA8WtMrfXDqCn0Ds93jf3WSKDRX5BEKO+M74jADbKKqA6ZrEfG5n0eMf4cgy8CJmUTgXv/jrHotpNoIPP0sJmv4VN2mHgSaWhuuHUZHdQfa7dczbTwSp83DR+if9UOOLroQ7VH4UXan+sy08VbnM5VYgwvutRyXkbSwteSZUAKBqSmZMTyuRhDazofwYnuIrNCMHkhULyCj+5T36wb9H5Ce6RG//LPLA3QTM6Y6iT+QDXgb+ubx1Rnan8RLUH5gS2UtsGJiCWCvqCI6p2m2Jvd3SlXBrIsWhugs6eUi7ixAMjNKNRlF516j9hz8yb7hz3BByTFU1xzQqmjPDI/5KDfRXAsWTwt8fm74JxUG7i931DroDGVTbpdLIr4FkKZlXbmXpzZjFE0jBwuo9PRRm9X2qyM1Bw3ltwCnQAk/SHMmnKvcVIDTfIYt3xcV0Y73tSxP/uzd994Fxc5Lpsx6TmaMC1qtRwgJ22jHgTH3IUeaQUOMxV1AMOljt/N61ZUk23FdEDmi2F+bm3lVF8VdIkSCsgm6kOmxQYSnULaHnlmB6vnvgLyC4++JOE69i1YsSz0bfv5Ks1lcm4bafIj+GoPOGTeO/fEpje75rUK2+QOB1neLiMofTmbtK2W0JviybwK07hiWLS2ILurrxYCzPxB5fmNKCxqFYOqXDK401aGknXb3CcyfPP8x4ZRIRvrmxp28s+6Mb+BKq6jUYpmemLcs9Mu+VhBnM3L1zg9MaNwgwbKfwFjnerb7HdxxS1uz5IOveyZ2ao13K+bLOsvw9zX8G3OY3UqXuWD/mNM88+0+R36lieBjvZCArV9tqQP3M1BnGztFZpVht8STxL59c2tBO+zzuOCPx74RbegNYuShN6kAjA6Wc0ILUZuTZf2fnyW7TreKqqf6Lo0v9/Qfw3Jn5LO7DvZ6VNR399kBNs2l4N67MA9Erv/6/4Wy2tMFzBcuW37E3S2xr+pu/7ZdgjJkn1ePb4r8TqQD5KMdIq/c5Ftn+T2gSJSSR/ucNy28gV5V65y5uskVcbJfLqZmBnNJeS4StYAkPJvyur52EB4JEHtSPfTtLQ/kO8NJBbhaxYK66NttTWXO081xfQTTDB6Gxnood5oXFLg7VAMtgwsNLO8/iiQE5SpPkxQeHSrFcfrNWfxyVFLswyt0GEWn6px/XpWJtGPdy0+vCeHo2C7fRiCqsXeGoR3flg4fEB2u53HjjCs7vDlWeFYT09pre/YdsXRWmeHGl1ZL4WSAZ3Te3ExpSH8u1JFmnVePZGF1jmiGF9IkLDkKZ5D9BDPcyERUkJRhVNwdzfLiTjC3KYv99oTEkJzgCntSVGu9MqWbEoWuBTp/8svUGYiZBbKw73D33xCHycoH5mJT7IrPUMOSyLhimYm0XuU4ForDZyn8NgxYhypbVecE7FBx8vaa2DMv6Ef1xew3GcgcmOME/vNOs4hYpFEJ6h+Qgh3eLwBrkcyJCla0pULnvp9pGcnEGPLUnguwUBo5k/7VysgWICGhyE4jSUCMKkCAsMmBO8LzsqRxQe28E2qJhAA/qJetAJe4iL7nQVr3j0dYO3R+Ckj3UmtNsCOLoAsLcPs5fCTOl8wX+zmbkMQg+yT7HogWTI896b0Y28H4dCB99RU438JT3/4A+DsF8Nq22wVHH1fOc6jJzag7RmQIafBuEJHoScZOqdMVDFowOSrjqQMi5PHRo4bbStkrQ3Pm3QGXm3oan98iAh5+j3WTiD2RR/oGlpnP4m8MiRxicjgXSTZIp9bzE3pyBBCPBidep2ARe/rCiZTTNEzuxYl0l/CpkJaJI6fRXhssKmxo994rM2wfiy7QS5+c8DyEDIbr83QyOdmfBImtOuaRFugm8ZQj9j5oo21JVQozIWChILE57B2ql2qyr2ZjygJ6m1rYCRSmWnT3gB+6gn638Ac40+hgSegbcXqNRBQ7ea71rmatTmHXUAVfQ0vKReo2EkNsPGooH0c3aVyQyBM2UY/YRzWofGEcXd2eo7GnYpAra7P8iAqZYZlkzY/j2np/4p/Hnz6dW/Z7WTPHjSzlbOtFE1ST34N/ZhOda0F2rgb/FyF8vmc8oeJ6XcprPmRsu9YI4TqoFIx2y5AWJDm+ABXf2JzdVTYFYus0FWIa/YG643f2Gxw3HQjfInusL9AtbgssX8LOCHXwTLS3SR0AyTwQlc8wn6r7bKIKwBZNu/j99GkLlUWkn4cYDKotkjR1OhxJC2o18iQi8MHbmL6tz3Ub33JmSPk/AuORqSCb17Ow+E1DP12hgTPvQid6wwMULTuMalimZHung4TxIGuu6Gax8Po2zyxe4iywhEiq3qaZFVCQ+fx56JdG6QpqJoOklZBn5nKG0zlW1k6HbIxIDakxYoBO9j5q+iTIJWzZEYBw9QnnHIg3X9/nskcjWDe1TNin2FUNBOU7MDt+W0ra7p6OVHwe/a1xspQmvqpfjmRJWhgVcAkFlHN3wGsFa9PaWSrCLBEe/4H7C37AFlMQwioWZrkJFUX+vHrFrequsEDYP1JAbYrwyMifg/pcvJyBM4XOmBtsjU1kFV2sEsWYXh8bo2Zn6dZN7ecUzEB4rDtpzV4mq2osUWG12oDlwSdt9gSkUWX/+RiDMZL+gAT/501OeEEbW13nlw4db5t8CKOtYjvDNSQTYthJfsfbyb3MxH2yJtjfsMsEVUbjmsWnmtpCOZ6mmygol+tn3oHIPQ+E7E9iTZdqJ01xD71vOvtpSecdFUOWQw6+hUV6MQh8C3K6rJ8fZtjSmnqidQ7DOWBpIWwHmnrl2Iv9RbQ5vOAZZUghvKxIRmU9J5HE5pLqjCv1VXOcww/oauUA8+Ed6V4+GqkcrqUck+2Wc3f1Cn3y0VWr2NZHcPg/luzmJlOkz6zbZcm2lMvBG3m1OD/7/q0XO7JttuvDb882CmBLfJU8ZodFNizQO18hyWz1kfls1OZhUpfB5Ukd1YbMgINAJr4VQK4QdKBovYq57diJdhk0XgGWVWnm/5qFpVB3pY09DrGDSz4R25uaGfgfss0AKEioJFPNdbiwPh/DBkCTYrO+7m1dNsdowT+2fhfIaf12XMz0ABz4598TUC0M5zb2+GEtTBX4EEnpnbrxnzXZc2tBr1mmJOUv7i0Cp0XbRbFrEBNCjcD9FhgJjid/wJuw2hQQUPFB1uhFWGle6RdZ0uBz9l0d65bBCSGYwLkE1JIi7ZGJGM4MyE8i+pGSbs27Vmvx6+51T/eVjVG4pLuf7EMen60ASw6LTGDPhP0q0CYVpJSz/1TdTtfFt1/O1i0gW1rJUvKP6LhZDkGB2IMrqJk30uWjrq4RKh+mjSzJ1mKxMAp303yAZqc9+UTnWxyFHDhxvWMUnfWB0+zJwCP2axLJmQe5CUpCp8Ft6gTiYfZc0SrMVvcG78IlbHHqSdyqfJA9w4bncAHINXM1CM3O3MPWjFCAUBUn+zhUbv91Fn9k5UHxW7nIgjicESXGzlS3Qttu1duQciZkkhbaZTfJReNhBnQqFE5NtXR7aYAe3jtuQhJiz+JPwsIWSHViIvUyjf5KMSAjwqfZS8t8ri12DuaFJqPyjdw+Fp6ecvzGXLXb6TxcLDA+21AwOViFz3gh6stU2Oln6YoUxqWX2aWrJU7186IUBJb1/9N6yioHvyWM7pco9/MtFrckamuXbgXJB0b8doVxKA8eGpIrV67ymmG34pbaqaDqBXHkq4j48IsFocjXl3X3Bb5R9rtSGdrv7YteAbHXhqxwcB1VCydZKv0UaboMEdHCyFtf/AL1Mt0cIyZgSxZw/jcqZsK3wXGGo4wxYdKgSNPbNGqW/uzQt0D3puq1U2jzd10F9EtcYBGC4YiGFrT/L7hvddRr9Txm4tsDOq0bAXGEPEQqgRLWTnICTymGXNRyXdf+Jn+h/fBfX5pTOUL0stMPs+ERR85xyXxDUD+qCyUeHl6wUCVwCUCJCGVb80NN3zCEfFfEs9X//jjMEDbY5Cj0t5Dn3npRqrGdhHR1FFkYvkV4bXPZ0I4Y3bM0kD3/S6r8J+lSEitzXAa6jZ/Zoqlhkz4+KWP+eayUaIvhowIwb1gwrgak+v7WZAdBvwUdb6Mf/j/7wjv951LTYda+PKkrto0r8oAbn7BRhCQrf9kzrDbl6yOyuuixp+d2P/jgaMdCh+stMMGc2JcfJMYC5iWcZiglxxjTwiFf71ho86UBegZfgBs3sev772eIHySr0VgiAMZIOfB6L0g9NVLFEQMxgEP55HMUT/hpuqNzgrO8fvPnZleBwL3YPGP8bWBNfJ0Ic6Hcy5axeC4DnbJ46HAWzooWdr5oRROzKm7vV3SJq2bUmxG3O57j7UEEQ0dgJVG5592qQ4xcPTn3ELeHoTTEOXN2C5RkrRv/DtgjOphC2pOME6c08aBlwC6eA5ufzwJ6P2vntcT26qAFkpcpqdhpYdv5EEe7pFgJ+1RfG7v22PA7a8ipYLlmeNcjt7bh+ACaJauQGNKw5Pk6QZokULggEPYKCYQ8K7mytAPo2GEK832+N8N+MVbp+u3Bf6ZlTv4FoA9HM94q/0khLVInt8AJsX4AgfOu6L7RyDtCQ0tEwQJd2+wTBZsCkLyNUum5QKdk/zeCR7T/vW4XBT8THiZhp4xDe7Ie49EhZA8+t40JLVFDFjuhAUU/YfmwhG/Dcp0TozaFDiuB3KG5RdqGzIu+Pb3Zh6uxTj5ICCQKM0DvS5zsvJiVvBnoanRhanaBPKYAPwhUtob5t92WHKvYSAQuKZZN0siMgdjUhz1Xjm5dXcp4HqeQelFWyUs2LPMkynnT7OOcNHfKBQhcx3ZHiMYThL/zOo5QOiXQ/N1+16axHnwwOZigGPLd8s/HHx/WM3y7lHnVA8r78jpxxKE3vuGJAl2N8xYH8/Yna+LFEGtmpG3NftBta2yZ/iSdd2vJH9sI1EZwCmSQnn4jeo4V5Wrtj/3tdTORpN+cosP0tpqntZn7Zaay5ydnvb4iUyVo/C1QTykSc9ps6kilRaWp2VA5lyIvTGSGUEz0yR0xQxAvHCXYwNFRvJIiNRUtRfcdHoRetQCZz8oTCPHDT+x0peogCpFkggh1MZwyX6LU4dCn/QRkzok6sNPx2xHCte9iw/ggPHH07SY7q1IU0Dszfw3uaDSrFmC8VM4aAgHMJLu5PQpbrB05IaTOOB7h1OPmwdPiHrHkDaa5Biik02qSc1FmxqDbGX5h9fI+vk/1VguFFIKtMKFDYRQzYFJKgr5HiuHbl3R+20AddAaDLO+lJc4rnVtywdmLOGur/WYnVMMJdlEjI8qYRBI0jmv+LFDT1+HExLzFn6XfNTAFl4CoM3M/L/gqtsB5kqZJgR3Ppmxx+Rrm33NVhnl9XMaMRGnAPIMjgrKeFcWimjbQW5jTShP+N9hLGFe8QL+C3UJ50uM3zxXRIQAVZM0QwIkK/VyMOgKQYqsRFH+XtS9C35e0mEZFEjvaxKZzBPCbLERviPmLktFh+qKgL1HjM4Es8dK1O46JO2yjevsFOVIuklC0d4hizN+n402pVY7FC1d0kI+tdzK+mTHAFnJX985xJF6OCSyXx30weVuTDAdvLPFXX92009fFuQPQpAgp2DirCUvCIsAzc+y5CBOdKR2xBwd3+hdijefwtjA5uEwSZki9ZmnrisSQ51U5TOxPdVpI3MvUbmu7JLi7Hf6+Q03nc3Ld9upZ8rabDbRX2lFZp+r6mdl9Fg/YRQ1vbz2T+VzOBI7ngBbzg985JPfmGApzQ9KIycfWsJ+Gneub0URZZ4kWemqMcao6hytCj0HtLm8Hm3ucnsfWZI/D6kLkXgv2At3z+QRZapp6szWJu+wTns+2Wlv9vY4UPB/EUuZotjNpB/uvnEHZrs95ZXZbyQYLGzzd2SiIdqzR5nZkVySlXAJY12zv/g3/H4G0Zuw22pWhGj1CSjyc71CocDgr9mls31BnidjAowcQdJMV54doji1K+MRUwza340cW8sg7Ii4G3+w9aQhwo2VEZ3JQdIVY5LIecAsrMl8OE9oeUTorkrV7giWcWl24UOyCsHdj2n/JnigsLHz+ur44Q6DiGzm4M3q8eei47gHfev8Xf32V+o2ChR3FObhIqRmNbzrnHFvN+qpAEkygwi44/RFln4K5e9AGNXsAGVyASDv8SsMV7I9bXcW9+4Yk/zP0P/xISHYKcZ/XYLyvxnu1jwI5GDNuM39zOt4OUXyh4Oqm/rxnb6HAdgMOeWQr/mjE3+V7qwaD671U85lmHiV9fZzurdA4lumdjM2rw+TI7C2+lPc0KkAooUG3F+DOu+LAWU2j5zIv+MSWXUZmb4gi8BGs9kQqNmDTZ3S8q3ih6fucgiZ+HI0D/IG8U2+iWNxENftf6oSoUUHHQqzzUOEYztmp/gfxvIk+3awd7vStJzxUv7Ip/dRmKN//JxVeeUFAyMuvMDM4M5k2yqZS4oYe+WowQz/T0jmoJawTSnenP9WLcU5Ns7PmT9lJAoAhIKJH+EdX4Jo9l8St7XY6noWs9RviUvyN6ZwJ0kvg7mVLkbsVMT1dEMB7c+EaCD/88SRA/n/JpMwbFUnRoO0WDjhxTmz7tb85E2iOfoI5mRP8NLygf7xjGIS+Kc1oJdHqGFQ/afaAyoHjpgC+Mbo2IanK0b5CwzAOr1Fs9rrwWSFOj+UFlBVMgkYL2M3xoi5ImgLqxCTAP22KmnooHhA10d/6T8jFrhygBAub69mc1iLpt99zTgc0ZAABrCB0FJ3lHC1v87YMoqf85zfBn9Q5p04dFd5vcTYYyVbVeZL53etxbXRJUze2KgTbRbK0zNJV8m9cszI2HFG2epn0RJqs6aT/e6Q0zjHr85Py7LbN2WuYl2DzY+lw6nSA6fF4hD0/avS/U9TqgpNFG8lIwPnYjzY9T7ECnOrNrZZ2yizAvArOkdcQuXVECgaBnispRznofapPixntOX1goUeej9nO7kK2uVZL3cvJp+jnjm/1YgM2WyX2dDT2wGe3QPWsLs4KGvLiLWPrkqMgWy8ZBoxX30gf+qX3pmeZsvnC4FQ45/UZbs0HCLQ4rUUvBSihrTc0CbZsq4i96qwwqaKoWLYGXqGk22EJ8BGRCKxTNX/tOrWHii7hCc0wDuvJAPzniPy1WB2fnkgM8PUKao3Sv8o7/lbKHh3iS255CdCmgAXQcjdHgZTFWantsetYqhFgEFHXcztKpJ68Zf4Js88fNnz8V6Kefx7G1P54a/HaD5PADNXuCYrZ/EfwLsupKI4uE4xWUvgEl8MAXAtUx+3vWc5pw4r0pL0XBswcIXEZiZpnR23Lh1IX5tcOY7OMA6Nz8waW36yqpvdxh9rkCMysdIjd+gSpwcpsHCt60S8Cp+GzL4R3HHrrZ4lg3aDoI7MDmRIjW87dnLx1RF6S840OtBJMo70SGBV8IJHOfoxAWZhMQAPDM5hJXU1NsrOz5REd91tOZgBVKDoe5KCS0trNdogW85GGbPQI7JODAnKWlZaZOOx2EwO52SkS4dkdVxzIBUsAVNS6+GXp+JYuR4mNBgtOF9+2otKUndB5uYtj0aNxQJVqjInbAhg0GvCItgnKImGMCACqsHvFp+62jVTe5GghH3NFNT1oVG6Tgo8g5EIQ/D04i5LbRNJzpk12dSgFesCs2C6sF2dnE+J4+xrZI01geDvCuGeXRkOZsfpbZUlqk2aDN/9joKPKCvfragecdgg0SbJrwPWiSnlABslIeaku+x7L6hIEEpWX7UoES/rlDdqJ8N2k4nsZZQc1sy5i8JYhDwU9/AOoC988YUmb+gro3EFkF1POo6d0sJ7Y5/eY/4DDwsPN15ILLmnIVLBSosBCU9shoq5E2bifby/TQ5ldv9Hgac81KBR0QAdmhxk1aY5WlbghgTE4l7awYpluLzlvjnQzBNJhErWvCkfDltBUuUXcPJn4jJwOYQWyvaUjT7Lcr0mcZwX710iAw4mYGRq57bpQpPEAwbXYEa1YurEkmA2HiadGsbY7zZs5RgC1ZXO5stdb+OOk2+k+Fqpjcz2m2WUdPSxUwLKBjvz/azQUGgfyPL8ZKVTDdxZgIqaxigsUol1lo23e4vvmMNn3OU5MJqlynZI3RUWLljCgc3+0TqhUcBlHHHoLuzAf9DfpMIRqYXCeCnkUqWB2a2zb/7zT7vfs4onzg+zGC07/zU8MbVImsCeQCic1R4mH93DoeBlUKxiomu+2kbU1nzFz/sVnzVFJjbAmL70lvHu1rnttOkQghWvQrgMJjrxn3LmwfHxNgdNWNxhajYUxINtIpS6CwWB8m9s1UafUPTdSBT78mW5pDBOvVhLyGdrbNT6Jw4M/sQ4PJ8wlxDQ0tkXl56pZyCJQKnxKLgicYIE0j6x2EWXO2SATUVkgaPMjK8zAj9AVvcx7AHqVMss86EAVanPd4x1NZduaPDxMCLYkTiIB2fLLACda9jpMomkdJtAHlQ++WbTVW0nvsR5MLXdekjDzXxVBfq26e+2PSUEMIh4zuvX8eiEqlkbzpu77vPboP43QnocNljn85qa2Lu6NiSZIgSrtA2n4tI3kJOeMzaxU07kqrxX1vyd9iFmsn4PAt0fq98cIsuXGhr/X460l0dlsBVMfF5l3syUt5fCH5WbW29aow672FaTwE3WW1M36IkzVJMEl8/77vNSFQJgpBqz9jWfa3CUXf1y770t0SxFzt+8GfjyLGt3NggqJfsOOVpumeXFEU4y6ADWdENUzTGh1adpK3QYByn5WNOgPEv/WLn95D/xk78Pg0mR26M5faMILwcqbXmGqCiNIP/+0GMBduYCvf2Nk/+3R9pzaO7LWIp8SsfiM9FtCy+SGPpaWzNS2c/nwPQ69jJ1WWFgQO0NotUHbCZHjMot0qe/uBKtm+m7HMAuNcc/k3k+kDqLVWsTCTwQaiKHR458IX3hE5rHgNCadJxVy8bSvOSJBXeyz0U8qKlSGFahmjm0syRzpa1rpjK6BR47OOKNnqGO2iZBy0tq12mPgRlcvCrS6xhN2e0mvWyq3YexEA30lLJrRWgzTY9aGJx7dbyia2XAMmIy4YWG8P5gmLKLVxx4F6jDFYnP4bnFz0kIuYjfjmw0C08ebsUGl6jc2wu829loUKMaBSWMG0p19dHxWXf+OIGCJR9yC8oXrfzdBqXgbI409OOERwWa4m+/BsFoa/4sC6byj0okicUOaRHkjm960ZTEs7tN5E39ygUU+SJvyWe7Ji4EIfn2SWczvgO8CYHrTkFU7f81pV/cpWP27EZVviiUvO3S4hLaNcIFmV6mB9nHMMEwH14zYHbB5RgZQ7hULBTDxlfqO0P6AJeM9PXCePFza10EWu8kMb1y16bAFW7uYW4Bzvyz5RZ5HeyihMAngLoXEG5/mgI0jcA33heimZkB2oJK2+6jcweRMRuDbBmEZ2O4bj1Wx3AC1slK1LSng95Rw6IuMulRBaeyTQQFhH9N/eT7ecjWKbshh/FYGPI1Rm/YgidlRMge0c1/WwxN15fHo3c6Gmn/gUo5eOs2KK7Fi3PX3wH7Ne3gzvrrt/E/l+U4Ztkm34qifiGQ6YswcW6PPiuSiLf5/kMtOT53ZGMgKeLPcfMUBdKQkJIWhuXXYo3qtn/kgnXLsF609+QlADKptzg1OrMB/fUfPxJXklIH/AMp5BhPpya62E9h7B/4+fPbDtcjEVIJF9lVANliD8MsUzntZYeK5A+Hmveir/tD/89gfFZRyXeF7fz9oqz7DCJN3aZ4Coqxl24eaOU18wVQ5NBSFVuK+nYsvSJGcwKJ5HYaVHOqJo/LaM2wTnXL34jhFylVcSyO5KYJ/sFPIT1WY3xUcYC9MSrj/XaKGgXKKzvWwhyKZrVaCowF1Qx3bgN0a2JlLXGWIwq80k7S3VK0bYAI3szDJJWTfgRYfwHu2dDqcWqWGwq3etUI3SBiVAb9Jm/zOvlPM8XT77u6IVipShdVhWoNvQpzPADj9nDGGtYf/1ho1DqgS9eJHSo81b5Ktk9j9JvYa5usbmYLnONWq4BNK8sUcyIQ9LX5rpw9/LwJ/Qft3jXITEPh9cZMlpYciKvfxC1+O0SWr0wCaYw4v6Gu5eVq/TV6GiCC9SYJ6bL4cuAxQRrTI7K/CNJ78M80VNxITY05bKrDCfAvfZWIw3QSo3vvzkFaS/r1vxgL5J79LGUNsKWqdLXLysGmG8g0hf0YXP3h5Xk7pvz35COtsEmDVONtO0Gla9nitu6ykTCJwdhbbA01go6EdEXOoO1NbCRKoonskSkhFjSSrEAVx3TIcUPcESzHVptlEwrfriyRBBE/HPSUc9v42QIHThMis+S0Zgi3QNHAlbCcb7cmUy51hLx7rck6AwN5Ht+DBcQVMJ66RieXijAi5wrFH/WLtlWeP2RhyTvAXcJ3//kF3ofXpfNBiDo6yQXBv43iePjK+3WqwP95EchF6S3wCkTtgUGQ1Wuhg3A6tbqiFjs9ClL/WTQbAaNJyZlPor/XdQOKZXCJxcv4quRSULHrZxEta01ZBB0niV3JNxvHkcHQRjrPTAN4bHRa8Xwa+Lw33Tq+ucirixPmMX5xWrJVcVnJbppx0ZqKgeKIzeDWg+OxeLOWuULVbPlvV2uCSCqePsQAbnhiU6KUSP3hwvZ4OsfwkX1qCkHOj2R1hFUdPskxJFBni73AI2OG+SJzgW1ie11z2mdHQ+eK7EnCmMToQbYLFVqAXgViFM1ccpfdaVcD8dESiVhyopE1+BLhmqfgwX7mbh5YM6H0mFkkOypnMlcf1t8CtTdQYFDoYxSdvtAidZX9gZPvgzEjbjLzXVokSJ31cnjWctlKkUz0iMNgYy6ANGHiZCjyxo1Fhw+DbpuzjlR5pz0/o5cqPKs7w3y3Zvw+I7TfnI8DLhesKWXC+5cLBBJb8sQHK5uwJATHysek6WbfXa/3qCv1edqEZj1TV8pdWZsTt0rNbcwi4Kq/Z+ok8eFf8sJ4Bh0VB6IUBF/Frk4ckqN5R8DjsDDbAaDZEf9FDDsOZ8JnuKSS/dPSBnW3bgDxCiNp7P+s3/YICoZgJmONrj213aBUS3g4RPq8APWBR0nfU7Ue7QbQB2wrZzy2oQ98SQI9b927AvZw72HSgDWqufSjR7aBzlVilkJ9U5yVeUEDPLf6bdw8WYMtje2sz3LIJ+sdEcxVqmhnFqDzl8cc4gdveoM0gCKGRzswaQcGZ9GyxOmxOM+Gk5/NoNcum0Rczj+YtJyWHcdu8/6qCGna8ofeFg8b5jM7+WuUJQ9QQADUeZio0NnEsWbMs7bv08ri6lvrnymuTozJxKbc+e+qtW05ZH2FM0Wco56iZgMTlIJQrFnUmAviP9YPam2sOypUQ7+vmf2ndAIrW7huSw1rkoYoDhlW83L/gsDkH358eNuiAlCZ7QUl8jSxZ2K1//Ju5QCKYm3szPXsLm6fgW+Jcuq1ego8pQmzXFEK8erZ6g8BT+Dki7lR6z/ZZuV80dhOo1P5wQ03S/hkCohLInS8dfL1cFzFKLHH95cR4yHiWlImxEef1TXyvhph/26FkJdR0Vc8qGUEZfnFFrLJTfr2ScPP3DzNESPu4TU2kesmjlHATx/0E5+SjRBPZTzMM0OtOHbeM/cYf4kKbC54jRJWQ6DkAPYgoI84WhtmSwbpWCtix3WPY6JvW5GwSUsh8RgVD52rskt7x/SxCqHtqxajSmYAt+kiTov6vAqT+dKmlyEVHcxywWsXOHJiyS/WymyOKJosIgFZSe4TwN0xOYr5iTyUqeWtTjdnL6UeoP4k0P9qGpGnJ8hhmQebYePt5rcEKg59SydD0ZP2SnWQVDPq6yP4aHvCp4c3wK0VZfuqA9zwO73tMnYYbVMVyR0DfTfGrn14Y+7WWWjYxCR1GokYE2uSwjOAzl6pOoPuvxNG7Bq7Cm4jwP+8XpaZsDnab1HHcop+SlKnny3sbw0DrcdrV8DRCmwiNaAe8FtWGkwgGEEkHGnlLZTpSLjb4Tgy3gfbAb8XNuWj0bYM4MsNpurM1B2s7Lb98slMuby/QJCUFJdxxUn0RoYMeVsDV2Yf3SaUBXAulWBixMeNdeOo9/xLWn4YOwADOIzINd1G//lEiwuoqq/ebtkOP2b8UPJzLyBptgOOY3y7GfwQmWiuNJ464V+lNWrT0xq5eh+KXNdPdTptQ1mETX4hw4yIV6FrfVpL3+BHXUvtAUTEYhb+cw70fLofpHxeMMkBdL97z+fFdY377PXBhF8A8oZarIbsKZTPXB7Hu5UGpTWxExnU5q243Ugi9l+2Jd5GNxjxsQR4Ay4FWzF5QcftJttP6RNhC7X9HcmDGYSAEWclknSe5rFbaqr3OFkilzqOMVdzE382GV1mpXXV0rrZMJats1r1FeE2z3kUWuvF0itTCN09S0fYLUGGEr3R0HViwzX82OKmOzAv/DzLZGTHsqMrQP7uXMn9vBXyz3sromSHYZ90JMeKgoElGPPfaQvFGW/Kz3NTtv4vgA+pgROrDn732tUS+1Gqf+EUVP1eSuW5zAnb5+2ChPSoA4JH1MgAAA",
         "alt": "Fidget Gyroscope Cinétique"
       }
-    ]
+    ],
+    "adminAuditTag": null,
+    "admin_audit_tag": null
   }
 ]

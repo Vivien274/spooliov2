@@ -24,50 +24,50 @@
     "name": "Alien articulé",
     "price": 3,
     "cats": "Animaux &amp; Figurines, Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 12,
     "name": "Animal Goofy 3D — Figurine déco aux yeux articulés | Spoolio",
     "price": 6,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy mascotte décalée de bureau (+14 ans) : figurine expressive très populaire, requalifiée objet décoratif adulte sous RGSP."
   },
   {
     "id": 9711,
     "name": "Animal vaudou tricoté",
     "price": 10,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 8323,
     "name": "Araignée articulée",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 7291,
     "name": "Astronaute articulé",
     "price": 3,
     "cats": "Animaux &amp; Figurines, Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 7225,
@@ -75,9 +75,9 @@
     "price": 4,
     "cats": "Porte clés",
     "tropJouet": "Oui",
-    "tropCheap": "Oui",
+    "tropCheap": "Non",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Porte-clés kermesse à faible valeur perçue."
   },
   {
     "id": 13080,
@@ -95,19 +95,19 @@
     "price": 6,
     "cats": "Jeux &amp; activités",
     "tropJouet": "Oui",
-    "tropCheap": "Moyen",
+    "tropCheap": "Non",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Objet télescopique à frappe : fragilité mécanique, requalification jouet enfant."
   },
   {
     "id": 11477,
     "name": "Baleine articulée",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 8528,
@@ -117,7 +117,7 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Bibelot kermesse à 3€ sans valeur d'usage."
   },
   {
     "id": 10817,
@@ -125,39 +125,39 @@
     "price": 15,
     "cats": "Jeux &amp; activités",
     "tropJouet": "Oui",
-    "tropCheap": "Moyen",
+    "tropCheap": "Non",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Arme rétractable / objet de frappe : risque mécanique en cas de choc, requalification jouet certaine."
   },
   {
     "id": 8915,
     "name": "Bloc porte - tube de peinture",
     "price": 3,
     "cats": "Décoration",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Accessoire design de maison / bureau trompe-l'œil fonctionnel (bloc porte)."
   },
   {
     "id": 8949,
     "name": "Bloc porte – morceau de fromage",
     "price": 3,
     "cats": "Décoration",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Accessoire pop art fonctionnel décalé pour intérieur moderne."
   },
   {
     "id": 8464,
     "name": "Boite \"Poisson Globe\"",
     "price": 10,
     "cats": "Décoration",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Contenant mécanique et technique emblématique de l'atelier Spoolio : parfait en univers Déco & Rangement de bureau insolite."
   },
   {
     "id": 11361,
@@ -174,10 +174,10 @@
     "name": "Boîte cadeau pour boucles d'oreilles",
     "price": 3,
     "cats": "Accessoires",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 7985,
@@ -194,40 +194,40 @@
     "name": "Boite cryogénique",
     "price": 2.5,
     "cats": "Boites, sacs &amp; emballages",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Boîte de rangement geek / tech futuriste pour clés USB, cartes SD et petits câbles."
   },
   {
     "id": 8325,
     "name": "Boite de transport (deux tailles)",
     "price": 4,
     "cats": "Boites, sacs &amp; emballages",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Rangement utilitaire modulable et boîte de transport d'objets nomades."
   },
   {
     "id": 8885,
     "name": "Boîte grand crayon",
     "price": 11,
     "cats": "Accessoires",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Grand pot à crayons / pot de rangement grand format pour bureau."
   },
   {
     "id": 12050,
     "name": "Boîte Magique – Le petit tour qui bluffe tout le monde",
     "price": 4,
     "cats": "Jeux &amp; activités",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Casse-tête mécanique et boîte à secret bluffante pour bureau."
   },
   {
     "id": 8611,
@@ -244,20 +244,20 @@
     "name": "Boites animaux Kawaii",
     "price": 9,
     "cats": "Boites, sacs &amp; emballages",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Boîtes de rangement modulables avec couvercle pour accessoires de bureau ou petits objets."
   },
   {
     "id": 7214,
     "name": "Bonhomme Rock",
     "price": 3,
     "cats": "Animaux &amp; Figurines, Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 9795,
@@ -267,7 +267,7 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Bijou fantaisie plastique 3€ : hors de la proposition de valeur artisanale."
   },
   {
     "id": 10466,
@@ -277,7 +277,7 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Bijou fantaisie plastique 3€ sans valeur perçue."
   },
   {
     "id": 10388,
@@ -287,7 +287,7 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Bijou fantaisie plastique de fête foraine."
   },
   {
     "id": 10557,
@@ -297,37 +297,37 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Boucles d'oreilles plastique 3€ : dilution de la boutique Spoolio V2."
   },
   {
     "id": 7314,
     "name": "Caca fidget",
     "price": 4,
     "cats": "Fidgets",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Fidget sensoriel tactile décalé : bestseller anti-stress plébiscité par les adultes."
   },
   {
     "id": 9303,
     "name": "Cactus à cure-dents",
     "price": 5,
     "cats": "Décoration",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Objet utilitaire et décoratif de table ou de bureau (distributeur cure-dents)."
   },
   {
     "id": 9942,
     "name": "Cadre photo Emojis",
     "price": 8,
     "cats": "Décoration",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 7308,
@@ -344,10 +344,10 @@
     "name": "Caméléon aimanté",
     "price": 8,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 11781,
@@ -364,60 +364,60 @@
     "name": "Castor articulé",
     "price": 3,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 9287,
     "name": "Chaise longue \"chilienne\"",
     "price": 6,
     "cats": "Décoration",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 8317,
     "name": "Chaton articulé",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 8638,
     "name": "Chien façon \"ballon\"",
     "price": 5,
     "cats": "Décoration",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 8314,
     "name": "Chouette hibou articulé",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 12369,
     "name": "Chubby - l'expert officiel du chill",
     "price": 8,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 7351,
@@ -434,10 +434,10 @@
     "name": "Clicker \"Mini Trône\"",
     "price": 4,
     "cats": "Fidgets",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Clicker mécanique tactile avec switch de clavier : fidget de bureau sensoriel adulte."
   },
   {
     "id": 7213,
@@ -487,17 +487,17 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Babiole kermesse à 3€ : risque de casse de petits maillons et marge nulle."
   },
   {
     "id": 10826,
     "name": "Crabe articulé",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 10955,
@@ -507,27 +507,27 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Concept œuf surprise kermesse pour enfants : pièces minuscules présentant un risque d'étouffement immédiat."
   },
   {
     "id": 9730,
     "name": "Crâne de dinosaure XXL",
     "price": 30,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 11583,
     "name": "Décor forêt – diorama modulable",
     "price": 23,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 8787,
@@ -544,50 +544,50 @@
     "name": "Dérouleur de scotch \"T-Rex\"",
     "price": 4,
     "cats": "Accessoires",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Fourniture de bureau stylée desk setup, alliant utilité quotidienne et design 3D."
   },
   {
     "id": 10760,
     "name": "Dragon ailé",
     "price": 16,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Sculpture cinétique / Art Toy complexe (+14 ans) : pièce décorative pour passionnés de fantasy, sous mention légale adulte."
   },
   {
     "id": 10774,
     "name": "Dragon cristal",
     "price": 10,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Sculpture cinétique / Art Toy complexe (+14 ans) : pièce décorative pour passionnés de fantasy, sous mention légale adulte."
   },
   {
     "id": 11581,
     "name": "Ecureuil articulé",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 8815,
     "name": "Emoji articulé",
     "price": 4,
     "cats": "Fidgets, Porte clés",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Fidget tactile expressif de poche pour gestion du stress."
   },
   {
     "id": 7331,
@@ -754,60 +754,60 @@
     "name": "Gadgetoids™ – Robots Tech Transformables",
     "price": 12,
     "cats": "Jeux &amp; activités",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 9313,
     "name": "Glace \"art-toy\" à assembler",
     "price": 5,
     "cats": "Décoration",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 7682,
     "name": "Grand dragon articulé",
     "price": 9,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Sculpture cinétique / Art Toy complexe (+14 ans) : pièce décorative pour passionnés de fantasy, sous mention légale adulte."
   },
   {
     "id": 8103,
     "name": "Grenouille articulée aimantée",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 10787,
     "name": "Grenouille articulée XL",
     "price": 8,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 11860,
     "name": "Hache Runique des Anciens",
     "price": 35,
     "cats": "Décoration",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 5,
@@ -824,50 +824,50 @@
     "name": "Hérisson articulé",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 11475,
     "name": "Hibou harfang articulé",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 11407,
     "name": "Igloo polaire – Diorama de la banquise",
     "price": 19,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 8502,
     "name": "Jeu de morpion \"toilettes\"",
     "price": 16,
     "cats": "Jeux &amp; activités",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 8482,
     "name": "Jeu façon \"Tetris\" en équilibre",
     "price": 16,
     "cats": "Jeux &amp; activités",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 7212,
@@ -875,19 +875,19 @@
     "price": 10,
     "cats": "Jeux &amp; activités",
     "tropJouet": "Oui",
-    "tropCheap": "Moyen",
+    "tropCheap": "Non",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Lame télescopique / arme de frappe : fragilité des couches FDM, requalification jouet inévitable."
   },
   {
     "id": 11633,
     "name": "Kit animaux de la forêt",
     "price": 40,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 8805,
@@ -895,9 +895,9 @@
     "price": 5,
     "cats": "Animaux &amp; Figurines",
     "tropJouet": "Oui",
-    "tropCheap": "Oui",
+    "tropCheap": "Non",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Kit card à détacher pour enfants : picots plastiques pointus, risque d'ingestion et d'étouffement."
   },
   {
     "id": 13146,
@@ -914,30 +914,30 @@
     "name": "Kit Movember Spoolio – la fête à la moustache",
     "price": 6,
     "cats": "Fidgets",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
+    "tropJouet": "Oui",
+    "tropCheap": "Non",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Kit potache temporaire : gadget kermesse sans pertinence catalogue pérenne."
   },
   {
     "id": 9755,
     "name": "La Mini Frousse Box",
     "price": 19.9,
     "cats": "Décoration",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 11813,
     "name": "Lampe Dragon",
     "price": 39,
     "cats": "Décoration",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Sculpture cinétique / Art Toy complexe (+14 ans) : pièce décorative pour passionnés de fantasy, sous mention légale adulte."
   },
   {
     "id": 8633,
@@ -954,40 +954,40 @@
     "name": "Lapin articulé",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 10010,
     "name": "Le Crâne Moustachu",
     "price": 3,
     "cats": "Animaux &amp; Figurines, Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 13079,
     "name": "Le pins porte-lunettes",
     "price": 3,
     "cats": "Accessoires",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Accessoire vestimentaire ingénieux et pratique pour garder ses lunettes sous la main."
   },
   {
     "id": 9672,
     "name": "Le Poussin Gore",
     "price": 7,
     "cats": "Décoration",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 13086,
@@ -997,7 +997,7 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Jouet sonore buccal : risque sanitaire de plastique en bouche et intensité sonore non mesurée."
   },
   {
     "id": 10092,
@@ -1007,7 +1007,7 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Mini-figurines < 20 mm : babiole kermesse pure, risque critique d'ingestion chez l'enfant."
   },
   {
     "id": 10006,
@@ -1017,17 +1017,17 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Magnet kermesse à 2€ : micro-marge nulle, dilution de l'image de marque."
   },
   {
     "id": 9663,
     "name": "Main coupée articulée",
     "price": 13,
     "cats": "Décoration",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 8794,
@@ -1064,10 +1064,10 @@
     "name": "Mini Crâne Enchanté",
     "price": 2,
     "cats": "Accessoires",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 10090,
@@ -1084,20 +1084,20 @@
     "name": "Mini-boîte de survie",
     "price": 3,
     "cats": "Accessoires",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Boîte compacte de rangement étanche pour petits accessoires du quotidien (EDC)."
   },
   {
     "id": 7202,
     "name": "Momie articulée",
     "price": 3,
     "cats": "Animaux &amp; Figurines, Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 9463,
@@ -1114,100 +1114,100 @@
     "name": "Narval articulé",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 7292,
     "name": "Oeuf de serpent / dinosaure",
     "price": 3.5,
     "cats": "Boites, sacs &amp; emballages",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Boîte à mécanisme vissé décorative pour rangement de petits trésors."
   },
   {
     "id": 7200,
     "name": "Oeuf rotatif 10cm",
     "price": 5,
     "cats": "Boites, sacs &amp; emballages",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Boîte mécanique à mécanisme rotatif : casse-tête de bureau et boîte secrète."
   },
   {
     "id": 11476,
     "name": "Orque articulée",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 11580,
     "name": "Ours brun articulé",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 7211,
     "name": "Pack Alien / Capsule",
     "price": 4,
     "cats": "Animaux &amp; Figurines, Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 11479,
     "name": "Pack banquise",
     "price": 40,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 12422,
     "name": "Pack Collection Gadgetoids – Série 01",
     "price": 40,
     "cats": "Jeux &amp; activités",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 7203,
     "name": "Pack Momie / Sarcophage",
     "price": 3.5,
     "cats": "Animaux &amp; Figurines, Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 8177,
     "name": "Pack serpent / oeuf",
     "price": 11.5,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 10085,
@@ -1224,30 +1224,30 @@
     "name": "Petit Axolotl articulé",
     "price": 3,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 8779,
     "name": "Petit bonhomme plante",
     "price": 3.5,
     "cats": "Animaux &amp; Figurines, Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 7689,
     "name": "Petit caméléon articulé",
     "price": 3,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 7634,
@@ -1257,17 +1257,17 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Mini-figurine kermesse à 3€ : maillons fragiles, risque d'ingestion."
   },
   {
     "id": 7681,
     "name": "Petit dragon articulé",
     "price": 3,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Sculpture cinétique / Art Toy complexe (+14 ans) : pièce décorative pour passionnés de fantasy, sous mention légale adulte."
   },
   {
     "id": 8774,
@@ -1277,17 +1277,17 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Activité manuelle / kit enfant à peindre : hors du positionnement adulte desk setup Spoolio V2."
   },
   {
     "id": 11457,
     "name": "Petit ours polaire articulé",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 7690,
@@ -1297,107 +1297,107 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Porte-clé kermesse à 3€ : dilution de marque."
   },
   {
     "id": 11474,
     "name": "Petit phoque articulé",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 7688,
     "name": "Petit pingouin articulé",
     "price": 3,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 11456,
     "name": "Petit pingouin articulé",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 7720,
     "name": "Petit zombie articulé",
     "price": 3,
     "cats": "Animaux &amp; Figurines, Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 7692,
     "name": "Petite chouette articulée",
     "price": 3,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 7691,
     "name": "Petite dragonette articulée",
     "price": 3,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Sculpture cinétique / Art Toy complexe (+14 ans) : pièce décorative pour passionnés de fantasy, sous mention légale adulte."
   },
   {
     "id": 7696,
     "name": "Pieuvre articulée réaliste",
     "price": 12,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 7198,
     "name": "Pieuvre tiny",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 13082,
     "name": "Pince à gobelet — pour ne plus perdre ton éco-cup",
     "price": 3,
     "cats": "Accessoires",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Accessoire nomade utilitaire pour gobelets réutilisables (festivals, bureau, événements)."
   },
   {
     "id": 11801,
     "name": "Pince pour cartes de jeu",
     "price": 3,
     "cats": "Jeux &amp; activités",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Accessoire d'organisation de jeu pour jeux de cartes, poker et jeux de rôle."
   },
   {
     "id": 9431,
@@ -1424,30 +1424,30 @@
     "name": "Pochette surprise - L",
     "price": 20,
     "cats": "Pochettes surprise",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Format best-seller des pochettes surprises : cœur de l'offre configurateur kraft pour adultes & ados."
   },
   {
     "id": 6892,
     "name": "Pochette surprise - M",
     "price": 15,
     "cats": "Pochettes surprise",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Pilier commercial des ventes : intégration clé dans l'expérience du configurateur kraft de bureau."
   },
   {
     "id": 6899,
     "name": "Pochette surprise - S",
     "price": 10,
     "cats": "Pochettes surprise",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Pilier commercial des ventes : parfaitement aligné avec le nouveau configurateur kraft interactif (fidgets & desk setup)."
   },
   {
     "id": 7680,
@@ -1457,7 +1457,7 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Mini-poisson articulé 3€ : micro-maillons fragiles, risque d'étouffement enfant."
   },
   {
     "id": 10007,
@@ -1467,7 +1467,7 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Porte-clé gadget à 2€ : marge insuffisante et perception bibelot."
   },
   {
     "id": 7309,
@@ -1477,17 +1477,17 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Babiole kermesse à 3€ : micro-marge, cannibalisme sur les accessoires valorisants."
   },
   {
     "id": 9685,
     "name": "Porte-clé astronaute squelette",
     "price": 3,
     "cats": "Fidgets, Porte clés",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 9337,
@@ -1497,17 +1497,17 @@
     "tropJouet": "Oui",
     "tropCheap": "Oui",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Porte-clé bibelot à 2€ : marge insignifiante, perception gadget plastique."
   },
   {
     "id": 12713,
     "name": "Porte-clé NFC SOS enfant",
     "price": 5,
     "cats": "Sécurité SOS NFC",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Objet technologique connecté avec puce NFC pour sécurité et informations d'urgence."
   },
   {
     "id": 7769,
@@ -1574,130 +1574,130 @@
     "name": "Raton laveur",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 11577,
     "name": "Renard articulé",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 8324,
     "name": "Renard articulé XL",
     "price": 5,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 8010,
     "name": "Robot articulé \"Dummy\"",
     "price": 5,
     "cats": "Animaux &amp; Figurines, Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 9906,
     "name": "Sac cadeaux \"Déjà Tout\"",
     "price": 10,
     "cats": "Boites, sacs &amp; emballages",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Packaging cadeau réutilisable décalé pour adultes."
   },
   {
     "id": 9910,
     "name": "Sac cadeaux \"Dernière minute\"",
     "price": 10,
     "cats": "Boites, sacs &amp; emballages",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Packaging cadeau humoristique éco-responsable pour adultes."
   },
   {
     "id": 9912,
     "name": "Sac cadeaux \"Mon préféré\"",
     "price": 10,
     "cats": "Boites, sacs &amp; emballages",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Pochette cadeau textile/matière durable pour présentation soignée."
   },
   {
     "id": 9911,
     "name": "Sac cadeaux \"Oublié\"",
     "price": 10,
     "cats": "Boites, sacs &amp; emballages",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Emballage cadeau réutilisable original pour ados et adultes."
   },
   {
     "id": 9907,
     "name": "Sac cadeaux “Surprise\"",
     "price": 10,
     "cats": "Boites, sacs &amp; emballages",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Sac surprise de présentation réutilisable."
   },
   {
     "id": 9898,
     "name": "Sac cadeaux perdu",
     "price": 10,
     "cats": "Boites, sacs &amp; emballages",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Emballage cadeau insolite pour événements et fêtes."
   },
   {
     "id": 7201,
     "name": "Sarcophage / Tombeau",
     "price": 3,
     "cats": "Boites, sacs &amp; emballages",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Boîte décorative d'inspiration historique / gothique pour rangement de bureau."
   },
   {
     "id": 6672,
     "name": "Serpent articulé",
     "price": 4,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 8724,
     "name": "Serpent articulé \"boules\"",
     "price": 12.8,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 10797,
@@ -1705,9 +1705,9 @@
     "price": 5,
     "cats": "Accessoires",
     "tropJouet": "Oui",
-    "tropCheap": "Oui",
+    "tropCheap": "Non",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Accessoire festif kermesse / déguisement enfant."
   },
   {
     "id": 13083,
@@ -1715,79 +1715,79 @@
     "price": 5,
     "cats": "Bijoux",
     "tropJouet": "Oui",
-    "tropCheap": "Oui",
+    "tropCheap": "Non",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Gadget kermesse / déguisement fête sans valeur ajoutée."
   },
   {
     "id": 10706,
     "name": "Set de 4 emportes pièces : biscuits de Noël",
     "price": 10,
     "cats": "Accessoires",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
+    "tropJouet": "Oui",
+    "tropCheap": "Non",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Emporte-pièces pour biscuits : contact alimentaire non certifié (migration plastique/pigments), risque sanitaire RGSP."
   },
   {
     "id": 10727,
     "name": "Set de sous-verres collection \"Comment je te l'as met?\"",
     "price": 12,
     "cats": "Décoration",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Set de sous-verres humoristique pour apéro d'adultes et moments conviviaux."
   },
   {
     "id": 8938,
     "name": "Spoolinks - Jeu de construction",
     "price": 9.5,
     "cats": "Jeux &amp; activités",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
+    "tropJouet": "Oui",
+    "tropCheap": "Non",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Jeu de construction type Lego/Meccano pour enfants de moins de 14 ans : certification EN 71 obligatoire impossible en impression 3D artisanale."
   },
   {
     "id": 7765,
     "name": "Squelette articulé",
     "price": 4.5,
     "cats": "Animaux &amp; Figurines, Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 9692,
     "name": "Squelette de dragon articulé",
     "price": 10,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Sculpture cinétique / Art Toy complexe (+14 ans) : pièce décorative pour passionnés de fantasy, sous mention légale adulte."
   },
   {
     "id": 9563,
     "name": "Squelette de scorpion articulé",
     "price": 8,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 9704,
     "name": "Squelette de serpent articulé",
     "price": 15,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 8762,
@@ -1795,9 +1795,9 @@
     "price": 10,
     "cats": "Décoration",
     "tropJouet": "Oui",
-    "tropCheap": "Moyen",
+    "tropCheap": "Non",
     "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "motif": "Fourniture scolaire enfantine fragile : hors du positionnement bureau professionnel/adulte."
   },
   {
     "id": 11795,
@@ -1854,30 +1854,30 @@
     "name": "Support de stylo sucette",
     "price": 5,
     "cats": "Décoration",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Organisateur de bureau / porte-stylo original desk setup."
   },
   {
     "id": 8928,
     "name": "Support de téléphone - coussin",
     "price": 5,
     "cats": "Accessoires",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Accessoire desk setup ergonomique pour smartphone."
   },
   {
     "id": 10083,
     "name": "Support de téléphone \"Chaise\"",
     "price": 4,
     "cats": "Accessoires",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Support de smartphone décalé pour bureau / setup gaming."
   },
   {
     "id": 13167,
@@ -1904,30 +1904,30 @@
     "name": "T-Rex articulé râleur",
     "price": 3,
     "cats": "Animaux &amp; Figurines",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Mascotte de bureau / figurine de collection (+14 ans) : objet décoratif d'ambiance et compagnon de travail, conforme RGSP."
   },
   {
     "id": 9536,
     "name": "Tasse géante pour canette",
     "price": 10,
     "cats": "Accessoires",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Accessoire desk setup / gaming surdimensionné pour canette ou gobelet."
   },
   {
     "id": 7193,
     "name": "Tirelire Cartoon",
     "price": 19,
     "cats": "Décoration",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Limite (+14 ans)",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "Desk Buddy / Figurine expressive de bureau ou Art Toy (+14 ans). Requalification sous le RGSP UE 2023/988 avec mention légale pour collectionneurs adultes."
   },
   {
     "id": 10,
@@ -2014,29 +2014,29 @@
     "name": "Vide poche \"coussin\"",
     "price": 4,
     "cats": "Décoration",
-    "tropJouet": "Oui",
-    "tropCheap": "Oui",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Accessoire fonctionnel d'organisation desk setup (vide-poche stylé du quotidien)."
   },
   {
     "id": 9351,
     "name": "Vide poche pastèque",
     "price": 8,
     "cats": "Décoration",
-    "tropJouet": "Moyen",
-    "tropCheap": "Moyen",
-    "decision": "SUPPRIMER",
-    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Vide-poche pop art / accessoire décoratif et fonctionnel pour bureau ou entrée."
   },
   {
     "id": 11906,
     "name": "Vide-poche tête de dragon",
     "price": 12,
     "cats": "Décoration",
-    "tropJouet": "Ambigü",
+    "tropJouet": "Limite (+14 ans)",
     "tropCheap": "Non",
     "decision": "REQUALIFIER",
-    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+    "motif": "Sculpture cinétique / Art Toy complexe (+14 ans) : pièce décorative pour passionnés de fantasy, sous mention légale adulte."
   }
 ]

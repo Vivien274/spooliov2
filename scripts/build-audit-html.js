@@ -17,7 +17,7 @@ const html = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Audit Stratégique & Réglementaire du Catalogue Spoolio V2</title>
+  <title>Audit Stratégique & Réglementaire Révisé du Catalogue Spoolio V2</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -78,8 +78,9 @@ const html = `<!DOCTYPE html>
     }
     .subtitle {
       color: var(--text-muted);
-      font-size: 15px;
+      font-size: 14.5px;
       margin-top: 6px;
+      max-width: 980px;
     }
     .roles-tag {
       display: inline-flex;
@@ -152,11 +153,11 @@ const html = `<!DOCTYPE html>
       background: rgba(30, 41, 59, 0.5);
       border: 1px solid var(--card-border);
       border-radius: 16px;
-      padding: 20px;
+      padding: 22px;
       margin-bottom: 32px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 20px;
+      gap: 24px;
     }
     .notice-col h3 {
       font-size: 15px;
@@ -367,12 +368,13 @@ const html = `<!DOCTYPE html>
     <header>
       <div class="header-top">
         <div>
-          <h1>Audit Stratégique & Réglementaire du Catalogue Spoolio</h1>
-          <p class="subtitle">Repositionnement Marque V2 : Desk Setup, Accessoires Gaming/Bureau, Art Toys & Fidgets Tactiles Haut de Gamme.</p>
+          <h1>Audit Stratégique & Réglementaire Révisé — Catalogue Spoolio V2</h1>
+          <p class="subtitle">Approche pragmatique de Chef de Produit : sécurisation réglementaire stricte (Directive Jouets & RGSP) et préservation du SEO & du chiffre d'affaires (Desk Setup, Rangement, Fidgets & Desk Buddies +14 ans).</p>
           <div class="roles-tag">
             <span class="role-badge">🎨 Directeur Artistique</span>
             <span class="role-badge">💼 Chef de Produit E-commerce</span>
-            <span class="role-badge">⚖️ Directive Jouets 2009/48/CE & RGSP 2023/988</span>
+            <span class="role-badge">⚖️ RGSP 2023/988 & Directive 2009/48/CE</span>
+            <span class="role-badge">🛡️ 86,3% du Catalogue Préservé</span>
           </div>
         </div>
         <button class="export-btn" onclick="window.print()">🖨️ Imprimer / PDF</button>
@@ -388,34 +390,36 @@ const html = `<!DOCTYPE html>
       <div class="kpi-card kpi-garder">
         <div class="kpi-label">À Garder (Cœur V2)</div>
         <div class="kpi-value">${garderCount} <span class="kpi-pct">(${garderPct}%)</span></div>
-        <div class="kpi-desc">Desk setup, gaming, utilitaires & fidgets tactiles</div>
+        <div class="kpi-desc">Desk setup, rangements, organisation, kraft & fidgets tactiles</div>
       </div>
       <div class="kpi-card kpi-requalifier">
         <div class="kpi-label">À Requalifier (+14 ans)</div>
         <div class="kpi-value">${requalifierCount} <span class="kpi-pct">(${requalifierPct}%)</span></div>
-        <div class="kpi-desc">Art Toys, dioramas & sculptures (avertissement légal strict)</div>
+        <div class="kpi-desc">Desk Buddies, figurines expressives, Art Toys (statut RGSP adulte)</div>
       </div>
       <div class="kpi-card kpi-supprimer">
-        <div class="kpi-label">À Supprimer / Dépublier</div>
+        <div class="kpi-label">Cartons Rouges Stricts</div>
         <div class="kpi-value">${supprimerCount} <span class="kpi-pct">(${supprimerPct}%)</span></div>
-        <div class="kpi-desc">Babioles kermesse, mini-animaux cheap, gadgets enfantins</div>
+        <div class="kpi-desc">Armes télescopiques, kits enfants, babioles kermesse & micro-marges</div>
       </div>
     </div>
 
     <div class="notice-box">
       <div class="notice-col">
-        <h3>⚖️ Cadre Légal & Réglementaire</h3>
-        <p><strong>Directive Jouets 2009/48/CE & Norme EN 71-1 :</strong> Tout produit ayant une valeur ludique perçue destinée aux moins de 14 ans est légalement un jouet. Les mini-animaux articulés (3-4€) présentent un risque immédiat d'ingestion de petits éléments en cas de casse (test du cylindre EN 71-1). Les figurines complexes conservées doivent obligatoirement afficher la mention légale : <em>"Objet de collection décoratif pour adultes (+14 ans) - Ne convient pas aux enfants"</em>.</p>
+        <h3>⚖️ Sécurisation Juridique Ciblée (RGSP UE 2023/988 & Directive 2009/48/CE)</h3>
+        <p><strong>Ciblage chirurgical des risques :</strong> Seuls les produits présentant un risque avéré sont retirés : armes télescopiques à frappe (katanas/baguettes), jeux de construction pour enfants (Spoolinks, kit-cards), contact alimentaire non certifié (emporte-pièces) et babioles kermesse à risque d'étouffement.<br>
+        <strong>Requalification légale des mascottes et figurines :</strong> Les créations expressives et animales populaires sont requalifiées en <em>« Desk Buddies / Objets décoratifs pour adultes (+14 ans) »</em>, protégées par le Règlement Général sur la Sécurité des Produits (RGSP UE 2023/988).</p>
       </div>
       <div class="notice-col">
-        <h3>📈 Impact E-commerce & Image de Marque</h3>
-        <p><strong>Panier Moyen & Taux de Conversion :</strong> Les 124 articles babioles détruisent la valeur perçue de Spoolio, saturent le catalogue de micro-marges (2-4€) et cannibalisent les produits à fort panier (20-60€). L'épuration drastique positionne Spoolio en atelier d'impression 3D premium pour passionnés de tech, gaming et design de bureau.</p>
+        <h3>📈 Protection du Business, du Chiffre d'Affaires & du SEO</h3>
+        <p><strong>Préservation de 86,3 % de l'offre (176 produits maintenus) :</strong> Maintien des pages indexées et de l'autorité SEO sur Google sans rupture brutale d'assortiment.<br>
+        <strong>Piliers commerciaux sanctuarisés :</strong> Les pochettes surprises (moteur du nouveau configurateur kraft), la boîte iconique Poisson Globe (#8464), les vide-poches (coussin, pastèque) et les accessoires d'organisation du quotidien sont pleinement intégrés au cœur de marque Spoolio V2.</p>
       </div>
     </div>
 
     <div class="toolbar">
       <div class="search-wrap">
-        <input type="text" id="searchInput" class="search-input" placeholder="Rechercher par nom, catégorie, ID (ex: dragon, support, fidget)..." oninput="filterTable()">
+        <input type="text" id="searchInput" class="search-input" placeholder="Rechercher par nom, catégorie, ID (ex: poisson globe, pochette, dragon, support)..." oninput="filterTable()">
       </div>
       <div class="filters">
         <button class="filter-btn active" data-filter="ALL" onclick="setFilter('ALL')">Tous (${total})</button>
@@ -436,7 +440,7 @@ const html = `<!DOCTYPE html>
             <th>Trop Jouet ?</th>
             <th>Trop Cheap ?</th>
             <th>Décision</th>
-            <th>Justification & Recommandation</th>
+            <th>Justification & Positionnement</th>
           </tr>
         </thead>
         <tbody id="tableBody">
@@ -509,4 +513,4 @@ const html = `<!DOCTYPE html>
 </html>`;
 
 fs.writeFileSync(path.join(__dirname, '../public/audit-catalogue-spoolio-v2.html'), html, 'utf8');
-console.log('SUCCESS: public/audit-catalogue-spoolio-v2.html generated successfully.');
+console.log('SUCCESS: public/audit-catalogue-spoolio-v2.html regenerated with revised pragmatic audit.');

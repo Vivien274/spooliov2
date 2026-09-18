@@ -28,7 +28,9 @@ export default function AdminProductsPage() {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("Tous");
   const [statusFilter, setStatusFilter] = useState<string>("all"); // "all" | "publish" | "draft"
+  const [auditFilter, setAuditFilter] = useState<"ALL" | "A_RETRAVAILLER" | "A_SUPPRIMER">("ALL");
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [updatingStatusId, setUpdatingStatusId] = useState<number | null>(null);
 
   // Sort States
   const [sortBy, setSortBy] = useState<"date" | "name" | "price" | "seo" | "stock">("date");
@@ -105,6 +107,45 @@ export default function AdminProductsPage() {
     }
   };
 
+  const handleToggleStatus = async (id: number, currentStatus: string) => {
+    const nextStatus = currentStatus === "publish" ? "draft" : "publish";
+    setUpdatingStatusId(id);
+
+    // Optimistic UI update
+    setProducts((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, status: nextStatus } : item))
+    );
+
+    try {
+      const res = await fetch("/api/admin/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ids: [id],
+          action: "status",
+          status: nextStatus
+        })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        // Rollback
+        setProducts((prev) =>
+          prev.map((item) => (item.id === id ? { ...item, status: currentStatus } : item))
+        );
+        alert(data.error || "Impossible de modifier le statut du produit.");
+      }
+    } catch (err) {
+      console.error("Toggle status error:", err);
+      // Rollback
+      setProducts((prev) =>
+        prev.map((item) => (item.id === id ? { ...item, status: currentStatus } : item))
+      );
+      alert("Erreur réseau lors de la mise à jour du statut.");
+    } finally {
+      setUpdatingStatusId(null);
+    }
+  };
+
   const toggleSelect = (id: number) => {
     if (selectedIds.includes(id)) {
       setSelectedIds(selectedIds.filter(x => x !== id));
@@ -169,7 +210,11 @@ export default function AdminProductsPage() {
         selectedCategory === "Tous" ||
         p.categories?.some((c: any) => c.name.toLowerCase() === selectedCategory.toLowerCase());
       const matchesStatus = statusFilter === "all" || p.status === statusFilter;
-      return matchesSearch && matchesCategory && matchesStatus;
+      const matchesAudit =
+        auditFilter === "ALL" ||
+        (auditFilter === "A_RETRAVAILLER" && (p.admin_audit_tag === "A_RETRAVAILLER" || p.adminAuditTag === "A_RETRAVAILLER")) ||
+        (auditFilter === "A_SUPPRIMER" && (p.admin_audit_tag === "A_SUPPRIMER" || p.adminAuditTag === "A_SUPPRIMER"));
+      return matchesSearch && matchesCategory && matchesStatus && matchesAudit;
     })
     .sort((a, b) => {
       let comparison = 0;
@@ -217,6 +262,10 @@ export default function AdminProductsPage() {
             <span className="text-emerald-400 font-bold">{products.filter(p => p.status === "publish").length} publiés</span>
             <span>·</span>
             <span className="text-gray-400 font-bold">{products.filter(p => p.status === "draft").length} brouillons</span>
+            <span>·</span>
+            <span className="text-amber-400 font-bold">{products.filter(p => p.admin_audit_tag === "A_RETRAVAILLER" || p.adminAuditTag === "A_RETRAVAILLER").length} à retravailler</span>
+            <span>·</span>
+            <span className="text-rose-400 font-bold">{products.filter(p => p.admin_audit_tag === "A_SUPPRIMER" || p.adminAuditTag === "A_SUPPRIMER").length} à supprimer</span>
             <span>·</span>
             <span className="text-red-400 font-bold">{products.filter(p => p.stock === 0).length} indisponibles</span>
           </p>
@@ -299,6 +348,34 @@ export default function AdminProductsPage() {
                 }`}
               >
                 {st.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Audit Tag Filter Pills */}
+          <div className={`flex items-center gap-1 p-1 rounded-xl border ${cls.border} ${cls.cardBg} w-fit h-fit shrink-0`}>
+            {[
+              { id: "ALL", label: "Tous", count: products.length, icon: "" },
+              { id: "A_RETRAVAILLER", label: "À Retravailler", count: products.filter(p => p.admin_audit_tag === "A_RETRAVAILLER" || p.adminAuditTag === "A_RETRAVAILLER").length, icon: "⚠️" },
+              { id: "A_SUPPRIMER", label: "À Supprimer", count: products.filter(p => p.admin_audit_tag === "A_SUPPRIMER" || p.adminAuditTag === "A_SUPPRIMER").length, icon: "🛑" }
+            ].map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setAuditFilter(item.id as any)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                  auditFilter === item.id
+                    ? item.id === "A_RETRAVAILLER"
+                      ? "bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm"
+                      : item.id === "A_SUPPRIMER"
+                      ? "bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm"
+                      : (theme === "dark" ? "bg-white/10 text-white shadow-sm" : "bg-[#2F3CD9]/10 text-[#2F3CD9]")
+                    : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                }`}
+              >
+                {item.icon && <span>{item.icon}</span>}
+                <span>{item.label}</span>
+                <span className="text-[10px] opacity-75 font-mono">({item.count})</span>
               </button>
             ))}
           </div>
@@ -443,9 +520,23 @@ export default function AdminProductsPage() {
 
                         {/* Name and Slug */}
                         <div className="flex flex-col min-w-0 flex-1">
-                          <span className={`font-bold text-sm leading-snug ${cls.textMain} truncate group-hover:text-[#ff4f00] transition-colors`}>
-                            {p.name}
-                          </span>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className={`font-bold text-sm leading-snug ${cls.textMain} truncate group-hover:text-[#ff4f00] transition-colors`}>
+                              {p.name}
+                            </span>
+                            {(p.admin_audit_tag === "A_RETRAVAILLER" || p.adminAuditTag === "A_RETRAVAILLER") && (
+                              <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-400 border border-amber-500/30 shrink-0">
+                                <span>⚠️</span>
+                                <span>À retravailler</span>
+                              </span>
+                            )}
+                            {(p.admin_audit_tag === "A_SUPPRIMER" || p.adminAuditTag === "A_SUPPRIMER") && (
+                              <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-md bg-rose-500/15 text-rose-400 border border-rose-500/30 shrink-0">
+                                <span>🛑</span>
+                                <span>À supprimer</span>
+                              </span>
+                            )}
+                          </div>
                           <a
                             href={`/product/${p.slug}`}
                             target="_blank"
@@ -471,14 +562,20 @@ export default function AdminProductsPage() {
                     </td>
                     <td className="px-5 py-3.5">
                       <div className="flex flex-col gap-1.5 items-start">
-                        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold leading-none ${
-                          p.status === "publish"
-                            ? (theme === "dark" ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" : "bg-emerald-50 text-emerald-700 border border-emerald-200")
-                            : (theme === "dark" ? "bg-white/5 text-gray-400 border border-white/10" : "bg-gray-100 text-gray-600 border border-gray-200")
-                        }`}>
+                        <button
+                          type="button"
+                          onClick={() => handleToggleStatus(p.id, p.status)}
+                          disabled={updatingStatusId === p.id}
+                          title={`Cliquez pour passer en ${p.status === "publish" ? "brouillon" : "publié"}`}
+                          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold leading-none transition-all cursor-pointer hover:scale-105 active:scale-95 disabled:opacity-50 ${
+                            p.status === "publish"
+                              ? (theme === "dark" ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20" : "bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100")
+                              : (theme === "dark" ? "bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10 hover:text-gray-200" : "bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200")
+                          }`}
+                        >
                           <span className={`w-1.5 h-1.5 rounded-full ${p.status === "publish" ? "bg-emerald-400" : "bg-gray-400"}`} />
-                          {p.status === "publish" ? "Publié" : "Brouillon"}
-                        </span>
+                          {updatingStatusId === p.id ? "Mise à jour…" : (p.status === "publish" ? "Publié" : "Brouillon")}
+                        </button>
                         {p.status === "publish" && (p.stock === 0 || p.stock === -2) && (
                           <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-400 border border-amber-500/30">
                             <span>🚫</span>
@@ -528,10 +625,41 @@ export default function AdminProductsPage() {
                       <SeoScoreBadge score={computeSeoScore(p)} />
                     </td>
                     <td className="px-5 pr-6 py-3.5">
-                      <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {/* Toggle Status Button (Publié <-> Brouillon) */}
+                        <button
+                          type="button"
+                          onClick={() => handleToggleStatus(p.id, p.status)}
+                          disabled={updatingStatusId === p.id}
+                          className={`flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1.5 rounded-lg border transition-all cursor-pointer disabled:opacity-50 ${
+                            p.status === "publish"
+                              ? "bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border-amber-500/25 hover:border-amber-500/40"
+                              : "bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border-emerald-500/25 hover:border-emerald-500/40"
+                          }`}
+                          title={p.status === "publish" ? "Passer ce produit en brouillon" : "Publier ce produit en ligne"}
+                        >
+                          {updatingStatusId === p.id ? (
+                            <span className="animate-spin text-xs">⏳</span>
+                          ) : p.status === "publish" ? (
+                            <>
+                              <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+                              </svg>
+                              <span>Brouillon</span>
+                            </>
+                          ) : (
+                            <>
+                              <svg className="w-3 h-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                              <span>Publier</span>
+                            </>
+                          )}
+                        </button>
+
                         <Link
                           href={`/admin/products/${p.id}`}
-                          className={`flex items-center gap-1.5 text-[11px] font-bold ${cls.textMain} ${theme === "dark" ? "bg-white/10 hover:bg-white/20" : "bg-gray-100 hover:bg-gray-200"} px-3 py-1.5 rounded-lg transition-colors`}
+                          className={`flex items-center gap-1 text-[11px] font-bold ${cls.textMain} ${theme === "dark" ? "bg-white/10 hover:bg-white/20" : "bg-gray-100 hover:bg-gray-200"} px-2.5 py-1.5 rounded-lg transition-colors`}
                         >
                           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -541,7 +669,8 @@ export default function AdminProductsPage() {
                         <button
                           onClick={() => handleDeleteProduct(p.id, p.name)}
                           disabled={deletingId === p.id}
-                          className="text-[11px] font-bold text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 px-3 py-1.5 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+                          className="text-[11px] font-bold text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+                          title="Supprimer définitivement"
                         >
                           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

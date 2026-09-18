@@ -149,6 +149,8 @@ function mapProduct(p: any, viewCountMap: Record<string, number> = {}) {
     sensory_size: p.sensorySize || p.sensory_size || null,
     sensory_category: p.sensoryCategory || p.sensory_category || null,
     sensory_profiles: p.sensoryProfiles ? (typeof p.sensoryProfiles === "string" ? p.sensoryProfiles.split(",").map((s: string) => s.trim()) : p.sensoryProfiles) : [],
+    admin_audit_tag: p.adminAuditTag || p.admin_audit_tag || null,
+    adminAuditTag: p.adminAuditTag || p.admin_audit_tag || null,
     views: calculatedViews,
   };
 }
