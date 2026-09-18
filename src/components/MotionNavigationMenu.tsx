@@ -130,7 +130,7 @@ export default function MotionNavigationMenu() {
       onMouseLeave={handleMouseLeave}
     >
       {/* Mega Navigation Pills Bar Container */}
-      <nav className="relative flex items-center gap-1.5 p-1.5 bg-black/50 backdrop-blur-2xl border border-white/15 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.5)] ring-1 ring-white/10">
+      <nav className="relative flex items-center gap-1.5 p-1.5 bg-white/95 backdrop-blur-2xl border border-zinc-200/90 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.06)] ring-1 ring-zinc-900/5">
         {menuItems.map((item) => {
           const isSelected = activeTab === item.id;
           const isHovered = hoveredTab === item.id;
@@ -145,13 +145,13 @@ export default function MotionNavigationMenu() {
               {(isHovered || isSelected) && (
                 <motion.div
                   layoutId="motion-nav-pill-active"
-                  className="absolute inset-0 bg-gradient-to-r from-white/20 via-white/15 to-white/10 rounded-full border border-white/25 shadow-lg shadow-black/40"
+                  className="absolute inset-0 bg-zinc-100/90 rounded-full border border-zinc-200 shadow-sm"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
 
               {/* Label & Indicators */}
-              <div className="relative z-10 flex items-center gap-2 text-xs font-black text-white tracking-wide">
+              <div className="relative z-10 flex items-center gap-2 text-xs font-bold text-zinc-900 tracking-tight">
                 <span>{item.label}</span>
 
                 {item.badge && (
@@ -167,7 +167,7 @@ export default function MotionNavigationMenu() {
                     animate={{ rotate: isSelected ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <ChevronDown className="w-3.5 h-3.5 text-white/70" />
+                    <ChevronDown className="w-3.5 h-3.5 text-zinc-500" />
                   </motion.div>
                 )}
               </div>
@@ -178,7 +178,7 @@ export default function MotionNavigationMenu() {
         {/* Featured Workshop CTA Button */}
         <Link
           href="/don"
-          className="relative px-4 py-2 ml-1 rounded-full bg-gradient-to-r from-[#ff4f00] via-[#FF6600] to-[#FF8800] text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow-lg shadow-[#ff4f00]/30 hover:scale-105 transition-all duration-200 cursor-pointer no-invert group overflow-hidden"
+          className="relative px-4 py-2 ml-1 rounded-full bg-gradient-to-r from-[#ff4f00] to-[#e04500] text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow-md shadow-[#ff4f00]/25 hover:scale-105 transition-all duration-200 cursor-pointer no-invert group overflow-hidden"
         >
           <motion.div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
           <Sparkles className="w-3.5 h-3.5 text-yellow-200 animate-pulse" />
@@ -198,10 +198,10 @@ export default function MotionNavigationMenu() {
             onMouseEnter={handleDropdownMouseEnter}
           >
             {/* Panel Body Container (Élargi à 980px pour un confort de lecture maximal) */}
-            <div className="w-[980px] bg-[#0d0d10]/98 backdrop-blur-3xl border border-white/20 rounded-[32px] p-6 shadow-[0_35px_80px_rgba(0,0,0,0.85)] ring-1 ring-white/10 relative overflow-hidden">
+            <div className="w-[980px] bg-white/98 backdrop-blur-3xl border border-zinc-200/90 rounded-[32px] p-6 shadow-[0_25px_70px_rgba(0,0,0,0.12)] ring-1 ring-zinc-900/5 relative overflow-hidden text-zinc-900">
               {/* Subtle ambient lighting glows */}
-              <div className="absolute -top-20 -left-20 w-56 h-56 bg-[#ff4f00]/15 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-20 -right-20 w-56 h-56 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -top-20 -left-20 w-56 h-56 bg-[#ff4f00]/5 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-20 -right-20 w-56 h-56 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
 
               {/* ============================================================ */}
               {/* TAB 1: BOUTIQUE & CATALOGUE                                  */}

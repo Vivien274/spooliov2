@@ -48,96 +48,96 @@ function renderFormattedText(text: string) {
 const DEFAULT_SLIDES_FR: HeroSlide[] = [
   {
     id: 1,
-    badge: "PACKS SENSORIELS TDAH",
-    title: "LA FOLIE DES FIDGETS SENSORIELS ⚡",
-    subtitle: "Décompresser, toucher, cliquer : découvrez nos créations 3D originales faites main en France 🌱",
-    buttonText: "DÉCOUVRIR LA BOUTIQUE",
+    badge: "ART TOYS & OBJETS DE COLLECTION",
+    title: "L'ART TOY RÉINVENTÉ EN 3D",
+    subtitle: "Des créations graphiques, qualitatives et audacieuses pensées pour sublimer votre intérieur ou votre étagère.",
+    buttonText: "DÉCOUVRIR LES ART TOYS",
     buttonLink: "/boutique",
     image: "/images/hero_background.jpg",
     accentColor: "#ff4f00",
-    cardTitle: "Pack Fidget Sensory TDAH",
-    cardDescription: "Assortiment anti-stress fabriqué en PLA biosourcé.",
-    cardPrice: "14.90€",
+    cardTitle: "Art Toy Collection Spoolio",
+    cardDescription: "Sculptures géométriques et pièces de collection.",
+    cardPrice: "19.90€",
     cardImage: "/images/hero_background.jpg",
     cardLink: "/boutique"
   },
   {
     id: 2,
-    badge: "STUDIO CLICKER 3D",
-    title: "CLICKERS MÉCANIQUES SUR-MESURE 🎨",
-    subtitle: "Personnalisez les couleurs de touches, le switch et l'attache porte-clés pour un rendu ASMR unique !",
-    buttonText: "CONCEVOIR MON CLICKER",
-    buttonLink: "/createur-cliqueur",
+    badge: "JEUX DE SOCIÉTÉ & TABLETOP",
+    title: "UPGRADEZ VOS SESSIONS DE JEU",
+    subtitle: "Tours de dés sculptées, inserts précis et accessoires pensés par et pour les passionnés de jeu de société.",
+    buttonText: "VOIR LES ACCESSOIRES JEUX",
+    buttonLink: "/boutique",
     image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
-    accentColor: "#00f0ff",
-    cardTitle: "Fidget Clicker 3D Custom",
-    cardDescription: "Sensations ASMR avec switchs interchangeables.",
-    cardPrice: "À partir de 3.00€",
+    accentColor: "#09090b",
+    cardTitle: "Tour de Dés Haute Définition",
+    cardDescription: "L'accessoire indispensable pour vos parties de JdR et jeux de plateau.",
+    cardPrice: "14.90€",
     cardImage: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
-    cardLink: "/createur-cliqueur"
+    cardLink: "/boutique"
   },
   {
     id: 3,
-    badge: "MYSTÈRE & ÉDITION LIMITÉE",
-    title: "LA POCHETTE SURPRISE SPOOLIO 📦",
-    subtitle: "Craquez pour un assortiment mystère d'objets 3D et fidgets inédits fabriqués à Comines.",
-    buttonText: "VOIR LES POCHETTES",
-    buttonLink: "/pochette-surprise",
+    badge: "DESK SETUP & CULTURE GEEK",
+    title: "CLICKERS MÉCANIQUES & ASMR",
+    subtitle: "Concevez votre clicker mécanique sur-mesure : switchs réels, touches custom et sensations tactiles uniques.",
+    buttonText: "CONCEVOIR MON CLICKER",
+    buttonLink: "/createur-cliqueur",
     image: "/images/imported/PochetteM-1.png",
-    accentColor: "#10b981",
-    cardTitle: "Pochette Surprise Spoolio",
-    cardDescription: "3 à 5 créations 3D et fidgets mystères inédits.",
-    cardPrice: "10.00€",
+    accentColor: "#ff4f00",
+    cardTitle: "Clicker Mécanique Studio",
+    cardDescription: "Touches interchangeables et switchs tactiles haut de gamme.",
+    cardPrice: "À partir de 3.00€",
     cardImage: "/images/imported/PochetteM-1.png",
-    cardLink: "/pochette-surprise"
+    cardLink: "/createur-cliqueur"
   }
 ];
 
 const DEFAULT_SLIDES_EN: HeroSlide[] = [
   {
     id: 1,
-    badge: "ADHD SENSORY PACKS",
-    title: "THE SENSORY FIDGET FEVER ⚡",
-    subtitle: "Unwind, touch, click: discover our original 3D creations handmade in France 🌱",
-    buttonText: "DISCOVER THE SHOP",
+    badge: "ART TOYS & COLLECTIBLES",
+    title: "THE ART TOY REINVENTED IN 3D",
+    subtitle: "Graphic, qualitative and bold creations designed to elevate your interior and desk setup.",
+    buttonText: "DISCOVER ART TOYS",
     buttonLink: "/boutique",
     image: "/images/hero_background.jpg",
     accentColor: "#ff4f00",
-    cardTitle: "Sensory Fidget ADHD Pack",
-    cardDescription: "Stress-relieving assortment 3D printed with bio-sourced PLA.",
-    cardPrice: "€14.90",
+    cardTitle: "Spoolio Art Toy Collection",
+    cardDescription: "Geometric sculptures and collectible pieces.",
+    cardPrice: "€19.90",
     cardImage: "/images/hero_background.jpg",
     cardLink: "/boutique"
   },
   {
     id: 2,
-    badge: "3D CLICKER STUDIO",
-    title: "CUSTOM MECHANICAL CLICKERS 🎨",
-    subtitle: "Customize keycap colors, switches, and keychain attachments for a unique ASMR feel!",
-    buttonText: "DESIGN MY CLICKER",
-    buttonLink: "/createur-cliqueur",
+    badge: "BOARD GAMES & TABLETOP",
+    title: "UPGRADE YOUR GAME NIGHTS",
+    subtitle: "Sculpted dice towers, precise inserts, and tabletop accessories crafted for enthusiasts.",
+    buttonText: "VIEW GAMING ACCESSORIES",
+    buttonLink: "/boutique",
     image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
-    accentColor: "#00f0ff",
-    cardTitle: "Custom 3D Fidget Clicker",
-    cardDescription: "Unique ASMR sensation with hot-swappable switches.",
-    cardPrice: "From €3.00",
+    accentColor: "#09090b",
+    cardTitle: "High-Definition Dice Tower",
+    cardDescription: "The essential tabletop accessory for RPGs and board games.",
+    cardPrice: "€14.90",
     cardImage: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
-    cardLink: "/createur-cliqueur"
+    cardLink: "/boutique"
   },
   {
     id: 3,
-    badge: "MYSTERY & LIMITED EDITION",
-    title: "THE SPOOLIO SURPRISE PACK 📦",
-    subtitle: "Treat yourself to a mystery assortment of brand new 3D items and fidgets crafted in Comines.",
-    buttonText: "VIEW SURPRISE PACKS",
-    buttonLink: "/pochette-surprise",
+    badge: "DESK SETUP & GEEK CULTURE",
+    title: "MECHANICAL CLICKERS & ASMR",
+    subtitle: "Design your custom mechanical clicker: authentic switches, custom keycaps, and satisfying tactile feedback.",
+    buttonText: "DESIGN MY CLICKER",
+    buttonLink: "/createur-cliqueur",
     image: "/images/imported/PochetteM-1.png",
-    accentColor: "#10b981",
-    cardTitle: "Spoolio Mystery Surprise Pack",
-    cardDescription: "3 to 5 mystery 3D items and exclusive fidgets.",
-    cardPrice: "€10.00",
+    accentColor: "#ff4f00",
+    cardTitle: "Mechanical Clicker Studio",
+    cardDescription: "Interchangeable keycaps and premium tactile switches.",
+    cardPrice: "From €3.00",
     cardImage: "/images/imported/PochetteM-1.png",
-    cardLink: "/pochette-surprise"
+    cardLink: "/createur-cliqueur"
   }
 ];
 
@@ -316,11 +316,11 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                   >
                     <Link
                       href={cardLink}
-                      className="group/card block w-full backdrop-blur-xl bg-black/60 hover:bg-black/75 border border-white/20 hover:border-white/40 rounded-3xl p-4 sm:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.6)] transition-all duration-300 transform hover:-translate-y-1"
+                      className="group/card block w-full backdrop-blur-2xl bg-white/95 hover:bg-white border border-zinc-200/90 rounded-3xl p-4 sm:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.2)] transition-all duration-300 transform hover:-translate-y-1"
                     >
                       <div className="flex items-center gap-4">
                         {/* Thumbnail Image */}
-                        <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border border-white/15 bg-white/10 shadow-inner">
+                        <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border border-zinc-200/80 bg-zinc-50 shadow-inner">
                           <Image
                             src={cardImage}
                             alt={cardTitle}
@@ -331,19 +331,19 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
 
                         {/* Product Meta */}
                         <div className="flex flex-col justify-between min-w-0 flex-1 space-y-1">
-                          <h3 className="text-sm sm:text-base font-extrabold text-white font-antonio group-hover/card:text-[#ff4f00] transition-colors leading-tight truncate">
+                          <h3 className="text-sm sm:text-base font-extrabold text-zinc-900 font-antonio group-hover/card:text-[#ff4f00] transition-colors leading-tight truncate">
                             {renderFormattedText(cardTitle)}
                           </h3>
 
-                          <p className="text-xs text-gray-300 font-sans line-clamp-2 leading-tight font-medium">
+                          <p className="text-xs text-zinc-500 font-sans line-clamp-2 leading-tight font-medium">
                             {renderFormattedText(cardDescription)}
                           </p>
 
                           <div className="flex items-center justify-between pt-1">
-                            <span className="text-xs sm:text-sm font-black font-mono text-white bg-white/15 px-2.5 py-0.5 rounded-lg border border-white/20">
+                            <span className="text-xs sm:text-sm font-black font-mono text-zinc-900 bg-zinc-100 px-2.5 py-0.5 rounded-lg border border-zinc-200">
                               {cardPrice}
                             </span>
-                            <span className="text-xs font-bold text-white/80 group-hover/card:text-white group-hover/card:translate-x-1 transition-all flex items-center gap-1">
+                            <span className="text-xs font-bold text-zinc-900 group-hover/card:text-[#ff4f00] group-hover/card:translate-x-1 transition-all flex items-center gap-1">
                               Voir <ArrowRight className="w-3 h-3" />
                             </span>
                           </div>

@@ -88,7 +88,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${antonio.variable} ${plusJakarta.variable} h-full antialiased`}
+      className={`${antonio.variable} ${plusJakarta.variable} light h-full antialiased bg-white text-zinc-900`}
       suppressHydrationWarning
     >
       <head>
@@ -100,12 +100,12 @@ export default function RootLayout({
               (function() {
                 try {
                   const theme = localStorage.getItem('theme');
-                  if (theme === 'light') {
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.classList.remove('light');
+                  } else {
                     document.documentElement.classList.add('light');
                     document.documentElement.classList.remove('dark');
-                  } else {
-                    document.documentElement.classList.remove('light');
-                    document.documentElement.classList.add('dark');
                   }
                 } catch (e) {}
               })();
@@ -113,7 +113,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-white text-zinc-900 selection:bg-[#ff4f00] selection:text-white">
         {gaId && <GoogleAnalytics gaId={gaId} />}
         <LanguageProvider>
           <CartProvider>
