@@ -1,9 +1,11 @@
 import ProductDetailClient from "./ProductDetailClient";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { prisma } from '@/lib/prisma';
 import fs from 'fs';
 import path from 'path';
+import { cookies } from "next/headers";
+import { verifySession } from "@/lib/auth";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -32,6 +34,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     ]) as any;
 
     if (product) {
+      if (product.status !== "publish" && product.status !== "") {
+        return {
+          title: "Produit non disponible | Spoolio",
+          robots: { index: false, follow: false },
+        };
+      }
       productName = product.metaTitle || product.name;
       productDesc = product.metaDescription || product.shortDescription?.replace(/<[^>]*>/g, '') || `Découvrez le produit ${product.name} imprimé en 3D par Spoolio.`;
       found = true;
@@ -50,6 +58,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         if (Array.isArray(parsed)) {
           const match = parsed.find(p => p.slug === slug || String(p.id) === slug);
           if (match) {
+            if (match.status !== "publish" && match.status) {
+              return {
+                title: "Produit non disponible | Spoolio",
+                robots: { index: false, follow: false },
+              };
+            }
             productName = match.name;
             productDesc = (match.short_description || match.description || "").replace(/<[^>]*>/g, '').substring(0, 160) || `Découvrez le produit ${match.name} imprimé en 3D par Spoolio.`;
             found = true;
@@ -96,6 +110,49 @@ export default async function ProductPage({ params }: PageProps) {
     redirect("/createur-cliqueur");
   }
 
+  // 1. Verify if user is an authenticated admin
+  const cookieStore = await cookies();
+  const token = cookieStore.get("spoolio_admin_session")?.value;
+  const secret = process.env.JWT_SECRET || "spoolio-ultra-secure-key-928372651";
+  const isAdmin = token ? await verifySession(token, secret) : false;
+
+  // 2. Fetch product from DB to check status
+  let dbProduct: any = null;
+  try {
+    dbProduct = await prisma.product.findFirst({
+      where: { slug },
+      select: { id: true, name: true, status: true }
+    });
+  } catch (err: any) {
+    console.warn("Product status check failed:", err.message);
+  }
+
+  // If found in DB and it's a draft:
+  if (dbProduct && dbProduct.status !== "publish" && dbProduct.status !== "") {
+    if (!isAdmin) {
+      notFound();
+    }
+  }
+
+  // If not found in DB, check products.json fallback
+  if (!dbProduct) {
+    try {
+      const jsonPath = path.join(process.cwd(), "src/data/products.json");
+      if (fs.existsSync(jsonPath)) {
+        const fileData = fs.readFileSync(jsonPath, "utf8");
+        const parsed = JSON.parse(fileData);
+        if (Array.isArray(parsed)) {
+          const match = parsed.find((p: any) => p.slug === slug);
+          if (match && match.status !== "publish" && match.status && !isAdmin) {
+            notFound();
+          }
+        }
+      }
+    } catch {}
+  }
+
+  const isDraftPreview = !!(dbProduct && dbProduct.status !== "publish" && dbProduct.status !== "" && isAdmin);
+
   const productName = slug
     .split("-")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
@@ -120,7 +177,7 @@ export default async function ProductPage({ params }: PageProps) {
     <>
       <JsonLdScript data={productLd} id={`product-jsonld-${slug}`} />
       <JsonLdScript data={breadcrumbLd} id={`breadcrumb-jsonld-${slug}`} />
-      <ProductDetailClient slug={slug} />
+      <ProductDetailClient slug={slug} isDraftPreview={isDraftPreview} />
     </>
   );
 }

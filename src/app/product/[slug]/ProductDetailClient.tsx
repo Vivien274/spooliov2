@@ -14,6 +14,7 @@ import cartIconData from "@/components/shopping bag.json";
 
 interface ProductDetailClientProps {
   slug: string;
+  isDraftPreview?: boolean;
 }
 
 import {
@@ -26,7 +27,7 @@ export { isVideoMedia };
 
 import { useTranslation } from "@/context/LanguageContext";
 
-export default function ProductDetailClient({ slug }: ProductDetailClientProps) {
+export default function ProductDetailClient({ slug, isDraftPreview = false }: ProductDetailClientProps) {
   const { locale, t } = useTranslation();
   const { addToCart } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
@@ -303,7 +304,8 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
   useEffect(() => {
     async function fetchProduct() {
       try {
-        const res = await fetch(`/api/products/${slug}`);
+        const endpoint = isDraftPreview ? `/api/products/${slug}?status=all` : `/api/products/${slug}`;
+        const res = await fetch(endpoint);
         if (!res.ok) {
           throw new Error("Produit introuvable");
         }
@@ -751,6 +753,16 @@ export default function ProductDetailClient({ slug }: ProductDetailClientProps) 
 
       {/* Main Content */}
       <main className="flex-1 max-w-[1200px] w-full mx-auto px-6 pt-28 lg:pt-32 pb-12 lg:pb-16">
+        {isDraftPreview && (
+          <div className="mb-6 bg-amber-500/20 border border-amber-500/50 rounded-2xl p-4 text-amber-200 text-xs sm:text-sm font-medium flex items-center gap-3 shadow-lg">
+            <span className="text-xl shrink-0">⚠️</span>
+            <div>
+              <strong className="text-amber-300 font-bold block sm:inline mr-1">Aperçu Administrateur :</strong>
+              Ce produit est actuellement en <strong>Brouillon</strong>. Il est strictement invisible pour les visiteurs du site et les moteurs de recherche (renvoie une erreur 404).
+            </div>
+          </div>
+        )}
+
         {/* Breadcrumb Navigation (Fil d'Ariane) */}
         <nav className="flex items-center gap-1.5 text-[11px] lg:text-xs font-semibold text-gray-400 mb-3 lg:mb-8 font-sans select-none overflow-hidden whitespace-nowrap">
           <Link href="/" className="hover:text-white transition-colors shrink-0">

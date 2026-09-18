@@ -4,6 +4,8 @@ import fs from 'fs';
 import path from 'path';
 import { invalidateProductsCache } from '../route';
 
+import { revalidatePath } from 'next/cache';
+
 export const dynamic = 'force-dynamic';
 
 function decodeHtml(str: string): string {
@@ -136,21 +138,26 @@ async function fetchSingleProduct(slug: string, status: string) {
   const consumerKey = process.env.WC_CONSUMER_KEY;
   const consumerSecret = process.env.WC_CONSUMER_SECRET;
 
+  // 1. Primary source of truth: PostgreSQL database via Prisma
   try {
-    const whereCond = status === 'all'
-      ? { slug }
-      : { slug, status: { in: ['publish', ''] } };
-
     const dbProduct = await prisma.product.findFirst({
-      where: whereCond,
+      where: { slug },
       include: { images: true, categories: true },
     });
 
-    if (dbProduct) return mapProduct(dbProduct);
+    if (dbProduct) {
+      // If product exists in database, DB status is authoritative!
+      if (status !== 'all' && dbProduct.status !== 'publish' && dbProduct.status !== '') {
+        // Product is in draft (or not published). Do NOT expose publicly.
+        return null;
+      }
+      return mapProduct(dbProduct);
+    }
   } catch (e: any) {
     console.warn("Prisma query failed:", e.message);
   }
 
+  // 2. Fallback only if product does NOT exist in database at all:
   try {
     const jsonPath = path.join(process.cwd(), 'src/data/products.json');
     if (fs.existsSync(jsonPath)) {
@@ -158,18 +165,11 @@ async function fetchSingleProduct(slug: string, status: string) {
       const parsed = JSON.parse(fileData);
       if (Array.isArray(parsed)) {
         const match = parsed.find(p => p.slug === slug);
-        if (match && (status === 'all' || match.status === 'publish' || !match.status)) {
-          const mapped = mapProduct(match);
-          try {
-            const dbProduct = await prisma.product.findFirst({ where: { slug: match.slug } });
-            if (dbProduct) {
-              if (dbProduct.price) mapped.price = dbProduct.price;
-              if (dbProduct.regularPrice) mapped.regular_price = dbProduct.regularPrice;
-            }
-          } catch (e) {
-            console.warn("Failed to overlay DB data on local JSON product:", e);
+        if (match) {
+          if (status !== 'all' && match.status !== 'publish' && match.status) {
+            return null;
           }
-          return mapped;
+          return mapProduct(match);
         }
       }
     }
@@ -177,6 +177,7 @@ async function fetchSingleProduct(slug: string, status: string) {
     console.warn("Local JSON query failed:", e.message);
   }
 
+  // 3. Fallback WooCommerce only if still not found
   if (wcUrl && consumerKey && consumerSecret) {
     try {
       const auth = Buffer.from(`${consumerKey}:${consumerSecret}`).toString('base64');
@@ -186,7 +187,13 @@ async function fetchSingleProduct(slug: string, status: string) {
       });
       if (response.ok) {
         const data = await response.json();
-        if (Array.isArray(data) && data.length > 0) return mapProduct(data[0]);
+        if (Array.isArray(data) && data.length > 0) {
+          const item = data[0];
+          if (status !== 'all' && item.status !== 'publish') {
+            return null;
+          }
+          return mapProduct(item);
+        }
       }
     } catch (e: any) {
       console.warn("WooCommerce API fetch failed:", e.message);
@@ -204,10 +211,20 @@ export async function GET(
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status') || 'publish';
     const product = await fetchSingleProduct(slug, status);
-    if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+    if (!product) {
+      return NextResponse.json(
+        { error: 'Product not found' },
+        {
+          status: 404,
+          headers: {
+            'Cache-Control': 'no-store, no-cache, must-revalidate',
+          }
+        }
+      );
+    }
     return NextResponse.json(product, {
       headers: status !== 'all' ? {
-        'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
       } : {
         'Cache-Control': 'no-store',
       },
@@ -434,6 +451,14 @@ export async function PUT(
     }
 
     invalidateProductsCache();
+    try {
+      revalidatePath(`/product/${slug}`);
+      revalidatePath(`/produit/${slug}`);
+      revalidatePath(`/api/products/${slug}`);
+      revalidatePath('/boutique');
+      revalidatePath('/');
+    } catch {}
+
     return NextResponse.json({ success: true, product: updatedProduct });
   } catch (error: any) {
     console.error(`Error updating product ${slug}:`, error.message);
@@ -462,6 +487,14 @@ export async function DELETE(
     }
 
     invalidateProductsCache();
+    try {
+      revalidatePath(`/product/${slug}`);
+      revalidatePath(`/produit/${slug}`);
+      revalidatePath(`/api/products/${slug}`);
+      revalidatePath('/boutique');
+      revalidatePath('/');
+    } catch {}
+
     return NextResponse.json({ success: true, message: 'Product deleted successfully' });
   } catch (error: any) {
     console.error(`Error deleting product ${slug}:`, error.message);

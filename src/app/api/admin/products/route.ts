@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { verifySession } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
+import { invalidateProductsCache } from "@/app/api/products/route";
 import fs from "fs";
 import path from "path";
 
@@ -322,8 +324,25 @@ export async function POST(req: Request) {
       // Sync fallback JSON
       await syncJsonFile(numericIds, "price", { type: priceType, direction: priceDirection, value: priceValue });
     } 
-    else {
-      return NextResponse.json({ error: "Action non prise en charge" }, { status: 400 });
+    invalidateProductsCache();
+
+    // Revalidate paths for all affected products
+    try {
+      const affected = await prisma.product.findMany({
+        where: { id: { in: numericIds } },
+        select: { slug: true }
+      });
+      for (const p of affected) {
+        if (p.slug) {
+          revalidatePath(`/product/${p.slug}`);
+          revalidatePath(`/produit/${p.slug}`);
+          revalidatePath(`/api/products/${p.slug}`);
+        }
+      }
+      revalidatePath("/boutique");
+      revalidatePath("/");
+    } catch (revalErr) {
+      console.warn("Revalidation warning in admin products POST:", revalErr);
     }
 
     return NextResponse.json({ success: true, message: "Opération effectuée avec succès" });
