@@ -112,14 +112,21 @@ export default async function HomePage() {
     return text;
   };
 
-  let hero = DEFAULT_HERO;
+  let hero: any = null;
   try {
+    const isPreprod =
+      process.env.VERCEL_GIT_COMMIT_REF === "preprod" ||
+      process.env.NODE_ENV === "development" ||
+      process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
+    const heroSlug = isPreprod ? "config-hero-preprod" : "config-hero";
+
     const page = (await Promise.race([
       prisma.page.findUnique({
-        where: { slug: "config-hero" }
+        where: { slug: heroSlug },
       }),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Hero DB Timeout")), 2000))
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Hero DB Timeout")), 2000)),
     ])) as any;
+
     if (page) {
       const config = JSON.parse(page.content);
       hero = { ...DEFAULT_HERO, ...config };
@@ -353,96 +360,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 5.5. Atelier Machines Section (Nos Artisanes de l'Ombre + Filaments & Machines) */}
-      <section className="w-full max-w-[1200px] px-4 py-8 mb-12 flex flex-col gap-10">
-        <div className="text-center">
-          <h2 className="text-3xl font-extrabold uppercase tracking-tight text-zinc-900 font-antonio">
-            {t("home.printers.title")}
-          </h2>
-          <p className="text-xs text-zinc-500 font-sans mt-2 max-w-md mx-auto leading-relaxed">
-            {t("home.printers.subtitle")}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {(() => {
-            const currentHour = Math.floor(Date.now() / (1000 * 60 * 60));
-            return dbPrinters.map((p, idx) => {
-              let task = "";
-              let statusText: string = p.status === "Active" ? t("home.printers.active") : p.status === "En veille" ? t("home.printers.standby") : t("home.printers.broken");
-              let colorClass = "border-zinc-200 hover:border-zinc-400";
-              let glowClass = "bg-emerald-500";
-
-              if (p.status === "Active") {
-                const productName = getSeededProduct(activeProducts, currentHour + idx);
-                task = t("home.printers.printing", { name: productName });
-                colorClass = "border-zinc-200 hover:border-zinc-400";
-                glowClass = "bg-emerald-500 animate-pulse";
-              } else if (p.status === "En veille") {
-                task = t("home.printers.standby_temp");
-                colorClass = "border-zinc-200 bg-zinc-50";
-                glowClass = "bg-zinc-400";
-              } else if (p.status === "En panne") {
-                task = t("home.printers.out_of_service");
-                statusText = t("home.printers.broken");
-                colorClass = "border-red-200 bg-red-50/40";
-                glowClass = "bg-red-500 animate-ping";
-              }
-
-              return (
-                <div
-                  key={p.name}
-                  className={`p-5 rounded-2xl bg-white border transition-all duration-200 flex flex-col justify-between h-[150px] font-sans shadow-xs ${colorClass}`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-base font-extrabold text-zinc-900">{p.name}</span>
-                  </div>
-
-                  <div>
-                    <div className="flex items-center gap-1.5 mb-1.5">
-                      <span className={`w-2 h-2 rounded-full ${glowClass}`} />
-                      <span className={`text-[10px] font-bold uppercase tracking-wider ${p.status === "En panne" ? "text-red-500" : "text-zinc-600"}`}>
-                        {statusText}
-                      </span>
-                    </div>
-                    <p className={`text-[11px] font-medium leading-tight ${p.status === "En panne" ? "text-red-500/80" : "text-zinc-500"}`}>
-                      {task}
-                    </p>
-                  </div>
-                </div>
-              );
-            });
-          })()}
-        </div>
-
-        {/* Live Social Proof Counter Ribbon (Monthly Progressive Counter) */}
-        {(() => {
-          const now = new Date();
-          const dayOfMonth = now.getDate();
-          const totalDaysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-          const monthlyTarget = 105;
-          const monthlyCount = Math.max(8, Math.floor((dayOfMonth / totalDaysInMonth) * monthlyTarget) + (dayOfMonth % 4));
-
-          return (
-            <div className="w-full p-4 rounded-2xl bg-zinc-50 border border-zinc-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left font-sans shadow-xs">
-              <div className="flex items-center gap-3">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#ff4f00] animate-ping shrink-0" />
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-                  <span className="text-xs sm:text-sm font-black text-zinc-900 uppercase font-antonio tracking-wide">
-                    🔥 {t("home.printers.live_ribbon", { count: monthlyCount })}
-                  </span>
-                  <span className="hidden sm:inline text-zinc-300">•</span>
-                  <span className="text-[11px] text-zinc-500 font-medium">{t("home.printers.zero_overstock")}</span>
-                </div>
-              </div>
-              <span className="text-[10px] font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full shrink-0">
-                {t("home.printers.live_badge")}
-              </span>
-            </div>
-          );
-        })()}
-
-      </section>
 
       {/* Spotlight Marquee Banner */}
       <section className="w-full max-w-[1200px] px-4 relative z-10">

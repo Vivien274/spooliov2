@@ -93,21 +93,22 @@ export default function ProductCard({ product, compact = false, priority = false
     const shineY = (percentY * 50 + 50).toFixed(1);
 
     setTiltStyle({
-      transform: `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.02, 1.02, 1.02)`,
-      transition: "transform 0.05s ease-out",
-      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4)",
+      transform: `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.015, 1.015, 1.015)`,
+      transition: "transform 0.2s ease-out, box-shadow 0.3s ease-out",
+      boxShadow: "0 12px 28px -6px rgba(0, 0, 0, 0.07), 0 4px 10px -2px rgba(0, 0, 0, 0.03)",
     });
 
     setShineStyle({
-      opacity: 0.6,
-      background: `radial-gradient(circle at ${shineX}% ${shineY}%, rgba(255,79,0,0.35) 0%, transparent 60%), linear-gradient(${angle}deg, rgba(255, 0, 128, 0.25) 0%, rgba(0, 240, 255, 0.25) 33%, rgba(255, 230, 0, 0.25) 66%, rgba(160, 32, 240, 0.25) 100%)`,
+      opacity: 0.25,
+      background: `radial-gradient(circle at ${shineX}% ${shineY}%, rgba(255,79,0,0.18) 0%, transparent 60%)`,
     });
   };
 
   const handleMouseLeave = () => {
     setTiltStyle({
       transform: "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)",
-      transition: "transform 0.5s ease",
+      transition: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+      boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.04)",
     });
     setShineStyle((prev) => ({ ...prev, opacity: 0 }));
   };
