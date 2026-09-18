@@ -205,12 +205,12 @@ export default function Header({
             className="relative z-50 flex items-center gap-2 group cursor-pointer shrink-0"
           >
             <Image
-              src="/images/logo.png"
+              src="/images/logo-spoolio-eyes.png"
               alt="Spoolio Logo"
-              width={130}
-              height={38}
+              width={140}
+              height={42}
               priority
-              className="h-9 md:h-10 w-auto object-contain transition-all filter invert"
+              className="h-8 sm:h-9 md:h-10 w-auto object-contain transition-transform group-hover:scale-105"
             />
           </Link>
         </div>

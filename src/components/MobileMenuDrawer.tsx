@@ -71,10 +71,10 @@ export default function MobileMenuDrawer({
         <div className="flex items-center justify-between pb-4 border-b border-zinc-200">
           <Link href="/" onClick={onClose} className="flex items-center gap-2">
             <Image
-              src="/images/logo.png"
+              src="/images/logo-spoolio-eyes.png"
               alt="Spoolio Logo"
-              width={100}
-              height={30}
+              width={110}
+              height={32}
               className="h-7 w-auto object-contain"
             />
           </Link>
