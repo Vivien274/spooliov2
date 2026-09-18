@@ -190,9 +190,9 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
         <section
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
-          className="relative w-full overflow-hidden bg-zinc-100 text-zinc-900 min-h-[600px] sm:min-h-[660px] lg:min-h-[700px] border-b border-zinc-200 group/hero flex flex-col justify-between"
+          className="relative w-full overflow-hidden bg-zinc-950 text-white min-h-[600px] sm:min-h-[660px] lg:min-h-[700px] border-b border-zinc-200 group/hero flex flex-col justify-between"
         >
-          {/* Background Image & Ambient Effects */}
+          {/* Background Image & Ambient Effects (Without white overlay) */}
           <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
@@ -208,38 +208,32 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                   alt={activeSlide.title}
                   fill
                   priority
-                  className="object-cover object-center filter brightness-[0.95] contrast-[1.02] saturate-[1.05]"
+                  className="object-cover object-center filter brightness-[0.85] contrast-[1.05] saturate-[1.1]"
                 />
-                {/* Clean Light Directional Gradient Overlays for Razor-Sharp Text Contrast */}
-                <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/20 lg:w-3/4" />
-                <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-white/40" />
+                {/* Subtle soft vignette for text legibility without washing out the photo */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-transparent lg:w-3/5" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
               </motion.div>
             </AnimatePresence>
 
             {/* Accent Radial Glow */}
             <div
-              className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[500px] rounded-full blur-[150px] transition-colors duration-700 pointer-events-none opacity-40"
-              style={{ backgroundColor: `${activeSlide.accentColor || '#ff4f00'}20` }}
-            />
-
-            {/* Subtle Dot Grid Texture */}
-            <div 
-              className="absolute inset-0 opacity-[0.03]" 
-              style={{ backgroundImage: `radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.4) 1px, transparent 0)`, backgroundSize: '32px 32px' }} 
+              className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[500px] rounded-full blur-[150px] transition-colors duration-700 pointer-events-none opacity-30"
+              style={{ backgroundColor: `${activeSlide.accentColor || '#ff4f00'}25` }}
             />
           </div>
 
           {/* Hotspot Visual Pin on Background Image (Desktop) */}
           <div className="hidden lg:flex absolute right-[28%] top-[45%] z-20 items-center justify-center pointer-events-none">
-            <span className="absolute w-8 h-8 rounded-full bg-[#ff4f00]/30 animate-ping" />
-            <span className="relative w-4 h-4 rounded-full bg-[#ff4f00] border-2 border-white shadow-[0_0_12px_rgba(255,79,0,0.6)]" />
+            <span className="absolute w-8 h-8 rounded-full bg-[#ff4f00]/40 animate-ping" />
+            <span className="relative w-4 h-4 rounded-full bg-[#ff4f00] border-2 border-white shadow-[0_0_12px_rgba(255,79,0,0.8)]" />
           </div>
 
           {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
             aria-label="Slide précédente"
-            className="hidden sm:flex absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/90 hover:bg-white border border-zinc-200 hover:border-zinc-300 text-zinc-900 items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-md hover:scale-105"
+            className="hidden sm:flex absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 text-white items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-lg hover:scale-105"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -247,7 +241,7 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
           <button
             onClick={nextSlide}
             aria-label="Slide suivante"
-            className="hidden sm:flex absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/90 hover:bg-white border border-zinc-200 hover:border-zinc-300 text-zinc-900 items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-md hover:scale-105"
+            className="hidden sm:flex absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 text-white items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-lg hover:scale-105"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -270,28 +264,28 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                   >
                     {/* Clean Badge without Emoji */}
                     <div>
-                      <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/90 border border-zinc-200 text-xs font-mono font-extrabold text-[#ff4f00] tracking-widest uppercase backdrop-blur-md shadow-xs">
+                      <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-black/40 border border-white/20 text-xs font-mono font-extrabold text-[#ff4f00] tracking-widest uppercase backdrop-blur-md shadow-sm">
                         {cleanBadge}
                       </span>
                     </div>
 
                     {/* Main Title */}
-                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-zinc-950 font-antonio leading-[1.02] max-w-2xl">
+                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white font-antonio leading-[1.02] drop-shadow-[0_4px_25px_rgba(0,0,0,0.95)] max-w-2xl">
                       {renderFormattedText(activeSlide.title)}
                     </h1>
 
                     {/* Subtitle */}
-                    <p className="text-xs sm:text-base text-zinc-600 font-sans font-medium leading-relaxed max-w-xl line-clamp-3">
+                    <p className="text-xs sm:text-base text-white/90 font-sans font-medium leading-relaxed max-w-xl line-clamp-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
                       {renderFormattedText(activeSlide.subtitle)}
                     </p>
 
-                    {/* Minimalist Black Pill CTA Button */}
+                    {/* Minimalist Black Pill CTA Button with white border */}
                     <div className="pt-2">
                       <Link
                         href={activeSlide.buttonLink || "/boutique"}
                         className="group/btn inline-flex items-center justify-center cursor-pointer active:scale-95 transition-all duration-300"
                       >
-                        <div className="h-12 sm:h-13 px-6 sm:px-8 inline-flex items-center justify-center gap-2.5 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider text-white bg-zinc-950 hover:bg-[#ff4f00] transition-all duration-300 shadow-md hover:shadow-lg group-hover/btn:scale-[1.02]">
+                        <div className="h-12 sm:h-13 px-6 sm:px-8 inline-flex items-center justify-center gap-2.5 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider text-white bg-zinc-950 hover:bg-[#ff4f00] border border-white/25 hover:border-[#ff4f00] transition-all duration-300 shadow-xl group-hover/btn:scale-[1.02]">
                           <span className="font-black tracking-widest text-white">
                             {activeSlide.buttonText || "DÉCOUVRIR LA BOUTIQUE"}
                           </span>
@@ -316,7 +310,7 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                   >
                     <Link
                       href={cardLink}
-                      className="group/card block w-full backdrop-blur-2xl bg-white/95 hover:bg-white border border-zinc-200/90 rounded-3xl p-4 sm:p-5 shadow-[0_15px_35px_rgba(0,0,0,0.08)] transition-all duration-300 transform hover:-translate-y-1 hover:border-zinc-300"
+                      className="group/card block w-full backdrop-blur-2xl bg-white/95 hover:bg-white border border-white/40 rounded-3xl p-4 sm:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] transition-all duration-300 transform hover:-translate-y-1"
                     >
                       <div className="flex items-center gap-4">
                         {/* Thumbnail Image */}
@@ -366,7 +360,7 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                   className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                     idx === activeIndex
                       ? "w-8 bg-[#ff4f00]"
-                      : "w-2 bg-zinc-300 hover:bg-zinc-400"
+                      : "w-2 bg-white/40 hover:bg-white/70"
                   }`}
                 />
               ))}
