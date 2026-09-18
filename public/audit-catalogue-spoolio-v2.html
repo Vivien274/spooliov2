@@ -1,0 +1,2517 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audit Stratégique & Réglementaire du Catalogue Spoolio V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: #111726;
+      --card-border: #1e293b;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.12);
+      --warning: #f59e0b;
+      --warning-bg: rgba(245, 158, 11, 0.12);
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.12);
+      --badge-border-s: rgba(16, 185, 129, 0.3);
+      --badge-border-w: rgba(245, 158, 11, 0.3);
+      --badge-border-d: rgba(239, 68, 68, 0.3);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 32px 24px 60px;
+    }
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+    header {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #fff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 15px;
+      margin-top: 6px;
+    }
+    .roles-tag {
+      display: inline-flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    .role-badge {
+      background: rgba(99, 102, 241, 0.15);
+      color: #a5b4fc;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-weight: 600;
+    }
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .kpi-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+    .kpi-total::before { background: #64748b; }
+    .kpi-garder::before { background: var(--success); }
+    .kpi-requalifier::before { background: var(--warning); }
+    .kpi-supprimer::before { background: var(--danger); }
+
+    .kpi-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .kpi-value {
+      font-size: 36px;
+      font-weight: 800;
+      margin: 8px 0 4px;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .kpi-pct {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .kpi-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .notice-box {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 32px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .notice-col h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .notice-col p {
+      font-size: 13.5px;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .search-wrap {
+      flex: 1;
+      min-width: 280px;
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      font-size: 14px;
+      padding: 10px 16px;
+      border-radius: 10px;
+      outline: none;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+    .search-input:focus {
+      border-color: var(--primary);
+    }
+    .filters {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-btn:hover {
+      color: var(--text);
+      border-color: #334155;
+    }
+    .filter-btn.active {
+      background: #1e293b;
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .filter-btn.btn-garder.active {
+      background: var(--success-bg);
+      border-color: var(--success);
+      color: #34d399;
+    }
+    .filter-btn.btn-requalifier.active {
+      background: var(--warning-bg);
+      border-color: var(--warning);
+      color: #fbbf24;
+    }
+    .filter-btn.btn-supprimer.active {
+      background: var(--danger-bg);
+      border-color: var(--danger);
+      color: #f87171;
+    }
+
+    .table-container {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13.5px;
+    }
+    th {
+      background: #0d1322;
+      color: #94a3b8;
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--card-border);
+      white-space: nowrap;
+    }
+    td {
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(30, 41, 59, 0.7);
+      vertical-align: middle;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .col-id {
+      font-family: 'JetBrains Mono', monospace;
+      color: #64748b;
+      font-size: 12px;
+    }
+    .col-name {
+      font-weight: 600;
+      color: #f8fafc;
+      max-width: 260px;
+    }
+    .col-cat {
+      color: #94a3b8;
+      font-size: 12.5px;
+    }
+    .col-price {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      color: #e2e8f0;
+      white-space: nowrap;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+    }
+    .badge-garder {
+      background: var(--success-bg);
+      color: #34d399;
+      border: 1px solid var(--badge-border-s);
+    }
+    .badge-requalifier {
+      background: var(--warning-bg);
+      color: #fbbf24;
+      border: 1px solid var(--badge-border-w);
+    }
+    .badge-supprimer {
+      background: var(--danger-bg);
+      color: #f87171;
+      border: 1px solid var(--badge-border-d);
+    }
+    .flag-yes {
+      color: #f87171;
+      font-weight: 600;
+    }
+    .flag-no {
+      color: #64748b;
+    }
+    .flag-warning {
+      color: #fbbf24;
+      font-weight: 600;
+    }
+    .col-motif {
+      color: #cbd5e1;
+      font-size: 13px;
+      line-height: 1.45;
+      max-width: 480px;
+    }
+    .empty-state {
+      padding: 40px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 15px;
+      display: none;
+    }
+    .export-btn {
+      background: #1e293b;
+      border: 1px solid #334155;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .export-btn:hover {
+      background: #334155;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-top">
+        <div>
+          <h1>Audit Stratégique & Réglementaire du Catalogue Spoolio</h1>
+          <p class="subtitle">Repositionnement Marque V2 : Desk Setup, Accessoires Gaming/Bureau, Art Toys & Fidgets Tactiles Haut de Gamme.</p>
+          <div class="roles-tag">
+            <span class="role-badge">🎨 Directeur Artistique</span>
+            <span class="role-badge">💼 Chef de Produit E-commerce</span>
+            <span class="role-badge">⚖️ Directive Jouets 2009/48/CE & RGSP 2023/988</span>
+          </div>
+        </div>
+        <button class="export-btn" onclick="window.print()">🖨️ Imprimer / PDF</button>
+      </div>
+    </header>
+
+    <div class="kpi-grid">
+      <div class="kpi-card kpi-total">
+        <div class="kpi-label">Produits Audités</div>
+        <div class="kpi-value">204</div>
+        <div class="kpi-desc">100% du catalogue actif audité</div>
+      </div>
+      <div class="kpi-card kpi-garder">
+        <div class="kpi-label">À Garder (Cœur V2)</div>
+        <div class="kpi-value">62 <span class="kpi-pct">(30.4%)</span></div>
+        <div class="kpi-desc">Desk setup, gaming, utilitaires & fidgets tactiles</div>
+      </div>
+      <div class="kpi-card kpi-requalifier">
+        <div class="kpi-label">À Requalifier (+14 ans)</div>
+        <div class="kpi-value">18 <span class="kpi-pct">(8.8%)</span></div>
+        <div class="kpi-desc">Art Toys, dioramas & sculptures (avertissement légal strict)</div>
+      </div>
+      <div class="kpi-card kpi-supprimer">
+        <div class="kpi-label">À Supprimer / Dépublier</div>
+        <div class="kpi-value">124 <span class="kpi-pct">(60.8%)</span></div>
+        <div class="kpi-desc">Babioles kermesse, mini-animaux cheap, gadgets enfantins</div>
+      </div>
+    </div>
+
+    <div class="notice-box">
+      <div class="notice-col">
+        <h3>⚖️ Cadre Légal & Réglementaire</h3>
+        <p><strong>Directive Jouets 2009/48/CE & Norme EN 71-1 :</strong> Tout produit ayant une valeur ludique perçue destinée aux moins de 14 ans est légalement un jouet. Les mini-animaux articulés (3-4€) présentent un risque immédiat d'ingestion de petits éléments en cas de casse (test du cylindre EN 71-1). Les figurines complexes conservées doivent obligatoirement afficher la mention légale : <em>"Objet de collection décoratif pour adultes (+14 ans) - Ne convient pas aux enfants"</em>.</p>
+      </div>
+      <div class="notice-col">
+        <h3>📈 Impact E-commerce & Image de Marque</h3>
+        <p><strong>Panier Moyen & Taux de Conversion :</strong> Les 124 articles babioles détruisent la valeur perçue de Spoolio, saturent le catalogue de micro-marges (2-4€) et cannibalisent les produits à fort panier (20-60€). L'épuration drastique positionne Spoolio en atelier d'impression 3D premium pour passionnés de tech, gaming et design de bureau.</p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="search-wrap">
+        <input type="text" id="searchInput" class="search-input" placeholder="Rechercher par nom, catégorie, ID (ex: dragon, support, fidget)..." oninput="filterTable()">
+      </div>
+      <div class="filters">
+        <button class="filter-btn active" data-filter="ALL" onclick="setFilter('ALL')">Tous (204)</button>
+        <button class="filter-btn btn-garder" data-filter="GARDER" onclick="setFilter('GARDER')">🟢 Garder (62)</button>
+        <button class="filter-btn btn-requalifier" data-filter="REQUALIFIER" onclick="setFilter('REQUALIFIER')">🟡 Requalifier (18)</button>
+        <button class="filter-btn btn-supprimer" data-filter="SUPPRIMER" onclick="setFilter('SUPPRIMER')">🔴 Supprimer (124)</button>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Produit</th>
+            <th>Catégorie</th>
+            <th>Prix</th>
+            <th>Trop Jouet ?</th>
+            <th>Trop Cheap ?</th>
+            <th>Décision</th>
+            <th>Justification & Recommandation</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          
+            <tr data-decision="GARDER" data-search="♻️ les objets recyclés spoolio décoration 10830 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#10830</td>
+              <td class="col-name">♻️ Les Objets Recyclés Spoolio</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">12.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="aimants anti-gaspi décoration 10239 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#10239</td>
+              <td class="col-name">Aimants anti-gaspi</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">2.50 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="alien articulé animaux &amp; figurines, figurines 7199 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7199</td>
+              <td class="col-name">Alien articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines, Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="animal goofy 3d — figurine déco aux yeux articulés | spoolio animaux &amp; figurines 12 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#12</td>
+              <td class="col-name">Animal Goofy 3D — Figurine déco aux yeux articulés | Spoolio</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">6.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="animal vaudou tricoté animaux &amp; figurines 9711 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#9711</td>
+              <td class="col-name">Animal vaudou tricoté</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="araignée articulée animaux &amp; figurines 8323 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8323</td>
+              <td class="col-name">Araignée articulée</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="astronaute articulé animaux &amp; figurines, figurines 7291 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7291</td>
+              <td class="col-name">Astronaute articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines, Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="avocats coeur (x2) porte clés 7225 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7225</td>
+              <td class="col-name">Avocats coeur (x2)</td>
+              <td class="col-cat">Porte clés</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="badge nfc pour festivalier accessoires 13080 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#13080</td>
+              <td class="col-name">Badge NFC pour festivalier</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="baguette magique téléscopique jeux &amp; activités 8880 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8880</td>
+              <td class="col-name">Baguette magique téléscopique</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">6.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="baleine articulée animaux &amp; figurines 11477 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11477</td>
+              <td class="col-name">Baleine articulée</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="banane articulée porte clés 8528 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8528</td>
+              <td class="col-name">Banane articulée</td>
+              <td class="col-cat">Porte clés</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="banane katana jeux &amp; activités 10817 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10817</td>
+              <td class="col-name">Banane Katana</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">15.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="bloc porte - tube de peinture décoration 8915 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8915</td>
+              <td class="col-name">Bloc porte - tube de peinture</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="bloc porte – morceau de fromage décoration 8949 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8949</td>
+              <td class="col-name">Bloc porte – morceau de fromage</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="boite "poisson globe" décoration 8464 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8464</td>
+              <td class="col-name">Boite "Poisson Globe"</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="boite à bijoux "chaton" décoration 11361 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#11361</td>
+              <td class="col-name">Boite à bijoux "chaton"</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">30.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="boîte cadeau pour boucles d'oreilles accessoires 10504 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10504</td>
+              <td class="col-name">Boîte cadeau pour boucles d'oreilles</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="boîte canette cachette secrète boites, sacs &amp; emballages 7985 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#7985</td>
+              <td class="col-name">Boîte canette cachette secrète</td>
+              <td class="col-cat">Boites, sacs &amp; emballages</td>
+              <td class="col-price">7.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="boite cryogénique boites, sacs &amp; emballages 7204 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7204</td>
+              <td class="col-name">Boite cryogénique</td>
+              <td class="col-cat">Boites, sacs &amp; emballages</td>
+              <td class="col-price">2.50 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="boite de transport (deux tailles) boites, sacs &amp; emballages 8325 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8325</td>
+              <td class="col-name">Boite de transport (deux tailles)</td>
+              <td class="col-cat">Boites, sacs &amp; emballages</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="boîte grand crayon accessoires 8885 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8885</td>
+              <td class="col-name">Boîte grand crayon</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">11.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="boîte magique – le petit tour qui bluffe tout le monde jeux &amp; activités 12050 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#12050</td>
+              <td class="col-name">Boîte Magique – Le petit tour qui bluffe tout le monde</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="boîte pour cartes de collection geek / gaming 8611 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#8611</td>
+              <td class="col-name">Boîte pour cartes de collection</td>
+              <td class="col-cat">Geek / Gaming</td>
+              <td class="col-price">7.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="boites animaux kawaii boites, sacs &amp; emballages 11959 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11959</td>
+              <td class="col-name">Boites animaux Kawaii</td>
+              <td class="col-cat">Boites, sacs &amp; emballages</td>
+              <td class="col-price">9.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="bonhomme rock animaux &amp; figurines, figurines 7214 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7214</td>
+              <td class="col-name">Bonhomme Rock</td>
+              <td class="col-cat">Animaux &amp; Figurines, Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="boucles d'oreille fantôme accessoires 9795 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9795</td>
+              <td class="col-name">Boucles d'oreille Fantôme</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="boucles d'oreilles - collection annuelle accessoires 10466 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10466</td>
+              <td class="col-name">Boucles d'oreilles - collection annuelle</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="boucles d'oreilles de noël accessoires 10388 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10388</td>
+              <td class="col-name">Boucles d'oreilles de Noël</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="boucles d'oreilles oeuf voronoi accessoires 10557 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10557</td>
+              <td class="col-name">Boucles d'oreilles oeuf voronoi</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="caca fidget fidgets 7314 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7314</td>
+              <td class="col-name">Caca fidget</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="cactus à cure-dents décoration 9303 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9303</td>
+              <td class="col-name">Cactus à cure-dents</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="cadre photo emojis décoration 9942 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9942</td>
+              <td class="col-name">Cadre photo Emojis</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">8.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="caisse pliable boites, sacs &amp; emballages 7308 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#7308</td>
+              <td class="col-name">Caisse pliable</td>
+              <td class="col-cat">Boites, sacs &amp; emballages</td>
+              <td class="col-price">3.50 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="caméléon aimanté animaux &amp; figurines 7217 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7217</td>
+              <td class="col-name">Caméléon aimanté</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">8.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="carte cadeau spoolio carte cadeau 11781 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#11781</td>
+              <td class="col-name">Carte cadeau Spoolio</td>
+              <td class="col-cat">Carte cadeau</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="castor articulé animaux &amp; figurines 8719 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8719</td>
+              <td class="col-name">Castor articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="chaise longue "chilienne" décoration 9287 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9287</td>
+              <td class="col-name">Chaise longue "chilienne"</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">6.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="chaton articulé animaux &amp; figurines 8317 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8317</td>
+              <td class="col-name">Chaton articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="chien façon "ballon" décoration 8638 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8638</td>
+              <td class="col-name">Chien façon "ballon"</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="chouette hibou articulé animaux &amp; figurines 8314 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8314</td>
+              <td class="col-name">Chouette hibou articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="chubby - l'expert officiel du chill animaux &amp; figurines 12369 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#12369</td>
+              <td class="col-name">Chubby - l'expert officiel du chill</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">8.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="clicker - mug chocolat chaud fidgets, porte clés 7351 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#7351</td>
+              <td class="col-name">Clicker - Mug Chocolat chaud</td>
+              <td class="col-cat">Fidgets, Porte clés</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="clicker "mini trône" fidgets 10094 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10094</td>
+              <td class="col-name">Clicker "Mini Trône"</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="clicker cactus fidgets 7213 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#7213</td>
+              <td class="col-name">Clicker cactus</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="clicker citrouille d'halloween fidgets, porte clés 9678 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#9678</td>
+              <td class="col-name">Clicker citrouille d'halloween</td>
+              <td class="col-cat">Fidgets, Porte clés</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="clicker coeur fidgets 11738 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#11738</td>
+              <td class="col-name">Clicker coeur</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">3.40 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="coffre fort décoration 7334 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#7334</td>
+              <td class="col-name">Coffre fort</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">7.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="cornichon articulé - mr tickle porte clés 7719 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7719</td>
+              <td class="col-name">Cornichon articulé - Mr Tickle</td>
+              <td class="col-cat">Porte clés</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="crabe articulé animaux &amp; figurines 10826 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10826</td>
+              <td class="col-name">Crabe articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="crackosaures : dinosaures 3d en œuf surprise animaux &amp; figurines 10955 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10955</td>
+              <td class="col-name">Crackosaures : Dinosaures 3D en œuf surprise</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="crâne de dinosaure xxl animaux &amp; figurines 9730 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#9730</td>
+              <td class="col-name">Crâne de dinosaure XXL</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">30.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="décor forêt – diorama modulable animaux &amp; figurines 11583 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#11583</td>
+              <td class="col-name">Décor forêt – diorama modulable</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">23.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="décoration personnalisée pour switch geek / gaming 8787 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#8787</td>
+              <td class="col-name">Décoration personnalisée pour Switch</td>
+              <td class="col-cat">Geek / Gaming</td>
+              <td class="col-price">8.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="dérouleur de scotch "t-rex" accessoires 8924 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8924</td>
+              <td class="col-name">Dérouleur de scotch "T-Rex"</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="dragon ailé animaux &amp; figurines 10760 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#10760</td>
+              <td class="col-name">Dragon ailé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">16.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="dragon cristal animaux &amp; figurines 10774 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#10774</td>
+              <td class="col-name">Dragon cristal</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="ecureuil articulé animaux &amp; figurines 11581 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11581</td>
+              <td class="col-name">Ecureuil articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="emoji articulé fidgets, porte clés 8815 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8815</td>
+              <td class="col-name">Emoji articulé</td>
+              <td class="col-cat">Fidgets, Porte clés</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="etagère murale - hexagone décoration 7331 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#7331</td>
+              <td class="col-name">Etagère murale - hexagone</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">12.50 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="feu de camp bougie décoration 7355 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#7355</td>
+              <td class="col-name">Feu de camp bougie</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">8.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="fidget "faux tissus" fidgets 2 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#2</td>
+              <td class="col-name">Fidget "Faux tissus"</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="fidget "twist" fidgets 11074 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#11074</td>
+              <td class="col-name">Fidget "Twist"</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="fidget bague à engrenages planétaires fidgets 9 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#9</td>
+              <td class="col-name">Fidget Bague à engrenages planétaires</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="fidget bague rotative fidgets 11035 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#11035</td>
+              <td class="col-name">Fidget bague rotative</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="fidget boule piquante fidgets 11026 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#11026</td>
+              <td class="col-name">Fidget boule piquante</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="fidget coeur fidgets 11765 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#11765</td>
+              <td class="col-name">Fidget coeur</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">2.55 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="fidget cube articulé fidgets 11057 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#11057</td>
+              <td class="col-name">Fidget cube articulé</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="fidget gyroscope cinétique fidgets 6 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#6</td>
+              <td class="col-name">Fidget Gyroscope Cinétique</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="fidget iris mécanique fidgets 7 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#7</td>
+              <td class="col-name">Fidget Iris Mécanique</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="fidget mécanique à engrenages fidgets 11051 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#11051</td>
+              <td class="col-name">Fidget mécanique à engrenages</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="fidget pop-it infini fidgets 8 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#8</td>
+              <td class="col-name">Fidget Pop-It Infini</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="fidget rotatif xxl fidgets 4 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#4</td>
+              <td class="col-name">Fidget rotatif XXL</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">7.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="fidget spinner engrenages fidgets 7315 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#7315</td>
+              <td class="col-name">Fidget spinner engrenages</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="fidget type "tangle" fidgets 3 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#3</td>
+              <td class="col-name">Fidget type "Tangle"</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="gadgetoids™ – robots tech transformables jeux &amp; activités 12377 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#12377</td>
+              <td class="col-name">Gadgetoids™ – Robots Tech Transformables</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">12.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="glace "art-toy" à assembler décoration 9313 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9313</td>
+              <td class="col-name">Glace "art-toy" à assembler</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="grand dragon articulé animaux &amp; figurines 7682 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#7682</td>
+              <td class="col-name">Grand dragon articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">9.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="grenouille articulée aimantée animaux &amp; figurines 8103 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8103</td>
+              <td class="col-name">Grenouille articulée aimantée</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="grenouille articulée xl animaux &amp; figurines 10787 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10787</td>
+              <td class="col-name">Grenouille articulée XL</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">8.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="hache runique des anciens décoration 11860 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#11860</td>
+              <td class="col-name">Hache Runique des Anciens</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">35.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="hand spinner "roue" fidgets 5 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#5</td>
+              <td class="col-name">Hand Spinner "Roue"</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="hérisson articulé animaux &amp; figurines 11582 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11582</td>
+              <td class="col-name">Hérisson articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="hibou harfang articulé animaux &amp; figurines 11475 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11475</td>
+              <td class="col-name">Hibou harfang articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="igloo polaire – diorama de la banquise animaux &amp; figurines 11407 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#11407</td>
+              <td class="col-name">Igloo polaire – Diorama de la banquise</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">19.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="jeu de morpion "toilettes" jeux &amp; activités 8502 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8502</td>
+              <td class="col-name">Jeu de morpion "toilettes"</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">16.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="jeu façon "tetris" en équilibre jeux &amp; activités 8482 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#8482</td>
+              <td class="col-name">Jeu façon "Tetris" en équilibre</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">16.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="katana téléscopique jeux &amp; activités 7212 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7212</td>
+              <td class="col-name">Katana téléscopique</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="kit animaux de la forêt animaux &amp; figurines 11633 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11633</td>
+              <td class="col-name">Kit animaux de la forêt</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">40.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="kit card animaux animaux &amp; figurines 8805 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8805</td>
+              <td class="col-name">Kit card animaux</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="kit festival : 6 objets pour survivre à ton été accessoires 13146 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#13146</td>
+              <td class="col-name">Kit Festival : 6 objets pour survivre à ton été</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">16.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="kit movember spoolio – la fête à la moustache fidgets 10008 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10008</td>
+              <td class="col-name">Kit Movember Spoolio – la fête à la moustache</td>
+              <td class="col-cat">Fidgets</td>
+              <td class="col-price">6.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="la mini frousse box décoration 9755 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9755</td>
+              <td class="col-name">La Mini Frousse Box</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">19.90 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="lampe dragon décoration 11813 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#11813</td>
+              <td class="col-name">Lampe Dragon</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">39.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="lanterne décorative "pixel" décoration 8633 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#8633</td>
+              <td class="col-name">Lanterne décorative "Pixel"</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">7.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="lapin articulé animaux &amp; figurines 11579 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11579</td>
+              <td class="col-name">Lapin articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="le crâne moustachu animaux &amp; figurines, figurines 10010 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10010</td>
+              <td class="col-name">Le Crâne Moustachu</td>
+              <td class="col-cat">Animaux &amp; Figurines, Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="le pins porte-lunettes accessoires 13079 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#13079</td>
+              <td class="col-name">Le pins porte-lunettes</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="le poussin gore décoration 9672 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9672</td>
+              <td class="col-name">Le Poussin Gore</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">7.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="le sifflet d'alerte accessoires 13086 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#13086</td>
+              <td class="col-name">Le sifflet d'alerte</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">2.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="les mini potes animaux &amp; figurines, figurines 10092 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10092</td>
+              <td class="col-name">Les mini potes</td>
+              <td class="col-cat">Animaux &amp; Figurines, Figurines</td>
+              <td class="col-price">2.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="magnet / aimant movember décoration 10006 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10006</td>
+              <td class="col-name">Magnet / aimant Movember</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">2.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="main coupée articulée décoration 9663 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#9663</td>
+              <td class="col-name">Main coupée articulée</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">13.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="marque page décoration 8794 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#8794</td>
+              <td class="col-name">Marque page</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="médaillon nfc pour chien et chat sécurité sos nfc 12673 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#12673</td>
+              <td class="col-name">Médaillon NFC pour chien et chat</td>
+              <td class="col-cat">Sécurité SOS NFC</td>
+              <td class="col-price">7.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="mini casier vestiaire décoration 7196 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#7196</td>
+              <td class="col-name">Mini casier vestiaire</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="mini crâne enchanté accessoires 11898 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11898</td>
+              <td class="col-name">Mini Crâne Enchanté</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">2.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="mini poubelle de bureau accessoires 10090 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#10090</td>
+              <td class="col-name">Mini poubelle de bureau</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="mini-boîte de survie accessoires 13084 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#13084</td>
+              <td class="col-name">Mini-boîte de survie</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="momie articulée animaux &amp; figurines, figurines 7202 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7202</td>
+              <td class="col-name">Momie articulée</td>
+              <td class="col-cat">Animaux &amp; Figurines, Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="mugspot - protège ton canapé décoration 9463 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#9463</td>
+              <td class="col-name">Mugspot - Protège ton canapé</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">7.50 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="narval articulé animaux &amp; figurines 11478 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11478</td>
+              <td class="col-name">Narval articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="oeuf de serpent / dinosaure boites, sacs &amp; emballages 7292 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7292</td>
+              <td class="col-name">Oeuf de serpent / dinosaure</td>
+              <td class="col-cat">Boites, sacs &amp; emballages</td>
+              <td class="col-price">3.50 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="oeuf rotatif 10cm boites, sacs &amp; emballages 7200 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7200</td>
+              <td class="col-name">Oeuf rotatif 10cm</td>
+              <td class="col-cat">Boites, sacs &amp; emballages</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="orque articulée animaux &amp; figurines 11476 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11476</td>
+              <td class="col-name">Orque articulée</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="ours brun articulé animaux &amp; figurines 11580 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11580</td>
+              <td class="col-name">Ours brun articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="pack alien / capsule animaux &amp; figurines, figurines 7211 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7211</td>
+              <td class="col-name">Pack Alien / Capsule</td>
+              <td class="col-cat">Animaux &amp; Figurines, Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="pack banquise animaux &amp; figurines 11479 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11479</td>
+              <td class="col-name">Pack banquise</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">40.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="pack collection gadgetoids – série 01 jeux &amp; activités 12422 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#12422</td>
+              <td class="col-name">Pack Collection Gadgetoids – Série 01</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">40.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="pack momie / sarcophage animaux &amp; figurines, figurines 7203 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7203</td>
+              <td class="col-name">Pack Momie / Sarcophage</td>
+              <td class="col-cat">Animaux &amp; Figurines, Figurines</td>
+              <td class="col-price">3.50 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="pack serpent / oeuf animaux &amp; figurines 8177 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8177</td>
+              <td class="col-name">Pack serpent / oeuf</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">11.50 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="pancarte personnalisable décoration 10085 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#10085</td>
+              <td class="col-name">Pancarte personnalisable</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="petit axolotl articulé animaux &amp; figurines 7760 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7760</td>
+              <td class="col-name">Petit Axolotl articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="petit bonhomme plante animaux &amp; figurines, figurines 8779 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8779</td>
+              <td class="col-name">Petit bonhomme plante</td>
+              <td class="col-cat">Animaux &amp; Figurines, Figurines</td>
+              <td class="col-price">3.50 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="petit caméléon articulé animaux &amp; figurines 7689 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7689</td>
+              <td class="col-name">Petit caméléon articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="petit cochon articulé animaux &amp; figurines 7634 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7634</td>
+              <td class="col-name">Petit cochon articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="petit dragon articulé animaux &amp; figurines 7681 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7681</td>
+              <td class="col-name">Petit dragon articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="petit monstre à peindre animaux &amp; figurines, figurines 8774 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8774</td>
+              <td class="col-name">Petit monstre à peindre</td>
+              <td class="col-cat">Animaux &amp; Figurines, Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="petit ours polaire articulé animaux &amp; figurines 11457 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11457</td>
+              <td class="col-name">Petit ours polaire articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="petit ourson porte clé animaux &amp; figurines 7690 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7690</td>
+              <td class="col-name">Petit ourson porte clé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="petit phoque articulé animaux &amp; figurines 11474 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11474</td>
+              <td class="col-name">Petit phoque articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="petit pingouin articulé animaux &amp; figurines 7688 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7688</td>
+              <td class="col-name">Petit pingouin articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="petit pingouin articulé animaux &amp; figurines 11456 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11456</td>
+              <td class="col-name">Petit pingouin articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="petit zombie articulé animaux &amp; figurines, figurines 7720 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7720</td>
+              <td class="col-name">Petit zombie articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines, Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="petite chouette articulée animaux &amp; figurines 7692 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7692</td>
+              <td class="col-name">Petite chouette articulée</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="petite dragonette articulée animaux &amp; figurines 7691 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7691</td>
+              <td class="col-name">Petite dragonette articulée</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="pieuvre articulée réaliste animaux &amp; figurines 7696 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#7696</td>
+              <td class="col-name">Pieuvre articulée réaliste</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">12.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="pieuvre tiny animaux &amp; figurines 7198 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7198</td>
+              <td class="col-name">Pieuvre tiny</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="pince à gobelet — pour ne plus perdre ton éco-cup accessoires 13082 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#13082</td>
+              <td class="col-name">Pince à gobelet — pour ne plus perdre ton éco-cup</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="pince pour cartes de jeu jeux &amp; activités 11801 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11801</td>
+              <td class="col-name">Pince pour cartes de jeu</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="plateau - café tartine décoration 9431 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#9431</td>
+              <td class="col-name">Plateau - Café Tartine</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">13.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="plateau "welcome summer" décoration 9267 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#9267</td>
+              <td class="col-name">Plateau "Welcome Summer"</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">13.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="pochette surprise - l pochettes surprise 6882 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#6882</td>
+              <td class="col-name">Pochette surprise - L</td>
+              <td class="col-cat">Pochettes surprise</td>
+              <td class="col-price">20.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="pochette surprise - m pochettes surprise 6892 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#6892</td>
+              <td class="col-name">Pochette surprise - M</td>
+              <td class="col-cat">Pochettes surprise</td>
+              <td class="col-price">15.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="pochette surprise - s pochettes surprise 6899 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#6899</td>
+              <td class="col-name">Pochette surprise - S</td>
+              <td class="col-cat">Pochettes surprise</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="poisson rouge articulé animaux &amp; figurines 7680 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7680</td>
+              <td class="col-name">Poisson rouge articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="porte clé "mo power" porte clés 10007 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10007</td>
+              <td class="col-name">Porte clé "Mo Power"</td>
+              <td class="col-cat">Porte clés</td>
+              <td class="col-price">2.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="porte clé coeur porte clés 7309 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7309</td>
+              <td class="col-name">Porte clé coeur</td>
+              <td class="col-cat">Porte clés</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="porte-clé astronaute squelette fidgets, porte clés 9685 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9685</td>
+              <td class="col-name">Porte-clé astronaute squelette</td>
+              <td class="col-cat">Fidgets, Porte clés</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="porte-clé glace porte clés 9337 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9337</td>
+              <td class="col-name">Porte-clé glace</td>
+              <td class="col-cat">Porte clés</td>
+              <td class="col-price">2.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="porte-clé nfc sos enfant sécurité sos nfc 12713 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#12713</td>
+              <td class="col-name">Porte-clé NFC SOS enfant</td>
+              <td class="col-cat">Sécurité SOS NFC</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="porte-clés clavier mécanique fidgets, porte clés 7769 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#7769</td>
+              <td class="col-name">Porte-clés clavier mécanique</td>
+              <td class="col-cat">Fidgets, Porte clés</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="porte-clés clavier mécanique "premium" fidgets, porte clés 7933 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#7933</td>
+              <td class="col-name">Porte-clés clavier mécanique "Premium"</td>
+              <td class="col-cat">Fidgets, Porte clés</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="porte-encens donut décoration 9421 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#9421</td>
+              <td class="col-name">Porte-encens Donut</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">6.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="pot à crayon froissé décoration 10086 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#10086</td>
+              <td class="col-name">Pot à crayon froissé</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="pot à crayon serpent décoration 7356 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#7356</td>
+              <td class="col-name">Pot à crayon serpent</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">15.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="pot à crayons kraft décoration 10735 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#10735</td>
+              <td class="col-name">Pot à crayons kraft</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="raton laveur animaux &amp; figurines 11578 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11578</td>
+              <td class="col-name">Raton laveur</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="renard articulé animaux &amp; figurines 11577 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#11577</td>
+              <td class="col-name">Renard articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="renard articulé xl animaux &amp; figurines 8324 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8324</td>
+              <td class="col-name">Renard articulé XL</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="robot articulé "dummy" animaux &amp; figurines, figurines 8010 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8010</td>
+              <td class="col-name">Robot articulé "Dummy"</td>
+              <td class="col-cat">Animaux &amp; Figurines, Figurines</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="sac cadeaux "déjà tout" boites, sacs &amp; emballages 9906 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9906</td>
+              <td class="col-name">Sac cadeaux "Déjà Tout"</td>
+              <td class="col-cat">Boites, sacs &amp; emballages</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="sac cadeaux "dernière minute" boites, sacs &amp; emballages 9910 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9910</td>
+              <td class="col-name">Sac cadeaux "Dernière minute"</td>
+              <td class="col-cat">Boites, sacs &amp; emballages</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="sac cadeaux "mon préféré" boites, sacs &amp; emballages 9912 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9912</td>
+              <td class="col-name">Sac cadeaux "Mon préféré"</td>
+              <td class="col-cat">Boites, sacs &amp; emballages</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="sac cadeaux "oublié" boites, sacs &amp; emballages 9911 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9911</td>
+              <td class="col-name">Sac cadeaux "Oublié"</td>
+              <td class="col-cat">Boites, sacs &amp; emballages</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="sac cadeaux “surprise" boites, sacs &amp; emballages 9907 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9907</td>
+              <td class="col-name">Sac cadeaux “Surprise"</td>
+              <td class="col-cat">Boites, sacs &amp; emballages</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="sac cadeaux perdu boites, sacs &amp; emballages 9898 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9898</td>
+              <td class="col-name">Sac cadeaux perdu</td>
+              <td class="col-cat">Boites, sacs &amp; emballages</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="sarcophage / tombeau boites, sacs &amp; emballages 7201 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7201</td>
+              <td class="col-name">Sarcophage / Tombeau</td>
+              <td class="col-cat">Boites, sacs &amp; emballages</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="serpent articulé animaux &amp; figurines 6672 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#6672</td>
+              <td class="col-name">Serpent articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="serpent articulé "boules" animaux &amp; figurines 8724 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8724</td>
+              <td class="col-name">Serpent articulé "boules"</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">12.80 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="serre tête personnalisable accessoires 10797 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10797</td>
+              <td class="col-name">Serre tête personnalisable</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="serre-tête flèche - pour ne jamais se perdre bijoux 13083 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#13083</td>
+              <td class="col-name">Serre-tête flèche - pour ne jamais se perdre</td>
+              <td class="col-cat">Bijoux</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="set de 4 emportes pièces : biscuits de noël accessoires 10706 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10706</td>
+              <td class="col-name">Set de 4 emportes pièces : biscuits de Noël</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="set de sous-verres collection "comment je te l'as met?" décoration 10727 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10727</td>
+              <td class="col-name">Set de sous-verres collection "Comment je te l'as met?"</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">12.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="spoolinks - jeu de construction jeux &amp; activités 8938 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8938</td>
+              <td class="col-name">Spoolinks - Jeu de construction</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">9.50 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="squelette articulé animaux &amp; figurines, figurines 7765 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7765</td>
+              <td class="col-name">Squelette articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines, Figurines</td>
+              <td class="col-price">4.50 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="squelette de dragon articulé animaux &amp; figurines 9692 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#9692</td>
+              <td class="col-name">Squelette de dragon articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="squelette de scorpion articulé animaux &amp; figurines 9563 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#9563</td>
+              <td class="col-name">Squelette de scorpion articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">8.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="squelette de serpent articulé animaux &amp; figurines 9704 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9704</td>
+              <td class="col-name">Squelette de serpent articulé</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">15.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="stylo façon balais magique décoration 8762 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8762</td>
+              <td class="col-name">Stylo façon balais magique</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="support de cartes de jeu jeux &amp; activités 11795 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#11795</td>
+              <td class="col-name">Support de cartes de jeu</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">6.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="support de casque "cristal" geek / gaming 8514 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#8514</td>
+              <td class="col-name">Support de casque "Cristal"</td>
+              <td class="col-cat">Geek / Gaming</td>
+              <td class="col-price">35.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="support de manette "coussin" geek / gaming 8669 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#8669</td>
+              <td class="col-name">Support de manette "Coussin"</td>
+              <td class="col-cat">Geek / Gaming</td>
+              <td class="col-price">14.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="support de manette "cristal" geek / gaming 8661 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#8661</td>
+              <td class="col-name">Support de manette "Cristal"</td>
+              <td class="col-cat">Geek / Gaming</td>
+              <td class="col-price">14.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="support de manette "tentacule" geek / gaming 8707 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#8707</td>
+              <td class="col-name">Support de manette "Tentacule"</td>
+              <td class="col-cat">Geek / Gaming</td>
+              <td class="col-price">8.50 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="support de stylo sucette décoration 8628 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8628</td>
+              <td class="col-name">Support de stylo sucette</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="support de téléphone - coussin accessoires 8928 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8928</td>
+              <td class="col-name">Support de téléphone - coussin</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">5.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="support de téléphone "chaise" accessoires 10083 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10083</td>
+              <td class="col-name">Support de téléphone "Chaise"</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="support de téléphone industriel accessoires 13167 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#13167</td>
+              <td class="col-name">Support de téléphone industriel</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">12.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="support smartphone ondulé décoration 9483 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#9483</td>
+              <td class="col-name">Support smartphone ondulé</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">8.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="t-rex articulé râleur animaux &amp; figurines 8313 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#8313</td>
+              <td class="col-name">T-Rex articulé râleur</td>
+              <td class="col-cat">Animaux &amp; Figurines</td>
+              <td class="col-price">3.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="tasse géante pour canette accessoires 9536 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9536</td>
+              <td class="col-name">Tasse géante pour canette</td>
+              <td class="col-cat">Accessoires</td>
+              <td class="col-price">10.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="tirelire cartoon décoration 7193 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#7193</td>
+              <td class="col-name">Tirelire Cartoon</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">19.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="tour à dé - la classique jeux &amp; activités 10 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#10</td>
+              <td class="col-name">Tour à dé - la classique</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">15.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="tour à dé château & pont-levis jeux &amp; activités 10934 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#10934</td>
+              <td class="col-name">Tour à dé Château & Pont-levis</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">20.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="tour à dé compacte & pliante jeux &amp; activités 10937 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#10937</td>
+              <td class="col-name">Tour à dé compacte & pliante</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">8.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="tour à dé médiévale jeux &amp; activités 12029 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#12029</td>
+              <td class="col-name">Tour à dé médiévale</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">20.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="tour à dé tronc d'arbre féerique jeux &amp; activités 11 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#11</td>
+              <td class="col-name">Tour à dé tronc d'arbre féerique</td>
+              <td class="col-cat">Jeux &amp; activités</td>
+              <td class="col-price">20.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="vase "twist" décoration 9924 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#9924</td>
+              <td class="col-name">Vase "Twist"</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">15.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="vase effet kraft décoration 10748 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#10748</td>
+              <td class="col-name">Vase effet Kraft</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">7.00 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="GARDER" data-search="vase saint valentin décoration 11766 parfaitement aligné v2 : desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.">
+              <td class="col-id">#11766</td>
+              <td class="col-name">Vase Saint Valentin</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">12.75 €</td>
+              <td class="flag-no">Non</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-garder">🟢 GARDER</span></td>
+              <td class="col-motif">Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="vide poche "coussin" décoration 10088 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#10088</td>
+              <td class="col-name">Vide poche "coussin"</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">4.00 €</td>
+              <td class="flag-yes">Oui</td>
+              <td class="flag-yes">Oui</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="SUPPRIMER" data-search="vide poche pastèque décoration 9351 produit typé kermesse/enfant (risque en 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.">
+              <td class="col-id">#9351</td>
+              <td class="col-name">Vide poche pastèque</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">8.00 €</td>
+              <td class="flag-no">Moyen</td>
+              <td class="flag-no">Moyen</td>
+              <td><span class="badge badge-supprimer">🔴 SUPPRIMER</span></td>
+              <td class="col-motif">Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte.</td>
+            </tr>
+            <tr data-decision="REQUALIFIER" data-search="vide-poche tête de dragon décoration 11906 à requalifier en 'art toy / sculpture cinétique de collection (+14 ans)'. packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.">
+              <td class="col-id">#11906</td>
+              <td class="col-name">Vide-poche tête de dragon</td>
+              <td class="col-cat">Décoration</td>
+              <td class="col-price">12.00 €</td>
+              <td class="flag-no">Ambigü</td>
+              <td class="flag-no">Non</td>
+              <td><span class="badge badge-requalifier">🟡 REQUALIFIER</span></td>
+              <td class="col-motif">À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire.</td>
+            </tr>
+        </tbody>
+      </table>
+      <div id="emptyState" class="empty-state">
+        Aucun produit ne correspond à votre recherche ou filtre.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentFilter = 'ALL';
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        if (b.getAttribute('data-filter') === filter) {
+          b.classList.add('active');
+        } else {
+          b.classList.remove('active');
+        }
+      });
+      filterTable();
+    }
+
+    function filterTable() {
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      const rows = document.querySelectorAll('#tableBody tr');
+      let visible = 0;
+
+      rows.forEach(r => {
+        const dec = r.getAttribute('data-decision');
+        const text = r.getAttribute('data-search');
+
+        const matchFilter = (currentFilter === 'ALL' || dec === currentFilter);
+        const matchSearch = (!q || text.includes(q));
+
+        if (matchFilter && matchSearch) {
+          r.style.display = '';
+          visible++;
+        } else {
+          r.style.display = 'none';
+        }
+      });
+
+      document.getElementById('emptyState').style.display = visible === 0 ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,2042 @@
+[
+  {
+    "id": 10830,
+    "name": "♻️ Les Objets Recyclés Spoolio",
+    "price": 12,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 10239,
+    "name": "Aimants anti-gaspi",
+    "price": 2.5,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 7199,
+    "name": "Alien articulé",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines, Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 12,
+    "name": "Animal Goofy 3D — Figurine déco aux yeux articulés | Spoolio",
+    "price": 6,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9711,
+    "name": "Animal vaudou tricoté",
+    "price": 10,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 8323,
+    "name": "Araignée articulée",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7291,
+    "name": "Astronaute articulé",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines, Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7225,
+    "name": "Avocats coeur (x2)",
+    "price": 4,
+    "cats": "Porte clés",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 13080,
+    "name": "Badge NFC pour festivalier",
+    "price": 5,
+    "cats": "Accessoires",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 8880,
+    "name": "Baguette magique téléscopique",
+    "price": 6,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Oui",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11477,
+    "name": "Baleine articulée",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8528,
+    "name": "Banane articulée",
+    "price": 3,
+    "cats": "Porte clés",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10817,
+    "name": "Banane Katana",
+    "price": 15,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Oui",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8915,
+    "name": "Bloc porte - tube de peinture",
+    "price": 3,
+    "cats": "Décoration",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8949,
+    "name": "Bloc porte – morceau de fromage",
+    "price": 3,
+    "cats": "Décoration",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8464,
+    "name": "Boite \"Poisson Globe\"",
+    "price": 10,
+    "cats": "Décoration",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11361,
+    "name": "Boite à bijoux \"chaton\"",
+    "price": 30,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 10504,
+    "name": "Boîte cadeau pour boucles d'oreilles",
+    "price": 3,
+    "cats": "Accessoires",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7985,
+    "name": "Boîte canette cachette secrète",
+    "price": 7,
+    "cats": "Boites, sacs &amp; emballages",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 7204,
+    "name": "Boite cryogénique",
+    "price": 2.5,
+    "cats": "Boites, sacs &amp; emballages",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8325,
+    "name": "Boite de transport (deux tailles)",
+    "price": 4,
+    "cats": "Boites, sacs &amp; emballages",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8885,
+    "name": "Boîte grand crayon",
+    "price": 11,
+    "cats": "Accessoires",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 12050,
+    "name": "Boîte Magique – Le petit tour qui bluffe tout le monde",
+    "price": 4,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8611,
+    "name": "Boîte pour cartes de collection",
+    "price": 7,
+    "cats": "Geek / Gaming",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 11959,
+    "name": "Boites animaux Kawaii",
+    "price": 9,
+    "cats": "Boites, sacs &amp; emballages",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7214,
+    "name": "Bonhomme Rock",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines, Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9795,
+    "name": "Boucles d'oreille Fantôme",
+    "price": 3,
+    "cats": "Accessoires",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10466,
+    "name": "Boucles d'oreilles - collection annuelle",
+    "price": 3,
+    "cats": "Accessoires",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10388,
+    "name": "Boucles d'oreilles de Noël",
+    "price": 3,
+    "cats": "Accessoires",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10557,
+    "name": "Boucles d'oreilles oeuf voronoi",
+    "price": 3,
+    "cats": "Accessoires",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7314,
+    "name": "Caca fidget",
+    "price": 4,
+    "cats": "Fidgets",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9303,
+    "name": "Cactus à cure-dents",
+    "price": 5,
+    "cats": "Décoration",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9942,
+    "name": "Cadre photo Emojis",
+    "price": 8,
+    "cats": "Décoration",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7308,
+    "name": "Caisse pliable",
+    "price": 3.5,
+    "cats": "Boites, sacs &amp; emballages",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 7217,
+    "name": "Caméléon aimanté",
+    "price": 8,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11781,
+    "name": "Carte cadeau Spoolio",
+    "price": 10,
+    "cats": "Carte cadeau",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 8719,
+    "name": "Castor articulé",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9287,
+    "name": "Chaise longue \"chilienne\"",
+    "price": 6,
+    "cats": "Décoration",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8317,
+    "name": "Chaton articulé",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8638,
+    "name": "Chien façon \"ballon\"",
+    "price": 5,
+    "cats": "Décoration",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8314,
+    "name": "Chouette hibou articulé",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 12369,
+    "name": "Chubby - l'expert officiel du chill",
+    "price": 8,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 7351,
+    "name": "Clicker - Mug Chocolat chaud",
+    "price": 4,
+    "cats": "Fidgets, Porte clés",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 10094,
+    "name": "Clicker \"Mini Trône\"",
+    "price": 4,
+    "cats": "Fidgets",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7213,
+    "name": "Clicker cactus",
+    "price": 4,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 9678,
+    "name": "Clicker citrouille d'halloween",
+    "price": 4,
+    "cats": "Fidgets, Porte clés",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 11738,
+    "name": "Clicker coeur",
+    "price": 3.4,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 7334,
+    "name": "Coffre fort",
+    "price": 7,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 7719,
+    "name": "Cornichon articulé - Mr Tickle",
+    "price": 3,
+    "cats": "Porte clés",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10826,
+    "name": "Crabe articulé",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10955,
+    "name": "Crackosaures : Dinosaures 3D en œuf surprise",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9730,
+    "name": "Crâne de dinosaure XXL",
+    "price": 30,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 11583,
+    "name": "Décor forêt – diorama modulable",
+    "price": 23,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 8787,
+    "name": "Décoration personnalisée pour Switch",
+    "price": 8,
+    "cats": "Geek / Gaming",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 8924,
+    "name": "Dérouleur de scotch \"T-Rex\"",
+    "price": 4,
+    "cats": "Accessoires",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10760,
+    "name": "Dragon ailé",
+    "price": 16,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 10774,
+    "name": "Dragon cristal",
+    "price": 10,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 11581,
+    "name": "Ecureuil articulé",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8815,
+    "name": "Emoji articulé",
+    "price": 4,
+    "cats": "Fidgets, Porte clés",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7331,
+    "name": "Etagère murale - hexagone",
+    "price": 12.5,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 7355,
+    "name": "Feu de camp bougie",
+    "price": 8,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 2,
+    "name": "Fidget \"Faux tissus\"",
+    "price": 5,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 11074,
+    "name": "Fidget \"Twist\"",
+    "price": 3,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 9,
+    "name": "Fidget Bague à engrenages planétaires",
+    "price": 4,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 11035,
+    "name": "Fidget bague rotative",
+    "price": 3,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 11026,
+    "name": "Fidget boule piquante",
+    "price": 3,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 11765,
+    "name": "Fidget coeur",
+    "price": 2.55,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 11057,
+    "name": "Fidget cube articulé",
+    "price": 4,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 6,
+    "name": "Fidget Gyroscope Cinétique",
+    "price": 4,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 7,
+    "name": "Fidget Iris Mécanique",
+    "price": 5,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 11051,
+    "name": "Fidget mécanique à engrenages",
+    "price": 4,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 8,
+    "name": "Fidget Pop-It Infini",
+    "price": 4,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 4,
+    "name": "Fidget rotatif XXL",
+    "price": 7,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 7315,
+    "name": "Fidget spinner engrenages",
+    "price": 4,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 3,
+    "name": "Fidget type \"Tangle\"",
+    "price": 4,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 12377,
+    "name": "Gadgetoids™ – Robots Tech Transformables",
+    "price": 12,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 9313,
+    "name": "Glace \"art-toy\" à assembler",
+    "price": 5,
+    "cats": "Décoration",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7682,
+    "name": "Grand dragon articulé",
+    "price": 9,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 8103,
+    "name": "Grenouille articulée aimantée",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10787,
+    "name": "Grenouille articulée XL",
+    "price": 8,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11860,
+    "name": "Hache Runique des Anciens",
+    "price": 35,
+    "cats": "Décoration",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 5,
+    "name": "Hand Spinner \"Roue\"",
+    "price": 5,
+    "cats": "Fidgets",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 11582,
+    "name": "Hérisson articulé",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11475,
+    "name": "Hibou harfang articulé",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11407,
+    "name": "Igloo polaire – Diorama de la banquise",
+    "price": 19,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 8502,
+    "name": "Jeu de morpion \"toilettes\"",
+    "price": 16,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8482,
+    "name": "Jeu façon \"Tetris\" en équilibre",
+    "price": 16,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 7212,
+    "name": "Katana téléscopique",
+    "price": 10,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Oui",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11633,
+    "name": "Kit animaux de la forêt",
+    "price": 40,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8805,
+    "name": "Kit card animaux",
+    "price": 5,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 13146,
+    "name": "Kit Festival : 6 objets pour survivre à ton été",
+    "price": 16,
+    "cats": "Accessoires",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 10008,
+    "name": "Kit Movember Spoolio – la fête à la moustache",
+    "price": 6,
+    "cats": "Fidgets",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9755,
+    "name": "La Mini Frousse Box",
+    "price": 19.9,
+    "cats": "Décoration",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11813,
+    "name": "Lampe Dragon",
+    "price": 39,
+    "cats": "Décoration",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 8633,
+    "name": "Lanterne décorative \"Pixel\"",
+    "price": 7,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 11579,
+    "name": "Lapin articulé",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10010,
+    "name": "Le Crâne Moustachu",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines, Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 13079,
+    "name": "Le pins porte-lunettes",
+    "price": 3,
+    "cats": "Accessoires",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9672,
+    "name": "Le Poussin Gore",
+    "price": 7,
+    "cats": "Décoration",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 13086,
+    "name": "Le sifflet d'alerte",
+    "price": 2,
+    "cats": "Accessoires",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10092,
+    "name": "Les mini potes",
+    "price": 2,
+    "cats": "Animaux &amp; Figurines, Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10006,
+    "name": "Magnet / aimant Movember",
+    "price": 2,
+    "cats": "Décoration",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9663,
+    "name": "Main coupée articulée",
+    "price": 13,
+    "cats": "Décoration",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 8794,
+    "name": "Marque page",
+    "price": 3,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 12673,
+    "name": "Médaillon NFC pour chien et chat",
+    "price": 7,
+    "cats": "Sécurité SOS NFC",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 7196,
+    "name": "Mini casier vestiaire",
+    "price": 10,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 11898,
+    "name": "Mini Crâne Enchanté",
+    "price": 2,
+    "cats": "Accessoires",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10090,
+    "name": "Mini poubelle de bureau",
+    "price": 5,
+    "cats": "Accessoires",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 13084,
+    "name": "Mini-boîte de survie",
+    "price": 3,
+    "cats": "Accessoires",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7202,
+    "name": "Momie articulée",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines, Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9463,
+    "name": "Mugspot - Protège ton canapé",
+    "price": 7.5,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 11478,
+    "name": "Narval articulé",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7292,
+    "name": "Oeuf de serpent / dinosaure",
+    "price": 3.5,
+    "cats": "Boites, sacs &amp; emballages",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7200,
+    "name": "Oeuf rotatif 10cm",
+    "price": 5,
+    "cats": "Boites, sacs &amp; emballages",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11476,
+    "name": "Orque articulée",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11580,
+    "name": "Ours brun articulé",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7211,
+    "name": "Pack Alien / Capsule",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines, Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11479,
+    "name": "Pack banquise",
+    "price": 40,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 12422,
+    "name": "Pack Collection Gadgetoids – Série 01",
+    "price": 40,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 7203,
+    "name": "Pack Momie / Sarcophage",
+    "price": 3.5,
+    "cats": "Animaux &amp; Figurines, Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8177,
+    "name": "Pack serpent / oeuf",
+    "price": 11.5,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10085,
+    "name": "Pancarte personnalisable",
+    "price": 5,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 7760,
+    "name": "Petit Axolotl articulé",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8779,
+    "name": "Petit bonhomme plante",
+    "price": 3.5,
+    "cats": "Animaux &amp; Figurines, Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7689,
+    "name": "Petit caméléon articulé",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7634,
+    "name": "Petit cochon articulé",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7681,
+    "name": "Petit dragon articulé",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8774,
+    "name": "Petit monstre à peindre",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines, Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11457,
+    "name": "Petit ours polaire articulé",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7690,
+    "name": "Petit ourson porte clé",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11474,
+    "name": "Petit phoque articulé",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7688,
+    "name": "Petit pingouin articulé",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11456,
+    "name": "Petit pingouin articulé",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7720,
+    "name": "Petit zombie articulé",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines, Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7692,
+    "name": "Petite chouette articulée",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7691,
+    "name": "Petite dragonette articulée",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7696,
+    "name": "Pieuvre articulée réaliste",
+    "price": 12,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 7198,
+    "name": "Pieuvre tiny",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 13082,
+    "name": "Pince à gobelet — pour ne plus perdre ton éco-cup",
+    "price": 3,
+    "cats": "Accessoires",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11801,
+    "name": "Pince pour cartes de jeu",
+    "price": 3,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9431,
+    "name": "Plateau - Café Tartine",
+    "price": 13,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 9267,
+    "name": "Plateau \"Welcome Summer\"",
+    "price": 13,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 6882,
+    "name": "Pochette surprise - L",
+    "price": 20,
+    "cats": "Pochettes surprise",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 6892,
+    "name": "Pochette surprise - M",
+    "price": 15,
+    "cats": "Pochettes surprise",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 6899,
+    "name": "Pochette surprise - S",
+    "price": 10,
+    "cats": "Pochettes surprise",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7680,
+    "name": "Poisson rouge articulé",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10007,
+    "name": "Porte clé \"Mo Power\"",
+    "price": 2,
+    "cats": "Porte clés",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7309,
+    "name": "Porte clé coeur",
+    "price": 3,
+    "cats": "Porte clés",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9685,
+    "name": "Porte-clé astronaute squelette",
+    "price": 3,
+    "cats": "Fidgets, Porte clés",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9337,
+    "name": "Porte-clé glace",
+    "price": 2,
+    "cats": "Porte clés",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 12713,
+    "name": "Porte-clé NFC SOS enfant",
+    "price": 5,
+    "cats": "Sécurité SOS NFC",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7769,
+    "name": "Porte-clés clavier mécanique",
+    "price": 5,
+    "cats": "Fidgets, Porte clés",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 7933,
+    "name": "Porte-clés clavier mécanique \"Premium\"",
+    "price": 5,
+    "cats": "Fidgets, Porte clés",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 9421,
+    "name": "Porte-encens Donut",
+    "price": 6,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 10086,
+    "name": "Pot à crayon froissé",
+    "price": 5,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 7356,
+    "name": "Pot à crayon serpent",
+    "price": 15,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 10735,
+    "name": "Pot à crayons kraft",
+    "price": 5,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 11578,
+    "name": "Raton laveur",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11577,
+    "name": "Renard articulé",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8324,
+    "name": "Renard articulé XL",
+    "price": 5,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8010,
+    "name": "Robot articulé \"Dummy\"",
+    "price": 5,
+    "cats": "Animaux &amp; Figurines, Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9906,
+    "name": "Sac cadeaux \"Déjà Tout\"",
+    "price": 10,
+    "cats": "Boites, sacs &amp; emballages",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9910,
+    "name": "Sac cadeaux \"Dernière minute\"",
+    "price": 10,
+    "cats": "Boites, sacs &amp; emballages",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9912,
+    "name": "Sac cadeaux \"Mon préféré\"",
+    "price": 10,
+    "cats": "Boites, sacs &amp; emballages",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9911,
+    "name": "Sac cadeaux \"Oublié\"",
+    "price": 10,
+    "cats": "Boites, sacs &amp; emballages",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9907,
+    "name": "Sac cadeaux “Surprise\"",
+    "price": 10,
+    "cats": "Boites, sacs &amp; emballages",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9898,
+    "name": "Sac cadeaux perdu",
+    "price": 10,
+    "cats": "Boites, sacs &amp; emballages",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7201,
+    "name": "Sarcophage / Tombeau",
+    "price": 3,
+    "cats": "Boites, sacs &amp; emballages",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 6672,
+    "name": "Serpent articulé",
+    "price": 4,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8724,
+    "name": "Serpent articulé \"boules\"",
+    "price": 12.8,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10797,
+    "name": "Serre tête personnalisable",
+    "price": 5,
+    "cats": "Accessoires",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 13083,
+    "name": "Serre-tête flèche - pour ne jamais se perdre",
+    "price": 5,
+    "cats": "Bijoux",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10706,
+    "name": "Set de 4 emportes pièces : biscuits de Noël",
+    "price": 10,
+    "cats": "Accessoires",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10727,
+    "name": "Set de sous-verres collection \"Comment je te l'as met?\"",
+    "price": 12,
+    "cats": "Décoration",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8938,
+    "name": "Spoolinks - Jeu de construction",
+    "price": 9.5,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7765,
+    "name": "Squelette articulé",
+    "price": 4.5,
+    "cats": "Animaux &amp; Figurines, Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9692,
+    "name": "Squelette de dragon articulé",
+    "price": 10,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 9563,
+    "name": "Squelette de scorpion articulé",
+    "price": 8,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  },
+  {
+    "id": 9704,
+    "name": "Squelette de serpent articulé",
+    "price": 15,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8762,
+    "name": "Stylo façon balais magique",
+    "price": 10,
+    "cats": "Décoration",
+    "tropJouet": "Oui",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11795,
+    "name": "Support de cartes de jeu",
+    "price": 6,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 8514,
+    "name": "Support de casque \"Cristal\"",
+    "price": 35,
+    "cats": "Geek / Gaming",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 8669,
+    "name": "Support de manette \"Coussin\"",
+    "price": 14,
+    "cats": "Geek / Gaming",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 8661,
+    "name": "Support de manette \"Cristal\"",
+    "price": 14,
+    "cats": "Geek / Gaming",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 8707,
+    "name": "Support de manette \"Tentacule\"",
+    "price": 8.5,
+    "cats": "Geek / Gaming",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 8628,
+    "name": "Support de stylo sucette",
+    "price": 5,
+    "cats": "Décoration",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 8928,
+    "name": "Support de téléphone - coussin",
+    "price": 5,
+    "cats": "Accessoires",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10083,
+    "name": "Support de téléphone \"Chaise\"",
+    "price": 4,
+    "cats": "Accessoires",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 13167,
+    "name": "Support de téléphone industriel",
+    "price": 12,
+    "cats": "Accessoires",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 9483,
+    "name": "Support smartphone ondulé",
+    "price": 8,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 8313,
+    "name": "T-Rex articulé râleur",
+    "price": 3,
+    "cats": "Animaux &amp; Figurines",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9536,
+    "name": "Tasse géante pour canette",
+    "price": 10,
+    "cats": "Accessoires",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 7193,
+    "name": "Tirelire Cartoon",
+    "price": 19,
+    "cats": "Décoration",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 10,
+    "name": "Tour à dé - la classique",
+    "price": 15,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 10934,
+    "name": "Tour à dé Château & Pont-levis",
+    "price": 20,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 10937,
+    "name": "Tour à dé compacte & pliante",
+    "price": 8,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 12029,
+    "name": "Tour à dé médiévale",
+    "price": 20,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 11,
+    "name": "Tour à dé tronc d'arbre féerique",
+    "price": 20,
+    "cats": "Jeux &amp; activités",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 9924,
+    "name": "Vase \"Twist\"",
+    "price": 15,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 10748,
+    "name": "Vase effet Kraft",
+    "price": 7,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 11766,
+    "name": "Vase Saint Valentin",
+    "price": 12.75,
+    "cats": "Décoration",
+    "tropJouet": "Non",
+    "tropCheap": "Non",
+    "decision": "GARDER",
+    "motif": "Parfaitement aligné V2 : Desk setup, univers gaming, utilitaire de bureau ou fidget sensoriel tactile adulte valorisant."
+  },
+  {
+    "id": 10088,
+    "name": "Vide poche \"coussin\"",
+    "price": 4,
+    "cats": "Décoration",
+    "tropJouet": "Oui",
+    "tropCheap": "Oui",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 9351,
+    "name": "Vide poche pastèque",
+    "price": 8,
+    "cats": "Décoration",
+    "tropJouet": "Moyen",
+    "tropCheap": "Moyen",
+    "decision": "SUPPRIMER",
+    "motif": "Produit typé kermesse/enfant (risque EN 71-1, pièces fragiles) ou babiole plastique à panier dérisoire (2€-5€) incompatible avec la marque adulte."
+  },
+  {
+    "id": 11906,
+    "name": "Vide-poche tête de dragon",
+    "price": 12,
+    "cats": "Décoration",
+    "tropJouet": "Ambigü",
+    "tropCheap": "Non",
+    "decision": "REQUALIFIER",
+    "motif": "À requalifier en 'Art Toy / Sculpture cinétique de collection (+14 ans)'. Packaging soigné, fiche orientée déco/collector et disclaimer légal obligatoire."
+  }
+]
