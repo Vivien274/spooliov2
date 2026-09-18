@@ -190,7 +190,7 @@ export default function HomeTabbedProductGrid() {
       ) : displayProducts.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 px-1">
           {displayProducts.map((product, index) => (
-            <ProductCard key={product.id} product={product} compact={true} priority={index < 4} />
+            <ProductCard key={product.id} product={product} priority={index < 4} />
           ))}
         </div>
       ) : (

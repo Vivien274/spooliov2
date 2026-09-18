@@ -185,12 +185,12 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
     <div className="w-full relative z-30 select-none no-invert">
       <Header />
 
-      {/* Hero Container positioned BELOW fixed header with 30px side margins & expanded full width */}
-      <div className="w-full px-4 sm:px-[30px] pt-24 sm:pt-28 md:pt-32 mb-10 sm:mb-16 lg:mb-20 max-w-[1760px] mx-auto">
+      {/* Hero Container spanning full width, no rounded corners and no drop shadow */}
+      <div className="w-full pt-20 sm:pt-24 mb-10 sm:mb-16">
         <section
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
-          className="relative w-full rounded-[28px] sm:rounded-[36px] overflow-hidden bg-zinc-100 text-zinc-900 min-h-[620px] sm:min-h-[680px] lg:min-h-[720px] border border-zinc-200/90 shadow-[0_20px_50px_rgba(0,0,0,0.06)] group/hero flex flex-col justify-between"
+          className="relative w-full overflow-hidden bg-zinc-100 text-zinc-900 min-h-[600px] sm:min-h-[660px] lg:min-h-[700px] border-b border-zinc-200 group/hero flex flex-col justify-between"
         >
           {/* Background Image & Ambient Effects */}
           <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -239,7 +239,7 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
           <button
             onClick={prevSlide}
             aria-label="Slide précédente"
-            className="hidden sm:flex absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/90 hover:bg-white border border-zinc-200 hover:border-zinc-300 text-zinc-900 items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-lg hover:scale-105"
+            className="hidden sm:flex absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/90 hover:bg-white border border-zinc-200 hover:border-zinc-300 text-zinc-900 items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-md hover:scale-105"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -247,13 +247,13 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
           <button
             onClick={nextSlide}
             aria-label="Slide suivante"
-            className="hidden sm:flex absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/90 hover:bg-white border border-zinc-200 hover:border-zinc-300 text-zinc-900 items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-lg hover:scale-105"
+            className="hidden sm:flex absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/90 hover:bg-white border border-zinc-200 hover:border-zinc-300 text-zinc-900 items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-md hover:scale-105"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
 
           {/* Hero Main Body: Grid with Text on Left & Floating Card on Right */}
-          <div className="relative z-20 w-full h-full min-h-[620px] sm:min-h-[680px] lg:min-h-[720px] p-6 sm:p-10 lg:p-14 flex flex-col justify-between">
+          <div className="relative z-20 w-full max-w-[1360px] mx-auto h-full min-h-[600px] sm:min-h-[660px] lg:min-h-[700px] px-6 sm:px-10 lg:px-14 py-10 sm:py-14 flex flex-col justify-between">
             
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center flex-1 my-auto">
               

@@ -10,7 +10,6 @@ import MotionNavigationMenu from "@/components/MotionNavigationMenu";
 import MobileMenuDrawer from "@/components/MobileMenuDrawer";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import VacationBanner from "@/components/VacationBanner";
-import AdventMarqueeBanner from "@/components/AdventMarqueeBanner";
 
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
@@ -160,7 +159,6 @@ export default function Header({
         ? "bg-white/90 backdrop-blur-2xl border-b border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
         : "bg-white/75 backdrop-blur-md border-b border-zinc-200/60"
       }`}>
-      <AdventMarqueeBanner />
       <VacationBanner />
       <div className={`mx-auto w-full flex items-center justify-between transition-all duration-300 relative z-10 ${isSticky
           ? "h-16 md:h-20 px-4 sm:px-6 md:px-10 max-w-7xl"
