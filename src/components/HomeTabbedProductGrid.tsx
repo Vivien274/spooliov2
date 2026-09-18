@@ -115,28 +115,24 @@ export default function HomeTabbedProductGrid() {
       label: "Nouveautés",
       icon: Sparkles,
       badge: "Récent",
-      color: "text-amber-400",
     },
     {
       id: "best-of" as TabKey,
-      label: "Les Incontournables",
+      label: "Art Toys & Collection",
       icon: Flame,
       badge: "Incontournable",
-      color: "text-[#ff4f00]",
     },
     {
       id: "jeux-de-societe" as TabKey,
       label: "Jeux de Société",
       icon: Dices,
-      badge: "Fun",
-      color: "text-indigo-400",
+      badge: "Tabletop",
     },
     {
       id: "all" as TabKey,
       label: "Tout le Catalogue",
       icon: Grid,
       badge: "Complet",
-      color: "text-emerald-400",
     },
   ];
 
@@ -144,16 +140,16 @@ export default function HomeTabbedProductGrid() {
     <section className="w-full flex flex-col gap-6 font-sans">
       {/* Header Title */}
       <div className="text-center space-y-2">
-        <h2 className="text-3xl sm:text-4xl font-black uppercase text-white font-antonio tracking-tight">
+        <h2 className="text-3xl sm:text-4xl font-black uppercase text-zinc-900 font-antonio tracking-tight">
           {t("home.collection.title") || "Nos Créations 3D"}
         </h2>
-        <p className="text-xs sm:text-sm text-gray-400 max-w-md mx-auto leading-relaxed">
-          {t("home.collection.subtitle") || "Découvrez nos fidgets, jeux et accessoires 3D biosourcés faits main en France."}
+        <p className="text-xs sm:text-sm text-zinc-500 max-w-md mx-auto leading-relaxed">
+          {t("home.collection.subtitle") || "Art toys, accessoires de jeux de société et objets geek imprimés en 3D en France."}
         </p>
       </div>
 
       {/* Tabs Navigation Pills */}
-      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 p-1.5 bg-white/5 border border-white/10 rounded-2xl max-w-3xl mx-auto backdrop-blur-md">
+      <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 p-1.5 bg-zinc-100/90 border border-zinc-200/90 rounded-2xl max-w-3xl mx-auto">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -162,13 +158,13 @@ export default function HomeTabbedProductGrid() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-300 cursor-pointer select-none ${
+              className={`flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer select-none ${
                 isActive
-                  ? "bg-gradient-to-r from-white/20 to-white/10 text-white border border-white/20 shadow-lg scale-105"
-                  : "text-gray-400 hover:text-white hover:bg-white/5 border border-transparent"
+                  ? "bg-white text-zinc-950 border border-zinc-200 shadow-sm"
+                  : "text-zinc-500 hover:text-zinc-900 hover:bg-white/60 border border-transparent"
               }`}
             >
-              <Icon className={`w-4 h-4 ${tab.color}`} />
+              <Icon className={`w-4 h-4 ${isActive ? "text-[#ff4f00]" : "text-zinc-400"}`} />
               <span>{tab.label}</span>
             </button>
           );
@@ -181,16 +177,16 @@ export default function HomeTabbedProductGrid() {
           {Array.from({ length: 8 }).map((_, idx) => (
             <div
               key={idx}
-              className="h-80 bg-spoolio-card border border-spoolio-border rounded-2xl p-4 animate-pulse flex flex-col justify-between"
+              className="h-80 bg-white border border-zinc-200 rounded-2xl p-4 animate-pulse flex flex-col justify-between shadow-xs"
             >
-              <div className="w-full aspect-square bg-white/5 rounded-xl mb-4" />
-              <div className="h-4 bg-white/10 rounded w-3/4 mb-2" />
-              <div className="h-3 bg-white/5 rounded w-1/2" />
+              <div className="w-full aspect-square bg-zinc-100 rounded-xl mb-4" />
+              <div className="h-4 bg-zinc-200 rounded w-3/4 mb-2" />
+              <div className="h-3 bg-zinc-100 rounded w-1/2" />
             </div>
           ))}
         </div>
       ) : error ? (
-        <div className="text-center py-10 text-rose-400 text-xs">{error}</div>
+        <div className="text-center py-10 text-rose-500 text-xs">{error}</div>
       ) : displayProducts.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 px-1">
           {displayProducts.map((product, index) => (
@@ -198,7 +194,7 @@ export default function HomeTabbedProductGrid() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-12 text-gray-400 text-xs">
+        <div className="text-center py-12 text-zinc-400 text-xs">
           Aucun produit trouvé dans cet onglet.
         </div>
       )}
@@ -207,7 +203,7 @@ export default function HomeTabbedProductGrid() {
       <div className="pt-2 flex justify-center">
         <Link
           href="/boutique"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 hover:bg-[#ff4f00] text-gray-300 hover:text-white border border-white/10 hover:border-[#ff4f00] text-xs font-bold uppercase tracking-wider transition-all duration-300 group shadow-md"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-zinc-900 hover:bg-[#ff4f00] text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 group shadow-sm"
         >
           <span>Voir toute la boutique</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

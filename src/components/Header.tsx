@@ -10,7 +10,6 @@ import MotionNavigationMenu from "@/components/MotionNavigationMenu";
 import MobileMenuDrawer from "@/components/MobileMenuDrawer";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import VacationBanner from "@/components/VacationBanner";
-import AdventMarqueeBanner from "@/components/AdventMarqueeBanner";
 
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
@@ -156,11 +155,10 @@ export default function Header({
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-[99999] w-full transition-all duration-300 ${isSticky
-        ? "bg-black/65 dark:bg-[#0e0e12]/75 light:bg-white/85 backdrop-blur-2xl border-b border-white/10 dark:border-white/10 light:border-gray-200 shadow-md"
-        : "bg-transparent border-b border-white/5"
+      <header className={`fixed top-0 left-0 right-0 z-[99999] w-full transition-all duration-300 ${isSticky
+        ? "bg-white/90 backdrop-blur-2xl border-b border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
+        : "bg-white/75 backdrop-blur-md border-b border-zinc-200/60"
       }`}>
-      <AdventMarqueeBanner />
       <VacationBanner />
       <div className={`mx-auto w-full flex items-center justify-between transition-all duration-300 relative z-10 ${isSticky
           ? "h-16 md:h-20 px-4 sm:px-6 md:px-10 max-w-7xl"
@@ -172,16 +170,16 @@ export default function Header({
           <div className="flex md:hidden mr-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="w-10 h-10 flex items-center justify-center bg-white/5 hover:bg-white/15 text-white rounded-full border border-white/10 transition-all cursor-pointer z-50"
+              className="w-10 h-10 flex items-center justify-center bg-zinc-100 hover:bg-zinc-200 text-zinc-900 rounded-full border border-zinc-200/80 transition-all cursor-pointer z-50 shadow-sm"
               title="Menu"
               aria-label={isMobileMenuOpen ? "Fermer le menu mobile" : "Ouvrir le menu mobile"}
             >
               {isMobileMenuOpen ? (
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5 text-zinc-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               ) : (
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-5 h-5 text-zinc-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
               )}
@@ -207,12 +205,12 @@ export default function Header({
             className="relative z-50 flex items-center gap-2 group cursor-pointer shrink-0"
           >
             <Image
-              src="/images/logo.png"
+              src="/images/logo-spoolio-eyes.png"
               alt="Spoolio Logo"
-              width={130}
-              height={38}
+              width={140}
+              height={42}
               priority
-              className={`h-9 md:h-10 w-auto object-contain transition-all ${isSticky && theme === "light" ? "filter invert" : ""}`}
+              className="h-8 sm:h-9 md:h-10 w-auto object-contain transition-transform group-hover:scale-105"
             />
           </Link>
         </div>
@@ -224,11 +222,11 @@ export default function Header({
           {/* Search magnifier bubble */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="w-10 h-10 rounded-full bg-white/10 dark:bg-white/10 light:bg-gray-100 hover:bg-white/20 flex items-center justify-center transition-colors cursor-pointer shadow-sm border border-white/10 light:border-gray-200 shrink-0"
+            className="w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-900 flex items-center justify-center transition-colors cursor-pointer shadow-sm border border-zinc-200/80 shrink-0"
             title="Rechercher (Cmd+K)"
             aria-label="Rechercher"
           >
-            <svg className="w-4 h-4 text-white dark:text-white light:text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4 text-zinc-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
@@ -239,11 +237,11 @@ export default function Header({
           {/* Mobile Search Button */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="flex md:hidden w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 items-center justify-center transition-all cursor-pointer border border-white/10"
+            className="flex md:hidden w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 items-center justify-center transition-all cursor-pointer border border-zinc-200/80 text-zinc-800 shadow-sm"
             title="Rechercher"
             aria-label="Rechercher"
           >
-            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4 text-zinc-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
@@ -277,11 +275,11 @@ export default function Header({
             />
 
             {/* Search container box */}
-            <div className="relative w-full max-w-2xl bg-[#111113] border border-[#222225] rounded-3xl shadow-2xl overflow-hidden flex flex-col z-10 transition-all duration-300 animate-scale-up mt-8 search-dialog-box">
+            <div className="relative w-full max-w-2xl bg-white border border-zinc-200 rounded-3xl shadow-2xl overflow-hidden flex flex-col z-10 transition-all duration-300 animate-scale-up mt-8 search-dialog-box text-zinc-900">
 
               {/* Search Input field */}
-              <div className="p-4 border-b border-[#222225] flex items-center gap-3 search-input-container">
-                <svg className="w-5 h-5 text-gray-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="p-4 border-b border-zinc-200 flex items-center gap-3 search-input-container bg-white">
+                <svg className="w-5 h-5 text-zinc-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
                 <input
@@ -290,37 +288,37 @@ export default function Header({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Rechercher des produits, articles d'atelier ou pages..."
-                  className="w-full bg-transparent outline-none text-sm text-white placeholder-gray-500 font-sans search-field"
+                  className="w-full bg-transparent outline-none text-sm text-zinc-900 placeholder-zinc-400 font-sans search-field"
                 />
                 {searching ? (
-                  <svg className="animate-spin h-5 w-5 text-gray-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin h-5 w-5 text-zinc-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
                 ) : searchQuery ? (
                   <button
                     onClick={() => setSearchQuery("")}
-                    className="text-xs text-gray-400 hover:text-white transition-colors cursor-pointer select-none font-bold"
+                    className="text-xs text-zinc-500 hover:text-zinc-900 transition-colors cursor-pointer select-none font-bold"
                   >
                     Effacer
                   </button>
                 ) : (
-                  <span className="text-[10px] text-gray-500 border border-[#222225] px-1.5 py-0.5 rounded-md font-mono select-none">
+                  <span className="text-[10px] text-zinc-500 border border-zinc-200 px-1.5 py-0.5 rounded-md font-mono select-none">
                     ESC
                   </span>
                 )}
               </div>
 
               {/* Results sections */}
-              <div className="flex-1 overflow-y-auto max-h-[380px] p-6 space-y-6 search-results-content">
+              <div className="flex-1 overflow-y-auto max-h-[380px] p-6 space-y-6 search-results-content bg-zinc-50/50">
                 {/* AI Answer Banner */}
                 {searchQuery && searchResults.aiAnswer && (
-                  <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-950/60 to-indigo-950/60 border border-purple-500/40 text-xs text-purple-200 leading-relaxed font-sans space-y-1.5 shadow-lg animate-in fade-in">
-                    <div className="flex items-center gap-2 font-black uppercase text-[10px] text-purple-400 tracking-wider">
-                      <Sparkles className="w-3.5 h-3.5 text-yellow-400 animate-pulse" />
+                  <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 text-xs text-purple-900 leading-relaxed font-sans space-y-1.5 shadow-xs animate-in fade-in">
+                    <div className="flex items-center gap-2 font-black uppercase text-[10px] text-purple-700 tracking-wider">
+                      <Sparkles className="w-3.5 h-3.5 text-[#ff4f00] animate-pulse" />
                       <span>Recherche Intelligente IA</span>
                     </div>
-                    <p className="font-semibold text-gray-200">{searchResults.aiAnswer}</p>
+                    <p className="font-semibold text-zinc-800">{searchResults.aiAnswer}</p>
                   </div>
                 )}
 
@@ -328,7 +326,7 @@ export default function Header({
                 {!searchQuery && (
                   <div className="space-y-4">
                     <div>
-                      <h5 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2.5">
+                      <h5 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-2.5">
                         Raccourcis rapides
                       </h5>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -337,7 +335,7 @@ export default function Header({
                             key={idx}
                             href={`/${p.slug === "boutique" ? "boutique" : p.slug}`}
                             onClick={() => setIsSearchOpen(false)}
-                            className="flex items-center gap-2.5 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-[#ff4f00]/30 hover:bg-[#ff4f00]/5 transition-all text-xs font-bold text-gray-200 search-shortcut-link"
+                            className="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-zinc-200 hover:border-[#ff4f00]/40 hover:bg-orange-50/30 transition-all text-xs font-bold text-zinc-800 shadow-xs search-shortcut-link"
                           >
                             <span className="text-sm">📄</span>
                             <span>{p.title}</span>
@@ -348,7 +346,7 @@ export default function Header({
 
                     {searchResults.products?.length > 0 && (
                       <div>
-                        <h5 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2.5">
+                        <h5 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-2.5">
                           Produits populaires
                         </h5>
                         <div className="flex flex-col gap-2">
@@ -357,9 +355,9 @@ export default function Header({
                               key={p.id}
                               href={`/product/${p.slug}`}
                               onClick={() => setIsSearchOpen(false)}
-                              className="flex items-center gap-3.5 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-[#ff4f00]/30 hover:bg-[#ff4f00]/5 transition-all search-shortcut-link"
+                              className="flex items-center gap-3.5 p-3 rounded-xl bg-white border border-zinc-200 hover:border-[#ff4f00]/40 hover:bg-orange-50/30 transition-all shadow-xs search-shortcut-link"
                             >
-                              <div className="relative w-9 h-9 rounded-lg overflow-hidden shrink-0 border border-white/5 bg-black/20">
+                              <div className="relative w-9 h-9 rounded-lg overflow-hidden shrink-0 border border-zinc-200 bg-zinc-100">
                                 {(p.image || p.images?.[0]?.src) && (
                                   <Image
                                     src={p.image || p.images?.[0]?.src}
@@ -371,8 +369,8 @@ export default function Header({
                                 )}
                               </div>
                               <div className="flex-1 flex justify-between items-center text-xs">
-                                <span className="font-bold text-white">{p.name}</span>
-                                <span className="text-gray-400 font-extrabold">{parseFloat(p.price).toFixed(2)}€</span>
+                                <span className="font-bold text-zinc-900">{p.name}</span>
+                                <span className="text-zinc-600 font-extrabold">{parseFloat(p.price).toFixed(2)}€</span>
                               </div>
                             </Link>
                           ))}
@@ -388,7 +386,7 @@ export default function Header({
                     {/* Products Matches */}
                     {searchResults.products?.length > 0 && (
                       <div>
-                        <h5 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2.5">
+                        <h5 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-2.5">
                           Produits ({searchResults.products.length})
                         </h5>
                         <div className="flex flex-col gap-2">
@@ -397,9 +395,9 @@ export default function Header({
                               key={p.id}
                               href={`/product/${p.slug}`}
                               onClick={() => setIsSearchOpen(false)}
-                              className="flex items-center gap-3.5 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-[#ff4f00]/30 hover:bg-[#ff4f00]/5 transition-all search-result-item"
+                              className="flex items-center gap-3.5 p-3 rounded-xl bg-white border border-zinc-200 hover:border-[#ff4f00]/40 hover:bg-orange-50/30 transition-all shadow-xs search-result-item"
                             >
-                              <div className="relative w-9 h-9 rounded-lg overflow-hidden shrink-0 border border-white/5 bg-black/20">
+                              <div className="relative w-9 h-9 rounded-lg overflow-hidden shrink-0 border border-zinc-200 bg-zinc-100">
                                 {(p.image || p.images?.[0]?.src) && (
                                   <Image
                                     src={p.image || p.images?.[0]?.src}
@@ -411,8 +409,8 @@ export default function Header({
                                 )}
                               </div>
                               <div className="flex-1 flex justify-between items-center text-xs">
-                                <span className="font-bold text-white">{p.name}</span>
-                                <span className="text-gray-400 font-extrabold">{parseFloat(p.price).toFixed(2)}€</span>
+                                <span className="font-bold text-zinc-900">{p.name}</span>
+                                <span className="text-zinc-600 font-extrabold">{parseFloat(p.price).toFixed(2)}€</span>
                               </div>
                             </Link>
                           ))}
@@ -423,7 +421,7 @@ export default function Header({
                     {/* Blog Matches */}
                     {searchResults.blogPosts?.length > 0 && (
                       <div>
-                        <h5 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2.5">
+                        <h5 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-2.5">
                           Articles d'Atelier ({searchResults.blogPosts.length})
                         </h5>
                         <div className="flex flex-col gap-2">
@@ -432,7 +430,7 @@ export default function Header({
                               key={post.id}
                               href={`/blog/${post.slug}`}
                               onClick={() => setIsSearchOpen(false)}
-                              className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-[#ff4f00]/30 hover:bg-[#ff4f00]/5 transition-all text-xs font-bold text-white search-result-item"
+                              className="flex items-center gap-3 p-3 rounded-xl bg-white border border-zinc-200 hover:border-[#ff4f00]/40 hover:bg-orange-50/30 transition-all text-xs font-bold text-zinc-900 shadow-xs search-result-item"
                             >
                               <span className="text-sm">📝</span>
                               <span className="truncate">{post.title}</span>
@@ -445,7 +443,7 @@ export default function Header({
                     {/* Pages Matches */}
                     {searchResults.pages?.length > 0 && (
                       <div>
-                        <h5 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2.5">
+                        <h5 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-2.5">
                           Pages ({searchResults.pages.length})
                         </h5>
                         <div className="flex flex-col gap-2">
@@ -454,7 +452,7 @@ export default function Header({
                               key={idx}
                               href={p.isStatic ? `/${p.slug}` : `/page/${p.slug}`}
                               onClick={() => setIsSearchOpen(false)}
-                              className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-[#ff4f00]/30 hover:bg-[#ff4f00]/5 transition-all text-xs font-bold text-white search-result-item"
+                              className="flex items-center gap-3 p-3 rounded-xl bg-white border border-zinc-200 hover:border-[#ff4f00]/40 hover:bg-orange-50/30 transition-all text-xs font-bold text-zinc-900 shadow-xs search-result-item"
                             >
                               <span className="text-sm">📄</span>
                               <span className="truncate">{p.title}</span>
@@ -468,7 +466,7 @@ export default function Header({
                     {searchResults.products?.length === 0 &&
                       searchResults.blogPosts?.length === 0 &&
                       searchResults.pages?.length === 0 && (
-                        <div className="text-center py-10 text-xs text-gray-500 font-medium">
+                        <div className="text-center py-10 text-xs text-zinc-500 font-medium">
                           Aucun résultat trouvé pour « {searchQuery} ». Essayez d'autres mots clés.
                         </div>
                       )}

@@ -63,40 +63,29 @@ export default function SpotlightMarqueeBanner() {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative w-full rounded-3xl bg-[#0e0e11] border border-white/10 p-6 md:p-8 overflow-hidden select-none shadow-2xl group my-8"
+      className="relative w-full rounded-3xl bg-zinc-50 border border-zinc-200/90 p-6 md:p-8 overflow-hidden select-none shadow-sm group my-8"
     >
       {/* Dynamic Cursor Spotlight Radial Glow */}
       <div
         className="pointer-events-none absolute -inset-px transition-opacity duration-500 z-10"
         style={{
           opacity: mousePos.isHovered ? 1 : 0,
-          background: `radial-gradient(550px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 79, 0, 0.18), rgba(47, 60, 217, 0.08) 50%, transparent 80%)`,
-        }}
-      />
-
-      {/* Spotlight Border Mask */}
-      <div
-        className="pointer-events-none absolute -inset-px rounded-3xl transition-opacity duration-500 z-10"
-        style={{
-          opacity: mousePos.isHovered ? 1 : 0,
-          background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 79, 0, 0.6), transparent 70%)`,
-          maskImage: "linear-gradient(black, black)",
-          WebkitMaskImage: "linear-gradient(black, black)",
+          background: `radial-gradient(550px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 79, 0, 0.06), transparent 70%)`,
         }}
       />
 
       {/* Header Banner */}
-      <div className="relative z-20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 pb-6 border-b border-white/10">
+      <div className="relative z-20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6 pb-6 border-b border-zinc-200">
         <div>
           <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#ff4f00] flex items-center gap-1.5 mb-1">
             <Sparkles className="w-3.5 h-3.5" />
             <span>{t("home.marquee.tagline")}</span>
           </span>
-          <h3 className="text-2xl sm:text-3xl font-black uppercase font-antonio tracking-wide text-white">
+          <h3 className="text-2xl sm:text-3xl font-black uppercase font-antonio tracking-wide text-zinc-900">
             {t("home.marquee.title")}
           </h3>
         </div>
-        <p className="text-xs text-gray-400 max-w-sm font-sans leading-relaxed">
+        <p className="text-xs text-zinc-500 max-w-sm font-sans leading-relaxed">
           {t("home.marquee.subtitle")}
         </p>
       </div>
@@ -108,22 +97,22 @@ export default function SpotlightMarqueeBanner() {
           return (
             <div
               key={idx}
-              className={`p-5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 transition-all duration-300 flex flex-col justify-between h-44 group/card hover:scale-[1.02] hover:border-white/20`}
+              className="p-5 rounded-2xl bg-white hover:bg-zinc-50 border border-zinc-200 hover:border-zinc-300 transition-all duration-200 flex flex-col justify-between h-44 group/card hover:scale-[1.01] shadow-xs"
             >
               <div className="flex items-center justify-between">
-                <div className={`p-2.5 rounded-xl bg-gradient-to-br ${item.color} border`}>
+                <div className="p-2.5 rounded-xl bg-zinc-100 border border-zinc-200 text-zinc-900 group-hover/card:text-[#ff4f00] transition-colors">
                   <Icon className="w-5 h-5" />
                 </div>
-                <span className="text-[9px] font-black tracking-widest px-2 py-0.5 rounded-md bg-white/10 text-gray-300 uppercase">
+                <span className="text-[9px] font-mono font-bold tracking-widest px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-600 uppercase border border-zinc-200">
                   {item.badge}
                 </span>
               </div>
 
               <div>
-                <h4 className="text-sm font-bold text-white group-hover/card:text-[#ff4f00] transition-colors mb-1">
+                <h4 className="text-sm font-bold text-zinc-900 group-hover/card:text-[#ff4f00] transition-colors mb-1">
                   {item.title}
                 </h4>
-                <p className="text-xs text-gray-400 font-sans leading-relaxed">
+                <p className="text-xs text-zinc-500 font-sans leading-relaxed">
                   {item.desc}
                 </p>
               </div>

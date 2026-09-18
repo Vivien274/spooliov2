@@ -2,9 +2,9 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-spoolio-bg: #000000;
-  --color-spoolio-card: #131316;
-  --color-spoolio-border: #1f1f23;
+  --color-spoolio-bg: #ffffff;
+  --color-spoolio-card: #ffffff;
+  --color-spoolio-border: #e4e4e7;
   --color-spoolio-orange: #ff4f00;
 
   --font-sans: var(--font-plus-jakarta), Arial, sans-serif;
@@ -14,8 +14,9 @@
 
 body {
   background-color: var(--color-spoolio-bg);
-  color: #ededed;
+  color: #09090b;
   font-family: var(--font-sans);
+  color-scheme: light;
 }
 
 

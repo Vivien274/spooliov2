@@ -130,7 +130,7 @@ export default function MotionNavigationMenu() {
       onMouseLeave={handleMouseLeave}
     >
       {/* Mega Navigation Pills Bar Container */}
-      <nav className="relative flex items-center gap-1.5 p-1.5 bg-black/50 backdrop-blur-2xl border border-white/15 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.5)] ring-1 ring-white/10">
+      <nav className="relative flex items-center gap-1.5 p-1.5 bg-white/95 backdrop-blur-2xl border border-zinc-200/90 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.06)] ring-1 ring-zinc-900/5">
         {menuItems.map((item) => {
           const isSelected = activeTab === item.id;
           const isHovered = hoveredTab === item.id;
@@ -145,13 +145,13 @@ export default function MotionNavigationMenu() {
               {(isHovered || isSelected) && (
                 <motion.div
                   layoutId="motion-nav-pill-active"
-                  className="absolute inset-0 bg-gradient-to-r from-white/20 via-white/15 to-white/10 rounded-full border border-white/25 shadow-lg shadow-black/40"
+                  className="absolute inset-0 bg-zinc-100/90 rounded-full border border-zinc-200 shadow-sm"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
 
               {/* Label & Indicators */}
-              <div className="relative z-10 flex items-center gap-2 text-xs font-black text-white tracking-wide">
+              <div className="relative z-10 flex items-center gap-2 text-xs font-bold text-zinc-900 tracking-tight">
                 <span>{item.label}</span>
 
                 {item.badge && (
@@ -167,7 +167,7 @@ export default function MotionNavigationMenu() {
                     animate={{ rotate: isSelected ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <ChevronDown className="w-3.5 h-3.5 text-white/70" />
+                    <ChevronDown className="w-3.5 h-3.5 text-zinc-500" />
                   </motion.div>
                 )}
               </div>
@@ -178,7 +178,7 @@ export default function MotionNavigationMenu() {
         {/* Featured Workshop CTA Button */}
         <Link
           href="/don"
-          className="relative px-4 py-2 ml-1 rounded-full bg-gradient-to-r from-[#ff4f00] via-[#FF6600] to-[#FF8800] text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow-lg shadow-[#ff4f00]/30 hover:scale-105 transition-all duration-200 cursor-pointer no-invert group overflow-hidden"
+          className="relative px-4 py-2 ml-1 rounded-full bg-gradient-to-r from-[#ff4f00] to-[#e04500] text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow-md shadow-[#ff4f00]/25 hover:scale-105 transition-all duration-200 cursor-pointer no-invert group overflow-hidden"
         >
           <motion.div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
           <Sparkles className="w-3.5 h-3.5 text-yellow-200 animate-pulse" />
@@ -198,10 +198,10 @@ export default function MotionNavigationMenu() {
             onMouseEnter={handleDropdownMouseEnter}
           >
             {/* Panel Body Container (Élargi à 980px pour un confort de lecture maximal) */}
-            <div className="w-[980px] bg-[#0d0d10]/98 backdrop-blur-3xl border border-white/20 rounded-[32px] p-6 shadow-[0_35px_80px_rgba(0,0,0,0.85)] ring-1 ring-white/10 relative overflow-hidden">
+            <div className="w-[980px] bg-white/98 backdrop-blur-3xl border border-zinc-200/90 rounded-[32px] p-6 shadow-[0_25px_70px_rgba(0,0,0,0.12)] ring-1 ring-zinc-900/5 relative overflow-hidden text-zinc-900">
               {/* Subtle ambient lighting glows */}
-              <div className="absolute -top-20 -left-20 w-56 h-56 bg-[#ff4f00]/15 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-20 -right-20 w-56 h-56 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -top-20 -left-20 w-56 h-56 bg-[#ff4f00]/5 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-20 -right-20 w-56 h-56 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
 
               {/* ============================================================ */}
               {/* TAB 1: BOUTIQUE & CATALOGUE                                  */}
@@ -213,26 +213,26 @@ export default function MotionNavigationMenu() {
                     {/* Light Sweep Reflection animation */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] group-hover/hero:translate-x-[150%] transition-transform duration-1000 z-20 pointer-events-none" />
 
-                    <div className="absolute inset-0 opacity-40 group-hover/hero:opacity-65 transition-opacity duration-500 pointer-events-none">
+                    <div className="absolute inset-0 opacity-25 group-hover/hero:opacity-40 transition-opacity duration-500 pointer-events-none">
                       <Image
                         src="/images/marcel_octopus.jpg"
                         alt="Spoolio 3D Creations"
                         fill
-                        className="object-cover object-center no-invert filter brightness-90 group-hover/hero:scale-105 transition-transform duration-700 ease-out"
+                        className="object-cover object-center no-invert filter brightness-95 group-hover/hero:scale-105 transition-transform duration-700 ease-out"
                       />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/90 via-zinc-900/50 to-transparent z-10" />
 
                     <div className="relative z-20 space-y-2.5">
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#ff4f00] text-white text-[10px] font-black uppercase tracking-wider shadow-lg no-invert">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#ff4f00] text-white text-[10px] font-black uppercase tracking-wider shadow-md no-invert">
                         <Flame className="w-3 h-3 text-yellow-300 animate-pulse" />
                         Catalogue Spoolio 3D
                       </span>
-                      <h4 className="text-xl font-black text-white leading-tight">
-                        Créations 3D Artisanales &amp; Ludiques
+                      <h4 className="text-xl font-black text-white leading-tight font-antonio uppercase tracking-wide">
+                        Créations 3D &amp; Art Toys
                       </h4>
-                      <p className="text-xs text-gray-300 font-medium leading-relaxed">
-                        Fidgets articulés, objet déco &amp; accessoires gaming zéro déchet.
+                      <p className="text-xs text-zinc-200 font-medium leading-relaxed">
+                        Figurines, art toys, accessoires gaming &amp; jeux de société.
                       </p>
                     </div>
 
@@ -240,10 +240,10 @@ export default function MotionNavigationMenu() {
                       <Link
                         href="/boutique"
                         onClick={() => setActiveTab(null)}
-                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-black font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all duration-300 shadow-lg group/btn no-invert"
+                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-zinc-950 font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all duration-200 shadow-md group/btn no-invert"
                       >
                         <span>Tout le catalogue</span>
-                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-300" />
+                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-200" />
                       </Link>
                     </div>
                   </div>
@@ -254,27 +254,27 @@ export default function MotionNavigationMenu() {
                     <div className="grid grid-cols-2 gap-5">
                       {/* Column A: Nos Collections */}
                       <div className="space-y-1.5">
-                        <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-2">
+                        <h5 className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest px-2 mb-2">
                           Nos Collections
                         </h5>
 
                         <Link
                           href="/categorie/Fidgets"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
+                          <div className="w-9 h-9 rounded-xl bg-[#ff4f00]/10 text-[#ff4f00] flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                             <Sparkles className="w-4.5 h-4.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate">
+                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
                                 {t("header.categories.fidgets")}
                               </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-gray-400 truncate">
-                              Jouets tactiles &amp; anti-stress 3D
+                            <p className="text-[11px] text-zinc-500 truncate">
+                              Objets sensoriels, desk toys &amp; clickers
                             </p>
                           </div>
                         </Link>
@@ -282,20 +282,20 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/categorie/Geek %2F Gaming"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
+                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                             <Gamepad2 className="w-4.5 h-4.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors truncate">
+                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
                                 {t("nav_menu.geek_gaming")}
                               </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-gray-400 truncate">
-                              Supports manette &amp; accessoires
+                            <p className="text-[11px] text-zinc-500 truncate">
+                              Supports manette &amp; accessoires bureau
                             </p>
                           </div>
                         </Link>
@@ -303,19 +303,19 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/categorie/Porte clés"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
+                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                             <Key className="w-4.5 h-4.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors truncate">
+                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
                                 {t("nav_menu.keychain_title")}
                               </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-gray-400 truncate">
+                            <p className="text-[11px] text-zinc-500 truncate">
                               Porte-clés originaux &amp; fun
                             </p>
                           </div>
@@ -324,20 +324,20 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/categorie/Animaux %26 Figurines"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
+                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                             <Smile className="w-4.5 h-4.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors truncate">
-                                {t("nav_menu.animals_title")}
+                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
+                                Art Toys &amp; Figurines
                               </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-gray-400 truncate">
-                              Dragons articulés &amp; figurines
+                            <p className="text-[11px] text-zinc-500 truncate">
+                              Art toys, sculptures &amp; figurines
                             </p>
                           </div>
                         </Link>
@@ -345,29 +345,29 @@ export default function MotionNavigationMenu() {
 
                       {/* Column B: Spécialités Spoolio */}
                       <div className="space-y-1.5">
-                        <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-2">
-                          Spécialités &amp; Innovations
+                        <h5 className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest px-2 mb-2">
+                          Spécialités &amp; Univers
                         </h5>
 
                         <Link
                           href="/medaillon-nfc-chien-chat"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
+                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                             <ShieldCheck className="w-4.5 h-4.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate flex items-center gap-1.5">
+                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate flex items-center gap-1.5">
                                 <span>{t("nav_menu.nfc_title")}</span>
-                                <span className="text-[8px] font-black px-1.5 py-0.2 rounded bg-[#ff4f00] text-black">
+                                <span className="text-[8px] font-black px-1.5 py-0.2 rounded bg-zinc-900 text-white">
                                   SOS
                                 </span>
                               </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-gray-400 truncate">
+                            <p className="text-[11px] text-zinc-500 truncate">
                               Puce d'urgence pour animaux
                             </p>
                           </div>
@@ -376,22 +376,22 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/jeux-de-societe"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
+                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                             <Dices className="w-4.5 h-4.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-indigo-400 transition-colors truncate flex items-center gap-1.5">
+                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate flex items-center gap-1.5">
                                 <span>Jeux &amp; Accessoires 3D</span>
-                                <span className="text-[8px] font-black px-1.5 py-0.2 rounded bg-indigo-500 text-white">
+                                <span className="text-[8px] font-black px-1.5 py-0.2 rounded bg-[#ff4f00] text-white">
                                   ENJEU
                                 </span>
                               </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-gray-400 truncate">
+                            <p className="text-[11px] text-zinc-500 truncate">
                               Accessoires 3D &amp; compteur de score
                             </p>
                           </div>
@@ -400,19 +400,19 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/pochette-surprise"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
+                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                             <Gift className="w-4.5 h-4.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors truncate">
+                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
                                 {t("nav_menu.surprise_pack")}
                               </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-gray-400 truncate">
+                            <p className="text-[11px] text-zinc-500 truncate">
                               Packs mystères multi-objets
                             </p>
                           </div>
@@ -421,12 +421,12 @@ export default function MotionNavigationMenu() {
                     </div>
 
                     {/* Bottom Action Bar */}
-                    <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-4 mt-2">
+                    <div className="p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 flex items-center justify-between gap-4 mt-2">
                       <div className="min-w-0">
-                        <h6 className="text-xs font-black text-white">
+                        <h6 className="text-xs font-black text-zinc-900 font-antonio uppercase tracking-wide">
                           Besoin d'aide pour choisir votre création 3D ?
                         </h6>
-                        <p className="text-[11px] text-gray-400 truncate">
+                        <p className="text-[11px] text-zinc-500 truncate">
                           Notre équipe est disponible pour vous conseiller dans l'atelier.
                         </p>
                       </div>
@@ -434,7 +434,7 @@ export default function MotionNavigationMenu() {
                       <Link
                         href="/faq"
                         onClick={() => setActiveTab(null)}
-                        className="px-4 py-2 rounded-full bg-white/10 hover:bg-[#ff4f00] text-white hover:text-white text-xs font-black shrink-0 transition-all duration-200 border border-white/15 cursor-pointer no-invert hover:scale-105 shadow-md"
+                        className="px-4 py-2 rounded-full bg-zinc-950 hover:bg-[#ff4f00] text-white text-xs font-black shrink-0 transition-all duration-200 border border-zinc-950 cursor-pointer no-invert shadow-sm"
                       >
                         Contacter l'Atelier
                       </Link>
@@ -449,29 +449,29 @@ export default function MotionNavigationMenu() {
               {activeTab === "univers" && (
                 <div className="grid grid-cols-12 gap-6 relative z-10">
                   {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 4) */}
-                  <div className="col-span-4 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-indigo-600/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group/hero shadow-xl">
+                  <div className="col-span-4 relative rounded-2xl overflow-hidden border border-zinc-200 bg-zinc-900 p-6 flex flex-col justify-between group/hero shadow-md">
                     {/* Light Sweep Reflection animation */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] group-hover/hero:translate-x-[150%] transition-transform duration-1000 z-20 pointer-events-none" />
 
-                    <div className="absolute inset-0 opacity-40 group-hover/hero:opacity-65 transition-opacity duration-500 pointer-events-none">
+                    <div className="absolute inset-0 opacity-25 group-hover/hero:opacity-40 transition-opacity duration-500 pointer-events-none">
                       <Image
                         src="/images/enjeu/Enjeu_banniere.png"
                         alt="Spoolio Experiences & Games"
                         fill
-                        className="object-cover object-center no-invert filter brightness-90 group-hover/hero:scale-105 transition-transform duration-700 ease-out"
+                        className="object-cover object-center no-invert filter brightness-95 group-hover/hero:scale-105 transition-transform duration-700 ease-out"
                       />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-900/60 to-transparent z-10" />
 
                     <div className="relative z-20 space-y-2.5">
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-indigo-500 text-white text-[10px] font-black uppercase tracking-wider shadow-lg no-invert">
-                        <Dices className="w-3.5 h-3.5 text-emerald-300 animate-pulse" />
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-zinc-800 text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-sm no-invert border border-zinc-700">
+                        <Dices className="w-3.5 h-3.5 text-[#ff4f00] animate-pulse" />
                         Expériences &amp; Jeux
                       </span>
-                      <h4 className="text-xl font-black text-white leading-tight">
-                        L'Univers Interactif Spoolio 🎲
+                      <h4 className="text-xl font-black text-white leading-tight font-antonio uppercase tracking-wide">
+                        L'Univers Jeux Spoolio 🎲
                       </h4>
-                      <p className="text-xs text-gray-300 font-medium leading-relaxed">
+                      <p className="text-xs text-zinc-300 font-medium leading-relaxed">
                         Apps Web gratuites, studio 3D &amp; accessoires de jeu.
                       </p>
                     </div>
@@ -480,10 +480,10 @@ export default function MotionNavigationMenu() {
                       <Link
                         href="/jeux-de-societe"
                         onClick={() => setActiveTab(null)}
-                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-black font-black text-xs uppercase tracking-wider hover:bg-indigo-500 hover:text-white transition-all duration-300 shadow-lg group/btn no-invert"
+                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-zinc-950 font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all duration-200 shadow-md group/btn no-invert"
                       >
                         <span>Découvrir l'App Enjeu</span>
-                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-300" />
+                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-200" />
                       </Link>
                     </div>
                   </div>
@@ -494,29 +494,29 @@ export default function MotionNavigationMenu() {
                     <div className="grid grid-cols-2 gap-5">
                       {/* Column A: Jeux & Compagnons */}
                       <div className="space-y-1.5">
-                        <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-2">
+                        <h5 className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest px-2 mb-2">
                           Jeux &amp; Compagnons Web
                         </h5>
 
                         <Link
                           href="/jeux-de-societe"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
+                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                             <Dices className="w-4.5 h-4.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-indigo-300 transition-colors truncate flex items-center gap-1">
+                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate flex items-center gap-1">
                                 <span>Jeux &amp; App Enjeu</span>
-                                <span className="text-[8px] font-black px-1 py-0.2 rounded bg-emerald-500 text-black">
+                                <span className="text-[8px] font-black px-1 py-0.2 rounded bg-[#ff4f00] text-white">
                                   GRATUIT
                                 </span>
                               </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-gray-400 truncate">
+                            <p className="text-[11px] text-zinc-500 truncate">
                               Calculateur de score &amp; tours à dés
                             </p>
                           </div>
@@ -525,19 +525,19 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/loterie"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
+                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                             <Sparkles className="w-4.5 h-4.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors truncate">
+                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
                                 Roue de la Fortune
                               </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-gray-400 truncate">
+                            <p className="text-[11px] text-zinc-500 truncate">
                               Tournez la roue &amp; gagnez des promos
                             </p>
                           </div>
@@ -547,19 +547,19 @@ export default function MotionNavigationMenu() {
                           <Link
                             href="/tombola"
                             onClick={() => setActiveTab(null)}
-                            className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                            className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                           >
-                            <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
+                            <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                               <Ticket className="w-4.5 h-4.5" />
                             </div>
                             <div className="min-w-0 flex-1">
                               <div className="flex items-center justify-between">
-                                <h6 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors truncate">
+                                <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
                                   Tombola Spoolio
                                 </h6>
-                                <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                                <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                               </div>
-                              <p className="text-[11px] text-gray-400 truncate">
+                              <p className="text-[11px] text-zinc-500 truncate">
                                 {t("nav_menu.tombola_desc")}
                               </p>
                             </div>
@@ -569,27 +569,27 @@ export default function MotionNavigationMenu() {
 
                       {/* Column B: Outils & Studio 3D */}
                       <div className="space-y-1.5">
-                        <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-2">
+                        <h5 className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest px-2 mb-2">
                           Outils &amp; Studio 3D
                         </h5>
 
                         <Link
                           href="/boussole-sensorielle"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
+                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                             <Compass className="w-4.5 h-4.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-cyan-400 transition-colors truncate">
+                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
                                 {t("nav_menu.boussole_title")}
                               </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-gray-400 truncate">
-                              Trouvez votre fidget idéal en 3 clics
+                            <p className="text-[11px] text-zinc-500 truncate">
+                              Trouvez votre objet idéal en 3 clics
                             </p>
                           </div>
                         </Link>
@@ -597,19 +597,19 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/createur-cliqueur"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
+                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                             <Gamepad2 className="w-4.5 h-4.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors truncate">
+                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
                                 {t("nav_menu.clicker_studio")}
                               </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-gray-400 truncate">
+                            <p className="text-[11px] text-zinc-500 truncate">
                               Personnalisez votre clicker en 3D
                             </p>
                           </div>
@@ -618,12 +618,12 @@ export default function MotionNavigationMenu() {
                     </div>
 
                     {/* Bottom Action Bar */}
-                    <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-4 mt-2">
+                    <div className="p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 flex items-center justify-between gap-4 mt-2">
                       <div className="min-w-0">
-                        <h6 className="text-xs font-black text-white">
+                        <h6 className="text-xs font-black text-zinc-900 font-antonio uppercase tracking-wide">
                           Une idée de jeu de société ou d'accessoire ?
                         </h6>
-                        <p className="text-[11px] text-gray-400 truncate">
+                        <p className="text-[11px] text-zinc-500 truncate">
                           Partagez vos idées pour enrichir les prochaines créations 3D.
                         </p>
                       </div>
@@ -631,7 +631,7 @@ export default function MotionNavigationMenu() {
                       <Link
                         href="/jeux-de-societe#communaute"
                         onClick={() => setActiveTab(null)}
-                        className="px-4 py-2 rounded-full bg-white/10 hover:bg-indigo-500 text-white hover:text-white text-xs font-black shrink-0 transition-all duration-200 border border-white/15 cursor-pointer no-invert hover:scale-105 shadow-md"
+                        className="px-4 py-2 rounded-full bg-zinc-950 hover:bg-[#ff4f00] text-white text-xs font-black shrink-0 transition-all duration-200 border border-zinc-950 cursor-pointer no-invert shadow-sm"
                       >
                         Suggérer une idée
                       </Link>
@@ -646,30 +646,30 @@ export default function MotionNavigationMenu() {
               {activeTab === "atelier" && (
                 <div className="grid grid-cols-12 gap-6 relative z-10">
                   {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 4) */}
-                  <div className="col-span-4 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-emerald-600/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group/hero shadow-xl">
+                  <div className="col-span-4 relative rounded-2xl overflow-hidden border border-zinc-200 bg-zinc-900 p-6 flex flex-col justify-between group/hero shadow-md">
                     {/* Light Sweep Reflection animation */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] group-hover/hero:translate-x-[150%] transition-transform duration-1000 z-20 pointer-events-none" />
 
-                    <div className="absolute inset-0 opacity-40 group-hover/hero:opacity-65 transition-opacity duration-500 pointer-events-none">
+                    <div className="absolute inset-0 opacity-25 group-hover/hero:opacity-40 transition-opacity duration-500 pointer-events-none">
                       <Image
                         src="/images/hero_background.jpg"
                         alt="Atelier Spoolio"
                         fill
-                        className="object-cover object-center no-invert filter brightness-90 group-hover/hero:scale-105 transition-transform duration-700 ease-out"
+                        className="object-cover object-center no-invert filter brightness-95 group-hover/hero:scale-105 transition-transform duration-700 ease-out"
                       />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-900/60 to-transparent z-10" />
 
                     <div className="relative z-20 space-y-2.5">
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-500 text-black text-[10px] font-black uppercase tracking-wider shadow-lg no-invert">
-                        <Leaf className="w-3.5 h-3.5 text-black animate-bounce" />
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-zinc-800 text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-sm no-invert border border-zinc-700">
+                        <Leaf className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
                         Impression 3D Eco 🇫🇷
                       </span>
-                      <h4 className="text-xl font-black text-white leading-tight">
-                        Savoir-Faire &amp; Engagement Spoolio
+                      <h4 className="text-xl font-black text-white leading-tight font-antonio uppercase tracking-wide">
+                        Savoir-Faire &amp; Engagement
                       </h4>
-                      <p className="text-xs text-gray-300 font-medium leading-relaxed">
-                        Objets conçus en France à partir de bioplastiques compostables.
+                      <p className="text-xs text-zinc-300 font-medium leading-relaxed">
+                        Objets conçus en France à partir de bioplastiques recyclables.
                       </p>
                     </div>
 
@@ -677,10 +677,10 @@ export default function MotionNavigationMenu() {
                       <Link
                         href="/a-propos"
                         onClick={() => setActiveTab(null)}
-                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-black font-black text-xs uppercase tracking-wider hover:bg-emerald-500 hover:text-black transition-all duration-300 shadow-lg group/btn no-invert"
+                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-zinc-950 font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all duration-200 shadow-md group/btn no-invert"
                       >
                         <span>Découvrir l'Atelier</span>
-                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-300" />
+                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-200" />
                       </Link>
                     </div>
                   </div>
@@ -691,27 +691,27 @@ export default function MotionNavigationMenu() {
                     <div className="grid grid-cols-2 gap-5">
                       {/* Column A: L'Univers Spoolio */}
                       <div className="space-y-1.5">
-                        <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-2">
+                        <h5 className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest px-2 mb-2">
                           L'Univers Spoolio
                         </h5>
 
                         <Link
                           href="/a-propos"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-[#ff4f00]/20 text-[#ff4f00] flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
+                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                             <Palette className="w-4.5 h-4.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors truncate">
+                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
                                 {t("nav_menu.our_story")}
                               </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-gray-400 truncate">
-                              Savoir-faire &amp; engagements éco
+                            <p className="text-[11px] text-zinc-500 truncate">
+                              Savoir-faire &amp; fabrication à Comines
                             </p>
                           </div>
                         </Link>
@@ -719,20 +719,20 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/blog"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
+                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                             <BookOpen className="w-4.5 h-4.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-purple-400 transition-colors truncate">
+                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
                                 {t("nav_menu.blog_title")}
                               </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-gray-400 truncate">
-                              Guides 3D, coulisses &amp; ASMR
+                            <p className="text-[11px] text-zinc-500 truncate">
+                              Guides 3D, coulisses &amp; actualités
                             </p>
                           </div>
                         </Link>
@@ -740,29 +740,29 @@ export default function MotionNavigationMenu() {
 
                       {/* Column B: Services & Support */}
                       <div className="space-y-1.5">
-                        <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-2 mb-2">
+                        <h5 className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest px-2 mb-2">
                           Services &amp; Support
                         </h5>
 
                         <Link
                           href="/pro"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
+                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                             <Building2 className="w-4.5 h-4.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-blue-400 transition-colors truncate flex items-center gap-1">
+                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate flex items-center gap-1">
                                 <span>{t("nav_menu.pro_space")}</span>
-                                <span className="text-[8px] font-black px-1 py-0.2 rounded bg-blue-500 text-white">
+                                <span className="text-[8px] font-black px-1 py-0.2 rounded bg-zinc-900 text-white">
                                   B2B
                                 </span>
                               </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-gray-400 truncate">
+                            <p className="text-[11px] text-zinc-500 truncate">
                               Goodies &amp; séries 3D sur-mesure
                             </p>
                           </div>
@@ -771,19 +771,19 @@ export default function MotionNavigationMenu() {
                         <Link
                           href="/faq"
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
+                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-all duration-300 shadow-md">
+                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
                             <HelpCircle className="w-4.5 h-4.5" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors truncate">
+                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
                                 {t("nav_menu.faq_title")}
                               </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
+                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-gray-400 truncate">
+                            <p className="text-[11px] text-zinc-500 truncate">
                               Livraison, retours &amp; questions
                             </p>
                           </div>
@@ -792,12 +792,12 @@ export default function MotionNavigationMenu() {
                     </div>
 
                     {/* Bottom Action Bar */}
-                    <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between gap-4 mt-2">
+                    <div className="p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 flex items-center justify-between gap-4 mt-2">
                       <div className="min-w-0">
-                        <h6 className="text-xs font-black text-white">
+                        <h6 className="text-xs font-black text-zinc-900 font-antonio uppercase tracking-wide">
                           Un projet d'impression 3D sur-mesure pour votre entreprise ?
                         </h6>
-                        <p className="text-[11px] text-gray-400 truncate">
+                        <p className="text-[11px] text-zinc-500 truncate">
                           Demandez une étude de faisabilité et un devis rapide.
                         </p>
                       </div>
@@ -805,7 +805,7 @@ export default function MotionNavigationMenu() {
                       <Link
                         href="/pro"
                         onClick={() => setActiveTab(null)}
-                        className="px-4 py-2 rounded-full bg-white/10 hover:bg-blue-500 text-white hover:text-white text-xs font-black shrink-0 transition-all duration-200 border border-white/15 cursor-pointer no-invert hover:scale-105 shadow-md"
+                        className="px-4 py-2 rounded-full bg-zinc-950 hover:bg-[#ff4f00] text-white text-xs font-black shrink-0 transition-all duration-200 border border-zinc-950 cursor-pointer no-invert shadow-sm"
                       >
                         Demander un devis
                       </Link>
