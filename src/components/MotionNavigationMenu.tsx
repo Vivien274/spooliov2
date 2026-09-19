@@ -522,27 +522,6 @@ export default function MotionNavigationMenu() {
                           </div>
                         </Link>
 
-                        <Link
-                          href="/loterie"
-                          onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-white/10 border border-transparent hover:border-white/15 transition-all duration-200 group"
-                        >
-                          <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-md">
-                            <Sparkles className="w-4.5 h-4.5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-white group-hover:text-amber-400 transition-colors truncate">
-                                Roue de la Fortune
-                              </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-gray-500 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </div>
-                            <p className="text-[11px] text-gray-400 truncate">
-                              Tournez la roue &amp; gagnez des promos
-                            </p>
-                          </div>
-                        </Link>
-
                         {isTombolaActive && (
                           <Link
                             href="/tombola"

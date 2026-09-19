@@ -315,8 +315,8 @@ export default function AdminLoteriePage() {
           </div>
           <div>
             <p className="text-xs text-neutral-400 font-medium">Statut Loterie</p>
-            <h3 className="text-2xl font-black text-emerald-400">ACTIF</h3>
-            <p className="text-[11px] text-amber-400 font-mono">En ligne sur /loterie</p>
+            <h3 className="text-2xl font-black text-rose-500">DÉSACTIVÉE</h3>
+            <p className="text-[11px] text-neutral-400 font-mono">Redirection active vers /boutique</p>
           </div>
         </div>
       </div>

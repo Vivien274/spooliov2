@@ -208,9 +208,9 @@ export default async function TombolaPage() {
                 </div>
               </Link>
 
-              {/* Card 2: Roue de la Loterie */}
+              {/* Card 2: Programme Fidélité */}
               <Link
-                href="/loterie"
+                href="/fidelite"
                 className="group bg-[#141417]/90 border border-white/10 hover:border-amber-500/50 rounded-3xl p-6 flex flex-col justify-between space-y-4 transition-all duration-300 hover:scale-[1.02] shadow-xl"
               >
                 <div className="space-y-3">
@@ -218,14 +218,14 @@ export default async function TombolaPage() {
                     <Sparkles className="w-6 h-6" />
                   </div>
                   <h3 className="text-lg font-bold text-white group-hover:text-amber-400 transition-colors">
-                    Roue de la Loterie
+                    Club &amp; Points Fidélité
                   </h3>
                   <p className="text-xs text-neutral-400 leading-relaxed">
-                    Tente ta chance sur notre roue de la fortune interactive pour gagner des codes promo et surprises 3D.
+                    Cumule des points à chaque commande et débloque des remises exclusives sur tout le catalogue.
                   </p>
                 </div>
                 <div className="flex items-center gap-2 text-xs font-bold text-amber-400 pt-2">
-                  <span>Tourner la roue</span>
+                  <span>Découvrir le club</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>
