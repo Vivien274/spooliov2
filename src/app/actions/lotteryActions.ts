@@ -378,62 +378,16 @@ export async function deleteLotteryPrizeAdminAction(id: string) {
 /**
  * Public action: Spin wheel and capture user lead (email & optional name).
  */
-export async function spinWheelAction(userEmail?: string, userName?: string) {
-  try {
-    let prizes = await getLotteryPrizesAction();
-
-    // Filter out prizes with stock === 0
-    const availablePrizes = prizes.filter((p) => p.stock === null || p.stock === undefined || p.stock > 0);
-
-    if (availablePrizes.length === 0) {
-      return { success: false, error: "Aucun lot disponible pour le moment." };
-    }
-
-    // Weighted random selection
-    const totalWeight = availablePrizes.reduce((sum, p) => sum + (p.probability > 0 ? p.probability : 1), 0);
-    let randomNum = Math.random() * totalWeight;
-
-    let winningPrize = availablePrizes[0];
-    for (const prize of availablePrizes) {
-      const weight = prize.probability > 0 ? prize.probability : 1;
-      if (randomNum <= weight) {
-        winningPrize = prize;
-        break;
-      }
-      randomNum -= weight;
-    }
-
-    // Find the winning prize index in the full active prizes array
-    const winningIndex = prizes.findIndex((p) => p.id === winningPrize.id);
-
-    // Record the spin in DB & decrement stock if limited
-    if (prisma && winningPrize.id && !winningPrize.id.startsWith("fallback-")) {
-      await prisma.lotterySpin.create({
-        data: {
-          prizeId: winningPrize.id,
-          prizeTitle: winningPrize.title,
-          userEmail: userEmail?.trim() || null,
-          userName: userName?.trim() || null,
-        },
-      });
-
-      if (winningPrize.stock !== null && winningPrize.stock !== undefined && winningPrize.stock > 0) {
-        await prisma.lotteryPrize.update({
-          where: { id: winningPrize.id },
-          data: { stock: { decrement: 1 } },
-        });
-      }
-    }
-
-    return {
-      success: true,
-      winningIndex: winningIndex >= 0 ? winningIndex : 0,
-      winningPrize,
-    };
-  } catch (error: any) {
-    console.error("Error in spinWheelAction:", error?.message);
-    return { success: false, error: "Impossible d'effectuer le tirage." };
-  }
+export async function spinWheelAction(
+  userEmail?: string,
+  userName?: string
+): Promise<{
+  success: boolean;
+  error?: string;
+  winningIndex?: number;
+  winningPrize?: LotteryPrizeItem;
+}> {
+  return { success: false, error: "La loterie est actuellement désactivée." };
 }
 
 function generateFallbackPrizes(): LotteryPrizeItem[] {

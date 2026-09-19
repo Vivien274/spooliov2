@@ -274,7 +274,6 @@ async function searchResilient(q: string) {
     { title: "Créateur de Clicker 3D", slug: "createur-cliqueur", isStatic: true },
     { title: "Boussole Sensorielle (Guide TDAH)", slug: "boussole-sensorielle", isStatic: true },
     { title: "Pochette Surprise Mystère", slug: "pochette-surprise", isStatic: true },
-    { title: "Roue de la Loterie (Codes Promos)", slug: "loterie", isStatic: true },
     { title: "Tombola Solidaire", slug: "tombola", isStatic: true },
     { title: "Programme de Fidélité", slug: "fidelite", isStatic: true },
     { title: "Faire un Don / Soutenir Spoolio", slug: "don", isStatic: true },
