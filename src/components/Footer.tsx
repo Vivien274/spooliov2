@@ -109,6 +109,7 @@ export default function Footer({ className = "" }: FooterProps) {
                   <span>👑 Points & Fidélité</span>
                 </Link>
               </li>
+              <li>
                 <Link href="/inscription-newsletter-spoolio" className="hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
                   <span>🎁 Club Spoolio</span>
                 </Link>
