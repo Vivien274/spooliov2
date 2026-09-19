@@ -182,7 +182,7 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
   const cleanBadge = stripEmojis(rawBadge);
 
   return (
-    <div className="w-full relative z-30 select-none no-invert">
+    <div className="w-full relative z-30 select-none">
       <Header />
 
       {/* Hero Container spanning full width, no rounded corners and no drop shadow */}
@@ -283,13 +283,13 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                     <div className="pt-2">
                       <Link
                         href={activeSlide.buttonLink || "/boutique"}
-                        className="group/btn inline-flex items-center justify-center cursor-pointer active:scale-95 transition-all duration-300"
+                        className="group/btn inline-flex items-center justify-center cursor-pointer active:scale-95 transition-all duration-300 no-invert keep-white"
                       >
-                        <div className="h-12 sm:h-13 px-6 sm:px-8 inline-flex items-center justify-center gap-2.5 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider text-white bg-zinc-950 hover:bg-[#ff4f00] border border-white/25 hover:border-[#ff4f00] transition-all duration-300 shadow-xl group-hover/btn:scale-[1.02]">
-                          <span className="font-black tracking-widest text-white">
+                        <div className="h-12 sm:h-13 px-6 sm:px-8 inline-flex items-center justify-center gap-2.5 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider text-white bg-zinc-950 hover:bg-[#ff4f00] border border-white/25 hover:border-[#ff4f00] transition-all duration-300 shadow-xl group-hover/btn:scale-[1.02] keep-white no-invert">
+                          <span className="font-black tracking-widest text-white !text-white keep-white">
                             {activeSlide.buttonText || "DÉCOUVRIR LA BOUTIQUE"}
                           </span>
-                          <ArrowRight className="w-4 h-4 text-white group-hover/btn:translate-x-1 transition-transform" />
+                          <ArrowRight className="w-4 h-4 text-white !text-white keep-white group-hover/btn:translate-x-1 transition-transform" />
                         </div>
                       </Link>
                     </div>
@@ -310,7 +310,7 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                   >
                     <Link
                       href={cardLink}
-                      className="group/card block w-full backdrop-blur-2xl bg-white/95 hover:bg-white border border-white/40 rounded-3xl p-4 sm:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] transition-all duration-300 transform hover:-translate-y-1"
+                      className="group/card block w-full backdrop-blur-2xl bg-white/95 hover:bg-white border border-white/40 rounded-3xl p-4 sm:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] transition-all duration-300 transform hover:-translate-y-1 card-light force-dark-text no-invert"
                     >
                       <div className="flex items-center gap-4">
                         {/* Thumbnail Image */}
@@ -325,20 +325,20 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
 
                         {/* Product Meta */}
                         <div className="flex flex-col justify-between min-w-0 flex-1 space-y-1">
-                          <h3 className="text-sm sm:text-base font-extrabold text-zinc-900 font-antonio group-hover/card:text-[#ff4f00] transition-colors leading-tight truncate">
+                          <h3 className="text-sm sm:text-base font-extrabold text-zinc-900 !text-zinc-900 font-antonio group-hover/card:text-[#ff4f00] transition-colors leading-tight truncate">
                             {renderFormattedText(cardTitle)}
                           </h3>
 
-                          <p className="text-xs text-zinc-500 font-sans line-clamp-2 leading-tight font-medium">
+                          <p className="text-xs text-zinc-600 !text-zinc-600 font-sans line-clamp-2 leading-tight font-medium">
                             {renderFormattedText(cardDescription)}
                           </p>
 
                           <div className="flex items-center justify-between pt-1">
-                            <span className="text-xs sm:text-sm font-black font-mono text-zinc-900 bg-zinc-100 px-2.5 py-0.5 rounded-lg border border-zinc-200">
+                            <span className="text-xs sm:text-sm font-black font-mono text-zinc-900 !text-zinc-900 bg-zinc-100 px-2.5 py-0.5 rounded-lg border border-zinc-200">
                               {cardPrice}
                             </span>
-                            <span className="text-xs font-bold text-zinc-900 group-hover/card:text-[#ff4f00] group-hover/card:translate-x-1 transition-all flex items-center gap-1">
-                              Voir <ArrowRight className="w-3 h-3" />
+                            <span className="text-xs font-bold text-zinc-900 !text-zinc-900 group-hover/card:text-[#ff4f00] group-hover/card:translate-x-1 transition-all flex items-center gap-1">
+                              Voir <ArrowRight className="w-3 h-3 text-zinc-900 !text-zinc-900 group-hover/card:text-[#ff4f00]" />
                             </span>
                           </div>
                         </div>

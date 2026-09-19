@@ -119,7 +119,7 @@ export default function EnjeuBanner({
   /* -------------------------------------------------------------------------- */
   return (
     <section
-      className={`relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0D1117] via-[#161B22] to-[#1E1B4B] border border-indigo-500/30 p-6 sm:p-8 shadow-2xl shadow-indigo-950/40 text-white ${className}`}
+      className={`relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0D1117] via-[#161B22] to-[#1E1B4B] border border-indigo-500/30 p-6 sm:p-8 shadow-2xl shadow-indigo-950/40 text-white keep-white no-invert ${className}`}
     >
       {/* Background Glowing Orbs */}
       <div className="absolute -top-24 -right-24 w-64 h-64 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
@@ -128,7 +128,7 @@ export default function EnjeuBanner({
       <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
         {/* Left Side: Content & Game Tags */}
         <div className="flex-1 flex flex-col gap-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-400/30 text-indigo-300 text-xs font-black uppercase tracking-wider w-fit">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/20 border border-indigo-400/40 text-indigo-200 text-xs font-black uppercase tracking-wider w-fit">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             🔥 Application Compagnon Gratuite
           </div>
@@ -136,29 +136,29 @@ export default function EnjeuBanner({
           <h3 className="text-xl sm:text-2xl font-black tracking-tight text-white leading-tight font-sans">
             {productName ? (
               <>
-                Complétez votre expérience avec <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400">Enjeu</span>
+                Complétez votre expérience avec <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-200 to-pink-300">Enjeu</span>
               </>
             ) : (
               <>
-                Simplifiez vos soirées jeux avec <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400">Enjeu</span>
+                Simplifiez vos soirées jeux avec <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-200 to-pink-300">Enjeu</span>
               </>
             )}
           </h3>
 
-          <p className="text-sm text-gray-300 leading-relaxed max-w-2xl font-sans">
-            Fini les feuilles volantes et les litiges de calcul ! <strong className="text-white">Enjeu</strong> est l'application compagnon idéale pour calculer automatiquement vos scores, enregistrer vos paris amicaux (<em>"Le perdant fait la vaisselle !"</em>) et conserver l'historique de toutes vos parties.
+          <p className="text-sm text-zinc-200 leading-relaxed max-w-2xl font-sans font-medium">
+            Fini les feuilles volantes et les litiges de calcul ! <strong className="text-white font-black">Enjeu</strong> est l'application compagnon idéale pour calculer automatiquement vos scores, enregistrer vos paris amicaux (<em>"Le perdant fait la vaisselle !"</em>) et conserver l'historique de toutes vos parties.
           </p>
 
           {/* Games tags carousel / grid */}
           <div className="mt-1 flex flex-col gap-2">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-300/80 font-sans">
+            <span className="text-[11px] font-black uppercase tracking-wider text-indigo-200 font-sans">
               🎮 10 Feuilles de score intelligentes incluses :
             </span>
             <div className="flex flex-wrap gap-1.5 font-sans">
               {games.map((game, i) => (
                 <span
                   key={i}
-                  className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-white/5 border border-white/10 text-gray-200 hover:border-indigo-400/40 hover:bg-indigo-500/10 transition-all select-none"
+                  className="px-2.5 py-1 rounded-lg text-xs font-bold bg-white/10 border border-white/20 text-white hover:border-indigo-400 hover:bg-indigo-500/20 transition-all select-none"
                 >
                   {game}
                 </span>
@@ -171,11 +171,11 @@ export default function EnjeuBanner({
         <div className="w-full lg:w-auto shrink-0 flex items-center justify-center font-sans">
           <Link
             href="/jeux-de-societe#enjeu-app"
-            className="w-full lg:w-auto flex items-center justify-center gap-3 px-7 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider rounded-2xl shadow-xl shadow-indigo-950/60 transition-all hover:scale-[1.03] active:scale-95 border border-indigo-400/40"
+            className="w-full lg:w-auto flex items-center justify-center gap-3 px-7 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider rounded-2xl shadow-xl shadow-indigo-950/60 transition-all hover:scale-[1.03] active:scale-95 border border-indigo-400/40 no-invert keep-white"
           >
             <Smartphone className="w-4 h-4 text-emerald-300" />
-            <span>Voir la fiche de l'appli 📱</span>
-            <ArrowRight className="w-4 h-4" />
+            <span className="text-white !text-white font-black">Voir la fiche de l'appli 📱</span>
+            <ArrowRight className="w-4 h-4 text-white" />
           </Link>
         </div>
       </div>

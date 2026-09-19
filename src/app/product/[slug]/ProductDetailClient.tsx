@@ -784,7 +784,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
             </>
           )}
           <span className="text-gray-600 font-bold shrink-0">/</span>
-          <span className="text-white font-bold truncate">
+          <span className="text-zinc-900 font-bold truncate">
             {product.name}
           </span>
         </nav>
@@ -1058,7 +1058,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
               </span>
             )}
 
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mb-4">
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-zinc-900 mb-4">
               {displayName}
             </h1>
 
@@ -1074,7 +1074,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                   </span>
                 </>
               ) : (
-                <span className="text-2xl font-black text-white">
+                <span className="text-2xl font-black text-zinc-900">
                   {formatPrice(currentPrice)}€
                 </span>
               )}
@@ -1082,8 +1082,8 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
 
             {/* Sensory Noise Level Gauge (Fidgets Only) */}
             {noiseInfo && (
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 mb-6 font-sans">
-                <div className="flex items-center gap-2 text-xs font-bold text-white">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-zinc-100/70 border border-zinc-200 mb-6 font-sans">
+                <div className="flex items-center gap-2 text-xs font-bold text-zinc-800">
                   <span className="text-base">{noiseInfo.level === 3 ? "🔊" : noiseInfo.level === 2 ? "🔕" : "🔇"}</span>
                   <span className="uppercase tracking-wider">Niveau Sonore :</span>
                   <span className="text-[#ff4f00] font-black">{noiseInfo.label}</span>
@@ -1598,24 +1598,24 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
 
 
 
-            {/* Encart Fidget Sensoriel (Boussole Info - Style Néon & Fort Contraste Sombre) */}
+            {/* Encart Fidget Sensoriel (Boussole Info - Style Moderne Haute Lisibilité) */}
             {Boolean((product as any).show_in_sensory_compass || (product as any).showInSensoryCompass) && (
-              <div className="mt-5 p-6 rounded-3xl bg-[#16141d] border border-purple-500/30 shadow-xl shadow-purple-950/40 font-sans">
-                <div className="flex items-center justify-between border-b border-purple-500/20 pb-4 mb-4">
+              <div className="mt-5 p-6 rounded-3xl bg-purple-50/70 border border-purple-200 shadow-xs font-sans">
+                <div className="flex items-center justify-between border-b border-purple-200/80 pb-4 mb-4">
                   <div className="flex items-center gap-2.5">
-                    <span className="text-2xl animate-pulse">🧭</span>
+                    <span className="text-2xl select-none">🧭</span>
                     <div>
-                      <h3 className="text-base font-extrabold text-white tracking-wide uppercase">
+                      <h3 className="text-base font-black text-zinc-900 tracking-wide uppercase">
                         Fidget Sensoriel Spoolio
                       </h3>
-                      <p className="text-xs text-purple-300/90 font-medium">
+                      <p className="text-xs text-purple-900/80 font-medium">
                         Évaluation sensorielle &amp; ergonomique
                       </p>
                     </div>
                   </div>
                   <Link
                     href="/boussole-sensorielle"
-                    className="text-[11px] font-bold text-purple-200 hover:text-white bg-purple-500/20 hover:bg-purple-500/40 border border-purple-500/40 px-3 py-1.5 rounded-full transition-all flex items-center gap-1"
+                    className="text-[11px] font-bold text-purple-800 hover:text-purple-950 bg-purple-100/90 hover:bg-purple-200 border border-purple-300 px-3 py-1.5 rounded-full transition-all flex items-center gap-1 shadow-xs"
                   >
                     <span>Boussole</span>
                     <span>→</span>
@@ -1625,21 +1625,21 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                 {/* Sensory Attributes Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
                   {/* Bruit */}
-                  <div className="p-3.5 rounded-2xl bg-[#22202c] border border-purple-500/25 flex flex-col gap-1.5 shadow-sm">
-                    <span className="text-[10px] font-black text-purple-300 uppercase tracking-widest">
+                  <div className="p-3.5 rounded-2xl bg-white border border-purple-100 flex flex-col gap-1.5 shadow-xs">
+                    <span className="text-[10px] font-black text-purple-900 uppercase tracking-widest">
                       Bruit :
                     </span>
-                    <span className="text-xs font-black text-white">
+                    <span className="text-xs font-black text-zinc-900">
                       {formatNoiseLevelText(parseNoiseLevel((product as any).sensory_noise_level || (product as any).sensoryNoiseLevel))}
                     </span>
                   </div>
 
                   {/* Compacité */}
-                  <div className="p-3.5 rounded-2xl bg-[#22202c] border border-purple-500/25 flex flex-col gap-1.5 shadow-sm">
-                    <span className="text-[10px] font-black text-purple-300 uppercase tracking-widest">
+                  <div className="p-3.5 rounded-2xl bg-white border border-purple-100 flex flex-col gap-1.5 shadow-xs">
+                    <span className="text-[10px] font-black text-purple-900 uppercase tracking-widest">
                       Format :
                     </span>
-                    <span className="text-xs font-black text-white">
+                    <span className="text-xs font-black text-zinc-900">
                       {((product as any).sensory_size || (product as any).sensorySize) === "pocket"
                         ? "Format Poche (1 main)"
                         : ((product as any).sensory_size || (product as any).sensorySize) === "medium"
@@ -1649,8 +1649,8 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                   </div>
 
                   {/* Manipulation */}
-                  <div className="p-3.5 rounded-2xl bg-[#22202c] border border-purple-500/25 flex flex-col gap-1.5 shadow-sm">
-                    <span className="text-[10px] font-black text-purple-300 uppercase tracking-widest">
+                  <div className="p-3.5 rounded-2xl bg-white border border-purple-100 flex flex-col gap-1.5 shadow-xs">
+                    <span className="text-[10px] font-black text-purple-900 uppercase tracking-widest">
                       Action :
                     </span>
                     <span className="text-xs font-black text-[#ff4f00] capitalize">
@@ -1687,8 +1687,8 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                   };
 
                   return (
-                    <div className="flex flex-col gap-2 pt-2 border-t border-purple-500/20">
-                      <span className="text-[10px] font-bold text-purple-300 uppercase tracking-wider">
+                    <div className="flex flex-col gap-2 pt-2 border-t border-purple-200/80">
+                      <span className="text-[10px] font-bold text-purple-900 uppercase tracking-wider">
                         Recommandé pour les profils :
                       </span>
                       <div className="flex flex-wrap gap-2">
@@ -1697,7 +1697,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                           return (
                             <span
                               key={prof}
-                              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-purple-500/20 text-purple-200 border border-purple-500/40"
+                              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white text-purple-900 border border-purple-200 shadow-xs"
                             >
                               <span>{info.icon}</span>
                               <span>{info.label}</span>
@@ -1712,31 +1712,33 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
             )}
 
             {/* Delivery Estimation & Trust Badges */}
-            <div className="mt-6 space-y-5 border-t border-spoolio-border/40 pt-6">
+            <div className="mt-6 space-y-4 border-t border-zinc-200 pt-6">
               {/* Delivery Estimation */}
-              <div className="flex items-start gap-3 text-xs text-gray-400 font-sans leading-relaxed bg-[#1b1b1f]/30 p-4 rounded-2xl border border-spoolio-border/30">
-                <span className="text-lg shrink-0 select-none">📦</span>
+              <div className="flex items-start gap-3.5 text-xs font-sans leading-relaxed bg-white p-4 rounded-2xl border border-zinc-200/90 shadow-xs">
+                <div className="w-9 h-9 rounded-xl bg-orange-50 border border-orange-200/80 flex items-center justify-center shrink-0 text-base">
+                  📦
+                </div>
                 <div>
-                  <p className="text-gray-300 font-bold">
+                  <p className="text-zinc-900 font-bold">
                     Livraison estimée : <span className="text-[#ff4f00] font-black">{getDeliveryDateRange().minStr}</span> au <span className="text-[#ff4f00] font-black">{getDeliveryDateRange().maxStr}</span>
                   </p>
-                  <p className="text-[10px] text-gray-500 mt-0.5">
-                    Expédié sous 24/48h depuis notre atelier de Comines (Mondial Relay & Colissimo).
+                  <p className="text-[11px] text-zinc-500 mt-0.5 font-medium">
+                    Expédié sous 24/48h depuis notre atelier de Comines (Mondial Relay &amp; Colissimo).
                   </p>
                 </div>
               </div>
 
               {/* Loyalty Points Credit Estimation */}
               {parseFloat(currentPrice) >= 2 && (
-                <div className="flex items-start gap-3 text-xs text-gray-400 font-sans leading-relaxed bg-[#ff4f00]/5 p-4 rounded-2xl border border-[#ff4f00]/25 relative overflow-hidden group select-none transition-all duration-300 hover:border-[#ff4f00]/40">
-                  {/* Background light glow */}
-                  <div className="absolute top-0 right-0 w-16 h-16 rounded-full bg-[#ff4f00]/5 filter blur-[15px] pointer-events-none" />
-                  <span className="text-lg shrink-0 select-none text-[#ff4f00] animate-pulse">⚡</span>
+                <div className="flex items-start gap-3.5 text-xs font-sans leading-relaxed bg-orange-50/60 p-4 rounded-2xl border border-[#ff4f00]/25 relative overflow-hidden group select-none transition-all duration-300 hover:border-[#ff4f00]/40">
+                  <div className="w-9 h-9 rounded-xl bg-orange-100 border border-orange-200 flex items-center justify-center shrink-0 text-base text-[#ff4f00]">
+                    ⚡
+                  </div>
                   <div>
-                    <p className="text-gray-300 font-bold">
+                    <p className="text-zinc-900 font-bold">
                       Carte de fidélité : <span className="text-[#ff4f00] font-black">+{Math.floor(parseFloat(currentPrice) / 2)} points</span> sur cette commande !
                     </p>
-                    <p className="text-[10px] text-gray-500 mt-0.5">
+                    <p className="text-[11px] text-zinc-500 mt-0.5 font-medium">
                       Cumule 2€ = 1 point (hors dons/livraison) et débloque tes cadeaux exclusifs à l'atelier.
                     </p>
                   </div>
@@ -1744,36 +1746,36 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
               )}
 
               {/* Trust Badges Grid */}
-              <div className="grid grid-cols-2 gap-3 text-[11px] font-bold tracking-tight text-gray-300 font-sans">
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-spoolio-card border border-spoolio-border/30">
+              <div className="grid grid-cols-2 gap-3 text-[11px] font-bold tracking-tight text-zinc-700 font-sans">
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white border border-zinc-200/80 shadow-xs">
                   <span className="text-base select-none">🇫🇷</span>
                   <div>
-                    <span className="block text-white">Made in France</span>
-                    <span className="block text-[9px] text-gray-500 font-normal">Hauts-de-France</span>
+                    <span className="block text-zinc-900 font-bold">Made in France</span>
+                    <span className="block text-[9px] text-zinc-500 font-normal">Hauts-de-France</span>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-spoolio-card border border-spoolio-border/30">
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white border border-zinc-200/80 shadow-xs">
                   <span className="text-base select-none">🌱</span>
                   <div>
-                    <span className="block text-white">PLA Biosourcé</span>
-                    <span className="block text-[9px] text-gray-500 font-normal">Plastique d'amidon</span>
+                    <span className="block text-zinc-900 font-bold">PLA Biosourcé</span>
+                    <span className="block text-[9px] text-zinc-500 font-normal">Plastique d'amidon</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-spoolio-card border border-spoolio-border/30">
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white border border-zinc-200/80 shadow-xs">
                   <span className="text-base select-none">🚚</span>
                   <div>
-                    <span className="block text-white">Livraison Suivie</span>
-                    <span className="block text-[9px] text-gray-500 font-normal">Relais & Domicile</span>
+                    <span className="block text-zinc-900 font-bold">Livraison Suivie</span>
+                    <span className="block text-[9px] text-zinc-500 font-normal">Relais &amp; Domicile</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-spoolio-card border border-spoolio-border/30">
+                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white border border-zinc-200/80 shadow-xs">
                   <span className="text-base select-none">💳</span>
                   <div>
-                    <span className="block text-white">Paiement 3D Secure</span>
-                    <span className="block text-[9px] text-gray-500 font-normal">Stripe 100% protégé</span>
+                    <span className="block text-zinc-900 font-bold">Paiement 3D Secure</span>
+                    <span className="block text-[9px] text-zinc-500 font-normal">Stripe 100% protégé</span>
                   </div>
                 </div>
               </div>
@@ -1783,32 +1785,32 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
 
         {/* Product Technical Specs Grid */}
         <section className="border-t border-spoolio-border pt-12">
-          <h2 className="text-xl font-bold text-white mb-6">Spécifications du produit</h2>
+          <h2 className="text-xl font-bold text-zinc-900 mb-6 font-sans">Spécifications du produit</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-sans">
-            <div className="p-4 rounded-xl bg-spoolio-card border border-spoolio-border">
-              <span className="block text-xs text-gray-500 uppercase tracking-wider mb-1">Dimensions / Tailles</span>
-              <span className="text-sm font-bold text-gray-200 truncate block" title={sizesText}>{sizesText}</span>
+            <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs">
+              <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold">Dimensions / Tailles</span>
+              <span className="text-sm font-bold text-zinc-900 truncate block" title={sizesText}>{sizesText}</span>
             </div>
-            <div className="p-4 rounded-xl bg-spoolio-card border border-spoolio-border">
-              <span className="block text-xs text-gray-500 uppercase tracking-wider mb-1">Couleurs</span>
-              <span className="text-sm font-bold text-gray-200">{colorsCount}</span>
+            <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs">
+              <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold">Couleurs</span>
+              <span className="text-sm font-bold text-zinc-900">{colorsCount}</span>
             </div>
-            <div className="p-4 rounded-xl bg-spoolio-card border border-spoolio-border">
-              <span className="block text-xs text-gray-500 uppercase tracking-wider mb-1">Poids estimé</span>
-              <span className="text-sm font-bold text-gray-200">{estimatedWeight}</span>
+            <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs">
+              <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold">Poids estimé</span>
+              <span className="text-sm font-bold text-zinc-900">{estimatedWeight}</span>
             </div>
-            <div className="p-4 rounded-xl bg-spoolio-card border border-spoolio-border">
-              <span className="block text-xs text-gray-500 uppercase tracking-wider mb-1">Matière & Fabrication</span>
+            <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs">
+              <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold">Matière &amp; Fabrication</span>
               <span className="text-sm font-bold text-[#ff4f00]">PLA Bio 🇫🇷 Comines</span>
             </div>
           </div>
 
           {/* Dedicated Tags Zone inside Specifications */}
           {product.tags && product.tags.length > 0 && (
-            <div className="mt-6 p-5 rounded-2xl bg-spoolio-card border border-spoolio-border/40 flex flex-col gap-3 font-sans">
-              <span className="text-xs font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+            <div className="mt-6 p-5 rounded-2xl bg-white border border-zinc-200/80 shadow-xs flex flex-col gap-3 font-sans">
+              <span className="text-xs font-bold text-zinc-600 uppercase tracking-wider flex items-center gap-2">
                 <span>🏷️</span>
-                <span>Tags & Mots-clés associés :</span>
+                <span>Tags &amp; Mots-clés associés :</span>
               </span>
               <div className="flex flex-wrap gap-2">
                 {product.tags.map((tag: any, idx: number) => {
@@ -1817,7 +1819,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                   return (
                     <span
                       key={idx}
-                      className="text-xs font-extrabold px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 transition-colors uppercase tracking-wider select-none"
+                      className="text-xs font-bold px-3 py-1.5 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700 hover:text-zinc-900 hover:bg-zinc-200 transition-colors uppercase tracking-wider select-none"
                     >
                       #{tagName}
                     </span>
@@ -1829,11 +1831,11 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
         </section>
 
         {/* Blue Gift Promo Banner */}
-        <section className="mt-12 bg-[#2F3CD9] rounded-3xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-white shadow-xl shadow-[#2F3CD9]/15 border border-white/5 no-invert">
+        <section className="mt-12 bg-[#2F3CD9] rounded-3xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-white shadow-xl shadow-[#2F3CD9]/15 border border-white/5 no-invert keep-white">
           <div className="flex items-center gap-4">
             <span className="text-3xl animate-bounce shrink-0 select-none">🎁</span>
             <div className="flex flex-col">
-              <h4 className="text-base font-extrabold tracking-tight uppercase font-sans keep-white">
+              <h4 className="text-base font-extrabold tracking-tight uppercase font-sans text-white keep-white">
                 Cadeau offert dans votre colis !
               </h4>
               <p className="text-xs text-white/95 font-sans mt-0.5 leading-relaxed keep-white">
@@ -1841,17 +1843,17 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
               </p>
             </div>
           </div>
-          <div className="text-xs font-black tracking-widest bg-black/20 uppercase px-4 py-2 rounded-full font-sans select-none shrink-0 border border-white/10 keep-white">
+          <div className="text-xs font-black tracking-widest bg-black/20 text-white uppercase px-4 py-2 rounded-full font-sans select-none shrink-0 border border-white/10 keep-white">
             Dès 20€ d'achat
           </div>
         </section>
 
         {/* Detailed Long Description */}
         <section className="border-t border-spoolio-border pt-12 mt-12">
-          <h2 className="text-xl font-bold text-white mb-6">Description</h2>
+          <h2 className="text-xl font-bold text-zinc-900 mb-6 font-sans">Description</h2>
           <div className="relative">
             <div
-              className="prose prose-invert text-gray-300 max-w-none text-sm leading-relaxed font-sans flex flex-col gap-4 overflow-hidden transition-all duration-500 ease-in-out"
+              className="prose text-zinc-700 max-w-none text-sm leading-relaxed font-sans flex flex-col gap-4 overflow-hidden transition-all duration-500 ease-in-out"
               style={{
                 maxHeight: isDescriptionExpanded ? "1200px" : "160px",
               }}
@@ -1861,17 +1863,17 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
             />
             {/* Fade overlay mask when collapsed */}
             {!isDescriptionExpanded && (
-              <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+              <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#f9f9fb] via-[#f9f9fb]/90 to-transparent pointer-events-none" />
             )}
           </div>
           <div className="mt-4 flex justify-start">
             <button
               onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
-              className="text-xs font-bold text-white hover:text-[#ff4f00] transition-colors flex items-center gap-1.5 cursor-pointer uppercase tracking-wider"
+              className="text-xs font-bold text-zinc-900 hover:text-[#ff4f00] transition-colors flex items-center gap-1.5 cursor-pointer uppercase tracking-wider font-sans"
             >
               <span>{isDescriptionExpanded ? "Voir moins" : "Voir plus"}</span>
               <svg
-                className={`w-3.5 h-3.5 transition-transform duration-300 ${isDescriptionExpanded ? "rotate-180" : ""}`}
+                className={`w-3.5 h-3.5 text-zinc-900 transition-transform duration-300 ${isDescriptionExpanded ? "rotate-180" : ""}`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -1910,7 +1912,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
         {/* Frequently Bought Together */}
         {relatedProducts.length > 0 && (
           <section className="border-t border-spoolio-border pt-12 mt-12">
-            <h2 className="text-xl font-bold text-white mb-8 tracking-tight font-sans">
+            <h2 className="text-xl font-bold text-zinc-900 mb-8 tracking-tight font-sans">
               Souvent acheté avec
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -1920,9 +1922,9 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                   <Link
                     key={p.id}
                     href={`/product/${p.slug}`}
-                    className="group bg-spoolio-card border border-spoolio-border rounded-3xl overflow-hidden hover:border-white/20 transition-all duration-300 flex flex-col justify-between"
+                    className="group bg-white border border-zinc-200 rounded-3xl overflow-hidden hover:border-zinc-300 hover:shadow-md transition-all duration-300 flex flex-col justify-between"
                   >
-                    <div className="relative w-full aspect-square bg-black/20">
+                    <div className="relative w-full aspect-square bg-zinc-100">
                       {p.images[0] && (
                         <Image
                           src={p.images[0].src}
@@ -1940,18 +1942,18 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                     </div>
                     <div className="p-5 flex flex-col gap-4 flex-1 justify-between">
                       <div className="flex flex-col gap-1.5">
-                        <h3 className="text-sm font-bold text-white group-hover:text-[#ff4f00] transition-colors line-clamp-1">
+                        <h3 className="text-sm font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors line-clamp-1">
                           {p.name}
                         </h3>
-                        <p className="text-xs text-gray-400 line-clamp-2 leading-relaxed">
+                        <p className="text-xs text-zinc-600 line-clamp-2 leading-relaxed">
                           {p.short_description?.replace(/<[^>]*>/g, "").replace(/&rsquo;/g, "’") || "Un superbe accessoire Spoolio fabriqué en PLA écologique."}
                         </p>
                       </div>
-                      <div className="flex items-center justify-between mt-2 pt-2 border-t border-white/5">
+                      <div className="flex items-center justify-between mt-2 pt-2 border-t border-zinc-100">
                         <div className="flex items-baseline gap-2">
-                          <span className="text-sm font-black text-white">{parseFloat(p.price).toFixed(2)}€</span>
+                          <span className="text-sm font-black text-zinc-900">{parseFloat(p.price).toFixed(2)}€</span>
                           {p.on_sale && (
-                            <span className="text-xs text-gray-500 line-through">{parseFloat(p.regular_price).toFixed(2)}€</span>
+                            <span className="text-xs text-zinc-400 line-through">{parseFloat(p.regular_price).toFixed(2)}€</span>
                           )}
                         </div>
                         <span className="text-xs text-[#ff4f00] font-bold group-hover:underline flex items-center gap-1">
@@ -1968,27 +1970,27 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
 
         {/* Safety and conformity notice */}
         <section className="border-t border-spoolio-border pt-12 mt-12">
-          <div className="rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-500/5 via-transparent to-transparent p-6 md:p-8 flex flex-col md:flex-row gap-5 items-start">
-            <div className="shrink-0 select-none bg-amber-500/10 p-3.5 rounded-2xl border border-amber-500/20 text-2xl text-amber-400">
+          <div className="rounded-3xl border border-amber-200 bg-amber-50/80 p-6 md:p-8 flex flex-col md:flex-row gap-5 items-start shadow-xs">
+            <div className="shrink-0 select-none bg-amber-100 p-3.5 rounded-2xl border border-amber-300 text-2xl text-amber-900">
               ⚖️
             </div>
             <div className="space-y-2.5 font-sans">
               <div className="flex flex-wrap items-center gap-2.5">
-                <h4 className="text-sm font-bold uppercase tracking-wider text-amber-400">
-                  Avertissement Réglementaire & Destination d'Usage
+                <h4 className="text-sm font-black uppercase tracking-wider text-amber-950">
+                  Avertissement Réglementaire &amp; Destination d'Usage
                 </h4>
-                <span className="px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-[11px] font-bold text-amber-300">
+                <span className="px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-300 text-[11px] font-bold text-amber-950">
                   Public 14 ans et +
                 </span>
               </div>
-              <p className="text-xs text-gray-300 leading-relaxed">
+              <p className="text-xs text-zinc-800 leading-relaxed font-medium">
                 Les créations Spoolio sont des pièces d'artisanat numérique, des accessoires de bureau (desk setup), des art toys et des objets sensoriels/décoratifs conçus pour un public adulte.
               </p>
-              <p className="text-xs text-gray-400 leading-relaxed">
-                <strong>Conformité légale (Directive 2009/48/CE & RGSP UE 2023/988) :</strong> Conformément à l’Annexe I de la Directive européenne sur la sécurité des jouets, ces créations ne constituent pas des jouets et ne sont pas destinées aux enfants de moins de 14 ans. En raison de la présence d’articulations et du risque de détachement de petits éléments en cas de chute ou de manipulation brutale, tenir hors de portée des jeunes enfants (risque d’ingestion).
+              <p className="text-xs text-zinc-600 leading-relaxed">
+                <strong className="text-zinc-900 font-bold">Conformité légale (Directive 2009/48/CE &amp; RGSP UE 2023/988) :</strong> Conformément à l’Annexe I de la Directive européenne sur la sécurité des jouets, ces créations ne constituent pas des jouets et ne sont pas destinées aux enfants de moins de 14 ans. En raison de la présence d’articulations et du risque de détachement de petits éléments en cas de chute ou de manipulation brutale, tenir hors de portée des jeunes enfants (risque d’ingestion).
               </p>
-              <p className="text-xs text-gray-400 leading-relaxed">
-                <strong>Fabrication & Matériaux :</strong> Pièces fabriquées en France en PLA biosourcé (polymère thermoplastique d'origine végétale issu de ressources renouvelables).
+              <p className="text-xs text-zinc-600 leading-relaxed">
+                <strong className="text-zinc-900 font-bold">Fabrication &amp; Matériaux :</strong> Pièces fabriquées en France en PLA biosourcé (polymère thermoplastique d'origine végétale issu de ressources renouvelables).
               </p>
             </div>
           </div>
@@ -1999,7 +2001,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
           {/* Liste des avis (2/3 de l'espace) */}
           <div className="lg:col-span-2 space-y-6">
             <div>
-              <h2 className="text-xl font-bold text-white mb-2 tracking-tight font-sans">
+              <h2 className="text-xl font-bold text-zinc-900 mb-2 tracking-tight font-sans">
                 Avis Clients ({reviews.length})
               </h2>
               {reviews.length > 0 ? (
@@ -2014,7 +2016,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                       );
                     })}
                   </div>
-                  <span className="text-xs text-gray-400 font-semibold">
+                  <span className="text-xs text-zinc-500 font-semibold">
                     {(reviews.reduce((acc, curr) => acc + curr.rating, 0) / reviews.length).toFixed(1)} sur 5 étoiles
                   </span>
                 </div>
@@ -2035,7 +2037,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                   <div key={rev.id} className="p-5 rounded-2xl bg-spoolio-card border border-spoolio-border space-y-3">
                     <div className="flex justify-between items-start">
                       <div>
-                        <span className="block text-xs font-bold text-white">{rev.customerName}</span>
+                        <span className="block text-xs font-bold text-zinc-900">{rev.customerName}</span>
                         <span className="block text-[10px] text-gray-500 mt-0.5">
                           Publié le {new Date(rev.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
                         </span>
@@ -2048,7 +2050,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                         ))}
                       </div>
                     </div>
-                    <p className="text-xs text-gray-300 leading-relaxed whitespace-pre-line">
+                    <p className="text-xs text-zinc-700 leading-relaxed whitespace-pre-line">
                       {rev.comment}
                     </p>
                   </div>
@@ -2060,7 +2062,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
           {/* Formulaire de dépôt (1/3 de l'espace) */}
           <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 h-fit space-y-5">
             <div>
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider font-sans">
+              <h3 className="text-sm font-bold text-zinc-900 uppercase tracking-wider font-sans">
                 Déposer un avis
               </h3>
               <p className="text-[11px] text-gray-500 mt-1 leading-normal">

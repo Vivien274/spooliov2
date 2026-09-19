@@ -155,13 +155,13 @@ export default function Header({
         : "bg-white/75 backdrop-blur-md border-b border-zinc-200/60"
       }`}>
       <VacationBanner />
-      <div className={`mx-auto w-full flex items-center justify-between transition-all duration-300 relative z-10 ${isSticky
-          ? "h-16 md:h-20 px-4 sm:px-6 md:px-10 max-w-7xl"
-          : "h-20 md:h-24 px-4 sm:px-6 md:px-10 max-w-7xl"
+      <div className={`w-full flex items-center justify-between transition-all duration-300 relative z-10 ${isSticky
+          ? "h-16 md:h-20 px-4 sm:px-6 md:px-8 lg:px-12"
+          : "h-20 md:h-24 px-4 sm:px-6 md:px-8 lg:px-12"
         }`}>
-        {/* LEFT COLUMN: Mobile burger button & Logo (flex-1 to balance right side) */}
-        <div className="flex items-center justify-start flex-1 min-w-0">
-          {/* Mobile Burger Button (left on mobile) */}
+        {/* LEFT COLUMN: Menu à gauche (Navigation desktop / Burger mobile) */}
+        <div className="flex items-center justify-start flex-1 basis-0 min-w-0">
+          {/* Mobile Burger Button (visible on mobile only) */}
           <div className="flex md:hidden mr-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -181,7 +181,14 @@ export default function Header({
             </button>
           </div>
 
-          {/* Logo */}
+          {/* Desktop Navigation Menu (Menu à gauche) */}
+          <div className="hidden md:flex items-center">
+            <MotionNavigationMenu />
+          </div>
+        </div>
+
+        {/* CENTER COLUMN: Logo au centre */}
+        <div className="flex items-center justify-center shrink-0 px-2">
           <Link
             href="/"
             onClick={(e) => {
@@ -197,7 +204,7 @@ export default function Header({
                 }
               }
             }}
-            className="relative z-50 flex items-center gap-2 group cursor-pointer shrink-0"
+            className="relative z-50 flex items-center justify-center cursor-pointer"
           >
             <Image
               src="/images/logo-spoolio-eyes.png"
@@ -205,35 +212,28 @@ export default function Header({
               width={140}
               height={42}
               priority
-              className="h-8 sm:h-9 md:h-10 w-auto object-contain transition-transform group-hover:scale-105"
+              className="h-8 sm:h-9 md:h-10 w-auto object-contain"
             />
           </Link>
         </div>
 
-        {/* CENTER COLUMN: Central Motion Navigation Menu & Search (Mathematically Centered) */}
-        <div className="hidden md:flex items-center justify-center gap-2.5 shrink-0">
-          <MotionNavigationMenu />
+        {/* RIGHT COLUMN: Actions à droite (Bouton Soutenir + Recherche + Bouton Panier) */}
+        <div className="flex items-center justify-end flex-1 basis-0 min-w-0 gap-2 sm:gap-3">
+          {/* Soutenir Button */}
+          <Link
+            href="/don"
+            className="h-10 px-3 sm:px-3.5 rounded-full border border-zinc-200/90 bg-white hover:border-zinc-900 hover:bg-zinc-50 text-zinc-900 text-xs font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 shadow-xs no-invert"
+            title={t("footer.support_workshop")}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-[#ff4f00] shrink-0" />
+            <span className="hidden sm:inline whitespace-nowrap">{t("footer.support_workshop")}</span>
+          </Link>
 
-          {/* Search magnifier bubble */}
+          {/* Search Button (Desktop & Mobile) */}
           <button
             onClick={() => setIsSearchOpen(true)}
             className="w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-900 flex items-center justify-center transition-colors cursor-pointer shadow-sm border border-zinc-200/80 shrink-0"
             title="Rechercher (Cmd+K)"
-            aria-label="Rechercher"
-          >
-            <svg className="w-4 h-4 text-zinc-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </button>
-        </div>
-
-        {/* RIGHT COLUMN: Header Actions (Cart + Mobile Search) (flex-1 to balance left side) */}
-        <div className="flex items-center justify-end flex-1 min-w-0 gap-3">
-          {/* Mobile Search Button */}
-          <button
-            onClick={() => setIsSearchOpen(true)}
-            className="flex md:hidden w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 items-center justify-center transition-all cursor-pointer border border-zinc-200/80 text-zinc-800 shadow-sm"
-            title="Rechercher"
             aria-label="Rechercher"
           >
             <svg className="w-4 h-4 text-zinc-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -262,7 +262,7 @@ export default function Header({
 
         {/* Global Search Dialog Modal */}
         {mounted && isSearchOpen && createPortal(
-          <div className="fixed inset-0 z-[999999] flex items-start justify-center p-4 sm:p-10 md:p-20 font-sans select-none no-invert">
+          <div className="fixed inset-0 z-[999999] flex items-start justify-center p-4 sm:p-10 md:p-20 font-sans select-none">
             {/* Backdrop blur overlay */}
             <div
               onClick={() => setIsSearchOpen(false)}

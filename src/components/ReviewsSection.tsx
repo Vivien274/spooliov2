@@ -43,7 +43,7 @@ export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) 
   return (
     <>
       {/* Left Block (2 columns width, premium warm-gradient container, review cards) */}
-      <div className="md:col-span-2 relative rounded-3xl bg-gradient-to-tr from-[#ff3c00] via-[#ff6200] to-[#e60067] p-6 md:p-8 flex flex-col justify-start gap-6 overflow-hidden shadow-2xl shadow-[#ff4f00]/10 border border-white/5 transition-all duration-500">
+      <div className="reviews-gradient-container md:col-span-2 relative rounded-3xl bg-gradient-to-tr from-[#ff3c00] via-[#ff6200] to-[#e60067] p-6 md:p-8 flex flex-col justify-start gap-6 overflow-hidden shadow-2xl shadow-[#ff4f00]/10 border border-white/5 transition-all duration-500">
         {/* Soft grid background overlay */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
 

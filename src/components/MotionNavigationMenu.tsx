@@ -62,15 +62,11 @@ export default function MotionNavigationMenu() {
       label: t("header.shop"),
       href: "/boutique",
       hasDropdown: true,
-      badge: "HOT",
-      badgeColor: "bg-[#ff4f00]",
     },
     {
       id: "univers",
       label: t("header.experiences"),
       hasDropdown: true,
-      badge: "JEUX",
-      badgeColor: "bg-indigo-500",
     },
     {
       id: "atelier",
@@ -126,11 +122,11 @@ export default function MotionNavigationMenu() {
   return (
     <div
       ref={containerRef}
-      className="relative hidden lg:flex items-center"
+      className="relative hidden md:flex items-center"
       onMouseLeave={handleMouseLeave}
     >
-      {/* Mega Navigation Pills Bar Container */}
-      <nav className="relative flex items-center gap-1.5 p-1.5 bg-white/95 backdrop-blur-2xl border border-zinc-200/90 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.06)] ring-1 ring-zinc-900/5">
+      {/* Mega Navigation Links - Transparent container & refined typography */}
+      <nav className="relative flex items-center gap-1">
         {menuItems.map((item) => {
           const isSelected = activeTab === item.id;
           const isHovered = hoveredTab === item.id;
@@ -138,25 +134,25 @@ export default function MotionNavigationMenu() {
           return (
             <div
               key={item.id}
-              className="relative px-4 py-2 rounded-full cursor-pointer select-none transition-all duration-200"
+              className="relative px-3.5 py-2 rounded-full cursor-pointer select-none transition-all duration-200"
               onMouseEnter={() => handleMouseEnter(item.id)}
             >
-              {/* Animated Active Backdrop */}
+              {/* Animated Active/Hover Backdrop */}
               {(isHovered || isSelected) && (
                 <motion.div
                   layoutId="motion-nav-pill-active"
-                  className="absolute inset-0 bg-zinc-100/90 rounded-full border border-zinc-200 shadow-sm"
+                  className="absolute inset-0 bg-zinc-100 rounded-full"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
 
               {/* Label & Indicators */}
-              <div className="relative z-10 flex items-center gap-2 text-xs font-bold text-zinc-900 tracking-tight">
+              <div className="relative z-10 flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-zinc-900">
                 <span>{item.label}</span>
 
                 {item.badge && (
                   <span
-                    className={`text-[8px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full text-white shadow-sm no-invert ${item.badgeColor}`}
+                    className={`text-[8px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full text-white shadow-xs no-invert ${item.badgeColor}`}
                   >
                     {item.badge}
                   </span>
@@ -167,23 +163,13 @@ export default function MotionNavigationMenu() {
                     animate={{ rotate: isSelected ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <ChevronDown className="w-3.5 h-3.5 text-zinc-500" />
+                    <ChevronDown className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-900 transition-colors" />
                   </motion.div>
                 )}
               </div>
             </div>
           );
         })}
-
-        {/* Featured Workshop CTA Button */}
-        <Link
-          href="/don"
-          className="relative px-4 py-2 ml-1 rounded-full bg-gradient-to-r from-[#ff4f00] to-[#e04500] text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow-md shadow-[#ff4f00]/25 hover:scale-105 transition-all duration-200 cursor-pointer no-invert group overflow-hidden"
-        >
-          <motion.div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-          <Sparkles className="w-3.5 h-3.5 text-yellow-200 animate-pulse" />
-          <span>{t("footer.support_workshop")}</span>
-        </Link>
       </nav>
 
       {/* Morphing Mega Dropdown Panel */}
@@ -194,11 +180,11 @@ export default function MotionNavigationMenu() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.98 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-[999999] origin-top"
+            className="absolute top-full left-0 pt-3 z-[999999] origin-top-left"
             onMouseEnter={handleDropdownMouseEnter}
           >
-            {/* Panel Body Container (Élargi à 980px pour un confort de lecture maximal) */}
-            <div className="w-[980px] bg-white/98 backdrop-blur-3xl border border-zinc-200/90 rounded-[32px] p-6 shadow-[0_25px_70px_rgba(0,0,0,0.12)] ring-1 ring-zinc-900/5 relative overflow-hidden text-zinc-900">
+            {/* Panel Body Container */}
+            <div className="w-[940px] max-w-[calc(100vw-3rem)] bg-white/98 backdrop-blur-3xl border border-zinc-200/90 rounded-[32px] p-6 shadow-[0_25px_70px_rgba(0,0,0,0.12)] ring-1 ring-zinc-900/5 relative overflow-hidden text-zinc-900">
               {/* Subtle ambient lighting glows */}
               <div className="absolute -top-20 -left-20 w-56 h-56 bg-[#ff4f00]/5 rounded-full blur-3xl pointer-events-none" />
               <div className="absolute -bottom-20 -right-20 w-56 h-56 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -209,7 +195,7 @@ export default function MotionNavigationMenu() {
               {activeTab === "boutique" && (
                 <div className="grid grid-cols-12 gap-6 relative z-10">
                   {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 4) */}
-                  <div className="col-span-4 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-[#ff4f00]/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group/hero shadow-xl">
+                  <div className="col-span-4 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-[#ff4f00]/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group/hero shadow-xl keep-white no-invert">
                     {/* Light Sweep Reflection animation */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] group-hover/hero:translate-x-[150%] transition-transform duration-1000 z-20 pointer-events-none" />
 
@@ -224,11 +210,11 @@ export default function MotionNavigationMenu() {
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/90 via-zinc-900/50 to-transparent z-10" />
 
                     <div className="relative z-20 space-y-2.5">
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#ff4f00] text-white text-[10px] font-black uppercase tracking-wider shadow-md no-invert">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#ff4f00] text-white !text-white text-[10px] font-black uppercase tracking-wider shadow-md no-invert keep-white">
                         <Flame className="w-3 h-3 text-yellow-300 animate-pulse" />
                         Catalogue Spoolio 3D
                       </span>
-                      <h4 className="text-xl font-black text-white leading-tight font-antonio uppercase tracking-wide">
+                      <h4 className="text-xl font-black text-white !text-white leading-tight font-antonio uppercase tracking-wide keep-white">
                         Créations 3D &amp; Art Toys
                       </h4>
                       <p className="text-xs text-zinc-200 font-medium leading-relaxed">
@@ -240,10 +226,10 @@ export default function MotionNavigationMenu() {
                       <Link
                         href="/boutique"
                         onClick={() => setActiveTab(null)}
-                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-zinc-950 font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all duration-200 shadow-md group/btn no-invert"
+                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-zinc-950 font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all duration-200 shadow-md group/btn btn-light force-dark-text no-invert"
                       >
-                        <span>Tout le catalogue</span>
-                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-200" />
+                        <span className="text-zinc-950 !text-zinc-950 font-black group-hover/btn:!text-white">Tout le catalogue</span>
+                        <ArrowUpRight className="w-4 h-4 text-zinc-950 !text-zinc-950 group-hover/btn:!text-white group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-200" />
                       </Link>
                     </div>
                   </div>
@@ -449,7 +435,7 @@ export default function MotionNavigationMenu() {
               {activeTab === "univers" && (
                 <div className="grid grid-cols-12 gap-6 relative z-10">
                   {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 4) */}
-                  <div className="col-span-4 relative rounded-2xl overflow-hidden border border-zinc-200 bg-zinc-900 p-6 flex flex-col justify-between group/hero shadow-md">
+                  <div className="col-span-4 relative rounded-2xl overflow-hidden border border-zinc-200 bg-zinc-900 p-6 flex flex-col justify-between group/hero shadow-md keep-white no-invert">
                     {/* Light Sweep Reflection animation */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] group-hover/hero:translate-x-[150%] transition-transform duration-1000 z-20 pointer-events-none" />
 
@@ -464,14 +450,14 @@ export default function MotionNavigationMenu() {
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-900/60 to-transparent z-10" />
 
                     <div className="relative z-20 space-y-2.5">
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-zinc-800 text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-sm no-invert border border-zinc-700">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-zinc-800 text-white !text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-sm no-invert keep-white border border-zinc-700">
                         <Dices className="w-3.5 h-3.5 text-[#ff4f00] animate-pulse" />
                         Expériences &amp; Jeux
                       </span>
-                      <h4 className="text-xl font-black text-white leading-tight font-antonio uppercase tracking-wide">
+                      <h4 className="text-xl font-black text-white !text-white leading-tight font-antonio uppercase tracking-wide keep-white">
                         L'Univers Jeux Spoolio 🎲
                       </h4>
-                      <p className="text-xs text-zinc-300 font-medium leading-relaxed">
+                      <p className="text-xs text-zinc-300 font-medium leading-relaxed keep-white">
                         Apps Web gratuites, studio 3D &amp; accessoires de jeu.
                       </p>
                     </div>
@@ -480,10 +466,10 @@ export default function MotionNavigationMenu() {
                       <Link
                         href="/jeux-de-societe"
                         onClick={() => setActiveTab(null)}
-                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-zinc-950 font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all duration-200 shadow-md group/btn no-invert"
+                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-zinc-950 font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all duration-200 shadow-md group/btn btn-light force-dark-text no-invert"
                       >
-                        <span>Découvrir l'App Enjeu</span>
-                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-200" />
+                        <span className="text-zinc-950 !text-zinc-950 font-black group-hover/btn:!text-white">Découvrir l'App Enjeu</span>
+                        <ArrowUpRight className="w-4 h-4 text-zinc-950 !text-zinc-950 group-hover/btn:!text-white group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-200" />
                       </Link>
                     </div>
                   </div>
@@ -646,7 +632,7 @@ export default function MotionNavigationMenu() {
               {activeTab === "atelier" && (
                 <div className="grid grid-cols-12 gap-6 relative z-10">
                   {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 4) */}
-                  <div className="col-span-4 relative rounded-2xl overflow-hidden border border-zinc-200 bg-zinc-900 p-6 flex flex-col justify-between group/hero shadow-md">
+                  <div className="col-span-4 relative rounded-2xl overflow-hidden border border-zinc-200 bg-zinc-900 p-6 flex flex-col justify-between group/hero shadow-md keep-white no-invert">
                     {/* Light Sweep Reflection animation */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] group-hover/hero:translate-x-[150%] transition-transform duration-1000 z-20 pointer-events-none" />
 
@@ -661,14 +647,14 @@ export default function MotionNavigationMenu() {
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-900/60 to-transparent z-10" />
 
                     <div className="relative z-20 space-y-2.5">
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-zinc-800 text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-sm no-invert border border-zinc-700">
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-zinc-800 text-white !text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-sm no-invert keep-white border border-zinc-700">
                         <Leaf className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
                         Impression 3D Eco 🇫🇷
                       </span>
-                      <h4 className="text-xl font-black text-white leading-tight font-antonio uppercase tracking-wide">
+                      <h4 className="text-xl font-black text-white !text-white leading-tight font-antonio uppercase tracking-wide keep-white">
                         Savoir-Faire &amp; Engagement
                       </h4>
-                      <p className="text-xs text-zinc-300 font-medium leading-relaxed">
+                      <p className="text-xs text-zinc-300 font-medium leading-relaxed keep-white">
                         Objets conçus en France à partir de bioplastiques recyclables.
                       </p>
                     </div>
@@ -677,10 +663,10 @@ export default function MotionNavigationMenu() {
                       <Link
                         href="/a-propos"
                         onClick={() => setActiveTab(null)}
-                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-zinc-950 font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all duration-200 shadow-md group/btn no-invert"
+                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-zinc-950 font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all duration-200 shadow-md group/btn btn-light force-dark-text no-invert"
                       >
-                        <span>Découvrir l'Atelier</span>
-                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-200" />
+                        <span className="text-zinc-950 !text-zinc-950 font-black group-hover/btn:!text-white">Découvrir l'Atelier</span>
+                        <ArrowUpRight className="w-4 h-4 text-zinc-950 !text-zinc-950 group-hover/btn:!text-white group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-200" />
                       </Link>
                     </div>
                   </div>

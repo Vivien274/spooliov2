@@ -14,7 +14,7 @@ export default function Footer({ className = "" }: FooterProps) {
   const { t } = useTranslation();
 
   return (
-    <footer className={`w-full border-t border-zinc-200 bg-zinc-50 pt-12 pb-8 text-xs text-zinc-600 relative z-10 ${className} no-invert font-sans`}>
+    <footer className={`w-full border-t border-zinc-200 bg-zinc-50 pt-12 pb-8 text-xs text-zinc-600 relative z-10 ${className} font-sans`}>
       <div className="max-w-[1200px] mx-auto px-6 space-y-10">
         
         {/* Upper Section: Brand Bio & Social Networks */}
