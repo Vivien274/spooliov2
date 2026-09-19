@@ -22,7 +22,7 @@ export default function Header({
   className = "relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full"
 }: HeaderProps) {
   const { locale, setLocale, t } = useTranslation();
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [theme, setTheme] = useState<"dark" | "light">("light");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const { cartCount, setIsCartOpen } = useCart();
   const [isBouncing, setIsBouncing] = useState<boolean>(false);
@@ -31,31 +31,30 @@ export default function Header({
   useEffect(() => {
     if (cartCount > 0) {
       setIsBouncing(true);
-      const timer = setTimeout(() => setIsBouncing(false), 650);
+      const timer = setTimeout(() => setIsBouncing(false), 500);
       return () => clearTimeout(timer);
     }
   }, [cartCount]);
 
   const [isSticky, setIsSticky] = useState<boolean>(false);
-  const [mounted, setMounted] = useState<boolean>(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
+  // Track sticky state on scroll with subtle threshold
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsSticky(true);
-      } else {
-        setIsSticky(false);
-      }
+      setIsSticky(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Search states
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  // Avoid SSR hydration issues for portal components
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Live search state
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<{
@@ -67,14 +66,10 @@ export default function Header({
   const [searching, setSearching] = useState<boolean>(false);
 
   useEffect(() => {
-    // Sync theme state on component mount
-    const isLight = document.documentElement.classList.contains("light");
-    if (isLight) {
-      document.documentElement.classList.remove("dark");
-    } else {
-      document.documentElement.classList.add("dark");
-    }
-    setTheme(isLight ? "light" : "dark");
+    // Force light theme
+    document.documentElement.classList.add("light");
+    document.documentElement.classList.remove("dark");
+    setTheme("light");
   }, []);
 
   // Re-sync theme state whenever mobile menu is opened

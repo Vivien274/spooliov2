@@ -99,13 +99,10 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  const theme = localStorage.getItem('theme');
-                  if (theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                    document.documentElement.classList.remove('light');
-                  } else {
-                    document.documentElement.classList.add('light');
-                    document.documentElement.classList.remove('dark');
+                  document.documentElement.classList.add('light');
+                  document.documentElement.classList.remove('dark');
+                  if (localStorage.getItem('theme') === 'dark') {
+                    localStorage.setItem('theme', 'light');
                   }
                 } catch (e) {}
               })();
