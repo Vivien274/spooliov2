@@ -19,93 +19,64 @@ export default function HomeEnjeuBanner({ className = "my-8" }: HomeEnjeuBannerP
   ];
 
   return (
-    <div className={`relative overflow-hidden rounded-3xl bg-zinc-50 border border-zinc-200/90 p-6 sm:p-8 lg:p-8 shadow-sm text-zinc-900 font-sans flex flex-col justify-between ${className}`}>
+    <div className={`relative overflow-hidden rounded-3xl bg-zinc-50 border border-zinc-200 p-6 sm:p-8 shadow-sm text-zinc-900 font-sans flex flex-col justify-between gap-6 group hover:border-zinc-400 transition-all duration-300 ${className}`}>
       {/* Subtle Accent Glow */}
       <div className="absolute -top-24 -right-24 w-72 h-72 bg-[#ff4f00]/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 flex flex-col xl:flex-row items-center justify-between gap-6">
-        {/* Left Side Info */}
-        <div className="flex-1 space-y-3.5 text-center xl:text-left">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-900 text-xs font-mono font-bold uppercase tracking-wider">
-            <span>🎲 App Enjeu • 100% Gratuite &amp; Sans Pub</span>
+      {/* Main Content Area */}
+      <div className="relative z-10 flex flex-col items-start gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-2xl bg-zinc-100 border border-zinc-200 flex items-center justify-center shrink-0 shadow-xs select-none">
+            <span className="text-xl">🎲</span>
           </div>
+          <span className="inline-block px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-zinc-900/5 text-zinc-900 border border-zinc-200 font-mono font-bold no-invert">
+            App Enjeu • 100% Gratuite
+          </span>
+        </div>
 
-          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase text-zinc-900 font-antonio tracking-tight leading-tight">
+        <div className="space-y-2">
+          <h4 className="text-2xl sm:text-3xl font-extrabold uppercase text-zinc-900 font-outfit tracking-tight leading-tight">
             Des soirées jeux <span className="text-[#ff4f00]">100% fun</span>, zéro prise de tête.
-          </h3>
-
-          <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed max-w-2xl font-sans">
+          </h4>
+          <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed font-medium">
             Tours à dés, supports de cartes &amp; accessoires 3D artisanaux conçus en France + <strong className="text-zinc-900 font-semibold">l'application compagnon gratuite Enjeu</strong> pour calculer vos scores automatiques (Skull King, Skyjo, Yams...) et pimenter vos parties avec des paris amicaux !
           </p>
+        </div>
 
-          {/* Supported Games Chips */}
-          <div className="flex flex-wrap items-center justify-center xl:justify-start gap-2 pt-1">
-            <span className="text-[11px] font-bold uppercase text-zinc-500 mr-1 font-mono">
-              Feuilles de score incluses :
+        {/* Supported Games Chips */}
+        <div className="flex flex-wrap items-center justify-start gap-1.5 pt-1">
+          <span className="text-[11px] font-bold uppercase text-zinc-500 mr-1 font-mono">
+            Feuilles de score incluses :
+          </span>
+          {games.map((g, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg text-xs font-semibold bg-white border border-zinc-200 text-zinc-800 shadow-xs"
+            >
+              <span>{g.icon}</span>
+              <span>{g.name}</span>
             </span>
-            {games.map((g, i) => (
-              <span
-                key={i}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold bg-white border border-zinc-200 text-zinc-800 shadow-xs"
-              >
-                <span>{g.icon}</span>
-                <span>{g.name}</span>
-              </span>
-            ))}
-          </div>
-
-          {/* Action CTAs */}
-          <div className="flex flex-col sm:flex-row items-center justify-center xl:justify-start gap-3 pt-3">
-            <Link
-              href="/jeux-de-societe"
-              className="w-full sm:w-auto h-12 px-6 rounded-xl bg-zinc-950 hover:bg-[#ff4f00] text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm hover:scale-[1.02] active:scale-95 transition-all"
-            >
-              <Dices className="w-4 h-4" />
-              <span>Voir la Collection Jeux 🎲</span>
-            </Link>
-
-            <Link
-              href="/jeux-de-societe#enjeu-app"
-              className="w-full sm:w-auto h-12 px-6 rounded-xl bg-white hover:bg-zinc-100 text-zinc-900 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 border border-zinc-200 shadow-sm hover:scale-[1.02] active:scale-95 transition-all"
-            >
-              <Smartphone className="w-4 h-4" />
-              <span>Découvrir l'App Enjeu 📱</span>
-            </Link>
-          </div>
+          ))}
         </div>
+      </div>
 
-        {/* Right Side Visual Smartphone Screenshot Mockup */}
-        <div className="w-full sm:w-auto shrink-0 flex items-center justify-center">
-          <Link
-            href="/jeux-de-societe#enjeu-app"
-            className="group relative block w-[190px] sm:w-[210px] aspect-[9/18] rounded-[32px] bg-zinc-900 border-[4px] border-zinc-800 p-1.5 shadow-xl overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:border-zinc-700"
-            title="Découvrir l'App Enjeu en détail"
-          >
-            {/* Dynamic Island / Notch */}
-            <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-16 h-3.5 bg-black rounded-full z-30 flex items-center justify-center border border-white/10">
-              <div className="w-2 h-2 rounded-full bg-indigo-900/80 border border-indigo-400/50" />
-            </div>
+      {/* Action CTAs */}
+      <div className="relative z-10 pt-2 flex flex-col sm:flex-row items-center gap-3">
+        <Link
+          href="/jeux-de-societe"
+          className="w-full sm:flex-1 h-12 px-4 rounded-xl bg-zinc-950 hover:bg-[#ff4f00] text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm hover:scale-[1.02] active:scale-95 transition-all cursor-pointer"
+        >
+          <Dices className="w-4 h-4" />
+          <span>Collection Jeux 🎲</span>
+        </Link>
 
-            {/* Smartphone Screenshot Display */}
-            <div className="relative w-full h-full rounded-[26px] overflow-hidden bg-black">
-              <Image
-                src="/images/enjeu/1.png"
-                alt="Capture d'écran Application Enjeu"
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500 no-invert"
-                sizes="210px"
-                priority
-              />
-
-              {/* Hover Badge Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center p-3">
-                <span className="text-[10px] font-black uppercase tracking-wider text-white bg-indigo-600 px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
-                  Voir l'App <ArrowRight className="w-3 h-3" />
-                </span>
-              </div>
-            </div>
-          </Link>
-        </div>
+        <Link
+          href="/jeux-de-societe#enjeu-app"
+          className="w-full sm:w-auto h-12 px-5 rounded-xl bg-white hover:bg-zinc-100 text-zinc-900 font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 border border-zinc-200 shadow-sm hover:scale-[1.02] active:scale-95 transition-all cursor-pointer"
+        >
+          <Smartphone className="w-4 h-4" />
+          <span>Découvrir l'App 📱</span>
+        </Link>
       </div>
     </div>
   );

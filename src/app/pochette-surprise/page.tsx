@@ -17,12 +17,15 @@ const MysteryPackConfigurator = dynamic(
 );
 
 import { getPageSeoMetadata } from "@/lib/seoPages";
+import { isPreprodEnv } from "@/lib/env";
 
 export async function generateMetadata(): Promise<Metadata> {
   return getPageSeoMetadata("pochette-surprise");
 }
 
 export default function PochetteSurprisePage() {
+  const isPreprod = isPreprodEnv();
+
   return (
     <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-[#FF5500] selection:text-black overflow-x-hidden">
       {/* Background Decorative Glows */}
@@ -45,13 +48,15 @@ export default function PochetteSurprisePage() {
         {/* Hero Title & Presentation Banner */}
         <div className="text-center max-w-2xl mb-8">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF5500]/15 border border-[#FF5500]/30 text-[#FF5500] text-xs font-mono font-bold uppercase tracking-wider mb-3">
-            <span>🎁 CONCEPT POCHETTE SPOOLIO</span>
+            <span>{isPreprod ? "🎒 CONCEPT BLIND BAG SPOOLIO" : "🎁 CONCEPT POCHETTE SPOOLIO"}</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold uppercase tracking-tight text-white font-[family-name:var(--font-antonio)] mb-3">
-            POCHETTE SURPRISE 3D ⚡
+            {isPreprod ? "BLIND BAGS D'ATELIER ⚡" : "POCHETTE SURPRISE 3D ⚡"}
           </h1>
           <p className="text-sm sm:text-base text-gray-300 font-[family-name:var(--font-plus-jakarta)] leading-relaxed">
-            Compose ton pack sur-mesure d'objets mystères sensoriels et ludiques 3D. Sélectionne le nombre d'objets, dose tes univers préférés ou tente le <strong className="text-[#FF5500]">Remplissage Aléatoire</strong> !
+            {isPreprod
+              ? "Compose ton Blind Bag sur-mesure d'objets cool, hardware tactile et créations d'atelier 3D. Sélectionne le nombre de pièces, dose tes univers préférés ou tente le Remplissage Aléatoire !"
+              : "Compose ton pack sur-mesure d'objets mystères sensoriels et ludiques 3D. Sélectionne le nombre d'objets, dose tes univers préférés ou tente le Remplissage Aléatoire !"}
           </p>
         </div>
 
@@ -79,7 +84,9 @@ export default function PochetteSurprisePage() {
                 Sélection Sur-Mesure
               </span>
               <span className="text-[11px] text-gray-400 leading-relaxed">
-                Dose librement tes figurines, fidgets et gadgets préférés.
+                {isPreprod
+                  ? "Dose librement tes sculptures, outils de focus et desk setup préférés."
+                  : "Dose librement tes figurines, fidgets et gadgets préférés."}
               </span>
             </div>
           </HolographicTiltCard>

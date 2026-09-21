@@ -49,7 +49,7 @@ export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) 
 
         <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h3 className="text-xl md:text-2xl font-black text-white font-antonio uppercase tracking-wide no-invert">
+            <h3 className="text-xl md:text-2xl font-extrabold text-white font-outfit tracking-tight no-invert">
               {t("home.reviews.title")}
             </h3>
             <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-white/70 px-2 py-0.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 mt-1 no-invert">
@@ -62,9 +62,9 @@ export default function ReviewsSection({ displayReviews }: ReviewsSectionProps) 
             href="https://g.page/r/CZEMl8MXwp-kEBM/review"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 text-xs px-4 py-2.5 rounded-xl bg-white text-black font-extrabold shadow-lg hover:bg-black hover:text-white border border-white transition-all duration-300 select-none cursor-pointer shrink-0"
+            className="google-review-btn inline-flex items-center justify-center gap-2 text-xs sm:text-sm px-5 py-2.5 rounded-full bg-zinc-950 text-white font-extrabold shadow-lg hover:bg-white hover:text-zinc-950 border border-white/30 hover:border-white transition-all duration-300 select-none cursor-pointer shrink-0 no-invert"
           >
-            <span>{t("home.reviews.google_button")}</span>
+            <span className="!bg-transparent text-inherit">{t("home.reviews.google_button")}</span>
           </a>
         </div>
 

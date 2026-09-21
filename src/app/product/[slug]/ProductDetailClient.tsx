@@ -459,7 +459,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full animate-pulse">
           <div className="h-6 w-24 bg-spoolio-card border border-spoolio-border rounded mb-8" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <div className="aspect-square w-full bg-spoolio-card border border-spoolio-border rounded-xl" />
+            <div className="aspect-square w-full bg-zinc-100 rounded-2xl" />
             <div className="flex flex-col gap-6">
               <div className="h-4 w-1/4 bg-spoolio-card border border-spoolio-border rounded" />
               <div className="h-10 w-3/4 bg-spoolio-card border border-spoolio-border rounded" />
@@ -793,7 +793,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-16">
           {/* Left Column: Image Container with zoom aspect-ratio & thumbnails */}
           <div className="flex flex-col">
-            <div className="relative w-screen lg:w-full left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 aspect-square rounded-none lg:rounded-2xl overflow-hidden bg-black/40 border-0 lg:border lg:border-spoolio-border p-0 lg:p-2">
+            <div className="relative w-screen lg:w-full left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 aspect-square rounded-none lg:rounded-2xl overflow-hidden bg-zinc-100/60">
               <div
                 onClick={() => setIsLightboxOpen(true)}
                 onTouchStart={onTouchStart}
@@ -802,7 +802,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                 onMouseMove={handleMouseMove}
                 onMouseEnter={() => setIsZooming(true)}
                 onMouseLeave={() => setIsZooming(false)}
-                className="relative w-full h-full rounded-none lg:rounded-xl overflow-hidden bg-spoolio-card cursor-zoom-in select-none touch-pan-y group/gallery"
+                className="relative w-full h-full rounded-none lg:rounded-2xl overflow-hidden bg-transparent cursor-zoom-in select-none touch-pan-y group/gallery"
               >
                 {hasImage ? (
                   (() => {
@@ -817,7 +817,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                           {ytEmbedUrl ? (
                             <iframe
                               src={ytEmbedUrl}
-                              className="w-full h-full border-0 rounded-none lg:rounded-xl pointer-events-auto"
+                              className="w-full h-full border-0 rounded-none lg:rounded-2xl pointer-events-auto"
                               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                               allowFullScreen
                             />
@@ -829,7 +829,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                               loop
                               muted
                               playsInline
-                              className="w-full h-full object-cover rounded-none lg:rounded-xl no-invert"
+                              className="w-full h-full object-cover rounded-none lg:rounded-2xl no-invert"
                             />
                           )}
                         </div>
@@ -1003,10 +1003,10 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                       <button
                         key={`${img.id}-${idx}`}
                         onClick={() => setActiveImageIndex(idx)}
-                        className={`relative w-20 h-20 rounded-xl overflow-hidden bg-spoolio-card border transition-all shrink-0 cursor-pointer ${
+                        className={`relative w-20 h-20 rounded-xl overflow-hidden bg-zinc-100 transition-all shrink-0 cursor-pointer ${
                           activeImageIndex === idx
-                            ? "border-[#ff4f00] ring-2 ring-[#ff4f00] scale-105 shadow-lg shadow-[#ff4f00]/30 z-10"
-                            : "border-spoolio-border hover:border-white/40 opacity-70 hover:opacity-100"
+                            ? "border-2 border-[#ff4f00] scale-105 shadow-md shadow-[#ff4f00]/20 z-10"
+                            : "border border-zinc-200/80 hover:border-zinc-400 opacity-75 hover:opacity-100"
                         }`}
                       >
                         {isVid ? (

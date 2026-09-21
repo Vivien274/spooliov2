@@ -3,17 +3,18 @@
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import ProductCard, { Product } from "./ProductCard";
-import { Sparkles, Flame, Dices, Grid, ArrowRight, RefreshCw } from "lucide-react";
+import { Flame, Dices, Grid, ArrowRight } from "lucide-react";
+import { isPreprodEnv } from "@/lib/env";
 import { useTranslation } from "@/context/LanguageContext";
 
-type TabKey = "latest" | "best-of" | "jeux-de-societe" | "all";
+type TabKey = "best-of" | "jeux-de-societe" | "all";
 
 export default function HomeTabbedProductGrid() {
   const { t } = useTranslation();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<TabKey>("latest");
+  const [activeTab, setActiveTab] = useState<TabKey>("best-of");
 
   useEffect(() => {
     async function fetchProducts() {
@@ -37,16 +38,6 @@ export default function HomeTabbedProductGrid() {
   // Filter products by active tab
   const displayProducts = useMemo(() => {
     let result = [...products];
-
-    if (activeTab === "latest") {
-      // Sort strictly by date_created (newest first)
-      result.sort((a, b) => {
-        const timeA = a.date_created ? new Date(a.date_created).getTime() : 0;
-        const timeB = b.date_created ? new Date(b.date_created).getTime() : 0;
-        return timeB - timeA;
-      });
-      return result.slice(0, 8);
-    }
 
     if (activeTab === "best-of") {
       // Sort by views or popular
@@ -111,12 +102,6 @@ export default function HomeTabbedProductGrid() {
 
   const tabs = [
     {
-      id: "latest" as TabKey,
-      label: "Nouveautés",
-      icon: Sparkles,
-      badge: "Récent",
-    },
-    {
       id: "best-of" as TabKey,
       label: "Art Toys & Collection",
       icon: Flame,
@@ -140,35 +125,40 @@ export default function HomeTabbedProductGrid() {
     <section className="w-full flex flex-col gap-6 font-sans">
       {/* Header Title */}
       <div className="text-center space-y-2">
-        <h2 className="text-3xl sm:text-4xl font-black uppercase text-zinc-900 font-antonio tracking-tight">
-          {t("home.collection.title") || "Nos Créations 3D"}
+        <h2
+          className="text-3xl sm:text-4xl lg:text-5xl font-bold uppercase text-zinc-900 font-dynapuff tracking-tighter leading-tight"
+          style={{ fontFamily: "var(--font-dynapuff), cursive, sans-serif" }}
+        >
+          {t("home.collection.title") || "La Collection Spoolio"}
         </h2>
         <p className="text-xs sm:text-sm text-zinc-500 max-w-md mx-auto leading-relaxed">
           {t("home.collection.subtitle") || "Art toys, accessoires de jeux de société et objets geek imprimés en 3D en France."}
         </p>
       </div>
 
-      {/* Tabs Navigation Pills */}
-      <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 p-1.5 bg-zinc-100/90 border border-zinc-200/90 rounded-2xl max-w-3xl mx-auto">
-        {tabs.map((tab) => {
-          const Icon = tab.icon;
-          const isActive = activeTab === tab.id;
+      {/* Tabs Navigation Pills - strictly on a single line */}
+      <div className="w-full flex items-center justify-start sm:justify-center overflow-x-auto scrollbar-none py-1">
+        <div className="inline-flex items-center gap-1.5 sm:gap-2 p-1.5 bg-neutral-100/90 border border-neutral-200/90 rounded-2xl mx-auto flex-nowrap shrink-0">
+          {tabs.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
 
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer select-none ${
-                isActive
-                  ? "bg-white text-zinc-950 border border-zinc-200 shadow-sm"
-                  : "text-zinc-500 hover:text-zinc-900 hover:bg-white/60 border border-transparent"
-              }`}
-            >
-              <Icon className={`w-4 h-4 ${isActive ? "text-[#ff4f00]" : "text-zinc-400"}`} />
-              <span>{tab.label}</span>
-            </button>
-          );
-        })}
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer select-none whitespace-nowrap shrink-0 ${
+                  isActive
+                    ? "bg-zinc-950 text-white shadow-sm border border-zinc-950"
+                    : "border border-neutral-200 text-neutral-600 hover:bg-neutral-100 hover:text-zinc-900 bg-white"
+                }`}
+              >
+                <Icon className={`w-4 h-4 ${isActive ? "text-[#ff4f00]" : "text-neutral-400"}`} />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Products Grid */}

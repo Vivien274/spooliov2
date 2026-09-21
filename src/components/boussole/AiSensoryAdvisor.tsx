@@ -110,7 +110,7 @@ export default function AiSensoryAdvisor({
           )}
         </div>
 
-        <h2 className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight font-[family-name:var(--font-antonio)]">
+        <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight font-righteous">
           Décris ton besoin ou ce que tu ressens 🧭
         </h2>
         <p className="text-xs sm:text-sm text-gray-300 leading-relaxed max-w-2xl font-medium">

@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import fs from 'fs';
 import path from 'path';
 import { invalidateProductsCache } from '../route';
+import { isPreprodEnv } from '@/lib/env';
 
 import { revalidatePath } from 'next/cache';
 
@@ -125,6 +126,7 @@ function mapProduct(p: any) {
     tags: tagsList,
     stock: typeof p.stock === 'number' ? p.stock : (typeof p.stock_quantity === 'number' ? p.stock_quantity : -1),
     status: p.status || "publish",
+    is_active: (p.status === "publish" || p.status === "" || !p.status) && p.status !== "draft",
     show_in_sensory_compass: !!(p.showInSensoryCompass || p.show_in_sensory_compass),
     sensory_noise_level: p.sensoryNoiseLevel || p.sensory_noise_level || null,
     sensory_size: p.sensorySize || p.sensory_size || null,
@@ -137,6 +139,7 @@ async function fetchSingleProduct(slug: string, status: string) {
   const wcUrl = process.env.NEXT_PUBLIC_WC_URL;
   const consumerKey = process.env.WC_CONSUMER_KEY;
   const consumerSecret = process.env.WC_CONSUMER_SECRET;
+  const isPreprod = isPreprodEnv();
 
   // 1. Primary source of truth: PostgreSQL database via Prisma
   try {
@@ -147,9 +150,12 @@ async function fetchSingleProduct(slug: string, status: string) {
 
     if (dbProduct) {
       // If product exists in database, DB status is authoritative!
-      if (status !== 'all' && dbProduct.status !== 'publish' && dbProduct.status !== '') {
-        // Product is in draft (or not published). Do NOT expose publicly.
-        return null;
+      const isDraft = dbProduct.status !== 'publish' && dbProduct.status !== '';
+      if (isDraft) {
+        // If caller explicitly asked for published items, or if running in production without status='all':
+        if (status === 'publish' || (!isPreprod && status !== 'all')) {
+          return null;
+        }
       }
       return mapProduct(dbProduct);
     }
@@ -166,8 +172,11 @@ async function fetchSingleProduct(slug: string, status: string) {
       if (Array.isArray(parsed)) {
         const match = parsed.find(p => p.slug === slug);
         if (match) {
-          if (status !== 'all' && match.status !== 'publish' && match.status) {
-            return null;
+          const isDraft = match.status !== 'publish' && match.status;
+          if (isDraft) {
+            if (status === 'publish' || (!isPreprod && status !== 'all')) {
+              return null;
+            }
           }
           return mapProduct(match);
         }
@@ -209,7 +218,8 @@ export async function GET(
   const { slug } = await params;
   try {
     const { searchParams } = new URL(request.url);
-    const status = searchParams.get('status') || 'publish';
+    const isPreprod = isPreprodEnv();
+    const status = searchParams.get('status') || (isPreprod ? 'all' : 'publish');
     const product = await fetchSingleProduct(slug, status);
     if (!product) {
       return NextResponse.json(
@@ -223,7 +233,7 @@ export async function GET(
       );
     }
     return NextResponse.json(product, {
-      headers: status !== 'all' ? {
+      headers: (status !== 'all' && !isPreprod) ? {
         'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
       } : {
         'Cache-Control': 'no-store',

@@ -4,6 +4,7 @@ import Image from "next/image";
 import SpoolioProductGrid from "@/components/SpoolioProductGrid";
 import HomeTabbedProductGrid from "@/components/HomeTabbedProductGrid";
 import AnimatedHero from "@/components/AnimatedHero";
+import LatestDropBanner from "@/components/LatestDropBanner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReviewsSection from "@/components/ReviewsSection";
@@ -242,15 +243,18 @@ export default async function HomePage() {
       {/* 1. Full-Width Animated Hero Section */}
       <AnimatedHero {...(hero as any)} />
 
+      {/* 2. Full-Width Dedicated Latest Drop Banner: "Curb Monsters" */}
+      <LatestDropBanner />
+
       {/* 5. Tabbed Product Showcase & 2-Column Banner */}
       <section className="w-full max-w-[1200px] px-4 py-8 relative z-10 flex flex-col gap-10">
-        {/* Tabbed Product Showcase (Incontournables, Nouveautés, Jeux de société, Tout le catalogue) */}
+        {/* Tabbed Product Showcase (Art Toys, Jeux de société, Tout le catalogue) */}
         <HomeTabbedProductGrid />
 
-        {/* 2-Column Section (1/3 + 2/3): Aider l'Atelier + App Enjeu */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 my-4 items-stretch font-sans">
-          {/* Left Column (1/3): Aider l'Atelier (Donation) */}
-          <div className="lg:col-span-1 relative rounded-3xl p-6 sm:p-8 bg-zinc-50 border border-zinc-200 overflow-hidden flex flex-col justify-between gap-6 shadow-sm group hover:border-zinc-400 transition-all duration-300">
+        {/* 2-Column Balanced Section: Aider l'Atelier + App Enjeu */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-4 items-stretch font-sans">
+          {/* Left Column: Aider l'Atelier (Donation) */}
+          <div className="h-full relative rounded-3xl p-6 sm:p-8 bg-zinc-50 border border-zinc-200 overflow-hidden flex flex-col justify-between gap-6 shadow-sm group hover:border-zinc-400 transition-all duration-300">
             <div className="relative z-10 flex flex-col items-start gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-2xl bg-zinc-100 border border-zinc-200 flex items-center justify-center shrink-0 shadow-xs select-none">
@@ -262,7 +266,7 @@ export default async function HomePage() {
               </div>
 
               <div className="space-y-2">
-                <h4 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-wide uppercase font-antonio leading-tight no-invert">
+                <h4 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight uppercase font-outfit leading-tight no-invert">
                   {t("home.donation.title")}
                 </h4>
                 <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed font-medium">
@@ -282,15 +286,15 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Right Column (2/3): App Enjeu */}
-          <HomeEnjeuBanner className="lg:col-span-2 h-full my-0" />
+          {/* Right Column: App Enjeu */}
+          <HomeEnjeuBanner className="h-full my-0" />
         </div>
       </section>
 
       {/* 5. PLA Storytelling Timeline Section */}
       <section className="w-full max-w-[1200px] px-4 py-14 relative z-10 border-t border-zinc-200">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-zinc-900 font-antonio">
+          <h2 className="text-3xl sm:text-4xl font-normal uppercase tracking-wide text-zinc-900 font-righteous">
             {t("home.timeline.title")} 🌾
           </h2>
           <p className="text-xs sm:text-sm text-zinc-500 font-sans mt-2.5 max-w-lg mx-auto leading-relaxed font-medium">
@@ -300,59 +304,59 @@ export default async function HomePage() {
 
         {/* Timeline Grid */}
         <div className="relative grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-4 mt-8 font-sans">
-          {/* Timeline Connector Line (only visible on desktop) */}
-          <div className="hidden md:block absolute top-[44px] left-[8%] right-[8%] h-[2px] bg-zinc-200 z-0" />
+          {/* Timeline Connector Line (Dashed guide line behind circles) */}
+          <div className="hidden md:block absolute top-[48px] left-[10%] right-[10%] border-t-2 border-dashed border-neutral-300 z-0 pointer-events-none" />
 
           {/* Step 1 */}
-          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-12 h-12 rounded-full bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center font-black text-lg mb-4 shrink-0 transition-colors duration-300 shadow-sm">
+          <div className="relative z-10 flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+            <div className="w-14 h-14 rounded-full bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center font-black text-xl mb-4 shrink-0 ring-4 ring-white shadow-md transition-all duration-300 group-hover:scale-105">
               1
             </div>
-            <h4 className="text-base sm:text-lg font-black text-zinc-900 uppercase tracking-wide mb-2 font-antonio leading-tight text-center">{t("home.timeline.step1.title")}</h4>
+            <h4 className="text-base sm:text-lg font-bold text-zinc-900 tracking-tight mb-2 font-outfit leading-tight text-center">{t("home.timeline.step1.title")}</h4>
             <p className="text-xs text-zinc-500 leading-relaxed font-medium">
               {t("home.timeline.step1.description")}
             </p>
           </div>
 
           {/* Step 2 */}
-          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-12 h-12 rounded-full bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center font-black text-lg mb-4 shrink-0 transition-colors duration-300 shadow-sm">
+          <div className="relative z-10 flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+            <div className="w-14 h-14 rounded-full bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center font-black text-xl mb-4 shrink-0 ring-4 ring-white shadow-md transition-all duration-300 group-hover:scale-105">
               2
             </div>
-            <h4 className="text-base sm:text-lg font-black text-zinc-900 uppercase tracking-wide mb-2 font-antonio leading-tight text-center">{t("home.timeline.step2.title")}</h4>
+            <h4 className="text-base sm:text-lg font-bold text-zinc-900 tracking-tight mb-2 font-outfit leading-tight text-center">{t("home.timeline.step2.title")}</h4>
             <p className="text-xs text-zinc-500 leading-relaxed font-medium">
               {t("home.timeline.step2.description")}
             </p>
           </div>
 
           {/* Step 3 */}
-          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-12 h-12 rounded-full bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center font-black text-lg mb-4 shrink-0 transition-colors duration-300 shadow-sm">
+          <div className="relative z-10 flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+            <div className="w-14 h-14 rounded-full bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center font-black text-xl mb-4 shrink-0 ring-4 ring-white shadow-md transition-all duration-300 group-hover:scale-105">
               3
             </div>
-            <h4 className="text-base sm:text-lg font-black text-zinc-900 uppercase tracking-wide mb-2 font-antonio leading-tight text-center">{t("home.timeline.step3.title")}</h4>
+            <h4 className="text-base sm:text-lg font-bold text-zinc-900 tracking-tight mb-2 font-outfit leading-tight text-center">{t("home.timeline.step3.title")}</h4>
             <p className="text-xs text-zinc-500 leading-relaxed font-medium">
               {t("home.timeline.step3.description")}
             </p>
           </div>
 
           {/* Step 4 */}
-          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-12 h-12 rounded-full bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center font-black text-lg mb-4 shrink-0 transition-colors duration-300 shadow-sm">
+          <div className="relative z-10 flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+            <div className="w-14 h-14 rounded-full bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center font-black text-xl mb-4 shrink-0 ring-4 ring-white shadow-md transition-all duration-300 group-hover:scale-105">
               4
             </div>
-            <h4 className="text-base sm:text-lg font-black text-zinc-900 uppercase tracking-wide mb-2 font-antonio leading-tight text-center">{t("home.timeline.step4.title")}</h4>
+            <h4 className="text-base sm:text-lg font-bold text-zinc-900 tracking-tight mb-2 font-outfit leading-tight text-center">{t("home.timeline.step4.title")}</h4>
             <p className="text-xs text-zinc-500 leading-relaxed font-medium">
               {t("home.timeline.step4.description")}
             </p>
           </div>
 
           {/* Step 5 */}
-          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-12 h-12 rounded-full bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center font-black text-lg mb-4 shrink-0 transition-colors duration-300 shadow-sm">
+          <div className="relative z-10 flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+            <div className="w-14 h-14 rounded-full bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center font-black text-xl mb-4 shrink-0 ring-4 ring-white shadow-md transition-all duration-300 group-hover:scale-105">
               5
             </div>
-            <h4 className="text-base sm:text-lg font-black text-zinc-900 uppercase tracking-wide mb-2 font-antonio leading-tight text-center">{t("home.timeline.step5.title")}</h4>
+            <h4 className="text-base sm:text-lg font-bold text-zinc-900 tracking-tight mb-2 font-outfit leading-tight text-center">{t("home.timeline.step5.title")}</h4>
             <p className="text-xs text-zinc-500 leading-relaxed font-medium">
               {t("home.timeline.step5.description")}
             </p>
@@ -379,7 +383,7 @@ export default async function HomePage() {
               <div className="flex items-center justify-between border-b border-zinc-200 pb-3">
                 <div className="flex items-center gap-2">
                   <span className="text-lg">📝</span>
-                  <h4 className="text-base font-extrabold text-zinc-900 tracking-tight uppercase font-antonio">
+                  <h4 className="text-base font-extrabold text-zinc-900 tracking-tight uppercase font-outfit">
                     Spoolio • Le blog
                   </h4>
                 </div>

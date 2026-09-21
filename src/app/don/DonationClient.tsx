@@ -85,32 +85,31 @@ export default function DonationClient() {
   };
 
   return (
-    <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-black">
+    <div className="min-h-screen bg-[#fafaf9] text-zinc-900 font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-white">
       {/* Header */}
       <Header />
 
       {/* Main Content */}
-      <main className="flex-1 max-w-[1100px] w-full mx-auto px-6 pt-28 lg:pt-32 pb-16 flex flex-col items-center">
+      <main className="flex-1 max-w-[1100px] w-full mx-auto px-6 pt-28 lg:pt-32 pb-16 flex flex-col items-center relative">
         {/* Glow Effects in Background */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[radial-gradient(circle_at_center,rgba(255,79,0,0.05)_0%,transparent_65%)] pointer-events-none" />
-        <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] bg-[radial-gradient(circle_at_center,rgba(47,60,217,0.04)_0%,transparent_65%)] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[500px] bg-[radial-gradient(ellipse_at_top,rgba(255,79,0,0.06)_0%,transparent_65%)] pointer-events-none" />
 
         {/* Title area */}
-        <div className="text-center max-w-[600px] mb-12 relative">
-          <span className="text-[10px] font-black tracking-[0.25em] uppercase text-[#ff4f00] bg-[#ff4f00]/10 px-3.5 py-1.5 rounded-full border border-[#ff4f00]/25 mb-4 inline-block">
+        <div className="text-center max-w-[640px] mb-12 relative">
+          <span className="text-[11px] font-bold tracking-[0.2em] uppercase text-[#ff4f00] bg-[#ff4f00]/10 px-4 py-1.5 rounded-full border border-[#ff4f00]/20 mb-3.5 inline-block font-mono">
             Soutenir Spoolio 🧡
           </span>
-          <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-white mb-4 uppercase font-antonio">
-            Soutenir l'Atelier
+          <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-zinc-950 mb-3 uppercase font-righteous">
+            Soutenir l&apos;Atelier
           </h1>
-          <p className="text-gray-400 text-sm leading-relaxed font-sans">
-            Spoolio est une marque artisanale et éco-responsable. Votre don soutient directement nos investissements matériels, notre transition vers le PLA 100% recyclé et la maintenance de nos imprimantes 3D.
+          <p className="text-zinc-600 text-sm sm:text-base leading-relaxed font-sans">
+            Spoolio est un atelier artisanal et éco-responsable. Votre don soutient directement nos investissements matériels, notre transition vers le PLA biosourcé et la maintenance de nos machines 3D.
           </p>
         </div>
 
         {/* Error notification */}
         {error && (
-          <div className="w-full max-w-[500px] bg-red-500/10 border border-red-500/20 text-red-400 text-xs px-4 py-3 rounded-xl mb-8 flex items-center gap-2 animate-pulse font-sans">
+          <div className="w-full max-w-[500px] bg-red-50 border border-red-200 text-red-700 text-xs px-4 py-3 rounded-2xl mb-8 flex items-center gap-2 font-sans shadow-xs">
             <span className="text-sm shrink-0">⚠️</span>
             <span>{error}</span>
           </div>
@@ -118,7 +117,7 @@ export default function DonationClient() {
 
         {/* Loading Spinner */}
         {loading ? (
-          <div className="flex flex-col items-center gap-3 py-16 text-gray-500 text-xs italic animate-pulse">
+          <div className="flex flex-col items-center gap-3 py-16 text-zinc-400 text-xs italic animate-pulse">
             <svg className="animate-spin h-8 w-8 text-[#ff4f00]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -127,10 +126,9 @@ export default function DonationClient() {
           </div>
         ) : (
           /* Tiers Grid */
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-12 animate-fade-in">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 w-full mb-12 animate-fade-in">
             {donationTiers.map((tier) => {
               const isSelected = selectedTier === tier.id;
-              const isOrange = tier.color === "orange";
               
               return (
                 <div
@@ -141,43 +139,36 @@ export default function DonationClient() {
                   }}
                   className={`relative rounded-3xl p-6 border transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden group select-none ${
                     isSelected
-                      ? isOrange
-                        ? "bg-[#ff4f00]/5 border-[#ff4f00] shadow-[0_0_20px_rgba(255,79,0,0.1)] scale-[1.01]"
-                        : "bg-[#2F3CD9]/5 border-[#2F3CD9] shadow-[0_0_20px_rgba(47,60,217,0.1)] scale-[1.01]"
-                      : "bg-spoolio-card border-spoolio-border hover:border-white/20 hover:bg-spoolio-card/80 hover:scale-[1.005]"
+                      ? "bg-white border-2 border-[#ff4f00] shadow-lg shadow-[#ff4f00]/15 -translate-y-1 ring-2 ring-[#ff4f00]/10"
+                      : "bg-white border-zinc-200/90 hover:border-zinc-300 hover:shadow-md hover:-translate-y-0.5 shadow-xs"
                   }`}
                 >
-                  {/* Visual Glow Indicator */}
-                  {isSelected && (
-                    <div className={`absolute top-0 right-0 w-24 h-24 rounded-full blur-2xl opacity-20 pointer-events-none -mr-8 -mt-8 ${
-                      isOrange ? "bg-[#ff4f00]" : "bg-[#2F3CD9]"
-                    }`} />
-                  )}
-
                   <div>
                     {/* Emoji & Subtitle */}
                     <div className="flex justify-between items-start mb-4">
-                      <span className="text-3xl filter drop-shadow-md select-none">{tier.emoji}</span>
-                      <span className={`text-[9px] font-black uppercase tracking-widest ${
-                        isOrange ? "text-[#ff4f00]" : "text-[#2f3cd9]"
+                      <span className="text-3xl select-none">{tier.emoji}</span>
+                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full transition-colors ${
+                        isSelected
+                          ? "bg-[#ff4f00] text-white"
+                          : "bg-zinc-100 text-zinc-600 group-hover:bg-zinc-200/80"
                       }`}>
                         {tier.subtitle}
                       </span>
                     </div>
 
                     {/* Title & Description */}
-                    <h3 className="text-lg font-bold text-white mb-2 leading-tight">
+                    <h3 className="text-base sm:text-lg font-bold text-zinc-950 mb-1.5 font-outfit leading-snug">
                       {tier.title}
                     </h3>
-                    <p className="text-gray-400 text-xs leading-relaxed font-sans mb-6">
+                    <p className="text-zinc-500 text-xs sm:text-sm leading-relaxed font-sans mb-6">
                       {tier.description}
                     </p>
                   </div>
 
                   {/* Price Display */}
-                  <div className="flex items-baseline gap-1 mt-auto">
-                    <span className="text-2xl font-black text-white">{tier.amount}</span>
-                    <span className="text-sm font-extrabold text-gray-500">€</span>
+                  <div className="flex items-baseline gap-1 mt-auto pt-3 border-t border-zinc-100">
+                    <span className="text-2xl sm:text-3xl font-extrabold text-zinc-950 font-outfit">{tier.amount}</span>
+                    <span className="text-sm font-semibold text-zinc-400">€</span>
                   </div>
                 </div>
               );
@@ -188,27 +179,31 @@ export default function DonationClient() {
               onClick={() => setSelectedTier("custom")}
               className={`relative rounded-3xl p-6 border transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden select-none ${
                 selectedTier === "custom"
-                  ? "bg-[#ff4f00]/5 border-[#ff4f00] shadow-[0_0_20px_rgba(255,79,0,0.1)] scale-[1.01]"
-                  : "bg-spoolio-card border-spoolio-border hover:border-white/20 hover:bg-spoolio-card/80 hover:scale-[1.005]"
+                  ? "bg-white border-2 border-[#ff4f00] shadow-lg shadow-[#ff4f00]/15 -translate-y-1 ring-2 ring-[#ff4f00]/10"
+                  : "bg-white border-zinc-200/90 hover:border-zinc-300 hover:shadow-md hover:-translate-y-0.5 shadow-xs"
               }`}
             >
               <div>
                 <div className="flex justify-between items-start mb-4">
-                  <span className="text-3xl filter drop-shadow-md select-none">🎁</span>
-                  <span className="text-[9px] font-black uppercase tracking-widest text-gray-500">
+                  <span className="text-3xl select-none">🎁</span>
+                  <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full transition-colors ${
+                    selectedTier === "custom"
+                      ? "bg-[#ff4f00] text-white"
+                      : "bg-zinc-100 text-zinc-600"
+                  }`}>
                     Don Libre
                   </span>
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2 leading-tight">
+                <h3 className="text-base sm:text-lg font-bold text-zinc-950 mb-1.5 font-outfit leading-snug">
                   Montant Libre
                 </h3>
-                <p className="text-gray-400 text-xs leading-relaxed font-sans mb-4">
+                <p className="text-zinc-500 text-xs sm:text-sm leading-relaxed font-sans mb-4">
                   Saisissez le montant de votre choix pour nous soutenir à hauteur de vos moyens.
                 </p>
               </div>
 
               {/* Custom Input */}
-              <div className="mt-auto pt-2" onClick={(e) => e.stopPropagation()}>
+              <div className="mt-auto pt-3 border-t border-zinc-100" onClick={(e) => e.stopPropagation()}>
                 <div className="relative flex items-center">
                   <input
                     type="number"
@@ -221,9 +216,9 @@ export default function DonationClient() {
                       setCustomAmount(e.target.value);
                     }}
                     placeholder="Saisir un montant"
-                    className="w-full h-11 pl-4 pr-10 text-sm font-semibold bg-[#1a1a1f] border border-[#2d2d34] rounded-xl text-white placeholder-gray-600 outline-none focus:border-[#ff4f00]/50 transition-all font-sans donation-input"
+                    className="w-full h-11 pl-4 pr-10 text-sm font-bold bg-zinc-50 border border-zinc-200 rounded-xl text-zinc-900 placeholder-zinc-400 outline-none focus:bg-white focus:border-[#ff4f00] focus:ring-2 focus:ring-[#ff4f00]/15 transition-all font-outfit"
                   />
-                  <span className="absolute right-4 text-sm font-bold text-gray-500">€</span>
+                  <span className="absolute right-4 text-sm font-bold text-zinc-400">€</span>
                 </div>
               </div>
             </div>
@@ -231,15 +226,15 @@ export default function DonationClient() {
         )}
 
         {/* CTA Add to Cart Button */}
-        <div className="w-full max-w-[400px] flex flex-col items-center gap-4 mt-4">
+        <div className="w-full max-w-[420px] flex flex-col items-center gap-3 mt-2">
           <button
             onClick={handleDonationSubmit}
             disabled={currentAmount <= 0}
-            className="w-full h-14 flex items-center justify-center gap-2 text-xs font-black text-white bg-[#ff4f00] hover:bg-[#e04500] disabled:bg-white/5 disabled:text-gray-600 disabled:border-transparent rounded-xl transition-all shadow-xl shadow-[#ff4f00]/15 cursor-pointer uppercase tracking-wider font-sans select-none no-invert"
+            className="w-full py-4 px-6 flex items-center justify-center gap-2 text-sm font-bold text-white bg-[#ff4f00] hover:bg-[#e04500] disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed rounded-full transition-all shadow-md shadow-[#ff4f00]/25 hover:shadow-lg active:scale-[0.99] cursor-pointer tracking-wide font-sans select-none no-invert"
           >
             <span>Ajouter au panier ({currentAmount.toFixed(0)}€) 🧡</span>
           </button>
-          <span className="text-[10px] text-gray-500 font-medium font-sans text-center">
+          <span className="text-xs text-zinc-400 font-medium font-sans text-center">
             Le don sera ajouté à votre panier. Vous pourrez continuer vos achats ou procéder au paiement.
           </span>
         </div>

@@ -80,7 +80,7 @@ export default async function JeuxDeSocietePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070709] text-white flex flex-col selection:bg-[#ff4f00] selection:text-white font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-[#f9f9fb] text-zinc-900 flex flex-col selection:bg-[#ff4f00] selection:text-white font-sans overflow-x-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

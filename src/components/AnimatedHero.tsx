@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
 import { useTranslation } from "@/context/LanguageContext";
+import { isPreprodEnv } from "@/lib/env";
 
 export interface HeroSlide {
   id: number;
@@ -44,6 +45,45 @@ function renderFormattedText(text: string) {
     </React.Fragment>
   ));
 }
+
+// Single Hero Slide for Preproduction V2
+const PREPROD_SLIDES_FR: HeroSlide[] = [
+  {
+    id: 1,
+    badge: "DESK SETUP & ART TOYS",
+    title: "Objets tactiles, art toys et déco de caractère.",
+    subtitle:
+      "Des pièces pensées pour le quotidien et le bureau. Façonnées sur mesure à l'atelier à Comines en polymère biosourcé.",
+    buttonText: "CONCEVOIR MON CLICKER",
+    buttonLink: "/createur-cliqueur",
+    image: "/images/hero_background.jpg",
+    accentColor: "#ff4f00",
+    cardTitle: "Studio Clicker Spoolio",
+    cardDescription: "Objets tactiles et créations 3D façonnées sur mesure à Comines.",
+    cardPrice: "À partir de 3.00€",
+    cardImage: "/images/hero_background.jpg",
+    cardLink: "/createur-cliqueur",
+  },
+];
+
+const PREPROD_SLIDES_EN: HeroSlide[] = [
+  {
+    id: 1,
+    badge: "DESK SETUP & ART TOYS",
+    title: "Tactile objects, art toys and distinctive decor.",
+    subtitle:
+      "Pieces designed for everyday life and desk setups. Made to order at the workshop in Comines using bio-sourced polymer.",
+    buttonText: "DESIGN MY CLICKER",
+    buttonLink: "/createur-cliqueur",
+    image: "/images/hero_background.jpg",
+    accentColor: "#ff4f00",
+    cardTitle: "Studio Clicker Spoolio",
+    cardDescription: "Tactile objects and 3D creations custom made in Comines.",
+    cardPrice: "From €3.00",
+    cardImage: "/images/hero_background.jpg",
+    cardLink: "/createur-cliqueur",
+  },
+];
 
 const DEFAULT_SLIDES_FR: HeroSlide[] = [
   {
@@ -150,11 +190,17 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isPaused, setIsPaused] = useState<boolean>(false);
 
+  const isPreprod = isPreprodEnv();
   const defaultSlides = locale === "en" ? DEFAULT_SLIDES_EN : DEFAULT_SLIDES_FR;
-  const heroSlides = slides && slides.length > 0 ? slides : defaultSlides;
+  const preprodSlides = locale === "en" ? PREPROD_SLIDES_EN : PREPROD_SLIDES_FR;
+
+  // In preprod, strictly isolate to the single editorial slide. In production, keep existing slides.
+  const heroSlides = isPreprod
+    ? preprodSlides
+    : (slides && slides.length > 0 ? slides : defaultSlides);
 
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || heroSlides.length <= 1) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % heroSlides.length);
     }, 6000);
@@ -162,10 +208,12 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
   }, [isPaused, heroSlides.length]);
 
   const nextSlide = () => {
+    if (heroSlides.length <= 1) return;
     setActiveIndex((prev) => (prev + 1) % heroSlides.length);
   };
 
   const prevSlide = () => {
+    if (heroSlides.length <= 1) return;
     setActiveIndex((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
   };
 
@@ -212,7 +260,8 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                 />
                 {/* Subtle soft vignette for text legibility without washing out the photo */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-transparent lg:w-3/5" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-black/30" />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-zinc-950/60" />
               </motion.div>
             </AnimatePresence>
 
@@ -223,36 +272,34 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
             />
           </div>
 
-          {/* Hotspot Visual Pin on Background Image (Desktop) */}
-          <div className="hidden lg:flex absolute right-[28%] top-[45%] z-20 items-center justify-center pointer-events-none">
-            <span className="absolute w-8 h-8 rounded-full bg-[#ff4f00]/40 animate-ping" />
-            <span className="relative w-4 h-4 rounded-full bg-[#ff4f00] border-2 border-white shadow-[0_0_12px_rgba(255,79,0,0.8)]" />
-          </div>
+          {/* Navigation Arrows (Rendered only when multiple slides exist) */}
+          {heroSlides.length > 1 && (
+            <>
+              <button
+                onClick={prevSlide}
+                aria-label="Slide précédente"
+                className="hidden sm:flex absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 text-white items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-lg hover:scale-105"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
 
-          {/* Navigation Arrows */}
-          <button
-            onClick={prevSlide}
-            aria-label="Slide précédente"
-            className="hidden sm:flex absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 text-white items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-lg hover:scale-105"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
+              <button
+                onClick={nextSlide}
+                aria-label="Slide suivante"
+                className="hidden sm:flex absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 text-white items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-lg hover:scale-105"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </>
+          )}
 
-          <button
-            onClick={nextSlide}
-            aria-label="Slide suivante"
-            className="hidden sm:flex absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 text-white items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-lg hover:scale-105"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-
-          {/* Hero Main Body: Grid with Text on Left & Floating Card on Right */}
-          <div className="relative z-20 w-full max-w-[1360px] mx-auto h-full min-h-[600px] sm:min-h-[660px] lg:min-h-[700px] px-6 sm:px-10 lg:px-14 py-10 sm:py-14 flex flex-col justify-between">
+          {/* Hero Main Body: Split-Screen Grid with Left Typography & Right Clean Media Container */}
+          <div className="relative z-20 w-full max-w-[1360px] mx-auto h-full min-h-[600px] sm:min-h-[660px] lg:min-h-[700px] px-6 sm:px-10 lg:px-14 py-12 sm:py-16 lg:py-20 flex flex-col justify-between">
             
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center flex-1 my-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center flex-1 my-auto">
               
-              {/* LEFT COLUMN: Main Title, Subtitle, CTA Button */}
-              <div className="lg:col-span-7 xl:col-span-7 space-y-5 sm:space-y-6 text-left">
+              {/* LEFT COLUMN: Main Title, Subtitle, CTA Button with generous breathing room */}
+              <div className="lg:col-span-6 xl:col-span-6 space-y-6 sm:space-y-8 text-left">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeSlide.id || activeIndex}
@@ -260,36 +307,36 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -15 }}
                     transition={{ duration: 0.4 }}
-                    className="space-y-4 sm:space-y-6"
+                    className="space-y-5 sm:space-y-7"
                   >
                     {/* Clean Badge without Emoji */}
                     <div>
-                      <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-black/40 border border-white/20 text-xs font-mono font-extrabold text-[#ff4f00] tracking-widest uppercase backdrop-blur-md shadow-sm">
+                      <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-black/50 border border-white/20 text-xs font-mono font-extrabold text-[#ff4f00] tracking-widest uppercase backdrop-blur-md shadow-sm">
                         {cleanBadge}
                       </span>
                     </div>
 
-                    {/* Main Title */}
-                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white font-antonio leading-[1.02] drop-shadow-[0_4px_25px_rgba(0,0,0,0.95)] max-w-2xl">
+                    {/* Main Title (Righteous font with tight leading) */}
+                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-normal uppercase tracking-tight text-white font-righteous leading-tight sm:leading-[1.02] drop-shadow-[0_4px_25px_rgba(0,0,0,0.95)] max-w-2xl">
                       {renderFormattedText(activeSlide.title)}
                     </h1>
 
-                    {/* Subtitle */}
-                    <p className="text-xs sm:text-base text-white/90 font-sans font-medium leading-relaxed max-w-xl line-clamp-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+                    {/* Subtitle with high-contrast legibility */}
+                    <p className="text-sm sm:text-base lg:text-lg text-white/85 font-sans font-medium leading-relaxed max-w-xl line-clamp-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
                       {renderFormattedText(activeSlide.subtitle)}
                     </p>
 
-                    {/* Minimalist Black Pill CTA Button with white border */}
-                    <div className="pt-2">
+                    {/* Minimalist Black Pill CTA Button with white border towards configurator */}
+                    <div className="pt-3 sm:pt-4">
                       <Link
-                        href={activeSlide.buttonLink || "/boutique"}
+                        href={activeSlide.buttonLink || "/createur-cliqueur"}
                         className="group/btn inline-flex items-center justify-center cursor-pointer active:scale-95 transition-all duration-300 no-invert keep-white"
                       >
-                        <div className="h-12 sm:h-13 px-6 sm:px-8 inline-flex items-center justify-center gap-2.5 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider text-white bg-zinc-950 hover:bg-[#ff4f00] border border-white/25 hover:border-[#ff4f00] transition-all duration-300 shadow-xl group-hover/btn:scale-[1.02] keep-white no-invert">
+                        <div className="h-12 sm:h-14 px-7 sm:px-9 inline-flex items-center justify-center gap-3 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider text-white bg-zinc-950 hover:bg-[#ff4f00] border border-white/25 hover:border-[#ff4f00] transition-all duration-300 shadow-xl group-hover/btn:scale-[1.02] keep-white no-invert">
                           <span className="font-black tracking-widest text-white !text-white keep-white">
-                            {activeSlide.buttonText || "DÉCOUVRIR LA BOUTIQUE"}
+                            {activeSlide.buttonText || "CONCEVOIR MON CLICKER"}
                           </span>
-                          <ArrowRight className="w-4 h-4 text-white !text-white keep-white group-hover/btn:translate-x-1 transition-transform" />
+                          <ArrowRight className="w-4 h-4 text-white !text-white keep-white group-hover/btn:translate-x-1.5 transition-transform" />
                         </div>
                       </Link>
                     </div>
@@ -297,52 +344,30 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                 </AnimatePresence>
               </div>
 
-              {/* RIGHT COLUMN: Floating Glassmorphism Product Card */}
-              <div className="lg:col-span-5 xl:col-span-5 flex justify-end">
+              {/* RIGHT COLUMN: Clean Unified Media Container (1:1 Ratio, technical border, rounded-3xl) */}
+              <div className="lg:col-span-6 xl:col-span-6 flex justify-center lg:justify-end">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeSlide.id || activeIndex}
-                    initial={{ opacity: 0, x: 20, scale: 0.95 }}
-                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                    exit={{ opacity: 0, x: -20, scale: 0.95 }}
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1 }}
                     transition={{ duration: 0.45 }}
-                    className="w-full max-w-sm"
+                    className="w-full max-w-[440px] sm:max-w-[480px] lg:max-w-[500px]"
                   >
                     <Link
-                      href={cardLink}
-                      className="group/card block w-full backdrop-blur-2xl bg-white/95 hover:bg-white border border-white/40 rounded-3xl p-4 sm:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] transition-all duration-300 transform hover:-translate-y-1 card-light force-dark-text no-invert"
+                      href={activeSlide.buttonLink || cardLink}
+                      className="group/media relative block w-full aspect-square rounded-2xl sm:rounded-3xl overflow-hidden border border-neutral-800 bg-neutral-900/80 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] transition-all duration-500 hover:border-neutral-700"
                     >
-                      <div className="flex items-center gap-4">
-                        {/* Thumbnail Image */}
-                        <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border border-zinc-200/80 bg-zinc-50 shadow-inner">
-                          <Image
-                            src={cardImage}
-                            alt={cardTitle}
-                            fill
-                            className="object-cover object-center group-hover/card:scale-110 transition-transform duration-500"
-                          />
-                        </div>
-
-                        {/* Product Meta */}
-                        <div className="flex flex-col justify-between min-w-0 flex-1 space-y-1">
-                          <h3 className="text-sm sm:text-base font-extrabold text-zinc-900 !text-zinc-900 font-antonio group-hover/card:text-[#ff4f00] transition-colors leading-tight truncate">
-                            {renderFormattedText(cardTitle)}
-                          </h3>
-
-                          <p className="text-xs text-zinc-600 !text-zinc-600 font-sans line-clamp-2 leading-tight font-medium">
-                            {renderFormattedText(cardDescription)}
-                          </p>
-
-                          <div className="flex items-center justify-between pt-1">
-                            <span className="text-xs sm:text-sm font-black font-mono text-zinc-900 !text-zinc-900 bg-zinc-100 px-2.5 py-0.5 rounded-lg border border-zinc-200">
-                              {cardPrice}
-                            </span>
-                            <span className="text-xs font-bold text-zinc-900 !text-zinc-900 group-hover/card:text-[#ff4f00] group-hover/card:translate-x-1 transition-all flex items-center gap-1">
-                              Voir <ArrowRight className="w-3 h-3 text-zinc-900 !text-zinc-900 group-hover/card:text-[#ff4f00]" />
-                            </span>
-                          </div>
-                        </div>
-                      </div>
+                      <Image
+                        src={activeSlide.image || cardImage}
+                        alt={activeSlide.title}
+                        fill
+                        priority
+                        className="object-cover object-center group-hover/media:scale-105 transition-transform duration-700 ease-out filter brightness-[0.95] contrast-[1.02]"
+                      />
+                      {/* Technical Inner Specular Ring */}
+                      <div className="absolute inset-0 pointer-events-none rounded-[inherit] ring-1 ring-inset ring-white/10" />
                     </Link>
                   </motion.div>
                 </AnimatePresence>
@@ -350,21 +375,23 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
 
             </div>
 
-            {/* Slider Pagination Dots */}
-            <div className="flex items-center justify-center gap-2 pt-4">
-              {heroSlides.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActiveIndex(idx)}
-                  aria-label={`Aller à la slide ${idx + 1}`}
-                  className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                    idx === activeIndex
-                      ? "w-8 bg-[#ff4f00]"
-                      : "w-2 bg-white/40 hover:bg-white/70"
-                  }`}
-                />
-              ))}
-            </div>
+            {/* Slider Pagination Dots (Rendered only when multiple slides exist) */}
+            {heroSlides.length > 1 && (
+              <div className="flex items-center justify-center gap-2 pt-4">
+                {heroSlides.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveIndex(idx)}
+                    aria-label={`Aller à la slide ${idx + 1}`}
+                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                      idx === activeIndex
+                        ? "w-8 bg-[#ff4f00]"
+                        : "w-2 bg-white/40 hover:bg-white/70"
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
 
           </div>
         </section>
@@ -372,3 +399,4 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
     </div>
   );
 }
+

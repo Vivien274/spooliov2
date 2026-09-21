@@ -9,7 +9,32 @@
 
   --font-sans: var(--font-plus-jakarta), Arial, sans-serif;
   --font-antonio: var(--font-antonio), Arial, sans-serif;
+  --font-dynapuff: var(--font-dynapuff), cursive, sans-serif;
+  --font-righteous: var(--font-righteous), cursive, sans-serif;
+  --font-outfit: var(--font-outfit), sans-serif;
+  --font-permanent-marker: var(--font-permanent-marker), cursive, sans-serif;
+  --font-sedgwick: var(--font-sedgwick), cursive, sans-serif;
   --font-mono: monospace;
+}
+
+.font-righteous {
+  font-family: var(--font-righteous), cursive, sans-serif;
+}
+
+.font-dynapuff {
+  font-family: var(--font-dynapuff), cursive, sans-serif;
+}
+
+.font-permanent-marker {
+  font-family: var(--font-permanent-marker), cursive, sans-serif;
+}
+
+.font-sedgwick {
+  font-family: var(--font-sedgwick), cursive, sans-serif;
+}
+
+.font-outfit {
+  font-family: var(--font-outfit), sans-serif;
 }
 
 body {
@@ -440,14 +465,25 @@ html.light .reviews-gradient-container .bg-white\/10 {
   border-color: rgba(255, 255, 255, 0.25) !important;
 }
 html.light .reviews-gradient-container a.bg-white,
-html.light .reviews-gradient-container a.bg-white span {
+html.light .reviews-gradient-container .google-review-btn {
+  background-color: #0d0d11 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+html.light .reviews-gradient-container a.bg-white span,
+html.light .reviews-gradient-container .google-review-btn span {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+html.light .reviews-gradient-container a.bg-white:hover,
+html.light .reviews-gradient-container .google-review-btn:hover {
   background-color: #ffffff !important;
   color: #0d0d11 !important;
 }
-html.light .reviews-gradient-container a.bg-white:hover,
-html.light .reviews-gradient-container a.bg-white:hover span {
-  background-color: #0d0d11 !important;
-  color: #ffffff !important;
+html.light .reviews-gradient-container a.bg-white:hover span,
+html.light .reviews-gradient-container .google-review-btn:hover span {
+  background-color: transparent !important;
+  color: #0d0d11 !important;
 }
 
 /* Product card hover border and shadow overrides */

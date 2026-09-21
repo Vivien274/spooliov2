@@ -130600,5 +130600,95 @@
     ],
     "adminAuditTag": null,
     "admin_audit_tag": null
+  },
+  {
+    "id": 99001,
+    "name": "Blind Bag Spoolio — 3 Créations d'Atelier",
+    "slug": "blind-bag-3-pieces",
+    "permalink": "/product/blind-bag-3-pieces",
+    "price": "12.00",
+    "regular_price": "12.00",
+    "sale_price": "",
+    "on_sale": false,
+    "status": "draft",
+    "stock": 50,
+    "short_description": "Un sachet kraft scellé à l'atelier contenant 3 créations surprises : haptique, mécanique et mini-sculptures de bureau.",
+    "description": "<p>Un sachet kraft scellé à l'atelier contenant 3 créations surprises : haptique, mécanique et mini-sculptures de bureau.</p>\n<p><strong>Packaging :</strong> Sachet kraft écoresponsable scellé d'un sticker Spoolio.</p>\n<p><strong>Mentions légales / Sécurité :</strong> Objets de collection et accessoires de bureau destinés aux adultes et adolescents (+14 ans). Fabrication additive de précision à Comines en PLA biosourcé de maïs.</p>",
+    "categories": [
+      {
+        "id": 113,
+        "name": "Pochettes surprise",
+        "slug": "pochettes-surprise"
+      }
+    ],
+    "images": [
+      {
+        "id": 99100,
+        "src": "/images/imported/Pochette_S.png",
+        "name": "Blind Bag Spoolio — 3 Créations d'Atelier",
+        "alt": "Blind Bag Spoolio — 3 Créations d'Atelier"
+      }
+    ],
+    "date_created": "2026-09-19T14:19:00.153Z"
+  },
+  {
+    "id": 99002,
+    "name": "Blind Bag Spoolio — 5 Créations d'Atelier",
+    "slug": "blind-bag-5-pieces",
+    "permalink": "/product/blind-bag-5-pieces",
+    "price": "18.00",
+    "regular_price": "18.00",
+    "sale_price": "",
+    "on_sale": false,
+    "status": "draft",
+    "stock": 50,
+    "short_description": "Le pack idéal pour votre desk setup : 5 objets tactiles et accessoires surprises sortis de nos machines.",
+    "description": "<p>Le pack idéal pour votre desk setup : 5 objets tactiles et accessoires surprises sortis de nos machines.</p>\n<p><strong>Packaging :</strong> Sachet kraft écoresponsable scellé d'un sticker Spoolio.</p>\n<p><strong>Mentions légales / Sécurité :</strong> Objets de collection et accessoires de bureau destinés aux adultes et adolescents (+14 ans). Fabrication additive de précision à Comines en PLA biosourcé de maïs.</p>",
+    "categories": [
+      {
+        "id": 113,
+        "name": "Pochettes surprise",
+        "slug": "pochettes-surprise"
+      }
+    ],
+    "images": [
+      {
+        "id": 99101,
+        "src": "/images/imported/PochetteM-1.png",
+        "name": "Blind Bag Spoolio — 5 Créations d'Atelier",
+        "alt": "Blind Bag Spoolio — 5 Créations d'Atelier"
+      }
+    ],
+    "date_created": "2026-09-19T14:19:00.159Z"
+  },
+  {
+    "id": 99003,
+    "name": "Blind Bag Spoolio — 10 Créations Collector",
+    "slug": "blind-bag-10-pieces",
+    "permalink": "/product/blind-bag-10-pieces",
+    "price": "32.00",
+    "regular_price": "32.00",
+    "sale_price": "",
+    "on_sale": false,
+    "status": "draft",
+    "stock": 50,
+    "short_description": "L'expérience d'unboxing complète : 10 pièces d'atelier incluant finitions rares et mécanismes exclusifs.",
+    "description": "<p>L'expérience d'unboxing complète : 10 pièces d'atelier incluant finitions rares et mécanismes exclusifs.</p>\n<p><strong>Packaging :</strong> Sachet kraft écoresponsable scellé d'un sticker Spoolio.</p>\n<p><strong>Mentions légales / Sécurité :</strong> Objets de collection et accessoires de bureau destinés aux adultes et adolescents (+14 ans). Fabrication additive de précision à Comines en PLA biosourcé de maïs.</p>",
+    "categories": [
+      {
+        "id": 113,
+        "name": "Pochettes surprise",
+        "slug": "pochettes-surprise"
+      }
+    ],
+    "images": [
+      {
+        "id": 99102,
+        "src": "/images/imported/Pochette_L.png",
+        "name": "Blind Bag Spoolio — 10 Créations Collector",
+        "alt": "Blind Bag Spoolio — 10 Créations Collector"
+      }
+    ],
+    "date_created": "2026-09-19T14:19:00.159Z"
   }
 ]

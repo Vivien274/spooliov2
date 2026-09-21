@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import CartCrossSell from "@/components/CartCrossSell";
 import { ShoppingBag, X, Plus, Minus, Trash2, ArrowRight, Sparkles, Truck } from "lucide-react";
+import { isPreprodEnv } from "@/lib/env";
 
 export default function CartDrawer() {
   const {
@@ -43,71 +44,51 @@ export default function CartDrawer() {
 
   return (
     <div className="fixed inset-0 z-[100000] flex justify-end font-sans select-none animate-fade-in pointer-events-auto">
-      {/* Dark Blur Overlay Backdrop */}
+      {/* Soft Backdrop Overlay */}
       <div
         onClick={() => setIsCartOpen(false)}
-        className="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-300"
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300"
       />
 
       {/* Cart Panel Drawer */}
-      <div className="relative w-full sm:max-w-[450px] md:max-w-[480px] h-full sm:h-[calc(100vh-2rem)] sm:my-auto bg-[#0a0a0e] border-l sm:border border-white/10 sm:rounded-l-3xl shadow-2xl flex flex-col z-10 overflow-hidden transition-transform duration-300 animate-slide-in">
+      <div className="relative w-full sm:max-w-[440px] md:max-w-[460px] h-full bg-white shadow-2xl flex flex-col z-10 overflow-hidden transition-transform duration-300 animate-slide-in text-zinc-900">
         
-        {/* Subtle Glow Accents */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#ff4f00]/08 blur-3xl pointer-events-none rounded-full" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/05 blur-3xl pointer-events-none rounded-full" />
-
-        {/* 1. Unified Header & Free Shipping Progress Bar */}
-        <div className="shrink-0 px-4 sm:px-5 py-3.5 border-b border-white/10 bg-[#0a0a0e]/95 backdrop-blur-md space-y-3">
-          {/* Top Row: Title + Item Count + Close Button */}
+        {/* 1. Header & Free Shipping Progress (Seamless, NO liseré above shipping bar) */}
+        <div className="shrink-0 px-6 pt-5 pb-4 bg-white border-b border-zinc-100 space-y-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-[#ff4f00]/15 border border-[#ff4f00]/30 text-[#ff4f00] flex items-center justify-center shrink-0">
-                <ShoppingBag className="w-4 h-4 text-[#ff4f00]" />
-              </div>
-              <h2 className="text-base font-black text-white uppercase font-antonio tracking-wide flex items-center gap-2">
-                <span>Mon Panier</span>
-                <span className="text-xs font-mono font-bold text-gray-400 bg-white/10 px-2 py-0.5 rounded-md">
-                  {totalQuantity}
-                </span>
-              </h2>
-            </div>
-
+            <h2 className="text-xl font-bold text-zinc-950 tracking-tight">
+              Panier
+            </h2>
             <button
               onClick={() => setIsCartOpen(false)}
-              className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 border border-white/10 text-gray-300 hover:text-white flex items-center justify-center transition-all cursor-pointer"
+              className="text-zinc-500 hover:text-zinc-950 transition-colors p-1 cursor-pointer"
               title="Fermer"
               aria-label="Fermer le panier"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Integrated Free Shipping Gauge */}
+          {/* Integrated Free Shipping Gauge (Directly integrated, no border above) */}
           {cartItems.length > 0 && (
-            <div className="pt-1.5 space-y-1.5 border-t border-white/5">
-              <div className="flex items-center justify-between text-[11px]">
+            <div className="space-y-1.5 pt-1">
+              <div className="flex items-center justify-between text-xs text-zinc-600">
                 {missingForFreeShipping > 0 ? (
-                  <div className="flex items-center gap-1.5 text-gray-300">
-                    <Truck className="w-3.5 h-3.5 text-[#ff4f00] shrink-0" />
-                    <span>
-                      Plus que <strong className="text-[#ff4f00] font-bold">{missingForFreeShipping.toFixed(2)}€</strong> pour la <strong className="text-white">Livraison Offerte</strong>
-                    </span>
-                  </div>
+                  <span>
+                    Plus que <strong className="text-zinc-950 font-semibold">{missingForFreeShipping.toFixed(2).replace('.', ',')} €</strong> pour la livraison offerte
+                  </span>
                 ) : (
-                  <div className="flex items-center gap-1.5 text-emerald-400 font-bold">
-                    <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-                    <span>Livraison offerte débloquée !</span>
-                  </div>
+                  <span className="text-emerald-600 font-semibold flex items-center gap-1">
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+                    Livraison offerte débloquée ! 🎉
+                  </span>
                 )}
-                <span className="text-[10px] font-mono font-bold text-gray-400">{Math.round(shippingProgress)}%</span>
+                <span className="text-[10px] font-mono text-zinc-400">{Math.round(shippingProgress)}%</span>
               </div>
-
-              <div className="w-full bg-black/60 h-2 rounded-full overflow-hidden border border-white/15 relative">
+              <div className="w-full bg-zinc-100 h-1.5 rounded-full overflow-hidden">
                 <div
-                  className={`h-full rounded-full transition-all duration-500 ${
-                    missingForFreeShipping > 0
-                      ? "bg-gradient-to-r from-[#ff4f00] via-amber-400 to-[#005cff] shadow-[0_0_10px_rgba(255,79,0,0.6)]"
-                      : "bg-emerald-400 shadow-[0_0_10px_#34d399]"
+                  className={`h-full rounded-full transition-all duration-300 ${
+                    missingForFreeShipping > 0 ? "bg-[#ff4f00]" : "bg-emerald-500"
                   }`}
                   style={{ width: `${Math.max(shippingProgress > 0 ? 3 : 0, shippingProgress)}%` }}
                 />
@@ -116,202 +97,197 @@ export default function CartDrawer() {
           )}
         </div>
 
-        {/* 3. Cart Items Scroll Container (flex-1 min-h-0 overflow-y-auto) */}
-        <div className="flex-1 min-h-0 overflow-y-auto px-4 sm:px-5 py-3 space-y-3 custom-scrollbar">
+        {/* 3. Cart Items Scroll Container */}
+        <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar flex flex-col justify-between">
           {cartItems.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-center select-none py-12">
-              <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-3xl mb-3">
+            <div className="h-full flex flex-col items-center justify-center text-center select-none py-16 px-6">
+              <div className="w-16 h-16 rounded-2xl bg-zinc-100 border border-zinc-200 flex items-center justify-center text-3xl mb-3 shadow-xs">
                 🛍️
               </div>
-              <h3 className="text-sm font-extrabold text-white uppercase tracking-wider mb-1 font-antonio">
+              <h3 className="text-base font-bold text-zinc-950 tracking-tight mb-1">
                 Votre panier est vide
               </h3>
-              <p className="text-xs text-gray-400 max-w-xs leading-relaxed mb-5 font-sans">
-                Découvrez nos fidgets sensoriels, créations 3D et pochettes surprises faites main.
+              <p className="text-xs text-zinc-500 max-w-xs leading-relaxed mb-6">
+                {isPreprodEnv()
+                  ? "Découvrez nos créations 3D, outils de focus haptiques et Blind Bags d'atelier faits main."
+                  : "Découvrez nos créations 3D, fidgets sensoriels et pochettes surprises faites main."}
               </p>
               <button
                 onClick={() => setIsCartOpen(false)}
-                className="px-5 py-2.5 text-xs font-black text-white bg-[#ff4f00] hover:bg-[#e04500] rounded-xl transition-all shadow-lg cursor-pointer uppercase tracking-wider"
+                className="px-6 py-3 text-xs font-bold text-white bg-zinc-950 hover:bg-[#ff4f00] rounded-full transition-all shadow-md cursor-pointer tracking-wider uppercase"
               >
                 Explorer la boutique
               </button>
             </div>
           ) : (
-            <div className="space-y-3">
-              {cartItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex items-center gap-3 bg-white/[0.02] hover:bg-white/[0.04] border border-white/10 rounded-2xl p-3 transition-all"
-                >
-                  {/* Thumbnail Image */}
-                  <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-white/10 bg-black/40 flex items-center justify-center text-xl shadow-inner">
-                    {item.productId === -1 ? (
-                      <span>🌾</span>
-                    ) : item.productId === -2 ? (
-                      <span>☕</span>
-                    ) : (item.slug === "clicker-mecanique-sur-mesure" || !item.image) && (!item.image || item.image.includes("clicker-sur-mesure-thumb.jpg")) ? (
-                      <span>⌨️</span>
-                    ) : item.image ? (
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        fill
-                        sizes="60px"
-                        className="object-cover no-invert"
-                      />
-                    ) : (
-                      <span>⌨️</span>
-                    )}
-                  </div>
+            <div>
+              {/* Items List */}
+              <div className="px-6 py-5 space-y-6">
+                {cartItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex items-start gap-4"
+                  >
+                    {/* Thumbnail Image - Generous Cropped square */}
+                    <div className="relative w-24 h-24 sm:w-28 sm:h-28 aspect-square rounded-2xl overflow-hidden shrink-0 bg-zinc-100 flex items-center justify-center text-3xl shadow-2xs">
+                      {item.productId === -1 ? (
+                        <span>🌾</span>
+                      ) : item.productId === -2 ? (
+                        <span>☕</span>
+                      ) : (item.slug === "clicker-mecanique-sur-mesure" || !item.image) && (!item.image || item.image.includes("clicker-sur-mesure-thumb.jpg")) ? (
+                        <span>⌨️</span>
+                      ) : item.image ? (
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          sizes="(max-width: 640px) 96px, 112px"
+                          className="object-cover no-invert"
+                        />
+                      ) : (
+                        <span>⌨️</span>
+                      )}
+                    </div>
 
-                  {/* Info & Quantity Controls */}
-                  <div className="flex-1 flex flex-col min-w-0">
-                    <div className="flex items-start justify-between gap-2">
-                      <h4 className="text-xs sm:text-sm font-extrabold text-white truncate leading-snug">
-                        {item.slug === "tombola" ? (
-                          <Link href="/tombola" onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
-                            {item.name}
-                          </Link>
-                        ) : item.slug === "calendrier-avent" ? (
-                          <Link href="/calendrier-avent" onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
-                            {item.name}
-                          </Link>
-                        ) : item.slug === "clicker-mecanique-sur-mesure" ? (
-                          <Link href={item.selectedOptions._configUrl || "/createur-cliqueur"} onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
-                            {item.name}
-                          </Link>
-                        ) : item.productId < 0 ? (
-                          <span>{item.name}</span>
-                        ) : (
-                          <Link href={`/product/${item.slug}`} onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
-                            {item.name}
-                          </Link>
+                    {/* Info & Quantity Controls */}
+                    <div className="flex-1 flex flex-col min-w-0 justify-between py-0.5">
+                      <div>
+                        <h4 className="text-sm font-semibold text-zinc-900 leading-snug">
+                          {item.slug === "tombola" ? (
+                            <Link href="/tombola" onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
+                              {item.name}
+                            </Link>
+                          ) : item.slug === "calendrier-avent" ? (
+                            <Link href="/calendrier-avent" onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
+                              {item.name}
+                            </Link>
+                          ) : item.slug === "clicker-mecanique-sur-mesure" ? (
+                            <Link href={item.selectedOptions._configUrl || "/createur-cliqueur"} onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
+                              {item.name}
+                            </Link>
+                          ) : item.productId < 0 ? (
+                            <span>{item.name}</span>
+                          ) : (
+                            <Link href={`/product/${item.slug}`} onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
+                              {item.name}
+                            </Link>
+                          )}
+                        </h4>
+
+                        {/* Selected Options */}
+                        {Object.keys(item.selectedOptions).length > 0 && (
+                          <div className="flex flex-wrap gap-x-2 text-xs text-zinc-500 mt-0.5">
+                            {Object.entries(item.selectedOptions)
+                              .filter(([key]) => !key.startsWith("_"))
+                              .map(([key, val]) => (
+                                <span key={key}>
+                                  {key}: <strong className="text-zinc-700 font-semibold">{val}</strong>
+                                </span>
+                              ))}
+                          </div>
                         )}
-                      </h4>
 
-                      <button
-                        onClick={() => removeFromCart(item.id)}
-                        className="text-gray-500 hover:text-red-400 p-1 transition-colors cursor-pointer shrink-0"
-                        title="Supprimer"
-                        aria-label="Supprimer"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-
-                    {/* Selected Options */}
-                    {Object.keys(item.selectedOptions).length > 0 && (
-                      <div className="flex flex-wrap gap-x-2 text-[11px] text-gray-400 mt-0.5">
-                        {Object.entries(item.selectedOptions)
-                          .filter(([key]) => !key.startsWith("_"))
-                          .map(([key, val]) => (
-                            <span key={key}>
-                              {key}: <strong className="text-gray-200">{val}</strong>
+                        {/* Price */}
+                        <div className="text-sm text-zinc-700 font-medium mt-1">
+                          {item.isLoyaltyReward || parseFloat(item.price) === 0 ? (
+                            <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                              OFFERT
                             </span>
-                          ))}
-                      </div>
-                    )}
-
-                    {/* Quantity Stepper & Price Row */}
-                    <div className="flex items-center justify-between mt-2 pt-1.5 border-t border-white/5">
-                      {item.productId < 0 ? (
-                        <span className="text-[11px] font-bold text-amber-400 uppercase font-mono">
-                          Qté : {item.quantity}
-                        </span>
-                      ) : (
-                        <div className="flex items-center border border-white/10 rounded-lg bg-black/40 p-0.5">
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="w-5 h-5 flex items-center justify-center text-gray-300 hover:text-white rounded active:scale-90 transition-all cursor-pointer"
-                            title="Réduire"
-                          >
-                            <Minus className="w-3 h-3" />
-                          </button>
-                          <span className="w-6 text-center text-xs font-bold text-white font-mono">
-                            {item.quantity}
-                          </span>
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="w-5 h-5 flex items-center justify-center text-gray-300 hover:text-white rounded active:scale-90 transition-all cursor-pointer"
-                            title="Augmenter"
-                          >
-                            <Plus className="w-3 h-3" />
-                          </button>
+                          ) : (
+                            <span>
+                              {(parseFloat(item.price) * item.quantity).toFixed(2).replace('.', ',')} €
+                            </span>
+                          )}
                         </div>
-                      )}
+                      </div>
 
-                      {item.isLoyaltyReward || parseFloat(item.price) === 0 ? (
-                        <span className="text-xs font-bold text-emerald-400 font-mono bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">
-                          OFFERT
-                        </span>
-                      ) : (
-                        <span className="text-xs font-extrabold text-white font-mono">
-                          {(parseFloat(item.price) * item.quantity).toFixed(2)}€
-                        </span>
-                      )}
+                      {/* Stepper + Supprimer link */}
+                      <div className="flex items-center gap-3 mt-3">
+                        {item.productId < 0 ? (
+                          <span className="text-xs font-medium text-zinc-500">
+                            Qté : {item.quantity}
+                          </span>
+                        ) : (
+                          <div className="inline-flex items-center border border-zinc-250 rounded-full px-3 py-1 bg-white text-zinc-800">
+                            <button
+                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                              className="text-zinc-500 hover:text-zinc-950 active:scale-90 transition-transform p-0.5 cursor-pointer"
+                              title="Réduire"
+                            >
+                              <Minus className="w-3.5 h-3.5" />
+                            </button>
+                            <span className="w-7 text-center text-xs font-semibold">
+                              {item.quantity}
+                            </span>
+                            <button
+                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                              className="text-zinc-500 hover:text-zinc-950 active:scale-90 transition-transform p-0.5 cursor-pointer"
+                              title="Augmenter"
+                            >
+                              <Plus className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        )}
+
+                        <button
+                          onClick={() => removeFromCart(item.id)}
+                          className="text-xs text-zinc-400 hover:text-zinc-700 underline underline-offset-2 transition-colors cursor-pointer ml-1"
+                        >
+                          Supprimer
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-
-              {/* Cross-Sell Block in Scroll View */}
-              <div className="pt-2">
-                <CartCrossSell variant="drawer" />
+                ))}
               </div>
+
+              {/* Cross-Sell Block */}
+              <CartCrossSell variant="drawer" />
             </div>
           )}
         </div>
 
-        {/* 4. Docked Bottom Footer ("Bas Ferré" - Fixed & Always Visible on Mobile) */}
+        {/* 4. Docked Bottom Footer */}
         {cartItems.length > 0 && (
-          <div className="shrink-0 p-4 sm:p-5 border-t border-white/10 bg-[#0d0d11]/95 backdrop-blur-xl space-y-3 pb-[calc(1rem+env(safe-area-inset-bottom))] sticky bottom-0 z-30 shadow-[0_-10px_30px_rgba(0,0,0,0.7)]">
+          <div className="shrink-0 px-6 py-5 border-t border-zinc-100 bg-white space-y-3 pb-[calc(1.25rem+env(safe-area-inset-bottom))]">
             
-            {/* Loyalty points info line */}
+            {/* Loyalty Points Info Line */}
             {pointsEarned > 0 && (
-              <div className="flex items-center justify-between text-xs text-gray-300 font-sans px-1">
+              <div className="flex items-center justify-between text-xs text-zinc-600 font-sans px-1">
                 <span className="flex items-center gap-1.5 text-xs">
                   <span>👑</span>
                   <span><strong>+{pointsEarned} points</strong> Spoolio gagnés</span>
                 </span>
-                <span className="text-[10px] font-mono font-bold text-[#ff4f00] bg-[#ff4f00]/10 border border-[#ff4f00]/30 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-mono font-bold text-[#ff4f00] bg-[#ff4f00]/10 border border-[#ff4f00]/25 px-2 py-0.5 rounded-full">
                   +{pointsEarned} PTS
                 </span>
               </div>
             )}
 
-            {/* Price Total Row */}
-            <div className="space-y-1 font-sans">
-              {appliedPromo && (discountAmount > 0 || appliedPromo.discountType === "free_shipping") && (
-                <div className="flex items-center justify-between text-xs text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/20">
-                  <span>Code {appliedPromo.code}</span>
-                  <span className="font-mono">
-                    {appliedPromo.discountType === "free_shipping" ? "Port Offert" : `-${discountAmount.toFixed(2)}€`}
-                  </span>
-                </div>
-              )}
-
-              <div className="flex items-center justify-between pt-1">
-                <div className="flex flex-col">
-                  <span className="text-xs font-extrabold text-gray-200 uppercase tracking-wider">Total</span>
-                  <span className="text-[10px] text-gray-400">TVA incluse • Frais de port à l'étape suivante</span>
-                </div>
-                <span className="text-xl sm:text-2xl font-black text-white font-antonio tracking-tight">
-                  {finalTotal.toFixed(2)}€
+            {/* Promo Discount Row */}
+            {appliedPromo && (discountAmount > 0 || appliedPromo.discountType === "free_shipping") && (
+              <div className="flex items-center justify-between text-xs text-emerald-700 font-bold bg-emerald-50 px-2.5 py-1.5 rounded-lg border border-emerald-200">
+                <span>Code promo : {appliedPromo.code}</span>
+                <span className="font-mono">
+                  {appliedPromo.discountType === "free_shipping" ? "Port Offert" : `-${discountAmount.toFixed(2).replace('.', ',')} €`}
                 </span>
               </div>
-            </div>
+            )}
 
-            {/* Main Action Button - Docked & High Contrast */}
+            {/* Main Action Button - Spoolio Orange Pill */}
             <button
               onClick={handleGoToCart}
-              className="w-full h-12 sm:h-13 flex items-center justify-center gap-2.5 text-xs font-black text-white bg-gradient-to-r from-[#ff4f00] to-[#FF7700] hover:from-[#e04500] hover:to-[#ff4f00] rounded-xl transition-all shadow-[0_4px_20px_rgba(255,79,0,0.4)] hover:scale-[1.01] active:scale-[0.98] cursor-pointer uppercase tracking-wider font-sans group/checkout"
+              className="w-full py-4 px-6 rounded-full bg-[#ff4f00] hover:bg-[#e04500] text-white font-bold text-sm sm:text-base tracking-wide transition-all shadow-md shadow-[#ff4f00]/20 active:scale-[0.99] flex items-center justify-center cursor-pointer"
             >
-              <span>Valider mon panier ({finalTotal.toFixed(2)}€)</span>
-              <ArrowRight className="w-4 h-4 text-white group-hover/checkout:translate-x-1 transition-transform" />
+              <span>Passer la commande • {finalTotal.toFixed(2).replace('.', ',')} €</span>
             </button>
+
+            {/* Subtext */}
+            <p className="text-xs text-zinc-400 text-center font-normal">
+              Livraison et taxes calculées à l&apos;étape suivante
+            </p>
           </div>
         )}
-
       </div>
     </div>
   );

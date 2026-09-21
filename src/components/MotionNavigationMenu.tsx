@@ -27,6 +27,7 @@ import {
   Leaf,
   ArrowRight,
 } from "lucide-react";
+import { isPreprodEnv } from "@/lib/env";
 
 interface MenuItem {
   id: string;
@@ -394,12 +395,12 @@ export default function MotionNavigationMenu() {
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
                               <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
-                                {t("nav_menu.surprise_pack")}
+                                {isPreprodEnv() ? "Blind Bags" : t("nav_menu.surprise_pack")}
                               </h6>
                               <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
                             <p className="text-[11px] text-zinc-500 truncate">
-                              Packs mystères multi-objets
+                              {isPreprodEnv() ? "Sachets kraft scellés multi-créations" : "Packs mystères multi-objets"}
                             </p>
                           </div>
                         </Link>

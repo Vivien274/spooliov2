@@ -187,8 +187,8 @@ export default function Header({
           </div>
         </div>
 
-        {/* CENTER COLUMN: Logo au centre */}
-        <div className="flex items-center justify-center shrink-0 px-2">
+        {/* CENTER COLUMN: Logo au centre absolu (parfaitement centré sur tous les breakpoints) */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-auto flex items-center justify-center">
           <Link
             href="/"
             onClick={(e) => {
@@ -204,7 +204,7 @@ export default function Header({
                 }
               }
             }}
-            className="relative z-50 flex items-center justify-center cursor-pointer"
+            className="flex items-center justify-center cursor-pointer"
           >
             <Image
               src="/images/logo-spoolio-eyes.png"
@@ -217,15 +217,15 @@ export default function Header({
           </Link>
         </div>
 
-        {/* RIGHT COLUMN: Actions à droite (Bouton Soutenir + Recherche + Bouton Panier) */}
+        {/* RIGHT COLUMN: Actions à droite (Bouton Soutenir sobre + Recherche + Bouton Panier prioritaire) */}
         <div className="flex items-center justify-end flex-1 basis-0 min-w-0 gap-2 sm:gap-3">
-          {/* Soutenir Button */}
+          {/* Soutenir Button (Discret et sobre pour donner la priorité visuelle au panier) */}
           <Link
             href="/don"
-            className="h-10 px-3 sm:px-3.5 rounded-full border border-zinc-200/90 bg-white hover:border-zinc-900 hover:bg-zinc-50 text-zinc-900 text-xs font-black uppercase tracking-wider flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 shadow-xs no-invert"
+            className="h-9 px-2.5 sm:px-3 rounded-full border border-zinc-200/80 bg-zinc-50/50 hover:bg-zinc-100 hover:border-zinc-300 text-zinc-500 hover:text-zinc-800 text-xs font-medium flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 no-invert"
             title={t("footer.support_workshop")}
           >
-            <Sparkles className="w-3.5 h-3.5 text-[#ff4f00] shrink-0" />
+            <Sparkles className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
             <span className="hidden sm:inline whitespace-nowrap">{t("footer.support_workshop")}</span>
           </Link>
 

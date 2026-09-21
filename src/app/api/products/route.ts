@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import fs from 'fs';
 import path from 'path';
 import { computeSeoScore } from '@/lib/seoUtils';
+import { isPreprodEnv } from '@/lib/env';
 
 export const dynamic = 'force-dynamic';
 
@@ -144,6 +145,7 @@ function mapProduct(p: any, viewCountMap: Record<string, number> = {}) {
     stock: typeof p.stock === 'number' ? p.stock : (typeof p.stock_quantity === 'number' ? p.stock_quantity : -1),
     productType: p.productType || "simple",
     status: p.status || "publish",
+    is_active: (p.status === "publish" || p.status === "" || !p.status) && p.status !== "draft",
     show_in_sensory_compass: !!(p.showInSensoryCompass || p.show_in_sensory_compass),
     sensory_noise_level: p.sensoryNoiseLevel || p.sensory_noise_level || null,
     sensory_size: p.sensorySize || p.sensory_size || null,
@@ -299,11 +301,17 @@ async function fetchAllProducts(status: string) {
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const status = searchParams.get('status') || 'publish';
+    const isPreprod = isPreprodEnv();
+    const requestedStatus = searchParams.get('status');
+
+    // In preproduction (preview/localhost), or if status='all', include drafts.
+    // In production (spoolio.fr), strictly query 'publish' unless status='all' is explicitly given.
+    const effectiveStatus = (requestedStatus === 'all' || (isPreprod && !requestedStatus)) ? 'all' : (requestedStatus || 'publish');
+    const cacheKey = `${effectiveStatus}_${isPreprod ? 'preprod' : 'prod'}`;
 
     // Serve from in-memory cache if available and fresh (for public catalog)
-    if (status !== 'all' && catalogCache[status]) {
-      const entry = catalogCache[status];
+    if (effectiveStatus !== 'all' && catalogCache[cacheKey]) {
+      const entry = catalogCache[cacheKey];
       if (Date.now() - entry.timestamp < CATALOG_CACHE_TTL_MS) {
         return NextResponse.json(entry.data, {
           headers: {
@@ -314,18 +322,18 @@ export async function GET(request: Request) {
       }
     }
 
-    const products = await fetchAllProducts(status);
+    const products = await fetchAllProducts(effectiveStatus);
 
     // Save to in-memory cache
-    if (status !== 'all') {
-      catalogCache[status] = {
+    if (effectiveStatus !== 'all') {
+      catalogCache[cacheKey] = {
         data: products,
         timestamp: Date.now(),
       };
     }
 
     return NextResponse.json(products, {
-      headers: status !== 'all' ? {
+      headers: (effectiveStatus !== 'all' && !isPreprod) ? {
         'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
         'X-Cache': 'MISS',
       } : {

@@ -293,9 +293,9 @@ export default function ProductCard({ product, compact = false, priority = false
         }}
       />
 
-      <div className="flex flex-col">
-        {/* Image Container with square aspect ratio - flush with edges */}
-        <div className="relative w-full aspect-square bg-zinc-50 border-b border-zinc-100">
+      <div className="flex flex-col flex-1">
+        {/* Image Container with strict 1:1 square aspect ratio - flush with edges */}
+        <div className="relative w-full aspect-square bg-zinc-50 border-b border-zinc-100 overflow-hidden shrink-0">
           {hasImage ? (
             <Image
               src={imageUrl}
@@ -314,37 +314,40 @@ export default function ProductCard({ product, compact = false, priority = false
             </div>
           )}
 
-          {/* Badges Overlays */}
+          {/* Badges Overlays - Normalized placement */}
           {categoryName && (
-            <span className="absolute top-2.5 left-2.5 sm:top-4 sm:left-4 px-2.5 sm:px-3 py-1 sm:py-1.5 text-[9px] sm:text-[10px] font-bold bg-zinc-950/90 backdrop-blur-md text-white border border-zinc-800 rounded-full shadow-sm z-10 no-invert">
+            <span className="absolute top-3 left-3 sm:top-3.5 sm:left-3.5 px-2.5 sm:px-3 py-1 text-[9px] sm:text-[10px] font-bold bg-zinc-950/90 backdrop-blur-md text-white border border-zinc-800 rounded-full shadow-sm z-10 no-invert">
               {decodeHtml(categoryName)}
             </span>
           )}
         </div>
 
-        {/* Content Container (Title, Description) with Padding */}
-        <div className="flex flex-col gap-1.5 sm:gap-2.5 p-3.5 sm:p-5 lg:p-6 pb-0 font-[family-name:var(--font-plus-jakarta)]">
-          {/* Title */}
-          <h3 className="text-xs sm:text-base lg:text-[17px] font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors duration-200 line-clamp-2 leading-tight sm:leading-snug">
-            {displayName}
-          </h3>
+        {/* Content Container (Title, Description) with fixed minimum heights for pixel-perfect alignment */}
+        <div className="flex flex-col flex-1 justify-between p-3.5 sm:p-5 lg:p-6 pb-2 sm:pb-3 font-[family-name:var(--font-plus-jakarta)]">
+          <div className="space-y-1 sm:space-y-1.5">
+            {/* Title with fixed minimum height for consistent 2-line baseline */}
+            <h3 className="text-xs sm:text-base lg:text-[17px] font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors duration-200 line-clamp-2 leading-tight sm:leading-snug min-h-[2rem] sm:min-h-[2.75rem] flex items-start">
+              {displayName}
+            </h3>
 
-          {/* Description */}
-          <p
-            className="text-xs sm:text-[13px] text-zinc-500 leading-relaxed hidden sm:block overflow-hidden"
-            style={{
-              display: "-webkit-box",
-              WebkitLineClamp: 3,
-              WebkitBoxOrient: "vertical",
-              overflow: "hidden",
-            }}
-          >
-            {cleanDescription}
-          </p>
+            {/* Description with fixed minimum height */}
+            <p
+              className="text-xs sm:text-[13px] text-zinc-500 leading-relaxed hidden sm:block overflow-hidden min-h-[2.25rem] sm:min-h-[2.75rem]"
+              style={{
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+              }}
+            >
+              {cleanDescription}
+            </p>
+          </div>
         </div>
       </div>
 
-      <div className="p-3.5 sm:p-5 lg:p-6 pt-3 sm:pt-4 lg:pt-5">
+      {/* Bottom Action Row (Price & Cart button) - Strictly pinned to baseline */}
+      <div className="p-3.5 sm:p-5 lg:p-6 pt-0 mt-auto shrink-0">
         <div
           onMouseEnter={() => setIsButtonHovered(true)}
           onMouseLeave={() => setIsButtonHovered(false)}

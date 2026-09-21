@@ -81,7 +81,7 @@ export default function SpotlightMarqueeBanner() {
             <Sparkles className="w-3.5 h-3.5" />
             <span>{t("home.marquee.tagline")}</span>
           </span>
-          <h3 className="text-2xl sm:text-3xl font-black uppercase font-antonio tracking-wide text-zinc-900">
+          <h3 className="text-2xl sm:text-3xl font-extrabold uppercase font-outfit tracking-tight text-zinc-900">
             {t("home.marquee.title")}
           </h3>
         </div>

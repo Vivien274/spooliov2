@@ -11,6 +11,7 @@ import {
   Tag,
   ArrowRight,
 } from "lucide-react";
+import { isPreprodEnv } from "@/lib/env";
 
 export interface ThemePill {
   id: string;
@@ -65,6 +66,8 @@ const THEMES: ThemePill[] = [
 ];
 
 export default function ThemeRibbon() {
+  const isPreprod = isPreprodEnv();
+
   return (
     <section className="w-full border-y border-zinc-200 bg-white py-3 px-4 select-none shadow-xs">
       <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-4 overflow-x-auto scrollbar-none snap-x snap-mandatory font-sans">
@@ -75,6 +78,7 @@ export default function ThemeRibbon() {
         <div className="flex items-center justify-between w-full gap-2 sm:gap-4">
           {THEMES.map((theme) => {
             const Icon = theme.icon;
+            const displayLabel = theme.id === "pochettes" && isPreprod ? "Blind Bags" : theme.label;
 
             return (
               <Link
@@ -86,7 +90,7 @@ export default function ThemeRibbon() {
                   <Icon className="w-3.5 h-3.5 transition-colors" />
                 </div>
                 <span className="text-xs font-bold text-zinc-800 group-hover:text-zinc-950 transition-colors whitespace-nowrap">
-                  {theme.label}
+                  {displayLabel}
                 </span>
               </Link>
             );

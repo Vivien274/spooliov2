@@ -81,7 +81,7 @@ export default function FidgetCard({ product }: FidgetCardProps) {
     setTiltStyle({
       transform: `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`,
       transition: "transform 0.05s ease-out",
-      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.4)"
+      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.08)"
     });
   };
 
@@ -98,13 +98,13 @@ export default function FidgetCard({ product }: FidgetCardProps) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={tiltStyle}
-      className="group relative flex flex-col justify-between h-full bg-spoolio-card border border-[#1f1f23] rounded-[30px] overflow-hidden transition-all duration-300 hover:border-white shadow-lg shadow-black/30 card-holographic"
+      className="group relative flex flex-col justify-between h-full bg-white border border-zinc-200/90 rounded-[28px] overflow-hidden transition-all duration-300 hover:border-zinc-300 shadow-xs hover:shadow-lg"
     >
       <div className="flex flex-col">
         {/* Image Container with square aspect ratio */}
-        <div className="relative w-full aspect-square bg-black/20 border-b border-spoolio-border/30 overflow-hidden">
-          {/* Top-Left Yellow Tag Badge (Spoolio.fr style) */}
-          <div className="absolute top-4 left-4 px-3 py-1.5 text-[10px] font-bold bg-[#f7eb12] text-black rounded-full shadow-md z-10 no-invert flex items-center gap-1.5">
+        <div className="relative w-full aspect-square bg-zinc-100 border-b border-zinc-100 overflow-hidden">
+          {/* Top-Left Yellow Tag Badge */}
+          <div className="absolute top-4 left-4 px-3 py-1.5 text-[10px] font-bold bg-amber-300 text-zinc-950 rounded-full shadow-xs z-10 no-invert flex items-center gap-1.5">
             <IconComponent className="w-3.5 h-3.5" />
             <span>{meta.label}</span>
           </div>
@@ -119,20 +119,20 @@ export default function FidgetCard({ product }: FidgetCardProps) {
         </div>
 
         {/* Content Container (Title, Description) */}
-        <div className="flex flex-col gap-2.5 p-6 pb-0 font-[family-name:var(--font-plus-jakarta)]">
-          <h3 className="text-[18px] font-bold text-white transition-colors duration-200 group-hover:text-[#005cff]">
+        <div className="flex flex-col gap-2 p-5 sm:p-6 pb-0">
+          <h3 className="text-base sm:text-lg font-bold text-zinc-950 transition-colors duration-200 group-hover:text-[#ff4f00] font-outfit leading-snug">
             {stripHtmlAndDecode(product.name)}
           </h3>
 
-          <p className="text-[14px] text-gray-400 line-clamp-2 leading-relaxed">
+          <p className="text-xs sm:text-sm text-zinc-500 line-clamp-2 leading-relaxed font-sans">
             {stripHtmlAndDecode(product.description)}
           </p>
         </div>
       </div>
 
-      {/* Blue Action Button (Spoolio.fr style) */}
-      <div className="p-6 pt-5">
-        <div className="w-full h-[50px] inline-flex items-center justify-center gap-2 px-4 text-sm font-extrabold text-white bg-[#005cff] hover:bg-[#004ecc] rounded-xl transition-colors shadow-[0_4px_10px_rgba(0,92,255,0.2)] select-none cursor-pointer no-invert">
+      {/* Spoolio Orange Action Button */}
+      <div className="p-5 sm:p-6 pt-4">
+        <div className="w-full h-[48px] inline-flex items-center justify-center gap-2 px-4 text-xs sm:text-sm font-bold text-white bg-[#ff4f00] hover:bg-[#e04500] rounded-full transition-all shadow-md shadow-[#ff4f00]/20 select-none cursor-pointer tracking-wide no-invert">
           <ShoppingCart className="w-4 h-4" />
           <span>Personnaliser &amp; Acheter • {product.price}</span>
         </div>

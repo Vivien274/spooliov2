@@ -96,13 +96,13 @@ export default function FAQPage() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#fafaf9] text-zinc-900 font-sans flex flex-col items-center selection:bg-[#ff4f00] selection:text-white overflow-x-hidden">
       <JsonLdScript data={getFaqJsonLd(faqSections)} id="faq-page-jsonld" />
       
       {/* Background Decorative Blobs */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-[-10%] right-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full blob-orange" style={{ backgroundColor: 'rgba(255, 79, 0, 0.15)', filter: 'blur(100px)' }} />
-        <div className="absolute top-[40%] left-[-15%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full blob-indigo" style={{ backgroundColor: 'rgba(99, 102, 241, 0.12)', filter: 'blur(100px)' }} />
+        <div className="absolute top-[-10%] right-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full" style={{ backgroundColor: 'rgba(255, 79, 0, 0.05)', filter: 'blur(120px)' }} />
+        <div className="absolute top-[40%] left-[-15%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full" style={{ backgroundColor: 'rgba(251, 191, 36, 0.06)', filter: 'blur(120px)' }} />
       </div>
 
       <Header />
@@ -111,11 +111,18 @@ export default function FAQPage() {
       <main className="w-full max-w-[800px] px-6 pt-28 lg:pt-32 pb-12 relative z-10 flex-grow">
         {/* Title Header */}
         <div className="text-center mb-12 animate-reveal">
-          <h1 className="text-4xl md:text-5xl font-extrabold uppercase tracking-tight font-antonio text-neon-flow mb-4">
-            Questions Fréquentes
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-orange-200 bg-orange-50 text-xs font-semibold text-orange-700 mb-4">
+            <span>❓</span>
+            <span>Aide &amp; Réponses à vos questions</span>
+          </span>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight font-righteous text-zinc-950 mb-4 leading-tight">
+            Questions{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4f00] via-amber-500 to-[#ff4f00]">
+              Fréquentes
+            </span>
           </h1>
-          <p className="text-sm text-gray-400 max-w-lg mx-auto">
-            Trouve ici toutes les réponses à tes questions à propos de Spoolio. S'il en manque, écris-nous sur notre page de contact !
+          <p className="text-sm text-zinc-600 max-w-lg mx-auto leading-relaxed font-sans">
+            Trouve ici toutes les réponses à tes questions à propos de Spoolio. S&apos;il en manque, écris-nous sur notre page de contact !
           </p>
         </div>
 
@@ -123,7 +130,7 @@ export default function FAQPage() {
         <div className="flex flex-col gap-10 animate-reveal delay-100">
           {faqSections.map((section, idx) => (
             <div key={idx} className="flex flex-col gap-4">
-              <h2 className="text-lg font-bold tracking-wider text-[#ff4f00] uppercase font-antonio border-b border-spoolio-border pb-2">
+              <h2 className="text-lg sm:text-xl font-bold tracking-tight text-[#ff4f00] uppercase font-righteous border-b border-zinc-200/90 pb-2">
                 {section.title}
               </h2>
               
@@ -131,12 +138,12 @@ export default function FAQPage() {
                 {section.items.map((item, itemIdx) => (
                   <div 
                     key={itemIdx} 
-                    className="p-5 rounded-2xl bg-spoolio-card border border-spoolio-border hover:border-gray-700 transition-colors duration-300"
+                    className="p-5 rounded-2xl bg-white border border-zinc-200/90 hover:border-zinc-300 hover:shadow-xs transition-all duration-200 shadow-2xs"
                   >
-                    <h3 className="text-[15px] font-bold text-white mb-2.5">
+                    <h3 className="text-[15px] font-bold text-zinc-950 mb-2 font-outfit">
                       {item.q}
                     </h3>
-                    <p className="text-xs text-gray-400 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed font-sans">
                       {item.a}
                     </p>
                   </div>

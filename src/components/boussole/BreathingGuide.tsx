@@ -226,24 +226,24 @@ export default function BreathingGuide() {
   const currentMeta = phaseMeta[phase];
 
   return (
-    <div className="bg-spoolio-dark-card border border-spoolio-dark-border p-6 sm:p-10 rounded-3xl max-w-2xl mx-auto animate-fade-in w-full shadow-lg relative select-none">
+    <div className="bg-white border border-zinc-200/90 p-6 sm:p-10 rounded-3xl max-w-2xl mx-auto animate-fade-in w-full shadow-xs relative select-none text-zinc-900">
       
       {/* Title */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 pb-4 border-b border-spoolio-dark-border/40">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 pb-4 border-b border-zinc-200/80">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-cyan-500/20 bg-cyan-500/10 text-[10px] font-black uppercase text-cyan-300 mb-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-cyan-200 bg-cyan-50 text-[10px] font-bold uppercase text-cyan-800 mb-2">
             <Sparkles className="w-3 h-3" />
             <span>Anti-Stress ASMR</span>
           </div>
-          <h3 className="font-extrabold text-white text-xl tracking-wide">Respiration au Carré</h3>
-          <p className="text-xs text-spoolio-text-muted mt-0.5">
+          <h3 className="font-bold text-zinc-950 text-xl tracking-tight font-outfit">Respiration au Carré</h3>
+          <p className="text-xs text-zinc-500 mt-0.5 font-sans">
             Calme instantanément ton système nerveux et focalise ton attention.
           </p>
         </div>
 
         {/* Duration configuration buttons */}
         <div className="flex items-center gap-1.5">
-          <span className="text-xs font-bold text-spoolio-text-muted mr-1">Rythme :</span>
+          <span className="text-xs font-semibold text-zinc-500 mr-1 font-sans">Rythme :</span>
           {[4, 5, 6].map(dur => (
             <button
               key={dur}
@@ -255,8 +255,8 @@ export default function BreathingGuide() {
               className={`
                 px-3 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer border
                 ${breathDuration === dur 
-                  ? 'bg-cyan-500 border-cyan-400 text-white shadow-md' 
-                  : 'bg-background border-spoolio-dark-border text-spoolio-text-muted hover:text-white'
+                  ? 'bg-[#ff4f00] border-[#ff4f00] text-white shadow-xs' 
+                  : 'bg-zinc-50 border-zinc-200 text-zinc-600 hover:text-zinc-950'
                 }
               `}
             >
@@ -274,9 +274,9 @@ export default function BreathingGuide() {
           onClick={handleStartStop}
           className={`
             w-48 h-48 sm:w-60 sm:h-60 rounded-full border-4 flex flex-col items-center justify-center text-center p-6
-            bg-gradient-to-br backdrop-blur-md shadow-2xl transition-all duration-1000 ease-in-out cursor-pointer select-none
-            ${isActive ? currentMeta.scaleClass : 'scale-100 border-spoolio-dark-border from-slate-900/40 to-slate-950/20 shadow-slate-950/20'}
-            ${isActive ? currentMeta.colorClass : 'text-slate-400'}
+            bg-gradient-to-br backdrop-blur-md shadow-xl transition-all duration-1000 ease-in-out cursor-pointer select-none
+            ${isActive ? currentMeta.scaleClass : 'scale-100 border-zinc-200 from-zinc-50 to-zinc-100 shadow-zinc-200/50'}
+            ${isActive ? currentMeta.colorClass : 'text-zinc-400'}
           `}
           style={{
             boxShadow: isActive ? `0 20px 50px -15px ${currentMeta.glowColor}` : undefined
@@ -284,13 +284,13 @@ export default function BreathingGuide() {
         >
           {isActive ? (
             <div className="space-y-3">
-              <span className="text-2xl sm:text-3xl font-black tracking-wide uppercase transition-all">
+              <span className="text-2xl sm:text-3xl font-bold tracking-tight uppercase transition-all font-outfit">
                 {currentMeta.text}
               </span>
               <div className="text-4xl sm:text-5xl font-black font-mono leading-none tracking-tight">
                 {secondsRemaining}
               </div>
-              <p className="text-[10px] text-spoolio-text-muted max-w-[150px] mx-auto uppercase tracking-widest">
+              <p className="text-[10px] text-zinc-500 max-w-[150px] mx-auto uppercase tracking-widest font-mono">
                 {phase === 'inhale' && 'Inspirer'}
                 {phase === 'hold-in' && 'Retenir'}
                 {phase === 'exhale' && 'Expirer'}
@@ -299,10 +299,10 @@ export default function BreathingGuide() {
             </div>
           ) : (
             <div className="space-y-2">
-              <span className="text-base font-black tracking-widest uppercase text-white animate-pulse">
+              <span className="text-base font-bold tracking-tight uppercase text-zinc-900 animate-pulse font-outfit">
                 Appuie pour commencer
               </span>
-              <p className="text-[10px] text-spoolio-text-muted max-w-[150px] mx-auto uppercase tracking-widest">
+              <p className="text-[10px] text-zinc-400 max-w-[150px] mx-auto uppercase tracking-widest font-mono">
                 Prépare-toi à expirer...
               </p>
             </div>
@@ -311,24 +311,24 @@ export default function BreathingGuide() {
 
         {/* Phase instructions details description */}
         <div className="h-10 text-center mt-8 max-w-sm">
-          <p className="text-sm font-semibold text-white/90">
+          <p className="text-sm font-semibold text-zinc-700">
             {isActive ? currentMeta.description : 'Trouve une position confortable et détends tes épaules.'}
           </p>
         </div>
       </div>
 
       {/* Control bar */}
-      <div className="flex items-center justify-between border-t border-spoolio-dark-border/40 pt-6 mt-6 select-none">
+      <div className="flex items-center justify-between border-t border-zinc-200/80 pt-6 mt-6 select-none">
         
         {/* Play / Pause / Reset button */}
         <div className="flex items-center gap-3">
           <button
             onClick={handleStartStop}
             className={`
-              flex items-center gap-2 px-5 py-3 rounded-2xl font-bold text-sm tracking-wider uppercase transition-all duration-200 cursor-pointer active:scale-95 border
+              flex items-center gap-2 px-5 py-3 rounded-full font-bold text-sm tracking-wider uppercase transition-all duration-200 cursor-pointer active:scale-95 border
               ${isActive
-                ? 'bg-slate-900 border-spoolio-dark-border text-white hover:bg-slate-800'
-                : 'bg-cyan-500 border-cyan-400 text-white shadow-lg hover:bg-cyan-600'
+                ? 'bg-zinc-900 border-zinc-900 text-white hover:bg-zinc-800'
+                : 'bg-[#ff4f00] border-[#ff4f00] text-white shadow-md shadow-[#ff4f00]/20 hover:bg-[#e04500]'
               }
             `}
           >
@@ -347,7 +347,7 @@ export default function BreathingGuide() {
 
           <button
             onClick={handleReset}
-            className="p-3 rounded-2xl border border-spoolio-dark-border bg-slate-900 hover:bg-slate-800 text-spoolio-text-muted hover:text-white transition-all cursor-pointer active:scale-95"
+            className="p-3 rounded-full border border-zinc-200 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 hover:text-zinc-950 transition-all cursor-pointer active:scale-95"
             title="Réinitialiser le cycle"
           >
             <RotateCcw className="w-4 h-4" />
@@ -357,17 +357,17 @@ export default function BreathingGuide() {
         {/* Cycle count indicator and Sound controller */}
         <div className="flex items-center gap-6">
           <div className="text-right">
-            <span className="text-[10px] font-bold text-spoolio-text-muted uppercase tracking-widest block">Cycles complétés</span>
-            <span className="text-lg font-black text-white font-mono">{cycles}</span>
+            <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest block font-mono">Cycles complétés</span>
+            <span className="text-lg font-black text-zinc-950 font-outfit">{cycles}</span>
           </div>
 
           <button
             onClick={() => setIsAudioEnabled(prev => !prev)}
             className={`
-              p-3.5 rounded-2xl border transition-all cursor-pointer active:scale-95
+              p-3.5 rounded-full border transition-all cursor-pointer active:scale-95
               ${isAudioEnabled 
-                ? 'border-cyan-500/30 bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20' 
-                : 'border-spoolio-dark-border bg-slate-900 text-spoolio-text-muted hover:text-white'
+                ? 'border-zinc-200 bg-zinc-100 text-zinc-800 hover:bg-zinc-200' 
+                : 'border-zinc-200 bg-zinc-50 text-zinc-400 hover:text-zinc-700'
               }
             `}
             title={isAudioEnabled ? 'Désactiver le son ASMR' : 'Activer le son ASMR'}
@@ -375,9 +375,7 @@ export default function BreathingGuide() {
             {isAudioEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
           </button>
         </div>
-
       </div>
-
     </div>
   );
 }

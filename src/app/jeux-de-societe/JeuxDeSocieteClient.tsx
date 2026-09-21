@@ -345,30 +345,30 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
       {/* =========================================================================
           1. HERO SECTION : L'EXPÉRIENCE JEU AUGMENTÉE
          ========================================================================= */}
-      <section className="relative rounded-3xl sm:rounded-[36px] bg-gradient-to-b from-[#12111d] via-[#0d0c15] to-[#070709] border border-white/10 p-6 sm:p-12 lg:p-16 overflow-hidden shadow-2xl">
+      <section className="relative rounded-3xl sm:rounded-[36px] bg-white border border-zinc-200/90 p-6 sm:p-12 lg:p-16 overflow-hidden shadow-xs">
         {/* Glow ambient background */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#ff4f00]/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-12 -right-12 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-12 -left-12 w-96 h-96 bg-[#ff4f00]/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 max-w-3xl mx-auto text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/15 border border-indigo-400/30 text-indigo-300 text-xs font-mono font-black uppercase tracking-wider shadow-inner">
-            <Dices className="w-4 h-4 text-indigo-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-mono font-black uppercase tracking-wider shadow-2xs">
+            <Dices className="w-4 h-4 text-indigo-600" />
             <span>Spoolio x Enjeu • Le Hub des Joueurs</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white font-antonio leading-[1.05] drop-shadow-md">
-            Des soirées jeux <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4f00] via-amber-400 to-indigo-400">100% fun</span>, zéro prise de tête.
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-zinc-900 font-antonio leading-[1.05]">
+            Des soirées jeux <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4f00] via-purple-600 to-indigo-600">100% fun</span>, zéro prise de tête.
           </h1>
 
-          <p className="text-sm sm:text-base text-gray-300 max-w-2xl mx-auto leading-relaxed font-sans">
-            Que tu sois adepte des jeux d'ambiance à l'apéro, des après-midis cartes en famille ou des lancers de dés palpitants : découvre nos <strong className="text-white">jeux &amp; accessoires 3D</strong> et notre <strong className="text-indigo-300">application compagnon Enjeu</strong>.
+          <p className="text-sm sm:text-base text-zinc-600 max-w-2xl mx-auto leading-relaxed font-sans">
+            Que tu sois adepte des jeux d'ambiance à l'apéro, des après-midis cartes en famille ou des lancers de dés palpitants : découvre nos <strong className="text-zinc-900">jeux &amp; accessoires 3D</strong> et notre <strong className="text-indigo-600">application compagnon Enjeu</strong>.
           </p>
 
           {/* Action CTAs */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-2">
             <a
               href="#accessoires"
-              className="w-full sm:w-auto h-13 px-7 rounded-2xl bg-[#ff4f00] hover:bg-[#e04500] text-white font-black text-xs uppercase tracking-wider inline-flex items-center justify-center gap-2.5 shadow-lg shadow-[#ff4f00]/30 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+              className="w-full sm:w-auto h-12 px-7 rounded-full bg-[#ff4f00] hover:bg-[#e04500] text-white font-black text-xs uppercase tracking-wider inline-flex items-center justify-center gap-2.5 shadow-md shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
             >
               <Gamepad2 className="w-4 h-4" />
               <span>Voir la Collection Jeux</span>
@@ -376,7 +376,7 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
 
             <a
               href="#enjeu-app"
-              className="w-full sm:w-auto h-13 px-7 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-black text-xs uppercase tracking-wider inline-flex items-center justify-center gap-2.5 shadow-lg shadow-indigo-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer border border-indigo-400/30"
+              className="w-full sm:w-auto h-12 px-7 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs uppercase tracking-wider inline-flex items-center justify-center gap-2.5 shadow-md shadow-indigo-600/25 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
             >
               <Smartphone className="w-4 h-4" />
               <span>Découvrir l'App Enjeu</span>
@@ -389,15 +389,15 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
       {/* =========================================================================
           2. SONDAGE INTERACTIF : VOTES DE LA COMMUNAUTÉ
          ========================================================================= */}
-      <section className="space-y-8 bg-gradient-to-b from-[#100f1c] via-[#0d0c17] to-[#070709] border border-indigo-500/20 rounded-3xl sm:rounded-[32px] p-6 sm:p-10 relative overflow-hidden shadow-2xl">
+      <section className="space-y-8 bg-white border border-zinc-200/90 rounded-3xl sm:rounded-[32px] p-6 sm:p-10 relative overflow-hidden shadow-xs">
         <div className="text-center max-w-xl mx-auto space-y-2 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#ff4f00]/15 text-[#ff4f00] border border-[#ff4f00]/30 text-xs font-mono font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 text-[#ff4f00] border border-orange-200 text-xs font-mono font-bold uppercase tracking-wider">
             <span>🗳️ Sondage Communauté</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl font-black uppercase text-white font-antonio tracking-tight">
+          <h2 className="text-2xl sm:text-4xl font-black uppercase text-zinc-900 font-antonio tracking-tight">
             Quelle est ta plus grande galère lors des soirées jeux ?
           </h2>
-          <p className="text-xs sm:text-sm text-gray-300 font-sans">
+          <p className="text-xs sm:text-sm text-zinc-500 font-sans">
             Vote ci-dessous pour découvrir ce que répondent les autres joueurs :
           </p>
         </div>
@@ -412,28 +412,32 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
               icon: "🎲",
               title: "Les dés qui tombent au sol ou renversent les verres",
               desc: "Les lancers sauvages qui finissent sous la table ou sous le canapé...",
-              accent: "from-amber-500/20 to-amber-900/30 border-amber-500/40 text-amber-300",
+              borderSelected: "border-amber-500 bg-amber-50/70 text-amber-950",
+              barColor: "bg-amber-400/25",
             },
             {
               id: 2,
               icon: "📝",
               title: "Les feuilles de score volantes & les calculs chiants",
               desc: "Chercher un stylo qui marche et faire des additions à 1h du matin...",
-              accent: "from-indigo-500/20 to-indigo-900/30 border-indigo-500/40 text-indigo-300",
+              borderSelected: "border-indigo-500 bg-indigo-50/70 text-indigo-950",
+              barColor: "bg-indigo-400/25",
             },
             {
               id: 3,
               icon: "🃏",
               title: "Avoir trop de cartes en main (fatigue & cartes cachées)",
               desc: "Ne pas savoir où poser son jeu ou devoir tenir 12 cartes en même temps...",
-              accent: "from-cyan-500/20 to-cyan-900/30 border-cyan-500/40 text-cyan-300",
+              borderSelected: "border-cyan-500 bg-cyan-50/70 text-cyan-950",
+              barColor: "bg-cyan-400/25",
             },
             {
               id: 4,
               icon: "🔥",
               title: "Retrouver qui a gagné la dernière fois & gérer les paris",
               desc: "« Mais si, la semaine dernière c'est toi qui devais faire la vaisselle ! »",
-              accent: "from-pink-500/20 to-pink-900/30 border-pink-500/40 text-pink-300",
+              borderSelected: "border-pink-500 bg-pink-50/70 text-pink-950",
+              barColor: "bg-pink-400/25",
             },
           ];
 
@@ -454,16 +458,16 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
                       disabled={hasVoted}
                       className={`relative p-4 rounded-2xl border text-left transition-all duration-300 overflow-hidden cursor-pointer ${
                         isSelected
-                          ? `bg-gradient-to-r ${opt.accent} shadow-xl scale-[1.01]`
+                          ? `${opt.borderSelected} border-2 shadow-sm scale-[1.01]`
                           : hasVoted
-                          ? "bg-white/[0.02] border-white/10 opacity-80 cursor-default"
-                          : "bg-white/[0.04] hover:bg-white/[0.08] border-white/10 hover:border-white/20 active:scale-[0.99]"
+                          ? "bg-zinc-50/60 border-zinc-200/60 opacity-80 cursor-default"
+                          : "bg-zinc-50/80 hover:bg-zinc-100/90 border-zinc-200/90 hover:border-zinc-400 active:scale-[0.99] shadow-2xs"
                       }`}
                     >
                       {/* Animated Percentage Fill Bar (Visible after voting) */}
                       {hasVoted && (
                         <div
-                          className="absolute inset-y-0 left-0 bg-white/10 transition-all duration-1000 ease-out pointer-events-none"
+                          className={`absolute inset-y-0 left-0 ${opt.barColor} transition-all duration-1000 ease-out pointer-events-none`}
                           style={{ width: `${percentage}%` }}
                         />
                       )}
@@ -475,26 +479,26 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
                           {hasVoted ? (
                             <div className="flex items-center gap-1.5">
                               {isSelected && (
-                                <span className="text-[10px] font-mono font-bold uppercase bg-emerald-500 text-black px-2 py-0.5 rounded-full flex items-center gap-1">
+                                <span className="text-[10px] font-mono font-bold uppercase bg-emerald-600 text-white px-2 py-0.5 rounded-full flex items-center gap-1">
                                   <Check className="w-3 h-3 stroke-[3]" /> Ton vote
                                 </span>
                               )}
-                              <span className="text-sm font-mono font-black text-white">
+                              <span className="text-sm font-mono font-black text-zinc-900">
                                 {percentage}%
                               </span>
                             </div>
                           ) : (
-                            <span className="text-[10px] font-mono font-bold uppercase bg-white/10 text-gray-300 px-2 py-0.5 rounded-full">
+                            <span className="text-[10px] font-mono font-bold uppercase bg-zinc-200/80 text-zinc-700 px-2.5 py-0.5 rounded-full">
                               Cliquer pour voter
                             </span>
                           )}
                         </div>
 
                         <div>
-                          <h3 className="text-xs sm:text-sm font-black text-white font-sans leading-snug">
+                          <h3 className="text-xs sm:text-sm font-black text-zinc-900 font-sans leading-snug">
                             {opt.title}
                           </h3>
-                          <p className="text-[11px] text-gray-400 leading-normal mt-0.5">
+                          <p className="text-[11px] text-zinc-500 leading-normal mt-0.5">
                             {opt.desc}
                           </p>
                         </div>
@@ -506,27 +510,27 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
 
               {/* Poll Footer Message */}
               {votedOption !== null ? (
-                <div className="p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left animate-fadeIn">
+                <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-bold flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left animate-fadeIn">
                   <div className="flex items-center gap-2">
                     <span className="text-xl">🎉</span>
                     <div>
-                      <p className="text-white font-extrabold text-xs">
+                      <p className="text-emerald-950 font-extrabold text-xs">
                         Merci pour ton vote ! ({totalVotes} joueurs ont voté)
                       </p>
-                      <p className="text-[11px] text-emerald-300/90 font-normal">
+                      <p className="text-[11px] text-emerald-800 font-normal">
                         C'est exactement pour résoudre ce problème qu'on a créé les créations 3D Spoolio &amp; l'App Enjeu !
                       </p>
                     </div>
                   </div>
                   <a
                     href="#accessoires"
-                    className="px-4 py-2 rounded-xl bg-emerald-400 hover:bg-emerald-300 text-black font-black text-xs uppercase tracking-wider shrink-0 transition-colors"
+                    className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs uppercase tracking-wider shrink-0 transition-colors shadow-xs"
                   >
                     Voir la solution 3D ↓
                   </a>
                 </div>
               ) : (
-                <p className="text-[11px] text-gray-500 text-center font-mono">
+                <p className="text-[11px] text-zinc-400 text-center font-mono">
                   💡 {totalVotes} votes enregistrés à ce jour par la communauté Spoolio.
                 </p>
               )}
@@ -540,18 +544,18 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
           3. VITRINE DES PRODUITS "JEUX & ACTIVITÉS" (Avec Corner Notch & Picto Panier Animé)
          ========================================================================= */}
       <section id="accessoires" className="space-y-8 scroll-mt-28">
-        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-white/10 pb-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 border-b border-zinc-200 pb-4">
           <div>
             <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#ff4f00]">
               Catégorie Jeux &amp; Activités 🇫🇷
             </span>
-            <h2 className="text-2xl sm:text-4xl font-black uppercase text-white font-antonio tracking-tight mt-1">
+            <h2 className="text-2xl sm:text-4xl font-black uppercase text-zinc-900 font-antonio tracking-tight mt-1">
               Les Créations 3D Spoolio
             </h2>
           </div>
           <Link
             href="/categorie/Jeux %26 activit%C3%A9s"
-            className="text-xs font-bold text-gray-400 hover:text-[#ff4f00] transition-colors flex items-center gap-1 shrink-0"
+            className="text-xs font-bold text-zinc-500 hover:text-[#ff4f00] transition-colors flex items-center gap-1 shrink-0"
           >
             <span>Voir toute la catégorie Jeux</span>
             <ChevronRight className="w-4 h-4" />
@@ -568,7 +572,7 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
             return (
               <div
                 key={product.id}
-                className="group relative aspect-square w-full rounded-[28px] bg-transparent border-none overflow-hidden transition-all duration-300 shadow-xl"
+                className="group relative aspect-square w-full rounded-[28px] bg-transparent border-none overflow-hidden transition-all duration-300 shadow-md hover:shadow-xl"
               >
                 {/* Full-bleed Product Image */}
                 <Link href={`/product/${product.slug}`} className="block w-full h-full relative group/img">
@@ -581,8 +585,8 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
                   />
                 </Link>
 
-                {/* Apple Specular Bevel Edge (Liseré de verre supérieur) */}
-                <div className="absolute inset-0 pointer-events-none rounded-[28px] border-t border-l border-white/20 shadow-[inset_0_1.5px_0_rgba(255,255,255,0.3)] z-10" />
+                {/* Specular Bevel Edge */}
+                <div className="absolute inset-0 pointer-events-none rounded-[28px] border-t border-l border-white/40 shadow-[inset_0_1.5px_0_rgba(255,255,255,0.4)] z-10" />
 
                 {/* Bottom Gradient overlay for text readability */}
                 <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/90 via-black/45 to-transparent pointer-events-none z-0" />
@@ -600,19 +604,19 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
                 {/* =========================================================
                     BOTTOM-RIGHT INVERTED CORNER SCOOP & LIQUID GLASS BUTTON
                    ========================================================= */}
-                <div className="absolute bottom-0 right-0 bg-[#070709] p-2 rounded-tl-[24px] z-20 flex items-center justify-center">
+                <div className="absolute bottom-0 right-0 bg-[#f9f9fb] p-2 rounded-tl-[24px] z-20 flex items-center justify-center">
                   
                   {/* Top Inverted Fillet Curve */}
                   <div className="absolute -top-[16px] right-0 w-[16px] h-[16px] overflow-hidden pointer-events-none">
-                    <div className="w-full h-full rounded-br-[16px] shadow-[6px_6px_0_6px_#070709]" />
+                    <div className="w-full h-full rounded-br-[16px] shadow-[6px_6px_0_6px_#f9f9fb]" />
                   </div>
 
                   {/* Left Inverted Fillet Curve */}
                   <div className="absolute bottom-0 -left-[16px] w-[16px] h-[16px] overflow-hidden pointer-events-none">
-                    <div className="w-full h-full rounded-br-[16px] shadow-[6px_6px_0_6px_#070709]" />
+                    <div className="w-full h-full rounded-br-[16px] shadow-[6px_6px_0_6px_#f9f9fb]" />
                   </div>
 
-                  {/* Button: Liquid Glass Pill (Verre translucide + Reflet spéculaire interne net) */}
+                  {/* Button: Minimalist Black Pill (turns Spoolio orange on hover) */}
                   <button
                     type="button"
                     onClick={(e) => {
@@ -623,10 +627,10 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
                     onMouseLeave={() => setHoveredCardId(null)}
                     title={isVariable ? "Choisir les options (couleur, taille...)" : "Ajouter au panier"}
                     aria-label={isVariable ? "Choisir les options" : "Ajouter au panier"}
-                    className={`relative h-11 px-4 rounded-full transition-all duration-300 flex items-center gap-2.5 cursor-pointer outline-none active:scale-95 no-invert shrink-0 ${
+                    className={`relative h-11 px-4 rounded-full transition-all duration-200 flex items-center gap-2.5 cursor-pointer outline-none active:scale-95 no-invert shrink-0 ${
                       !isVariable && (isAlreadyInCart || wasJustAdded)
-                        ? "bg-emerald-500 text-white border border-emerald-400/50 shadow-[0_4px_16px_rgba(16,185,129,0.4)]"
-                        : "bg-white/95 hover:bg-white text-black backdrop-blur-xl border border-white/80 hover:border-white shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),inset_0_-1px_1px_rgba(0,0,0,0.06),0_4px_12px_rgba(0,0,0,0.3)] hover:shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_6px_16px_rgba(0,0,0,0.45)] hover:scale-[1.03]"
+                        ? "bg-emerald-600 text-white shadow-[0_4px_14px_rgba(16,185,129,0.3)]"
+                        : "bg-zinc-950 hover:bg-[#ff4f00] text-white shadow-[0_4px_14px_rgba(0,0,0,0.16)] hover:scale-[1.02]"
                     }`}
                   >
                     {!isVariable && (isAlreadyInCart || wasJustAdded) ? (
@@ -636,14 +640,14 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
                       </>
                     ) : (
                       <>
-                        <div className="w-7 h-7 flex items-center justify-center pointer-events-none shrink-0 overflow-hidden brightness-0">
+                        <div className="w-7 h-7 flex items-center justify-center pointer-events-none shrink-0 overflow-hidden brightness-0 invert">
                           <UnicornIcon
                             animationData={cartIconData}
                             className="w-10 h-10 scale-[2.2] pointer-events-none"
                             isHovered={hoveredCardId === product.id}
                           />
                         </div>
-                        <span className="text-sm font-black font-mono tracking-tight shrink-0 text-black">
+                        <span className="text-sm font-black font-mono tracking-tight shrink-0 text-white">
                           {product.price}€
                         </span>
                       </>
@@ -657,13 +661,13 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
           {/* =========================================================
               CUSTOM IDEA TILE: "UNE IDÉE ? PROPOSE-LA !"
              ========================================================= */}
-          <div className="group relative aspect-square w-full rounded-[28px] bg-gradient-to-br from-[#1c182d] via-[#120f20] to-[#0a0812] border-2 border-dashed border-[#ff4f00]/40 hover:border-[#ff4f00] p-6 flex flex-col justify-between overflow-hidden transition-all duration-300 shadow-xl hover:shadow-[#ff4f00]/20 hover:scale-[1.02]">
+          <div className="group relative aspect-square w-full rounded-[28px] bg-white border-2 border-dashed border-[#ff4f00]/40 hover:border-[#ff4f00] p-6 flex flex-col justify-between overflow-hidden transition-all duration-300 shadow-xs hover:shadow-md hover:scale-[1.02]">
             {/* Ambient Decorative Glow */}
-            <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#ff4f00]/20 rounded-full blur-2xl pointer-events-none group-hover:bg-[#ff4f00]/35 transition-all duration-500" />
+            <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#ff4f00]/10 rounded-full blur-2xl pointer-events-none group-hover:bg-[#ff4f00]/20 transition-all duration-500" />
             
             {/* Top Badge & Icon */}
             <div className="flex items-center justify-between z-10">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff4f00]/15 border border-[#ff4f00]/30 text-[#ff4f00] text-[11px] font-mono font-bold uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-[#ff4f00] text-[11px] font-mono font-bold uppercase tracking-wider">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Sur-Mesure</span>
               </span>
@@ -672,10 +676,10 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
 
             {/* Center Content */}
             <div className="space-y-2 z-10 my-auto">
-              <h3 className="text-xl sm:text-2xl font-black text-white uppercase tracking-tight font-antonio leading-tight group-hover:text-[#ff4f00] transition-colors">
+              <h3 className="text-xl sm:text-2xl font-black text-zinc-900 uppercase tracking-tight font-antonio leading-tight group-hover:text-[#ff4f00] transition-colors">
                 Une idée ? Propose-la !
               </h3>
-              <p className="text-xs text-gray-300 leading-relaxed font-sans line-clamp-3">
+              <p className="text-xs text-zinc-600 leading-relaxed font-sans line-clamp-3">
                 Tu cherches un accessoire 3D spécifique pour ton jeu préféré (tour, pince, compteur...) ? On le conçoit pour toi !
               </p>
             </div>
@@ -684,7 +688,7 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
             <div className="z-10 pt-2">
               <Link
                 href="/contact"
-                className="w-full py-3 px-4 rounded-full bg-[#ff4f00] hover:bg-[#e04500] text-white text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-95"
+                className="w-full py-3 px-4 rounded-full bg-[#ff4f00] hover:bg-[#e04500] text-white text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-md shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-95"
               >
                 <span>Proposer mon idée 🚀</span>
                 <ChevronRight className="w-4 h-4" />
@@ -698,7 +702,7 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
       {/* =========================================================================
           4. FOCUS APPLICATION ENJEU (APP COMPAGNON)
          ========================================================================= */}
-      <section id="enjeu-app" className="relative rounded-3xl sm:rounded-[36px] bg-gradient-to-br from-[#0c0d1c] via-[#10132b] to-[#18112e] border border-indigo-500/30 p-6 sm:p-12 overflow-hidden shadow-2xl scroll-mt-28 space-y-12">
+      <section id="enjeu-app" className="relative rounded-3xl sm:rounded-[36px] bg-gradient-to-br from-[#0c0d1c] via-[#10132b] to-[#18112e] border border-indigo-500/30 p-6 sm:p-12 overflow-hidden shadow-xl scroll-mt-28 space-y-12 text-white">
         
         {/* Glow ambient */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/20 blur-3xl pointer-events-none" />
@@ -731,66 +735,66 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
               </div>
             </div>
 
-            <p className="text-xs sm:text-sm text-gray-300 leading-relaxed max-w-xl font-sans">
+            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed max-w-xl font-sans">
               Comptez vos points, défiez vos amis et pimentez vos soirées jeux de société ! Remplacement définitif des feuilles volantes + système de gages amusants.
             </p>
 
             {/* Feature Bullet Points */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+              <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 space-y-1">
                 <div className="flex items-center gap-2 text-indigo-300 font-bold text-xs">
                   <Trophy className="w-4 h-4 text-amber-400 shrink-0" />
                   <span>Calcul Automatique des Scores</span>
                 </div>
-                <p className="text-[11px] text-gray-400">
-                  Feuilles de marque numériques pour Skull King, Skyjo, Yams, Tarot, Qwixx, Belote...
+                <p className="text-[11px] text-slate-300">
+                  Feuilles de marque numériques pour <strong className="text-white font-semibold">Skull King, Skyjo, Yams, Tarot, Qwixx, Belote...</strong>
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+              <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 space-y-1">
                 <div className="flex items-center gap-2 text-pink-300 font-bold text-xs">
                   <Flame className="w-4 h-4 text-pink-400 shrink-0" />
                   <span>Paris Amicaux (« L'Enjeu »)</span>
                 </div>
-                <p className="text-[11px] text-gray-400">
+                <p className="text-[11px] text-slate-300">
                   <em>« Le perdant fait la vaisselle ! »</em> Enregistre les gages et paris de ta table en début de partie.
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+              <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 space-y-1">
                 <div className="flex items-center gap-2 text-purple-300 font-bold text-xs">
                   <Users className="w-4 h-4 text-purple-400 shrink-0" />
                   <span>Stats &amp; Historique des Joueurs</span>
                 </div>
-                <p className="text-[11px] text-gray-400">
+                <p className="text-[11px] text-slate-300">
                   Garde en mémoire qui a gagné, vos records de points et le classement de votre groupe.
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+              <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/15 space-y-1">
                 <div className="flex items-center gap-2 text-emerald-300 font-bold text-xs">
                   <Shield className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>100% Gratuite &amp; Sans Pub</span>
                 </div>
-                <p className="text-[11px] text-gray-400">
+                <p className="text-[11px] text-slate-300">
                   Zéro publicité pour ne jamais interrompre vos parties. 100% du contenu gratuit pour vos soirées.
                 </p>
               </div>
             </div>
 
             {/* Supported Games Chips */}
-            <div className="space-y-2 pt-2">
-              <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-gray-400">
+            <div className="space-y-2.5 pt-2">
+              <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-indigo-200">
                 Jeux pris en charge nativement :
               </span>
               <div className="flex flex-wrap gap-2">
                 {supportedGames.map((g) => (
                   <span
                     key={g.name}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white/5 border border-white/10 text-xs font-bold text-gray-200"
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/15 hover:bg-white/20 border border-white/25 text-xs font-bold text-white shadow-xs transition-colors"
                   >
-                    <span>{g.icon}</span>
-                    <span>{g.name}</span>
+                    <span className="text-sm">{g.icon}</span>
+                    <span className="text-white font-bold text-xs">{g.name}</span>
                   </span>
                 ))}
               </div>
@@ -837,7 +841,7 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
               ))}
             </div>
             
-            <p className="text-[11px] text-gray-300 text-center font-sans font-medium max-w-xs h-8 flex items-center justify-center">
+            <p className="text-[11px] text-slate-300 text-center font-sans font-medium max-w-xs h-8 flex items-center justify-center">
               📸 {enjeuScreenshots[activeScreenshotIndex].desc}
             </p>
           </div>
@@ -857,7 +861,7 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
                 <span>🤖</span> Test Interne Android Ouvert
               </span>
             </div>
-            <p className="text-xs text-gray-300 leading-relaxed font-sans">
+            <p className="text-xs text-slate-300 leading-relaxed font-sans">
               L'application est dès maintenant accessible en test interne sur le Play Store ! Tu peux y accéder directement via le bouton ci-dessous, ou t'inscrire avec ton email pour recevoir les prochaines nouveautés et un <strong className="text-amber-400">cadeau exclusif Spoolio</strong>.
             </p>
           </div>
@@ -899,7 +903,7 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
                   value={emailInput}
                   onChange={(e) => setEmailInput(e.target.value)}
                   placeholder="Ton adresse email (Compte Google Play / Android)..."
-                  className="flex-1 h-12 px-4 rounded-xl bg-white/5 border border-white/15 focus:border-indigo-400 focus:outline-none text-white text-xs font-sans placeholder:text-gray-500 transition-colors"
+                  className="flex-1 h-12 px-4 rounded-xl bg-white/10 border border-white/20 focus:border-indigo-400 focus:outline-none text-white text-xs font-sans placeholder:text-zinc-400 transition-colors"
                 />
 
                 <button
@@ -912,14 +916,14 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
                 </button>
               </div>
 
-              <p className="text-[10px] text-gray-500">
+              <p className="text-[10px] text-slate-400">
                 🔒 Zéro spam. En cliquant sur "rejoindre" vous acceptez d'être inscrit à la newsletter Spoolio. Désinscription en 1 clic.
               </p>
             </form>
           )}
 
           {/* Badges Stores */}
-          <div className="pt-2 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400">
+          <div className="pt-2 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-300">
             <span className="flex items-center gap-1.5 font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-xl">
               <span>🤖</span> En test interne sur Android
             </span>
@@ -941,35 +945,35 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
          ========================================================================= */}
       <section className="space-y-6">
         <div className="text-center max-w-lg mx-auto space-y-2">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-emerald-400">
-            Astuces de Joueurs
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-black uppercase text-white font-antonio tracking-tight">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-mono font-bold uppercase tracking-wider">
+            <span>✨ Astuces de Joueurs</span>
+          </div>
+          <h2 className="text-2xl sm:text-4xl font-black uppercase text-zinc-900 font-antonio tracking-tight">
             Les 3 règles d'or d'une soirée réussie
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-6 rounded-3xl bg-white/[0.02] border border-white/10 space-y-2.5">
+          <div className="p-6 rounded-3xl bg-white border border-zinc-200/90 shadow-xs hover:border-zinc-300 transition-all space-y-2.5">
             <span className="text-2xl">⚡</span>
-            <h3 className="text-sm font-extrabold text-white uppercase">1. Pas de temps mort</h3>
-            <p className="text-xs text-gray-400 leading-relaxed">
+            <h3 className="text-sm font-extrabold text-zinc-900 uppercase">1. Pas de temps mort</h3>
+            <p className="text-xs text-zinc-600 leading-relaxed">
               Enchaînez les tours de jeu rapidement sans perdre 10 minutes à recompter les points avec un crayon écrasé.
             </p>
           </div>
 
-          <div className="p-6 rounded-3xl bg-white/[0.02] border border-white/10 space-y-2.5">
+          <div className="p-6 rounded-3xl bg-white border border-zinc-200/90 shadow-xs hover:border-zinc-300 transition-all space-y-2.5">
             <span className="text-2xl">🍕</span>
-            <h3 className="text-sm font-extrabold text-white uppercase">2. La table reste propre</h3>
-            <p className="text-xs text-gray-400 leading-relaxed">
+            <h3 className="text-sm font-extrabold text-zinc-900 uppercase">2. La table reste propre</h3>
+            <p className="text-xs text-zinc-600 leading-relaxed">
               Utilisez des supports de cartes pour pouvoir manger et boire sans tacher le matériel de jeu.
             </p>
           </div>
 
-          <div className="p-6 rounded-3xl bg-white/[0.02] border border-white/10 space-y-2.5">
+          <div className="p-6 rounded-3xl bg-white border border-zinc-200/90 shadow-xs hover:border-zinc-300 transition-all space-y-2.5">
             <span className="text-2xl">🏆</span>
-            <h3 className="text-sm font-extrabold text-white uppercase">3. Un enjeu clair</h3>
-            <p className="text-xs text-gray-400 leading-relaxed">
+            <h3 className="text-sm font-extrabold text-zinc-900 uppercase">3. Un enjeu clair</h3>
+            <p className="text-xs text-zinc-600 leading-relaxed">
               Fixez un gage marrant dès le début de la partie : cela motive tout le monde et crée des souvenirs mémorables.
             </p>
           </div>

@@ -28,6 +28,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { isPreprodEnv } from "@/lib/env";
 
 const PRODUCTS_PER_PAGE = 12;
 
@@ -153,19 +154,23 @@ function BoutiqueClientContent() {
 
     const sortedCats = Object.keys(counts).sort((a, b) => a.localeCompare(b, "fr"));
     
+    const isPreprod = isPreprodEnv();
+
     return [
       { value: "all", label: "Toutes les catégories", count: products.length, icon: getCategoryLucideIcon("all") },
       ...sortedCats.map((cat) => ({
         value: cat,
-        label: cat,
+        label: isPreprod && cat.toLowerCase().includes("pochette") ? "Blind Bags" : cat,
         count: counts[cat],
         icon: getCategoryLucideIcon(cat),
       })),
     ];
   }, [products]);
 
+  const isPreprod = isPreprodEnv();
+
   const sortSelectOptions: CustomSelectOption[] = [
-    { value: "newest", label: "Trier par : Nouveautés", icon: <Sparkles className="w-4 h-4 text-amber-400" /> },
+    { value: "newest", label: isPreprod ? "Trier par : Derniers Drops" : "Trier par : Nouveautés", icon: <Sparkles className="w-4 h-4 text-amber-400" /> },
     { value: "price-asc", label: "Prix : croissant", icon: <TrendingUp className="w-4 h-4 text-emerald-400" /> },
     { value: "price-desc", label: "Prix : décroissant", icon: <TrendingDown className="w-4 h-4 text-rose-400" /> },
     { value: "name-asc", label: "Nom : A-Z", icon: <SortAsc className="w-4 h-4 text-indigo-400" /> },

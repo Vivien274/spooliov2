@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 import { User, Keyboard, KeyRound } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { isPreprodEnv } from "@/lib/env";
 
 export type MysteryCategoryKey = "figurines" | "fidgets" | "gadgets";
 
@@ -40,6 +41,15 @@ export const MYSTERY_CATEGORIES: Record<MysteryCategoryKey, MysteryCategoryConfi
     bgGradient: "from-emerald-400 to-green-600",
   },
 };
+
+export function getMysteryCategoryName(key: MysteryCategoryKey, isPreprod: boolean): string {
+  if (isPreprod) {
+    if (key === "figurines") return "Sculptures & Miniatures";
+    if (key === "fidgets") return "Outils de focus / Stimulation haptique";
+    if (key === "gadgets") return "Objets cool / Desk setup";
+  }
+  return MYSTERY_CATEGORIES[key].name;
+}
 
 export interface MysterySizeOption {
   count: number;
@@ -92,6 +102,8 @@ export default function MysteryPackConfigurator({
   onAddToCart,
   className = "",
 }: MysteryPackConfiguratorProps) {
+  const isPreprod = isPreprodEnv();
+
   // Safe cart context
   let cartContext: ReturnType<typeof useCart> | null = null;
   try {
@@ -285,17 +297,19 @@ export default function MysteryPackConfigurator({
     if (cartContext && cartContext.addToCart) {
       const summaryText = (Object.keys(distribution) as MysteryCategoryKey[])
         .filter((cat) => distribution[cat] > 0)
-        .map((cat) => `${distribution[cat]}x ${MYSTERY_CATEGORIES[cat].name.split(" ")[0]}`)
+        .map((cat) => `${distribution[cat]}x ${getMysteryCategoryName(cat, isPreprod).split(" ")[0]}`)
         .join(", ");
 
       cartContext.addToCart(
         {
           productId: 8888 + selectedSize,
-          name: `Pochette Surprise Spoolio (${selectedSize} objets)`,
+          name: isPreprod
+            ? `Blind Bag Spoolio (${selectedSize} créations)`
+            : `Pochette Surprise Spoolio (${selectedSize} objets)`,
           slug: "pochette-surprise-gachapon",
           price: currentSizeObj.price.toFixed(2),
           selectedOptions: {
-            "Taille de la pochette": `${selectedSize} objets`,
+            [isPreprod ? "Format du Blind Bag" : "Taille de la pochette"]: `${selectedSize} ${isPreprod ? "pièces" : "objets"}`,
             "Composition": summaryText,
           },
           image: "/images/pochette-kraft.jpg",
@@ -522,10 +536,10 @@ export default function MysteryPackConfigurator({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-neutral-800">
             <div>
               <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-antonio)] font-bold uppercase tracking-wide text-white">
-                Pochette Surprise Sur-Mesure
+                {isPreprod ? "Blind Bag Sur-Mesure" : "Pochette Surprise Sur-Mesure"}
               </h2>
               <p className="text-xs sm:text-sm text-gray-400 font-medium mt-1">
-                Choisis le nombre d’objets et dose tes univers 3D
+                {isPreprod ? "Choisis le format et dose tes créations d’atelier 3D" : "Choisis le nombre d’objets et dose tes univers 3D"}
               </p>
             </div>
 
@@ -536,7 +550,7 @@ export default function MysteryPackConfigurator({
                   isQuotaReached ? "text-[#00FF66] price-tag" : "text-[#FF5500]"
                 }`}
               >
-                {totalSelected} / {selectedSize} objets sélectionnés
+                {totalSelected} / {selectedSize} {isPreprod ? "pièces sélectionnées" : "objets sélectionnés"}
               </span>
               <div className="w-36 h-2.5 rounded-full bg-neutral-900 border border-neutral-800 overflow-hidden">
                 <div
@@ -550,7 +564,7 @@ export default function MysteryPackConfigurator({
           {/* 2. ÉTAPE 1 - SELECTION DE TAILLE (3 Onglets Simples Alignés) */}
           <div className="flex flex-col gap-3">
             <label className="text-xs font-[family-name:var(--font-antonio)] font-bold uppercase tracking-wider text-gray-400">
-              1. Choisis la taille de la pochette
+              {isPreprod ? "1. Choisis le format du Blind Bag" : "1. Choisis la taille de la pochette"}
             </label>
 
             <div className="grid grid-cols-3 gap-2 sm:gap-3">
@@ -577,7 +591,7 @@ export default function MysteryPackConfigurator({
                       className="text-sm sm:text-base md:text-lg font-bold font-[family-name:var(--font-plus-jakarta)]"
                       style={{ color: isSelected ? "#ffffff" : undefined }}
                     >
-                      {sizeOpt.label}
+                      {isPreprod ? `${sizeOpt.count} Pièces` : sizeOpt.label}
                     </span>
                     <span
                       className={`text-xs sm:text-sm font-extrabold font-[family-name:var(--font-antonio)] price-tag ${
@@ -627,7 +641,7 @@ export default function MysteryPackConfigurator({
                         );
                       })()}
                       <span className="text-xs sm:text-sm md:text-base font-bold text-white leading-snug break-words">
-                        {cat.name}
+                        {getMysteryCategoryName(catKey, isPreprod)}
                       </span>
                     </div>
 
@@ -690,7 +704,7 @@ export default function MysteryPackConfigurator({
               {isQuotaReached ? (
                 <span>AJOUTER AU PANIER • {currentSizeObj.price.toFixed(2)} € 🛒</span>
               ) : (
-                <span>CHOISIS ENCORE {remainingCount} OBJET(S)...</span>
+                <span>CHOISIS ENCORE {remainingCount} {isPreprod ? "PIÈCE(S)" : "OBJET(S)"}...</span>
               )}
             </button>
 
@@ -709,7 +723,9 @@ export default function MysteryPackConfigurator({
                   exit={{ opacity: 0, y: -10 }}
                   className="p-3 rounded-xl bg-[#00FF66]/15 border border-[#00FF66]/30 text-[#00FF66] text-center font-bold text-xs font-[family-name:var(--font-plus-jakarta)]"
                 >
-                  🎉 Pochette surprise ajoutée avec succès à ton panier !
+                  {isPreprod
+                    ? "🎉 Blind Bag d'atelier ajouté avec succès à ton panier !"
+                    : "🎉 Pochette surprise ajoutée avec succès à ton panier !"}
                 </motion.div>
               )}
             </AnimatePresence>
