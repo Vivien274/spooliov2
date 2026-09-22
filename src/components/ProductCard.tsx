@@ -8,7 +8,7 @@ import { useCart } from "@/context/CartContext";
 import UnicornIcon from "@/components/UnicornIcon";
 import cartIconData from "@/components/shopping bag.json";
 import { useTranslation } from "@/context/LanguageContext";
-import { Check } from "lucide-react";
+import { Check, Sparkles, Flame, Sliders } from "lucide-react";
 
 export interface Product {
   id: number;
@@ -52,6 +52,77 @@ function hasProductVariables(p: any): boolean {
     if (parsed.attributes && Array.isArray(parsed.attributes) && parsed.attributes.length > 0) return true;
   } catch (e) {}
   return false;
+}
+
+interface RarityBadgeInfo {
+  type: "handmade" | "custom" | "new" | "category";
+  label: string;
+  icon?: React.ReactNode;
+  className: string;
+}
+
+function getProductRarityBadge(product: Product, categoryName: string | null): RarityBadgeInfo | null {
+  // 1. Pièce Unique / Fait Main (Art Toy, Peint à la main, Édition d'Atelier)
+  const isHandmade = Boolean(
+    product.slug.includes("fait-main") ||
+    product.slug.includes("piece-unique") ||
+    Boolean((product as any)?.attributes?.uniquePieceData) ||
+    (Array.isArray(product.tags) && product.tags.some((t: any) => {
+      const name = (typeof t === "string" ? t : t?.name || "").toLowerCase();
+      return name.includes("fait-main") || name.includes("art-toy") || name.includes("peint-a-la-main") || name.includes("artisan");
+    })) ||
+    (Array.isArray(product.categories) && product.categories.some((c: any) => {
+      const name = (typeof c === "string" ? c : c?.name || "").toLowerCase();
+      return name.includes("fait main") || name.includes("artisan") || name.includes("unique");
+    }))
+  );
+
+  if (isHandmade) {
+    return {
+      type: "handmade",
+      label: "Pièce Unique • 1/1",
+      icon: <Sparkles className="w-3 h-3 text-amber-300 shrink-0" />,
+      className: "bg-gradient-to-r from-amber-500/95 to-orange-500/95 text-white border border-amber-300/40 shadow-sm",
+    };
+  }
+
+  // 2. Customizer / Produit Sur-Mesure
+  const isCustomizer = hasProductVariables(product) || product.slug.includes("clicker-mecanique") || product.slug.includes("sur-mesure");
+  if (isCustomizer) {
+    return {
+      type: "custom",
+      label: "Sur-mesure",
+      icon: <Sliders className="w-3 h-3 text-zinc-300 shrink-0" />,
+      className: "bg-zinc-950/85 backdrop-blur-md text-zinc-200 border border-white/20 shadow-sm",
+    };
+  }
+
+  // 3. Drop / Nouveauté
+  const isNew = Boolean(
+    product.tags?.some((t: any) => {
+      const name = (typeof t === "string" ? t : t?.name || "").toLowerCase();
+      return name.includes("nouveau") || name.includes("drop") || name.includes("exclusif");
+    })
+  );
+  if (isNew) {
+    return {
+      type: "new",
+      label: "Nouveauté",
+      icon: <Flame className="w-3 h-3 text-[#ff4f00] shrink-0" />,
+      className: "bg-zinc-950/85 backdrop-blur-md text-[#ff4f00] border border-[#ff4f00]/30 shadow-sm",
+    };
+  }
+
+  // 4. Default Category
+  if (categoryName) {
+    return {
+      type: "category",
+      label: categoryName,
+      className: "bg-zinc-950/85 backdrop-blur-md text-zinc-200 border border-white/15 shadow-sm",
+    };
+  }
+
+  return null;
 }
 
 export default function ProductCard({ product, compact = false, priority = false }: ProductCardProps) {
@@ -113,9 +184,13 @@ export default function ProductCard({ product, compact = false, priority = false
     setShineStyle((prev) => ({ ...prev, opacity: 0 }));
   };
 
-  const hasImage = !!product.images[0]?.src;
-  const imageUrl = product.images[0]?.src || "";
-  const imageAlt = product.images[0]?.alt || product.name;
+  const hasImage = !!product.images?.[0]?.src;
+  const imageUrl = product.images?.[0]?.src || "";
+  const imageAlt = product.images?.[0]?.alt || product.name;
+
+  const hasSecondImage = !!product.images?.[1]?.src;
+  const secondImageUrl = product.images?.[1]?.src || "";
+  const secondImageAlt = product.images?.[1]?.alt || `${product.name} - détail`;
 
   // Get first category name if defined, fallback to first tag
   const categoryName = product.categories && product.categories.length > 0 
@@ -123,6 +198,8 @@ export default function ProductCard({ product, compact = false, priority = false
     : (product.tags && product.tags.length > 0 
         ? (typeof product.tags[0] === 'object' ? product.tags[0].name : product.tags[0])
         : null);
+
+  const rarityBadge = getProductRarityBadge(product, categoryName);
 
   // Price formatting to match mockup (e.g. 5,00€)
   const formatPrice = (val: string) => {
@@ -184,17 +261,30 @@ export default function ProductCard({ product, compact = false, priority = false
 
     return (
       <div className="group relative aspect-square w-full rounded-[28px] bg-zinc-100 border border-zinc-200/80 overflow-hidden transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)]">
-        {/* Full-bleed Product Image */}
-        <Link href={`/product/${product.slug}`} className="block w-full h-full relative group/img bg-zinc-50">
+        {/* Full-bleed Product Image with 2nd Image hover transition */}
+        <Link href={`/product/${product.slug}`} className="block w-full h-full relative group/img bg-zinc-50 overflow-hidden">
           {hasImage ? (
-            <Image
-              src={imageUrl}
-              alt={imageAlt}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-              className="object-cover group-hover/img:scale-105 transition-transform duration-500 no-invert"
-              priority={priority}
-            />
+            <>
+              <Image
+                src={imageUrl}
+                alt={imageAlt}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                className={`object-cover transition-all duration-700 ease-out ${
+                  hasSecondImage ? "group-hover/img:opacity-0 group-hover/img:scale-105" : "group-hover/img:scale-105"
+                } no-invert`}
+                priority={priority}
+              />
+              {hasSecondImage && (
+                <Image
+                  src={secondImageUrl}
+                  alt={secondImageAlt}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  className="object-cover absolute inset-0 opacity-0 group-hover/img:opacity-100 scale-100 group-hover/img:scale-105 transition-all duration-700 ease-out no-invert"
+                />
+              )}
+            </>
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-100 text-zinc-400">
               <svg className="w-10 h-10 mb-2 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -204,6 +294,16 @@ export default function ProductCard({ product, compact = false, priority = false
             </div>
           )}
         </Link>
+
+        {/* Top Rarity Badge */}
+        {rarityBadge && (
+          <div className="absolute top-3 left-3 z-20 pointer-events-none">
+            <span className={`inline-flex items-center gap-1.5 px-3 py-1 text-[10px] font-black uppercase tracking-wider rounded-full backdrop-blur-md shadow-sm no-invert keep-white ${rarityBadge.className}`}>
+              {rarityBadge.icon}
+              <span>{decodeHtml(rarityBadge.label)}</span>
+            </span>
+          </div>
+        )}
 
         {/* Specular Bevel Edge */}
         <div className="absolute inset-0 pointer-events-none rounded-[28px] border-t border-l border-white/40 shadow-[inset_0_1.5px_0_rgba(255,255,255,0.6)] z-10" />
@@ -297,14 +397,27 @@ export default function ProductCard({ product, compact = false, priority = false
         {/* Image Container with strict 1:1 square aspect ratio - flush with edges */}
         <div className="relative w-full aspect-square bg-zinc-50 border-b border-zinc-100 overflow-hidden shrink-0">
           {hasImage ? (
-            <Image
-              src={imageUrl}
-              alt={imageAlt}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-[1.02] no-invert"
-              priority={priority}
-            />
+            <>
+              <Image
+                src={imageUrl}
+                alt={imageAlt}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                className={`object-cover transition-all duration-700 ease-out ${
+                  hasSecondImage ? "group-hover:opacity-0 group-hover:scale-105" : "group-hover:scale-105"
+                } no-invert`}
+                priority={priority}
+              />
+              {hasSecondImage && (
+                <Image
+                  src={secondImageUrl}
+                  alt={secondImageAlt}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  className="object-cover absolute inset-0 opacity-0 group-hover:opacity-100 scale-100 group-hover:scale-105 transition-all duration-700 ease-out no-invert"
+                />
+              )}
+            </>
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-50 text-zinc-400">
               <svg className="w-10 h-10 mb-2 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -314,11 +427,21 @@ export default function ProductCard({ product, compact = false, priority = false
             </div>
           )}
 
-          {/* Badges Overlays - Normalized placement */}
-          {categoryName && (
-            <span className="absolute top-3 left-3 sm:top-3.5 sm:left-3.5 px-2.5 sm:px-3 py-1 text-[9px] sm:text-[10px] font-bold bg-zinc-950/90 backdrop-blur-md text-white border border-zinc-800 rounded-full shadow-sm z-10 no-invert">
-              {decodeHtml(categoryName)}
+          {/* Badges Overlays - Dynamic Rarity Badge */}
+          {rarityBadge && (
+            <span className={`absolute top-3 left-3 sm:top-3.5 sm:left-3.5 inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 text-[9px] sm:text-[10px] font-black uppercase tracking-wider rounded-full shadow-sm z-10 no-invert keep-white ${rarityBadge.className}`}>
+              {rarityBadge.icon}
+              <span>{decodeHtml(rarityBadge.label)}</span>
             </span>
+          )}
+
+          {/* Subtle multi-photo indicator */}
+          {hasSecondImage && (
+            <div className="absolute bottom-2.5 right-2.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+              <span className="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-[9px] font-bold text-white uppercase tracking-wider border border-white/15">
+                2 vues
+              </span>
+            </div>
           )}
         </div>
 

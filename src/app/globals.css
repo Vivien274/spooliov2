@@ -921,6 +921,15 @@ html.light button.no-invert * {
   color: #ffffff !important;
 }
 
+/* Force white SVG stroke inside no-invert / keep-white elements */
+html.light .no-invert svg.text-white,
+html.light .keep-white svg.text-white,
+html.light .no-invert svg[stroke="#ffffff"],
+html.light .keep-white svg[stroke="#ffffff"] {
+  stroke: #ffffff !important;
+  color: #ffffff !important;
+}
+
 /* WYSIWYG Editor custom HTML styling inside contentEditable area */
 .wysiwyg-editor-area {
   outline: none;

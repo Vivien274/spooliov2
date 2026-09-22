@@ -89,6 +89,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       "support-clavier-mecanique": "Support Clavier Mécanique",
       "porte-cles-nfc-spoolio": "Porte-clés NFC Spoolio",
       "marcel-le-poulpe-fidget": "Marcel le Poulpe Fidget",
+      "monstre-skateur-fait-main": "Gribouille le Skateur – Figurine Peinte à la Main",
     };
 
     productName = fallbackTitles[slug] || "Produit";

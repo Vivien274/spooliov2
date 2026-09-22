@@ -12,7 +12,7 @@ import HomeEnjeuBanner from "@/components/HomeEnjeuBanner";
 import SpotlightMarqueeBanner from "@/components/SpotlightMarqueeBanner";
 import BoutiqueCTAButton from "@/components/BoutiqueCTAButton";
 import ThemeRibbon from "@/components/ThemeRibbon";
-import { Sparkles, Keyboard, Shapes, Gift } from "lucide-react";
+import { Sparkles, Keyboard, Shapes, Gift, Heart, Sprout, FlaskConical, Recycle, Printer, BookOpen } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import fs from "fs";
 import path from "path";
@@ -257,8 +257,8 @@ export default async function HomePage() {
           <div className="h-full relative rounded-3xl p-6 sm:p-8 bg-zinc-50 border border-zinc-200 overflow-hidden flex flex-col justify-between gap-6 shadow-sm group hover:border-zinc-400 transition-all duration-300">
             <div className="relative z-10 flex flex-col items-start gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-zinc-100 border border-zinc-200 flex items-center justify-center shrink-0 shadow-xs select-none">
-                  <span className="text-xl">🧡</span>
+                <div className="w-12 h-12 rounded-2xl bg-[#ff4f00]/10 border border-[#ff4f00]/20 flex items-center justify-center shrink-0 shadow-xs select-none">
+                  <Heart className="w-6 h-6 text-[#ff4f00] fill-[#ff4f00]/20" />
                 </div>
                 <span className="inline-block px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-[#ff4f00]/10 text-[#ff4f00] border border-[#ff4f00]/20 no-invert">
                   {t("home.donation.badge")}
@@ -294,8 +294,12 @@ export default async function HomePage() {
       {/* 5. PLA Storytelling Timeline Section */}
       <section className="w-full max-w-[1200px] px-4 py-14 relative z-10 border-t border-zinc-200">
         <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-700 text-xs font-black uppercase tracking-wider mb-3">
+            <Sprout className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Matière 100% Végétale</span>
+          </div>
           <h2 className="text-3xl sm:text-4xl font-normal uppercase tracking-wide text-zinc-900 font-righteous">
-            {t("home.timeline.title")} 🌾
+            {t("home.timeline.title")}
           </h2>
           <p className="text-xs sm:text-sm text-zinc-500 font-sans mt-2.5 max-w-lg mx-auto leading-relaxed font-medium">
             {t("home.timeline.subtitle")}
@@ -309,8 +313,11 @@ export default async function HomePage() {
 
           {/* Step 1 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-14 h-14 rounded-full bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center font-black text-xl mb-4 shrink-0 ring-4 ring-white shadow-md transition-all duration-300 group-hover:scale-105">
-              1
+            <div className="relative w-14 h-14 rounded-2xl bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center mb-4 shrink-0 ring-4 ring-zinc-50 shadow-md transition-all duration-300 group-hover:scale-105">
+              <Sprout className="w-6 h-6 text-emerald-400 group-hover:text-white transition-colors" />
+              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white text-zinc-950 text-[10px] font-black flex items-center justify-center border border-zinc-200 shadow-xs">
+                1
+              </span>
             </div>
             <h4 className="text-base sm:text-lg font-bold text-zinc-900 tracking-tight mb-2 font-outfit leading-tight text-center">{t("home.timeline.step1.title")}</h4>
             <p className="text-xs text-zinc-500 leading-relaxed font-medium">
@@ -320,8 +327,11 @@ export default async function HomePage() {
 
           {/* Step 2 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-14 h-14 rounded-full bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center font-black text-xl mb-4 shrink-0 ring-4 ring-white shadow-md transition-all duration-300 group-hover:scale-105">
-              2
+            <div className="relative w-14 h-14 rounded-2xl bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center mb-4 shrink-0 ring-4 ring-zinc-50 shadow-md transition-all duration-300 group-hover:scale-105">
+              <FlaskConical className="w-6 h-6 text-amber-300 group-hover:text-white transition-colors" />
+              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white text-zinc-950 text-[10px] font-black flex items-center justify-center border border-zinc-200 shadow-xs">
+                2
+              </span>
             </div>
             <h4 className="text-base sm:text-lg font-bold text-zinc-900 tracking-tight mb-2 font-outfit leading-tight text-center">{t("home.timeline.step2.title")}</h4>
             <p className="text-xs text-zinc-500 leading-relaxed font-medium">
@@ -331,8 +341,11 @@ export default async function HomePage() {
 
           {/* Step 3 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-14 h-14 rounded-full bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center font-black text-xl mb-4 shrink-0 ring-4 ring-white shadow-md transition-all duration-300 group-hover:scale-105">
-              3
+            <div className="relative w-14 h-14 rounded-2xl bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center mb-4 shrink-0 ring-4 ring-zinc-50 shadow-md transition-all duration-300 group-hover:scale-105">
+              <Recycle className="w-6 h-6 text-emerald-400 group-hover:text-white transition-colors" />
+              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white text-zinc-950 text-[10px] font-black flex items-center justify-center border border-zinc-200 shadow-xs">
+                3
+              </span>
             </div>
             <h4 className="text-base sm:text-lg font-bold text-zinc-900 tracking-tight mb-2 font-outfit leading-tight text-center">{t("home.timeline.step3.title")}</h4>
             <p className="text-xs text-zinc-500 leading-relaxed font-medium">
@@ -342,8 +355,11 @@ export default async function HomePage() {
 
           {/* Step 4 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-14 h-14 rounded-full bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center font-black text-xl mb-4 shrink-0 ring-4 ring-white shadow-md transition-all duration-300 group-hover:scale-105">
-              4
+            <div className="relative w-14 h-14 rounded-2xl bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center mb-4 shrink-0 ring-4 ring-zinc-50 shadow-md transition-all duration-300 group-hover:scale-105">
+              <Printer className="w-6 h-6 text-[#ff4f00] group-hover:text-white transition-colors" />
+              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white text-zinc-950 text-[10px] font-black flex items-center justify-center border border-zinc-200 shadow-xs">
+                4
+              </span>
             </div>
             <h4 className="text-base sm:text-lg font-bold text-zinc-900 tracking-tight mb-2 font-outfit leading-tight text-center">{t("home.timeline.step4.title")}</h4>
             <p className="text-xs text-zinc-500 leading-relaxed font-medium">
@@ -353,8 +369,11 @@ export default async function HomePage() {
 
           {/* Step 5 */}
           <div className="relative z-10 flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-14 h-14 rounded-full bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center font-black text-xl mb-4 shrink-0 ring-4 ring-white shadow-md transition-all duration-300 group-hover:scale-105">
-              5
+            <div className="relative w-14 h-14 rounded-2xl bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center mb-4 shrink-0 ring-4 ring-zinc-50 shadow-md transition-all duration-300 group-hover:scale-105">
+              <Sparkles className="w-6 h-6 text-amber-300 group-hover:text-white transition-colors" />
+              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white text-zinc-950 text-[10px] font-black flex items-center justify-center border border-zinc-200 shadow-xs">
+                5
+              </span>
             </div>
             <h4 className="text-base sm:text-lg font-bold text-zinc-900 tracking-tight mb-2 font-outfit leading-tight text-center">{t("home.timeline.step5.title")}</h4>
             <p className="text-xs text-zinc-500 leading-relaxed font-medium">
@@ -363,7 +382,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
 
       {/* Spotlight Marquee Banner */}
       <section className="w-full max-w-[1200px] px-4 relative z-10">
@@ -382,7 +400,7 @@ export default async function HomePage() {
               {/* Title Header */}
               <div className="flex items-center justify-between border-b border-zinc-200 pb-3">
                 <div className="flex items-center gap-2">
-                  <span className="text-lg">📝</span>
+                  <BookOpen className="w-4 h-4 text-[#ff4f00]" />
                   <h4 className="text-base font-extrabold text-zinc-900 tracking-tight uppercase font-outfit">
                     Spoolio • Le blog
                   </h4>
@@ -416,8 +434,8 @@ export default async function HomePage() {
                           />
                         </div>
                       ) : (
-                        <div className="w-12 h-12 rounded-xl bg-zinc-100 flex items-center justify-center text-lg shrink-0 border border-zinc-200">
-                          🤖
+                        <div className="w-12 h-12 rounded-xl bg-zinc-100 flex items-center justify-center shrink-0 border border-zinc-200 text-zinc-400">
+                          <BookOpen className="w-5 h-5" />
                         </div>
                       )}
                       <div className="flex flex-col min-w-0 space-y-0.5">

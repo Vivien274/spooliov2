@@ -1,5 +1,26 @@
 [
   {
+    "id": "SP-35180",
+    "stripeSession": "cs_live_b11tH0en7ZHo4bIcup7EZEypVedl0Rp0K2dEtKHVm8YdZOahCpX7KaowpO",
+    "email": "nanoutasoeur@gmail.com",
+    "customerName": "Anne Reggio",
+    "customerPhone": null,
+    "shippingAddress": null,
+    "trackingNumber": null,
+    "items": "[{\"name\":\"Calendrier de l'Avent Spoolio (Formule: Offre de Lancement (45€ + 25ème Cadeau Exclusif Offert), Contenu: 24 créations 3D + 25ème cadeau surprise + Kit Guirlande DIY)\",\"quantity\":1,\"price\":\"45.00\"},{\"name\":\"Arrondi Solidaire 🌾\",\"quantity\":1,\"price\":\"1.00\"}]",
+    "total": 41.4,
+    "shippingCost": 0,
+    "shippingMethod": "pickup",
+    "status": "attente_impression",
+    "archived": false,
+    "relayDetails": null,
+    "pickupSlotRequested": "Samedi : 8h - 20h",
+    "pickupSlotConfirmed": null,
+    "pickupStatus": "pending",
+    "createdAt": "2026-09-19T09:30:27.792Z",
+    "updatedAt": "2026-09-19T09:30:27.792Z"
+  },
+  {
     "id": "SP-86397",
     "stripeSession": "cs_live_a1ytlWHuhGZpuArlfSs4ayBPqgJE4rR7RDD0G5Ta7I7jFvY9ElUPJrUjbv",
     "email": "justine.danteuille@outlook.fr",

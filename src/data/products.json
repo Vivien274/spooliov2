@@ -1,5 +1,190 @@
 [
   {
+    "id": 16,
+    "name": "Skratch le Skateur – Figurine Peinte à la Main",
+    "slug": "monstre-skateur-fait-main",
+    "price": "59.00",
+    "regular_price": "59.00",
+    "status": "publish",
+    "stock": 1,
+    "attributes": {
+      "attributes": [],
+      "variationPrices": [],
+      "tags": [
+        "fait-main",
+        "piece-unique"
+      ],
+      "uniquePieceData": {
+        "hero": {
+          "badge": "✨ Édition Atelier Spoolio • Fait Main",
+          "availabilityBadge": "Pièce Unique en Stock (1 seul dispo)",
+          "punchline": "Imprimé en 3D haute définition, entièrement préparé et peint à l'aérographe et au pinceau dans notre atelier à Comines (Nord).",
+          "microPerks": [
+            {
+              "icon": "🎨",
+              "text": "Peint à la main"
+            },
+            {
+              "icon": "🛡️",
+              "text": "Vernis protecteur satiné"
+            },
+            {
+              "icon": "🇫🇷",
+              "text": "Atelier de Comines"
+            }
+          ]
+        },
+        "gallery": {
+          "badge": "📸 Galerie Photos",
+          "title": "Vues Détaillées de l'Atelier",
+          "description": "Explorez les finitions, les coups de pinceau et la patine sous tous les angles.",
+          "items": [
+            {
+              "src": "/images/produits/monstre-skateur-fait-main.jpg",
+              "caption": "Vue principale – Figurine sur son établi d'atelier",
+              "alt": "Figurine peinte à la main sur établi de découpe"
+            }
+          ]
+        },
+        "savoirFaire": {
+          "badge": "🖐️ Atelier Français",
+          "title": "Le Savoir-Faire Artisanal",
+          "intro": "Chaque figurine nécessite plusieurs heures de travail minutieux. Voici les 4 étapes qui donnent vie à cette création :",
+          "steps": [
+            {
+              "stepNumber": 1,
+              "title": "Impression 3D Haute Précision",
+              "description": "13 heures d'extrusion lente à 0.08 mm par couche pour restituer l'ensemble des textures."
+            },
+            {
+              "stepNumber": 2,
+              "title": "Ponçage Manuel & Ébavurage",
+              "description": "Préparation méticuleuse et ponçage manuelle à l'eau, pour gommer les lignes d'impression."
+            },
+            {
+              "stepNumber": 3,
+              "title": "Peint à la Main",
+              "description": "Peinture réalisée à l'aérographe et au pinceau à main levée en plusieurs passages soignés (teinte bordeaux, pantalon, yeux et langue)."
+            },
+            {
+              "stepNumber": 4,
+              "title": "Vernis Protecteur Satiné",
+              "description": "Finition protectrice anti-UV et résistante aux manipulations quotidiennes sur votre bureau."
+            }
+          ],
+          "quote": "« Deux figurines ne sont jamais 100% identiques : chaque coup de pinceau en fait une œuvre singulière. »"
+        },
+        "lore": {
+          "badge": "🛹 L'Histoire de la Création",
+          "title": "Le roi de la street",
+          "paragraphs": [
+            "Né d’un croquis spontané sur un coin d’établi dans notre atelier de Comines, ce personnage est un garnement intrépide de Spoolio.",
+            "Avec son regard espiègle, ses finitions soignées et son caractère affirmé, il incarne l’esprit fun, rebelle et créatif de l'artisanat 3D.",
+            "Il trônera fièrement sur votre bureau, votre étagère de collection ou votre setup gaming."
+          ]
+        },
+        "specs": {
+          "badge": "📐 Fiche Technique & Matériaux",
+          "title": "Caractéristiques & Entretien",
+          "items": [
+            {
+              "label": "Hauteur Totale",
+              "value": "15 cm"
+            },
+            {
+              "label": "Planche / Base",
+              "value": "11 x 4,5 cm"
+            },
+            {
+              "label": "Poids Estimé",
+              "value": "~160 grammes"
+            },
+            {
+              "label": "Matériau",
+              "value": "PLA Biosourcé + Peint à la main"
+            },
+            {
+              "label": "Temps d'Atelier",
+              "value": "~8h30 de travail manuel"
+            },
+            {
+              "label": "Entretien",
+              "value": "Chiffon microfibre sec"
+            }
+          ]
+        },
+        "ecrin": {
+          "badge": "🎁 Protection Renforcée",
+          "title": "Un Écrin Spécial pour une Pièce d'Art",
+          "intro": "Une figurine peinte à la main requiert une attention toute particulière lors de son voyage. Votre colis comprend :",
+          "points": [
+            "Boîte kraft rigide Spoolio renforcée",
+            "Calage individuel anti-chocs sur-mesure",
+            "Certificat numéroté signé par l'artisan",
+            "Pack de stickers exclusifs Spoolio offert"
+          ],
+          "origin": "Comines, France 🇫🇷",
+          "shippingMethod": "Expédition Colissimo Suivi ou Mondial Relay"
+        },
+        "faq": {
+          "badge": "💬 FAQ Fait Main",
+          "title": "Vos Questions",
+          "items": [
+            {
+              "q": "La peinture est-elle fragile ?",
+              "a": "La figurine est protégée avec un vernis protecteur satiné (anti-UV et résistant aux manipulations). Elle peut être manipulée sans risque mais reste un objet d'art à manipuler avec soin."
+            },
+            {
+              "q": "Les roues du skate tournent-elles ?",
+              "a": "Non, les roues sont solidement fixées au plateau afin de garantir une stabilité parfaite lorsqu'elle est posée sur un meuble ou bureau."
+            },
+            {
+              "q": "Puis-je demander des couleurs personnalisées ?",
+              "a": "Plutôt non : il s'agit de créations artistiques conçues comme des pièces uniques d'atelier. Sauf cas très rares (dans ce cas vous pouvez me contacter via la page Contact pour en discuter), ces figurines restent des pièces uniques non déclinables."
+            }
+          ]
+        }
+      }
+    },
+    "images": [
+      {
+        "id": 1,
+        "src": "/images/produits/monstre-skateur-fait-main.jpg",
+        "alt": "Skratch le Skateur – Figurine Peinte à la Main",
+        "name": "Skratch le Skateur – Figurine Peinte à la Main"
+      }
+    ],
+    "uniquePieceData": {
+      "gallery": {
+        "badge": "Galerie Photos",
+        "title": "Vues détaillées",
+        "description": "",
+        "items": [
+          {
+            "src": "/images/produits/monstre-skateur-fait-main.jpg",
+            "caption": "Vue principale – Figurine sur son établi d'atelier",
+            "alt": "Figurine peinte à la main sur établi de découpe"
+          },
+          {
+            "src": "/images/produits/monstre-skateur-macro-visage.jpg",
+            "caption": "Macro visage – Regard espiègle & peinture de précision",
+            "alt": "Détail macro du visage et des yeux peints à la main"
+          },
+          {
+            "src": "/images/produits/monstre-skateur-macro-skate.jpg",
+            "caption": "Macro skateboard – Plateau street & roues sculptées",
+            "alt": "Détail macro du plateau de skateboard"
+          },
+          {
+            "src": "/images/imported/Spoolio_Monstre-A-Peindre-1-scaled.jpeg",
+            "caption": "Étape d'atelier – Tirage brut en impression 3D avant ponçage & peinture",
+            "alt": "Tirage brut en impression 3D avant travail manuel"
+          }
+        ]
+      }
+    }
+  },
+  {
     "id": 13167,
     "name": "Support de téléphone industriel",
     "slug": "support-telephone-industriel",
@@ -87220,7 +87405,7 @@
     "status": "publish",
     "featured": false,
     "catalog_visibility": "visible",
-    "description": "<p class=\"p1\"><b>Une baguette magique télescopique… pour les petits comme les grands rêveurs.</b><b></b></p>\n<p class=\"p2\">Chez Spoolio, on adore les gadgets qui donnent envie de rejouer, d’inventer, de s’émerveiller. Et cette baguette magique télescopique est exactement ça : un objet simple, mais qui transforme une journée normale en moment extraordinaire.</p>\n<p class=\"p2\">Imprimée avec soin en 3D dans nos ateliers, cette baguette télescopique se déplie d’un geste souple et rapide, comme par enchantement. Elle reprend les codes de l’univers fantastique qu’on aime tant — sans le citer bien sûr 😉 — avec un look élégant et une finition digne d’un vrai sorcier ou sorcière en herbe. Elle plaira aux enfants… mais aussi aux adultes qui ont gardé une part de magie dans leur quotidien (et chez Spoolio, on sait que vous êtes nombreux).</p>\n<p><img class=\"alignnone size-medium\" src=\"/images/imported/BaguetteMagique.gif\" width=\"640\" height=\"1138\" /></p>\n<h3><b>✨ Une fabrication locale, soignée et pleine de malice</b></h3>\n<p class=\"p2\">Chaque baguette magique télescopique est imprimée en PLA, un matériau biosourcé et respectueux de l’environnement. Elle est légère, solide, et conçue pour résister à de nombreuses aventures.</p>\n<p class=\"p2\">Elle tient dans une poche ou un sac à dos, parfaite pour improviser une séance de sortilèges à la récré ou dans le salon.</p>\n<p class=\"p2\">Une fois repliée, elle est toute discrète. Une fois déployée… wahou ! Elle mesure environ 30 cm de long et permet de faire un effet bluffant. C’est un objet de jeu, de déco ou de collection.</p>\n<h3><b>🎁 Une idée cadeau originale pour petits magiciens et grands rêveurs</b></h3>\n<p class=\"p2\">Cette baguette plaira :</p>\n<ul>\n<li>\n<p class=\"p1\">aux enfants fans de magie et d’univers fantastiques,</p>\n</li>\n<li>\n<p class=\"p1\">aux ados et adultes geeks,</p>\n</li>\n<li>\n<p class=\"p1\">aux collectionneurs de gadgets ludiques et imprimés en 3D,</p>\n</li>\n<li>\n<p class=\"p1\">à tous ceux qui veulent ajouter une touche fun à leur intérieur (ou bureau !).</p>\n</li>\n</ul>\n<p class=\"p2\">C’est aussi un cadeau parfait à offrir lors d’un anniversaire, d’une soirée déguisée ou comme clin d’œil magique dans une pochette surprise.</p>\n<hr />\n<h3><b>🛍️ En résumé :</b></h3>\n<ul>\n<li>\n<p class=\"p1\">Baguette magique télescopique imprimée en 3D</p>\n</li>\n<li>\n<p class=\"p1\">Fabriquée avec amour en France</p>\n</li>\n<li>\n<p class=\"p1\">Longueur dépliée : env. 30 cm</p>\n</li>\n<li>\n<p class=\"p1\">Matière : PLA biosourcé</p>\n</li>\n<li>\n<p class=\"p1\">Disponible en plusieurs couleurs</p>\n</li>\n<li>\n<p class=\"p1\">À utiliser sans abuser… ou tu risques de vraiment lancer un sort 🤭</p>\n</li>\n</ul>\n",
+    "description": "<p class=\"p1\"><b>Une baguette magique télescopique… pour les petits comme les grands rêveurs.</b><b></b></p>\n<p class=\"p2\">Chez Spoolio, on adore les gadgets qui donnent envie de rejouer, d’inventer, de s’émerveiller. Et cette baguette magique télescopique est exactement ça : un objet simple, mais qui transforme une journée normale en moment extraordinaire.</p>\n<p class=\"p2\">Imprimée avec soin en 3D dans nos ateliers, cette baguette télescopique se déplie d’un geste souple et rapide, comme par enchantement. Elle reprend les codes de l’univers fantastique qu’on aime tant — sans le citer bien sûr 😉 — avec un look élégant et une finition digne d’un vrai sorcier ou sorcière en herbe. Elle plaira aux enfants… mais aussi aux adultes qui ont gardé une part de magie dans leur quotidien (et chez Spoolio, on sait que vous êtes nombreux).</p>\n<h3><b>✨ Une fabrication locale, soignée et pleine de malice</b></h3>\n<p class=\"p2\">Chaque baguette magique télescopique est imprimée en PLA, un matériau biosourcé et respectueux de l’environnement. Elle est légère, solide, et conçue pour résister à de nombreuses aventures.</p>\n<p class=\"p2\">Elle tient dans une poche ou un sac à dos, parfaite pour improviser une séance de sortilèges à la récré ou dans le salon.</p>\n<p class=\"p2\">Une fois repliée, elle est toute discrète. Une fois déployée… wahou ! Elle mesure environ 30 cm de long et permet de faire un effet bluffant. C’est un objet de jeu, de déco ou de collection.</p>\n<h3><b>🎁 Une idée cadeau originale pour petits magiciens et grands rêveurs</b></h3>\n<p class=\"p2\">Cette baguette plaira :</p>\n<ul>\n<li>\n<p class=\"p1\">aux enfants fans de magie et d’univers fantastiques,</p>\n</li>\n<li>\n<p class=\"p1\">aux ados et adultes geeks,</p>\n</li>\n<li>\n<p class=\"p1\">aux collectionneurs de gadgets ludiques et imprimés en 3D,</p>\n</li>\n<li>\n<p class=\"p1\">à tous ceux qui veulent ajouter une touche fun à leur intérieur (ou bureau !).</p>\n</li>\n</ul>\n<p class=\"p2\">C’est aussi un cadeau parfait à offrir lors d’un anniversaire, d’une soirée déguisée ou comme clin d’œil magique dans une pochette surprise.</p>\n<hr />\n<h3><b>🛍️ En résumé :</b></h3>\n<ul>\n<li>\n<p class=\"p1\">Baguette magique télescopique imprimée en 3D</p>\n</li>\n<li>\n<p class=\"p1\">Fabriquée avec amour en France</p>\n</li>\n<li>\n<p class=\"p1\">Longueur dépliée : env. 30 cm</p>\n</li>\n<li>\n<p class=\"p1\">Matière : PLA biosourcé</p>\n</li>\n<li>\n<p class=\"p1\">Disponible en plusieurs couleurs</p>\n</li>\n<li>\n<p class=\"p1\">À utiliser sans abuser… ou tu risques de vraiment lancer un sort 🤭</p>\n</li>\n</ul>\n",
     "short_description": "<p><b>🧙‍♂️ </b>Abracadaboum ! Découvre la baguette magique télescopique : elle s’allonge d’un simple coup de poignet et transforme les journées ordinaires en grandes aventures ! À glisser dans un sac, à offrir ou à garder sur son bureau pour canaliser ses pouvoirs.</p>\n",
     "sku": "",
     "price": "6",

@@ -11,6 +11,7 @@ import UnicornIcon from "@/components/UnicornIcon";
 import { useCart } from "@/context/CartContext";
 import { parseNoiseLevel, formatNoiseLevelText } from "@/lib/sensoryUtils";
 import cartIconData from "@/components/shopping bag.json";
+import HandmadeProductView from "@/components/HandmadeProductView";
 
 interface ProductDetailClientProps {
   slug: string;
@@ -38,6 +39,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [includeNfcBadge, setIncludeNfcBadge] = useState(false);
   const [showStickyBar, setShowStickyBar] = useState(false);
+  const [layoutMode, setLayoutMode] = useState<"auto" | "handmade" | "standard">("auto");
   const mainCtaRef = useRef<HTMLDivElement>(null);
 
   // Scroll listener for Mobile Sticky Add-to-Cart Bar (Point 6 UX)
@@ -305,7 +307,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
     async function fetchProduct() {
       try {
         const endpoint = isDraftPreview ? `/api/products/${slug}?status=all` : `/api/products/${slug}`;
-        const res = await fetch(endpoint);
+        const res = await fetch(endpoint, { cache: "no-store" });
         if (!res.ok) {
           throw new Error("Produit introuvable");
         }
@@ -746,6 +748,104 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
     setTimeout(() => setIsAdded(false), 2000);
   };
 
+  const isHandmadeProduct = Boolean(
+    slug.includes("fait-main") ||
+    Boolean((product as any)?.attributes?.uniquePieceData) ||
+    (Array.isArray(product?.categories) && product.categories.some((c: any) => 
+      (c.name || "").toLowerCase().includes("fait main") || 
+      (c.name || "").toLowerCase().includes("artisan") || 
+      (c.name || "").toLowerCase().includes("peint") || 
+      (c.slug || "").includes("fait-main")
+    )) ||
+    (Array.isArray(product?.tags) && product.tags.some((t: any) => 
+      (typeof t === "string" ? t : t.name || "").toLowerCase().includes("fait-main") || 
+      (typeof t === "string" ? t : t.name || "").toLowerCase().includes("art-toy") ||
+      (typeof t === "string" ? t : t.name || "").toLowerCase().includes("peint-a-la-main")
+    ))
+  );
+
+  const activeLayout = layoutMode === "auto" ? (isHandmadeProduct ? "handmade" : "standard") : layoutMode;
+
+  if (activeLayout === "handmade" && product) {
+    return (
+      <div className="min-h-screen bg-white text-zinc-900 font-sans flex flex-col justify-between selection:bg-spoolio-orange selection:text-black">
+        <Header />
+        
+        <HandmadeProductView
+          product={product}
+          displayName={displayName}
+          displayShortDesc={displayShortDesc}
+          displayFullDesc={displayFullDesc}
+          currentPrice={currentPrice}
+          selectedOptions={selectedOptions}
+          setSelectedOptions={setSelectedOptions}
+          quantity={quantity}
+          setQuantity={setQuantity}
+          handleAddToCart={handleAddToCartClick}
+          isAdded={isAdded}
+          onToggleStandardView={() => setLayoutMode("standard")}
+          isStandardAvailable={true}
+        />
+
+        {/* Mobile Sticky Add to Cart Bar */}
+        {showStickyBar && (
+          <div className="fixed bottom-0 inset-x-0 z-40 bg-zinc-950/95 border-t border-white/10 p-3 sm:hidden backdrop-blur-lg flex items-center justify-between gap-3 shadow-2xl animate-fadeIn no-invert keep-white">
+            <div>
+              <div className="text-xs font-black text-white truncate max-w-[180px]">{displayName}</div>
+              <div className="text-sm font-extrabold text-[#ff4f00]">{formatPrice(currentPrice)}€</div>
+            </div>
+            <button
+              type="button"
+              onClick={handleAddToCartClick}
+              className="px-4 py-2.5 rounded-xl bg-[#ff4f00] text-white text-xs font-black uppercase tracking-wider shadow-lg cursor-pointer"
+            >
+              {isAdded ? "Ajouté !" : "Commander"}
+            </button>
+          </div>
+        )}
+
+        {/* Related Products */}
+        {relatedProducts.length > 0 && (
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-zinc-200 w-full bg-white">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl sm:text-2xl font-black text-zinc-950">
+                Autres créations de l'atelier
+              </h3>
+              <Link href="/boutique" className="text-xs font-bold text-[#ff4f00] hover:underline">
+                Voir toute la boutique →
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              {relatedProducts.slice(0, 4).map((rel) => (
+                <Link
+                  key={rel.id}
+                  href={`/product/${rel.slug}`}
+                  className="group bg-zinc-50 border border-zinc-200 rounded-2xl p-3 hover:border-[#ff4f00] hover:shadow-md transition-all block"
+                >
+                  <div className="relative aspect-square rounded-xl overflow-hidden mb-2 bg-zinc-100">
+                    <Image
+                      src={rel.images?.[0]?.src || "/images/figma_keychains.jpg"}
+                      alt={rel.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform"
+                    />
+                  </div>
+                  <div className="text-xs font-bold text-zinc-900 truncate">{rel.name}</div>
+                  <div className="text-xs font-black text-[#ff4f00] mt-1">{formatPrice(rel.price)}€</div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+          <EnjeuBanner />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col justify-between selection:bg-spoolio-orange selection:text-black">
       {/* Sticky Header */}
@@ -787,6 +887,17 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
           <span className="text-zinc-900 font-bold truncate">
             {product.name}
           </span>
+
+          {/* Test Switcher to Handmade View */}
+          <button
+            type="button"
+            onClick={() => setLayoutMode("handmade")}
+            className="ml-auto inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff4f00]/10 hover:bg-[#ff4f00]/20 border border-[#ff4f00]/30 text-xs font-bold text-[#ff4f00] transition-all cursor-pointer shrink-0"
+            title="Tester la mise en page immersive Fait Main"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00] animate-ping" />
+            <span>Vue Fait Main (Fofolle)</span>
+          </button>
         </nav>
 
         {/* 2-Column Product Layout */}
