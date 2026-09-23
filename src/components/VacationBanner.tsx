@@ -7,7 +7,7 @@ import { AnnouncementBannerConfig, DEFAULT_BANNER_CONFIG } from "@/app/api/annou
 
 export default function VacationBanner() {
   const [config, setConfig] = useState<AnnouncementBannerConfig>(DEFAULT_BANNER_CONFIG);
-  const [isVisible, setIsVisible] = useState<boolean>(true);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -16,6 +16,8 @@ export default function VacationBanner() {
       const isDismissed = sessionStorage.getItem("spoolio_vacation_banner_dismissed");
       if (isDismissed === "true") {
         setIsVisible(false);
+        setLoading(false);
+        return;
       }
     } catch (e) {}
 
@@ -27,6 +29,7 @@ export default function VacationBanner() {
           const data = await res.json();
           if (data.config) {
             setConfig(data.config);
+            setIsVisible(Boolean(data.config.enabled));
           }
         }
       } catch (e) {
@@ -46,7 +49,7 @@ export default function VacationBanner() {
     } catch (e) {}
   };
 
-  if (!isVisible || !config.enabled) return null;
+  if (loading || !isVisible || !config.enabled) return null;
 
   const gradientClass = config.bgGradient || "from-[#12131c] via-[#1c1e2d] to-[#12131c]";
 

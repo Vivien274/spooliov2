@@ -14,9 +14,9 @@ export interface AnnouncementBannerConfig {
 }
 
 export const DEFAULT_BANNER_CONFIG: AnnouncementBannerConfig = {
-  enabled: true,
-  badgeText: "Vacances",
-  message: "Spoolio prend quelques jours de vacances, les imprimantes reprennent du service à partir du 29 Août !",
+  enabled: false,
+  badgeText: "Info",
+  message: "",
   buttonText: "",
   buttonLink: "",
   bgGradient: "from-[#12131c] via-[#1c1e2d] to-[#12131c]",
