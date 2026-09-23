@@ -30,6 +30,7 @@ interface ProductData {
   descriptionEn?: string;
   category: string;
   tags: string[];
+  badge?: string;
   price: string;
   salePrice: string;
   productType: string;
@@ -122,6 +123,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
     descriptionEn: "",
     category: "",
     tags: [],
+    badge: "",
     price: "",
     salePrice: "",
     productType: "simple",
@@ -261,9 +263,13 @@ export default function ProductFormClient({ productId, isNew }: Props) {
             normalizedProduct.sensoryCategory = normalizedProduct.sensoryCategory || normalizedProduct.sensory_category || "manipuler";
             normalizedProduct.sensoryProfiles = Array.isArray(normalizedProduct.sensoryProfiles) && normalizedProduct.sensoryProfiles.length > 0
               ? normalizedProduct.sensoryProfiles
-              : (normalizedProduct.sensory_profiles
-                  ? (Array.isArray(normalizedProduct.sensory_profiles) ? normalizedProduct.sensory_profiles : String(normalizedProduct.sensory_profiles).split(',').map((s: string) => s.trim()))
-                  : []);
+              : [];
+
+            const productAttrs = normalizedProduct.attributes;
+            const attrBadge = (productAttrs && typeof productAttrs === "object" && !Array.isArray(productAttrs) && typeof productAttrs.badge === "string")
+              ? productAttrs.badge
+              : "";
+            normalizedProduct.badge = normalizedProduct.badge || attrBadge || "";
 
             setForm(normalizedProduct);
           }
@@ -1742,6 +1748,50 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                 >
                   Ajouter
                 </button>
+              </div>
+            </SectionCard>
+
+            {/* 5 bis. Badge personnalisé sur carte produit */}
+            <SectionCard
+              title="Badge personnalisé (Carte Produit)"
+              icon={<svg className="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>}
+              cardBg={cls.cardBg} border={cls.border} textMain={cls.textMain}
+            >
+              <div className="flex flex-col gap-2.5">
+                <p className={`text-xs ${cls.textMuted}`}>
+                  Texte du badge affiché en surimpression sur la carte du produit dans la grille (ex: <em>Best-Seller</em>, <em>Coup de cœur</em>, <em>Édition Limitée</em>, <em>Nouveauté</em>, <em>Sur-mesure</em>). Laissez ce champ vide si vous ne souhaitez aucun badge sur ce produit.
+                </p>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="text"
+                    value={form.badge || ""}
+                    onChange={(e) => set("badge")(e.target.value)}
+                    placeholder="Ex: Coup de cœur, Best-seller, Édition limitée..."
+                    className={`flex-1 ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-sm ${cls.textMain} placeholder-gray-400 focus:outline-none focus:border-[#2F3CD9]/50 transition-colors`}
+                  />
+                  {form.badge && (
+                    <button
+                      type="button"
+                      onClick={() => set("badge")("")}
+                      className="px-3 py-2 text-xs font-bold text-red-400 hover:text-red-300 transition-colors cursor-pointer"
+                    >
+                      Effacer
+                    </button>
+                  )}
+                </div>
+                {form.badge ? (
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className={`text-[11px] ${cls.textMuted}`}>Aperçu sur la carte :</span>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black tracking-wider uppercase bg-zinc-950/85 text-zinc-100 border border-white/20 shadow-xs">
+                      <span>🏷️</span>
+                      <span>{form.badge}</span>
+                    </span>
+                  </div>
+                ) : (
+                  <span className={`text-[11px] ${cls.textMuted}`}>
+                    Aucun badge ne sera affiché sur la carte de ce produit.
+                  </span>
+                )}
               </div>
             </SectionCard>
 

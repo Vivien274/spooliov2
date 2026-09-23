@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function CartPage() {
   return (
-    <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#fafaf9] text-zinc-900 font-sans flex flex-col items-center selection:bg-[#ff4f00] selection:text-white overflow-x-hidden">
       {/* Navigation Header */}
       <Header />
 
@@ -19,7 +19,7 @@ export default function CartPage() {
       </main>
 
       {/* Footer */}
-      <Footer className="w-full bg-[#111] border-t border-white/5 py-12 text-center" />
+      <Footer />
     </div>
   );
 }

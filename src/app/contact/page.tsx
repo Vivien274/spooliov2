@@ -51,31 +51,35 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-black">
+    <div className="min-h-screen bg-[#fafaf9] text-zinc-900 font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-white">
       {/* Sticky Header */}
       <Header />
 
       {/* Main Content */}
       <main className="flex-1 max-w-[900px] w-full mx-auto px-6 pt-28 lg:pt-32 pb-12 lg:pb-16">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-xs font-semibold text-gray-500 mb-8 font-sans select-none">
-          <Link href="/" className="hover:text-white transition-colors duration-200">
+        <nav className="flex items-center gap-2 text-xs font-semibold text-zinc-500 mb-8 font-sans select-none">
+          <Link href="/" className="hover:text-zinc-950 transition-colors duration-200">
             Accueil
           </Link>
-          <span className="text-gray-700 font-bold">/</span>
-          <span className="text-white font-black">Contact</span>
+          <span className="text-zinc-300 font-bold">/</span>
+          <span className="text-zinc-950 font-bold">Contact</span>
         </nav>
 
         {/* Page Title & Intro */}
-        <section className="text-center py-8 mb-12 border-b border-spoolio-border/40">
-          <span className="text-xs text-[#2F3CD9] font-black uppercase tracking-widest block mb-3 font-sans">
-            Une question ? Une idée ?
+        <section className="text-center py-8 mb-12 border-b border-zinc-200/80">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-orange-200 bg-orange-50 text-xs font-semibold text-orange-700 mb-4">
+            <span>👋</span>
+            <span>Une question ? Un projet spécial ?</span>
           </span>
-          <h1 className="text-4xl md:text-5xl font-extrabold uppercase tracking-tight text-white font-antonio leading-none mb-6">
-            Contactez l'Atelier
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-zinc-950 font-righteous leading-tight mb-4">
+            Contactez{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4f00] via-amber-500 to-[#ff4f00]">
+              l&apos;Atelier
+            </span>
           </h1>
-          <p className="text-gray-400 text-sm max-w-xl mx-auto leading-relaxed font-sans">
-            Que ce soit pour une question sur une commande, une demande d'impression 3D personnalisée ou juste pour nous saluer, notre équipe vous répond avec grand plaisir !
+          <p className="text-zinc-600 text-sm md:text-base max-w-xl mx-auto leading-relaxed font-sans">
+            Que ce soit pour une question sur une commande, une demande d&apos;impression 3D personnalisée ou juste pour nous saluer, notre équipe vous répond avec grand plaisir !
           </p>
         </section>
 
@@ -84,30 +88,30 @@ export default function ContactPage() {
           
           {/* Column 1: Info Cards (1/3 width) */}
           <div className="md:col-span-1 flex flex-col gap-4 font-sans">
-            <div className="bg-spoolio-card border border-spoolio-border rounded-2xl p-5 flex flex-col gap-2">
+            <div className="bg-white border border-zinc-200/90 rounded-2xl p-5 flex flex-col gap-2 shadow-xs">
               <span className="text-lg">📧</span>
-              <span className="text-[10px] font-black text-gray-500 uppercase tracking-wider">E-mail de support</span>
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">E-mail de support</span>
               <a
                 href="mailto:contact@spoolio.fr"
-                className="text-xs text-white hover:text-[#ff4f00] font-bold transition-colors"
+                className="text-xs text-zinc-950 hover:text-[#ff4f00] font-bold transition-colors"
               >
                 contact@spoolio.fr
               </a>
             </div>
 
-            <div className="bg-spoolio-card border border-spoolio-border rounded-2xl p-5 flex flex-col gap-2">
+            <div className="bg-white border border-zinc-200/90 rounded-2xl p-5 flex flex-col gap-2 shadow-xs">
               <span className="text-lg">📍</span>
-              <span className="text-[10px] font-black text-gray-500 uppercase tracking-wider">Notre atelier</span>
-              <span className="text-xs text-white font-bold leading-normal">
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Notre atelier</span>
+              <span className="text-xs text-zinc-900 font-bold leading-normal">
                 Comines (59560)<br />
                 Nord, France 🇫🇷
               </span>
             </div>
 
-            <div className="bg-spoolio-card border border-spoolio-border rounded-2xl p-5 flex flex-col gap-2">
+            <div className="bg-white border border-zinc-200/90 rounded-2xl p-5 flex flex-col gap-2 shadow-xs">
               <span className="text-lg">⏰</span>
-              <span className="text-[10px] font-black text-gray-500 uppercase tracking-wider">Horaires de réponse</span>
-              <span className="text-xs text-white font-bold leading-normal">
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Horaires de réponse</span>
+              <span className="text-xs text-zinc-900 font-bold leading-normal">
                 Du Lundi au Vendredi<br />
                 9h00 &rarr; 17h00
               </span>
@@ -115,14 +119,14 @@ export default function ContactPage() {
           </div>
 
           {/* Column 2: Form (2/3 width) */}
-          <div className="md:col-span-2 bg-spoolio-card border border-spoolio-border rounded-3xl p-6 md:p-8">
+          <div className="md:col-span-2 bg-white border border-zinc-200/90 rounded-3xl p-6 md:p-8 shadow-xs">
             {successMessage ? (
-              <div className="p-6 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-2xl text-center text-xs font-sans flex flex-col gap-3">
+              <div className="p-6 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-center text-xs font-sans flex flex-col gap-3">
                 <span className="text-2xl">🎉</span>
                 <p className="font-bold leading-relaxed">{successMessage}</p>
                 <button
                   onClick={() => setSuccessMessage(null)}
-                  className="mt-2 text-[10px] text-gray-500 hover:text-white transition-colors font-bold uppercase tracking-wider underline cursor-pointer"
+                  className="mt-2 text-[11px] text-emerald-700 hover:text-emerald-950 transition-colors font-bold uppercase tracking-wider underline cursor-pointer"
                 >
                   Envoyer un autre message
                 </button>
@@ -130,7 +134,7 @@ export default function ContactPage() {
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-4 font-sans text-xs">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
+                  <label className="text-xs font-bold text-zinc-700">
                     Votre nom *
                   </label>
                   <input
@@ -139,12 +143,12 @@ export default function ContactPage() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Jean Dupont"
-                    className="h-10 border rounded-xl px-3 outline-none transition-colors review-input"
+                    className="h-11 border border-zinc-200 bg-zinc-50 rounded-xl px-3 outline-none transition-colors text-zinc-900 placeholder:text-zinc-400 focus:bg-white focus:border-[#ff4f00] focus:ring-2 focus:ring-[#ff4f00]/10"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
+                  <label className="text-xs font-bold text-zinc-700">
                     Votre adresse e-mail *
                   </label>
                   <input
@@ -153,28 +157,28 @@ export default function ContactPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="jean@exemple.com"
-                    className="h-10 border rounded-xl px-3 outline-none transition-colors review-input"
+                    className="h-11 border border-zinc-200 bg-zinc-50 rounded-xl px-3 outline-none transition-colors text-zinc-900 placeholder:text-zinc-400 focus:bg-white focus:border-[#ff4f00] focus:ring-2 focus:ring-[#ff4f00]/10"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
+                  <label className="text-xs font-bold text-zinc-700">
                     Sujet de votre message
                   </label>
                   <select
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    className="h-10 border rounded-xl px-3 outline-none transition-colors appearance-none cursor-pointer review-input"
+                    className="h-11 border border-zinc-200 bg-zinc-50 rounded-xl px-3 outline-none transition-colors appearance-none cursor-pointer text-zinc-900 focus:bg-white focus:border-[#ff4f00] focus:ring-2 focus:ring-[#ff4f00]/10"
                   >
                     <option value="general">Question générale / Renseignement</option>
                     <option value="order">Ma commande / Suivi de colis</option>
-                    <option value="custom">Demande d'impression 3D personnalisée</option>
+                    <option value="custom">Demande d&apos;impression 3D personnalisée</option>
                     <option value="bug">Signaler un bug sur le site</option>
                   </select>
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
+                  <label className="text-xs font-bold text-zinc-700">
                     Votre message *
                   </label>
                   <textarea
@@ -183,12 +187,12 @@ export default function ContactPage() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Comment pouvons-nous vous aider ?"
-                    className="border rounded-xl p-3 outline-none transition-colors resize-y leading-relaxed font-sans review-input"
+                    className="border border-zinc-200 bg-zinc-50 rounded-xl p-3 outline-none transition-colors resize-y leading-relaxed font-sans text-zinc-900 placeholder:text-zinc-400 focus:bg-white focus:border-[#ff4f00] focus:ring-2 focus:ring-[#ff4f00]/10"
                   />
                 </div>
 
                 {error && (
-                  <div className="text-[10px] text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-2 rounded-lg font-sans">
+                  <div className="text-xs text-red-700 bg-red-50 border border-red-200 px-3 py-2 rounded-xl font-sans">
                     ⚠️ {error}
                   </div>
                 )}
@@ -196,10 +200,10 @@ export default function ContactPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full h-11 flex items-center justify-center bg-white hover:bg-gray-200 disabled:bg-white/40 text-black text-xs font-bold rounded-xl transition-all shadow-md mt-2 cursor-pointer disabled:cursor-not-allowed"
+                  className="w-full h-12 flex items-center justify-center bg-[#ff4f00] hover:bg-[#e04500] disabled:opacity-50 text-white text-sm font-bold rounded-full transition-all shadow-md shadow-[#ff4f00]/20 mt-2 cursor-pointer font-outfit"
                 >
                   {loading ? (
-                    <svg className="animate-spin h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>

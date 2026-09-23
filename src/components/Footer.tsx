@@ -14,15 +14,15 @@ export default function Footer({ className = "" }: FooterProps) {
   const { t } = useTranslation();
 
   return (
-    <footer className={`w-full border-t border-white/10 bg-[#0a0a0c] pt-12 pb-8 text-xs text-gray-400 relative z-10 ${className} no-invert font-sans`}>
+    <footer className={`w-full border-t border-zinc-200 bg-zinc-50 pt-12 pb-8 text-xs text-zinc-600 relative z-10 ${className} font-sans`}>
       <div className="max-w-[1200px] mx-auto px-6 space-y-10">
         
         {/* Upper Section: Brand Bio & Social Networks */}
-        <div className="flex flex-col md:flex-row items-start justify-between gap-8 pb-8 border-b border-white/10">
+        <div className="flex flex-col md:flex-row items-start justify-between gap-8 pb-8 border-b border-zinc-200">
           
           {/* Brand & Bio */}
           <div className="flex items-start gap-4 max-w-md">
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white shrink-0 shadow-xl overflow-hidden group hover:scale-105 transition-transform">
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white border border-zinc-200 shrink-0 shadow-xs overflow-hidden group hover:scale-105 transition-transform">
               <Image
                 src="/images/vivien-avatar.png"
                 alt="Vivien - Fondateur Spoolio"
@@ -32,12 +32,12 @@ export default function Footer({ className = "" }: FooterProps) {
             </div>
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center gap-2">
-                <span className="font-black text-white text-lg tracking-wider uppercase font-antonio">Spoolio</span>
-                <span className="text-[10px] text-[#ff4f00] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#ff4f00]/10 border border-[#ff4f00]/30">
+                <span className="font-black text-zinc-900 text-lg tracking-wider uppercase font-antonio">Spoolio</span>
+                <span className="text-[10px] text-[#ff4f00] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#ff4f00]/10 border border-[#ff4f00]/20">
                   {t("footer.brand_by")}
                 </span>
               </div>
-              <p className="text-[11px] text-gray-400 leading-relaxed font-medium">
+              <p className="text-[11px] text-zinc-500 leading-relaxed font-medium">
                 {t("footer.description")}
               </p>
             </div>
@@ -45,7 +45,7 @@ export default function Footer({ className = "" }: FooterProps) {
 
           {/* Social Networks Icons */}
           <div className="flex flex-col md:items-end gap-3">
-            <div className="text-xs font-black text-gray-300 uppercase tracking-widest font-antonio">
+            <div className="text-xs font-black text-zinc-900 uppercase tracking-widest font-antonio">
               {t("footer.join_adventure")}
             </div>
             
@@ -55,7 +55,7 @@ export default function Footer({ className = "" }: FooterProps) {
                 href="https://www.instagram.com/spoolio.fr/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gradient-to-tr hover:from-[#f9ce34] hover:via-[#ee2a7b] hover:to-[#6228d7] hover:border-transparent transition-all duration-300 hover:scale-110 cursor-pointer"
+                className="w-9 h-9 rounded-xl bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 hover:text-white hover:bg-gradient-to-tr hover:from-[#f9ce34] hover:via-[#ee2a7b] hover:to-[#6228d7] hover:border-transparent transition-all duration-300 hover:scale-110 cursor-pointer shadow-xs"
                 title="Instagram"
                 aria-label="Rejoignez-nous sur Instagram"
               >
@@ -69,7 +69,7 @@ export default function Footer({ className = "" }: FooterProps) {
                 href="https://www.tiktok.com/@spoolio.fr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-black hover:border-[#25F4EE] hover:shadow-[0_0_10px_rgba(37,244,238,0.4)] transition-all duration-300 hover:scale-110 cursor-pointer"
+                className="w-9 h-9 rounded-xl bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 hover:text-white hover:bg-black hover:border-black transition-all duration-300 hover:scale-110 cursor-pointer shadow-xs"
                 title="TikTok"
                 aria-label="Rejoignez-nous sur TikTok"
               >
@@ -83,7 +83,7 @@ export default function Footer({ className = "" }: FooterProps) {
                 href="https://www.facebook.com/spoolio.fr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#1877F2] hover:border-transparent transition-all duration-300 hover:scale-110 cursor-pointer"
+                className="w-9 h-9 rounded-xl bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 hover:text-white hover:bg-[#1877F2] hover:border-[#1877F2] transition-all duration-300 hover:scale-110 cursor-pointer shadow-xs"
                 title="Facebook"
                 aria-label="Rejoignez-nous sur Facebook"
               >
@@ -96,26 +96,26 @@ export default function Footer({ className = "" }: FooterProps) {
         </div>
 
         {/* Structured Columns Navigation */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-8 border-b border-white/10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-8 border-b border-zinc-200">
           
           {/* Column 1: Expérience & Récompenses */}
           <div className="space-y-3">
-            <h4 className="text-xs font-black text-amber-300 uppercase tracking-widest font-antonio">
+            <h4 className="text-xs font-black text-zinc-900 uppercase tracking-widest font-antonio">
               ⭐ Expériences & Club
             </h4>
             <ul className="space-y-2 font-medium">
               <li>
-                <Link href="/fidelite" className="hover:text-amber-300 transition-colors flex items-center gap-1.5">
+                <Link href="/fidelite" className="hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
                   <span>👑 Points & Fidélité</span>
                 </Link>
               </li>
               <li>
-                <Link href="/inscription-newsletter-spoolio" className="hover:text-blue-300 transition-colors flex items-center gap-1.5">
+                <Link href="/inscription-newsletter-spoolio" className="hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
                   <span>🎁 Club Spoolio</span>
                 </Link>
               </li>
               <li>
-                <Link href="/carte-cadeau" className="hover:text-amber-300 transition-colors flex items-center gap-1.5">
+                <Link href="/carte-cadeau" className="hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
                   <span>🎁 Carte Cadeau 3D</span>
                 </Link>
               </li>
@@ -129,7 +129,7 @@ export default function Footer({ className = "" }: FooterProps) {
 
           {/* Column 2: À Propos & Support */}
           <div className="space-y-3">
-            <h4 className="text-xs font-black text-gray-200 uppercase tracking-widest font-antonio">
+            <h4 className="text-xs font-black text-zinc-900 uppercase tracking-widest font-antonio">
               ℹ️ Spoolio & Aide
             </h4>
             <ul className="space-y-2 font-medium">
@@ -158,27 +158,27 @@ export default function Footer({ className = "" }: FooterProps) {
 
           {/* Column 3: Informations Légales */}
           <div className="space-y-3">
-            <h4 className="text-xs font-black text-gray-200 uppercase tracking-widest font-antonio">
+            <h4 className="text-xs font-black text-zinc-900 uppercase tracking-widest font-antonio">
               ⚖️ Informations Légales
             </h4>
-            <ul className="space-y-2 font-medium text-gray-400">
+            <ul className="space-y-2 font-medium text-zinc-500">
               <li>
-                <Link href="/mentions-legales" className="hover:text-white transition-colors">
+                <Link href="/mentions-legales" className="hover:text-zinc-900 transition-colors">
                   {t("footer.links.legal")}
                 </Link>
               </li>
               <li>
-                <Link href="/cgv" className="hover:text-white transition-colors">
+                <Link href="/cgv" className="hover:text-zinc-900 transition-colors">
                   {t("footer.links.cgv")}
                 </Link>
               </li>
               <li>
-                <Link href="/cookies" className="hover:text-white transition-colors">
+                <Link href="/cookies" className="hover:text-zinc-900 transition-colors">
                   {t("footer.links.cookies")}
                 </Link>
               </li>
               <li>
-                <Link href="/retours" className="hover:text-white transition-colors">
+                <Link href="/retours" className="hover:text-zinc-900 transition-colors">
                   {t("footer.links.returns")}
                 </Link>
               </li>
@@ -188,12 +188,12 @@ export default function Footer({ className = "" }: FooterProps) {
         </div>
 
         {/* Bottom Bar: Copyright & Location Badge */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-gray-500 font-medium">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500 font-medium">
           <div>
             &copy; {new Date().getFullYear()} Spoolio. {t("footer.rights")}
           </div>
-          <div className="flex items-center gap-2 text-gray-400">
-            <span>🇫🇷 Imprimé & assemblé à Comines (59)</span>
+          <div className="flex items-center gap-2 text-zinc-600">
+            <span>🇫🇷 Fabrication additive de précision à Comines (59) • PLA biosourcé</span>
           </div>
         </div>
 

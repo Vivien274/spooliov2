@@ -4,9 +4,10 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import Header from "@/components/Header";
 import { useTranslation } from "@/context/LanguageContext";
+import { isPreprodEnv } from "@/lib/env";
 
 export interface HeroSlide {
   id: number;
@@ -27,6 +28,7 @@ export interface HeroSlide {
   cardPrice?: string;
   cardImage?: string;
   cardLink?: string;
+  cardBadge?: string;
 }
 
 function stripEmojis(text: string) {
@@ -45,99 +47,225 @@ function renderFormattedText(text: string) {
   ));
 }
 
-const DEFAULT_SLIDES_FR: HeroSlide[] = [
+// Hero Slides for Preproduction V2
+const PREPROD_SLIDES_FR: HeroSlide[] = [
   {
     id: 1,
-    badge: "PACKS SENSORIELS TDAH",
-    title: "LA FOLIE DES FIDGETS SENSORIELS ⚡",
-    subtitle: "Décompresser, toucher, cliquer : découvrez nos créations 3D originales faites main en France 🌱",
-    buttonText: "DÉCOUVRIR LA BOUTIQUE",
-    buttonLink: "/boutique",
-    image: "/images/hero_background.jpg",
+    badge: "PRÉCOMMANDES • ÉDITION LIMITÉE",
+    title: "LE CALENDRIER DE L'AVENT 3D SPOOLIO",
+    subtitle:
+      "24 créations exclusives imprimées en 3D dans notre atelier. Profitez du tarif précommande à 45€ au lieu de 50€ jusqu'au 30 septembre !",
+    buttonText: "PRÉCOMMANDER (45€)",
+    buttonLink: "/calendrier-avent",
+    secondaryButtonText: "DÉCOUVRIR LE CALENDRIER",
+    secondaryButtonLink: "/calendrier-avent",
+    image: "/images/calendrier-avent-hero.jpg",
     accentColor: "#ff4f00",
-    cardTitle: "Pack Fidget Sensory TDAH",
-    cardDescription: "Assortiment anti-stress fabriqué en PLA biosourcé.",
-    cardPrice: "14.90€",
-    cardImage: "/images/hero_background.jpg",
-    cardLink: "/boutique"
+    cardTitle: "Calendrier de l'Avent 3D",
+    cardDescription: "24 surprises inédites d'atelier à découvrir chaque jour.",
+    cardPrice: "45€ au lieu de 50€ (jusqu'au 30/09)",
+    cardImage: "/images/calendrier-avent-hero.jpg",
+    cardLink: "/calendrier-avent",
+    cardBadge: "Précommandes 2026",
   },
   {
     id: 2,
-    badge: "STUDIO CLICKER 3D",
-    title: "CLICKERS MÉCANIQUES SUR-MESURE 🎨",
-    subtitle: "Personnalisez les couleurs de touches, le switch et l'attache porte-clés pour un rendu ASMR unique !",
-    buttonText: "CONCEVOIR MON CLICKER",
-    buttonLink: "/createur-cliqueur",
-    image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
-    accentColor: "#00f0ff",
-    cardTitle: "Fidget Clicker 3D Custom",
-    cardDescription: "Sensations ASMR avec switchs interchangeables.",
+    badge: "ATELIER D'IMPRESSION 3D • COMINES (59)",
+    title: "Objets tactiles, accessoires de bureau et créations d'atelier.",
+    subtitle:
+      "Conçus et imprimés à la demande dans notre atelier avec un polymère végétal biosourcé. Zéro surstock, du caractère et des finitions soignées.",
+    buttonText: "DÉCOUVRIR LE CATALOGUE",
+    buttonLink: "/boutique",
+    secondaryButtonText: "CONCEVOIR MON CLICKER",
+    secondaryButtonLink: "/createur-cliqueur",
+    image: "/images/clicker_gallery_2.jpg",
+    accentColor: "#ff4f00",
+    cardTitle: "Créations Spoolio 3D",
+    cardDescription: "Objets tactiles et accessoires façonnés sur mesure à Comines.",
     cardPrice: "À partir de 3.00€",
-    cardImage: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
-    cardLink: "/createur-cliqueur"
+    cardImage: "/images/clicker_gallery_2.jpg",
+    cardLink: "/boutique",
+  },
+];
+
+const PREPROD_SLIDES_EN: HeroSlide[] = [
+  {
+    id: 1,
+    badge: "PRE-ORDERS OPEN • LIMITED EDITION",
+    title: "THE SPOOLIO 3D ADVENT CALENDAR",
+    subtitle:
+      "24 exclusive 3D creations crafted in our workshop. Enjoy the early bird pre-order price of €45 instead of €50 until September 30th!",
+    buttonText: "PRE-ORDER NOW (€45)",
+    buttonLink: "/calendrier-avent",
+    secondaryButtonText: "DISCOVER THE CALENDAR",
+    secondaryButtonLink: "/calendrier-avent",
+    image: "/images/calendrier-avent-hero.jpg",
+    accentColor: "#ff4f00",
+    cardTitle: "3D Advent Calendar",
+    cardDescription: "24 daily tactile workshop surprises to discover.",
+    cardPrice: "€45 instead of €50 (until Sep 30)",
+    cardImage: "/images/calendrier-avent-hero.jpg",
+    cardLink: "/calendrier-avent",
+    cardBadge: "Pre-order 2026",
+  },
+  {
+    id: 2,
+    badge: "3D PRINTING WORKSHOP • COMINES (59)",
+    title: "Tactile objects, desk accessories and studio creations.",
+    subtitle:
+      "Designed and 3D printed on demand in our workshop with bio-sourced plant polymer. Zero overstock, character and meticulous finishes.",
+    buttonText: "DISCOVER THE CATALOG",
+    buttonLink: "/boutique",
+    secondaryButtonText: "DESIGN MY CLICKER",
+    secondaryButtonLink: "/createur-cliqueur",
+    image: "/images/clicker_gallery_2.jpg",
+    accentColor: "#ff4f00",
+    cardTitle: "Spoolio 3D Studio",
+    cardDescription: "Tactile objects and 3D creations crafted in Comines.",
+    cardPrice: "From €3.00",
+    cardImage: "/images/clicker_gallery_2.jpg",
+    cardLink: "/boutique",
+  },
+];
+
+const DEFAULT_SLIDES_FR: HeroSlide[] = [
+  {
+    id: 1,
+    badge: "PRÉCOMMANDES • ÉDITION LIMITÉE",
+    title: "LE CALENDRIER DE L'AVENT 3D SPOOLIO",
+    subtitle:
+      "24 créations exclusives imprimées en 3D dans notre atelier. Profitez du tarif précommande à 45€ au lieu de 50€ jusqu'au 30 septembre !",
+    buttonText: "PRÉCOMMANDER (45€)",
+    buttonLink: "/calendrier-avent",
+    secondaryButtonText: "DÉCOUVRIR LE CALENDRIER",
+    secondaryButtonLink: "/calendrier-avent",
+    image: "/images/calendrier-avent-hero.jpg",
+    accentColor: "#ff4f00",
+    cardTitle: "Calendrier de l'Avent 3D",
+    cardDescription: "24 surprises inédites d'atelier à découvrir chaque jour.",
+    cardPrice: "45€ au lieu de 50€ (jusqu'au 30/09)",
+    cardImage: "/images/calendrier-avent-hero.jpg",
+    cardLink: "/calendrier-avent",
+    cardBadge: "Précommandes 2026",
+  },
+  {
+    id: 2,
+    badge: "ATELIER D'IMPRESSION 3D • COMINES (59)",
+    title: "Objets tactiles, accessoires de bureau et créations d'atelier.",
+    subtitle:
+      "Conçus et imprimés à la demande dans notre atelier avec un polymère végétal biosourcé. Zéro surstock, du caractère et des finitions soignées.",
+    buttonText: "DÉCOUVRIR LE CATALOGUE",
+    buttonLink: "/boutique",
+    secondaryButtonText: "CONCEVOIR MON CLICKER",
+    secondaryButtonLink: "/createur-cliqueur",
+    image: "/images/clicker_gallery_2.jpg",
+    accentColor: "#ff4f00",
+    cardTitle: "Créations Spoolio 3D",
+    cardDescription: "Objets tactiles et accessoires façonnés sur mesure à Comines.",
+    cardPrice: "À partir de 3.00€",
+    cardImage: "/images/clicker_gallery_2.jpg",
+    cardLink: "/boutique"
   },
   {
     id: 3,
-    badge: "MYSTÈRE & ÉDITION LIMITÉE",
-    title: "LA POCHETTE SURPRISE SPOOLIO 📦",
-    subtitle: "Craquez pour un assortiment mystère d'objets 3D et fidgets inédits fabriqués à Comines.",
-    buttonText: "VOIR LES POCHETTES",
-    buttonLink: "/pochette-surprise",
+    badge: "JEUX DE SOCIÉTÉ & TABLETOP",
+    title: "UPGRADEZ VOS SESSIONS DE JEU",
+    subtitle: "Tours de dés sculptées, inserts précis et accessoires pensés par et pour les passionnés de jeu de société.",
+    buttonText: "VOIR LES ACCESSOIRES JEUX",
+    buttonLink: "/boutique",
+    secondaryButtonText: "APPLICATION ENJEU",
+    secondaryButtonLink: "/jeux-de-societe#enjeu-app",
+    image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    accentColor: "#09090b",
+    cardTitle: "Tour de Dés Haute Définition",
+    cardDescription: "L'accessoire indispensable pour vos parties de JdR et jeux de plateau.",
+    cardPrice: "14.90€",
+    cardImage: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    cardLink: "/boutique"
+  },
+  {
+    id: 4,
+    badge: "DESK SETUP & ACCESSOIRES",
+    title: "CLICKERS MÉCANIQUES & ASMR",
+    subtitle: "Concevez votre clicker mécanique sur-mesure : switchs réels, touches custom et sensations tactiles uniques.",
+    buttonText: "CONCEVOIR MON CLICKER",
+    buttonLink: "/createur-cliqueur",
+    secondaryButtonText: "VOIR LE CATALOGUE",
+    secondaryButtonLink: "/boutique",
     image: "/images/imported/PochetteM-1.png",
-    accentColor: "#10b981",
-    cardTitle: "Pochette Surprise Spoolio",
-    cardDescription: "3 à 5 créations 3D et fidgets mystères inédits.",
-    cardPrice: "10.00€",
+    accentColor: "#ff4f00",
+    cardTitle: "Clicker Mécanique Studio",
+    cardDescription: "Touches interchangeables et switchs tactiles de précision.",
+    cardPrice: "À partir de 3.00€",
     cardImage: "/images/imported/PochetteM-1.png",
-    cardLink: "/pochette-surprise"
+    cardLink: "/createur-cliqueur"
   }
 ];
 
 const DEFAULT_SLIDES_EN: HeroSlide[] = [
   {
     id: 1,
-    badge: "ADHD SENSORY PACKS",
-    title: "THE SENSORY FIDGET FEVER ⚡",
-    subtitle: "Unwind, touch, click: discover our original 3D creations handmade in France 🌱",
-    buttonText: "DISCOVER THE SHOP",
-    buttonLink: "/boutique",
-    image: "/images/hero_background.jpg",
+    badge: "PRE-ORDERS OPEN • LIMITED EDITION",
+    title: "THE SPOOLIO 3D ADVENT CALENDAR",
+    subtitle:
+      "24 exclusive 3D creations crafted in our workshop. Enjoy the early bird pre-order price of €45 instead of €50 until September 30th!",
+    buttonText: "PRE-ORDER NOW (€45)",
+    buttonLink: "/calendrier-avent",
+    secondaryButtonText: "DISCOVER THE CALENDAR",
+    secondaryButtonLink: "/calendrier-avent",
+    image: "/images/calendrier-avent-hero.jpg",
     accentColor: "#ff4f00",
-    cardTitle: "Sensory Fidget ADHD Pack",
-    cardDescription: "Stress-relieving assortment 3D printed with bio-sourced PLA.",
-    cardPrice: "€14.90",
-    cardImage: "/images/hero_background.jpg",
-    cardLink: "/boutique"
+    cardTitle: "3D Advent Calendar",
+    cardDescription: "24 daily tactile workshop surprises to discover.",
+    cardPrice: "€45 instead of €50 (until Sep 30)",
+    cardImage: "/images/calendrier-avent-hero.jpg",
+    cardLink: "/calendrier-avent",
+    cardBadge: "Pre-order 2026",
   },
   {
     id: 2,
-    badge: "3D CLICKER STUDIO",
-    title: "CUSTOM MECHANICAL CLICKERS 🎨",
-    subtitle: "Customize keycap colors, switches, and keychain attachments for a unique ASMR feel!",
-    buttonText: "DESIGN MY CLICKER",
-    buttonLink: "/createur-cliqueur",
-    image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
-    accentColor: "#00f0ff",
-    cardTitle: "Custom 3D Fidget Clicker",
-    cardDescription: "Unique ASMR sensation with hot-swappable switches.",
-    cardPrice: "From €3.00",
-    cardImage: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
-    cardLink: "/createur-cliqueur"
+    badge: "3D PRINTING WORKSHOP • COMINES (59)",
+    title: "Tactile objects, desk accessories and workshop creations.",
+    subtitle: "Designed and 3D printed on demand in our workshop with bio-sourced plant-based polymer. Zero overstock, strong character, and refined craftsmanship.",
+    buttonText: "DISCOVER THE CATALOG",
+    buttonLink: "/boutique",
+    image: "/images/clicker_gallery_2.jpg",
+    accentColor: "#ff4f00",
+    cardTitle: "Spoolio Workshop Creations",
+    cardDescription: "Tactile objects, desk accessories and workshop creations.",
+    cardPrice: "€19.90",
+    cardImage: "/images/clicker_gallery_2.jpg",
+    cardLink: "/boutique"
   },
   {
     id: 3,
-    badge: "MYSTERY & LIMITED EDITION",
-    title: "THE SPOOLIO SURPRISE PACK 📦",
-    subtitle: "Treat yourself to a mystery assortment of brand new 3D items and fidgets crafted in Comines.",
-    buttonText: "VIEW SURPRISE PACKS",
-    buttonLink: "/pochette-surprise",
+    badge: "BOARD GAMES & TABLETOP",
+    title: "UPGRADE YOUR GAME NIGHTS",
+    subtitle: "Sculpted dice towers, precise inserts, and tabletop accessories crafted for enthusiasts.",
+    buttonText: "VIEW GAMING ACCESSORIES",
+    buttonLink: "/boutique",
+    image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    accentColor: "#09090b",
+    cardTitle: "High-Definition Dice Tower",
+    cardDescription: "The essential tabletop accessory for RPGs and board games.",
+    cardPrice: "€14.90",
+    cardImage: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    cardLink: "/boutique"
+  },
+  {
+    id: 4,
+    badge: "DESK SETUP & GEEK CULTURE",
+    title: "MECHANICAL CLICKERS & ASMR",
+    subtitle: "Design your custom mechanical clicker: authentic switches, custom keycaps, and satisfying tactile feedback.",
+    buttonText: "DESIGN MY CLICKER",
+    buttonLink: "/createur-cliqueur",
     image: "/images/imported/PochetteM-1.png",
-    accentColor: "#10b981",
-    cardTitle: "Spoolio Mystery Surprise Pack",
-    cardDescription: "3 to 5 mystery 3D items and exclusive fidgets.",
-    cardPrice: "€10.00",
+    accentColor: "#ff4f00",
+    cardTitle: "Mechanical Clicker Studio",
+    cardDescription: "Interchangeable keycaps and premium tactile switches.",
+    cardPrice: "From €3.00",
     cardImage: "/images/imported/PochetteM-1.png",
-    cardLink: "/pochette-surprise"
+    cardLink: "/createur-cliqueur"
   }
 ];
 
@@ -150,11 +278,17 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isPaused, setIsPaused] = useState<boolean>(false);
 
+  const isPreprod = isPreprodEnv();
   const defaultSlides = locale === "en" ? DEFAULT_SLIDES_EN : DEFAULT_SLIDES_FR;
-  const heroSlides = slides && slides.length > 0 ? slides : defaultSlides;
+  const preprodSlides = locale === "en" ? PREPROD_SLIDES_EN : PREPROD_SLIDES_FR;
+
+  // In preprod, strictly isolate to the single editorial slide. In production, keep existing slides.
+  const heroSlides = isPreprod
+    ? preprodSlides
+    : (slides && slides.length > 0 ? slides : defaultSlides);
 
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || heroSlides.length <= 1) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % heroSlides.length);
     }, 6000);
@@ -162,10 +296,12 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
   }, [isPaused, heroSlides.length]);
 
   const nextSlide = () => {
+    if (heroSlides.length <= 1) return;
     setActiveIndex((prev) => (prev + 1) % heroSlides.length);
   };
 
   const prevSlide = () => {
+    if (heroSlides.length <= 1) return;
     setActiveIndex((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
   };
 
@@ -175,24 +311,24 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
   const cardTitle = activeSlide.cardTitle || activeSlide.title || "Produit Spoolio 3D";
   const cardDescription = activeSlide.cardDescription || activeSlide.subtitle || "Fabrication artisanale en France";
   const cardPrice = activeSlide.cardPrice || "À partir de 3.00€";
-  const cardImage = activeSlide.cardImage || activeSlide.image || "/images/hero_background.jpg";
+  const cardImage = activeSlide.cardImage || activeSlide.image || "/images/clicker_gallery_2.jpg";
   const cardLink = activeSlide.cardLink || activeSlide.buttonLink || "/boutique";
 
   const rawBadge = activeSlide.badge || "FABRICATION ARTISANALE À COMINES (59)";
   const cleanBadge = stripEmojis(rawBadge);
 
   return (
-    <div className="w-full relative z-30 select-none no-invert">
+    <div className="w-full relative z-30 select-none">
       <Header />
 
-      {/* Hero Container positioned BELOW fixed header with 30px side margins & expanded full width */}
-      <div className="w-full px-4 sm:px-[30px] pt-24 sm:pt-28 md:pt-32 mb-10 sm:mb-16 lg:mb-20 max-w-[1760px] mx-auto">
+      {/* Hero Container spanning full width, glued to marquee below */}
+      <div className="w-full pt-20 sm:pt-24 mb-0">
         <section
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
-          className="relative w-full rounded-[28px] sm:rounded-[36px] overflow-hidden bg-[#070709] text-white min-h-[620px] sm:min-h-[680px] lg:min-h-[720px] border border-white/15 shadow-[0_25px_70px_rgba(0,0,0,0.65)] dark:shadow-[0_30px_90px_rgba(0,0,0,0.85)] group/hero flex flex-col justify-between"
+          className="relative w-full overflow-hidden bg-zinc-950 text-white min-h-[600px] sm:min-h-[660px] lg:min-h-[700px] border-b border-zinc-800/80 group/hero flex flex-col justify-between"
         >
-          {/* Background Image & Ambient Effects */}
+          {/* Background Image & Ambient Effects (Without white overlay) */}
           <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
@@ -208,57 +344,50 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                   alt={activeSlide.title}
                   fill
                   priority
-                  className="object-cover object-center filter brightness-[0.82] contrast-[1.05] saturate-[1.1]"
+                  className="object-cover object-center filter brightness-[0.85] contrast-[1.05] saturate-[1.1]"
                 />
-                {/* Softened Directional Gradient Overlays for Clear Background Visibility */}
-                <div className="absolute inset-0 bg-gradient-to-r from-[#070709]/80 via-[#070709]/45 to-transparent lg:w-2/3" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#070709]/75 via-transparent to-[#070709]/20" />
+                {/* Subtle soft vignette for text legibility without washing out the photo */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-transparent lg:w-3/5" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-black/30" />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-zinc-950/60" />
               </motion.div>
             </AnimatePresence>
 
             {/* Accent Radial Glow */}
             <div
-              className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[500px] rounded-full blur-[150px] transition-colors duration-700 pointer-events-none"
+              className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[500px] rounded-full blur-[150px] transition-colors duration-700 pointer-events-none opacity-30"
               style={{ backgroundColor: `${activeSlide.accentColor || '#ff4f00'}25` }}
             />
-
-            {/* Subtle Dot Grid Texture */}
-            <div 
-              className="absolute inset-0 opacity-[0.04]" 
-              style={{ backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.4) 1px, transparent 0)`, backgroundSize: '32px 32px' }} 
-            />
           </div>
 
-          {/* Hotspot Visual Pin on Background Image (Desktop) */}
-          <div className="hidden lg:flex absolute right-[28%] top-[45%] z-20 items-center justify-center pointer-events-none">
-            <span className="absolute w-8 h-8 rounded-full bg-white/40 animate-ping" />
-            <span className="relative w-4 h-4 rounded-full bg-white border-2 border-black/60 shadow-[0_0_12px_rgba(255,255,255,0.9)]" />
-          </div>
+          {/* Navigation Arrows (Rendered only when multiple slides exist) */}
+          {heroSlides.length > 1 && (
+            <>
+              <button
+                onClick={prevSlide}
+                aria-label="Slide précédente"
+                className="hidden sm:flex absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 text-white items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-lg hover:scale-105"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
 
-          {/* Navigation Arrows */}
-          <button
-            onClick={prevSlide}
-            aria-label="Slide précédente"
-            className="hidden sm:flex absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 hover:border-white/40 text-white items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-lg"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
+              <button
+                onClick={nextSlide}
+                aria-label="Slide suivante"
+                className="hidden sm:flex absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 text-white items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-lg hover:scale-105"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </>
+          )}
 
-          <button
-            onClick={nextSlide}
-            aria-label="Slide suivante"
-            className="hidden sm:flex absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 hover:border-white/40 text-white items-center justify-center backdrop-blur-md transition-all opacity-0 group-hover/hero:opacity-100 cursor-pointer shadow-lg"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-
-          {/* Hero Main Body: Grid with Text on Left & Floating Card on Right */}
-          <div className="relative z-20 w-full h-full min-h-[620px] sm:min-h-[680px] lg:min-h-[720px] p-6 sm:p-10 lg:p-14 flex flex-col justify-between">
+          {/* Hero Main Body: Split-Screen Grid with Left Typography & Right Clean Media Container */}
+          <div className="relative z-20 w-full max-w-[1360px] mx-auto h-full min-h-[600px] sm:min-h-[660px] lg:min-h-[700px] px-6 sm:px-10 lg:px-14 py-12 sm:py-16 lg:py-20 flex flex-col justify-between">
             
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center flex-1 my-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center flex-1 my-auto">
               
-              {/* LEFT COLUMN: Main Title, Subtitle, CTA Button */}
-              <div className="lg:col-span-7 xl:col-span-7 space-y-5 sm:space-y-6 text-left">
+              {/* LEFT COLUMN: Main Title, Subtitle, CTA Button with generous breathing room */}
+              <div className="lg:col-span-6 xl:col-span-6 space-y-6 sm:space-y-8 text-left">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeSlide.id || activeIndex}
@@ -266,87 +395,106 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -15 }}
                     transition={{ duration: 0.4 }}
-                    className="space-y-4 sm:space-y-6"
+                    className="space-y-5 sm:space-y-7"
                   >
-                    {/* Clean Badge without Emoji */}
-                    <div>
-                      <span className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-mono font-extrabold text-[#ff4f00] tracking-widest uppercase backdrop-blur-md shadow-md">
-                        {cleanBadge}
+                    {/* Clean Double Badge with Artisanal Accent */}
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-400/40 text-amber-300 text-xs font-extrabold tracking-wider uppercase backdrop-blur-md shadow-lg no-invert keep-white">
+                        <Sparkles className="w-3.5 h-3.5 text-amber-300 shrink-0" />
+                        <span>{cleanBadge || "Atelier Français • Comines"}</span>
+                      </span>
+
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-900/80 border border-white/10 text-zinc-300 text-xs font-bold backdrop-blur-md">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                        <span>Fabrication 100% Locale</span>
                       </span>
                     </div>
 
-                    {/* Main Title */}
-                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white font-antonio leading-[1.02] drop-shadow-[0_4px_25px_rgba(0,0,0,0.95)] max-w-2xl">
+                    {/* Main Title (High-impact tracking tight) */}
+                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white font-sans leading-[1.06] drop-shadow-[0_4px_25px_rgba(0,0,0,0.95)] max-w-2xl">
                       {renderFormattedText(activeSlide.title)}
                     </h1>
 
-                    {/* Subtitle */}
-                    <p className="text-xs sm:text-base text-white/90 font-sans font-medium leading-relaxed max-w-xl line-clamp-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+                    {/* Subtitle with high-contrast legibility */}
+                    <p className="text-sm sm:text-base lg:text-lg text-zinc-300 font-sans font-medium leading-relaxed max-w-xl line-clamp-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
                       {renderFormattedText(activeSlide.subtitle)}
                     </p>
 
-                    {/* Subtle Glass CTA Button without heavy background */}
-                    <div className="pt-2">
+                    {/* Dual Action CTAs */}
+                    <div className="pt-3 sm:pt-4 flex flex-wrap items-center gap-3">
                       <Link
                         href={activeSlide.buttonLink || "/boutique"}
-                        className="group/btn inline-flex items-center justify-center cursor-pointer active:scale-95 transition-all duration-300"
+                        className="h-12 sm:h-14 px-7 sm:px-9 inline-flex items-center justify-center gap-3 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider text-white bg-[#ff4f00] hover:bg-[#ff6524] shadow-xl shadow-[#ff4f00]/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 keep-white no-invert cursor-pointer"
                       >
-                        <div className="h-12 sm:h-13 px-6 sm:px-8 inline-flex items-center justify-center gap-2.5 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider text-white bg-white/10 hover:bg-white/20 border border-white/30 hover:border-white/60 backdrop-blur-md transition-all duration-300 shadow-md hover:shadow-lg group-hover/btn:scale-[1.02]">
-                          <span className="font-black tracking-widest text-white drop-shadow-sm">
-                            {activeSlide.buttonText || "DÉCOUVRIR LA BOUTIQUE"}
-                          </span>
-                          <ArrowRight className="w-4 h-4 text-white group-hover/btn:translate-x-1 transition-transform" />
-                        </div>
+                        <span className="font-black tracking-widest text-white !text-white keep-white">
+                          {activeSlide.buttonText || "DÉCOUVRIR LE CATALOGUE"}
+                        </span>
+                        <ArrowRight className="w-4 h-4 text-white !text-white keep-white group-hover/btn:translate-x-1 transition-transform" />
                       </Link>
+
+                      {activeSlide.secondaryButtonLink && (
+                        <Link
+                          href={activeSlide.secondaryButtonLink}
+                          className="h-12 sm:h-14 px-6 inline-flex items-center justify-center gap-2 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider text-white !text-white hover:text-white bg-white/10 hover:bg-white/20 border border-white/25 backdrop-blur-md transition-all duration-300 keep-white no-invert hover:scale-[1.02] active:scale-[0.98]"
+                        >
+                          <span className="text-white !text-white keep-white">{activeSlide.secondaryButtonText}</span>
+                        </Link>
+                      )}
                     </div>
                   </motion.div>
                 </AnimatePresence>
               </div>
 
-              {/* RIGHT COLUMN: Floating Glassmorphism Product Card */}
-              <div className="lg:col-span-5 xl:col-span-5 flex justify-end">
+              {/* RIGHT COLUMN: Clean Unified Media Container (1:1 Ratio, technical border, rounded-3xl) */}
+              <div className="lg:col-span-6 xl:col-span-6 flex justify-center lg:justify-end">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeSlide.id || activeIndex}
-                    initial={{ opacity: 0, x: 20, scale: 0.95 }}
-                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                    exit={{ opacity: 0, x: -20, scale: 0.95 }}
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 1 }}
                     transition={{ duration: 0.45 }}
-                    className="w-full max-w-sm"
+                    className="w-full max-w-[440px] sm:max-w-[480px] lg:max-w-[500px]"
                   >
                     <Link
-                      href={cardLink}
-                      className="group/card block w-full backdrop-blur-xl bg-black/60 hover:bg-black/75 border border-white/20 hover:border-white/40 rounded-3xl p-4 sm:p-5 shadow-[0_20px_50px_rgba(0,0,0,0.6)] transition-all duration-300 transform hover:-translate-y-1"
+                      href={activeSlide.buttonLink || cardLink}
+                      className="group/media relative block w-full aspect-square rounded-3xl overflow-hidden border border-white/15 bg-zinc-900/80 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] transition-all duration-500 hover:border-[#ff4f00]/50"
                     >
-                      <div className="flex items-center gap-4">
-                        {/* Thumbnail Image */}
-                        <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border border-white/15 bg-white/10 shadow-inner">
-                          <Image
-                            src={cardImage}
-                            alt={cardTitle}
-                            fill
-                            className="object-cover object-center group-hover/card:scale-110 transition-transform duration-500"
-                          />
-                        </div>
+                      <Image
+                        src={activeSlide.image || cardImage}
+                        alt={activeSlide.title}
+                        fill
+                        priority
+                        className="object-cover object-center group-hover/media:scale-105 transition-transform duration-700 ease-out filter brightness-[0.95] contrast-[1.02]"
+                      />
 
-                        {/* Product Meta */}
-                        <div className="flex flex-col justify-between min-w-0 flex-1 space-y-1">
-                          <h3 className="text-sm sm:text-base font-extrabold text-white font-antonio group-hover/card:text-[#ff4f00] transition-colors leading-tight truncate">
-                            {renderFormattedText(cardTitle)}
-                          </h3>
+                      {/* Technical Inner Specular Ring */}
+                      <div className="absolute inset-0 pointer-events-none rounded-[inherit] ring-1 ring-inset ring-white/15" />
 
-                          <p className="text-xs text-gray-300 font-sans line-clamp-2 leading-tight font-medium">
-                            {renderFormattedText(cardDescription)}
-                          </p>
+                      {/* Top Corner: Atelier Badge */}
+                      <div className="absolute top-4 left-4 z-10 pointer-events-none">
+                        <span
+                          style={{ color: "#000000" }}
+                          className="px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-white/60 text-[10px] font-black text-black !text-black uppercase tracking-wider shadow-sm"
+                        >
+                          {activeSlide.cardBadge || "Spoolio Studio"}
+                        </span>
+                      </div>
 
-                          <div className="flex items-center justify-between pt-1">
-                            <span className="text-xs sm:text-sm font-black font-mono text-white bg-white/15 px-2.5 py-0.5 rounded-lg border border-white/20">
+                      {/* Bottom Floating Placard */}
+                      <div className="absolute bottom-4 inset-x-4 z-10 pointer-events-none">
+                        <div className="p-3.5 sm:p-4 rounded-2xl bg-black/75 backdrop-blur-md border border-white/15 flex items-center justify-between gap-3 text-white">
+                          <div>
+                            <div className="text-[10px] font-black uppercase tracking-widest text-[#ff4f00]">
                               {cardPrice}
-                            </span>
-                            <span className="text-xs font-bold text-white/80 group-hover/card:text-white group-hover/card:translate-x-1 transition-all flex items-center gap-1">
-                              Voir <ArrowRight className="w-3 h-3" />
-                            </span>
+                            </div>
+                            <div className="text-xs sm:text-sm font-bold text-white truncate max-w-[240px]">
+                              {cardTitle}
+                            </div>
                           </div>
+                          <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white text-xs group-hover/media:bg-[#ff4f00] transition-colors">
+                            →
+                          </span>
                         </div>
                       </div>
                     </Link>
@@ -356,21 +504,23 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
 
             </div>
 
-            {/* Slider Pagination Dots */}
-            <div className="flex items-center justify-center gap-2 pt-4">
-              {heroSlides.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActiveIndex(idx)}
-                  aria-label={`Aller à la slide ${idx + 1}`}
-                  className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                    idx === activeIndex
-                      ? "w-8 bg-[#ff4f00]"
-                      : "w-2 bg-white/30 hover:bg-white/60"
-                  }`}
-                />
-              ))}
-            </div>
+            {/* Slider Pagination Dots (Rendered only when multiple slides exist) */}
+            {heroSlides.length > 1 && (
+              <div className="flex items-center justify-center gap-2 pt-4">
+                {heroSlides.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveIndex(idx)}
+                    aria-label={`Aller à la slide ${idx + 1}`}
+                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                      idx === activeIndex
+                        ? "w-8 bg-[#ff4f00]"
+                        : "w-2 bg-white/40 hover:bg-white/70"
+                    }`}
+                  />
+                ))}
+              </div>
+            )}
 
           </div>
         </section>
@@ -378,3 +528,4 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
     </div>
   );
 }
+

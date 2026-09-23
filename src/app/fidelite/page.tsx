@@ -131,33 +131,33 @@ export default function LoyaltyRootPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0d0d10] text-white flex flex-col font-sans selection:bg-[#ff4f00] selection:text-white">
+    <div className="min-h-screen bg-[#fafaf9] text-zinc-900 flex flex-col font-sans selection:bg-[#ff4f00] selection:text-white">
       <Header />
 
       <main className="flex-1 pt-28 pb-20 px-4 max-w-5xl mx-auto w-full">
         {/* Banner Hero */}
         <section className="text-center mb-12 relative">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-tr from-[#ff4f00]/20 via-[#005cff]/20 to-transparent blur-3xl rounded-full -z-10 pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-tr from-[#ff4f00]/10 via-[#005cff]/10 to-transparent blur-3xl rounded-full -z-10 pointer-events-none" />
           
           {/* Mascotte Spoolio */}
           <div className="w-28 h-28 sm:w-36 sm:h-36 mx-auto mb-4 relative group">
             <img
               src="/images/spoolio-mascot.png"
               alt="Mascotte Spoolio"
-              className="w-full h-full object-contain filter drop-shadow-[0_15px_30px_rgba(255,79,0,0.45)] group-hover:scale-105 transition-transform duration-300"
+              className="w-full h-full object-contain filter drop-shadow-[0_15px_30px_rgba(255,79,0,0.35)] group-hover:scale-105 transition-transform duration-300"
             />
           </div>
 
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-[#ff4f00] uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-xs font-bold text-[#ff4f00] uppercase tracking-widest mb-4">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Club Spoolio & Programme Fidélité</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-black uppercase tracking-tight font-antonio mb-4">
-            Consulter mon <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4f00] via-orange-400 to-[#005cff]">Solde de Tampons</span>
+          <h1 className="text-3xl sm:text-5xl font-black uppercase tracking-tight font-antonio mb-4 text-zinc-950">
+            Consulter mon <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4f00] via-orange-500 to-[#005cff]">Solde de Tampons</span>
           </h1>
           
-          <p className="text-sm sm:text-base text-gray-400 max-w-xl mx-auto font-medium">
+          <p className="text-sm sm:text-base text-zinc-600 max-w-xl mx-auto font-medium">
             Entrez votre adresse e-mail ou scannez votre QR Code pour découvrir vos points accumulés et débloquer vos récompenses exclusives.
           </p>
         </section>
@@ -169,22 +169,22 @@ export default function LoyaltyRootPage() {
               e.preventDefault();
               handleSearch();
             }}
-            className="flex flex-col sm:flex-row gap-2.5 p-2 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl"
+            className="flex flex-col sm:flex-row gap-2.5 p-2 rounded-2xl bg-white border border-zinc-200/90 shadow-sm"
           >
             <div className="relative flex-1 flex items-center">
-              <Search className="absolute left-4 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-4 w-5 h-5 text-zinc-400" />
               <input
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Ex: laura@gmail.com ou spoolio-abc123"
-                className="w-full pl-12 pr-4 py-3.5 bg-transparent text-white placeholder-gray-500 font-medium text-sm focus:outline-none"
+                className="w-full pl-12 pr-4 py-3.5 bg-transparent text-zinc-900 placeholder-zinc-400 font-medium text-sm focus:outline-none"
               />
             </div>
             <button
               type="submit"
               disabled={loading || !query.trim()}
-              className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#ff4f00] to-orange-500 hover:opacity-95 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-[#ff4f00]/25 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shrink-0"
+              className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#ff4f00] to-orange-500 hover:opacity-95 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-[#ff4f00]/25 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shrink-0 no-invert keep-white"
             >
               {loading ? (
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -201,14 +201,14 @@ export default function LoyaltyRootPage() {
             <motion.div
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-4 p-5 rounded-2xl bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 text-gray-300 text-xs font-medium text-center flex flex-col items-center gap-2.5 shadow-xl"
+              className="mt-4 p-5 rounded-2xl bg-orange-50/70 border border-orange-200 text-zinc-700 text-xs font-medium text-center flex flex-col items-center gap-2.5 shadow-xs"
             >
               <div className="w-9 h-9 rounded-full bg-[#ff4f00]/15 border border-[#ff4f00]/30 flex items-center justify-center text-[#ff4f00]">
                 <Info className="w-5 h-5" />
               </div>
-              <span className="font-bold text-white text-sm">{errorMsg}</span>
-              <p className="text-gray-400 text-xs max-w-md leading-relaxed">
-                💡 <strong className="text-gray-200">Pas d'inquiétude !</strong> Votre carte de fidélité sera <span className="text-[#ff4f00] font-semibold">automatiquement créée</span> avec vos premiers points attribués dès votre première commande sur Spoolio.fr ou lors de votre passage sur l'un de nos stands !
+              <span className="font-bold text-zinc-900 text-sm">{errorMsg}</span>
+              <p className="text-zinc-600 text-xs max-w-md leading-relaxed">
+                💡 <strong className="text-zinc-800">Pas d'inquiétude !</strong> Votre carte de fidélité sera <span className="text-[#ff4f00] font-semibold">automatiquement créée</span> avec vos premiers points attribués dès votre première commande sur Spoolio.fr ou lors de votre passage sur l'un de nos stands !
               </p>
             </motion.div>
           )}
@@ -221,7 +221,7 @@ export default function LoyaltyRootPage() {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="mb-16 p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-[#181820] to-[#101016] border border-[#ff4f00]/30 shadow-2xl shadow-[#ff4f00]/10 relative overflow-hidden"
+              className="mb-16 p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-zinc-900 to-zinc-950 border border-zinc-800 text-white shadow-2xl relative overflow-hidden no-invert keep-white"
             >
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
                 <div>
@@ -292,10 +292,10 @@ export default function LoyaltyRootPage() {
                   </h4>
                   <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
                     {card.history.slice(0, 5).map((h: any, idx: number) => (
-                      <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-white/[0.02] border border-white/5 text-xs">
+                      <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-white/[0.04] border border-white/5 text-xs">
                         <div>
                           <span className="font-semibold text-white">{h.reason || "Mouvement de fidélité"}</span>
-                          <span className="block text-[10px] text-gray-500">
+                          <span className="block text-[10px] text-gray-400">
                             {h.date ? new Date(h.date).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" }) : "Récemment"}
                           </span>
                         </div>
@@ -314,48 +314,48 @@ export default function LoyaltyRootPage() {
         {/* Explication du Programme & Paliers */}
         <section className="mb-16">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-black uppercase font-antonio tracking-tight mb-2">
+            <h2 className="text-2xl sm:text-3xl font-black uppercase font-antonio tracking-tight mb-2 text-zinc-950">
               Comment accumuler des tampons ?
             </h2>
-            <p className="text-xs sm:text-sm text-gray-400">
+            <p className="text-xs sm:text-sm text-zinc-600">
               Votre fidélité est récompensée aussi bien en ligne que sur nos stands de marché !
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center text-center">
+            <div className="p-6 rounded-2xl bg-white border border-zinc-200/90 shadow-2xs flex flex-col items-center text-center">
               <div className="w-12 h-12 rounded-xl bg-[#ff4f00]/10 border border-[#ff4f00]/30 flex items-center justify-center text-[#ff4f00] mb-4">
                 <ShoppingBag className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-white mb-2">1. Sur la Boutique & les Stands</h3>
-              <p className="text-xs text-gray-400 leading-relaxed">
-                Chaque tranche de 2 € dépensés (en ligne sur spoolio.fr ou sur nos marchés physiques) vous rapporte <strong className="text-white">1 tampon</strong>.
+              <h3 className="text-base font-bold text-zinc-950 mb-2">1. Sur la Boutique & les Stands</h3>
+              <p className="text-xs text-zinc-600 leading-relaxed">
+                Chaque tranche de 2 € dépensés (en ligne sur spoolio.fr ou sur nos marchés physiques) vous rapporte <strong className="text-zinc-900">1 tampon</strong>.
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center text-center">
+            <div className="p-6 rounded-2xl bg-white border border-zinc-200/90 shadow-2xs flex flex-col items-center text-center">
               <div className="w-12 h-12 rounded-xl bg-[#005cff]/10 border border-[#005cff]/30 flex items-center justify-center text-[#005cff] mb-4">
                 <Star className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-white mb-2">2. Donnez votre avis</h3>
-              <p className="text-xs text-gray-400 leading-relaxed">
-                Laissez un avis sur nos objets ou notre fiche Google pour recevoir des <strong className="text-white">tampons bonus</strong> sur votre carte.
+              <h3 className="text-base font-bold text-zinc-950 mb-2">2. Donnez votre avis</h3>
+              <p className="text-xs text-zinc-600 leading-relaxed">
+                Laissez un avis sur nos objets ou notre fiche Google pour recevoir des <strong className="text-zinc-900">tampons bonus</strong> sur votre carte.
               </p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 mb-4">
+            <div className="p-6 rounded-2xl bg-white border border-zinc-200/90 shadow-2xs flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-600 mb-4">
                 <Gift className="w-6 h-6" />
               </div>
-              <h3 className="text-base font-bold text-white mb-2">3. Débloquez vos Cadeaux</h3>
-              <p className="text-xs text-gray-400 leading-relaxed">
+              <h3 className="text-base font-bold text-zinc-950 mb-2">3. Débloquez vos Cadeaux</h3>
+              <p className="text-xs text-zinc-600 leading-relaxed">
                 Dès que vous franchissez un palier (20, 40, 60 ou 100 points), réclamez votre cadeau directement à l'atelier ou lors de votre prochaine commande !
               </p>
             </div>
           </div>
 
           {/* Grille des paliers */}
-          <h3 className="text-xl font-black uppercase font-antonio tracking-wider mb-6 text-center">
+          <h3 className="text-xl font-black uppercase font-antonio tracking-wider mb-6 text-center text-zinc-950">
             🎁 Les Paliers de Récompenses
           </h3>
 
@@ -369,21 +369,16 @@ export default function LoyaltyRootPage() {
                   key={r.tier}
                   className={`p-5 sm:p-6 rounded-3xl border transition-all select-none relative overflow-hidden group flex flex-col justify-between gap-4 ${
                     isUnlocked
-                      ? "bg-gradient-to-br from-[#121824] via-[#161f30] to-[#0f1420] border-emerald-500/40 text-white shadow-xl shadow-emerald-500/10 hover:border-emerald-400"
-                      : "bg-white/[0.03] border-white/10 text-gray-400 hover:border-white/20"
+                      ? "bg-white border-2 border-emerald-500 text-zinc-900 shadow-md shadow-emerald-500/10 hover:border-emerald-600"
+                      : "bg-white border border-zinc-200/90 text-zinc-700 shadow-2xs hover:border-zinc-300"
                   }`}
                 >
-                  {/* Glowing aura */}
-                  {isUnlocked && (
-                    <div className="absolute top-0 right-0 w-56 h-56 bg-emerald-500/10 blur-3xl pointer-events-none rounded-full" />
-                  )}
-
                   {/* Top Row: Icon + Title & Description + Badges */}
                   <div className="flex items-start gap-4 relative z-10">
                     <div className={`w-14 h-14 rounded-2xl border shrink-0 flex items-center justify-center text-2xl shadow-inner ${
                       isUnlocked
-                        ? "bg-gradient-to-tr from-emerald-500/20 to-teal-500/20 border-emerald-500/40 text-emerald-400"
-                        : "bg-white/5 border-white/10 text-gray-500"
+                        ? "bg-emerald-50 border-emerald-300 text-emerald-600"
+                        : "bg-zinc-100 border-zinc-200 text-zinc-500"
                     }`}>
                       {r.icon}
                     </div>
@@ -393,40 +388,40 @@ export default function LoyaltyRootPage() {
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className={`text-[11px] font-extrabold uppercase tracking-wider px-3 py-0.5 rounded-full border ${
                           isUnlocked
-                            ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/30"
-                            : "bg-[#ff4f00]/10 text-[#ff4f00] border-[#ff4f00]/25"
+                            ? "bg-emerald-100 text-emerald-800 border-emerald-200"
+                            : "bg-orange-50 text-[#ff4f00] border-orange-200"
                         }`}>
                           Palier {r.tier} points
                         </span>
 
-                        <span className="text-[11px] font-bold text-gray-300 bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-full">
+                        <span className="text-[11px] font-bold text-zinc-600 bg-zinc-100 border border-zinc-200 px-2.5 py-0.5 rounded-full">
                           Valeur : {r.value} €
                         </span>
                       </div>
 
-                      <h4 className="text-base sm:text-lg font-black text-white font-antonio tracking-wide leading-snug">
+                      <h4 className="text-base sm:text-lg font-black text-zinc-950 font-antonio tracking-wide leading-snug">
                         {r.text}
                       </h4>
 
-                      <p className="text-xs text-gray-400 leading-relaxed">{r.description}</p>
+                      <p className="text-xs text-zinc-600 leading-relaxed">{r.description}</p>
                     </div>
                   </div>
 
                   {/* Bottom Action Row (Full Width Button / Status Bar) */}
-                  <div className="pt-3 border-t border-white/10 relative z-10">
+                  <div className="pt-3 border-t border-zinc-100 relative z-10">
                     {isUnlocked ? (
                       <button
                         onClick={() => handleClaimReward(r)}
-                        className="w-full bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 hover:opacity-95 text-slate-950 font-black text-xs sm:text-sm uppercase tracking-wider py-3 px-4 rounded-2xl shadow-lg shadow-emerald-500/25 flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.01] active:scale-98 border border-emerald-300/40"
+                        className="w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 hover:opacity-95 text-white font-black text-xs sm:text-sm uppercase tracking-wider py-3 px-4 rounded-2xl shadow-md shadow-emerald-500/25 flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.01] active:scale-98 border border-emerald-400 no-invert keep-white"
                       >
                         <Gift className="w-4 h-4" />
                         <span>Ajouter au panier</span>
                       </button>
                     ) : (
-                      <div className="flex items-center justify-between p-3 rounded-2xl bg-black/40 border border-white/10 text-xs font-medium">
-                        <span className="text-gray-400">Requis : <strong className="text-gray-200">{r.tier} pts</strong></span>
-                        <span className="text-amber-400 font-mono font-bold flex items-center gap-1.5">
-                          <Lock className="w-3.5 h-3.5 text-gray-500" />
+                      <div className="flex items-center justify-between p-3 rounded-2xl bg-zinc-50 border border-zinc-200 text-xs font-medium">
+                        <span className="text-zinc-600">Requis : <strong className="text-zinc-900">{r.tier} pts</strong></span>
+                        <span className="text-amber-700 font-mono font-bold flex items-center gap-1.5">
+                          <Lock className="w-3.5 h-3.5 text-zinc-400" />
                           Encore {pointsNeeded} pts manquants
                         </span>
                       </div>

@@ -317,7 +317,7 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
       ctx.fillRect(40, y + 10, (720 * pct) / 100, 14);
     };
 
-    drawBar('Canal Moteur & Mouvement', currentBadge.stats.motor, 195, '#005cff');
+    drawBar('Canal Moteur & Mouvement', currentBadge.stats.motor, 195, '#ff4f00');
     drawBar('Discrétion Acoustique & Silence', currentBadge.stats.noise, 260, '#ec4899');
     drawBar('Focus & Ancrage Cognitif', currentBadge.stats.focus, 325, '#fbbf24');
 
@@ -344,24 +344,24 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
     <div className="w-full max-w-4xl mx-auto px-4 my-8">
       {/* Intro Hero Card */}
       {step === 0 && (
-        <div className="rounded-3xl p-8 sm:p-12 text-center bg-white dark:bg-[#131316] border border-neutral-200 dark:border-neutral-800 shadow-xl relative overflow-hidden space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#005cff]/15 border border-[#005cff]/30 text-[#005cff] text-xs font-mono font-bold uppercase tracking-wider">
+        <div className="rounded-3xl p-8 sm:p-12 text-center bg-white border border-zinc-200/90 shadow-xs relative overflow-hidden space-y-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#ff4f00]/10 border border-[#ff4f00]/20 text-[#ff4f00] text-xs font-mono font-bold uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5" />
             <span>BILAN SENSORIEL DE PRÉCISION</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl font-extrabold uppercase font-[family-name:var(--font-antonio)] text-neutral-900 dark:text-white leading-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 leading-tight font-righteous">
             Diagnostic Sensoriel Sur-Mesure 🧭
           </h2>
 
-          <p className="text-sm sm:text-base text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base text-zinc-600 max-w-2xl mx-auto leading-relaxed font-sans">
             Réponds à nos 5 questions ciblées (profil, intensité moteur, acoustique, mécanisme et format) pour cibler précisément tes 3 objets 3D les plus compatibles.
           </p>
 
           <div className="pt-2">
             <button
               onClick={() => setStep(1)}
-              className="inline-flex items-center gap-2 py-4 px-8 rounded-2xl bg-[#005cff] hover:bg-[#004ecc] text-white font-extrabold text-base uppercase tracking-wider shadow-lg hover:shadow-[#005cff]/25 transition-all cursor-pointer active:scale-95 border border-blue-400"
+              className="inline-flex items-center gap-2 py-4 px-8 rounded-full bg-[#ff4f00] hover:bg-[#e04500] text-white font-extrabold text-base uppercase tracking-wider shadow-md hover:shadow-lg transition-all cursor-pointer active:scale-95"
             >
               <span>Démarrer le Diagnostic (5 questions)</span>
               <ArrowRight className="w-5 h-5" />
@@ -372,14 +372,14 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
 
       {/* Step 1: Profil / Besoin */}
       {step === 1 && (
-        <div className="rounded-3xl p-6 sm:p-10 bg-white dark:bg-[#131316] border border-neutral-200 dark:border-neutral-800 shadow-xl space-y-6">
-          <div className="flex items-center justify-between border-b border-neutral-200 dark:border-neutral-800 pb-4">
-            <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">ÉTAPE 1 / 5</span>
-            <span className="text-xs text-neutral-400 font-bold">Profil &amp; Surcharge</span>
+        <div className="rounded-3xl p-6 sm:p-10 bg-white border border-zinc-200/90 shadow-xs space-y-6">
+          <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
+            <span className="text-xs font-mono font-bold text-zinc-500 uppercase tracking-wider">ÉTAPE 1 / 5</span>
+            <span className="text-xs text-zinc-400 font-bold">Profil &amp; Surcharge</span>
           </div>
 
-          <h3 className="text-2xl font-bold text-neutral-900 dark:text-white flex items-center gap-2">
-            <Brain className="w-6 h-6 text-white" />
+          <h3 className="text-2xl font-bold text-zinc-950 flex items-center gap-2 font-righteous">
+            <Brain className="w-6 h-6 text-[#ff4f00]" />
             <span>Quel est ton besoin ou ton profil principal ?</span>
           </h3>
 
@@ -388,12 +388,12 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
               <button
                 key={opt.id}
                 onClick={() => handleSelectProfile(opt.id)}
-                className="p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/50 hover:border-[#005cff] text-left transition-all cursor-pointer hover:scale-[1.02] active:scale-95 group"
+                className="p-5 rounded-2xl border border-zinc-200/90 bg-zinc-50/60 hover:bg-white hover:border-[#ff4f00] hover:shadow-md text-left transition-all cursor-pointer hover:scale-[1.01] active:scale-95 group"
               >
-                <div className="font-bold text-lg text-neutral-900 dark:text-white group-hover:text-[#005cff] transition-colors mb-1">
+                <div className="font-bold text-lg text-zinc-900 group-hover:text-[#ff4f00] transition-colors mb-1 font-outfit">
                   {opt.title}
                 </div>
-                <div className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                <div className="text-xs text-zinc-600 leading-relaxed font-sans">
                   {opt.desc}
                 </div>
               </button>
@@ -404,28 +404,28 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
 
       {/* Step 2: Slider Intensité Moteur */}
       {step === 2 && (
-        <div className="rounded-3xl p-6 sm:p-10 bg-white dark:bg-[#131316] border border-neutral-200 dark:border-neutral-800 shadow-xl space-y-8">
-          <div className="flex items-center justify-between border-b border-neutral-200 dark:border-neutral-800 pb-4">
-            <button onClick={() => setStep(1)} className="text-xs font-bold text-neutral-500 hover:text-neutral-900 dark:hover:text-white flex items-center gap-1 cursor-pointer">
+        <div className="rounded-3xl p-6 sm:p-10 bg-white border border-zinc-200/90 shadow-xs space-y-8">
+          <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
+            <button onClick={() => setStep(1)} className="text-xs font-bold text-zinc-500 hover:text-zinc-950 flex items-center gap-1 cursor-pointer">
               <ArrowLeft className="w-3.5 h-3.5" /> Retour
             </button>
-            <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">ÉTAPE 2 / 5</span>
+            <span className="text-xs font-mono font-bold text-zinc-500 uppercase tracking-wider">ÉTAPE 2 / 5</span>
           </div>
 
           <div className="space-y-2">
-            <h3 className="text-2xl font-bold text-neutral-900 dark:text-white flex items-center gap-2">
-              <Sliders className="w-6 h-6 text-white" />
+            <h3 className="text-2xl font-bold text-zinc-950 flex items-center gap-2 font-righteous">
+              <Sliders className="w-6 h-6 text-[#ff4f00]" />
               <span>Quelle intensité de mouvement te faut-il ?</span>
             </h3>
-            <p className="text-xs text-neutral-500">
+            <p className="text-xs text-zinc-500 font-sans">
               Ajuste le curseur selon le besoin d'énergie moteur dans tes mains.
             </p>
           </div>
 
-          <div className="space-y-6 py-4 px-4 bg-neutral-900/50 rounded-2xl border border-neutral-800">
+          <div className="space-y-6 py-6 px-6 bg-zinc-50 rounded-2xl border border-zinc-200/80">
             <div className="flex justify-between items-center">
-              <span className="text-xs font-bold text-neutral-400">Intensité sélectionnée :</span>
-              <span className="text-xl font-black font-mono text-white">{answers.intensity} / 10</span>
+              <span className="text-xs font-bold text-zinc-500">Intensité sélectionnée :</span>
+              <span className="text-xl font-black font-mono text-zinc-950">{answers.intensity} / 10</span>
             </div>
 
             <input
@@ -434,10 +434,10 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
               max="10"
               value={answers.intensity}
               onChange={(e) => setAnswers(prev => ({ ...prev, intensity: parseInt(e.target.value, 10) }))}
-              className="w-full accent-[#005cff] h-3 bg-neutral-800 rounded-lg cursor-pointer"
+              className="w-full accent-[#ff4f00] h-3 bg-zinc-200 rounded-lg cursor-pointer"
             />
 
-            <div className="text-xs text-neutral-300 font-medium italic text-center min-h-[40px] flex items-center justify-center bg-neutral-950 p-3 rounded-xl border border-neutral-800">
+            <div className="text-xs text-zinc-700 font-medium italic text-center min-h-[40px] flex items-center justify-center bg-white p-3 rounded-xl border border-zinc-200 shadow-xs">
               {answers.intensity <= 3 && "🟢 1-3 : Pressions très douces et glissements subtils (Calme & Discrétion)"}
               {answers.intensity >= 4 && answers.intensity <= 7 && "🟡 4-7 : Retours fermes & mouvements articulés réguliers (Équilibre)"}
               {answers.intensity >= 8 && "🔴 8-10 : Canalisation intense haute fréquence (Besoin moteur fort)"}
@@ -446,7 +446,7 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
 
           <button
             onClick={() => setStep(3)}
-            className="w-full py-4 px-6 rounded-2xl bg-[#005cff] hover:bg-[#004ecc] text-white font-extrabold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer border border-blue-400"
+            className="w-full py-4 px-6 rounded-full bg-[#ff4f00] hover:bg-[#e04500] text-white font-extrabold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer"
           >
             <span>Valider l'Intensité</span>
             <ArrowRight className="w-4 h-4" />
@@ -456,16 +456,16 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
 
       {/* Step 3: Contrainte Sonore */}
       {step === 3 && (
-        <div className="rounded-3xl p-6 sm:p-10 bg-white dark:bg-[#131316] border border-neutral-200 dark:border-neutral-800 shadow-xl space-y-6">
-          <div className="flex items-center justify-between border-b border-neutral-200 dark:border-neutral-800 pb-4">
-            <button onClick={() => setStep(2)} className="text-xs font-bold text-neutral-500 hover:text-neutral-900 dark:hover:text-white flex items-center gap-1 cursor-pointer">
+        <div className="rounded-3xl p-6 sm:p-10 bg-white border border-zinc-200/90 shadow-xs space-y-6">
+          <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
+            <button onClick={() => setStep(2)} className="text-xs font-bold text-zinc-500 hover:text-zinc-950 flex items-center gap-1 cursor-pointer">
               <ArrowLeft className="w-3.5 h-3.5" /> Retour
             </button>
-            <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">ÉTAPE 3 / 5</span>
+            <span className="text-xs font-mono font-bold text-zinc-500 uppercase tracking-wider">ÉTAPE 3 / 5</span>
           </div>
 
-          <h3 className="text-2xl font-bold text-neutral-900 dark:text-white flex items-center gap-2">
-            <Volume2 className="w-6 h-6 text-white" />
+          <h3 className="text-2xl font-bold text-zinc-950 flex items-center gap-2 font-righteous">
+            <Volume2 className="w-6 h-6 text-[#ff4f00]" />
             <span>Quelle est ton exigence de niveau sonore ?</span>
           </h3>
 
@@ -474,12 +474,12 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
               <button
                 key={opt.id}
                 onClick={() => handleSelectContext(opt.id)}
-                className="p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/50 hover:border-[#005cff] text-left transition-all cursor-pointer hover:scale-[1.02] active:scale-95 group"
+                className="p-5 rounded-2xl border border-zinc-200/90 bg-zinc-50/60 hover:bg-white hover:border-[#ff4f00] hover:shadow-md text-left transition-all cursor-pointer hover:scale-[1.01] active:scale-95 group"
               >
-                <div className="font-bold text-lg text-neutral-900 dark:text-white group-hover:text-[#005cff] transition-colors mb-1">
+                <div className="font-bold text-lg text-zinc-900 group-hover:text-[#ff4f00] transition-colors mb-1 font-outfit">
                   {opt.title}
                 </div>
-                <div className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                <div className="text-xs text-zinc-600 leading-relaxed font-sans">
                   {opt.desc}
                 </div>
               </button>
@@ -490,16 +490,16 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
 
       {/* Step 4: Mécanisme Tactile Préféré */}
       {step === 4 && (
-        <div className="rounded-3xl p-6 sm:p-10 bg-white dark:bg-[#131316] border border-neutral-200 dark:border-neutral-800 shadow-xl space-y-6">
-          <div className="flex items-center justify-between border-b border-neutral-200 dark:border-neutral-800 pb-4">
-            <button onClick={() => setStep(3)} className="text-xs font-bold text-neutral-500 hover:text-neutral-900 dark:hover:text-white flex items-center gap-1 cursor-pointer">
+        <div className="rounded-3xl p-6 sm:p-10 bg-white border border-zinc-200/90 shadow-xs space-y-6">
+          <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
+            <button onClick={() => setStep(3)} className="text-xs font-bold text-zinc-500 hover:text-zinc-950 flex items-center gap-1 cursor-pointer">
               <ArrowLeft className="w-3.5 h-3.5" /> Retour
             </button>
-            <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">ÉTAPE 4 / 5</span>
+            <span className="text-xs font-mono font-bold text-zinc-500 uppercase tracking-wider">ÉTAPE 4 / 5</span>
           </div>
 
-          <h3 className="text-2xl font-bold text-neutral-900 dark:text-white flex items-center gap-2">
-            <Gamepad2 className="w-6 h-6 text-white" />
+          <h3 className="text-2xl font-bold text-zinc-950 flex items-center gap-2 font-righteous">
+            <Gamepad2 className="w-6 h-6 text-[#ff4f00]" />
             <span>Quel type de sensation tactile te détend le plus ?</span>
           </h3>
 
@@ -508,12 +508,12 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
               <button
                 key={opt.id}
                 onClick={() => handleSelectGesture(opt.id)}
-                className="p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/50 hover:border-[#005cff] text-left transition-all cursor-pointer hover:scale-[1.02] active:scale-95 group"
+                className="p-5 rounded-2xl border border-zinc-200/90 bg-zinc-50/60 hover:bg-white hover:border-[#ff4f00] hover:shadow-md text-left transition-all cursor-pointer hover:scale-[1.01] active:scale-95 group"
               >
-                <div className="font-bold text-lg text-neutral-900 dark:text-white group-hover:text-[#005cff] transition-colors mb-1">
+                <div className="font-bold text-lg text-zinc-900 group-hover:text-[#ff4f00] transition-colors mb-1 font-outfit">
                   {opt.title}
                 </div>
-                <div className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                <div className="text-xs text-zinc-600 leading-relaxed font-sans">
                   {opt.desc}
                 </div>
               </button>
@@ -524,16 +524,16 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
 
       {/* Step 5: Format & Usage */}
       {step === 5 && (
-        <div className="rounded-3xl p-6 sm:p-10 bg-white dark:bg-[#131316] border border-neutral-200 dark:border-neutral-800 shadow-xl space-y-6">
-          <div className="flex items-center justify-between border-b border-neutral-200 dark:border-neutral-800 pb-4">
-            <button onClick={() => setStep(4)} className="text-xs font-bold text-neutral-500 hover:text-neutral-900 dark:hover:text-white flex items-center gap-1 cursor-pointer">
+        <div className="rounded-3xl p-6 sm:p-10 bg-white border border-zinc-200/90 shadow-xs space-y-6">
+          <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
+            <button onClick={() => setStep(4)} className="text-xs font-bold text-zinc-500 hover:text-zinc-950 flex items-center gap-1 cursor-pointer">
               <ArrowLeft className="w-3.5 h-3.5" /> Retour
             </button>
-            <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">ÉTAPE 5 / 5</span>
+            <span className="text-xs font-mono font-bold text-zinc-500 uppercase tracking-wider">ÉTAPE 5 / 5</span>
           </div>
 
-          <h3 className="text-2xl font-bold text-neutral-900 dark:text-white flex items-center gap-2">
-            <Package className="w-6 h-6 text-white" />
+          <h3 className="text-2xl font-bold text-zinc-950 flex items-center gap-2 font-righteous">
+            <Package className="w-6 h-6 text-[#ff4f00]" />
             <span>Quel format d'objet préfères-tu ?</span>
           </h3>
 
@@ -542,12 +542,12 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
               <button
                 key={opt.id}
                 onClick={() => handleSelectUsage(opt.id)}
-                className="p-5 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/50 hover:border-[#005cff] text-left transition-all cursor-pointer hover:scale-[1.02] active:scale-95 group"
+                className="p-5 rounded-2xl border border-zinc-200/90 bg-zinc-50/60 hover:bg-white hover:border-[#ff4f00] hover:shadow-md text-left transition-all cursor-pointer hover:scale-[1.01] active:scale-95 group"
               >
-                <div className="font-bold text-lg text-neutral-900 dark:text-white group-hover:text-[#005cff] transition-colors mb-1">
+                <div className="font-bold text-lg text-zinc-900 group-hover:text-[#ff4f00] transition-colors mb-1 font-outfit">
                   {opt.title}
                 </div>
-                <div className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                <div className="text-xs text-zinc-600 leading-relaxed font-sans">
                   {opt.desc}
                 </div>
               </button>
@@ -558,12 +558,12 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
 
       {/* Step 6: Full Results & Certificate */}
       {step === 6 && (
-        <div className="rounded-3xl p-6 sm:p-10 bg-white dark:bg-[#131316] border border-neutral-200 dark:border-neutral-800 shadow-xl space-y-8 animate-fade-in">
-          <div className="flex items-center justify-between border-b border-neutral-200 dark:border-neutral-800 pb-4">
-            <span className="text-xs font-mono font-bold text-emerald-400">DIAGNOSTIC 100% COMPLÉTÉ ✅</span>
+        <div className="rounded-3xl p-6 sm:p-10 bg-white border border-zinc-200/90 shadow-xs space-y-8 animate-fade-in">
+          <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
+            <span className="text-xs font-mono font-bold text-emerald-600">DIAGNOSTIC 100% COMPLÉTÉ ✅</span>
             <button
               onClick={handleReset}
-              className="text-xs font-bold text-neutral-500 hover:text-neutral-900 dark:hover:text-white flex items-center gap-1.5 cursor-pointer"
+              className="text-xs font-bold text-zinc-500 hover:text-zinc-950 flex items-center gap-1.5 cursor-pointer"
             >
               <RotateCcw className="w-3.5 h-3.5" /> Recommencer
             </button>
@@ -571,20 +571,20 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
 
           {/* Official Spoolio Profile Card */}
           {currentBadge && (
-            <div className="relative rounded-[28px] bg-gradient-to-br from-[#0d0e12] to-[#1a1c24] border border-[#005cff]/40 p-6 sm:p-8 shadow-2xl text-white overflow-hidden space-y-6">
+            <div className="relative rounded-[28px] bg-gradient-to-br from-zinc-950 to-zinc-900 border border-[#ff4f00]/30 p-6 sm:p-8 shadow-xl text-white overflow-hidden space-y-6">
               <div className="flex items-center justify-between border-b border-white/10 pb-4">
                 <div className="flex items-center gap-2 text-white font-bold text-xs tracking-widest uppercase font-mono">
-                  <Sparkles className="w-4 h-4" />
+                  <Sparkles className="w-4 h-4 text-[#ff4f00]" />
                   <span>Carte Profil Sensoriel Officiel Spoolio</span>
                 </div>
-                <span className="text-[10px] text-neutral-500 font-mono">ID: #{answers.profile?.toUpperCase()}</span>
+                <span className="text-[10px] text-zinc-400 font-mono">ID: #{answers.profile?.toUpperCase()}</span>
               </div>
 
               <div className="space-y-2">
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight font-righteous">
                   {currentBadge.title}
                 </h3>
-                <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed max-w-2xl">
+                <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed max-w-2xl font-sans">
                   {currentBadge.desc}
                 </p>
               </div>
@@ -593,30 +593,30 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
               <div className="space-y-3 pt-2">
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs font-bold">
-                    <span className="text-neutral-400">Canal Moteur &amp; Mouvement</span>
-                    <span className="text-[#005cff] font-mono">{currentBadge.stats.motor}%</span>
+                    <span className="text-zinc-400">Canal Moteur &amp; Mouvement</span>
+                    <span className="text-[#ff4f00] font-mono">{currentBadge.stats.motor}%</span>
                   </div>
-                  <div className="w-full h-2 rounded-full bg-neutral-900 overflow-hidden">
-                    <div className="h-full bg-[#005cff] rounded-full transition-all duration-1000" style={{ width: `${currentBadge.stats.motor}%` }} />
+                  <div className="w-full h-2 rounded-full bg-zinc-800 overflow-hidden">
+                    <div className="h-full bg-[#ff4f00] rounded-full transition-all duration-1000" style={{ width: `${currentBadge.stats.motor}%` }} />
                   </div>
                 </div>
 
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs font-bold">
-                    <span className="text-neutral-400">Discrétion Acoustique &amp; Silence</span>
+                    <span className="text-zinc-400">Discrétion Acoustique &amp; Silence</span>
                     <span className="text-pink-400 font-mono">{currentBadge.stats.noise}%</span>
                   </div>
-                  <div className="w-full h-2 rounded-full bg-neutral-900 overflow-hidden">
+                  <div className="w-full h-2 rounded-full bg-zinc-800 overflow-hidden">
                     <div className="h-full bg-pink-500 rounded-full transition-all duration-1000" style={{ width: `${currentBadge.stats.noise}%` }} />
                   </div>
                 </div>
 
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs font-bold">
-                    <span className="text-neutral-400">Focus &amp; Ancrage Cognitif</span>
+                    <span className="text-zinc-400">Focus &amp; Ancrage Cognitif</span>
                     <span className="text-amber-400 font-mono">{currentBadge.stats.focus}%</span>
                   </div>
-                  <div className="w-full h-2 rounded-full bg-neutral-900 overflow-hidden">
+                  <div className="w-full h-2 rounded-full bg-zinc-800 overflow-hidden">
                     <div className="h-full bg-amber-400 rounded-full transition-all duration-1000" style={{ width: `${currentBadge.stats.focus}%` }} />
                   </div>
                 </div>
@@ -624,14 +624,14 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
 
               {/* Action buttons: Download & Copy */}
               <div className="pt-4 border-t border-white/10 flex items-center justify-between gap-3 flex-wrap">
-                <span className="text-[11px] text-neutral-400 italic">
+                <span className="text-[11px] text-zinc-400 italic">
                   Fabriqué en France à Comines en plastique biosourcé 🇫🇷
                 </span>
 
                 <div className="flex items-center gap-2">
                   <button
                     onClick={handleCopyProfile}
-                    className="px-4 py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-xs font-bold text-white flex items-center gap-2 transition-all active:scale-95 cursor-pointer"
+                    className="px-4 py-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs font-bold text-white flex items-center gap-2 transition-all active:scale-95 cursor-pointer"
                   >
                     {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
                     <span>{copied ? 'Copié !' : 'Partager'}</span>
@@ -639,7 +639,7 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
 
                   <button
                     onClick={handleDownloadCard}
-                    className="px-4 py-2.5 rounded-xl bg-[#005cff] hover:bg-[#004ecc] text-white text-xs font-extrabold flex items-center gap-2 shadow-md transition-all active:scale-95 cursor-pointer border border-blue-400"
+                    className="px-5 py-2.5 rounded-full bg-[#ff4f00] hover:bg-[#e04500] text-white text-xs font-extrabold flex items-center gap-2 shadow-md transition-all active:scale-95 cursor-pointer"
                   >
                     <Download className="w-4 h-4" />
                     <span>Télécharger la Carte (PNG)</span>
@@ -651,7 +651,7 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
 
           {/* Top 3 Product Recommendations */}
           <div className="space-y-4">
-            <h3 className="text-xl font-bold text-neutral-900 dark:text-white flex items-center justify-between gap-2">
+            <h3 className="text-xl font-bold text-zinc-950 flex items-center justify-between gap-2 font-outfit">
               <span>🎯 Vos 3 Fidgets les plus compatibles :</span>
             </h3>
 
@@ -659,41 +659,41 @@ export default function FidgetProfiler({ products }: FidgetProfilerProps) {
               {recommendations.map(({ product, matchPercentage, reason }) => (
                 <article
                   key={product.id}
-                  className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/40 p-4 flex flex-col justify-between space-y-4 hover:border-[#005cff] transition-all relative overflow-hidden"
+                  className="rounded-2xl border border-zinc-200/90 bg-white p-4 flex flex-col justify-between space-y-4 hover:border-[#ff4f00] hover:shadow-lg transition-all relative overflow-hidden"
                 >
                   {/* Top Match Badge */}
-                  <div className="absolute top-6 left-6 z-10 px-2.5 py-1 rounded-full bg-emerald-500 text-black font-black text-[10px] uppercase tracking-wider shadow-md">
+                  <div className="absolute top-6 left-6 z-10 px-2.5 py-1 rounded-full bg-emerald-500 text-white font-black text-[10px] uppercase tracking-wider shadow-md">
                     {matchPercentage}% MATCH
                   </div>
 
-                  <div className="relative aspect-4/3 rounded-xl overflow-hidden bg-neutral-200 dark:bg-neutral-950">
+                  <div className="relative aspect-square rounded-xl overflow-hidden bg-zinc-100">
                     <img
                       src={product.imageUrl}
                       alt={product.name}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute top-2 right-2 px-2.5 py-1 rounded-full bg-[#005cff] text-white font-extrabold text-xs shadow-md">
+                    <div className="absolute top-2 right-2 px-2.5 py-1 rounded-full bg-[#ff4f00] text-white font-extrabold text-xs shadow-md">
                       {product.price}
                     </div>
                   </div>
 
                   <div className="flex-1 space-y-2">
-                    <h4 className="font-bold text-base text-neutral-900 dark:text-white leading-tight">
+                    <h4 className="font-bold text-base text-zinc-950 hover:text-[#ff4f00] leading-tight font-outfit">
                       {product.name}
                     </h4>
-                    <p className="text-xs text-neutral-600 dark:text-neutral-400 line-clamp-2">
+                    <p className="text-xs text-zinc-600 line-clamp-2 font-sans">
                       {product.description}
                     </p>
                   </div>
 
-                  <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-semibold flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 shrink-0" />
+                  <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
                     <span className="truncate">{reason}</span>
                   </div>
 
                   <Link
                     href={`/product/${product.id}`}
-                    className="w-full py-3 px-4 rounded-xl bg-[#005cff] hover:bg-[#004ecc] text-white font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-all border border-blue-400"
+                    className="w-full py-3 px-4 rounded-full bg-[#ff4f00] hover:bg-[#e04500] text-white font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-xs transition-all font-outfit"
                   >
                     <ShoppingCart className="w-4 h-4" />
                     <span>Personnaliser &amp; Acheter</span>

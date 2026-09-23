@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
-import { Plus, Check, Sparkles } from "lucide-react";
+import { Plus, Check, Sparkles, ShoppingBag } from "lucide-react";
 
 export interface CrossSellItem {
   id: number;
@@ -69,16 +69,14 @@ export default function CartCrossSell({ variant = "drawer" }: CartCrossSellProps
   };
 
   return (
-    <div className="w-full space-y-3 font-sans">
-      <div className="flex items-center justify-between px-1">
-        <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-white">
-          <Sparkles className="w-3.5 h-3.5 text-[#ff4f00]" />
-          <span>Complétez votre commande</span>
-        </div>
-        <span className="text-[10px] font-mono text-gray-400">Mini-prix Spoolio</span>
+    <div className="w-full bg-[#f8f8f9] px-6 py-5 border-t border-zinc-200/70 space-y-3.5">
+      <div className="flex items-center justify-between">
+        <h3 className="text-[11px] font-bold tracking-widest uppercase text-zinc-400 font-sans">
+          Vous aimerez aussi
+        </h3>
       </div>
 
-      <div className={variant === "drawer" ? "space-y-2.5" : "grid grid-cols-1 sm:grid-cols-3 gap-3"}>
+      <div className="space-y-3">
         {REAL_SPOOLIO_CROSS_SELL.map((item) => {
           const isAlreadyInCart = cartItems.some((ci) => ci.productId === item.id || ci.slug === item.slug);
           const wasJustAdded = justAddedId === item.id;
@@ -86,61 +84,51 @@ export default function CartCrossSell({ variant = "drawer" }: CartCrossSellProps
           return (
             <div
               key={item.id}
-              className="flex items-center justify-between p-2.5 sm:p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.07] border border-white/10 transition-all gap-3"
+              className="flex items-center justify-between gap-3"
             >
               {/* Product Thumbnail + Info */}
               <div className="flex items-center gap-3 min-w-0 flex-1">
                 <Link
                   href={`/product/${item.slug}`}
-                  className="relative w-12 h-12 rounded-xl bg-black/40 border border-white/10 overflow-hidden shrink-0 group/img block"
+                  className="relative w-12 h-12 aspect-square rounded-xl bg-zinc-100 overflow-hidden shrink-0 group/img block"
                 >
                   <Image
                     src={item.image}
                     alt={item.name}
                     fill
                     sizes="48px"
-                    className="object-cover group-hover/img:scale-110 transition-transform no-invert"
+                    className="object-cover group-hover/img:scale-105 transition-transform no-invert"
                   />
                 </Link>
 
                 <div className="flex flex-col min-w-0">
                   <Link
                     href={`/product/${item.slug}`}
-                    className="text-xs font-bold text-white hover:text-[#ff4f00] transition-colors truncate leading-tight"
+                    className="text-xs font-semibold text-zinc-900 hover:text-[#ff4f00] transition-colors truncate leading-tight"
                   >
                     {item.name}
                   </Link>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs font-mono font-black text-[#ff4f00]">
-                      {item.price}€
-                    </span>
-                    <span className="text-[9px] font-mono text-gray-400 truncate">
-                      • {item.badge}
-                    </span>
-                  </div>
+                  <span className="text-xs text-zinc-600 font-medium mt-0.5">
+                    {parseFloat(item.price).toFixed(2).replace('.', ',')} €
+                  </span>
                 </div>
               </div>
 
-              {/* 1-Click Add Button */}
+              {/* Circular Action Button with Shopping Bag */}
               <button
                 type="button"
                 onClick={() => handleAdd(item)}
-                className={`h-8 px-3 rounded-xl font-black text-[11px] uppercase tracking-wider transition-all flex items-center justify-center gap-1 shrink-0 cursor-pointer shadow-md active:scale-95 ${
+                aria-label={`Ajouter ${item.name} au panier`}
+                className={`w-9 h-9 rounded-full border transition-all flex items-center justify-center shrink-0 cursor-pointer active:scale-95 ${
                   isAlreadyInCart || wasJustAdded
-                    ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
-                    : "bg-[#ff4f00] hover:bg-[#e04500] text-white shadow-[#ff4f00]/25"
+                    ? "border-emerald-500 bg-emerald-50 text-emerald-600"
+                    : "border-[#ff4f00] text-[#ff4f00] hover:bg-[#ff4f00]/10"
                 }`}
               >
                 {isAlreadyInCart || wasJustAdded ? (
-                  <>
-                    <Check className="w-3 h-3" />
-                    <span>Ajouté</span>
-                  </>
+                  <Check className="w-4 h-4 text-emerald-600" />
                 ) : (
-                  <>
-                    <Plus className="w-3 h-3" />
-                    <span>Ajouter</span>
-                  </>
+                  <ShoppingBag className="w-4 h-4 text-[#ff4f00]" />
                 )}
               </button>
             </div>

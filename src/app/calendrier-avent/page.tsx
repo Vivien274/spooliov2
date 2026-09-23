@@ -144,7 +144,7 @@ export default function PublicCalendrierAventPage() {
 
   if (loading || !data) {
     return (
-      <div className="min-h-screen bg-[#140306] flex items-center justify-center">
+      <div className="min-h-screen bg-[#140306] flex items-center justify-center no-invert keep-white">
         <div className="flex flex-col items-center gap-3">
           <RefreshCw className="w-8 h-8 text-amber-400 animate-spin" />
           <span className="text-sm font-mono text-white/70">Chargement de l'Avent Spoolio...</span>
@@ -231,7 +231,7 @@ export default function PublicCalendrierAventPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#1a0509] via-[#120306] to-[#0a0204] text-white relative overflow-hidden font-sans pb-12">
+    <div className="min-h-screen bg-gradient-to-b from-[#1a0509] via-[#120306] to-[#0a0204] text-white relative overflow-hidden font-sans pb-12 no-invert keep-white">
       {/* CSS Animations for Floating Snow & Glowing Lights */}
       <style jsx global>{`
         @keyframes floatSnow {

@@ -315,36 +315,36 @@ export default function BoussoleSensoriellePage() {
     : fidgetProducts;
 
   return (
-    <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#fafaf9] text-zinc-900 font-sans flex flex-col items-center overflow-x-hidden selection:bg-[#ff4f00] selection:text-white">
       <Header />
 
       {/* Hero Header */}
       <main className="flex-1 w-full max-w-7xl mx-auto px-6 pt-28 md:pt-32 pb-12 md:pb-16 flex flex-col justify-center relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-10 md:mb-12 space-y-4">
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white leading-tight font-[family-name:var(--font-antonio)]">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-zinc-950 leading-tight font-righteous">
             De quoi tes mains ont-elles besoin{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF5500] via-amber-300 to-pink-500">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4f00] via-amber-500 to-[#ff4f00]">
               là, tout de suite ?
             </span>
           </h1>
 
-          <p className="text-sm sm:text-base text-neutral-400 max-w-xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base text-zinc-600 max-w-xl mx-auto leading-relaxed font-sans">
             Trouve ton objet idéal imprimé en 3D biosourcé ou amuse-toi directement avec nos fidgets tactiles interactifs en ligne.
           </p>
         </div>
 
         {/* Navigation Switcher Tabs */}
         <div className="w-full max-w-3xl mx-auto mb-8 sm:mb-12 select-none">
-          <div className="p-1.5 bg-neutral-900/90 border border-neutral-800 rounded-3xl grid grid-cols-2 md:grid-cols-4 gap-1.5 shadow-xl">
+          <div className="p-1.5 bg-white border border-zinc-200/90 rounded-2xl sm:rounded-full grid grid-cols-2 md:grid-cols-4 gap-1.5 shadow-xs">
             <button
               onClick={() => setActiveTab('compass')}
               className={`
-                flex items-center justify-center gap-2 py-3 px-3 rounded-2xl font-extrabold text-xs sm:text-sm tracking-wider uppercase
-                transition-all duration-300 cursor-pointer text-center w-full
+                flex items-center justify-center gap-2 py-3 px-3 rounded-xl sm:rounded-full font-bold text-xs sm:text-sm tracking-wider uppercase
+                transition-all duration-200 cursor-pointer text-center w-full
                 ${
                   activeTab === 'compass'
-                    ? 'bg-[#005cff] text-white shadow-lg shadow-[#005cff]/25'
-                    : 'text-neutral-400 hover:text-white'
+                    ? 'bg-[#ff4f00] text-white shadow-md shadow-[#ff4f00]/25'
+                    : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-100'
                 }
               `}
             >
@@ -355,12 +355,12 @@ export default function BoussoleSensoriellePage() {
             <button
               onClick={() => setActiveTab('profiler')}
               className={`
-                flex items-center justify-center gap-2 py-3 px-3 rounded-2xl font-extrabold text-xs sm:text-sm tracking-wider uppercase
-                transition-all duration-300 cursor-pointer text-center w-full
+                flex items-center justify-center gap-2 py-3 px-3 rounded-xl sm:rounded-full font-bold text-xs sm:text-sm tracking-wider uppercase
+                transition-all duration-200 cursor-pointer text-center w-full
                 ${
                   activeTab === 'profiler'
-                    ? 'bg-violet-600 text-white shadow-lg shadow-violet-600/25'
-                    : 'text-neutral-400 hover:text-white'
+                    ? 'bg-zinc-950 text-white shadow-md'
+                    : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-100'
                 }
               `}
             >
@@ -371,12 +371,12 @@ export default function BoussoleSensoriellePage() {
             <button
               onClick={() => setActiveTab('digital')}
               className={`
-                flex items-center justify-center gap-2 py-3 px-3 rounded-2xl font-extrabold text-xs sm:text-sm tracking-wider uppercase
-                transition-all duration-300 cursor-pointer text-center w-full
+                flex items-center justify-center gap-2 py-3 px-3 rounded-xl sm:rounded-full font-bold text-xs sm:text-sm tracking-wider uppercase
+                transition-all duration-200 cursor-pointer text-center w-full
                 ${
                   activeTab === 'digital'
-                    ? 'bg-pink-600 text-white shadow-lg shadow-pink-600/25'
-                    : 'text-neutral-400 hover:text-white'
+                    ? 'bg-zinc-950 text-white shadow-md'
+                    : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-100'
                 }
               `}
             >
@@ -387,12 +387,12 @@ export default function BoussoleSensoriellePage() {
             <button
               onClick={() => setActiveTab('breathing')}
               className={`
-                flex items-center justify-center gap-2 py-3 px-3 rounded-2xl font-extrabold text-xs sm:text-sm tracking-wider uppercase
-                transition-all duration-300 cursor-pointer text-center w-full
+                flex items-center justify-center gap-2 py-3 px-3 rounded-xl sm:rounded-full font-bold text-xs sm:text-sm tracking-wider uppercase
+                transition-all duration-200 cursor-pointer text-center w-full
                 ${
                   activeTab === 'breathing'
-                    ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/25'
-                    : 'text-neutral-400 hover:text-white'
+                    ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/25'
+                    : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-100'
                 }
               `}
             >
@@ -413,20 +413,20 @@ export default function BoussoleSensoriellePage() {
             </section>
 
             <section className="space-y-6">
-              <div className="flex items-center justify-between border-b border-neutral-800 pb-4 max-w-5xl mx-auto select-none">
-                <h2 className="text-base sm:text-lg font-bold text-white">
+              <div className="flex items-center justify-between border-b border-zinc-200/80 pb-4 max-w-5xl mx-auto select-none">
+                <h2 className="text-base sm:text-lg font-bold text-zinc-950 font-outfit">
                   {selectedCategory
                     ? categoryHeadings[selectedCategory]
                     : '✨ Sélection sensorielle Spoolio :'}
                 </h2>
 
-                <div className="text-xs font-semibold text-neutral-400">
+                <div className="text-xs font-semibold text-zinc-500 font-mono">
                   {filteredProducts.length} fidget{filteredProducts.length > 1 ? 's' : ''} trouvé{filteredProducts.length > 1 ? 's' : ''}
                 </div>
               </div>
 
               {isLoadingProducts ? (
-                <div className="text-center py-12 text-neutral-400 font-medium animate-pulse">
+                <div className="text-center py-12 text-zinc-400 font-medium animate-pulse">
                   Chargement des fidgets sélectionnés...
                 </div>
               ) : filteredProducts.length > 0 ? (
@@ -436,10 +436,10 @@ export default function BoussoleSensoriellePage() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-12 bg-neutral-900/60 rounded-3xl border border-neutral-800 p-8 max-w-xl mx-auto space-y-3">
+                <div className="text-center py-12 bg-white rounded-3xl border border-zinc-200/90 p-8 max-w-xl mx-auto space-y-3 shadow-xs">
                   <span className="text-3xl">🧭</span>
-                  <h3 className="text-lg font-bold text-white">Aucun fidget activé dans la Boussole</h3>
-                  <p className="text-xs text-neutral-400 leading-relaxed">
+                  <h3 className="text-lg font-bold text-zinc-950 font-outfit">Aucun fidget activé dans la Boussole</h3>
+                  <p className="text-xs text-zinc-500 leading-relaxed font-sans">
                     Activez vos produits depuis l&apos;administration (colonne 🧭 Boussole ou fiche produit) pour les afficher ici.
                   </p>
                 </div>
@@ -470,89 +470,89 @@ export default function BoussoleSensoriellePage() {
         )}
 
         {/* Mon Havre de Paix Stats */}
-        <section className="mt-16 border-t border-neutral-800/80 pt-12 max-w-4xl mx-auto w-full select-none text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-pink-500/30 bg-pink-500/10 text-xs font-semibold text-pink-400 mb-4">
-            <Heart className="w-3.5 h-3.5 fill-current animate-pulse" />
+        <section className="mt-16 border-t border-zinc-200/80 pt-12 max-w-4xl mx-auto w-full select-none text-center">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-pink-200 bg-pink-50 text-xs font-semibold text-pink-700 mb-4">
+            <Heart className="w-3.5 h-3.5 fill-current text-pink-500 animate-pulse" />
             <span>Mon Havre de Paix</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-black text-white tracking-wide">Ton Énergie Apaisée</h2>
-          <p className="text-xs sm:text-sm text-neutral-400 mt-1 max-w-md mx-auto">
+          <h2 className="text-xl sm:text-3xl font-bold text-zinc-950 tracking-tight font-outfit">Ton Énergie Apaisée</h2>
+          <p className="text-xs sm:text-sm text-zinc-500 mt-1 max-w-md mx-auto font-sans">
             Chaque micro-pause et chaque respiration compte.
           </p>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-            <div className="bg-neutral-900/60 border border-neutral-800 p-5 rounded-2xl">
-              <span className="text-2xl font-black text-white font-mono block">{stats.clicks}</span>
-              <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mt-1 block">Clics / Pressions</span>
+            <div className="bg-white border border-zinc-200/90 p-5 rounded-2xl shadow-xs">
+              <span className="text-2xl sm:text-3xl font-extrabold text-zinc-950 font-outfit block">{stats.clicks}</span>
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mt-1 block">Clics / Pressions</span>
             </div>
-            <div className="bg-neutral-900/60 border border-neutral-800 p-5 rounded-2xl">
-              <span className="text-2xl font-black text-white font-mono block">{stats.pops}</span>
-              <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mt-1 block">Bulles Éclatées</span>
+            <div className="bg-white border border-zinc-200/90 p-5 rounded-2xl shadow-xs">
+              <span className="text-2xl sm:text-3xl font-extrabold text-zinc-950 font-outfit block">{stats.pops}</span>
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mt-1 block">Bulles Éclatées</span>
             </div>
-            <div className="bg-neutral-900/60 border border-neutral-800 p-5 rounded-2xl">
-              <span className="text-2xl font-black text-white font-mono block">{stats.twangs}</span>
-              <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mt-1 block">Tensions Élastiques</span>
+            <div className="bg-white border border-zinc-200/90 p-5 rounded-2xl shadow-xs">
+              <span className="text-2xl sm:text-3xl font-extrabold text-zinc-950 font-outfit block">{stats.twangs}</span>
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mt-1 block">Tensions Élastiques</span>
             </div>
-            <div className="bg-neutral-900/60 border border-neutral-800 p-5 rounded-2xl">
-              <span className="text-2xl font-black text-white font-mono block">
+            <div className="bg-white border border-zinc-200/90 p-5 rounded-2xl shadow-xs">
+              <span className="text-2xl sm:text-3xl font-extrabold text-zinc-950 font-outfit block">
                 {Math.floor(stats.breathingSeconds / 60)}m {stats.breathingSeconds % 60}s
               </span>
-              <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest mt-1 block">Respiration Zen</span>
+              <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mt-1 block">Respiration Zen</span>
             </div>
           </div>
         </section>
 
         {/* SEO Information & Educational Block */}
-        <section className="mt-16 border-t border-neutral-800/80 pt-12 max-w-4xl mx-auto w-full text-left space-y-8 select-none">
+        <section className="mt-16 border-t border-zinc-200/80 pt-12 max-w-4xl mx-auto w-full text-left space-y-8 select-none">
           <div className="text-center space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-violet-500/30 bg-violet-500/10 text-xs font-semibold text-violet-400">
-              <Brain className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-violet-200 bg-violet-50 text-xs font-semibold text-violet-700">
+              <Brain className="w-3.5 h-3.5 text-violet-600" />
               <span>Guide &amp; Stimulation Sensorielle</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-bold text-zinc-950 tracking-tight font-righteous">
               Tout savoir sur la Boussole Sensorielle &amp; les Fidgets TDAH
             </h2>
-            <p className="text-xs sm:text-sm text-neutral-400 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xs sm:text-sm text-zinc-600 max-w-2xl mx-auto leading-relaxed font-sans">
               Découvrez comment la stimulation tactile et visuelle aide à canaliser l&apos;attention, apaiser le stress et répondre aux besoins d&apos;auto-stimulation (stimming).
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-neutral-900/60 border border-neutral-800/80 p-6 rounded-3xl space-y-3">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <div className="bg-white border border-zinc-200/90 p-6 rounded-3xl space-y-3 shadow-xs">
+              <h3 className="text-base font-bold text-zinc-950 flex items-center gap-2 font-outfit">
                 <span className="text-lg">🎯</span> Qu&apos;est-ce que la Boussole Sensorielle ?
               </h3>
-              <p className="text-xs text-neutral-300 leading-relaxed">
+              <p className="text-xs text-zinc-600 leading-relaxed font-sans">
                 La <strong>Boussole Sensorielle Spoolio</strong> est un outil interactif conçu pour vous aider à identifier précisément vos besoins d&apos;auto-stimulation au quotidien. Que vous recherchiez une sensation tactile forte (clic mécanique), un mouvement continu apaisant ou un moment de respiration guidée, notre boussole vous oriente vers les objets et exercices les plus adaptés.
               </p>
             </div>
 
-            <div className="bg-neutral-900/60 border border-neutral-800/80 p-6 rounded-3xl space-y-3">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <div className="bg-white border border-zinc-200/90 p-6 rounded-3xl space-y-3 shadow-xs">
+              <h3 className="text-base font-bold text-zinc-950 flex items-center gap-2 font-outfit">
                 <span className="text-lg">🧠</span> Fidgets 3D, TDAH, TSA &amp; Anxiété
               </h3>
-              <p className="text-xs text-neutral-300 leading-relaxed">
+              <p className="text-xs text-zinc-600 leading-relaxed font-sans">
                 Les fidgets sensoriels ne sont pas de simples jouets : pour les personnes neuroatypiques (TDAH, spectre de l&apos;autisme, hypersensibilité) ou sujettes au stress, manipuler un objet physique permet d&apos;occuper le canal moteur secondaire. Cela libère de la charge mentale, améliore la concentration en cours ou en réunion et aide à réguler les surcharges sensorielles.
               </p>
             </div>
 
-            <div className="bg-neutral-900/60 border border-neutral-800/80 p-6 rounded-3xl space-y-3">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <div className="bg-white border border-zinc-200/90 p-6 rounded-3xl space-y-3 shadow-xs">
+              <h3 className="text-base font-bold text-zinc-950 flex items-center gap-2 font-outfit">
                 <span className="text-lg">⚙️</span> 4 Profils de Stimulation Adaptés
               </h3>
-              <ul className="text-xs text-neutral-300 space-y-2 leading-relaxed">
-                <li>• <strong className="text-white">Cliquer :</strong> Pour les amateurs de retours tactiles francs et auditifs (switches mécaniques).</li>
-                <li>• <strong className="text-white">Manipuler :</strong> Des mouvements infinis et silencieux (cubes articulés, bagues rotatives, torsions).</li>
-                <li>• <strong className="text-white">Caresser &amp; Masser :</strong> Des textures d&apos;acupression apaisantes et stimulantes.</li>
-                <li>• <strong className="text-white">Résoudre :</strong> Engrenages et casse-têtes pour mobiliser la logique et l&apos;attention.</li>
+              <ul className="text-xs text-zinc-600 space-y-2 leading-relaxed font-sans">
+                <li>• <strong className="text-zinc-950">Cliquer :</strong> Pour les amateurs de retours tactiles francs et auditifs (switches mécaniques).</li>
+                <li>• <strong className="text-zinc-950">Manipuler :</strong> Des mouvements infinis et silencieux (cubes articulés, bagues rotatives, torsions).</li>
+                <li>• <strong className="text-zinc-950">Caresser &amp; Masser :</strong> Des textures d&apos;acupression apaisantes et stimulantes.</li>
+                <li>• <strong className="text-zinc-950">Résoudre :</strong> Engrenages et casse-têtes pour mobiliser la logique et l&apos;attention.</li>
               </ul>
             </div>
 
-            <div className="bg-neutral-900/60 border border-neutral-800/80 p-6 rounded-3xl space-y-3">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
+            <div className="bg-white border border-zinc-200/90 p-6 rounded-3xl space-y-3 shadow-xs">
+              <h3 className="text-base font-bold text-zinc-950 flex items-center gap-2 font-outfit">
                 <span className="text-lg">🌱</span> Écoresponsables &amp; Fabriqués en France 🇫🇷
               </h3>
-              <p className="text-xs text-neutral-300 leading-relaxed">
+              <p className="text-xs text-zinc-600 leading-relaxed font-sans">
                 Tous nos fidgets physiques Spoolio sont imprimés en 3D dans notre atelier à Comines (Nord de la France) à partir de <strong>PLA biosourcé</strong> (plastique végétal issu d&apos;amidon de maïs, 100% sans pétrole). Fabriqués sur commande avec passion pour vous offrir des objets durables, originaux et agréables à manipuler.
               </p>
             </div>

@@ -6,6 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import { cookies } from "next/headers";
 import { verifySession } from "@/lib/auth";
+import { isPreprodEnv } from "@/lib/env";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -35,10 +36,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     if (product) {
       if (product.status !== "publish" && product.status !== "") {
-        return {
-          title: "Produit non disponible | Spoolio",
-          robots: { index: false, follow: false },
-        };
+        if (!isPreprodEnv()) {
+          return {
+            title: "Produit non disponible | Spoolio",
+            robots: { index: false, follow: false },
+          };
+        }
       }
       productName = product.metaTitle || product.name;
       productDesc = product.metaDescription || product.shortDescription?.replace(/<[^>]*>/g, '') || `Découvrez le produit ${product.name} imprimé en 3D par Spoolio.`;
@@ -59,10 +62,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
           const match = parsed.find(p => p.slug === slug || String(p.id) === slug);
           if (match) {
             if (match.status !== "publish" && match.status) {
-              return {
-                title: "Produit non disponible | Spoolio",
-                robots: { index: false, follow: false },
-              };
+              if (!isPreprodEnv()) {
+                return {
+                  title: "Produit non disponible | Spoolio",
+                  robots: { index: false, follow: false },
+                };
+              }
             }
             productName = match.name;
             productDesc = (match.short_description || match.description || "").replace(/<[^>]*>/g, '').substring(0, 160) || `Découvrez le produit ${match.name} imprimé en 3D par Spoolio.`;
@@ -84,6 +89,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       "support-clavier-mecanique": "Support Clavier Mécanique",
       "porte-cles-nfc-spoolio": "Porte-clés NFC Spoolio",
       "marcel-le-poulpe-fidget": "Marcel le Poulpe Fidget",
+      "monstre-skateur-fait-main": "Gribouille le Skateur – Figurine Peinte à la Main",
+      "pochette-surprise-s": "Pochette Surprise — S (3 objets)",
+      "pochette-surprise-m": "Pochette Surprise — M (6 objets)",
+      "pochette-surprise-l": "Pochette Surprise — L (10 objets)",
     };
 
     productName = fallbackTitles[slug] || "Produit";
@@ -127,9 +136,12 @@ export default async function ProductPage({ params }: PageProps) {
     console.warn("Product status check failed:", err.message);
   }
 
+  const isPreprod = isPreprodEnv();
+  const canViewDraft = isAdmin || isPreprod;
+
   // If found in DB and it's a draft:
   if (dbProduct && dbProduct.status !== "publish" && dbProduct.status !== "") {
-    if (!isAdmin) {
+    if (!canViewDraft) {
       notFound();
     }
   }
@@ -143,7 +155,7 @@ export default async function ProductPage({ params }: PageProps) {
         const parsed = JSON.parse(fileData);
         if (Array.isArray(parsed)) {
           const match = parsed.find((p: any) => p.slug === slug);
-          if (match && match.status !== "publish" && match.status && !isAdmin) {
+          if (match && match.status !== "publish" && match.status && !canViewDraft) {
             notFound();
           }
         }
@@ -151,7 +163,7 @@ export default async function ProductPage({ params }: PageProps) {
     } catch {}
   }
 
-  const isDraftPreview = !!(dbProduct && dbProduct.status !== "publish" && dbProduct.status !== "" && isAdmin);
+  const isDraftPreview = !!(dbProduct && dbProduct.status !== "publish" && dbProduct.status !== "" && canViewDraft);
 
   const productName = slug
     .split("-")

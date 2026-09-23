@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Antonio, Plus_Jakarta_Sans } from "next/font/google";
+import { Antonio, Plus_Jakarta_Sans, DynaPuff, Righteous, Outfit, Permanent_Marker, Sedgwick_Ave_Display } from "next/font/google";
 import dynamic from "next/dynamic";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
@@ -24,7 +24,34 @@ const antonio = Antonio({
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+});
+
+const dynapuff = DynaPuff({
+  variable: "--font-dynapuff",
+  subsets: ["latin"],
+});
+
+const righteous = Righteous({
+  variable: "--font-righteous",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+});
+
+const permanentMarker = Permanent_Marker({
+  variable: "--font-permanent-marker",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+const sedgwickAve = Sedgwick_Ave_Display({
+  variable: "--font-sedgwick",
+  subsets: ["latin"],
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -88,7 +115,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${antonio.variable} ${plusJakarta.variable} h-full antialiased`}
+      className={`${antonio.variable} ${plusJakarta.variable} ${dynapuff.variable} ${righteous.variable} ${outfit.variable} ${permanentMarker.variable} ${sedgwickAve.variable} light h-full antialiased bg-white text-zinc-900`}
       suppressHydrationWarning
     >
       <head>
@@ -99,13 +126,10 @@ export default function RootLayout({
             __html: `
               (function() {
                 try {
-                  const theme = localStorage.getItem('theme');
-                  if (theme === 'light') {
-                    document.documentElement.classList.add('light');
-                    document.documentElement.classList.remove('dark');
-                  } else {
-                    document.documentElement.classList.remove('light');
-                    document.documentElement.classList.add('dark');
+                  document.documentElement.classList.add('light');
+                  document.documentElement.classList.remove('dark');
+                  if (localStorage.getItem('theme') === 'dark') {
+                    localStorage.setItem('theme', 'light');
                   }
                 } catch (e) {}
               })();
@@ -113,7 +137,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-white text-zinc-900 selection:bg-[#ff4f00] selection:text-white">
         {gaId && <GoogleAnalytics gaId={gaId} />}
         <LanguageProvider>
           <CartProvider>

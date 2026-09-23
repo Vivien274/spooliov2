@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import fs from 'fs';
 import path from 'path';
 import { invalidateProductsCache } from '../route';
+import { isPreprodEnv } from '@/lib/env';
 
 import { revalidatePath } from 'next/cache';
 
@@ -123,8 +124,10 @@ function mapProduct(p: any) {
     date_created: p.dateCreated ? new Date(p.dateCreated).toISOString() : (p.date_created ? new Date(p.date_created).toISOString() : null),
     attributes: parsedAttributes,
     tags: tagsList,
+    badge: (parsedAttributes && parsedAttributes.badge) ? String(parsedAttributes.badge).trim() : ((p as any).badge || null),
     stock: typeof p.stock === 'number' ? p.stock : (typeof p.stock_quantity === 'number' ? p.stock_quantity : -1),
     status: p.status || "publish",
+    is_active: (p.status === "publish" || p.status === "" || !p.status) && p.status !== "draft",
     show_in_sensory_compass: !!(p.showInSensoryCompass || p.show_in_sensory_compass),
     sensory_noise_level: p.sensoryNoiseLevel || p.sensory_noise_level || null,
     sensory_size: p.sensorySize || p.sensory_size || null,
@@ -137,6 +140,7 @@ async function fetchSingleProduct(slug: string, status: string) {
   const wcUrl = process.env.NEXT_PUBLIC_WC_URL;
   const consumerKey = process.env.WC_CONSUMER_KEY;
   const consumerSecret = process.env.WC_CONSUMER_SECRET;
+  const isPreprod = isPreprodEnv();
 
   // 1. Primary source of truth: PostgreSQL database via Prisma
   try {
@@ -147,9 +151,12 @@ async function fetchSingleProduct(slug: string, status: string) {
 
     if (dbProduct) {
       // If product exists in database, DB status is authoritative!
-      if (status !== 'all' && dbProduct.status !== 'publish' && dbProduct.status !== '') {
-        // Product is in draft (or not published). Do NOT expose publicly.
-        return null;
+      const isDraft = dbProduct.status !== 'publish' && dbProduct.status !== '';
+      if (isDraft) {
+        // If caller explicitly asked for published items, or if running in production without status='all':
+        if (status === 'publish' || (!isPreprod && status !== 'all')) {
+          return null;
+        }
       }
       return mapProduct(dbProduct);
     }
@@ -166,8 +173,11 @@ async function fetchSingleProduct(slug: string, status: string) {
       if (Array.isArray(parsed)) {
         const match = parsed.find(p => p.slug === slug);
         if (match) {
-          if (status !== 'all' && match.status !== 'publish' && match.status) {
-            return null;
+          const isDraft = match.status !== 'publish' && match.status;
+          if (isDraft) {
+            if (status === 'publish' || (!isPreprod && status !== 'all')) {
+              return null;
+            }
           }
           return mapProduct(match);
         }
@@ -199,6 +209,52 @@ async function fetchSingleProduct(slug: string, status: string) {
       console.warn("WooCommerce API fetch failed:", e.message);
     }
   }
+
+  // 4. Fallback for demo unique piece only if neither DB, JSON nor WooCommerce returned it
+  if (slug === 'monstre-skateur-fait-main') {
+    return {
+      id: 999901,
+      name: "Gribouille le Skateur – Figurine Peinte à la Main",
+      slug: "monstre-skateur-fait-main",
+      permalink: "https://spoolio.fr/product/monstre-skateur-fait-main",
+      price: "59.00",
+      regular_price: "59.00",
+      sale_price: "",
+      on_sale: false,
+      categories: [
+        { id: 101, name: "Fait Main", slug: "fait-main" },
+        { id: 102, name: "Figurines & Sculptures 3D", slug: "art-toys" }
+      ],
+      images: [
+        {
+          id: 1,
+          src: "/images/produits/monstre-skateur-fait-main.jpg",
+          name: "Gribouille le Skateur – Figurine Peinte à la Main",
+          alt: "Figurine de monstre skateur violet en sweat bordeaux sur son skate, peinte à la main dans l'atelier Spoolio"
+        }
+      ],
+      short_description: "<p>Pièce unique entièrement imprimée en 3D haute résolution puis minutieusement peinte à la main au pinceau dans notre atelier à Comines. Finition vernie satinée protectrice, regard espiègle et détails soignés jusqu'aux lacets et aux roues de skate.</p>",
+      description: `<h3>Une pièce de collection née d'un coup de crayon</h3>
+<p>Découvrez <strong>Gribouille le Skateur</strong>, le garnement attachant de l'atelier Spoolio ! Coiffé de ses deux cornes et de sa crête blanche, son sweat à capuche bordeaux aux cordons jaunes et ses baskets bicolores, il ride fièrement sur sa planche de skate aux roues jaunes patinées.</p>
+<h3>Un véritable travail d'artisanat</h3>
+<p>Chaque exemplaire est une pièce singulière réalisée à la commande :</p>
+<ul>
+  <li><strong>Impression 3D FDM Ultra-Fine :</strong> Épaisseur de couche 0.12 mm pour une finesse optimale des textures du sweat et du plateau.</li>
+  <li><strong>Ponçage et préparation manuelle :</strong> Lissage méticuleux au papier de verre de carrossier pour apprêter la surface.</li>
+  <li><strong>Peint à la main :</strong> Application minutieuse des couleurs au pinceau.</li>
+  <li><strong>Vernis protecteur satiné :</strong> Protection résistante aux manipulations et aux UV.</li>
+</ul>`,
+      stock: 3,
+      status: "draft",
+      is_active: false,
+      attributes: {
+        attributes: [],
+        variationPrices: []
+      },
+      tags: ["fait-main", "art-toy", "piece-unique", "peint-a-la-main", "skate"],
+      show_in_sensory_compass: false,
+    };
+  }
   return null;
 }
 
@@ -209,7 +265,8 @@ export async function GET(
   const { slug } = await params;
   try {
     const { searchParams } = new URL(request.url);
-    const status = searchParams.get('status') || 'publish';
+    const isPreprod = isPreprodEnv();
+    const status = searchParams.get('status') || (isPreprod ? 'all' : 'publish');
     const product = await fetchSingleProduct(slug, status);
     if (!product) {
       return NextResponse.json(
@@ -223,7 +280,7 @@ export async function GET(
       );
     }
     return NextResponse.json(product, {
-      headers: status !== 'all' ? {
+      headers: (status !== 'all' && !isPreprod) ? {
         'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
       } : {
         'Cache-Control': 'no-store',
@@ -253,6 +310,7 @@ export async function PUT(
       }
     }
     if (body.tags) attributesObj.tags = body.tags;
+    if (body.badge !== undefined) attributesObj.badge = body.badge ? String(body.badge).trim() : null;
 
     let effectivePrice = String(body.price || "").trim();
     if (!effectivePrice || effectivePrice === "0" || effectivePrice === "0.00" || effectivePrice === "0,00" || parseFloat(effectivePrice) === 0) {

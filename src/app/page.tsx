@@ -4,6 +4,7 @@ import Image from "next/image";
 import SpoolioProductGrid from "@/components/SpoolioProductGrid";
 import HomeTabbedProductGrid from "@/components/HomeTabbedProductGrid";
 import AnimatedHero from "@/components/AnimatedHero";
+import HeroMarqueeBanner from "@/components/HeroMarqueeBanner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReviewsSection from "@/components/ReviewsSection";
@@ -11,7 +12,7 @@ import HomeEnjeuBanner from "@/components/HomeEnjeuBanner";
 import SpotlightMarqueeBanner from "@/components/SpotlightMarqueeBanner";
 import BoutiqueCTAButton from "@/components/BoutiqueCTAButton";
 import ThemeRibbon from "@/components/ThemeRibbon";
-import { Sparkles, Keyboard, Shapes, Gift } from "lucide-react";
+import { Sparkles, Keyboard, Shapes, Gift, Heart, Sprout, FlaskConical, Recycle, Printer, BookOpen } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import fs from "fs";
 import path from "path";
@@ -27,11 +28,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const DEFAULT_HERO = {
-  title: "La Capsule été",
-  subtitle: "Elle est sortie, elle est tout belle !",
-  buttonText: "VOIR LA CAPSULE",
+  title: "Objets tactiles, accessoires de bureau et créations d'atelier.",
+  subtitle: "Conçus et imprimés à la demande dans notre atelier avec un polymère végétal biosourcé. Zéro surstock, du caractère et des finitions soignées.",
+  buttonText: "DÉCOUVRIR LE CATALOGUE",
   buttonLink: "/boutique",
-  imageUrl: "/images/hero_background.jpg",
+  imageUrl: "/images/clicker_gallery_2.jpg",
   imagePosition: "center center"
 };
 
@@ -112,14 +113,21 @@ export default async function HomePage() {
     return text;
   };
 
-  let hero = DEFAULT_HERO;
+  let hero: any = null;
   try {
+    const isPreprod =
+      process.env.VERCEL_GIT_COMMIT_REF === "preprod" ||
+      process.env.NODE_ENV === "development" ||
+      process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
+    const heroSlug = isPreprod ? "config-hero-preprod" : "config-hero";
+
     const page = (await Promise.race([
       prisma.page.findUnique({
-        where: { slug: "config-hero" }
+        where: { slug: heroSlug },
       }),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Hero DB Timeout")), 2000))
+      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("Hero DB Timeout")), 2000)),
     ])) as any;
+
     if (page) {
       const config = JSON.parse(page.content);
       hero = { ...DEFAULT_HERO, ...config };
@@ -231,53 +239,37 @@ export default async function HomePage() {
   }
 
   return (
-    <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
-      {/* Background Decorative Glows */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <div
-          className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full"
-          style={{ backgroundColor: "rgba(255, 85, 0, 0.08)", filter: "blur(140px)" }}
-        />
-        <div
-          className="absolute top-[30%] right-[-10%] w-[550px] h-[550px] rounded-full"
-          style={{ backgroundColor: "rgba(0, 240, 255, 0.07)", filter: "blur(140px)" }}
-        />
-        <div
-          className="absolute top-[65%] left-[-5%] w-[500px] h-[500px] rounded-full"
-          style={{ backgroundColor: "rgba(16, 185, 129, 0.06)", filter: "blur(140px)" }}
-        />
-      </div>
-
+    <div className="relative min-h-screen bg-white text-zinc-900 font-sans flex flex-col items-center selection:bg-[#ff4f00] selection:text-white overflow-x-hidden">
       {/* 1. Full-Width Animated Hero Section */}
       <AnimatedHero {...(hero as any)} />
 
-      {/* 5. Tabbed Product Showcase & 2-Column Banner */}
+      {/* 2. Full-Width Transition Marquee Ticker */}
+      <HeroMarqueeBanner />
+
+      {/* 3. Tabbed Product Showcase & 2-Column Banner */}
       <section className="w-full max-w-[1200px] px-4 py-8 relative z-10 flex flex-col gap-10">
-        {/* Tabbed Product Showcase (Incontournables, Nouveautés, Jeux de société, Tout le catalogue) */}
+        {/* Tabbed Product Showcase (Nouveautés, Fidgets, Pochettes, Bureau, etc.) */}
         <HomeTabbedProductGrid />
 
-        {/* 2-Column Section (1/3 + 2/3): Aider l'Atelier + App Enjeu */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 my-4 items-stretch font-sans">
-          {/* Left Column (1/3): Aider l'Atelier (Donation) */}
-          <div className="lg:col-span-1 relative rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-[#cf3b00]/90 via-[#b03200] to-[#802200] border border-[#cf3b00]/40 dark:bg-gradient-to-br dark:from-[#ff4f00]/15 dark:via-[#131316] dark:to-[#1a1412] dark:border-[#ff4f00]/30 overflow-hidden flex flex-col justify-between gap-6 shadow-xl backdrop-blur-md group hover:border-[#ff4f00]/50 transition-all duration-500">
-            <div className="absolute -left-12 -top-12 w-48 h-48 rounded-full bg-[#ff4f00]/15 blur-3xl pointer-events-none animate-pulse hidden dark:block" />
-            <div className="absolute -right-12 -bottom-12 w-48 h-48 rounded-full bg-[#ff4f00]/10 blur-3xl pointer-events-none hidden dark:block" />
-
+        {/* 2-Column Balanced Section: Aider l'Atelier + App Enjeu */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-4 items-stretch font-sans">
+          {/* Left Column: Aider l'Atelier (Donation) */}
+          <div className="h-full relative rounded-3xl p-6 sm:p-8 bg-zinc-50 border border-zinc-200 overflow-hidden flex flex-col justify-between gap-6 shadow-sm group hover:border-zinc-400 transition-all duration-300">
             <div className="relative z-10 flex flex-col items-start gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-white/20 dark:bg-gradient-to-br dark:from-[#ff4f00] dark:to-[#e04500] flex items-center justify-center shrink-0 shadow-lg shadow-black/10 dark:shadow-[#ff4f00]/20 select-none animate-bounce">
-                  <span className="text-xl">🧡</span>
+                <div className="w-12 h-12 rounded-2xl bg-[#ff4f00]/10 border border-[#ff4f00]/20 flex items-center justify-center shrink-0 shadow-xs select-none">
+                  <Heart className="w-6 h-6 text-[#ff4f00] fill-[#ff4f00]/20" />
                 </div>
-                <span className="inline-block px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-white/20 text-white border border-white/30 dark:bg-[#ff4f00]/20 dark:text-[#ff4f00] dark:border-[#ff4f00]/30 animate-pulse no-invert">
+                <span className="inline-block px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-[#ff4f00]/10 text-[#ff4f00] border border-[#ff4f00]/20 no-invert">
                   {t("home.donation.badge")}
                 </span>
               </div>
 
               <div className="space-y-2">
-                <h4 className="text-2xl sm:text-3xl font-black text-white tracking-wide uppercase font-antonio leading-tight no-invert">
+                <h4 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight uppercase font-outfit leading-tight no-invert">
                   {t("home.donation.title")}
                 </h4>
-                <p className="text-xs sm:text-sm text-white/90 dark:text-gray-300 leading-relaxed font-medium">
+                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed font-medium">
                   {t("home.donation.description")}
                 </p>
               </div>
@@ -286,7 +278,7 @@ export default async function HomePage() {
             <div className="relative z-10 pt-2">
               <Link
                 href="/don"
-                className="w-full h-12 px-6 rounded-xl bg-white text-[#cf3b00] hover:bg-white/95 dark:bg-[#ff4f00] dark:text-white dark:hover:bg-[#e04500] font-black text-xs uppercase tracking-wider transition-all shadow-xl hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
+                className="w-full h-12 px-6 rounded-xl bg-zinc-950 hover:bg-[#ff4f00] text-white font-black text-xs uppercase tracking-wider transition-all shadow-sm hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
               >
                 <span>{t("home.donation.button")}</span>
                 <span className="transition-transform duration-300 group-hover:translate-x-1 text-sm">&rarr;</span>
@@ -294,183 +286,101 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Right Column (2/3): App Enjeu */}
-          <HomeEnjeuBanner className="lg:col-span-2 h-full my-0" />
+          {/* Right Column: App Enjeu */}
+          <HomeEnjeuBanner className="h-full my-0" />
         </div>
       </section>
 
       {/* 5. PLA Storytelling Timeline Section */}
-      <section className="w-full max-w-[1200px] px-4 py-14 relative z-10 border-t border-white/10">
+      <section className="w-full max-w-[1200px] px-4 py-14 relative z-10 border-t border-zinc-200">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-white font-antonio">
-            {t("home.timeline.title")} 🌾
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-700 text-xs font-black uppercase tracking-wider mb-3">
+            <Sprout className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Matière 100% Végétale</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-normal uppercase tracking-wide text-zinc-900 font-righteous">
+            {t("home.timeline.title")}
           </h2>
-          <p className="text-xs sm:text-sm text-neutral-300 font-sans mt-2.5 max-w-lg mx-auto leading-relaxed font-medium">
+          <p className="text-xs sm:text-sm text-zinc-500 font-sans mt-2.5 max-w-lg mx-auto leading-relaxed font-medium">
             {t("home.timeline.subtitle")}
           </p>
         </div>
 
         {/* Timeline Grid */}
         <div className="relative grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-4 mt-8 font-sans">
-          {/* Timeline Connector Line (only visible on desktop) */}
-          <div className="hidden md:block absolute top-[44px] left-[8%] right-[8%] h-[3px] bg-gradient-to-r from-[#ff4f00] via-purple-500 to-emerald-400 shadow-[0_0_12px_rgba(255,79,0,0.5)] z-0" />
+          {/* Timeline Connector Line (Dashed guide line behind circles) */}
+          <div className="hidden md:block absolute top-[48px] left-[10%] right-[10%] border-t-2 border-dashed border-neutral-300 z-0 pointer-events-none" />
 
           {/* Step 1 */}
-          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-[#141419] border-2 border-white/10 hover:border-[#ff4f00]/60 hover:bg-[#1a1a22] shadow-xl hover:shadow-[0_0_25px_rgba(255,79,0,0.15)] transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-12 h-12 rounded-full bg-[#ff4f00] text-white border-2 border-white/20 shadow-[0_0_15px_rgba(255,79,0,0.5)] flex items-center justify-center font-black text-lg mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
-              1
+          <div className="relative z-10 flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+            <div className="relative w-14 h-14 rounded-2xl bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center mb-4 shrink-0 ring-4 ring-zinc-50 shadow-md transition-all duration-300 group-hover:scale-105">
+              <Sprout className="w-6 h-6 text-emerald-400 group-hover:text-white transition-colors" />
+              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white text-zinc-950 text-[10px] font-black flex items-center justify-center border border-zinc-200 shadow-xs">
+                1
+              </span>
             </div>
-            <h4 className="text-base sm:text-lg font-black text-white uppercase tracking-wide mb-2 font-antonio leading-tight text-center">{t("home.timeline.step1.title")}</h4>
-            <p className="text-xs text-gray-300 leading-relaxed font-medium">
+            <h4 className="text-base sm:text-lg font-bold text-zinc-900 tracking-tight mb-2 font-outfit leading-tight text-center">{t("home.timeline.step1.title")}</h4>
+            <p className="text-xs text-zinc-500 leading-relaxed font-medium">
               {t("home.timeline.step1.description")}
             </p>
           </div>
 
           {/* Step 2 */}
-          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-[#141419] border-2 border-white/10 hover:border-indigo-500/60 hover:bg-[#1a1a22] shadow-xl hover:shadow-[0_0_25px_rgba(99,102,241,0.15)] transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-12 h-12 rounded-full bg-indigo-600 text-white border-2 border-white/20 shadow-[0_0_15px_rgba(99,102,241,0.5)] flex items-center justify-center font-black text-lg mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
-              2
+          <div className="relative z-10 flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+            <div className="relative w-14 h-14 rounded-2xl bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center mb-4 shrink-0 ring-4 ring-zinc-50 shadow-md transition-all duration-300 group-hover:scale-105">
+              <FlaskConical className="w-6 h-6 text-amber-300 group-hover:text-white transition-colors" />
+              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white text-zinc-950 text-[10px] font-black flex items-center justify-center border border-zinc-200 shadow-xs">
+                2
+              </span>
             </div>
-            <h4 className="text-base sm:text-lg font-black text-white uppercase tracking-wide mb-2 font-antonio leading-tight text-center">{t("home.timeline.step2.title")}</h4>
-            <p className="text-xs text-gray-300 leading-relaxed font-medium">
+            <h4 className="text-base sm:text-lg font-bold text-zinc-900 tracking-tight mb-2 font-outfit leading-tight text-center">{t("home.timeline.step2.title")}</h4>
+            <p className="text-xs text-zinc-500 leading-relaxed font-medium">
               {t("home.timeline.step2.description")}
             </p>
           </div>
 
           {/* Step 3 */}
-          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-[#141419] border-2 border-white/10 hover:border-purple-500/60 hover:bg-[#1a1a22] shadow-xl hover:shadow-[0_0_25px_rgba(168,85,247,0.15)] transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-12 h-12 rounded-full bg-purple-600 text-white border-2 border-white/20 shadow-[0_0_15px_rgba(168,85,247,0.5)] flex items-center justify-center font-black text-lg mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
-              3
+          <div className="relative z-10 flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+            <div className="relative w-14 h-14 rounded-2xl bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center mb-4 shrink-0 ring-4 ring-zinc-50 shadow-md transition-all duration-300 group-hover:scale-105">
+              <Recycle className="w-6 h-6 text-emerald-400 group-hover:text-white transition-colors" />
+              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white text-zinc-950 text-[10px] font-black flex items-center justify-center border border-zinc-200 shadow-xs">
+                3
+              </span>
             </div>
-            <h4 className="text-base sm:text-lg font-black text-white uppercase tracking-wide mb-2 font-antonio leading-tight text-center">{t("home.timeline.step3.title")}</h4>
-            <p className="text-xs text-gray-300 leading-relaxed font-medium">
+            <h4 className="text-base sm:text-lg font-bold text-zinc-900 tracking-tight mb-2 font-outfit leading-tight text-center">{t("home.timeline.step3.title")}</h4>
+            <p className="text-xs text-zinc-500 leading-relaxed font-medium">
               {t("home.timeline.step3.description")}
             </p>
           </div>
 
           {/* Step 4 */}
-          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-[#141419] border-2 border-white/10 hover:border-blue-500/60 hover:bg-[#1a1a22] shadow-xl hover:shadow-[0_0_25px_rgba(59,130,246,0.15)] transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-12 h-12 rounded-full bg-blue-600 text-white border-2 border-white/20 shadow-[0_0_15px_rgba(59,130,246,0.5)] flex items-center justify-center font-black text-lg mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
-              4
+          <div className="relative z-10 flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+            <div className="relative w-14 h-14 rounded-2xl bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center mb-4 shrink-0 ring-4 ring-zinc-50 shadow-md transition-all duration-300 group-hover:scale-105">
+              <Printer className="w-6 h-6 text-[#ff4f00] group-hover:text-white transition-colors" />
+              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white text-zinc-950 text-[10px] font-black flex items-center justify-center border border-zinc-200 shadow-xs">
+                4
+              </span>
             </div>
-            <h4 className="text-base sm:text-lg font-black text-white uppercase tracking-wide mb-2 font-antonio leading-tight text-center">{t("home.timeline.step4.title")}</h4>
-            <p className="text-xs text-gray-300 leading-relaxed font-medium">
+            <h4 className="text-base sm:text-lg font-bold text-zinc-900 tracking-tight mb-2 font-outfit leading-tight text-center">{t("home.timeline.step4.title")}</h4>
+            <p className="text-xs text-zinc-500 leading-relaxed font-medium">
               {t("home.timeline.step4.description")}
             </p>
           </div>
 
           {/* Step 5 */}
-          <div className="relative z-10 flex flex-col items-center text-center p-5 rounded-2xl bg-[#141419] border-2 border-white/10 hover:border-emerald-500/60 hover:bg-[#1a1a22] shadow-xl hover:shadow-[0_0_25px_rgba(16,185,129,0.15)] transition-all duration-300 hover:-translate-y-1 group">
-            <div className="w-12 h-12 rounded-full bg-emerald-500 text-black border-2 border-white/20 shadow-[0_0_15px_rgba(16,185,129,0.5)] flex items-center justify-center font-black text-lg mb-4 shrink-0 group-hover:scale-110 transition-transform duration-300">
-              5
+          <div className="relative z-10 flex flex-col items-center text-center p-5 sm:p-6 rounded-2xl bg-white border border-zinc-200 hover:border-zinc-400 hover:shadow-md transition-all duration-300 hover:-translate-y-1 group">
+            <div className="relative w-14 h-14 rounded-2xl bg-zinc-950 group-hover:bg-[#ff4f00] text-white flex items-center justify-center mb-4 shrink-0 ring-4 ring-zinc-50 shadow-md transition-all duration-300 group-hover:scale-105">
+              <Sparkles className="w-6 h-6 text-amber-300 group-hover:text-white transition-colors" />
+              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white text-zinc-950 text-[10px] font-black flex items-center justify-center border border-zinc-200 shadow-xs">
+                5
+              </span>
             </div>
-            <h4 className="text-base sm:text-lg font-black text-white uppercase tracking-wide mb-2 font-antonio leading-tight text-center">{t("home.timeline.step5.title")}</h4>
-            <p className="text-xs text-gray-300 leading-relaxed font-medium">
+            <h4 className="text-base sm:text-lg font-bold text-zinc-900 tracking-tight mb-2 font-outfit leading-tight text-center">{t("home.timeline.step5.title")}</h4>
+            <p className="text-xs text-zinc-500 leading-relaxed font-medium">
               {t("home.timeline.step5.description")}
             </p>
           </div>
         </div>
-      </section>
-
-      {/* 5.5. Atelier Machines Section (Nos Artisanes de l'Ombre + Filaments & Machines) */}
-      <section className="w-full max-w-[1200px] px-4 py-8 mb-12 flex flex-col gap-10">
-        <div className="text-center">
-          <h2 className="text-3xl font-extrabold uppercase tracking-tight text-white font-antonio">
-            {t("home.printers.title")}
-          </h2>
-          <p className="text-xs text-gray-400 font-sans mt-2 max-w-md mx-auto leading-relaxed">
-            {t("home.printers.subtitle")}
-          </p>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {(() => {
-            const currentHour = Math.floor(Date.now() / (1000 * 60 * 60));
-            return dbPrinters.map((p, idx) => {
-              let task = "";
-              let statusText: string = p.status === "Active" ? t("home.printers.active") : p.status === "En veille" ? t("home.printers.standby") : t("home.printers.broken");
-              let colorClass = "";
-              let glowClass = "";
-
-              const baseColors: any = {
-                "Berthe": { active: "border-blue-500/30 hover:border-blue-500/80 hover:bg-blue-500/5", glow: "bg-blue-400" },
-                "Philomène": { active: "border-emerald-500/30 hover:border-emerald-500/80 hover:bg-emerald-500/5", glow: "bg-emerald-400" },
-                "Ursule": { active: "border-orange-500/30 hover:border-orange-500/80 hover:bg-orange-500/5", glow: "bg-orange-400" },
-                "Godelaine": { active: "border-purple-500/30 hover:border-purple-500/80 hover:bg-purple-500/5", glow: "bg-purple-400" },
-                "Claudine": { active: "border-pink-500/30 hover:border-pink-500/80 hover:bg-pink-500/5", glow: "bg-pink-400" }
-              };
-
-              const cfg = baseColors[p.name] || { active: "border-gray-500/30 hover:border-gray-500/80 hover:bg-gray-500/5", glow: "bg-gray-400" };
-
-              if (p.status === "Active") {
-                const productName = getSeededProduct(activeProducts, currentHour + idx);
-                task = t("home.printers.printing", { name: productName });
-                colorClass = cfg.active;
-                glowClass = `${cfg.glow} animate-pulse`;
-              } else if (p.status === "En veille") {
-                task = t("home.printers.standby_temp");
-                colorClass = "border-purple-500/20 hover:border-purple-500/50 hover:bg-purple-500/5 bg-purple-950/5";
-                glowClass = "bg-purple-400/40";
-              } else if (p.status === "En panne") {
-                task = t("home.printers.out_of_service");
-                statusText = t("home.printers.broken");
-                colorClass = "border-red-500/40 bg-red-950/15 hover:border-red-500/70 hover:bg-red-500/5";
-                glowClass = "bg-red-500 animate-ping";
-              }
-
-              return (
-                <div
-                  key={p.name}
-                  className={`p-5 rounded-2xl bg-spoolio-card border transition-all duration-300 flex flex-col justify-between h-[150px] font-sans ${colorClass}`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-base font-extrabold text-white">{p.name}</span>
-                  </div>
-
-                  <div>
-                    <div className="flex items-center gap-1.5 mb-1.5">
-                      <span className={`w-2 h-2 rounded-full ${glowClass}`} />
-                      <span className={`text-[10px] font-bold uppercase tracking-wider ${p.status === "En panne" ? "text-red-400" : "text-gray-300"}`}>
-                        {statusText}
-                      </span>
-                    </div>
-                    <p className={`text-[11px] font-medium leading-tight ${p.status === "En panne" ? "text-red-400/80" : "text-gray-500"}`}>
-                      {task}
-                    </p>
-                  </div>
-                </div>
-              );
-            });
-          })()}
-        </div>
-
-        {/* Live Social Proof Counter Ribbon (Monthly Progressive Counter) */}
-        {(() => {
-          const now = new Date();
-          const dayOfMonth = now.getDate();
-          const totalDaysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-          const monthlyTarget = 105;
-          const monthlyCount = Math.max(8, Math.floor((dayOfMonth / totalDaysInMonth) * monthlyTarget) + (dayOfMonth % 4));
-
-          return (
-            <div className="w-full p-4 rounded-2xl bg-gradient-to-r from-[#ff4f00]/10 via-[#0d0d10] to-[#ff4f00]/10 border border-[#ff4f00]/30 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left font-sans shadow-lg">
-              <div className="flex items-center gap-3">
-                <span className="w-2.5 h-2.5 rounded-full bg-[#ff4f00] animate-ping shrink-0" />
-                <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-                  <span className="text-xs sm:text-sm font-black text-white uppercase font-antonio tracking-wide">
-                    🔥 {t("home.printers.live_ribbon", { count: monthlyCount })}
-                  </span>
-                  <span className="hidden sm:inline text-neutral-500">•</span>
-                  <span className="text-[11px] text-neutral-300 font-medium">{t("home.printers.zero_overstock")}</span>
-                </div>
-              </div>
-              <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full shrink-0">
-                {t("home.printers.live_badge")}
-              </span>
-            </div>
-          );
-        })()}
-
       </section>
 
       {/* Spotlight Marquee Banner */}
@@ -485,17 +395,17 @@ export default async function HomePage() {
           <ReviewsSection displayReviews={displayReviews} />
 
           {/* Right Block (1 column width, latest blog posts list) */}
-          <div className="md:col-span-1 rounded-3xl bg-[#141418] border border-[#ff4f00]/30 p-6 flex flex-col justify-between gap-5 font-sans shadow-xl backdrop-blur-md">
+          <div className="md:col-span-1 rounded-3xl bg-zinc-50 border border-zinc-200 p-6 flex flex-col justify-between gap-5 font-sans shadow-sm">
             <div className="flex flex-col gap-4">
               {/* Title Header */}
-              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="flex items-center justify-between border-b border-zinc-200 pb-3">
                 <div className="flex items-center gap-2">
-                  <span className="text-lg">📝</span>
-                  <h4 className="text-base font-extrabold text-white tracking-tight uppercase font-antonio">
+                  <BookOpen className="w-4 h-4 text-[#ff4f00]" />
+                  <h4 className="text-base font-extrabold text-zinc-900 tracking-tight uppercase font-outfit">
                     Spoolio • Le blog
                   </h4>
                 </div>
-                <span className="text-[10px] font-mono font-bold text-[#ff4f00] bg-[#ff4f00]/10 border border-[#ff4f00]/30 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-mono font-bold text-[#ff4f00] bg-[#ff4f00]/10 border border-[#ff4f00]/20 px-2 py-0.5 rounded-full">
                   Derniers Articles
                 </span>
               </div>
@@ -503,7 +413,7 @@ export default async function HomePage() {
               {/* List of Latest Articles */}
               <div className="space-y-3">
                 {recentBlogPosts.length === 0 ? (
-                  <p className="text-xs text-neutral-400 italic py-4 text-center">
+                  <p className="text-xs text-zinc-400 italic py-4 text-center">
                     Aucun article disponible pour le moment.
                   </p>
                 ) : (
@@ -511,10 +421,10 @@ export default async function HomePage() {
                     <Link
                       key={post.id}
                       href={`/blog/${post.slug}`}
-                      className="group flex gap-3 items-center p-2.5 rounded-2xl bg-white/[0.03] hover:bg-[#ff4f00]/10 border border-white/5 hover:border-[#ff4f00]/30 transition-all duration-300"
+                      className="group flex gap-3 items-center p-2.5 rounded-2xl bg-white hover:bg-zinc-100 border border-zinc-200 transition-all duration-200 shadow-xs"
                     >
                       {post.featuredImageUrl ? (
-                        <div className="relative w-12 h-12 rounded-xl overflow-hidden shrink-0 bg-black/40 border border-white/10">
+                        <div className="relative w-12 h-12 rounded-xl overflow-hidden shrink-0 bg-zinc-100 border border-zinc-200">
                           <Image
                             src={post.featuredImageUrl}
                             alt={post.title}
@@ -524,15 +434,15 @@ export default async function HomePage() {
                           />
                         </div>
                       ) : (
-                        <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-lg shrink-0 border border-white/10">
-                          🤖
+                        <div className="w-12 h-12 rounded-xl bg-zinc-100 flex items-center justify-center shrink-0 border border-zinc-200 text-zinc-400">
+                          <BookOpen className="w-5 h-5" />
                         </div>
                       )}
                       <div className="flex flex-col min-w-0 space-y-0.5">
                         <span className="text-[9px] text-[#ff4f00] font-bold uppercase tracking-wider">
                           {new Date(post.date).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })}
                         </span>
-                        <h5 className="text-xs font-bold text-white group-hover:text-[#ff4f00] transition-colors line-clamp-2 leading-tight">
+                        <h5 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors line-clamp-2 leading-tight">
                           {post.title}
                         </h5>
                       </div>
@@ -545,7 +455,7 @@ export default async function HomePage() {
             {/* View Blog Button */}
             <Link
               href="/blog"
-              className="w-full py-3 px-4 rounded-xl bg-[#ff4f00] hover:bg-[#ff6600] text-white font-black text-xs uppercase tracking-wider transition-all shadow-lg shadow-[#ff4f00]/25 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group cursor-pointer text-center no-invert"
+              className="w-full py-3 px-4 rounded-xl bg-zinc-950 hover:bg-[#ff4f00] text-white font-black text-xs uppercase tracking-wider transition-all shadow-sm hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group cursor-pointer text-center no-invert"
             >
               <span>Voir le blog</span>
               <span className="group-hover:translate-x-1 transition-transform text-sm">&rarr;</span>

@@ -2,20 +2,46 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-spoolio-bg: #000000;
-  --color-spoolio-card: #131316;
-  --color-spoolio-border: #1f1f23;
+  --color-spoolio-bg: #ffffff;
+  --color-spoolio-card: #ffffff;
+  --color-spoolio-border: #e4e4e7;
   --color-spoolio-orange: #ff4f00;
 
   --font-sans: var(--font-plus-jakarta), Arial, sans-serif;
   --font-antonio: var(--font-antonio), Arial, sans-serif;
+  --font-dynapuff: var(--font-dynapuff), cursive, sans-serif;
+  --font-righteous: var(--font-righteous), cursive, sans-serif;
+  --font-outfit: var(--font-outfit), sans-serif;
+  --font-permanent-marker: var(--font-permanent-marker), cursive, sans-serif;
+  --font-sedgwick: var(--font-sedgwick), cursive, sans-serif;
   --font-mono: monospace;
+}
+
+.font-righteous {
+  font-family: var(--font-righteous), cursive, sans-serif;
+}
+
+.font-dynapuff {
+  font-family: var(--font-dynapuff), cursive, sans-serif;
+}
+
+.font-permanent-marker {
+  font-family: var(--font-permanent-marker), cursive, sans-serif;
+}
+
+.font-sedgwick {
+  font-family: var(--font-sedgwick), cursive, sans-serif;
+}
+
+.font-outfit {
+  font-family: var(--font-outfit), sans-serif;
 }
 
 body {
   background-color: var(--color-spoolio-bg);
-  color: #ededed;
+  color: #09090b;
   font-family: var(--font-sans);
+  color-scheme: light;
 }
 
 
@@ -221,20 +247,20 @@ html.light body {
   color: #121212;
 }
 
-/* Text overrides in light mode, excluding keep-dark / no-invert children */
-html.light .text-white:not(.no-invert, .no-invert *) {
+/* Text overrides in light mode, excluding keep-dark / no-invert / keep-white elements */
+html.light .text-white:not(.no-invert, .no-invert *, .keep-white, .keep-white *) {
   color: #0d0d11 !important;
 }
-html.light .text-gray-100:not(.no-invert, .no-invert *) {
+html.light .text-gray-100:not(.no-invert, .no-invert *, .keep-white, .keep-white *) {
   color: #1a1a24 !important;
 }
-html.light .text-gray-200:not(.no-invert, .no-invert *) {
+html.light .text-gray-200:not(.no-invert, .no-invert *, .keep-white, .keep-white *) {
   color: #2a2a35 !important;
 }
-html.light .text-gray-300:not(.no-invert, .no-invert *) {
+html.light .text-gray-300:not(.no-invert, .no-invert *, .keep-white, .keep-white *) {
   color: #3a3a45 !important;
 }
-html.light .text-gray-400:not(.no-invert, .no-invert *) {
+html.light .text-gray-400:not(.no-invert, .no-invert *, .keep-white, .keep-white *) {
   color: #555566 !important;
 }
 html.light .text-gray-500:not(.no-invert, .no-invert *) {
@@ -260,6 +286,20 @@ html.light .bg-red-500\/10 {
 }
 html.light .border-red-500\/20 {
   border-color: rgba(185, 28, 28, 0.2) !important;
+}
+
+/* Explicit high-contrast white text for dark badges and containers */
+html.light .keep-white,
+html.light .keep-white *,
+html.light .bg-zinc-950 .text-white,
+html.light .bg-zinc-950 span.keep-white,
+html.light .bg-zinc-900 .text-white,
+html.light .bg-zinc-900 span.keep-white,
+html.light .bg-black .text-white,
+html.light [class*="bg-zinc-9"] .text-white,
+html.light [class*="bg-zinc-8"] .text-white,
+html.light [class*="bg-[#ff4f00]"] .text-white {
+  color: #ffffff !important;
 }
 
 html.light .text-emerald-400 {
@@ -288,19 +328,102 @@ html.light .text-yellow-400 {
 /* Keep original text colors inside elements that have these backgrounds */
 html.light .bg-\[\#ff4f00\],
 html.light .bg-\[\#ff4f00\] *,
+html.light .bg-black,
+html.light .bg-black *,
+html.light .bg-zinc-950,
+html.light .bg-zinc-950 *,
+html.light .bg-zinc-900,
+html.light .bg-zinc-900 *,
+html.light .bg-zinc-800,
+html.light .bg-zinc-800 *,
+html.light .bg-neutral-950,
+html.light .bg-neutral-950 *,
+html.light .bg-neutral-900,
+html.light .bg-neutral-900 *,
+html.light .bg-slate-950,
+html.light .bg-slate-950 *,
+html.light .bg-slate-900,
+html.light .bg-slate-900 *,
 html.light .bg-red-600,
 html.light .bg-red-600 *,
+html.light .bg-indigo-600,
+html.light .bg-indigo-600 *,
+html.light .bg-purple-600,
+html.light .bg-purple-600 *,
 html.light .bg-\[\#ff9f1c\],
 html.light .bg-\[\#ff9f1c\] *,
 html.light .bg-\[\#005cff\],
 html.light .bg-\[\#005cff\] *,
 html.light .bg-\[\#2F3CD9\],
 html.light .bg-\[\#2F3CD9\] *,
-html.light .bg-gradient-to-tr.from-blue-600,
-html.light .bg-gradient-to-tr.from-blue-600 *,
 html.light .bg-\[\#230f06\],
 html.light .bg-\[\#230f06\] * {
   color: #ffffff !important;
+}
+
+/* White buttons inside dark containers must remain dark */
+/* White buttons and cards inside dark containers must remain dark */
+html.light .force-dark-text,
+html.light .force-dark-text *,
+html.light .card-light,
+html.light .card-light *,
+html.light .card-light h3,
+html.light .card-light span.text-zinc-900,
+html.light .card-light span.font-mono,
+html.light .btn-light,
+html.light .btn-light *,
+html.light .btn-light span,
+html.light .keep-white .bg-white,
+html.light .keep-white .bg-white *,
+html.light .keep-white [class*="bg-white"],
+html.light .keep-white [class*="bg-white"] *,
+html.light [class*="bg-zinc-9"] .bg-white,
+html.light [class*="bg-zinc-9"] .bg-white *,
+html.light [class*="bg-zinc-9"] [class*="bg-white"],
+html.light [class*="bg-zinc-9"] [class*="bg-white"] *,
+html.light .bg-zinc-950 .bg-white,
+html.light .bg-zinc-950 .bg-white *,
+html.light .bg-zinc-950 [class*="bg-white"],
+html.light .bg-zinc-950 [class*="bg-white"] *,
+html.light .bg-zinc-900 .bg-white,
+html.light .bg-zinc-900 .bg-white *,
+html.light .bg-zinc-900 [class*="bg-white"],
+html.light .bg-zinc-900 [class*="bg-white"] * {
+  color: #09090b !important;
+}
+
+html.light .card-light .text-zinc-500 {
+  color: #71717a !important;
+}
+html.light .card-light .bg-zinc-100 {
+  background-color: #f4f4f5 !important;
+  color: #09090b !important;
+}
+
+/* Allow muted text inside dark elements to remain comfortably legible */
+html.light .bg-black .text-zinc-400,
+html.light .bg-zinc-950 .text-zinc-400,
+html.light .bg-zinc-900 .text-zinc-400,
+html.light .bg-zinc-800 .text-zinc-400,
+html.light .bg-black .text-gray-400,
+html.light .bg-zinc-950 .text-gray-400,
+html.light .bg-zinc-900 .text-gray-400,
+html.light .bg-zinc-800 .text-gray-400,
+html.light .bg-black .text-zinc-500,
+html.light .bg-zinc-950 .text-zinc-500,
+html.light .bg-zinc-900 .text-zinc-500,
+html.light .bg-zinc-800 .text-zinc-500 {
+  color: #a1a1aa !important;
+}
+html.light .bg-black .text-zinc-300,
+html.light .bg-zinc-950 .text-zinc-300,
+html.light .bg-zinc-900 .text-zinc-300 {
+  color: #d4d4d8 !important;
+}
+html.light .bg-black .text-zinc-200,
+html.light .bg-zinc-950 .text-zinc-200,
+html.light .bg-zinc-900 .text-zinc-200 {
+  color: #e4e4e7 !important;
 }
 
 /* Keep warning yellow */
@@ -330,6 +453,39 @@ html.light .bg-white\/5:not(.no-invert, .no-invert *) {
   background-color: rgba(0, 0, 0, 0.03) !important;
 }
 
+/* Reviews Gradient Section: ensure crisp white text and contrast */
+html.light .reviews-gradient-container,
+html.light .reviews-gradient-container h3,
+html.light .reviews-gradient-container p,
+html.light .reviews-gradient-container span:not(.text-\[\#ffd166\]) {
+  color: #ffffff !important;
+}
+html.light .reviews-gradient-container .bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+}
+html.light .reviews-gradient-container a.bg-white,
+html.light .reviews-gradient-container .google-review-btn {
+  background-color: #0d0d11 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+html.light .reviews-gradient-container a.bg-white span,
+html.light .reviews-gradient-container .google-review-btn span {
+  background-color: transparent !important;
+  color: inherit !important;
+}
+html.light .reviews-gradient-container a.bg-white:hover,
+html.light .reviews-gradient-container .google-review-btn:hover {
+  background-color: #ffffff !important;
+  color: #0d0d11 !important;
+}
+html.light .reviews-gradient-container a.bg-white:hover span,
+html.light .reviews-gradient-container .google-review-btn:hover span {
+  background-color: transparent !important;
+  color: #0d0d11 !important;
+}
+
 /* Product card hover border and shadow overrides */
 html.light .group.bg-spoolio-card {
   transition: all 0.3s ease;
@@ -357,9 +513,9 @@ html.light .sticky.border-b {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Logo inversion in light mode, excluding no-invert parent wrappers */
-html.light img[alt="Spoolio Logo"]:not(.no-invert *, .no-invert) {
-  filter: invert(1);
+/* Logo display in light mode (logo is already dark with white eyes) */
+html.light img[alt="Spoolio Logo"] {
+  filter: none !important;
 }
 
 /* Description collapsible gradient in light mode */
@@ -731,26 +887,8 @@ html.light .search-results-content div {
    NO-INVERT HEADERS & TOOLBAR COLOR FIXES
    ========================================== */
 
-/* Maintain white color on menu links and buttons inside no-invert elements */
-html.light .no-invert a:not(.hover\:text-\[\#ff4f00\]),
-html.light .no-invert button:not(.hover\:text-\[\#ff4f00\]),
-html.light .no-invert span {
-  color: rgba(255, 255, 255, 0.9) !important;
-}
-
-html.light .no-invert a:hover,
-html.light .no-invert button:hover {
-  color: #ffffff !important;
-}
-
-/* Allow specific hover colors inside no-invert headers */
-html.light .no-invert .hover\:text-white:hover {
-  color: #ffffff !important;
-}
-html.light .no-invert .hover\:text-\[\#ff4f00\]:hover {
-  color: #ff4f00 !important;
-}
-html.light .no-invert .hover\:text-\[\#ff4f00\]:hover * {
+/* Allow specific hover colors inside headers */
+html.light .hover\:text-\[\#ff4f00\]:hover {
   color: #ff4f00 !important;
 }
 
@@ -780,6 +918,15 @@ html.light .no-invert.text-white,
 html.light .no-invert .text-white,
 html.light button.no-invert,
 html.light button.no-invert * {
+  color: #ffffff !important;
+}
+
+/* Force white SVG stroke inside no-invert / keep-white elements */
+html.light .no-invert svg.text-white,
+html.light .keep-white svg.text-white,
+html.light .no-invert svg[stroke="#ffffff"],
+html.light .keep-white svg[stroke="#ffffff"] {
+  stroke: #ffffff !important;
   color: #ffffff !important;
 }
 
@@ -1061,62 +1208,67 @@ html.light header.fixed {
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08) !important;
 }
 
-html.light header.fixed a,
-html.light header.fixed button,
-html.light header.fixed span:not(.bg-red-600) {
+html.light header.fixed a:not(.no-invert, .no-invert *, .keep-white, .keep-white *, [class*="bg-zinc-9"], [class*="bg-zinc-9"] *, [class*="bg-black"], [class*="bg-black"] *, [class*="bg-[#ff4f00]"], [class*="bg-[#ff4f00]"] *),
+html.light header.fixed button:not(.no-invert, .no-invert *, .keep-white, .keep-white *, [class*="bg-zinc-9"] *, [class*="bg-black"] *, [class*="bg-[#ff4f00]"] *),
+html.light header.fixed span:not(.bg-red-600, .no-invert, .no-invert *, .keep-white, .keep-white *, [class*="bg-zinc-9"] *, [class*="bg-zinc-8"] *, [class*="bg-black"] *, [class*="bg-[#ff4f00]"] *) {
   color: #121212 !important;
+}
+
+html.light header.fixed [class*="bg-zinc-9"] .text-white,
+html.light header.fixed [class*="bg-zinc-9"] h4,
+html.light header.fixed [class*="bg-zinc-9"] span:not(.text-zinc-400, .text-zinc-500, .text-zinc-950, .text-zinc-900, .btn-light, .btn-light *, .force-dark-text, .force-dark-text *),
+html.light header.fixed .bg-zinc-800 span {
+  color: #ffffff !important;
+}
+
+html.light header.fixed .btn-light,
+html.light header.fixed .btn-light *,
+html.light header.fixed .btn-light span,
+html.light header.fixed .force-dark-text,
+html.light header.fixed .force-dark-text * {
+  color: #09090b !important;
+}
+html.light header.fixed .btn-light:hover,
+html.light header.fixed .btn-light:hover *,
+html.light header.fixed .btn-light:hover span {
+  color: #ffffff !important;
 }
 
 html.light header.fixed .hover\:text-white:hover {
   color: #ff4f00 !important;
 }
 
-html.light header.fixed svg:not(.text-white) {
+html.light header.fixed svg:not(.text-white, [class*="bg-zinc-9"] svg, [class*="bg-zinc-8"] svg, [class*="bg-black"] svg, [class*="bg-[#ff4f00]"] svg) {
   color: #121212 !important;
 }
 
-/* Invert white Spoolio Logo to black in the sticky header only when in light mode */
-html.light header.fixed img[alt="Spoolio Logo"] {
-  filter: invert(1) !important;
-}
-
-/* Custom Fine Scrollbar Styles */
+/* Custom Fine Modern Scrollbar Styles (Clean light/transparent theme) */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
-}
-
-html.light ::-webkit-scrollbar-track {
-  background: #f9f9fb;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2a2a30;
-  border-radius: 4px;
-  border: 2px solid #000000;
-}
-
-html.light ::-webkit-scrollbar-thumb {
-  background: #c2c2cf;
-  border: 2px solid #f9f9fb;
+  background: #d4d4d8;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #ff4f00 !important;
+  background: #a1a1aa;
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }
 
 /* Firefox scrollbar support */
-html {
+html, body {
   scrollbar-width: thin;
-  scrollbar-color: #2a2a30 #000000;
-}
-
-html.light {
-  scrollbar-color: #c2c2cf #f9f9fb;
+  scrollbar-color: #d4d4d8 transparent;
 }
 
 /* Premium zero-gravity floating particle dots */
@@ -1298,7 +1450,7 @@ html.light .mobile-drawer-badge {
   filter: none;
 }
 html.light .mobile-drawer-logo {
-  filter: invert(1) !important;
+  filter: none !important;
 }
 
 /* WYSIWYG Editor Styling */

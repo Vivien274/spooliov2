@@ -70,39 +70,39 @@ function PickupConfirmationContent() {
     <div className="max-w-xl mx-auto w-full px-6 pt-28 lg:pt-32 pb-12 font-sans flex flex-col items-center justify-center min-h-[50vh] select-none">
       {success ? (
         <div className="text-center space-y-4 animate-reveal">
-          <div className="w-16 h-16 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-full flex items-center justify-center text-3xl mx-auto">
+          <div className="w-16 h-16 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-full flex items-center justify-center text-3xl mx-auto">
             ✓
           </div>
-          <h2 className="text-2xl font-black font-antonio uppercase tracking-tight text-white">
+          <h2 className="text-2xl font-black font-antonio uppercase tracking-tight text-zinc-950">
             Créneau Confirmé !
           </h2>
-          <p className="text-xs text-gray-400 leading-relaxed max-w-sm mx-auto">
+          <p className="text-xs text-zinc-600 leading-relaxed max-w-sm mx-auto">
             Votre créneau de retrait à l'Atelier pour le <strong>{formattedDate}</strong> est validé. Votre commande <strong>{id}</strong> est prête à vous attendre.
           </p>
           <button
             onClick={() => router.push(`/suivi?id=${id}&email=${encodeURIComponent(email)}`)}
-            className="mt-6 px-6 py-2.5 bg-white text-black hover:bg-gray-150 transition-colors font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer"
+            className="mt-6 px-6 py-2.5 bg-zinc-900 text-white hover:bg-zinc-800 transition-colors font-bold text-xs uppercase tracking-wider rounded-xl cursor-pointer shadow-sm no-invert keep-white"
           >
             Suivre ma commande 📦
           </button>
         </div>
       ) : (
-        <div className="w-full bg-[#131316]/50 border border-[#222225] p-8 rounded-[32px] shadow-2xl space-y-6">
+        <div className="w-full bg-white border border-zinc-200/90 p-8 rounded-[32px] shadow-sm space-y-6">
           <div className="text-center">
-            <span className="bg-[#ff4f00]/10 text-[#ff4f00] text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-[#ff4f00]/20 inline-block">
-              Click & Collect 📅
+            <span className="bg-orange-50 text-[#ff4f00] text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border border-orange-200 inline-block">
+              Click &amp; Collect 📅
             </span>
-            <h2 className="text-2xl font-black font-antonio uppercase tracking-tight text-white mt-4">
+            <h2 className="text-2xl font-black font-antonio uppercase tracking-tight text-zinc-950 mt-4">
               Nouveau créneau proposé
             </h2>
-            <p className="text-xs text-gray-400 mt-2 leading-relaxed">
+            <p className="text-xs text-zinc-600 mt-2 leading-relaxed">
               Pour votre commande <strong>{id}</strong>, notre équipe vous propose le créneau horaire suivant :
             </p>
           </div>
 
-          <div className="bg-black/50 border border-white/5 rounded-2xl p-6 text-center shadow-inner">
-            <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider block">
-              Date & Heure proposées
+          <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-6 text-center">
+            <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider block">
+              Date &amp; Heure proposées
             </span>
             <span className="text-lg font-black text-[#ff4f00] block mt-1.5 leading-none">
               {formattedDate}
@@ -110,7 +110,7 @@ function PickupConfirmationContent() {
           </div>
 
           {error && (
-            <div className="text-[11px] text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-2.5 rounded-xl text-center leading-normal">
+            <div className="text-[11px] text-red-600 bg-red-50 border border-red-200 px-3 py-2.5 rounded-xl text-center leading-normal">
               ⚠️ {error}
             </div>
           )}
@@ -119,13 +119,13 @@ function PickupConfirmationContent() {
             <button
               onClick={handleConfirm}
               disabled={loading}
-              className="w-full h-12 flex items-center justify-center bg-[#ff4f00] hover:bg-[#e04500] disabled:bg-[#ff4f00]/50 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer disabled:cursor-not-allowed shadow-lg shadow-[#ff4f00]/25"
+              className="w-full h-12 flex items-center justify-center bg-[#ff4f00] hover:bg-[#e04500] disabled:bg-[#ff4f00]/50 text-white font-black text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer disabled:cursor-not-allowed shadow-md shadow-[#ff4f00]/25 no-invert keep-white"
             >
               {loading ? "Confirmation..." : "Valider ce créneau de retrait"}
             </button>
             <button
               onClick={() => router.push(`/suivi?id=${id}&email=${encodeURIComponent(email)}`)}
-              className="w-full h-10 flex items-center justify-center bg-white/5 hover:bg-white/10 text-white/80 hover:text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer"
+              className="w-full h-10 flex items-center justify-center bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer"
             >
               Voir le suivi de commande
             </button>
@@ -138,11 +138,11 @@ function PickupConfirmationContent() {
 
 export default function PickupConfirmationPage() {
   return (
-    <div className="min-h-screen bg-[#070709] text-white flex flex-col justify-between selection:bg-[#ff4f00] selection:text-white">
+    <div className="min-h-screen bg-[#fafaf9] text-zinc-900 flex flex-col justify-between selection:bg-[#ff4f00] selection:text-white">
       <Header />
       <Suspense fallback={
         <div className="flex-1 flex items-center justify-center">
-          <div className="animate-pulse text-xs text-gray-500 font-bold uppercase tracking-widest font-sans">
+          <div className="animate-pulse text-xs text-zinc-400 font-bold uppercase tracking-widest font-sans">
             Chargement...
           </div>
         </div>

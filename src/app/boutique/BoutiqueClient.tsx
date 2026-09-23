@@ -28,6 +28,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { isPreprodEnv } from "@/lib/env";
 
 const PRODUCTS_PER_PAGE = 12;
 
@@ -153,6 +154,8 @@ function BoutiqueClientContent() {
 
     const sortedCats = Object.keys(counts).sort((a, b) => a.localeCompare(b, "fr"));
     
+    const isPreprod = isPreprodEnv();
+
     return [
       { value: "all", label: "Toutes les catégories", count: products.length, icon: getCategoryLucideIcon("all") },
       ...sortedCats.map((cat) => ({
@@ -176,9 +179,11 @@ function BoutiqueClientContent() {
     setVisibleCount(PRODUCTS_PER_PAGE);
   }, [searchQuery, selectedCategory, onlyOnSale, sortOption]);
 
-  // Apply filters and sorting
+  // Apply filters and sorting (published products only)
   const processedProducts = useMemo(() => {
-    let result = [...products];
+    let result = products.filter(
+      (p) => (p.status === "publish" || !p.status) && p.status !== "draft"
+    );
 
     // 1. Search Query filter
     if (searchQuery.trim()) {
@@ -250,31 +255,31 @@ function BoutiqueClientContent() {
   }, [visibleCount, processedProducts.length]);
 
   return (
-    <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-black">
+    <div className="min-h-screen bg-[#fafaf9] text-zinc-900 font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-white">
       {/* Sticky Header */}
       <Header />
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-[1200px] w-full mx-auto px-6 pt-28 lg:pt-32 pb-12 lg:pb-16">
         {/* SEO Header & Breadcrumb */}
-        <nav className="flex items-center gap-2 text-xs font-semibold text-gray-500 mb-6 font-sans select-none">
-          <Link href="/" className="hover:text-white transition-colors duration-200">
+        <nav className="flex items-center gap-2 text-xs font-semibold text-zinc-500 mb-6 font-sans select-none">
+          <Link href="/" className="hover:text-zinc-950 transition-colors duration-200">
             Accueil
           </Link>
-          <span className="text-gray-700 font-bold">/</span>
-          <span className="text-white font-black">Boutique</span>
+          <span className="text-zinc-300 font-bold">/</span>
+          <span className="text-zinc-950 font-black">Boutique</span>
         </nav>
 
-        <section className="mb-6 text-left border-b border-spoolio-border/40 pb-6">
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white mb-3">
+        <section className="mb-6 text-left border-b border-zinc-200/80 pb-6">
+          <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-zinc-950 mb-3">
             Boutique Spoolio 3D
           </h1>
-          <p className="text-gray-400 text-sm max-w-3xl leading-relaxed font-sans">
+          <p className="text-zinc-600 text-sm max-w-3xl leading-relaxed font-sans">
             Découvrez nos créations exclusives imprimées en 3D en France. Des fidgets satisfaisants, des supports de bureaux designs et des cadeaux originaux, tous fabriqués de façon éco-responsable en PLA biodégradable à partir d'amidon de maïs. Faites le choix du fun et de la qualité locale !
           </p>
 
           {/* Reassurance Micro Banner (Point 4 UX) */}
-          <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md mt-6 font-sans text-xs text-gray-300">
+          <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl bg-zinc-100/90 border border-zinc-200/90 mt-6 font-sans text-xs text-zinc-700 shadow-2xs">
             <div className="flex items-center gap-2">
               <span className="text-base">🚚</span>
               <span><strong>Livraison OFFERTE</strong> dès 40€ d'achat</span>
@@ -287,7 +292,7 @@ function BoutiqueClientContent() {
               <span className="text-base">🌱</span>
               <span><strong>PLA Biosourcé</strong> sans pétrole</span>
             </div>
-            <div className="flex items-center gap-2 text-emerald-400 font-extrabold">
+            <div className="flex items-center gap-2 text-emerald-600 font-extrabold">
               <span className="text-base">⚡</span>
               <span>Zéro Surstock • Made in Nord</span>
             </div>
@@ -300,7 +305,7 @@ function BoutiqueClientContent() {
           <button
             type="button"
             onClick={() => scrollPills("left")}
-            className="absolute -left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/80 hover:bg-[#ff4f00] border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer shadow-lg backdrop-blur-md opacity-0 group-hover/pills:opacity-100 hidden sm:flex"
+            className="absolute -left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 hover:bg-[#ff4f00] border border-zinc-200 text-zinc-800 hover:text-white flex items-center justify-center transition-all cursor-pointer shadow-md opacity-0 group-hover/pills:opacity-100 hidden sm:flex"
             title="Défiler vers la gauche"
           >
             <ChevronLeft className="w-4 h-4" />
@@ -310,7 +315,7 @@ function BoutiqueClientContent() {
           <button
             type="button"
             onClick={() => scrollPills("right")}
-            className="absolute -right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/80 hover:bg-[#ff4f00] border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer shadow-lg backdrop-blur-md opacity-0 group-hover/pills:opacity-100 hidden sm:flex"
+            className="absolute -right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/95 hover:bg-[#ff4f00] border border-zinc-200 text-zinc-800 hover:text-white flex items-center justify-center transition-all cursor-pointer shadow-md opacity-0 group-hover/pills:opacity-100 hidden sm:flex"
             title="Défiler vers la droite"
           >
             <ChevronRight className="w-4 h-4" />
@@ -334,16 +339,16 @@ function BoutiqueClientContent() {
                   onClick={() => setSelectedCategory(cat.value)}
                   className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer snap-start ${
                     isSelected
-                      ? "bg-[#ff4f00] text-white border border-[#ff4f00] shadow-md shadow-[#ff4f00]/20 scale-[1.02]"
-                      : "bg-spoolio-card text-gray-300 hover:text-white border border-spoolio-border hover:border-white/20"
+                      ? "bg-[#ff4f00] text-white border border-[#ff4f00] shadow-md shadow-[#ff4f00]/20 scale-[1.02] no-invert keep-white"
+                      : "bg-white text-zinc-700 hover:text-zinc-950 border border-zinc-200/90 hover:border-zinc-300 shadow-2xs"
                   }`}
                 >
-                  <span className={isSelected ? "text-white" : "text-gray-400"}>{cat.icon}</span>
+                  <span className={isSelected ? "text-white" : "text-zinc-500"}>{cat.icon}</span>
                   <span>{cat.label}</span>
                   {cat.count !== undefined && (
                     <span
                       className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono font-bold ${
-                        isSelected ? "bg-black/30 text-white" : "bg-white/10 text-gray-400"
+                        isSelected ? "bg-black/20 text-white" : "bg-zinc-100 text-zinc-500"
                       }`}
                     >
                       {cat.count}
@@ -366,10 +371,10 @@ function BoutiqueClientContent() {
                 placeholder="Rechercher un objet..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-11 pl-10 pr-4 text-xs font-semibold bg-spoolio-card border border-spoolio-border rounded-xl text-white placeholder-gray-500 outline-none focus:border-white/40 transition-all font-sans"
+                className="w-full h-11 pl-10 pr-4 text-xs font-semibold bg-white border border-zinc-200/90 rounded-xl text-zinc-900 placeholder-zinc-400 outline-none focus:border-[#ff4f00] transition-all font-sans shadow-2xs"
               />
               <svg
-                className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500"
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -379,7 +384,7 @@ function BoutiqueClientContent() {
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-[10px] font-bold transition-all cursor-pointer"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-zinc-200 hover:bg-zinc-300 text-zinc-700 flex items-center justify-center text-[10px] font-bold transition-all cursor-pointer"
                 >
                   &times;
                 </button>
@@ -391,8 +396,8 @@ function BoutiqueClientContent() {
               onClick={() => setOnlyOnSale(!onlyOnSale)}
               className={`h-11 px-4 text-xs font-bold rounded-xl border flex items-center gap-2 transition-all cursor-pointer ${
                 onlyOnSale
-                  ? "bg-[#ff4f00] border-[#ff4f00] text-white shadow-lg shadow-[#ff4f00]/15"
-                  : "bg-spoolio-card border-spoolio-border text-gray-300 hover:text-white"
+                  ? "bg-[#ff4f00] border-[#ff4f00] text-white shadow-md shadow-[#ff4f00]/15 no-invert keep-white"
+                  : "bg-white border-zinc-200/90 text-zinc-700 hover:text-zinc-950 shadow-2xs"
               }`}
             >
               <span className="text-sm">🏷️</span>
@@ -424,39 +429,39 @@ function BoutiqueClientContent() {
         {/* Active Filter Chips & Reset Button (Points 2 & 3 UX) */}
         {(searchQuery.trim() !== "" || selectedCategory !== "all" || onlyOnSale || sortOption !== "newest") && (
           <div className="flex flex-wrap items-center gap-2 mb-6 font-sans select-none">
-            <span className="text-xs text-gray-400 font-bold mr-1">Filtres actifs :</span>
+            <span className="text-xs text-zinc-500 font-bold mr-1">Filtres actifs :</span>
 
             {searchQuery && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 text-xs font-semibold">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 text-xs font-semibold">
                 <span>🔍 "{searchQuery}"</span>
-                <button onClick={() => setSearchQuery("")} className="hover:text-white font-bold cursor-pointer">
+                <button onClick={() => setSearchQuery("")} className="hover:text-indigo-950 font-bold cursor-pointer">
                   &times;
                 </button>
               </span>
             )}
 
             {selectedCategory !== "all" && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30 text-xs font-semibold">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-orange-50 text-orange-700 border border-orange-200 text-xs font-semibold">
                 <span>🏷️ {selectedCategory}</span>
-                <button onClick={() => setSelectedCategory("all")} className="hover:text-white font-bold cursor-pointer">
+                <button onClick={() => setSelectedCategory("all")} className="hover:text-orange-950 font-bold cursor-pointer">
                   &times;
                 </button>
               </span>
             )}
 
             {onlyOnSale && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-400/30 text-xs font-semibold">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-50 text-amber-800 border border-amber-200 text-xs font-semibold">
                 <span>🏷️ Promotions</span>
-                <button onClick={() => setOnlyOnSale(false)} className="hover:text-white font-bold cursor-pointer">
+                <button onClick={() => setOnlyOnSale(false)} className="hover:text-amber-950 font-bold cursor-pointer">
                   &times;
                 </button>
               </span>
             )}
 
             {sortOption !== "newest" && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-semibold">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold">
                 <span>⚙️ {sortSelectOptions.find((o) => o.value === sortOption)?.label}</span>
-                <button onClick={() => setSortOption("newest")} className="hover:text-white font-bold cursor-pointer">
+                <button onClick={() => setSortOption("newest")} className="hover:text-emerald-950 font-bold cursor-pointer">
                   &times;
                 </button>
               </span>
@@ -469,7 +474,7 @@ function BoutiqueClientContent() {
                 setOnlyOnSale(false);
                 setSortOption("newest");
               }}
-              className="text-xs text-gray-400 hover:text-white underline font-bold ml-2 cursor-pointer transition-colors"
+              className="text-xs text-zinc-500 hover:text-zinc-900 underline font-bold ml-2 cursor-pointer transition-colors"
             >
               Réinitialiser tout ↺
             </button>
@@ -477,7 +482,7 @@ function BoutiqueClientContent() {
         )}
 
         {/* Dynamic products count */}
-        <div className="text-xs text-gray-500 mb-6 font-semibold font-sans">
+        <div className="text-xs text-zinc-500 mb-6 font-semibold font-sans">
           {processedProducts.length} produit{processedProducts.length > 1 ? "s" : ""} trouvé{processedProducts.length > 1 ? "s" : ""}
         </div>
 
@@ -488,25 +493,25 @@ function BoutiqueClientContent() {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            <span className="text-xs text-gray-400 font-bold uppercase tracking-widest">Chargement de la boutique...</span>
+            <span className="text-xs text-zinc-500 font-bold uppercase tracking-widest">Chargement de la boutique...</span>
           </div>
         ) : error ? (
-          <div className="flex flex-col items-center justify-center p-12 bg-spoolio-card border border-spoolio-border rounded-2xl max-w-md mx-auto text-center shadow-xl">
+          <div className="flex flex-col items-center justify-center p-12 bg-white border border-zinc-200/90 rounded-2xl max-w-md mx-auto text-center shadow-xs">
             <span className="text-3xl mb-4">⚠️</span>
-            <h3 className="text-lg font-bold text-gray-200 mb-2">Erreur de Chargement</h3>
-            <p className="text-sm text-gray-400 mb-6">{error}</p>
+            <h3 className="text-lg font-bold text-zinc-950 mb-2">Erreur de Chargement</h3>
+            <p className="text-sm text-zinc-600 mb-6">{error}</p>
             <button
               onClick={() => window.location.reload()}
-              className="px-5 py-2.5 text-xs font-bold text-black bg-spoolio-orange hover:bg-spoolio-orange/90 rounded-lg transition-colors cursor-pointer"
+              className="px-5 py-2.5 text-xs font-bold text-white bg-[#ff4f00] hover:bg-[#e04500] rounded-lg transition-colors cursor-pointer shadow-md no-invert keep-white"
             >
               Réessayer
             </button>
           </div>
         ) : processedProducts.length === 0 ? (
-          <div className="py-24 flex flex-col items-center justify-center gap-3 bg-spoolio-card border border-spoolio-border/40 rounded-3xl max-w-xl mx-auto text-center shadow-lg">
+          <div className="py-24 flex flex-col items-center justify-center gap-3 bg-white border border-zinc-200/90 rounded-3xl max-w-xl mx-auto text-center shadow-xs">
             <span className="text-4xl select-none">📦</span>
-            <h3 className="text-lg font-extrabold text-white mt-2">Aucun objet ne correspond à votre recherche</h3>
-            <p className="text-xs text-gray-400 max-w-md leading-relaxed px-4">
+            <h3 className="text-lg font-extrabold text-zinc-950 mt-2">Aucun objet ne correspond à votre recherche</h3>
+            <p className="text-xs text-zinc-600 max-w-md leading-relaxed px-4">
               Essayez de modifier vos filtres, de vider la barre de recherche ou de choisir une autre catégorie de produits.
             </p>
             <button
@@ -516,7 +521,7 @@ function BoutiqueClientContent() {
                 setOnlyOnSale(false);
                 setSortOption("newest");
               }}
-              className="mt-4 px-5 py-2.5 text-xs font-bold text-black bg-white hover:bg-gray-100 rounded-lg transition-colors cursor-pointer shadow-md"
+              className="mt-4 px-5 py-2.5 text-xs font-bold text-white bg-zinc-900 hover:bg-black rounded-lg transition-colors cursor-pointer shadow-md no-invert keep-white"
             >
               Réinitialiser les filtres
             </button>
@@ -540,7 +545,7 @@ function BoutiqueClientContent() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  <span className="text-[10px] text-gray-500 font-extrabold uppercase tracking-widest font-sans animate-pulse">Chargement de nouveaux objets...</span>
+                  <span className="text-[10px] text-zinc-500 font-extrabold uppercase tracking-widest font-sans animate-pulse">Chargement de nouveaux objets...</span>
                 </div>
               )}
             </div>
@@ -556,13 +561,13 @@ function BoutiqueClientContent() {
 export default function BoutiqueClient() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-spoolio-bg text-white flex items-center justify-center font-sans">
+      <div className="min-h-screen bg-[#fafaf9] text-zinc-900 flex items-center justify-center font-sans">
         <div className="flex flex-col items-center gap-4">
           <svg className="animate-spin h-8 w-8 text-[#ff4f00]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          <span className="text-xs text-gray-400 font-bold uppercase tracking-widest">Initialisation de la boutique...</span>
+          <span className="text-xs text-zinc-500 font-bold uppercase tracking-widest">Initialisation de la boutique...</span>
         </div>
       </div>
     }>

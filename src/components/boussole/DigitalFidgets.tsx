@@ -1892,11 +1892,11 @@ export default function DigitalFidgets() {
     <div className="w-full max-w-4xl mx-auto px-4 relative">
       {/* Sub tabs selector aligned with top tabs style and margins */}
       <div className="w-full max-w-3xl mx-auto mb-8 select-none">
-        <div className="p-1.5 bg-neutral-900/90 border border-neutral-800 rounded-3xl flex overflow-x-auto scrollbar-none snap-x snap-mandatory sm:grid sm:grid-cols-4 md:grid-cols-8 gap-1.5 shadow-xl">
+        <div className="p-1.5 bg-white border border-zinc-200/90 rounded-2xl sm:rounded-full flex overflow-x-auto scrollbar-none snap-x snap-mandatory sm:grid sm:grid-cols-4 md:grid-cols-8 gap-1.5 shadow-xs">
           <button
             onClick={() => handleTabTransition('switchboard')}
-            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-2xl font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
-              activeTab === 'switchboard' ? 'bg-[#005cff] text-white shadow-md' : 'text-neutral-400 hover:text-white'
+            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-xl sm:rounded-full font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
+              activeTab === 'switchboard' ? 'bg-[#ff4f00] text-white shadow-md shadow-[#ff4f00]/25' : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-100'
             }`}
           >
             Tableau
@@ -1904,8 +1904,8 @@ export default function DigitalFidgets() {
 
           <button
             onClick={() => handleTabTransition('spinner')}
-            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-2xl font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
-              activeTab === 'spinner' ? 'bg-[#005cff] text-white shadow-md' : 'text-neutral-400 hover:text-white'
+            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-xl sm:rounded-full font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
+              activeTab === 'spinner' ? 'bg-[#ff4f00] text-white shadow-md shadow-[#ff4f00]/25' : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-100'
             }`}
           >
             Spinner
@@ -1913,8 +1913,8 @@ export default function DigitalFidgets() {
 
           <button
             onClick={() => handleTabTransition('gears')}
-            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-2xl font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
-              activeTab === 'gears' ? 'bg-pink-600 text-white shadow-md' : 'text-neutral-400 hover:text-white'
+            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-xl sm:rounded-full font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
+              activeTab === 'gears' ? 'bg-pink-600 text-white shadow-md shadow-pink-600/25' : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-100'
             }`}
           >
             Engrenages
@@ -1922,8 +1922,8 @@ export default function DigitalFidgets() {
 
           <button
             onClick={() => handleTabTransition('bubblewrap')}
-            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-2xl font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
-              activeTab === 'bubblewrap' ? 'bg-pink-600 text-white shadow-md' : 'text-neutral-400 hover:text-white'
+            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-xl sm:rounded-full font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
+              activeTab === 'bubblewrap' ? 'bg-pink-600 text-white shadow-md shadow-pink-600/25' : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-100'
             }`}
           >
             Bulle Pop
@@ -1931,8 +1931,8 @@ export default function DigitalFidgets() {
 
           <button
             onClick={() => handleTabTransition('particles')}
-            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-2xl font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
-              activeTab === 'particles' ? 'bg-amber-400 text-black shadow-md' : 'text-neutral-400 hover:text-white'
+            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-xl sm:rounded-full font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
+              activeTab === 'particles' ? 'bg-amber-500 text-white shadow-md shadow-amber-500/25' : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-100'
             }`}
           >
             Particules
@@ -1940,8 +1940,8 @@ export default function DigitalFidgets() {
 
           <button
             onClick={() => handleTabTransition('elastic')}
-            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-2xl font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
-              activeTab === 'elastic' ? 'bg-cyan-400 text-black shadow-md' : 'text-neutral-400 hover:text-white'
+            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-xl sm:rounded-full font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
+              activeTab === 'elastic' ? 'bg-cyan-600 text-white shadow-md shadow-cyan-600/25' : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-100'
             }`}
           >
             Élastique
@@ -1949,8 +1949,8 @@ export default function DigitalFidgets() {
 
           <button
             onClick={() => handleTabTransition('sand')}
-            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-2xl font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
-              activeTab === 'sand' ? 'bg-amber-500 text-black shadow-md' : 'text-neutral-400 hover:text-white'
+            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-xl sm:rounded-full font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
+              activeTab === 'sand' ? 'bg-amber-600 text-white shadow-md shadow-amber-600/25' : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-100'
             }`}
           >
             Sable Zen
@@ -1958,8 +1958,8 @@ export default function DigitalFidgets() {
 
           <button
             onClick={() => handleTabTransition('slime')}
-            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-2xl font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
-              activeTab === 'slime' ? 'bg-purple-500 text-white shadow-md' : 'text-neutral-400 hover:text-white'
+            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-xl sm:rounded-full font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
+              activeTab === 'slime' ? 'bg-purple-600 text-white shadow-md shadow-purple-600/25' : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-100'
             }`}
           >
             Slime Néon
@@ -1967,8 +1967,8 @@ export default function DigitalFidgets() {
 
           <button
             onClick={() => handleTabTransition('maze')}
-            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-2xl font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
-              activeTab === 'maze' ? 'bg-emerald-500 text-white shadow-md' : 'text-neutral-400 hover:text-white'
+            className={`shrink-0 snap-center min-w-[85px] sm:min-w-0 sm:w-full py-2.5 px-1 rounded-xl sm:rounded-full font-extrabold text-[11px] tracking-wider uppercase transition-all duration-200 cursor-pointer outline-none text-center truncate flex items-center justify-center ${
+              activeTab === 'maze' ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/25' : 'text-zinc-500 hover:text-zinc-950 hover:bg-zinc-100'
             }`}
           >
             Labyrinthe

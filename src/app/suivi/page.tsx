@@ -130,7 +130,7 @@ export default function OrderTrackingPage() {
 
             <form onSubmit={handleSearch} className="flex flex-col gap-4 font-sans">
               <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-black uppercase tracking-wider text-gray-500">
+                <label className="text-[10px] font-black uppercase tracking-wider text-zinc-500">
                   Numéro de commande
                 </label>
                 <input
@@ -139,12 +139,12 @@ export default function OrderTrackingPage() {
                   value={orderId}
                   onChange={(e) => setOrderId(e.target.value)}
                   placeholder="SP-XXXXX"
-                  className="h-11 bg-black border border-[#222225] rounded-xl px-4 text-xs text-white focus:outline-none focus:border-[#ff4f00] transition-colors"
+                  className="h-11 bg-zinc-50 border border-zinc-200 rounded-xl px-4 text-xs text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-[#ff4f00] focus:bg-white transition-colors"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-black uppercase tracking-wider text-gray-500">
+                <label className="text-[10px] font-black uppercase tracking-wider text-zinc-500">
                   Adresse e-mail
                 </label>
                 <input
@@ -153,12 +153,12 @@ export default function OrderTrackingPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="nom@exemple.com"
-                  className="h-11 bg-black border border-[#222225] rounded-xl px-4 text-xs text-white focus:outline-none focus:border-[#ff4f00] transition-colors"
+                  className="h-11 bg-zinc-50 border border-zinc-200 rounded-xl px-4 text-xs text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-[#ff4f00] focus:bg-white transition-colors"
                 />
               </div>
 
               {error && (
-                <div className="text-[10px] text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-2.5 rounded-lg font-sans">
+                <div className="text-[10px] text-red-600 bg-red-50 border border-red-200 px-3 py-2.5 rounded-lg font-sans">
                   ⚠️ {error}
                 </div>
               )}
@@ -166,10 +166,10 @@ export default function OrderTrackingPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full h-11 flex items-center justify-center bg-white hover:bg-gray-200 disabled:bg-white/40 text-black text-xs font-bold rounded-xl transition-all shadow-md mt-2 cursor-pointer disabled:cursor-not-allowed"
+                className="w-full h-11 flex items-center justify-center bg-zinc-900 hover:bg-zinc-800 disabled:bg-zinc-400 text-white text-xs font-bold rounded-xl transition-all shadow-md mt-2 cursor-pointer disabled:cursor-not-allowed no-invert keep-white"
               >
                 {loading ? (
-                  <svg className="animate-spin h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
@@ -185,15 +185,15 @@ export default function OrderTrackingPage() {
             {/* Header info card */}
             <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest block mb-0.5">Commande</span>
-                <h2 className="text-xl font-black text-white">{order.id}</h2>
-                <span className="text-xs text-gray-400 font-sans block mt-1">
+                <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest block mb-0.5">Commande</span>
+                <h2 className="text-xl font-black text-zinc-950">{order.id}</h2>
+                <span className="text-xs text-zinc-500 font-sans block mt-1">
                   Reçue le {new Date(order.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" })}
                 </span>
               </div>
-              <div className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 shrink-0">
-                <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest block mb-0.5">État actuel</span>
-                <span className="text-sm font-black text-emerald-400 tracking-wide uppercase">
+              <div className="px-4 py-2 rounded-xl bg-zinc-100 border border-zinc-200 shrink-0">
+                <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest block mb-0.5">État actuel</span>
+                <span className="text-sm font-black text-emerald-700 tracking-wide uppercase">
                   {getStatusText(order.status)}
                 </span>
               </div>
@@ -201,14 +201,14 @@ export default function OrderTrackingPage() {
 
             {/* Visual Progress Timeline */}
             <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 md:p-8 flex flex-col gap-8">
-              <h3 className="text-sm sm:text-base font-black text-white uppercase tracking-wider">Avancement de la fabrication</h3>
+              <h3 className="text-sm sm:text-base font-black text-zinc-950 uppercase tracking-wider">Avancement de la fabrication</h3>
               
               <div className="relative flex flex-col sm:flex-row justify-between gap-8 sm:gap-4 select-none">
                 {/* Connecting Line background */}
-                <div className="absolute left-[15px] sm:left-0 sm:top-[18px] right-0 bottom-0 sm:bottom-auto w-[2px] sm:w-full h-full sm:h-[2px] bg-[#1f1f23] z-0" />
+                <div className="absolute left-[15px] sm:left-0 sm:top-[18px] right-0 bottom-0 sm:bottom-auto w-[2px] sm:w-full h-full sm:h-[2px] bg-zinc-200 z-0" />
                 {/* Active progress bar overlay */}
                 <div 
-                  className="absolute left-[15px] sm:left-0 sm:top-[18px] w-[2px] sm:h-[2px] bg-emerald-400 z-0 transition-all duration-500"
+                  className="absolute left-[15px] sm:left-0 sm:top-[18px] w-[2px] sm:h-[2px] bg-emerald-500 z-0 transition-all duration-500"
                   style={{
                     height: typeof window !== 'undefined' && window.innerWidth < 640 ? `${((activeStep - 1) / 3) * 100}%` : '2px',
                     width: typeof window !== 'undefined' && window.innerWidth >= 640 ? `${((activeStep - 1) / 3) * 100}%` : '2px'
@@ -227,16 +227,16 @@ export default function OrderTrackingPage() {
                     <div key={s.step} className="flex sm:flex-col items-start sm:items-center text-left sm:text-center gap-4 sm:gap-2 z-10 flex-1 relative">
                       <div className={`w-9 h-9 rounded-full flex items-center justify-center font-black text-sm border transition-all ${
                         isDone 
-                          ? "bg-emerald-400 border-emerald-400 text-black shadow-lg shadow-emerald-400/20" 
-                          : "bg-spoolio-bg border-spoolio-border text-gray-500"
-                      } ${isCurrent ? "ring-4 ring-emerald-400/20 animate-pulse scale-105" : ""}`}>
+                          ? "bg-emerald-500 border-emerald-500 text-white shadow-md shadow-emerald-500/20 no-invert keep-white" 
+                          : "bg-zinc-100 border-zinc-200 text-zinc-400"
+                      } ${isCurrent ? "ring-4 ring-emerald-500/20 animate-pulse scale-105" : ""}`}>
                         {isDone && s.step < activeStep ? "✓" : s.step}
                       </div>
                       <div>
-                        <span className={`text-sm font-extrabold block ${isDone ? "text-white" : "text-gray-500"}`}>
+                        <span className={`text-sm font-extrabold block ${isDone ? "text-zinc-950" : "text-zinc-400"}`}>
                           {s.label}
                         </span>
-                        <span className="text-xs text-gray-400 font-sans block mt-0.5 leading-snug max-w-[140px]">
+                        <span className="text-xs text-zinc-500 font-sans block mt-0.5 leading-snug max-w-[140px]">
                           {s.desc}
                         </span>
                       </div>
