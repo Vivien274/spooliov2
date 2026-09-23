@@ -695,7 +695,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
   const activeKeyConfig = getKeyConfig(activeKeyIndex);
 
   return (
-    <div className={`w-full max-w-6xl mx-auto font-sans ${className}`}>
+    <div className={`w-full max-w-6xl mx-auto font-sans no-invert keep-white ${className}`}>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         {/* =========================================================================

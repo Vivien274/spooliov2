@@ -303,13 +303,11 @@ export default function MysteryPackConfigurator({
       cartContext.addToCart(
         {
           productId: 8888 + selectedSize,
-          name: isPreprod
-            ? `Blind Bag Spoolio (${selectedSize} créations)`
-            : `Pochette Surprise Spoolio (${selectedSize} objets)`,
+          name: `Pochette Surprise Spoolio (${selectedSize} créations)`,
           slug: "pochette-surprise-gachapon",
           price: currentSizeObj.price.toFixed(2),
           selectedOptions: {
-            [isPreprod ? "Format du Blind Bag" : "Taille de la pochette"]: `${selectedSize} ${isPreprod ? "pièces" : "objets"}`,
+            "Format de la pochette": `${selectedSize} créations`,
             "Composition": summaryText,
           },
           image: "/images/pochette-kraft.jpg",
@@ -328,7 +326,7 @@ export default function MysteryPackConfigurator({
   return (
     <div
       ref={containerRef}
-      className={`w-full max-w-6xl mx-auto font-[family-name:var(--font-plus-jakarta)] relative ${className}`}
+      className={`w-full max-w-6xl mx-auto font-[family-name:var(--font-plus-jakarta)] relative no-invert keep-white ${className}`}
     >
       {/* FLYING PARABOLIC TOKENS OVERLAY */}
       <AnimatePresence>
@@ -536,10 +534,10 @@ export default function MysteryPackConfigurator({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-neutral-800">
             <div>
               <h2 className="text-2xl sm:text-3xl font-[family-name:var(--font-antonio)] font-bold uppercase tracking-wide text-white">
-                {isPreprod ? "Blind Bag Sur-Mesure" : "Pochette Surprise Sur-Mesure"}
+                Pochette Surprise Sur-Mesure
               </h2>
               <p className="text-xs sm:text-sm text-gray-400 font-medium mt-1">
-                {isPreprod ? "Choisis le format et dose tes créations d’atelier 3D" : "Choisis le nombre d’objets et dose tes univers 3D"}
+                Choisis le format et dose tes créations d’atelier 3D
               </p>
             </div>
 
@@ -550,7 +548,7 @@ export default function MysteryPackConfigurator({
                   isQuotaReached ? "text-[#00FF66] price-tag" : "text-[#FF5500]"
                 }`}
               >
-                {totalSelected} / {selectedSize} {isPreprod ? "pièces sélectionnées" : "objets sélectionnés"}
+                {totalSelected} / {selectedSize} pièces sélectionnées
               </span>
               <div className="w-36 h-2.5 rounded-full bg-neutral-900 border border-neutral-800 overflow-hidden">
                 <div
@@ -564,7 +562,7 @@ export default function MysteryPackConfigurator({
           {/* 2. ÉTAPE 1 - SELECTION DE TAILLE (3 Onglets Simples Alignés) */}
           <div className="flex flex-col gap-3">
             <label className="text-xs font-[family-name:var(--font-antonio)] font-bold uppercase tracking-wider text-gray-400">
-              {isPreprod ? "1. Choisis le format du Blind Bag" : "1. Choisis la taille de la pochette"}
+              1. Choisis le format de la pochette
             </label>
 
             <div className="grid grid-cols-3 gap-2 sm:gap-3">
@@ -723,9 +721,7 @@ export default function MysteryPackConfigurator({
                   exit={{ opacity: 0, y: -10 }}
                   className="p-3 rounded-xl bg-[#00FF66]/15 border border-[#00FF66]/30 text-[#00FF66] text-center font-bold text-xs font-[family-name:var(--font-plus-jakarta)]"
                 >
-                  {isPreprod
-                    ? "🎉 Blind Bag d'atelier ajouté avec succès à ton panier !"
-                    : "🎉 Pochette surprise ajoutée avec succès à ton panier !"}
+                  🎉 Pochette surprise d&apos;atelier ajoutée avec succès à ton panier !
                 </motion.div>
               )}
             </AnimatePresence>

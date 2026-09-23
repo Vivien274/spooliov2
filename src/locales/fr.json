@@ -77,7 +77,7 @@
   },
   "footer": {
     "brand_by": "Par Vivien 🛠️",
-    "description": "Objets fun, fidgets sensoriels, et créations uniques imprimés 3D avec passion à Comines. Plastique biosourcé, zéro pétrole !",
+    "description": "Fabrication additive de précision à Comines (59). Objets et accessoires durables imprimés à la commande en PLA biosourcé issu d'amidon de maïs.",
     "rights": "Tous droits réservés.",
     "join_adventure": "Rejoins l'aventure 🚀",
     "club_spoolio": "Club Spoolio ✉️",
@@ -106,10 +106,10 @@
   },
   "home": {
     "hero": {
-      "badge": "🇫🇷 Fabriqué à Comines • 100% Biosourcé",
-      "title": "Objets Funs & Fidgets 3D",
-      "subtitle": "Imprimés en plastique végétal PLA. Conçus pour apaiser le mental, stimuler la concentration et égayer ton quotidien.",
-      "cta_shop": "Découvrir la Boutique",
+      "badge": "ATELIER D'IMPRESSION 3D • COMINES (59)",
+      "title": "Objets tactiles, accessoires de bureau et créations d'atelier.",
+      "subtitle": "Conçus et imprimés à la demande dans notre atelier avec un polymère végétal biosourcé. Zéro surstock, du caractère et des finitions soignées.",
+      "cta_shop": "DÉCOUVRIR LE CATALOGUE",
       "cta_sensory": "Boussole Sensorielle"
     },
     "bento": {
@@ -123,7 +123,7 @@
     },
     "collection": {
       "title": "La Collection Spoolio",
-      "subtitle": "Des fidgets sensoriels aux figurines articulées, découvre nos créations originales imprimées en 3D.",
+      "subtitle": "Créations d'atelier, objets tactiles et accessoires durables imprimés en 3D en France.",
       "latest": "Derniers Ajouts",
       "popular": "Les Plus Populaires"
     },

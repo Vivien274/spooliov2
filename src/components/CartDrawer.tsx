@@ -108,9 +108,7 @@ export default function CartDrawer() {
                 Votre panier est vide
               </h3>
               <p className="text-xs text-zinc-500 max-w-xs leading-relaxed mb-6">
-                {isPreprodEnv()
-                  ? "Découvrez nos créations 3D, outils de focus haptiques et Blind Bags d'atelier faits main."
-                  : "Découvrez nos créations 3D, fidgets sensoriels et pochettes surprises faites main."}
+                Découvrez nos créations 3D, objets tactiles et pochettes surprises d'atelier faites main.
               </p>
               <button
                 onClick={() => setIsCartOpen(false)}

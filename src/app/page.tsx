@@ -4,7 +4,7 @@ import Image from "next/image";
 import SpoolioProductGrid from "@/components/SpoolioProductGrid";
 import HomeTabbedProductGrid from "@/components/HomeTabbedProductGrid";
 import AnimatedHero from "@/components/AnimatedHero";
-import LatestDropBanner from "@/components/LatestDropBanner";
+import HeroMarqueeBanner from "@/components/HeroMarqueeBanner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReviewsSection from "@/components/ReviewsSection";
@@ -28,11 +28,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const DEFAULT_HERO = {
-  title: "La Capsule été",
-  subtitle: "Elle est sortie, elle est tout belle !",
-  buttonText: "VOIR LA CAPSULE",
+  title: "Objets tactiles, accessoires de bureau et créations d'atelier.",
+  subtitle: "Conçus et imprimés à la demande dans notre atelier avec un polymère végétal biosourcé. Zéro surstock, du caractère et des finitions soignées.",
+  buttonText: "DÉCOUVRIR LE CATALOGUE",
   buttonLink: "/boutique",
-  imageUrl: "/images/hero_background.jpg",
+  imageUrl: "/images/clicker_gallery_2.jpg",
   imagePosition: "center center"
 };
 
@@ -243,12 +243,12 @@ export default async function HomePage() {
       {/* 1. Full-Width Animated Hero Section */}
       <AnimatedHero {...(hero as any)} />
 
-      {/* 2. Full-Width Dedicated Latest Drop Banner: "Curb Monsters" */}
-      <LatestDropBanner />
+      {/* 2. Full-Width Transition Marquee Ticker */}
+      <HeroMarqueeBanner />
 
-      {/* 5. Tabbed Product Showcase & 2-Column Banner */}
+      {/* 3. Tabbed Product Showcase & 2-Column Banner */}
       <section className="w-full max-w-[1200px] px-4 py-8 relative z-10 flex flex-col gap-10">
-        {/* Tabbed Product Showcase (Art Toys, Jeux de société, Tout le catalogue) */}
+        {/* Tabbed Product Showcase (Nouveautés, Fidgets, Pochettes, Bureau, etc.) */}
         <HomeTabbedProductGrid />
 
         {/* 2-Column Balanced Section: Aider l'Atelier + App Enjeu */}

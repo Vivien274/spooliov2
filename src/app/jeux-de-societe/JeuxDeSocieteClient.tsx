@@ -702,7 +702,7 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
       {/* =========================================================================
           4. FOCUS APPLICATION ENJEU (APP COMPAGNON)
          ========================================================================= */}
-      <section id="enjeu-app" className="relative rounded-3xl sm:rounded-[36px] bg-gradient-to-br from-[#0c0d1c] via-[#10132b] to-[#18112e] border border-indigo-500/30 p-6 sm:p-12 overflow-hidden shadow-xl scroll-mt-28 space-y-12 text-white">
+      <section id="enjeu-app" className="relative rounded-3xl sm:rounded-[36px] bg-gradient-to-br from-[#0c0d1c] via-[#10132b] to-[#18112e] border border-indigo-500/30 p-6 sm:p-12 overflow-hidden shadow-xl scroll-mt-28 space-y-12 text-white no-invert keep-white">
         
         {/* Glow ambient */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/20 blur-3xl pointer-events-none" />

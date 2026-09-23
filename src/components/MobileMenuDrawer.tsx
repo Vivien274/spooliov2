@@ -196,7 +196,7 @@ export default function MobileMenuDrawer({
               <div className="flex items-center gap-3">
                 <Gift className="w-4 h-4 text-zinc-400 group-hover:text-[#ff4f00] transition-colors" />
                 <span className="text-sm font-semibold font-outfit text-zinc-900 group-hover:text-zinc-950">
-                  {isPreprodEnv() ? "Blind Bags" : "Pochettes Surprises"}
+                  Pochettes Surprises
                 </span>
               </div>
               <ChevronRight className="w-3.5 h-3.5 text-zinc-300 group-hover:text-zinc-500 group-hover:translate-x-0.5 transition-all" />

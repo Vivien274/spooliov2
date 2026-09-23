@@ -28,6 +28,7 @@ export interface HeroSlide {
   cardPrice?: string;
   cardImage?: string;
   cardLink?: string;
+  cardBadge?: string;
 }
 
 function stripEmojis(text: string) {
@@ -46,24 +47,43 @@ function renderFormattedText(text: string) {
   ));
 }
 
-// Single Hero Slide for Preproduction V2
+// Hero Slides for Preproduction V2
 const PREPROD_SLIDES_FR: HeroSlide[] = [
   {
     id: 1,
-    badge: "ATELIER FRANÇAIS • COMINES (59)",
-    title: "Objets tactiles, art toys et créations d'atelier.",
+    badge: "PRÉCOMMANDES • ÉDITION LIMITÉE",
+    title: "LE CALENDRIER DE L'AVENT 3D SPOOLIO",
     subtitle:
-      "Des pièces artisanales pensées pour le quotidien et le bureau. Façonnées à la main et imprimées en 3D en polymère biosourcé.",
-    buttonText: "DÉCOUVRIR LA BOUTIQUE",
+      "24 créations exclusives imprimées en 3D dans notre atelier. Profitez du tarif précommande à 45€ au lieu de 50€ jusqu'au 30 septembre !",
+    buttonText: "PRÉCOMMANDER (45€)",
+    buttonLink: "/calendrier-avent",
+    secondaryButtonText: "DÉCOUVRIR LE CALENDRIER",
+    secondaryButtonLink: "/calendrier-avent",
+    image: "/images/calendrier-avent-hero.jpg",
+    accentColor: "#ff4f00",
+    cardTitle: "Calendrier de l'Avent 3D",
+    cardDescription: "24 surprises inédites d'atelier à découvrir chaque jour.",
+    cardPrice: "45€ au lieu de 50€ (jusqu'au 30/09)",
+    cardImage: "/images/calendrier-avent-hero.jpg",
+    cardLink: "/calendrier-avent",
+    cardBadge: "Précommandes 2026",
+  },
+  {
+    id: 2,
+    badge: "ATELIER D'IMPRESSION 3D • COMINES (59)",
+    title: "Objets tactiles, accessoires de bureau et créations d'atelier.",
+    subtitle:
+      "Conçus et imprimés à la demande dans notre atelier avec un polymère végétal biosourcé. Zéro surstock, du caractère et des finitions soignées.",
+    buttonText: "DÉCOUVRIR LE CATALOGUE",
     buttonLink: "/boutique",
     secondaryButtonText: "CONCEVOIR MON CLICKER",
     secondaryButtonLink: "/createur-cliqueur",
-    image: "/images/hero_background.jpg",
+    image: "/images/clicker_gallery_2.jpg",
     accentColor: "#ff4f00",
     cardTitle: "Créations Spoolio 3D",
-    cardDescription: "Objets tactiles et art toys façonnés sur mesure à Comines.",
+    cardDescription: "Objets tactiles et accessoires façonnés sur mesure à Comines.",
     cardPrice: "À partir de 3.00€",
-    cardImage: "/images/hero_background.jpg",
+    cardImage: "/images/clicker_gallery_2.jpg",
     cardLink: "/boutique",
   },
 ];
@@ -71,20 +91,39 @@ const PREPROD_SLIDES_FR: HeroSlide[] = [
 const PREPROD_SLIDES_EN: HeroSlide[] = [
   {
     id: 1,
-    badge: "FRENCH WORKSHOP • COMINES",
-    title: "Tactile objects, art toys and studio creations.",
+    badge: "PRE-ORDERS OPEN • LIMITED EDITION",
+    title: "THE SPOOLIO 3D ADVENT CALENDAR",
     subtitle:
-      "Artisanal pieces designed for everyday life and desk setups. Hand-finished and 3D printed in bio-sourced polymer.",
-    buttonText: "DISCOVER THE SHOP",
+      "24 exclusive 3D creations crafted in our workshop. Enjoy the early bird pre-order price of €45 instead of €50 until September 30th!",
+    buttonText: "PRE-ORDER NOW (€45)",
+    buttonLink: "/calendrier-avent",
+    secondaryButtonText: "DISCOVER THE CALENDAR",
+    secondaryButtonLink: "/calendrier-avent",
+    image: "/images/calendrier-avent-hero.jpg",
+    accentColor: "#ff4f00",
+    cardTitle: "3D Advent Calendar",
+    cardDescription: "24 daily tactile workshop surprises to discover.",
+    cardPrice: "€45 instead of €50 (until Sep 30)",
+    cardImage: "/images/calendrier-avent-hero.jpg",
+    cardLink: "/calendrier-avent",
+    cardBadge: "Pre-order 2026",
+  },
+  {
+    id: 2,
+    badge: "3D PRINTING WORKSHOP • COMINES (59)",
+    title: "Tactile objects, desk accessories and studio creations.",
+    subtitle:
+      "Designed and 3D printed on demand in our workshop with bio-sourced plant polymer. Zero overstock, character and meticulous finishes.",
+    buttonText: "DISCOVER THE CATALOG",
     buttonLink: "/boutique",
     secondaryButtonText: "DESIGN MY CLICKER",
     secondaryButtonLink: "/createur-cliqueur",
-    image: "/images/hero_background.jpg",
+    image: "/images/clicker_gallery_2.jpg",
     accentColor: "#ff4f00",
     cardTitle: "Spoolio 3D Studio",
     cardDescription: "Tactile objects and 3D creations crafted in Comines.",
     cardPrice: "From €3.00",
-    cardImage: "/images/hero_background.jpg",
+    cardImage: "/images/clicker_gallery_2.jpg",
     cardLink: "/boutique",
   },
 ];
@@ -92,23 +131,43 @@ const PREPROD_SLIDES_EN: HeroSlide[] = [
 const DEFAULT_SLIDES_FR: HeroSlide[] = [
   {
     id: 1,
-    badge: "ART TOYS & PIÈCES UNIQUES",
-    title: "L'ART TOY RÉINVENTÉ EN 3D",
-    subtitle: "Des figurines d'art peintes à la main et des sculptures audacieuses conçues pour sublimer votre intérieur.",
-    buttonText: "DÉCOUVRIR LES ART TOYS",
-    buttonLink: "/boutique",
-    secondaryButtonText: "PIÈCES FAIT MAIN",
-    secondaryButtonLink: "/product/monstre-skateur-fait-main",
-    image: "/images/hero_background.jpg",
+    badge: "PRÉCOMMANDES • ÉDITION LIMITÉE",
+    title: "LE CALENDRIER DE L'AVENT 3D SPOOLIO",
+    subtitle:
+      "24 créations exclusives imprimées en 3D dans notre atelier. Profitez du tarif précommande à 45€ au lieu de 50€ jusqu'au 30 septembre !",
+    buttonText: "PRÉCOMMANDER (45€)",
+    buttonLink: "/calendrier-avent",
+    secondaryButtonText: "DÉCOUVRIR LE CALENDRIER",
+    secondaryButtonLink: "/calendrier-avent",
+    image: "/images/calendrier-avent-hero.jpg",
     accentColor: "#ff4f00",
-    cardTitle: "Art Toy Collection Spoolio",
-    cardDescription: "Sculptures géométriques et pièces de collection.",
-    cardPrice: "19.90€",
-    cardImage: "/images/hero_background.jpg",
-    cardLink: "/boutique"
+    cardTitle: "Calendrier de l'Avent 3D",
+    cardDescription: "24 surprises inédites d'atelier à découvrir chaque jour.",
+    cardPrice: "45€ au lieu de 50€ (jusqu'au 30/09)",
+    cardImage: "/images/calendrier-avent-hero.jpg",
+    cardLink: "/calendrier-avent",
+    cardBadge: "Précommandes 2026",
   },
   {
     id: 2,
+    badge: "ATELIER D'IMPRESSION 3D • COMINES (59)",
+    title: "Objets tactiles, accessoires de bureau et créations d'atelier.",
+    subtitle:
+      "Conçus et imprimés à la demande dans notre atelier avec un polymère végétal biosourcé. Zéro surstock, du caractère et des finitions soignées.",
+    buttonText: "DÉCOUVRIR LE CATALOGUE",
+    buttonLink: "/boutique",
+    secondaryButtonText: "CONCEVOIR MON CLICKER",
+    secondaryButtonLink: "/createur-cliqueur",
+    image: "/images/clicker_gallery_2.jpg",
+    accentColor: "#ff4f00",
+    cardTitle: "Créations Spoolio 3D",
+    cardDescription: "Objets tactiles et accessoires façonnés sur mesure à Comines.",
+    cardPrice: "À partir de 3.00€",
+    cardImage: "/images/clicker_gallery_2.jpg",
+    cardLink: "/boutique"
+  },
+  {
+    id: 3,
     badge: "JEUX DE SOCIÉTÉ & TABLETOP",
     title: "UPGRADEZ VOS SESSIONS DE JEU",
     subtitle: "Tours de dés sculptées, inserts précis et accessoires pensés par et pour les passionnés de jeu de société.",
@@ -125,18 +184,18 @@ const DEFAULT_SLIDES_FR: HeroSlide[] = [
     cardLink: "/boutique"
   },
   {
-    id: 3,
-    badge: "DESK SETUP & CULTURE GEEK",
+    id: 4,
+    badge: "DESK SETUP & ACCESSOIRES",
     title: "CLICKERS MÉCANIQUES & ASMR",
     subtitle: "Concevez votre clicker mécanique sur-mesure : switchs réels, touches custom et sensations tactiles uniques.",
     buttonText: "CONCEVOIR MON CLICKER",
     buttonLink: "/createur-cliqueur",
-    secondaryButtonText: "VOIR LA BOUTIQUE",
+    secondaryButtonText: "VOIR LE CATALOGUE",
     secondaryButtonLink: "/boutique",
     image: "/images/imported/PochetteM-1.png",
     accentColor: "#ff4f00",
     cardTitle: "Clicker Mécanique Studio",
-    cardDescription: "Touches interchangeables et switchs tactiles haut de gamme.",
+    cardDescription: "Touches interchangeables et switchs tactiles de précision.",
     cardPrice: "À partir de 3.00€",
     cardImage: "/images/imported/PochetteM-1.png",
     cardLink: "/createur-cliqueur"
@@ -146,21 +205,40 @@ const DEFAULT_SLIDES_FR: HeroSlide[] = [
 const DEFAULT_SLIDES_EN: HeroSlide[] = [
   {
     id: 1,
-    badge: "ART TOYS & COLLECTIBLES",
-    title: "THE ART TOY REINVENTED IN 3D",
-    subtitle: "Graphic, qualitative and bold creations designed to elevate your interior and desk setup.",
-    buttonText: "DISCOVER ART TOYS",
-    buttonLink: "/boutique",
-    image: "/images/hero_background.jpg",
+    badge: "PRE-ORDERS OPEN • LIMITED EDITION",
+    title: "THE SPOOLIO 3D ADVENT CALENDAR",
+    subtitle:
+      "24 exclusive 3D creations crafted in our workshop. Enjoy the early bird pre-order price of €45 instead of €50 until September 30th!",
+    buttonText: "PRE-ORDER NOW (€45)",
+    buttonLink: "/calendrier-avent",
+    secondaryButtonText: "DISCOVER THE CALENDAR",
+    secondaryButtonLink: "/calendrier-avent",
+    image: "/images/calendrier-avent-hero.jpg",
     accentColor: "#ff4f00",
-    cardTitle: "Spoolio Art Toy Collection",
-    cardDescription: "Geometric sculptures and collectible pieces.",
-    cardPrice: "€19.90",
-    cardImage: "/images/hero_background.jpg",
-    cardLink: "/boutique"
+    cardTitle: "3D Advent Calendar",
+    cardDescription: "24 daily tactile workshop surprises to discover.",
+    cardPrice: "€45 instead of €50 (until Sep 30)",
+    cardImage: "/images/calendrier-avent-hero.jpg",
+    cardLink: "/calendrier-avent",
+    cardBadge: "Pre-order 2026",
   },
   {
     id: 2,
+    badge: "3D PRINTING WORKSHOP • COMINES (59)",
+    title: "Tactile objects, desk accessories and workshop creations.",
+    subtitle: "Designed and 3D printed on demand in our workshop with bio-sourced plant-based polymer. Zero overstock, strong character, and refined craftsmanship.",
+    buttonText: "DISCOVER THE CATALOG",
+    buttonLink: "/boutique",
+    image: "/images/clicker_gallery_2.jpg",
+    accentColor: "#ff4f00",
+    cardTitle: "Spoolio Workshop Creations",
+    cardDescription: "Tactile objects, desk accessories and workshop creations.",
+    cardPrice: "€19.90",
+    cardImage: "/images/clicker_gallery_2.jpg",
+    cardLink: "/boutique"
+  },
+  {
+    id: 3,
     badge: "BOARD GAMES & TABLETOP",
     title: "UPGRADE YOUR GAME NIGHTS",
     subtitle: "Sculpted dice towers, precise inserts, and tabletop accessories crafted for enthusiasts.",
@@ -175,7 +253,7 @@ const DEFAULT_SLIDES_EN: HeroSlide[] = [
     cardLink: "/boutique"
   },
   {
-    id: 3,
+    id: 4,
     badge: "DESK SETUP & GEEK CULTURE",
     title: "MECHANICAL CLICKERS & ASMR",
     subtitle: "Design your custom mechanical clicker: authentic switches, custom keycaps, and satisfying tactile feedback.",
@@ -233,7 +311,7 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
   const cardTitle = activeSlide.cardTitle || activeSlide.title || "Produit Spoolio 3D";
   const cardDescription = activeSlide.cardDescription || activeSlide.subtitle || "Fabrication artisanale en France";
   const cardPrice = activeSlide.cardPrice || "À partir de 3.00€";
-  const cardImage = activeSlide.cardImage || activeSlide.image || "/images/hero_background.jpg";
+  const cardImage = activeSlide.cardImage || activeSlide.image || "/images/clicker_gallery_2.jpg";
   const cardLink = activeSlide.cardLink || activeSlide.buttonLink || "/boutique";
 
   const rawBadge = activeSlide.badge || "FABRICATION ARTISANALE À COMINES (59)";
@@ -243,12 +321,12 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
     <div className="w-full relative z-30 select-none">
       <Header />
 
-      {/* Hero Container spanning full width, no rounded corners and no drop shadow */}
-      <div className="w-full pt-20 sm:pt-24 mb-10 sm:mb-16">
+      {/* Hero Container spanning full width, glued to marquee below */}
+      <div className="w-full pt-20 sm:pt-24 mb-0">
         <section
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
-          className="relative w-full overflow-hidden bg-zinc-950 text-white min-h-[600px] sm:min-h-[660px] lg:min-h-[700px] border-b border-zinc-200 group/hero flex flex-col justify-between"
+          className="relative w-full overflow-hidden bg-zinc-950 text-white min-h-[600px] sm:min-h-[660px] lg:min-h-[700px] border-b border-zinc-800/80 group/hero flex flex-col justify-between"
         >
           {/* Background Image & Ambient Effects (Without white overlay) */}
           <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -349,7 +427,7 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                         className="h-12 sm:h-14 px-7 sm:px-9 inline-flex items-center justify-center gap-3 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider text-white bg-[#ff4f00] hover:bg-[#ff6524] shadow-xl shadow-[#ff4f00]/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 keep-white no-invert cursor-pointer"
                       >
                         <span className="font-black tracking-widest text-white !text-white keep-white">
-                          {activeSlide.buttonText || "DÉCOUVRIR LA BOUTIQUE"}
+                          {activeSlide.buttonText || "DÉCOUVRIR LE CATALOGUE"}
                         </span>
                         <ArrowRight className="w-4 h-4 text-white !text-white keep-white group-hover/btn:translate-x-1 transition-transform" />
                       </Link>
@@ -357,9 +435,9 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                       {activeSlide.secondaryButtonLink && (
                         <Link
                           href={activeSlide.secondaryButtonLink}
-                          className="h-12 sm:h-14 px-6 inline-flex items-center justify-center gap-2 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider text-zinc-200 hover:text-white bg-white/10 hover:bg-white/15 border border-white/20 backdrop-blur-md transition-all duration-300 keep-white no-invert hover:scale-[1.02] active:scale-[0.98]"
+                          className="h-12 sm:h-14 px-6 inline-flex items-center justify-center gap-2 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider text-white !text-white hover:text-white bg-white/10 hover:bg-white/20 border border-white/25 backdrop-blur-md transition-all duration-300 keep-white no-invert hover:scale-[1.02] active:scale-[0.98]"
                         >
-                          <span>{activeSlide.secondaryButtonText}</span>
+                          <span className="text-white !text-white keep-white">{activeSlide.secondaryButtonText}</span>
                         </Link>
                       )}
                     </div>
@@ -395,8 +473,11 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
 
                       {/* Top Corner: Atelier Badge */}
                       <div className="absolute top-4 left-4 z-10 pointer-events-none">
-                        <span className="px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-bold text-white uppercase tracking-wider">
-                          Spoolio Studio
+                        <span
+                          style={{ color: "#000000" }}
+                          className="px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-white/60 text-[10px] font-black text-black !text-black uppercase tracking-wider shadow-sm"
+                        >
+                          {activeSlide.cardBadge || "Spoolio Studio"}
                         </span>
                       </div>
 

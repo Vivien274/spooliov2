@@ -193,7 +193,7 @@ export default function Footer({ className = "" }: FooterProps) {
             &copy; {new Date().getFullYear()} Spoolio. {t("footer.rights")}
           </div>
           <div className="flex items-center gap-2 text-zinc-600">
-            <span>🇫🇷 Imprimé & assemblé à Comines (59)</span>
+            <span>🇫🇷 Fabrication additive de précision à Comines (59) • PLA biosourcé</span>
           </div>
         </div>
 

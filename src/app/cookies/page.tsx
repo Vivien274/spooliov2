@@ -13,26 +13,30 @@ export const metadata: Metadata = {
 
 export default function CookiesPage() {
   return (
-    <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#fafaf9] text-zinc-900 font-sans flex flex-col items-center selection:bg-[#ff4f00] selection:text-white overflow-x-hidden">
       
       {/* Background Decorative Blobs */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-[-10%] right-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full blob-orange" style={{ backgroundColor: 'rgba(255, 79, 0, 0.15)', filter: 'blur(100px)' }} />
-        <div className="absolute bottom-[10%] left-[-15%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full blob-indigo" style={{ backgroundColor: 'rgba(99, 102, 241, 0.12)', filter: 'blur(100px)' }} />
+        <div className="absolute top-[-10%] right-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full" style={{ backgroundColor: 'rgba(255, 79, 0, 0.05)', filter: 'blur(120px)' }} />
+        <div className="absolute bottom-[10%] left-[-15%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full" style={{ backgroundColor: 'rgba(251, 191, 36, 0.06)', filter: 'blur(120px)' }} />
       </div>
 
       <Header />
 
       {/* Main Content Area */}
       <main className="w-full max-w-[800px] px-6 pt-28 lg:pt-32 pb-12 relative z-10 flex-grow">
-        <div className="animate-reveal">
-          <h1 className="text-4xl md:text-5xl font-extrabold uppercase tracking-tight font-antonio text-neon-flow mb-6 text-center">
+        <div className="animate-reveal text-center">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-orange-200 bg-orange-50 text-xs font-semibold text-orange-700 mb-4">
+            <span>🍪</span>
+            <span>Vie Privée & RGPD</span>
+          </span>
+          <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tight font-antonio text-zinc-950 mb-4">
             Politique de Cookies & RGPD
           </h1>
         </div>
 
-        <div className="mt-8 p-6 md:p-8 rounded-3xl bg-spoolio-card border border-spoolio-border text-gray-300 space-y-6 text-xs leading-relaxed animate-reveal delay-100 font-sans">
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
+        <div className="mt-8 p-6 md:p-8 rounded-3xl bg-white border border-zinc-200/90 text-zinc-700 space-y-6 text-xs sm:text-sm leading-relaxed animate-reveal delay-100 font-sans shadow-2xs">
+          <h2 className="text-base sm:text-lg font-bold text-zinc-950 uppercase font-antonio border-b border-zinc-100 pb-2 tracking-wide">
             1. L'utilisation de cookies
           </h2>
           <p>
@@ -42,14 +46,14 @@ export default function CookiesPage() {
             L'utilisation de cookies est d'une grande importance pour le bon fonctionnement de notre site web. Grâce à la contribution (anonyme) des visiteurs, nous pouvons améliorer l'utilisation du site internet et le rendre plus convivial.
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
+          <h2 className="text-base sm:text-lg font-bold text-zinc-950 uppercase font-antonio border-b border-zinc-100 pb-2 tracking-wide">
             2. Consentement
           </h2>
           <p>
             Ton consentement est requis pour l'utilisation de certains cookies. Nous le recueillons au moyen d'une bannière informative présente lors de ta première visite sur le site.
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
+          <h2 className="text-base sm:text-lg font-bold text-zinc-950 uppercase font-antonio border-b border-zinc-100 pb-2 tracking-wide">
             3. Le type de cookies utilisés et leurs objectifs
           </h2>
           <p>
@@ -67,7 +71,7 @@ export default function CookiesPage() {
             </li>
           </ul>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
+          <h2 className="text-base sm:text-lg font-bold text-zinc-950 uppercase font-antonio border-b border-zinc-100 pb-2 tracking-wide">
             4. Tes droits à l'égard de tes données personnelles
           </h2>
           <p>
@@ -77,7 +81,7 @@ export default function CookiesPage() {
             Tu peux exercer ces droits en nous envoyant un e-mail simple à l'adresse suivante : <strong>contact@spoolio.fr</strong>.
           </p>
 
-          <h2 className="text-lg font-bold text-white uppercase font-antonio border-b border-spoolio-border pb-2 tracking-wide">
+          <h2 className="text-base sm:text-lg font-bold text-zinc-950 uppercase font-antonio border-b border-zinc-100 pb-2 tracking-wide">
             5. Blocage et suppression des cookies
           </h2>
           <p>

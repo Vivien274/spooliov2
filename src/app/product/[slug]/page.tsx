@@ -90,6 +90,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       "porte-cles-nfc-spoolio": "Porte-clés NFC Spoolio",
       "marcel-le-poulpe-fidget": "Marcel le Poulpe Fidget",
       "monstre-skateur-fait-main": "Gribouille le Skateur – Figurine Peinte à la Main",
+      "pochette-surprise-s": "Pochette Surprise — S (3 objets)",
+      "pochette-surprise-m": "Pochette Surprise — M (6 objets)",
+      "pochette-surprise-l": "Pochette Surprise — L (10 objets)",
     };
 
     productName = fallbackTitles[slug] || "Produit";

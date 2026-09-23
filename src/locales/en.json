@@ -77,7 +77,7 @@
   },
   "footer": {
     "brand_by": "By Vivien 🛠️",
-    "description": "Fun items, sensory fidgets, and unique creations 3D printed with passion in Comines, France. Plant-based plastic, zero petroleum!",
+    "description": "Additive manufacturing workshop in Comines (59). Tactile objects, desk accessories and durable creations 3D printed on demand in plant-based PLA.",
     "rights": "All rights reserved.",
     "join_adventure": "Join the adventure 🚀",
     "club_spoolio": "Spoolio Club ✉️",
@@ -106,10 +106,10 @@
   },
   "home": {
     "hero": {
-      "badge": "🇫🇷 Made in Comines (France) • 100% Bio-sourced",
-      "title": "Fun Objects & 3D Fidgets",
-      "subtitle": "Printed in plant-based PLA plastic. Designed to calm the mind, boost focus, and brighten your daily routine.",
-      "cta_shop": "Explore the Shop",
+      "badge": "3D PRINTING WORKSHOP • COMINES (59)",
+      "title": "Tactile objects, desk accessories and workshop creations.",
+      "subtitle": "Designed and 3D printed on demand in our workshop with bio-sourced plant-based polymer. Zero overstock, strong character, and refined craftsmanship.",
+      "cta_shop": "Discover the Catalog",
       "cta_sensory": "Sensory Compass"
     },
     "bento": {
@@ -122,9 +122,9 @@
       "reviews_val": "4.9 / 5.0 (Reviews)"
     },
     "collection": {
-      "title": "The Spoolio Collection",
-      "subtitle": "From sensory fidgets to articulated figurines, discover our original 3D printed creations.",
-      "latest": "Latest Arrivals",
+      "title": "Workshop Creations",
+      "subtitle": "Workshop creations, tactile objects, and durable accessories 3D printed in France.",
+      "latest": "New Arrivals",
       "popular": "Most Popular"
     },
     "donation": {

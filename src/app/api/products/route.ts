@@ -142,6 +142,7 @@ function mapProduct(p: any, viewCountMap: Record<string, number> = {}) {
     date_created: p.dateCreated ? new Date(p.dateCreated).toISOString() : (p.date_created ? new Date(p.date_created).toISOString() : null),
     attributes: parsedAttributes,
     tags: tagsList,
+    badge: (parsedAttributes && parsedAttributes.badge) ? String(parsedAttributes.badge).trim() : ((p as any).badge || null),
     stock: typeof p.stock === 'number' ? p.stock : (typeof p.stock_quantity === 'number' ? p.stock_quantity : -1),
     productType: p.productType || "simple",
     status: p.status || "publish",
@@ -304,9 +305,8 @@ export async function GET(request: Request) {
     const isPreprod = isPreprodEnv();
     const requestedStatus = searchParams.get('status');
 
-    // In preproduction (preview/localhost), or if status='all', include drafts.
-    // In production (spoolio.fr), strictly query 'publish' unless status='all' is explicitly given.
-    const effectiveStatus = (requestedStatus === 'all' || (isPreprod && !requestedStatus)) ? 'all' : (requestedStatus || 'publish');
+    // Public catalog strictly queries 'publish' unless status='all' is explicitly requested (e.g. by admin).
+    const effectiveStatus = requestedStatus === 'all' ? 'all' : (requestedStatus || 'publish');
     const cacheKey = `${effectiveStatus}_${isPreprod ? 'preprod' : 'prod'}`;
 
     // Serve from in-memory cache if available and fresh (for public catalog)

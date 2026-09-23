@@ -62,7 +62,7 @@ export async function GET(request: Request) {
             name: "Gribouille le Skateur – Figurine Peinte à la Main",
             slug: "monstre-skateur-fait-main",
             price: "59.00",
-            status: "publish",
+            status: "draft",
             stock: 3,
             images: [{ id: 1, src: "/images/produits/monstre-skateur-fait-main.jpg", alt: "Gribouille le Skateur" }],
             uniquePieceData: defaultData
@@ -128,7 +128,7 @@ export async function GET(request: Request) {
         name: "Gribouille le Skateur – Figurine Peinte à la Main",
         slug: "monstre-skateur-fait-main",
         price: "59.00",
-        status: "publish",
+        status: "draft",
         stock: 3,
         image: "/images/produits/monstre-skateur-fait-main.jpg",
         uniquePieceData: getDefaultUniquePieceData("Gribouille le Skateur")

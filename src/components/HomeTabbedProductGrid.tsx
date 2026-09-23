@@ -3,23 +3,29 @@
 import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import ProductCard, { Product } from "./ProductCard";
-import { Flame, Dices, Grid, ArrowRight } from "lucide-react";
+import { Sparkles, Dices, Grid, ArrowRight, Zap, Gift, Palette } from "lucide-react";
 import { isPreprodEnv } from "@/lib/env";
 import { useTranslation } from "@/context/LanguageContext";
 
-type TabKey = "best-of" | "jeux-de-societe" | "all";
+type TabKey =
+  | "all"
+  | "nouveautes"
+  | "fidgets"
+  | "pochettes"
+  | "bureau-deco"
+  | "jeux-accessoires";
 
 export default function HomeTabbedProductGrid() {
   const { t } = useTranslation();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<TabKey>("best-of");
+  const [activeTab, setActiveTab] = useState<TabKey>("all");
 
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const res = await fetch("/api/products");
+        const res = await fetch("/api/products", { cache: "no-store" });
         if (!res.ok) {
           throw new Error("Impossible de récupérer les produits");
         }
@@ -35,89 +41,128 @@ export default function HomeTabbedProductGrid() {
     fetchProducts();
   }, []);
 
-  // Filter products by active tab
+  // Filter products by active tab (strictly published products only)
   const displayProducts = useMemo(() => {
-    let result = [...products];
+    let result = products.filter(
+      (p) => (p.status === "publish" || !p.status) && p.status !== "draft"
+    );
+    if (result.length === 0) return [];
 
-    if (activeTab === "best-of") {
-      // Sort by views or popular
-      const hasViews = result.some((p) => (p.views || 0) > 0);
-      if (hasViews) {
-        result.sort((a, b) => (b.views || 0) - (a.views || 0));
-      } else {
-        result.sort((a, b) => ((a.id * 31 + 7) % 19) - ((b.id * 31 + 7) % 19));
-      }
-      return result.slice(0, 8);
-    }
-
-    if (activeTab === "jeux-de-societe") {
-      const filtered = result.filter((p) => {
-        const catMatch = p.categories?.some((c) =>
-          /jeux|gaming|geek|dés|cartes|boardgames/i.test(c.name || "")
-        );
-        const nameMatch = /tour|dés|carte|jeu|skull|skyjo|yams|gaming/i.test(p.name || "");
-        const tagMatch = p.tags?.some((t) => /jeux|gaming|geek/i.test(t));
-        return catMatch || nameMatch || tagMatch;
-      });
-      return filtered.length > 0 ? filtered.slice(0, 8) : result.slice(0, 6);
-    }
-
-    // "all" : afficher d'autres produits du catalogue que les nouveautés
-    const latestIds = new Set(
-      [...products]
+    if (activeTab === "nouveautes") {
+      // Trier strictement par date de création descendante (nouveautés d'abord)
+      return result
         .sort((a, b) => {
           const timeA = a.date_created ? new Date(a.date_created).getTime() : 0;
           const timeB = b.date_created ? new Date(b.date_created).getTime() : 0;
           return timeB - timeA;
         })
-        .slice(0, 8)
-        .map((p) => p.id)
-    );
+        .slice(0, 12);
+    }
 
-    const nonLatest = products.filter((p) => !latestIds.has(p.id));
+    if (activeTab === "fidgets") {
+      const filtered = result.filter((p) => {
+        const catMatch = p.categories?.some((c) =>
+          /fidget|clic|tactile|anti-stress|clicker|switch|sensoriel/i.test(c.name || "")
+        );
+        const nameMatch = /fidget|clicker|clic|switch|touche|clavier|trône|engrenage|sensoriel/i.test(p.name || "");
+        const tagMatch = p.tags?.some((t) => /fidget|clic|tactile|anti-stress|sensoriel/i.test(t));
+        return catMatch || nameMatch || tagMatch;
+      });
+      return filtered.length > 0 ? filtered.slice(0, 12) : result.slice(0, 12);
+    }
 
-    // Sélection diversifiée représentant le catalogue
+    if (activeTab === "pochettes") {
+      const pochetteSlugs = [
+        "pochette-surprise-s",
+        "pochette-surprise-m",
+        "pochette-surprise-l",
+      ];
+      // Filtrer STRICTEMENT les 3 formats officiels de pochette surprise (S, M, L)
+      const filtered = result
+        .filter((p) => pochetteSlugs.includes(p.slug))
+        .sort((a, b) => pochetteSlugs.indexOf(a.slug) - pochetteSlugs.indexOf(b.slug));
+
+      return filtered;
+    }
+
+    if (activeTab === "bureau-deco") {
+      const filtered = result.filter((p) => {
+        const catMatch = p.categories?.some((c) =>
+          /décoration|decoration|déco|deco|bureau|accessoire|maison|figurine/i.test(c.name || "")
+        );
+        const nameMatch = /bureau|support|dragon|figurine|porte-clé|pot|vase|rangement|organis|cube|plante|skateur|main|articulé/i.test(p.name || "");
+        const tagMatch = p.tags?.some((t) => /déco|deco|bureau|figurine|dragon/i.test(t));
+        return catMatch || nameMatch || tagMatch;
+      });
+      return filtered.length > 0 ? filtered.slice(0, 12) : result.slice(0, 12);
+    }
+
+    if (activeTab === "jeux-accessoires") {
+      const filtered = result.filter((p) => {
+        const catMatch = p.categories?.some((c) =>
+          /jeux|gaming|geek|dés|cartes|boardgame|société|societe/i.test(c.name || "")
+        );
+        const nameMatch = /tour|dés|carte|jeu|skull|skyjo|yams|gaming|plateau|enjeu|insert/i.test(p.name || "");
+        const tagMatch = p.tags?.some((t) => /jeux|gaming|geek|tabletop/i.test(t));
+        return catMatch || nameMatch || tagMatch;
+      });
+      return filtered.length > 0 ? filtered.slice(0, 12) : result.slice(0, 12);
+    }
+
+    // "all" : Tout voir (sélection diversifiée et attrayante du catalogue)
     const diverse: Product[] = [];
     const seenCategories = new Set<string>();
 
-    for (const prod of nonLatest) {
+    for (const prod of result) {
       if (/carte cadeau/i.test(prod.name || "")) continue;
       const catName = prod.categories?.[0]?.name || "Autre";
       if (!seenCategories.has(catName)) {
         seenCategories.add(catName);
         diverse.push(prod);
       }
-      if (diverse.length >= 8) break;
+      if (diverse.length >= 12) break;
     }
 
-    for (const prod of nonLatest) {
-      if (diverse.length >= 8) break;
+    for (const prod of result) {
+      if (diverse.length >= 12) break;
       if (!diverse.some((d) => d.id === prod.id)) {
         diverse.push(prod);
       }
     }
 
-    return diverse.slice(0, 8);
+    return diverse.slice(0, 12);
   }, [products, activeTab]);
 
   const tabs = [
     {
-      id: "best-of" as TabKey,
-      label: "Art Toys & Collection",
-      icon: Flame,
-      badge: "Incontournable",
-    },
-    {
-      id: "jeux-de-societe" as TabKey,
-      label: "Jeux de Société",
-      icon: Dices,
-      badge: "Tabletop",
-    },
-    {
       id: "all" as TabKey,
-      label: "Tout le Catalogue",
+      label: "Tout voir",
       icon: Grid,
-      badge: "Complet",
+    },
+    {
+      id: "nouveautes" as TabKey,
+      label: "Nouveautés",
+      icon: Sparkles,
+    },
+    {
+      id: "fidgets" as TabKey,
+      label: "Objets Tactiles & Fidgets",
+      icon: Zap,
+    },
+    {
+      id: "pochettes" as TabKey,
+      label: "Pochettes Surprises",
+      icon: Gift,
+    },
+    {
+      id: "bureau-deco" as TabKey,
+      label: "Bureau & Déco",
+      icon: Palette,
+    },
+    {
+      id: "jeux-accessoires" as TabKey,
+      label: "Jeux & Accessoires",
+      icon: Dices,
     },
   ];
 
@@ -131,13 +176,13 @@ export default function HomeTabbedProductGrid() {
         >
           {t("home.collection.title") || "La Collection Spoolio"}
         </h2>
-        <p className="text-xs sm:text-sm text-zinc-500 max-w-md mx-auto leading-relaxed">
-          {t("home.collection.subtitle") || "Art toys, accessoires de jeux de société et objets geek imprimés en 3D en France."}
+        <p className="text-xs sm:text-sm text-zinc-500 max-w-lg mx-auto leading-relaxed">
+          Créations d'atelier, objets tactiles et accessoires durables imprimés en 3D en France.
         </p>
       </div>
 
-      {/* Tabs Navigation Pills - strictly on a single line */}
-      <div className="w-full flex items-center justify-start sm:justify-center overflow-x-auto scrollbar-none py-1">
+      {/* Tabs Navigation Pills - Scrollable and responsive on desktop and mobile */}
+      <div className="w-full flex items-center justify-start md:justify-center overflow-x-auto scrollbar-none py-1">
         <div className="inline-flex items-center gap-1.5 sm:gap-2 p-1.5 bg-neutral-100/90 border border-neutral-200/90 rounded-2xl mx-auto flex-nowrap shrink-0">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -150,16 +195,17 @@ export default function HomeTabbedProductGrid() {
                 className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer select-none whitespace-nowrap shrink-0 ${
                   isActive
                     ? "bg-zinc-950 text-white shadow-sm border border-zinc-950"
-                    : "border border-neutral-200 text-neutral-600 hover:bg-neutral-100 hover:text-zinc-900 bg-white"
+                    : "border border-neutral-200/80 text-zinc-700 hover:bg-white hover:text-zinc-950 bg-white/70"
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? "text-[#ff4f00]" : "text-neutral-400"}`} />
+                <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${isActive ? "text-[#ff4f00]" : "text-zinc-400"}`} />
                 <span>{tab.label}</span>
               </button>
             );
           })}
         </div>
       </div>
+
 
       {/* Products Grid */}
       {loading ? (
@@ -178,7 +224,13 @@ export default function HomeTabbedProductGrid() {
       ) : error ? (
         <div className="text-center py-10 text-rose-500 text-xs">{error}</div>
       ) : displayProducts.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 px-1">
+        <div
+          className={
+            activeTab === "pochettes"
+              ? "grid grid-cols-1 sm:grid-cols-3 max-w-4xl mx-auto gap-4 sm:gap-6 px-1 w-full"
+              : "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 px-1"
+          }
+        >
           {displayProducts.map((product, index) => (
             <ProductCard key={product.id} product={product} priority={index < 4} />
           ))}
@@ -189,13 +241,13 @@ export default function HomeTabbedProductGrid() {
         </div>
       )}
 
-      {/* CTA to full shop */}
+      {/* CTA to full shop or configurator */}
       <div className="pt-2 flex justify-center">
         <Link
-          href="/boutique"
+          href={activeTab === "pochettes" ? "/pochette-surprise" : "/boutique"}
           className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-zinc-900 hover:bg-[#ff4f00] text-white text-xs font-bold uppercase tracking-wider transition-all duration-200 group shadow-sm"
         >
-          <span>Voir toute la boutique</span>
+          <span>{activeTab === "pochettes" ? "Composer ma pochette sur-mesure" : "Voir toute la boutique"}</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>

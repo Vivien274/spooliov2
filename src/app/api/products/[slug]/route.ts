@@ -124,6 +124,7 @@ function mapProduct(p: any) {
     date_created: p.dateCreated ? new Date(p.dateCreated).toISOString() : (p.date_created ? new Date(p.date_created).toISOString() : null),
     attributes: parsedAttributes,
     tags: tagsList,
+    badge: (parsedAttributes && parsedAttributes.badge) ? String(parsedAttributes.badge).trim() : ((p as any).badge || null),
     stock: typeof p.stock === 'number' ? p.stock : (typeof p.stock_quantity === 'number' ? p.stock_quantity : -1),
     status: p.status || "publish",
     is_active: (p.status === "publish" || p.status === "" || !p.status) && p.status !== "draft",
@@ -222,7 +223,7 @@ async function fetchSingleProduct(slug: string, status: string) {
       on_sale: false,
       categories: [
         { id: 101, name: "Fait Main", slug: "fait-main" },
-        { id: 102, name: "Art Toys & Figurines", slug: "art-toys" }
+        { id: 102, name: "Figurines & Sculptures 3D", slug: "art-toys" }
       ],
       images: [
         {
@@ -244,8 +245,8 @@ async function fetchSingleProduct(slug: string, status: string) {
   <li><strong>Vernis protecteur satiné :</strong> Protection résistante aux manipulations et aux UV.</li>
 </ul>`,
       stock: 3,
-      status: "publish",
-      is_active: true,
+      status: "draft",
+      is_active: false,
       attributes: {
         attributes: [],
         variationPrices: []
@@ -309,6 +310,7 @@ export async function PUT(
       }
     }
     if (body.tags) attributesObj.tags = body.tags;
+    if (body.badge !== undefined) attributesObj.badge = body.badge ? String(body.badge).trim() : null;
 
     let effectivePrice = String(body.price || "").trim();
     if (!effectivePrice || effectivePrice === "0" || effectivePrice === "0.00" || effectivePrice === "0,00" || parseFloat(effectivePrice) === 0) {

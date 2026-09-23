@@ -216,10 +216,10 @@ export default function MotionNavigationMenu() {
                         Catalogue Spoolio 3D
                       </span>
                       <h4 className="text-xl font-black text-white !text-white leading-tight font-antonio uppercase tracking-wide keep-white">
-                        Créations 3D &amp; Art Toys
+                        Créations 3D &amp; Objets Tactiles
                       </h4>
                       <p className="text-xs text-zinc-200 font-medium leading-relaxed">
-                        Figurines, art toys, accessoires gaming &amp; jeux de société.
+                        Figurines, objets tactiles, accessoires gaming &amp; jeux de société.
                       </p>
                     </div>
 
@@ -319,12 +319,12 @@ export default function MotionNavigationMenu() {
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
                               <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
-                                Art Toys &amp; Figurines
+                                Figurines &amp; Sculptures 3D
                               </h6>
                               <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
                             <p className="text-[11px] text-zinc-500 truncate">
-                              Art toys, sculptures &amp; figurines
+                              Créations décoratives &amp; figurines articulées
                             </p>
                           </div>
                         </Link>
@@ -395,12 +395,12 @@ export default function MotionNavigationMenu() {
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
                               <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
-                                {isPreprodEnv() ? "Blind Bags" : t("nav_menu.surprise_pack")}
+                                Pochettes Surprises
                               </h6>
                               <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
                             <p className="text-[11px] text-zinc-500 truncate">
-                              {isPreprodEnv() ? "Sachets kraft scellés multi-créations" : "Packs mystères multi-objets"}
+                              Packs surprises multi-créations d'atelier
                             </p>
                           </div>
                         </Link>
@@ -618,7 +618,7 @@ export default function MotionNavigationMenu() {
 
                     <div className="absolute inset-0 opacity-25 group-hover/hero:opacity-40 transition-opacity duration-500 pointer-events-none">
                       <Image
-                        src="/images/hero_background.jpg"
+                        src="/images/clicker_gallery_2.jpg"
                         alt="Atelier Spoolio"
                         fill
                         className="object-cover object-center no-invert filter brightness-95 group-hover/hero:scale-105 transition-transform duration-700 ease-out"

@@ -24,13 +24,11 @@ const antonio = Antonio({
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 const dynapuff = DynaPuff({
   variable: "--font-dynapuff",
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
 });
 
 const righteous = Righteous({
@@ -42,7 +40,6 @@ const righteous = Righteous({
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 const permanentMarker = Permanent_Marker({

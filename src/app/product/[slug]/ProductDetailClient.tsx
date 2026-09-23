@@ -887,17 +887,6 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
           <span className="text-zinc-900 font-bold truncate">
             {product.name}
           </span>
-
-          {/* Test Switcher to Handmade View */}
-          <button
-            type="button"
-            onClick={() => setLayoutMode("handmade")}
-            className="ml-auto inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff4f00]/10 hover:bg-[#ff4f00]/20 border border-[#ff4f00]/30 text-xs font-bold text-[#ff4f00] transition-all cursor-pointer shrink-0"
-            title="Tester la mise en page immersive Fait Main"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00] animate-ping" />
-            <span>Vue Fait Main (Fofolle)</span>
-          </button>
         </nav>
 
         {/* 2-Column Product Layout */}
@@ -1870,7 +1859,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                   <span className="text-base select-none">🌱</span>
                   <div>
                     <span className="block text-zinc-900 font-bold">PLA Biosourcé</span>
-                    <span className="block text-[9px] text-zinc-500 font-normal">Plastique d'amidon</span>
+                    <span className="block text-[9px] text-zinc-500 font-normal">Amidon de maïs</span>
                   </div>
                 </div>
 
@@ -2079,29 +2068,29 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
           </section>
         )}
 
-        {/* Safety and conformity notice */}
+        {/* Safety and craftsmanship reassurance notice */}
         <section className="border-t border-spoolio-border pt-12 mt-12">
-          <div className="rounded-3xl border border-amber-200 bg-amber-50/80 p-6 md:p-8 flex flex-col md:flex-row gap-5 items-start shadow-xs">
-            <div className="shrink-0 select-none bg-amber-100 p-3.5 rounded-2xl border border-amber-300 text-2xl text-amber-900">
-              ⚖️
+          <div className="rounded-3xl border border-zinc-200 bg-zinc-50 p-6 md:p-8 flex flex-col md:flex-row gap-5 items-start shadow-xs">
+            <div className="shrink-0 select-none bg-white p-3.5 rounded-2xl border border-zinc-200 text-2xl shadow-xs">
+              🛠️
             </div>
             <div className="space-y-2.5 font-sans">
               <div className="flex flex-wrap items-center gap-2.5">
-                <h4 className="text-sm font-black uppercase tracking-wider text-amber-950">
-                  Avertissement Réglementaire &amp; Destination d'Usage
+                <h4 className="text-sm font-black uppercase tracking-wider text-zinc-950 font-outfit">
+                  Atelier Spoolio • Fabrication Française &amp; Écoresponsable
                 </h4>
-                <span className="px-2.5 py-0.5 rounded-full bg-amber-100 border border-amber-300 text-[11px] font-bold text-amber-950">
-                  Public 14 ans et +
+                <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[11px] font-bold text-emerald-800">
+                  🌱 100% Polymère Végétal
                 </span>
               </div>
-              <p className="text-xs text-zinc-800 leading-relaxed font-medium">
-                Les créations Spoolio sont des pièces d'artisanat numérique, des accessoires de bureau (desk setup), des art toys et des objets sensoriels/décoratifs conçus pour un public adulte.
+              <p className="text-xs sm:text-sm text-zinc-800 leading-relaxed font-semibold">
+                Fabrication additive de précision à Comines (59). Objets et accessoires durables imprimés à la commande en PLA biosourcé issu d&apos;amidon de maïs.
               </p>
               <p className="text-xs text-zinc-600 leading-relaxed">
-                <strong className="text-zinc-900 font-bold">Conformité légale (Directive 2009/48/CE &amp; RGSP UE 2023/988) :</strong> Conformément à l’Annexe I de la Directive européenne sur la sécurité des jouets, ces créations ne constituent pas des jouets et ne sont pas destinées aux enfants de moins de 14 ans. En raison de la présence d’articulations et du risque de détachement de petits éléments en cas de chute ou de manipulation brutale, tenir hors de portée des jeunes enfants (risque d’ingestion).
+                <strong className="text-zinc-900 font-bold">Qualité &amp; Finitions :</strong> Chaque pièce est imprimée couche par couche avec un niveau de précision artisanal, inspectée puis préparée avec soin. Matière saine, recyclable et issue de ressources végétales renouvelables.
               </p>
-              <p className="text-xs text-zinc-600 leading-relaxed">
-                <strong className="text-zinc-900 font-bold">Fabrication &amp; Matériaux :</strong> Pièces fabriquées en France en PLA biosourcé (polymère thermoplastique d'origine végétale issu de ressources renouvelables).
+              <p className="text-xs text-zinc-500 leading-relaxed">
+                <strong className="text-zinc-700 font-medium">Recommandation d&apos;usage :</strong> Objets conçus pour le bureau, le quotidien et la manipulation tactile. En raison de pièces articulées ou de petits éléments démontables selon les modèles, ne convient pas aux enfants de moins de 36 mois sans surveillance.
               </p>
             </div>
           </div>
@@ -2419,14 +2408,14 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
       {/* Mobile Sticky Add-To-Cart Bar (Point 6 UX) */}
       {product && !isNotAvailableToBuy && (
         <div
-          className={`fixed bottom-0 left-0 right-0 z-40 bg-[#0c0c10]/95 backdrop-blur-2xl border-t border-white/15 p-3 sm:hidden transition-transform duration-300 shadow-[0_-12px_35px_rgba(0,0,0,0.8)] ${
+          className={`fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-2xl border-t border-zinc-200/90 p-3 sm:hidden transition-transform duration-300 shadow-[0_-8px_25px_rgba(0,0,0,0.08)] ${
             showStickyBar ? "translate-y-0" : "translate-y-full pointer-events-none"
           }`}
         >
           <div className="flex items-center justify-between gap-3 max-w-md mx-auto">
             {/* Image + Title + Price */}
             <div className="flex items-center gap-2.5 min-w-0 flex-1">
-              <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-black/40 border border-white/10 shrink-0">
+              <div className="relative w-11 h-11 rounded-xl overflow-hidden bg-zinc-100 border border-zinc-200 shrink-0">
                 <Image
                   src={product.images[0]?.src || "/images/figma_keychains.jpg"}
                   alt={product.name}
@@ -2436,7 +2425,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
                 />
               </div>
               <div className="flex flex-col min-w-0">
-                <span className="text-xs font-black text-white truncate leading-tight">
+                <span className="text-xs font-black text-zinc-950 truncate leading-tight">
                   {displayName}
                 </span>
                 <span className="text-xs font-mono font-black text-[#ff4f00]">
@@ -2448,7 +2437,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
             {/* Quick CTA Button */}
             <button
               onClick={handleAddToCartClick}
-              className={`h-11 px-5 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shrink-0 cursor-pointer shadow-lg active:scale-95 ${
+              className={`h-11 px-5 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shrink-0 cursor-pointer shadow-md active:scale-95 no-invert keep-white ${
                 isAdded
                   ? "bg-emerald-500 text-white shadow-emerald-500/30"
                   : "bg-[#ff4f00] hover:bg-[#e04500] text-white shadow-[#ff4f00]/30"

@@ -26,7 +26,7 @@ export default async function SosRedirectPage({ searchParams }: Props) {
   }
 
   return (
-    <main className="min-h-screen bg-[#0e0e12] text-white px-4 py-12 flex flex-col items-center justify-center font-sans relative overflow-hidden">
+    <main className="min-h-screen bg-[#0e0e12] text-white px-4 py-12 flex flex-col items-center justify-center font-sans relative overflow-hidden no-invert keep-white">
       <Particles />
 
       <div className="w-full max-w-lg bg-[#16161c] border border-white/15 rounded-3xl p-6 sm:p-8 shadow-2xl relative z-10 space-y-6 text-center">

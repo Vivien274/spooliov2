@@ -73,14 +73,14 @@ export default function EditBadgePage({ params }: { params: Promise<{ token: str
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0e0e12] flex items-center justify-center text-white font-sans text-xs">
+      <div className="min-h-screen bg-[#0e0e12] flex items-center justify-center text-white font-sans text-xs no-invert keep-white">
         Chargement du badge Spoolio...
       </div>
     );
   }
 
   return (
-    <main className="min-h-screen bg-[#0e0e12] text-white px-4 py-8 flex flex-col items-center justify-center font-sans relative">
+    <main className="min-h-screen bg-[#0e0e12] text-white px-4 py-8 flex flex-col items-center justify-center font-sans relative no-invert keep-white">
       <Particles variant={type} />
 
       <div className="w-full max-w-md bg-[#16161c] border border-white/15 rounded-3xl p-6 sm:p-8 shadow-2xl relative z-10 space-y-6">

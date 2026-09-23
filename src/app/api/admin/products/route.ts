@@ -43,6 +43,7 @@ export async function GET(req: Request) {
       if (p) {
         let tagsList: string[] = [];
         let attributesObj = { attributes: [] as any[], variationPrices: [] as any[] };
+        let badgeValue = "";
         if (p.attributes) {
           try {
             const parsed = typeof p.attributes === 'string' ? JSON.parse(p.attributes) : p.attributes;
@@ -54,6 +55,7 @@ export async function GET(req: Request) {
                 variationPrices: parsed.variationPrices || [],
               };
               tagsList = parsed.tags || [];
+              badgeValue = parsed.badge || "";
             }
           } catch (e) {
             console.warn("Could not parse product attributes:", e);
@@ -68,6 +70,7 @@ export async function GET(req: Request) {
           description: p.description || "",
           category: p.categories[0]?.name || "",
           tags: tagsList,
+          badge: badgeValue,
           price: p.price,
           salePrice: p.salePrice || "",
           productType: p.productType || "simple",
@@ -106,6 +109,7 @@ export async function GET(req: Request) {
           if (match) {
             let tagsList: string[] = [];
             let attributesObj = { attributes: [] as any[], variationPrices: [] as any[] };
+            let badgeValue = "";
             if (match.attributes) {
               try {
                 const parsed = typeof match.attributes === 'string' ? JSON.parse(match.attributes) : match.attributes;
@@ -117,6 +121,7 @@ export async function GET(req: Request) {
                     variationPrices: parsed.variationPrices || [],
                   };
                   tagsList = parsed.tags || [];
+                  badgeValue = parsed.badge || "";
                 }
               } catch (e) {
                 console.warn("Could not parse JSON product attributes:", e);
@@ -131,6 +136,7 @@ export async function GET(req: Request) {
               description: match.description || "",
               category: match.categories?.[0]?.name || "",
               tags: tagsList,
+              badge: badgeValue,
               price: match.price || "0",
               salePrice: match.sale_price || "",
               productType: match.type || "simple",

@@ -35,6 +35,8 @@ export interface Product {
   stock?: number;
   tags?: any[];
   views?: number;
+  status?: string;
+  badge?: string | null;
 }
 
 interface ProductCardProps {
@@ -62,19 +64,25 @@ interface RarityBadgeInfo {
 }
 
 function getProductRarityBadge(product: Product, categoryName: string | null): RarityBadgeInfo | null {
-  // 1. Pièce Unique / Fait Main (Art Toy, Peint à la main, Édition d'Atelier)
+  // 1. Badge explicite personnalisé défini en administration (affiché uniquement si renseigné)
+  const customBadge =
+    (product.badge && typeof product.badge === "string" && product.badge.trim()) ||
+    (product.attributes && typeof product.attributes === "object" && typeof product.attributes.badge === "string" && product.attributes.badge.trim()) ||
+    null;
+
+  if (customBadge) {
+    return {
+      type: "custom",
+      label: customBadge,
+      className: "bg-zinc-950/85 backdrop-blur-md text-zinc-100 border border-white/20 shadow-sm",
+    };
+  }
+
+  // 2. Pièce Unique / Fait Main (uniquement si vraie pièce unique d'atelier)
   const isHandmade = Boolean(
     product.slug.includes("fait-main") ||
     product.slug.includes("piece-unique") ||
-    Boolean((product as any)?.attributes?.uniquePieceData) ||
-    (Array.isArray(product.tags) && product.tags.some((t: any) => {
-      const name = (typeof t === "string" ? t : t?.name || "").toLowerCase();
-      return name.includes("fait-main") || name.includes("art-toy") || name.includes("peint-a-la-main") || name.includes("artisan");
-    })) ||
-    (Array.isArray(product.categories) && product.categories.some((c: any) => {
-      const name = (typeof c === "string" ? c : c?.name || "").toLowerCase();
-      return name.includes("fait main") || name.includes("artisan") || name.includes("unique");
-    }))
+    Boolean((product as any)?.attributes?.uniquePieceData)
   );
 
   if (isHandmade) {
@@ -86,42 +94,7 @@ function getProductRarityBadge(product: Product, categoryName: string | null): R
     };
   }
 
-  // 2. Customizer / Produit Sur-Mesure
-  const isCustomizer = hasProductVariables(product) || product.slug.includes("clicker-mecanique") || product.slug.includes("sur-mesure");
-  if (isCustomizer) {
-    return {
-      type: "custom",
-      label: "Sur-mesure",
-      icon: <Sliders className="w-3 h-3 text-zinc-300 shrink-0" />,
-      className: "bg-zinc-950/85 backdrop-blur-md text-zinc-200 border border-white/20 shadow-sm",
-    };
-  }
-
-  // 3. Drop / Nouveauté
-  const isNew = Boolean(
-    product.tags?.some((t: any) => {
-      const name = (typeof t === "string" ? t : t?.name || "").toLowerCase();
-      return name.includes("nouveau") || name.includes("drop") || name.includes("exclusif");
-    })
-  );
-  if (isNew) {
-    return {
-      type: "new",
-      label: "Nouveauté",
-      icon: <Flame className="w-3 h-3 text-[#ff4f00] shrink-0" />,
-      className: "bg-zinc-950/85 backdrop-blur-md text-[#ff4f00] border border-[#ff4f00]/30 shadow-sm",
-    };
-  }
-
-  // 4. Default Category
-  if (categoryName) {
-    return {
-      type: "category",
-      label: categoryName,
-      className: "bg-zinc-950/85 backdrop-blur-md text-zinc-200 border border-white/15 shadow-sm",
-    };
-  }
-
+  // Aucun badge automatique par défaut (suppression du tag 'sur-mesure' parasite et de la catégorie automatique)
   return null;
 }
 
@@ -435,14 +408,6 @@ export default function ProductCard({ product, compact = false, priority = false
             </span>
           )}
 
-          {/* Subtle multi-photo indicator */}
-          {hasSecondImage && (
-            <div className="absolute bottom-2.5 right-2.5 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-              <span className="px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-[9px] font-bold text-white uppercase tracking-wider border border-white/15">
-                2 vues
-              </span>
-            </div>
-          )}
         </div>
 
         {/* Content Container (Title, Description) with fixed minimum heights for pixel-perfect alignment */}

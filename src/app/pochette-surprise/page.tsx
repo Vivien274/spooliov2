@@ -27,16 +27,16 @@ export default function PochetteSurprisePage() {
   const isPreprod = isPreprodEnv();
 
   return (
-    <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-[#FF5500] selection:text-black overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#fafaf9] text-zinc-900 font-sans flex flex-col items-center selection:bg-[#FF5500] selection:text-white overflow-x-hidden">
       {/* Background Decorative Glows */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <div
           className="absolute top-[-10%] right-[-10%] w-[550px] h-[550px] rounded-full"
-          style={{ backgroundColor: "rgba(255, 85, 0, 0.08)", filter: "blur(120px)" }}
+          style={{ backgroundColor: "rgba(255, 85, 0, 0.05)", filter: "blur(120px)" }}
         />
         <div
           className="absolute top-[40%] left-[-10%] w-[500px] h-[500px] rounded-full"
-          style={{ backgroundColor: "rgba(0, 240, 255, 0.08)", filter: "blur(120px)" }}
+          style={{ backgroundColor: "rgba(0, 240, 255, 0.05)", filter: "blur(120px)" }}
         />
       </div>
 
@@ -47,16 +47,14 @@ export default function PochetteSurprisePage() {
       <main className="w-full max-w-[1200px] px-4 pt-28 lg:pt-32 pb-8 relative z-10 flex flex-col items-center">
         {/* Hero Title & Presentation Banner */}
         <div className="text-center max-w-2xl mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF5500]/15 border border-[#FF5500]/30 text-[#FF5500] text-xs font-mono font-bold uppercase tracking-wider mb-3">
-            <span>{isPreprod ? "🎒 CONCEPT BLIND BAG SPOOLIO" : "🎁 CONCEPT POCHETTE SPOOLIO"}</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-[#FF5500] text-xs font-mono font-bold uppercase tracking-wider mb-3">
+            <span>🎁 CONCEPT POCHETTES SURPRISES SPOOLIO</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold uppercase tracking-tight text-white font-[family-name:var(--font-antonio)] mb-3">
-            {isPreprod ? "BLIND BAGS D'ATELIER ⚡" : "POCHETTE SURPRISE 3D ⚡"}
+          <h1 className="text-4xl sm:text-5xl font-extrabold uppercase tracking-tight text-zinc-950 font-[family-name:var(--font-antonio)] mb-3">
+            POCHETTES SURPRISES 3D ⚡
           </h1>
-          <p className="text-sm sm:text-base text-gray-300 font-[family-name:var(--font-plus-jakarta)] leading-relaxed">
-            {isPreprod
-              ? "Compose ton Blind Bag sur-mesure d'objets cool, hardware tactile et créations d'atelier 3D. Sélectionne le nombre de pièces, dose tes univers préférés ou tente le Remplissage Aléatoire !"
-              : "Compose ton pack sur-mesure d'objets mystères sensoriels et ludiques 3D. Sélectionne le nombre d'objets, dose tes univers préférés ou tente le Remplissage Aléatoire !"}
+          <p className="text-sm sm:text-base text-zinc-600 font-[family-name:var(--font-plus-jakarta)] leading-relaxed">
+            Compose ta pochette surprise sur-mesure d&apos;objets tactiles, accessoires et créations d&apos;atelier 3D. Sélectionne le nombre de pièces, dose tes univers préférés ou tente le Remplissage Aléatoire !
           </p>
         </div>
 
@@ -64,26 +62,26 @@ export default function PochetteSurprisePage() {
         <MysteryPackConfigurator className="w-full mb-12" />
 
         {/* Reassurance Badges Row with Holographic Tilt Cards */}
-        <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 border-t border-neutral-800 text-center font-[family-name:var(--font-plus-jakarta)]">
+        <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 border-t border-zinc-200/90 text-center font-[family-name:var(--font-plus-jakarta)]">
           <HolographicTiltCard className="rounded-2xl">
-            <div className="p-5 h-full rounded-2xl reassurance-card bg-neutral-900/80 border border-neutral-800 shadow-lg flex flex-col items-center gap-2">
+            <div className="p-5 h-full rounded-2xl reassurance-card bg-white border border-zinc-200/90 shadow-2xs flex flex-col items-center gap-2">
               <span className="text-3xl">🌱</span>
-              <span className="text-xs font-bold text-white uppercase tracking-wide">
+              <span className="text-xs font-bold text-zinc-950 uppercase tracking-wide">
                 Matière Biosourcée
               </span>
-              <span className="text-[11px] text-gray-400 leading-relaxed">
+              <span className="text-[11px] text-zinc-500 leading-relaxed">
                 Imprimé en PLA à base d'amidon de maïs sans pétrole.
               </span>
             </div>
           </HolographicTiltCard>
 
           <HolographicTiltCard className="rounded-2xl">
-            <div className="p-5 h-full rounded-2xl reassurance-card bg-neutral-900/80 border border-neutral-800 shadow-lg flex flex-col items-center gap-2">
+            <div className="p-5 h-full rounded-2xl reassurance-card bg-white border border-zinc-200/90 shadow-2xs flex flex-col items-center gap-2">
               <span className="text-3xl">⚡</span>
-              <span className="text-xs font-bold text-white uppercase tracking-wide">
+              <span className="text-xs font-bold text-zinc-950 uppercase tracking-wide">
                 Sélection Sur-Mesure
               </span>
-              <span className="text-[11px] text-gray-400 leading-relaxed">
+              <span className="text-[11px] text-zinc-500 leading-relaxed">
                 {isPreprod
                   ? "Dose librement tes sculptures, outils de focus et desk setup préférés."
                   : "Dose librement tes figurines, fidgets et gadgets préférés."}
@@ -92,12 +90,12 @@ export default function PochetteSurprisePage() {
           </HolographicTiltCard>
 
           <HolographicTiltCard className="rounded-2xl">
-            <div className="p-5 h-full rounded-2xl reassurance-card bg-neutral-900/80 border border-neutral-800 shadow-lg flex flex-col items-center gap-2">
+            <div className="p-5 h-full rounded-2xl reassurance-card bg-white border border-zinc-200/90 shadow-2xs flex flex-col items-center gap-2">
               <span className="text-3xl">📍</span>
-              <span className="text-xs font-bold text-white uppercase tracking-wide">
+              <span className="text-xs font-bold text-zinc-950 uppercase tracking-wide">
                 Atelier Français (59560)
               </span>
-              <span className="text-[11px] text-gray-400 leading-relaxed">
+              <span className="text-[11px] text-zinc-500 leading-relaxed">
                 Fabrication artisanale &amp; expédition soignée depuis Comines.
               </span>
             </div>
