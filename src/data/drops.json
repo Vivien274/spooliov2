@@ -1,0 +1,47 @@
+[
+  {
+    "id": "drop-03",
+    "slug": "drop-halloween-creations-limitees",
+    "title": "Drop #03 — Spooky Workshop 🎃",
+    "tagline": "Série limitée d'automne imprimée dans nos filaments phosphorescents et bicolores d'exception.",
+    "description": "Pour célébrer l'automne, notre atelier à Comines prépare un drop ultra-exclusif de créations sensorielles et figurines en série numérotée. Au programme : figurines préparées et peintes à la main, fidgets articulés phosphorescents qui brillent dans le noir, et clickers mécaniques exclusifs tirés à seulement 40 exemplaires.",
+    "status": "upcoming",
+    "startDate": "2026-10-02T18:00:00.000Z",
+    "endDate": "2026-10-09T23:59:59.000Z",
+    "bannerImage": "/images/produits/monstre-skateur-fait-main.jpg",
+    "badge": "Drop #03 • Série Limitée",
+    "themeColor": "#ff4f00",
+    "editionSize": 40,
+    "productIds": [16, 11051, 11057, 10094]
+  },
+  {
+    "id": "drop-02",
+    "slug": "drop-ete-kit-festivalier",
+    "title": "Drop #02 — Kit Festivalier & Plein Air ☀️",
+    "tagline": "L'équipement 3D indispensable pour les festivals d'été et concerts.",
+    "description": "Le drop de l'été : un pack complet d'accessoires malins imprimés en 3D robuste pour vivre à fond la saison des festivals (pince à gobelet éco-cup, sifflet d'alerte haute fréquence, pins porte-lunettes, mini-boîte étanche et badge NFC). Un drop couronné de succès, écoulé en 48 heures.",
+    "status": "ended",
+    "startDate": "2026-06-15T18:00:00.000Z",
+    "endDate": "2026-06-20T23:59:59.000Z",
+    "bannerImage": "/images/imported/KIT-FESTIVALIER.png",
+    "badge": "Drop #02 • Sold Out",
+    "themeColor": "#0284c7",
+    "editionSize": 100,
+    "productIds": [13146, 13079, 13086, 13084, 13082, 13080]
+  },
+  {
+    "id": "drop-01",
+    "slug": "drop-fidgets-sensoriels-articules",
+    "title": "Drop #01 — Fidgets Mécaniques & Tactiles ⚡",
+    "tagline": "Notre toute première vague de fidgets sensoriels nouvelle génération.",
+    "description": "Le drop fondateur de notre gamme sensorielle : engrenages hélicoïdaux, cubes infinis et bagues rotatives testés et ajustés à la main pour un clic et une fluidité parfaits. Réalisé dans nos filaments PLA biosourcés signature à l'atelier de Comines.",
+    "status": "ended",
+    "startDate": "2026-03-01T18:00:00.000Z",
+    "endDate": "2026-03-08T23:59:59.000Z",
+    "bannerImage": "/images/imported/Spoolio-fidget-cubes-2-scaled.webp",
+    "badge": "Drop #01 • Archive",
+    "themeColor": "#7c3aed",
+    "editionSize": 60,
+    "productIds": [11074, 11035, 11026, 11738]
+  }
+]

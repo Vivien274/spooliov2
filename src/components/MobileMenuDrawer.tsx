@@ -20,6 +20,7 @@ import {
   X,
   ChevronRight,
   Heart,
+  Flame,
 } from "lucide-react";
 import { isPreprodEnv } from "@/lib/env";
 
@@ -200,6 +201,23 @@ export default function MobileMenuDrawer({
                 </span>
               </div>
               <ChevronRight className="w-3.5 h-3.5 text-zinc-300 group-hover:text-zinc-500 group-hover:translate-x-0.5 transition-all" />
+            </Link>
+
+            {/* Drops Exclusifs */}
+            <Link
+              href="/drops"
+              onClick={onClose}
+              className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-zinc-100 transition-colors group"
+            >
+              <div className="flex items-center gap-3">
+                <Flame className="w-4 h-4 text-[#ff4f00] group-hover:scale-110 transition-transform" />
+                <span className="text-sm font-semibold font-outfit text-zinc-900 group-hover:text-zinc-950">
+                  Drops Exclusifs
+                </span>
+              </div>
+              <span className="text-[10px] font-mono font-bold text-[#ff4f00] bg-[#ff4f00]/10 px-2 py-0.5 rounded-full">
+                Séries Limitées
+              </span>
             </Link>
           </div>
 
