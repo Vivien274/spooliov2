@@ -375,20 +375,18 @@ html.light .btn-light *,
 html.light .btn-light span,
 html.light .keep-white .bg-white,
 html.light .keep-white .bg-white *,
-html.light .keep-white [class*="bg-white"],
-html.light .keep-white [class*="bg-white"] *,
 html.light [class*="bg-zinc-9"] .bg-white,
 html.light [class*="bg-zinc-9"] .bg-white *,
-html.light [class*="bg-zinc-9"] [class*="bg-white"],
-html.light [class*="bg-zinc-9"] [class*="bg-white"] *,
 html.light .bg-zinc-950 .bg-white,
 html.light .bg-zinc-950 .bg-white *,
-html.light .bg-zinc-950 [class*="bg-white"],
-html.light .bg-zinc-950 [class*="bg-white"] *,
 html.light .bg-zinc-900 .bg-white,
 html.light .bg-zinc-900 .bg-white *,
-html.light .bg-zinc-900 [class*="bg-white"],
-html.light .bg-zinc-900 [class*="bg-white"] * {
+html.light [class*="bg-neutral-9"] .bg-white,
+html.light [class*="bg-neutral-9"] .bg-white *,
+html.light .bg-neutral-950 .bg-white,
+html.light .bg-neutral-950 .bg-white *,
+html.light .bg-neutral-900 .bg-white,
+html.light .bg-neutral-900 .bg-white * {
   color: #09090b !important;
 }
 

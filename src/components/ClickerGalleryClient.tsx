@@ -28,16 +28,16 @@ export default function ClickerGalleryClient({ initialItems = [] }: { initialIte
   if (items.length === 0) return null;
 
   return (
-    <section className="w-full max-w-[1200px] mt-16 pt-12 border-t border-neutral-800 space-y-8">
+    <section className="w-full max-w-[1200px] mt-16 pt-12 border-t border-zinc-200/90 space-y-8">
       {/* Header */}
       <div className="text-center max-w-xl mx-auto space-y-2">
-        <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-neutral-400 bg-neutral-900 border border-neutral-800 px-3 py-1 rounded-full">
+        <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-zinc-600 bg-zinc-100 border border-zinc-200 px-3 py-1 rounded-full">
           📷 GALERIE CRÉATIONS CLIENTS
         </span>
-        <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white font-[family-name:var(--font-antonio)]">
+        <h2 className="text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-zinc-950 font-[family-name:var(--font-antonio)]">
           Exemples de Clickers Fabriqués en Atelier 🛠️
         </h2>
-        <p className="text-xs sm:text-sm text-neutral-400">
+        <p className="text-xs sm:text-sm text-zinc-600">
           Inspirez-vous des combinaisons de couleurs, formes et motifs gravés réalisés sur-mesure pour notre communauté.
         </p>
       </div>

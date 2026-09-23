@@ -30,16 +30,16 @@ export default function ModernBentoGallery({
     <div className="w-full py-12 px-4 select-none">
       
       {/* Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 max-w-6xl mx-auto border-b border-neutral-800 pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 max-w-6xl mx-auto border-b border-zinc-200/90 pb-6">
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ff4f00]/10 border border-[#ff4f00]/20 text-[#ff4f00] text-xs font-bold uppercase tracking-wider mb-2">
             <Camera className="w-3.5 h-3.5" />
             <span>Galerie Photo</span>
           </div>
-          <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+          <h3 className="text-2xl sm:text-3xl font-black text-zinc-950 tracking-tight font-[family-name:var(--font-antonio)] uppercase">
             {title}
           </h3>
-          <p className="text-xs sm:text-sm text-neutral-400 font-medium leading-relaxed mt-1">
+          <p className="text-xs sm:text-sm text-zinc-600 font-medium leading-relaxed mt-1">
             {subtitle}
           </p>
         </div>
@@ -58,7 +58,7 @@ export default function ModernBentoGallery({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: idx * 0.05 }}
               onClick={() => setSelectedItem(item)}
-              className={`group relative rounded-3xl bg-neutral-900/80 border border-white/10 hover:border-[#ff4f00]/50 overflow-hidden cursor-pointer transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-[#ff4f00]/10 ${
+              className={`group relative rounded-3xl bg-neutral-900 border border-zinc-200/90 hover:border-[#ff4f00]/60 overflow-hidden cursor-pointer transition-all duration-300 shadow-sm hover:shadow-xl ${
                 isFeatured ? "sm:col-span-2 sm:row-span-2 min-h-[340px]" : "min-h-[220px]"
               }`}
             >
