@@ -58,7 +58,7 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
 
   return (
     <div
-      className="drop-detail-page keep-white no-invert relative min-h-screen font-sans selection:bg-[#ff4f00] selection:text-white overflow-x-hidden flex flex-col items-center"
+      className="drop-detail-page no-invert relative min-h-screen font-sans selection:bg-[#ff4f00] selection:text-white overflow-x-hidden flex flex-col items-center"
       style={{ background: dBg, color: dText }}
     >
       <Header isDark={isDark} />

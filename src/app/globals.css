@@ -290,7 +290,7 @@ html.light .border-red-500\/20 {
 
 /* Explicit high-contrast white text for dark badges and containers */
 html.light .keep-white,
-html.light .keep-white *,
+html.light .keep-white *:not(footer, footer *, .bg-white, .bg-white *, [class*="bg-zinc-50"], [class*="bg-zinc-50"] *),
 html.light .bg-zinc-950 .text-white,
 html.light .bg-zinc-950 span.keep-white,
 html.light .bg-zinc-900 .text-white,
@@ -300,6 +300,26 @@ html.light [class*="bg-zinc-9"] .text-white,
 html.light [class*="bg-zinc-8"] .text-white,
 html.light [class*="bg-[#ff4f00]"] .text-white {
   color: #ffffff !important;
+}
+
+/* Guard footer text from any accidental white override */
+html.light footer .text-zinc-900,
+html.light footer [class*="text-zinc-9"] {
+  color: #18181b !important;
+}
+html.light footer .text-zinc-600,
+html.light footer [class*="text-zinc-6"] {
+  color: #52525b !important;
+}
+html.light footer .text-zinc-500,
+html.light footer [class*="text-zinc-5"] {
+  color: #71717a !important;
+}
+html.light footer a:not(:hover) {
+  color: #52525b !important;
+}
+html.light footer a:hover {
+  color: #ff4f00 !important;
 }
 
 html.light .text-emerald-400 {

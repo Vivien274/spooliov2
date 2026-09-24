@@ -105,22 +105,22 @@ export default function Footer({ className = "" }: FooterProps) {
             </h4>
             <ul className="space-y-2 font-medium">
               <li>
-                <Link href="/fidelite" className="hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
+                <Link href="/fidelite" className="text-zinc-600 hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
                   <span>👑 Points & Fidélité</span>
                 </Link>
               </li>
               <li>
-                <Link href="/inscription-newsletter-spoolio" className="hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
+                <Link href="/inscription-newsletter-spoolio" className="text-zinc-600 hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
                   <span>🎁 Club Spoolio</span>
                 </Link>
               </li>
               <li>
-                <Link href="/carte-cadeau" className="hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
+                <Link href="/carte-cadeau" className="text-zinc-600 hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
                   <span>🎁 Carte Cadeau 3D</span>
                 </Link>
               </li>
               <li>
-                <Link href="/don" className="hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
+                <Link href="/don" className="text-zinc-600 hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
                   <span>🚀 Soutenir l'Atelier</span>
                 </Link>
               </li>
@@ -134,22 +134,22 @@ export default function Footer({ className = "" }: FooterProps) {
             </h4>
             <ul className="space-y-2 font-medium">
               <li>
-                <Link href="/a-propos" className="hover:text-[#ff4f00] transition-colors">
+                <Link href="/a-propos" className="text-zinc-600 hover:text-[#ff4f00] transition-colors">
                   {t("footer.about")}
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="hover:text-[#ff4f00] transition-colors">
+                <Link href="/faq" className="text-zinc-600 hover:text-[#ff4f00] transition-colors">
                   {t("footer.faq")}
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-[#ff4f00] transition-colors">
+                <Link href="/contact" className="text-zinc-600 hover:text-[#ff4f00] transition-colors">
                   {t("footer.contact")}
                 </Link>
               </li>
               <li>
-                <Link href="/pro" className="hover:text-[#ff4f00] transition-colors">
+                <Link href="/pro" className="text-zinc-600 hover:text-[#ff4f00] transition-colors">
                   {t("footer.pro_space")}
                 </Link>
               </li>
