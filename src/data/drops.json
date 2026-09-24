@@ -1,24 +1,49 @@
 [
   {
     "id": "drop-03",
-    "slug": "drop-halloween-creations-limitees",
-    "title": "Drop #03 — Spooky Workshop 🎃",
+    "slug": "drop-kurb-monsters",
+    "dropNumber": "DROP 3",
+    "dropName": "Kurb Monsters",
+    "title": "DROP 3 — Kurb Monsters",
     "tagline": "Série limitée d'automne imprimée dans nos filaments phosphorescents et bicolores d'exception.",
+    "quote": "Chaque monstre de cette série est tiré en une seule salve dans nos filaments phosphorescents, puis préparé et peint à la main à l'atelier de Comines.",
     "description": "Pour célébrer l'automne, notre atelier à Comines prépare un drop ultra-exclusif de créations sensorielles et figurines en série numérotée. Au programme : figurines préparées et peintes à la main, fidgets articulés phosphorescents qui brillent dans le noir, et clickers mécaniques exclusifs tirés à seulement 40 exemplaires.",
     "status": "upcoming",
-    "startDate": "2026-10-02T18:00:00.000Z",
-    "endDate": "2026-10-09T23:59:59.000Z",
+    "startDate": "2026-10-02T12:00:00.000Z",
+    "endDate": "2026-10-09T17:59:00.000Z",
     "bannerImage": "/images/produits/monstre-skateur-fait-main.jpg",
+    "bannerVideo": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/drop_video_1790238766614.mp4",
     "badge": "Drop #03 • Série Limitée",
-    "themeColor": "#ff4f00",
-    "editionSize": 40,
-    "productIds": [16, 11051, 11057, 10094]
+    "themeColor": "#ff5500",
+    "editionSize": 4,
+    "productIds": [
+      16,
+      11051,
+      11057,
+      10094
+    ],
+    "theme": {
+      "bgColor": "linear-gradient(135deg, #180b2b 0%, #0d0617 100%)",
+      "textColor": "#ffffff",
+      "subtitleColor": "#d8b4fe",
+      "accentColor": "#ff5500",
+      "badgeBgColor": "rgba(255, 85, 0, 0.2)",
+      "badgeTextColor": "#ff9a62",
+      "cardBgColor": "rgba(255, 255, 255, 0.08)",
+      "borderColor": "rgba(216, 180, 254, 0.2)",
+      "titleFont": "var(--font-permanent-marker)",
+      "buttonBgColor": "#ff5500",
+      "buttonTextColor": "#ffffff"
+    }
   },
   {
     "id": "drop-02",
     "slug": "drop-ete-kit-festivalier",
-    "title": "Drop #02 — Kit Festivalier & Plein Air ☀️",
+    "dropNumber": "DROP 2",
+    "dropName": "Kit Festivalier & Plein Air ☀️",
+    "title": "DROP 2 — Kit Festivalier & Plein Air ☀️",
     "tagline": "L'équipement 3D indispensable pour les festivals d'été et concerts.",
+    "quote": "Pensé pour résister aux marées humaines et danser sous le soleil, notre kit festivalier est fabriqué pour durer tout l'été.",
     "description": "Le drop de l'été : un pack complet d'accessoires malins imprimés en 3D robuste pour vivre à fond la saison des festivals (pince à gobelet éco-cup, sifflet d'alerte haute fréquence, pins porte-lunettes, mini-boîte étanche et badge NFC). Un drop couronné de succès, écoulé en 48 heures.",
     "status": "ended",
     "startDate": "2026-06-15T18:00:00.000Z",
@@ -27,13 +52,36 @@
     "badge": "Drop #02 • Sold Out",
     "themeColor": "#0284c7",
     "editionSize": 100,
-    "productIds": [13146, 13079, 13086, 13084, 13082, 13080]
+    "productIds": [
+      13146,
+      13079,
+      13086,
+      13084,
+      13082,
+      13080
+    ],
+    "theme": {
+      "bgColor": "linear-gradient(135deg, #04243a 0%, #021422 100%)",
+      "textColor": "#ffffff",
+      "subtitleColor": "#7dd3fc",
+      "accentColor": "#38bdf8",
+      "badgeBgColor": "rgba(56, 189, 248, 0.2)",
+      "badgeTextColor": "#7dd3fc",
+      "cardBgColor": "rgba(255, 255, 255, 0.07)",
+      "borderColor": "rgba(56, 189, 248, 0.25)",
+      "titleFont": "var(--font-righteous)",
+      "buttonBgColor": "#0284c7",
+      "buttonTextColor": "#ffffff"
+    }
   },
   {
     "id": "drop-01",
     "slug": "drop-fidgets-sensoriels-articules",
-    "title": "Drop #01 — Fidgets Mécaniques & Tactiles ⚡",
+    "dropNumber": "DROP 1",
+    "dropName": "Fidgets Mécaniques & Tactiles ⚡",
+    "title": "DROP 1 — Fidgets Mécaniques & Tactiles ⚡",
     "tagline": "Notre toute première vague de fidgets sensoriels nouvelle génération.",
+    "quote": "Le point de départ de Spoolio : redéfinir le plaisir du clic tactile avec des mécanismes d'orfèvre imprimés en 3D.",
     "description": "Le drop fondateur de notre gamme sensorielle : engrenages hélicoïdaux, cubes infinis et bagues rotatives testés et ajustés à la main pour un clic et une fluidité parfaits. Réalisé dans nos filaments PLA biosourcés signature à l'atelier de Comines.",
     "status": "ended",
     "startDate": "2026-03-01T18:00:00.000Z",
@@ -42,6 +90,24 @@
     "badge": "Drop #01 • Archive",
     "themeColor": "#7c3aed",
     "editionSize": 60,
-    "productIds": [11074, 11035, 11026, 11738]
+    "productIds": [
+      11074,
+      11035,
+      11026,
+      11738
+    ],
+    "theme": {
+      "bgColor": "linear-gradient(135deg, #18112e 0%, #0d081b 100%)",
+      "textColor": "#ffffff",
+      "subtitleColor": "#c4b5fd",
+      "accentColor": "#a855f7",
+      "badgeBgColor": "rgba(168, 85, 247, 0.2)",
+      "badgeTextColor": "#d8b4fe",
+      "cardBgColor": "rgba(255, 255, 255, 0.07)",
+      "borderColor": "rgba(168, 85, 247, 0.25)",
+      "titleFont": "var(--font-antonio)",
+      "buttonBgColor": "#9333ea",
+      "buttonTextColor": "#ffffff"
+    }
   }
 ]

@@ -38,7 +38,11 @@ interface MenuItem {
   hasDropdown?: boolean;
 }
 
-export default function MotionNavigationMenu() {
+interface MotionNavigationMenuProps {
+  isDark?: boolean;
+}
+
+export default function MotionNavigationMenu({ isDark = false }: MotionNavigationMenuProps) {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
@@ -142,14 +146,21 @@ export default function MotionNavigationMenu() {
               {(isHovered || isSelected) && (
                 <motion.div
                   layoutId="motion-nav-pill-active"
-                  className="absolute inset-0 bg-zinc-100 rounded-full"
+                  className={`absolute inset-0 rounded-full ${
+                    isDark ? "bg-white/15 backdrop-blur-md border border-white/10" : "bg-zinc-100"
+                  }`}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
 
               {/* Label & Indicators */}
-              <div className="relative z-10 flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-zinc-900">
-                <span>{item.label}</span>
+              <div
+                className={`relative z-10 flex items-center gap-1.5 text-xs font-black uppercase tracking-wider transition-colors no-invert ${
+                  isDark ? "text-white" : "text-zinc-900"
+                }`}
+                style={isDark ? { color: "#ffffff" } : undefined}
+              >
+                <span style={isDark ? { color: "#ffffff" } : undefined}>{item.label}</span>
 
                 {item.badge && (
                   <span
@@ -164,7 +175,12 @@ export default function MotionNavigationMenu() {
                     animate={{ rotate: isSelected ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <ChevronDown className="w-3.5 h-3.5 text-zinc-400 group-hover:text-zinc-900 transition-colors" />
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 transition-colors ${
+                        isDark ? "text-zinc-300 group-hover:text-white" : "text-zinc-400 group-hover:text-zinc-900"
+                      }`}
+                      style={isDark ? { color: "#ffffff" } : undefined}
+                    />
                   </motion.div>
                 )}
               </div>

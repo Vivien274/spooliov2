@@ -248,22 +248,22 @@ html.light body {
 }
 
 /* Text overrides in light mode, excluding keep-dark / no-invert / keep-white elements */
-html.light .text-white:not(.no-invert, .no-invert *, .keep-white, .keep-white *) {
+html.light .text-white:not(.no-invert, .no-invert *, .keep-white, .keep-white *, .drop-detail-page, .drop-detail-page *) {
   color: #0d0d11 !important;
 }
-html.light .text-gray-100:not(.no-invert, .no-invert *, .keep-white, .keep-white *) {
+html.light .text-gray-100:not(.no-invert, .no-invert *, .keep-white, .keep-white *, .drop-detail-page, .drop-detail-page *) {
   color: #1a1a24 !important;
 }
-html.light .text-gray-200:not(.no-invert, .no-invert *, .keep-white, .keep-white *) {
+html.light .text-gray-200:not(.no-invert, .no-invert *, .keep-white, .keep-white *, .drop-detail-page, .drop-detail-page *) {
   color: #2a2a35 !important;
 }
-html.light .text-gray-300:not(.no-invert, .no-invert *, .keep-white, .keep-white *) {
+html.light .text-gray-300:not(.no-invert, .no-invert *, .keep-white, .keep-white *, .drop-detail-page, .drop-detail-page *) {
   color: #3a3a45 !important;
 }
-html.light .text-gray-400:not(.no-invert, .no-invert *, .keep-white, .keep-white *) {
+html.light .text-gray-400:not(.no-invert, .no-invert *, .keep-white, .keep-white *, .drop-detail-page, .drop-detail-page *) {
   color: #555566 !important;
 }
-html.light .text-gray-500:not(.no-invert, .no-invert *) {
+html.light .text-gray-500:not(.no-invert, .no-invert *, .drop-detail-page, .drop-detail-page *) {
   color: #717185 !important;
 }
 
@@ -535,24 +535,25 @@ html.light .from-black {
 /* Blog Content HTML Prose Typography Style */
 .blog-content-prose p {
   margin-bottom: 1.25rem;
-  color: #c9c9d4;
-  line-height: 1.7;
+  color: #3f3f46;
+  line-height: 1.75;
 }
 .blog-content-prose h2 {
   font-family: var(--font-antonio), sans-serif;
-  font-size: 1.35rem;
+  font-size: 1.5rem;
   font-weight: 800;
   text-transform: uppercase;
-  color: #ffffff;
-  margin-top: 2rem;
-  margin-bottom: 0.75rem;
+  color: #18181b;
+  margin-top: 2.25rem;
+  margin-bottom: 0.85rem;
+  letter-spacing: -0.01em;
 }
 .blog-content-prose h3 {
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  color: #ffffff;
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
+  color: #18181b;
+  margin-top: 1.75rem;
+  margin-bottom: 0.6rem;
 }
 .blog-content-prose ul {
   list-style-type: disc;
@@ -566,31 +567,56 @@ html.light .from-black {
 }
 .blog-content-prose li {
   margin-bottom: 0.5rem;
-  color: #c9c9d4;
+  color: #3f3f46;
+  line-height: 1.6;
 }
 .blog-content-prose strong {
-  color: #ffffff;
+  color: #09090b;
   font-weight: 700;
+}
+.blog-content-prose em {
+  color: #27272a;
+  font-style: italic;
+}
+.blog-content-prose a {
+  color: #ff4f00;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+.blog-content-prose a:hover {
+  color: #e04500;
+}
+.blog-content-prose blockquote {
+  border-left: 3px solid #ff4f00;
+  padding-left: 1rem;
+  font-style: italic;
+  color: #52525b;
+  margin: 1.5rem 0;
 }
 .blog-content-prose img {
   border-radius: 1.25rem;
   max-width: 100%;
   height: auto;
   margin: 1.5rem 0;
-  border: 1px border var(--color-spoolio-border);
+  border: 1px solid var(--color-spoolio-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
-/* Blog Content light mode overrides */
+/* Light mode overrides for blog prose */
 html.light .blog-content-prose p {
-  color: #3b3b4a;
+  color: #3f3f46;
 }
 html.light .blog-content-prose h2,
-html.light .blog-content-prose h3,
+html.light .blog-content-prose h3 {
+  color: #18181b;
+}
 html.light .blog-content-prose strong {
-  color: #0d0d11;
+  color: #09090b;
 }
 html.light .blog-content-prose li {
-  color: #3b3b4a;
+  color: #3f3f46;
 }
 
 /* Force white text on homepage hero elements regardless of light theme overrides */
@@ -1199,45 +1225,62 @@ html.light .wysiwyg-editor-area hr {
   animation: slideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Light mode adaptations for sticky header */
-html.light header.fixed {
+/* Light mode adaptations for sticky header (only applies to default light header) */
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) {
   background-color: rgba(255, 255, 255, 0.92) !important;
   border-bottom-color: rgba(0, 0, 0, 0.08) !important;
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08) !important;
 }
 
-html.light header.fixed a:not(.no-invert, .no-invert *, .keep-white, .keep-white *, [class*="bg-zinc-9"], [class*="bg-zinc-9"] *, [class*="bg-black"], [class*="bg-black"] *, [class*="bg-[#ff4f00]"], [class*="bg-[#ff4f00]"] *),
-html.light header.fixed button:not(.no-invert, .no-invert *, .keep-white, .keep-white *, [class*="bg-zinc-9"] *, [class*="bg-black"] *, [class*="bg-[#ff4f00]"] *),
-html.light header.fixed span:not(.bg-red-600, .no-invert, .no-invert *, .keep-white, .keep-white *, [class*="bg-zinc-9"] *, [class*="bg-zinc-8"] *, [class*="bg-black"] *, [class*="bg-[#ff4f00]"] *) {
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) a:not(.no-invert, .no-invert *, .keep-white, .keep-white *, [class*="bg-zinc-9"], [class*="bg-zinc-9"] *, [class*="bg-black"], [class*="bg-black"] *, [class*="bg-[#ff4f00]"], [class*="bg-[#ff4f00]"] *),
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) button:not(.no-invert, .no-invert *, .keep-white, .keep-white *, [class*="bg-zinc-9"] *, [class*="bg-black"] *, [class*="bg-[#ff4f00]"] *),
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) span:not(.bg-red-600, .no-invert, .no-invert *, .keep-white, .keep-white *, [class*="bg-zinc-9"] *, [class*="bg-zinc-8"] *, [class*="bg-black"] *, [class*="bg-[#ff4f00]"] *) {
   color: #121212 !important;
 }
 
-html.light header.fixed [class*="bg-zinc-9"] .text-white,
-html.light header.fixed [class*="bg-zinc-9"] h4,
-html.light header.fixed [class*="bg-zinc-9"] span:not(.text-zinc-400, .text-zinc-500, .text-zinc-950, .text-zinc-900, .btn-light, .btn-light *, .force-dark-text, .force-dark-text *),
-html.light header.fixed .bg-zinc-800 span {
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) [class*="bg-zinc-9"] .text-white,
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) [class*="bg-zinc-9"] h4,
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) [class*="bg-zinc-9"] span:not(.text-zinc-400, .text-zinc-500, .text-zinc-950, .text-zinc-900, .btn-light, .btn-light *, .force-dark-text, .force-dark-text *),
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) .bg-zinc-800 span {
   color: #ffffff !important;
 }
 
-html.light header.fixed .btn-light,
-html.light header.fixed .btn-light *,
-html.light header.fixed .btn-light span,
-html.light header.fixed .force-dark-text,
-html.light header.fixed .force-dark-text * {
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) .btn-light,
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) .btn-light *,
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) .btn-light span,
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) .force-dark-text,
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) .force-dark-text * {
   color: #09090b !important;
 }
-html.light header.fixed .btn-light:hover,
-html.light header.fixed .btn-light:hover *,
-html.light header.fixed .btn-light:hover span {
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) .btn-light:hover,
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) .btn-light:hover *,
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) .btn-light:hover span {
   color: #ffffff !important;
 }
 
-html.light header.fixed .hover\:text-white:hover {
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) .hover\:text-white:hover {
   color: #ff4f00 !important;
 }
 
-html.light header.fixed svg:not(.text-white, [class*="bg-zinc-9"] svg, [class*="bg-zinc-8"] svg, [class*="bg-black"] svg, [class*="bg-[#ff4f00]"] svg) {
+html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) svg:not(.text-white, [class*="bg-zinc-9"] svg, [class*="bg-zinc-8"] svg, [class*="bg-black"] svg, [class*="bg-[#ff4f00]"] svg) {
   color: #121212 !important;
+}
+
+/* Explicit Dark Header Styling for inverted pages (e.g. exclusive Drops) */
+header.header-dark {
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+header.header-dark.header-sticky {
+  background-color: rgba(10, 10, 14, 0.88) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.6) !important;
 }
 
 /* Custom Fine Modern Scrollbar Styles (Clean light/transparent theme) */

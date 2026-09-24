@@ -16,10 +16,12 @@ import { Sparkles } from "lucide-react";
 
 interface HeaderProps {
   className?: string;
+  isDark?: boolean;
 }
 
 export default function Header({
-  className = "relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full"
+  className = "relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full",
+  isDark = false,
 }: HeaderProps) {
   const { locale, setLocale, t } = useTranslation();
   const [theme, setTheme] = useState<"dark" | "light">("light");
@@ -150,10 +152,27 @@ export default function Header({
   };
 
   return (
-      <header className={`fixed top-0 left-0 right-0 z-[99999] w-full transition-all duration-300 ${isSticky
-        ? "bg-white/90 backdrop-blur-2xl border-b border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
-        : "bg-white/75 backdrop-blur-md border-b border-zinc-200/60"
-      }`}>
+      <header
+        data-header-theme={isDark ? "dark" : "light"}
+        className={`fixed top-0 left-0 right-0 z-[99999] w-full transition-all duration-300 ${
+          isDark
+            ? `header-dark ${isSticky ? "header-sticky bg-black/85 backdrop-blur-2xl border-b border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.6)]" : "bg-transparent border-transparent shadow-none"}`
+            : isSticky
+              ? "header-light header-sticky bg-white/90 backdrop-blur-2xl border-b border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
+              : "header-light bg-white/75 backdrop-blur-md border-b border-zinc-200/60"
+        }`}
+        style={
+          isDark
+            ? {
+                backgroundColor: isSticky ? "rgba(10, 10, 14, 0.88)" : "transparent",
+                backdropFilter: isSticky ? "blur(24px)" : "none",
+                WebkitBackdropFilter: isSticky ? "blur(24px)" : "none",
+                borderBottom: isSticky ? "1px solid rgba(255, 255, 255, 0.15)" : "none",
+                boxShadow: isSticky ? "0 10px 30px -5px rgba(0, 0, 0, 0.6)" : "none",
+              }
+            : undefined
+        }
+      >
       <VacationBanner />
       <div className={`w-full flex items-center justify-between transition-all duration-300 relative z-10 ${isSticky
           ? "h-16 md:h-20 px-4 sm:px-6 md:px-8 lg:px-12"
@@ -165,16 +184,25 @@ export default function Header({
           <div className="flex md:hidden mr-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="w-10 h-10 flex items-center justify-center bg-zinc-100 hover:bg-zinc-200 text-zinc-900 rounded-full border border-zinc-200/80 transition-all cursor-pointer z-50 shadow-sm"
+              className={`w-10 h-10 flex items-center justify-center rounded-full transition-all cursor-pointer z-50 shadow-sm no-invert ${
+                isDark
+                  ? "bg-white/10 hover:bg-white/20 text-white border border-white/20"
+                  : "bg-zinc-100 hover:bg-zinc-200 text-zinc-900 border border-zinc-200/80"
+              }`}
+              style={
+                isDark
+                  ? { backgroundColor: "rgba(255, 255, 255, 0.12)", borderColor: "rgba(255, 255, 255, 0.25)", color: "#ffffff" }
+                  : undefined
+              }
               title="Menu"
               aria-label={isMobileMenuOpen ? "Fermer le menu mobile" : "Ouvrir le menu mobile"}
             >
               {isMobileMenuOpen ? (
-                <svg className="w-5 h-5 text-zinc-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className={`w-5 h-5 ${isDark ? "text-white" : "text-zinc-900"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               ) : (
-                <svg className="w-5 h-5 text-zinc-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className={`w-5 h-5 ${isDark ? "text-white" : "text-zinc-900"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
               )}
@@ -183,7 +211,7 @@ export default function Header({
 
           {/* Desktop Navigation Menu (Menu à gauche) */}
           <div className="hidden md:flex items-center">
-            <MotionNavigationMenu />
+            <MotionNavigationMenu isDark={isDark} />
           </div>
         </div>
 
@@ -204,39 +232,65 @@ export default function Header({
                 }
               }
             }}
-            className="flex items-center justify-center cursor-pointer"
+            className="flex items-center justify-center cursor-pointer no-invert"
           >
             <Image
-              src="/images/logo-spoolio-eyes.png"
+              src={isDark ? "/images/logo-spoolio-eyes-white.png" : "/images/logo-spoolio-eyes.png"}
               alt="Spoolio Logo"
               width={140}
               height={42}
               priority
-              className="h-8 sm:h-9 md:h-10 w-auto object-contain"
+              className="h-8 sm:h-9 md:h-10 w-auto object-contain transition-all duration-300 header-logo"
             />
           </Link>
         </div>
 
         {/* RIGHT COLUMN: Actions à droite (Bouton Soutenir sobre + Recherche + Bouton Panier prioritaire) */}
         <div className="flex items-center justify-end flex-1 basis-0 min-w-0 gap-2 sm:gap-3">
-          {/* Soutenir Button (Discret et sobre pour donner la priorité visuelle au panier) */}
+          {/* Soutenir Button (Visible sur desktop/tablette uniquement pour libérer l'espace logo sur mobile) */}
           <Link
             href="/don"
-            className="h-9 px-2.5 sm:px-3 rounded-full border border-zinc-200/80 bg-zinc-50/50 hover:bg-zinc-100 hover:border-zinc-300 text-zinc-500 hover:text-zinc-800 text-xs font-medium flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 no-invert"
+            className={`hidden sm:flex h-9 px-2.5 sm:px-3 rounded-full text-xs font-medium items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 no-invert ${
+              isDark
+                ? "border border-white/20 bg-white/10 hover:bg-white/20 hover:border-white/30 text-zinc-100 hover:text-white"
+                : "border border-zinc-200/80 bg-zinc-50/50 hover:bg-zinc-100 hover:border-zinc-300 text-zinc-500 hover:text-zinc-800"
+            }`}
+            style={
+              isDark
+                ? {
+                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    borderColor: "rgba(255, 255, 255, 0.2)",
+                    color: "#f4f4f5",
+                  }
+                : undefined
+            }
             title={t("footer.support_workshop")}
           >
-            <Sparkles className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
-            <span className="hidden sm:inline whitespace-nowrap">{t("footer.support_workshop")}</span>
+            <Sparkles className={`w-3.5 h-3.5 shrink-0 ${isDark ? "text-zinc-200" : "text-zinc-400"}`} />
+            <span className="whitespace-nowrap">{t("footer.support_workshop")}</span>
           </Link>
 
           {/* Search Button (Desktop & Mobile) */}
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="w-10 h-10 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-900 flex items-center justify-center transition-colors cursor-pointer shadow-sm border border-zinc-200/80 shrink-0"
+            className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors cursor-pointer shadow-sm shrink-0 no-invert ${
+              isDark
+                ? "bg-white/10 hover:bg-white/20 text-white border border-white/20"
+                : "bg-zinc-100 hover:bg-zinc-200 text-zinc-900 border border-zinc-200/80"
+            }`}
+            style={
+              isDark
+                ? {
+                    backgroundColor: "rgba(255, 255, 255, 0.12)",
+                    borderColor: "rgba(255, 255, 255, 0.2)",
+                    color: "#ffffff",
+                  }
+                : undefined
+            }
             title="Rechercher (Cmd+K)"
             aria-label="Rechercher"
           >
-            <svg className="w-4 h-4 text-zinc-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className={`w-4 h-4 ${isDark ? "text-white" : "text-zinc-800"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>

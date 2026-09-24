@@ -80,7 +80,7 @@ export default async function BlogPostDetailPage({ params }: BlogPostPageProps) 
   });
 
   return (
-    <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-black">
+    <div className="min-h-screen bg-spoolio-bg text-zinc-900 font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-white">
       <JsonLdScript data={blogLd} id={`blog-post-ld-${post.id}`} />
       {/* Sticky Header */}
       <Header />
@@ -88,33 +88,33 @@ export default async function BlogPostDetailPage({ params }: BlogPostPageProps) 
       {/* Main Container */}
       <main className="flex-1 max-w-[800px] w-full mx-auto px-6 pt-28 lg:pt-32 pb-12 lg:pb-16">
         {/* Breadcrumbs */}
-        <nav className="flex items-center gap-2 text-xs font-semibold text-gray-500 mb-8 font-sans select-none">
-          <Link href="/" className="hover:text-white transition-colors duration-200">
+        <nav className="flex items-center gap-2 text-xs font-semibold text-zinc-500 mb-8 font-sans select-none">
+          <Link href="/" className="hover:text-zinc-900 transition-colors duration-200">
             Accueil
           </Link>
-          <span className="text-gray-700 font-bold">/</span>
-          <Link href="/blog" className="hover:text-white transition-colors duration-200">
+          <span className="text-zinc-400 font-bold">/</span>
+          <Link href="/blog" className="hover:text-zinc-900 transition-colors duration-200">
             L'Atelier
           </Link>
-          <span className="text-gray-700 font-bold">/</span>
-          <span className="text-white font-black truncate max-w-[200px] sm:max-w-none">
+          <span className="text-zinc-400 font-bold">/</span>
+          <span className="text-zinc-900 font-black truncate max-w-[200px] sm:max-w-none">
             {cleanTitle}
           </span>
         </nav>
 
         {/* Article Meta Header */}
         <header className="mb-8">
-          <span className="text-xs text-blue-400 font-black uppercase tracking-wider block mb-2 font-sans">
+          <span className="text-xs text-[#ff4f00] font-black uppercase tracking-wider block mb-2 font-sans">
             Publié le {new Date(post.date).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
           </span>
-          <h1 className="text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-white leading-tight font-antonio mb-4">
+          <h1 className="text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-zinc-900 leading-tight font-antonio mb-4">
             {cleanTitle}
           </h1>
         </header>
 
         {/* Featured Image Cover */}
         {post.featuredImageUrl && (
-          <div className="relative w-full aspect-[2/1] rounded-3xl overflow-hidden border border-spoolio-border mb-10 bg-black/40">
+          <div className="relative w-full aspect-[2/1] rounded-3xl overflow-hidden border border-zinc-200 shadow-md mb-10 bg-zinc-100">
             <Image
               src={post.featuredImageUrl}
               alt={cleanTitle}
@@ -127,20 +127,20 @@ export default async function BlogPostDetailPage({ params }: BlogPostPageProps) 
         )}
 
         {/* Blog Rich HTML Body Content */}
-        <article className="prose prose-invert max-w-none text-gray-300 text-sm leading-relaxed font-sans blog-content-prose">
+        <article className="prose max-w-none text-zinc-700 text-sm sm:text-base leading-relaxed font-sans blog-content-prose">
           <div dangerouslySetInnerHTML={{ __html: decodedContent }} />
         </article>
 
         {/* Bottom Actions Area */}
-        <div className="mt-12 pt-8 border-t border-spoolio-border/40 flex items-center justify-between font-sans select-none">
+        <div className="mt-12 pt-8 border-t border-zinc-200 flex items-center justify-between font-sans select-none">
           <Link
             href="/blog"
-            className="text-xs font-bold text-gray-400 hover:text-white transition-colors flex items-center gap-1.5"
+            className="text-xs font-bold text-zinc-600 hover:text-[#ff4f00] transition-colors flex items-center gap-1.5"
           >
             <span>&larr;</span>
             <span>Retour à l'Atelier</span>
           </Link>
-          <span className="text-[10px] text-gray-500 font-black tracking-widest uppercase">
+          <span className="text-[10px] text-zinc-400 font-black tracking-widest uppercase">
             Spoolio 3D
           </span>
         </div>

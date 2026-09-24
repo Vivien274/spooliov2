@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { DropTheme } from "@/lib/drops";
 
 interface DropCountdownProps {
   targetDate: string;
   className?: string;
   compact?: boolean;
+  theme?: DropTheme;
 }
 
 interface TimeRemaining {
@@ -31,7 +33,7 @@ function calculateTimeRemaining(target: string): TimeRemaining {
   return { days, hours, minutes, seconds, isExpired: false };
 }
 
-export default function DropCountdown({ targetDate, className = "", compact = false }: DropCountdownProps) {
+export default function DropCountdown({ targetDate, className = "", compact = false, theme }: DropCountdownProps) {
   const [mounted, setMounted] = useState(false);
   const [time, setTime] = useState<TimeRemaining>({
     days: 0,
@@ -55,7 +57,12 @@ export default function DropCountdown({ targetDate, className = "", compact = fa
   if (!mounted) {
     return (
       <div className={`flex items-center gap-2 opacity-50 ${className}`}>
-        <span className="text-xs font-mono text-zinc-500">Chargement du compte à rebours...</span>
+        <span
+          className="text-xs font-mono text-zinc-500"
+          style={theme?.subtitleColor ? { color: theme.subtitleColor } : undefined}
+        >
+          Chargement du compte à rebours...
+        </span>
       </div>
     );
   }
@@ -69,16 +76,22 @@ export default function DropCountdown({ targetDate, className = "", compact = fa
     );
   }
 
+  const boxBg = theme?.cardBgColor || "white";
+  const boxBorder = theme?.borderColor || "rgba(228, 228, 231, 0.9)";
+  const textColor = theme?.textColor || "#09090b";
+  const labelColor = theme?.subtitleColor || "#a1a1aa";
+  const accentColor = theme?.accentColor || "#ff4f00";
+
   if (compact) {
     return (
-      <div className={`flex items-center gap-1.5 text-xs font-mono font-bold text-zinc-800 ${className}`}>
-        <span className="px-1.5 py-0.5 rounded bg-zinc-100 border border-zinc-200">{time.days}j</span>
+      <div className={`flex items-center gap-1.5 text-xs font-mono font-bold ${className}`} style={{ color: textColor }}>
+        <span className="px-1.5 py-0.5 rounded border" style={{ backgroundColor: boxBg, borderColor: boxBorder }}>{time.days}j</span>
         <span>:</span>
-        <span className="px-1.5 py-0.5 rounded bg-zinc-100 border border-zinc-200">{String(time.hours).padStart(2, "0")}h</span>
+        <span className="px-1.5 py-0.5 rounded border" style={{ backgroundColor: boxBg, borderColor: boxBorder }}>{String(time.hours).padStart(2, "0")}h</span>
         <span>:</span>
-        <span className="px-1.5 py-0.5 rounded bg-zinc-100 border border-zinc-200">{String(time.minutes).padStart(2, "0")}m</span>
+        <span className="px-1.5 py-0.5 rounded border" style={{ backgroundColor: boxBg, borderColor: boxBorder }}>{String(time.minutes).padStart(2, "0")}m</span>
         <span>:</span>
-        <span className="px-1.5 py-0.5 rounded bg-zinc-100 border border-zinc-200 text-[#ff4f00]">{String(time.seconds).padStart(2, "0")}s</span>
+        <span className="px-1.5 py-0.5 rounded border" style={{ backgroundColor: boxBg, borderColor: boxBorder, color: accentColor }}>{String(time.seconds).padStart(2, "0")}s</span>
       </div>
     );
   }
@@ -86,47 +99,59 @@ export default function DropCountdown({ targetDate, className = "", compact = fa
   return (
     <div className={`flex items-center gap-2 sm:gap-3 ${className}`}>
       {/* Jours */}
-      <div className="flex flex-col items-center justify-center min-w-15 sm:min-w-17 p-2 sm:p-2.5 rounded-2xl bg-white border border-zinc-200/90 shadow-2xs">
-        <span className="text-xl sm:text-2xl font-black text-zinc-950 font-mono leading-none">
+      <div
+        className="flex flex-col items-center justify-center min-w-15 sm:min-w-17 p-2 sm:p-2.5 rounded-2xl border shadow-2xs backdrop-blur-xs"
+        style={{ backgroundColor: boxBg, borderColor: boxBorder }}
+      >
+        <span className="text-xl sm:text-2xl font-black font-mono leading-none" style={{ color: textColor }}>
           {time.days}
         </span>
-        <span className="text-[9px] sm:text-[10px] uppercase font-bold text-zinc-400 tracking-wider mt-1">
+        <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider mt-1" style={{ color: labelColor }}>
           Jours
         </span>
       </div>
 
-      <span className="text-zinc-400 font-bold text-lg -mt-3">:</span>
+      <span className="font-bold text-lg -mt-3" style={{ color: labelColor }}>:</span>
 
       {/* Heures */}
-      <div className="flex flex-col items-center justify-center min-w-15 sm:min-w-17 p-2 sm:p-2.5 rounded-2xl bg-white border border-zinc-200/90 shadow-2xs">
-        <span className="text-xl sm:text-2xl font-black text-zinc-950 font-mono leading-none">
+      <div
+        className="flex flex-col items-center justify-center min-w-15 sm:min-w-17 p-2 sm:p-2.5 rounded-2xl border shadow-2xs backdrop-blur-xs"
+        style={{ backgroundColor: boxBg, borderColor: boxBorder }}
+      >
+        <span className="text-xl sm:text-2xl font-black font-mono leading-none" style={{ color: textColor }}>
           {String(time.hours).padStart(2, "0")}
         </span>
-        <span className="text-[9px] sm:text-[10px] uppercase font-bold text-zinc-400 tracking-wider mt-1">
+        <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider mt-1" style={{ color: labelColor }}>
           Heures
         </span>
       </div>
 
-      <span className="text-zinc-400 font-bold text-lg -mt-3">:</span>
+      <span className="font-bold text-lg -mt-3" style={{ color: labelColor }}>:</span>
 
       {/* Minutes */}
-      <div className="flex flex-col items-center justify-center min-w-15 sm:min-w-17 p-2 sm:p-2.5 rounded-2xl bg-white border border-zinc-200/90 shadow-2xs">
-        <span className="text-xl sm:text-2xl font-black text-zinc-950 font-mono leading-none">
+      <div
+        className="flex flex-col items-center justify-center min-w-15 sm:min-w-17 p-2 sm:p-2.5 rounded-2xl border shadow-2xs backdrop-blur-xs"
+        style={{ backgroundColor: boxBg, borderColor: boxBorder }}
+      >
+        <span className="text-xl sm:text-2xl font-black font-mono leading-none" style={{ color: textColor }}>
           {String(time.minutes).padStart(2, "0")}
         </span>
-        <span className="text-[9px] sm:text-[10px] uppercase font-bold text-zinc-400 tracking-wider mt-1">
+        <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider mt-1" style={{ color: labelColor }}>
           Min
         </span>
       </div>
 
-      <span className="text-zinc-400 font-bold text-lg -mt-3">:</span>
+      <span className="font-bold text-lg -mt-3" style={{ color: labelColor }}>:</span>
 
       {/* Secondes */}
-      <div className="flex flex-col items-center justify-center min-w-15 sm:min-w-17 p-2 sm:p-2.5 rounded-2xl bg-[#ff4f00]/5 border border-[#ff4f00]/25 shadow-2xs">
-        <span className="text-xl sm:text-2xl font-black text-[#ff4f00] font-mono leading-none">
+      <div
+        className="flex flex-col items-center justify-center min-w-15 sm:min-w-17 p-2 sm:p-2.5 rounded-2xl border shadow-2xs backdrop-blur-xs"
+        style={{ backgroundColor: boxBg, borderColor: accentColor }}
+      >
+        <span className="text-xl sm:text-2xl font-black font-mono leading-none" style={{ color: accentColor }}>
           {String(time.seconds).padStart(2, "0")}
         </span>
-        <span className="text-[9px] sm:text-[10px] uppercase font-bold text-[#ff4f00] tracking-wider mt-1">
+        <span className="text-[9px] sm:text-[10px] uppercase font-bold tracking-wider mt-1" style={{ color: accentColor }}>
           Sec
         </span>
       </div>

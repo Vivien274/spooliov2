@@ -2,18 +2,38 @@ import fs from "fs";
 import path from "path";
 import { Product } from "@/components/ProductCard";
 
+export interface DropTheme {
+  bgColor?: string;
+  cardBgColor?: string;
+  borderColor?: string;
+  textColor?: string;
+  subtitleColor?: string;
+  accentColor?: string;
+  titleFont?: string;
+  bodyFont?: string;
+  badgeBgColor?: string;
+  badgeTextColor?: string;
+  buttonBgColor?: string;
+  buttonTextColor?: string;
+}
+
 export interface Drop {
   id: string;
   slug: string;
+  dropNumber?: string;
+  dropName?: string;
   title: string;
   tagline: string;
+  quote?: string;
   description: string;
   status: "upcoming" | "live" | "ended";
   startDate: string;
   endDate?: string;
   bannerImage: string;
+  bannerVideo?: string;
   badge: string;
   themeColor?: string;
+  theme?: DropTheme;
   editionSize?: number;
   productIds: number[];
   products?: Product[];
