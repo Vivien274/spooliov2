@@ -69,9 +69,9 @@ export default function CartCrossSell({ variant = "drawer" }: CartCrossSellProps
   };
 
   return (
-    <div className="w-full bg-[#f8f8f9] px-6 py-5 border-t border-zinc-200/70 space-y-3.5">
+    <div className={`w-full space-y-3.5 ${variant === 'drawer' ? 'bg-[#f8f8f9] px-6 py-5 border-t border-zinc-200/70' : ''}`}>
       <div className="flex items-center justify-between">
-        <h3 className="text-[11px] font-bold tracking-widest uppercase text-zinc-400 font-sans">
+        <h3 className="text-[11px] font-bold tracking-widest uppercase text-zinc-500 dark:text-zinc-400 font-sans">
           Vous aimerez aussi
         </h3>
       </div>

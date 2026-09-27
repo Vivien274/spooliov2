@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { syncOrderToManager } from "@/lib/managerSync";
 import { validatePromoCodeAction } from "@/app/actions/promoActions";
+import { prisma } from "@/lib/prisma";
+import { DEFAULT_SHIPPING_CONFIG, ShippingConfig } from "@/types/shipping";
 import fs from "fs";
 import path from "path";
 
@@ -56,8 +58,29 @@ export async function POST(request: Request) {
       }
     }
 
-    const isFreeShippingByPromo = appliedPromo?.discountType === "free_shipping";
-    const isFreeShipping = (normalTotal >= 40) || isFreeShippingByPromo;
+    // Load dynamic shipping config from DB
+    let shippingConfig: ShippingConfig = DEFAULT_SHIPPING_CONFIG;
+    try {
+      const page = await prisma.page.findUnique({
+        where: { slug: "config-shipping" },
+      });
+      if (page && page.content) {
+        const parsed = JSON.parse(page.content);
+        shippingConfig = {
+          freeShippingThreshold: typeof parsed.freeShippingThreshold === "number" ? parsed.freeShippingThreshold : DEFAULT_SHIPPING_CONFIG.freeShippingThreshold,
+          relayShippingCost: typeof parsed.relayShippingCost === "number" ? parsed.relayShippingCost : DEFAULT_SHIPPING_CONFIG.relayShippingCost,
+          homeShippingCost: typeof parsed.homeShippingCost === "number" ? parsed.homeShippingCost : DEFAULT_SHIPPING_CONFIG.homeShippingCost,
+          pickupShippingCost: typeof parsed.pickupShippingCost === "number" ? parsed.pickupShippingCost : DEFAULT_SHIPPING_CONFIG.pickupShippingCost,
+          enablePromoFreeShipping: typeof parsed.enablePromoFreeShipping === "boolean" ? parsed.enablePromoFreeShipping : DEFAULT_SHIPPING_CONFIG.enablePromoFreeShipping,
+          shippingNotice: parsed.shippingNotice || DEFAULT_SHIPPING_CONFIG.shippingNotice,
+        };
+      }
+    } catch (e) {
+      console.warn("[Checkout] Failed to load config-shipping, using defaults", e);
+    }
+
+    const isFreeShippingByPromo = appliedPromo?.discountType === "free_shipping" && shippingConfig.enablePromoFreeShipping;
+    const isFreeShipping = (normalTotal >= shippingConfig.freeShippingThreshold) || isFreeShippingByPromo;
 
     // Fallback simulation in dev mode if Stripe keys are missing
     if (!stripeKey) {
@@ -67,12 +90,12 @@ export async function POST(request: Request) {
       const cost = isPureDonation
         ? 0
         : shippingMethod === "pickup"
-        ? 0
+        ? (shippingConfig.pickupShippingCost || 0)
         : isFreeShipping
         ? 0
         : shippingMethod === "relay"
-        ? 3.90
-        : 4.90;
+        ? shippingConfig.relayShippingCost
+        : shippingConfig.homeShippingCost;
 
       const finalTotal = Math.max(0, fullCartTotal - discountAmount + cost);
 
@@ -186,7 +209,7 @@ export async function POST(request: Request) {
       const shippingLabel = isRelay
         ? "Frais de livraison - Point Relais Mondial Relay (Boxtal)"
         : "Frais de livraison - Colissimo Domicile (Boxtal)";
-      const shippingAmount = isRelay ? 3.90 : 4.90;
+      const shippingAmount = isRelay ? shippingConfig.relayShippingCost : shippingConfig.homeShippingCost;
 
       lineItems.push({
         price_data: {

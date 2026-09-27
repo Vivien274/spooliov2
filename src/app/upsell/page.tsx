@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import Footer from "@/components/Footer";
 
+import { DEFAULT_SHIPPING_CONFIG, ShippingConfig } from "@/types/shipping";
+
 interface Product {
   id: number;
   name: string;
@@ -36,9 +38,25 @@ export default function UpsellPage() {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [addingIds, setAddingIds] = useState<Record<number, boolean>>({});
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
+  const [shippingConfig, setShippingConfig] = useState<ShippingConfig>(DEFAULT_SHIPPING_CONFIG);
 
-  // 1. Fetch products from API and filter suggestions
+  // 1. Fetch shipping configuration and products from API
   useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const res = await fetch("/api/shipping-config");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.config) {
+            setShippingConfig(data.config);
+          }
+        }
+      } catch (e) {
+        console.error("Failed to load shipping config in upsell:", e);
+      }
+    };
+    fetchConfig();
+
     const fetchProducts = async () => {
       try {
         const res = await fetch("/api/products");
@@ -59,7 +77,7 @@ export default function UpsellPage() {
     if (catalog.length === 0) return;
 
     const inCartIds = new Set(cartItems.map((item) => String(item.productId)));
-    const missingAmount = 40 - cartTotal;
+    const missingAmount = shippingConfig.freeShippingThreshold - cartTotal;
 
     // Filter out products already in cart
     const available = catalog.filter((p) => !inCartIds.has(String(p.id)));
@@ -90,7 +108,7 @@ export default function UpsellPage() {
     }
 
     setSuggestions(filtered);
-  }, [catalog, cartItems, cartTotal]);
+  }, [catalog, cartItems, cartTotal, shippingConfig.freeShippingThreshold]);
 
   // Redirect to home if cart is empty and not loading checkout
   useEffect(() => {
@@ -178,7 +196,7 @@ export default function UpsellPage() {
   }
 
   return (
-    <div className="min-h-screen bg-spoolio-bg text-white flex flex-col justify-between selection:bg-[#ff4f00] selection:text-white">
+    <div className="min-h-screen bg-spoolio-bg text-zinc-900 dark:text-white flex flex-col justify-between selection:bg-[#ff4f00] selection:text-white">
       {/* Centered Minimal Header */}
       <header className="h-24 w-full flex items-center justify-center max-w-[1200px] mx-auto px-6">
         <Link href="/" className="flex items-center justify-center">
@@ -195,53 +213,54 @@ export default function UpsellPage() {
 
       <main className="flex-1 max-w-4xl mx-auto w-full px-6 py-12 flex flex-col items-center justify-center">
         {/* Progress Banner */}
-        <div className="w-full flex items-center justify-between text-xs text-gray-500 uppercase tracking-widest font-bold mb-8 max-w-2xl font-sans">
+        <div className="w-full flex items-center justify-between text-xs text-zinc-500 dark:text-gray-500 uppercase tracking-widest font-bold mb-8 max-w-2xl font-sans">
           <span className="text-[#005cff] flex items-center gap-1.5 font-sans">✓ Panier</span>
-          <span className="w-8 h-px bg-white/10" />
+          <span className="w-8 h-px bg-zinc-200 dark:bg-white/10" />
           <span className="text-[#ff4f00] flex items-center gap-1.5 animate-pulse font-sans">🛒 Ventes Privées</span>
-          <span className="w-8 h-px bg-white/10" />
-          <span className="text-gray-600 font-sans">Paiement sécurisé</span>
+          <span className="w-8 h-px bg-zinc-200 dark:bg-white/10" />
+          <span className="text-zinc-400 dark:text-gray-600 font-sans">Paiement sécurisé</span>
         </div>
 
         {/* Header Title */}
         <div className="text-center max-w-xl mb-8">
-          <h2 className="text-3xl sm:text-4xl font-black font-antonio tracking-tight uppercase text-white">
+          <h2 className="text-3xl sm:text-4xl font-black font-antonio tracking-tight uppercase text-zinc-900 dark:text-white">
             Vous aimeriez peut-être aussi...
           </h2>
-          <p className="text-sm text-gray-400 mt-3 leading-relaxed">
+          <p className="text-sm text-zinc-600 dark:text-gray-400 mt-3 leading-relaxed">
             Profitez-en pour ajouter une touche de fun à votre colis ! Aucun frais de port supplémentaire ne s'appliquera pour ces objets.
           </p>
         </div>
 
         {/* Free Shipping Progress Indicator */}
         {(() => {
-          const isFreeShipping = cartTotal >= 40 || appliedPromo?.discountType === "free_shipping";
-          const missingAmount = Math.max(0, 40 - cartTotal);
-          const progressPercent = isFreeShipping ? 100 : Math.min((cartTotal / 40) * 100, 100);
+          const threshold = shippingConfig.freeShippingThreshold;
+          const isFreeShipping = cartTotal >= threshold || appliedPromo?.discountType === "free_shipping";
+          const missingAmount = Math.max(0, threshold - cartTotal);
+          const progressPercent = isFreeShipping ? 100 : Math.min((cartTotal / threshold) * 100, 100);
 
           return (
             <div className="w-full max-w-2xl bg-spoolio-card border border-spoolio-border rounded-[24px] p-5 mb-10 flex flex-col gap-3 font-sans select-none shadow-xl">
               <div className="flex items-center justify-between text-xs font-bold font-sans">
                 {!isFreeShipping ? (
                   <>
-                    <span className="text-gray-400 font-sans">
-                      Plus que <strong className="text-[#ff4f00] text-sm font-sans">{missingAmount.toFixed(2)}€</strong> pour profiter de la <span className="text-white">livraison offerte</span> !
+                    <span className="text-zinc-600 dark:text-gray-400 font-sans">
+                      Plus que <strong className="text-[#ff4f00] text-sm font-sans">{missingAmount.toFixed(2)}€</strong> pour profiter de la <span className="text-zinc-900 dark:text-white">livraison offerte</span> !
                     </span>
                     <span className="text-[#ff4f00] animate-bounce text-sm">🚀</span>
                   </>
                 ) : (
                   <>
-                    <span className="text-emerald-400 flex items-center gap-1.5 text-sm font-sans">
+                    <span className="text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 text-sm font-sans font-bold">
                       🎉 Livraison offerte active !
                     </span>
-                    <span className="text-emerald-400 font-black uppercase tracking-wider text-[11px] font-sans">Offerte</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-black uppercase tracking-wider text-[11px] font-sans">Offerte</span>
                   </>
                 )}
               </div>
-              <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden relative">
+              <div className="w-full h-2 bg-zinc-100 dark:bg-white/5 rounded-full overflow-hidden relative">
                 <div 
                   className={`h-full rounded-full transition-all duration-500 ${
-                    !isFreeShipping ? "bg-gradient-to-r from-[#ff4f00]/60 to-[#ff4f00]" : "bg-emerald-400 shadow-[0_0_12px_#34d399]"
+                    !isFreeShipping ? "bg-gradient-to-r from-[#ff4f00]/60 to-[#ff4f00]" : "bg-emerald-500 dark:bg-emerald-400 shadow-[0_0_12px_#34d399]"
                   }`}
                   style={{ width: `${progressPercent}%` }}
                 />
@@ -253,7 +272,7 @@ export default function UpsellPage() {
         {/* Grille des suggestions */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-3xl mb-12">
           {suggestions.length === 0 ? (
-            <div className="col-span-3 text-center py-12 text-gray-500 text-xs font-sans">
+            <div className="col-span-3 text-center py-12 text-zinc-500 dark:text-gray-500 text-xs font-sans">
               Chargement des suggestions exclusives...
             </div>
           ) : (
@@ -267,7 +286,7 @@ export default function UpsellPage() {
                 >
                   <div className="flex flex-col gap-3">
                     {/* Suggestion Image */}
-                    <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-black/20">
+                    <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-zinc-100 dark:bg-black/20">
                       <Image
                         src={p.images[0]?.src || "/images/figma_keychains.jpg"}
                         alt={p.images[0]?.alt || p.name}
@@ -275,17 +294,17 @@ export default function UpsellPage() {
                         className="object-cover transition-transform duration-300 group-hover:scale-102 no-invert"
                         sizes="(max-width: 768px) 100vw, 25vw"
                       />
-                      <span className="absolute top-3 right-3 bg-white text-black font-extrabold text-[10px] px-2.5 py-1 rounded-full shadow no-invert">
+                      <span className="absolute top-3 right-3 bg-white text-zinc-900 font-extrabold text-[10px] px-2.5 py-1 rounded-full shadow no-invert">
                         {price.toFixed(2)}€
                       </span>
                     </div>
 
                     {/* Metadata */}
                     <div>
-                      <h4 className="font-bold text-sm text-white group-hover:text-[#ff4f00] transition-colors leading-tight">
+                      <h4 className="font-bold text-sm text-zinc-900 dark:text-white group-hover:text-[#ff4f00] transition-colors leading-tight">
                         {p.name}
                       </h4>
-                      <p className="text-[10px] text-gray-400 line-clamp-2 mt-1 leading-normal">
+                      <p className="text-[10px] text-zinc-500 dark:text-gray-400 line-clamp-2 mt-1 leading-normal">
                         {p.short_description?.replace(/<[^>]*>/g, "") || "Objet fun imprimé en 3D."}
                       </p>
                     </div>
@@ -297,9 +316,9 @@ export default function UpsellPage() {
                     disabled={cartItems.some((item) => String(item.productId) === String(p.id)) || isAdding}
                     className={`w-full mt-4 h-9 flex items-center justify-center gap-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider transition-all no-invert ${
                       cartItems.some((item) => String(item.productId) === String(p.id))
-                        ? "bg-white/5 text-gray-500 border border-white/10 cursor-not-allowed"
+                        ? "bg-zinc-100 dark:bg-white/5 text-zinc-400 dark:text-gray-500 border border-zinc-200 dark:border-white/10 cursor-not-allowed"
                         : isAdding 
-                          ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 cursor-wait" 
+                          ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 cursor-wait" 
                           : "bg-[#005cff] text-white hover:bg-[#004ecc] hover:scale-[1.02] cursor-pointer"
                     }`}
                   >
@@ -317,14 +336,14 @@ export default function UpsellPage() {
 
         {/* Total Summary and checkout actions */}
         <div className="w-full max-w-md bg-spoolio-card border border-spoolio-border p-6 rounded-[28px] flex flex-col gap-4 font-sans text-center shadow-2xl">
-          <div className="flex flex-col gap-2 text-xs pb-3 border-b border-white/5 font-sans">
-            <div className="flex items-center justify-between text-gray-400">
+          <div className="flex flex-col gap-2 text-xs pb-3 border-b border-zinc-200 dark:border-white/5 font-sans">
+            <div className="flex items-center justify-between text-zinc-600 dark:text-gray-400">
               <span>Sous-total</span>
-              <span className="font-extrabold text-white font-mono">{cartTotal.toFixed(2)}€</span>
+              <span className="font-extrabold text-zinc-900 dark:text-white font-mono">{cartTotal.toFixed(2)}€</span>
             </div>
 
             {appliedPromo && (discountAmount > 0 || appliedPromo.discountType === "free_shipping") && (
-              <div className="flex items-center justify-between text-emerald-400 font-bold bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/20">
+              <div className="flex items-center justify-between text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-3 py-1.5 rounded-xl border border-emerald-500/20">
                 <span className="flex items-center gap-1.5">
                   <span>🏷️</span>
                   <span>Remise ({appliedPromo.code})</span>
@@ -337,27 +356,27 @@ export default function UpsellPage() {
               </div>
             )}
 
-            <div className="flex items-center justify-between text-gray-400">
+            <div className="flex items-center justify-between text-zinc-600 dark:text-gray-400">
               <span>Frais de livraison</span>
-              <span className="font-extrabold text-white">
+              <span className="font-extrabold text-zinc-900 dark:text-white">
                 {shippingCost === 0 ? (
-                  <span className="text-emerald-400 font-bold">Offert</span>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-bold">Offert</span>
                 ) : (
                   `${shippingCost.toFixed(2)}€`
                 )}
               </span>
             </div>
 
-            <div className="flex items-center justify-between text-sm pt-2 border-t border-white/10">
-              <span className="text-gray-300 font-bold uppercase tracking-wider">Total final</span>
-              <span className="font-black text-2xl text-white font-antonio tracking-tight">
+            <div className="flex items-center justify-between text-sm pt-2 border-t border-zinc-200 dark:border-white/10">
+              <span className="text-zinc-600 dark:text-gray-300 font-bold uppercase tracking-wider">Total final</span>
+              <span className="font-black text-2xl text-zinc-900 dark:text-white font-antonio tracking-tight">
                 {cartTotalWithShipping.toFixed(2)}€
               </span>
             </div>
           </div>
 
           {checkoutError && (
-            <div className="text-[10px] text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-2 rounded-lg text-left">
+            <div className="text-[10px] text-red-500 bg-red-500/10 border border-red-500/20 px-3 py-2 rounded-lg text-left">
               {checkoutError}
             </div>
           )}
@@ -366,7 +385,7 @@ export default function UpsellPage() {
             <button
               onClick={handleFinalCheckout}
               disabled={checkoutLoading}
-              className="w-full h-12 flex items-center justify-center gap-2 text-xs font-black uppercase tracking-wider text-white bg-[#ff4f00] hover:bg-[#e04500] disabled:bg-[#ff4f00]/50 rounded-xl transition-all shadow-xl shadow-[#ff4f00]/25 hover:scale-[1.01] active:scale-[0.99] cursor-pointer disabled:cursor-not-allowed no-invert"
+              className="w-full h-12 flex items-center justify-center gap-2 text-xs font-black uppercase tracking-wider text-white bg-[#ff4f00] hover:bg-[#e04500] disabled:bg-[#ff4f00]/50 rounded-xl transition-all shadow-xl shadow-[#ff4f00]/25 hover:scale-[1.01] active:scale-[0.99] cursor-pointer disabled:cursor-not-allowed"
             >
               {checkoutLoading ? (
                 <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -384,13 +403,13 @@ export default function UpsellPage() {
             <button
               onClick={handleFinalCheckout}
               disabled={checkoutLoading}
-              className="text-[10px] text-gray-500 hover:text-white font-bold tracking-wide transition-colors cursor-pointer font-sans"
+              className="text-[10px] text-zinc-500 hover:text-zinc-900 dark:text-gray-500 dark:hover:text-white font-bold tracking-wide transition-colors cursor-pointer font-sans"
             >
               Non merci, procéder directement au paiement
             </button>
           </div>
 
-          <span className="text-[9px] text-gray-600 leading-normal block font-sans">
+          <span className="text-[9px] text-zinc-500 dark:text-gray-600 leading-normal block font-sans">
             Paiement chiffré et sécurisé par Stripe. Expédié sous 48h.
           </span>
         </div>

@@ -14,6 +14,7 @@ const CookieBanner = dynamic(() => import("@/components/CookieBanner"));
 const NewsletterPopup = dynamic(() => import("@/components/NewsletterPopup"));
 const TombolaFloatingBanner = dynamic(() => import("@/components/TombolaFloatingBanner"));
 const SpoolioBotMascot = dynamic(() => import("@/components/SpoolioBotMascot"));
+import AdminToolbarLoader from "@/components/AdminToolbarLoader";
 
 const antonio = Antonio({
   variable: "--font-antonio",
@@ -142,6 +143,7 @@ export default function RootLayout({
         <LanguageProvider>
           <CartProvider>
             <VisitorTracker />
+            <AdminToolbarLoader />
             <CartDrawer />
             <CookieBanner />
             <NewsletterPopup />
