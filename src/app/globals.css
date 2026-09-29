@@ -965,6 +965,19 @@ html.light button.no-invert * {
   color: #ffffff !important;
 }
 
+/* Header search button picto black in light mode */
+html.light .header-search-btn:not(.search-active),
+html.light .header-search-btn:not(.search-active) svg {
+  color: #000000 !important;
+  stroke: #000000 !important;
+}
+
+html.light .header-search-btn.search-active,
+html.light .header-search-btn.search-active svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
 /* Force white SVG stroke inside no-invert / keep-white elements */
 html.light .no-invert svg.text-white,
 html.light .keep-white svg.text-white,

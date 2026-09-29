@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import Image from "next/image";
@@ -11,13 +11,29 @@ import MobileMenuDrawer from "@/components/MobileMenuDrawer";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import VacationBanner from "@/components/VacationBanner";
 
-import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Sparkles, Search, X, Loader2, ArrowRight } from "lucide-react";
 
 interface HeaderProps {
   className?: string;
   isDark?: boolean;
 }
+
+const POPULAR_SEARCH_TAGS = [
+  { label: "Dragons", emoji: "🐉", query: "dragon" },
+  { label: "Fidgets TDAH", emoji: "⚙️", query: "fidget" },
+  { label: "Pochettes surprises", emoji: "🎁", query: "surprise" },
+  { label: "Porte-clés", emoji: "🔑", query: "porte-cle" },
+  { label: "Boussole", emoji: "🧭", query: "boussole" },
+  { label: "Clickers", emoji: "🖱️", query: "clicker" },
+];
+
+const QUICK_PAGE_SHORTCUTS = [
+  { title: "Toute la Boutique", href: "/boutique", icon: "🛍️", desc: "Découvrir tous les fidgets & créations 3D" },
+  { title: "Boussole Sensorielle", href: "/boussole-sensorielle", icon: "🧭", desc: "Trouvez l'objet adapté à votre besoin TDAH" },
+  { title: "Créateur de Clicker", href: "/createur-cliqueur", icon: "🖱️", desc: "Personnalisez votre porte-clé tactile" },
+  { title: "Pochette Surprise", href: "/pochette-surprise", icon: "🎁", desc: "Le pack mystère prêt à offrir" },
+];
 
 export default function Header({
   className = "relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full",
@@ -66,6 +82,17 @@ export default function Header({
     aiAnswer?: string;
   }>({ products: [], blogPosts: [], pages: [] });
   const [searching, setSearching] = useState<boolean>(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Auto-focus search input when search dropdown opens
+  useEffect(() => {
+    if (isSearchOpen) {
+      const timer = setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 75);
+      return () => clearTimeout(timer);
+    }
+  }, [isSearchOpen]);
 
   useEffect(() => {
     // Force light theme
@@ -152,6 +179,7 @@ export default function Header({
   };
 
   return (
+    <>
       <header
         data-header-theme={isDark ? "dark" : "light"}
         className={`fixed top-0 left-0 right-0 z-[99999] w-full transition-all duration-300 ${
@@ -184,9 +212,9 @@ export default function Header({
           <div className="flex md:hidden mr-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`w-10 h-10 flex items-center justify-center rounded-full transition-all cursor-pointer z-50 shadow-sm no-invert ${
+              className={`w-10 h-10 flex items-center justify-center rounded-full transition-all cursor-pointer z-50 shadow-sm ${
                 isDark
-                  ? "bg-white/10 hover:bg-white/20 text-white border border-white/20"
+                  ? "bg-white/10 hover:bg-white/20 text-white border border-white/20 no-invert"
                   : "bg-zinc-100 hover:bg-zinc-200 text-zinc-900 border border-zinc-200/80"
               }`}
               style={
@@ -272,27 +300,47 @@ export default function Header({
 
           {/* Search Button (Desktop & Mobile) */}
           <button
-            onClick={() => setIsSearchOpen(true)}
-            className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors cursor-pointer shadow-sm shrink-0 no-invert ${
-              isDark
-                ? "bg-white/10 hover:bg-white/20 text-white border border-white/20"
-                : "bg-zinc-100 hover:bg-zinc-200 text-zinc-900 border border-zinc-200/80"
+            onClick={() => setIsSearchOpen((prev) => !prev)}
+            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-sm shrink-0 header-search-btn ${
+              isSearchOpen
+                ? "bg-zinc-900 text-white border border-zinc-900 scale-105 search-active"
+                : isDark
+                  ? "bg-white/10 hover:bg-white/20 text-white border border-white/20 no-invert"
+                  : "bg-zinc-100 hover:bg-zinc-200 text-black border border-zinc-200/80"
             }`}
             style={
-              isDark
+              isSearchOpen
                 ? {
-                    backgroundColor: "rgba(255, 255, 255, 0.12)",
-                    borderColor: "rgba(255, 255, 255, 0.2)",
+                    backgroundColor: "#18181b",
+                    borderColor: "#18181b",
                     color: "#ffffff",
                   }
-                : undefined
+                : isDark
+                  ? {
+                      backgroundColor: "rgba(255, 255, 255, 0.12)",
+                      borderColor: "rgba(255, 255, 255, 0.2)",
+                      color: "#ffffff",
+                    }
+                  : {
+                      color: "#000000",
+                    }
             }
-            title="Rechercher (Cmd+K)"
-            aria-label="Rechercher"
+            title={isSearchOpen ? "Fermer la recherche (ESC)" : "Rechercher (Cmd+K)"}
+            aria-label={isSearchOpen ? "Fermer la recherche" : "Rechercher"}
           >
-            <svg className={`w-4 h-4 ${isDark ? "text-white" : "text-zinc-800"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+            {isSearchOpen ? (
+              <X className="w-4 h-4 text-white" />
+            ) : (
+              <svg
+                className={`w-4 h-4 ${isDark ? "text-white" : "text-black"}`}
+                style={{ color: isDark ? "#ffffff" : "#000000", stroke: isDark ? "currentColor" : "#000000" }}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            )}
           </button>
 
           {/* Cart Button */}
@@ -314,231 +362,367 @@ export default function Header({
         </div>
       </div>
 
-        {/* Global Search Dialog Modal */}
-        {mounted && isSearchOpen && createPortal(
-          <div className="fixed inset-0 z-[999999] flex items-start justify-center p-4 sm:p-10 md:p-20 font-sans select-none">
-            {/* Backdrop blur overlay */}
-            <div
-              onClick={() => setIsSearchOpen(false)}
-              className="fixed inset-0 bg-black/75 backdrop-blur-md transition-opacity duration-300 animate-fade-in"
-            />
-
-            {/* Search container box */}
-            <div className="relative w-full max-w-2xl bg-white border border-zinc-200 rounded-3xl shadow-2xl overflow-hidden flex flex-col z-10 transition-all duration-300 animate-scale-up mt-8 search-dialog-box text-zinc-900">
-
-              {/* Search Input field */}
-              <div className="p-4 border-b border-zinc-200 flex items-center gap-3 search-input-container bg-white">
-                <svg className="w-5 h-5 text-zinc-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                <input
-                  type="text"
-                  autoFocus
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Rechercher des produits, articles d'atelier ou pages..."
-                  className="w-full bg-transparent outline-none text-sm text-zinc-900 placeholder-zinc-400 font-sans search-field"
-                />
-                {searching ? (
-                  <svg className="animate-spin h-5 w-5 text-zinc-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                ) : searchQuery ? (
+        {/* Search Dropdown Panel (Apple / Nike style) */}
+        <AnimatePresence>
+          {isSearchOpen && (
+            <motion.div
+              key="search-dropdown-panel"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full bg-white/98 dark:bg-[#121216]/98 backdrop-blur-2xl border-t border-zinc-200/80 dark:border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.12)] overflow-hidden text-zinc-900 dark:text-zinc-100"
+            >
+              <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 py-5 sm:py-6 space-y-4">
+                {/* Search Bar Input */}
+                <div className="relative flex items-center gap-3 bg-zinc-100/90 dark:bg-white/5 rounded-2xl px-4 py-3 border border-zinc-200/80 dark:border-white/10 focus-within:border-[#ff4f00] focus-within:ring-2 focus-within:ring-[#ff4f00]/20 transition-all">
+                  <Search className="w-5 h-5 text-zinc-500 shrink-0" />
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Rechercher un fidget, une création 3D, une couleur..."
+                    className="w-full bg-transparent outline-none text-sm sm:text-base text-zinc-900 dark:text-white placeholder-zinc-400 font-sans"
+                  />
+                  {searching ? (
+                    <Loader2 className="w-5 h-5 animate-spin text-[#ff4f00] shrink-0" />
+                  ) : searchQuery ? (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery("")}
+                      className="p-1 rounded-full text-zinc-400 hover:text-zinc-700 dark:hover:text-white hover:bg-zinc-200/60 dark:hover:bg-white/10 transition-colors cursor-pointer"
+                      title="Effacer la recherche"
+                      aria-label="Effacer la recherche"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  ) : null}
                   <button
-                    onClick={() => setSearchQuery("")}
-                    className="text-xs text-zinc-500 hover:text-zinc-900 transition-colors cursor-pointer select-none font-bold"
+                    type="button"
+                    onClick={() => setIsSearchOpen(false)}
+                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-zinc-600 hover:text-zinc-950 dark:text-zinc-300 dark:hover:text-white hover:bg-zinc-200/70 dark:hover:bg-white/10 transition-colors cursor-pointer shrink-0"
                   >
-                    Effacer
+                    <span>Fermer</span>
+                    <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-zinc-200/80 dark:bg-white/10 rounded-md">ESC</kbd>
                   </button>
-                ) : (
-                  <span className="text-[10px] text-zinc-500 border border-zinc-200 px-1.5 py-0.5 rounded-md font-mono select-none">
-                    ESC
+                </div>
+
+                {/* Quick Suggestion Pills */}
+                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+                  <span className="text-[11px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-wider shrink-0 flex items-center gap-1">
+                    <Sparkles className="w-3 h-3 text-[#ff4f00]" /> Idées :
                   </span>
-                )}
-              </div>
+                  {POPULAR_SEARCH_TAGS.map((tag) => (
+                    <button
+                      key={tag.label}
+                      type="button"
+                      onClick={() => setSearchQuery(tag.query)}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-all shrink-0 cursor-pointer active:scale-95 ${
+                        searchQuery.toLowerCase() === tag.query.toLowerCase()
+                          ? "bg-[#ff4f00] text-white border-[#ff4f00] shadow-sm"
+                          : "bg-zinc-100 hover:bg-[#ff4f00]/10 hover:text-[#ff4f00] dark:bg-white/5 dark:hover:bg-[#ff4f00]/20 text-zinc-700 dark:text-zinc-300 border-zinc-200/80 dark:border-white/5"
+                      }`}
+                    >
+                      <span>{tag.emoji}</span>
+                      <span>{tag.label}</span>
+                    </button>
+                  ))}
+                </div>
 
-              {/* Results sections */}
-              <div className="flex-1 overflow-y-auto max-h-[380px] p-6 space-y-6 search-results-content bg-zinc-50/50">
-                {/* AI Answer Banner */}
-                {searchQuery && searchResults.aiAnswer && (
-                  <div className="p-4 rounded-2xl bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 text-xs text-purple-900 leading-relaxed font-sans space-y-1.5 shadow-xs animate-in fade-in">
-                    <div className="flex items-center gap-2 font-black uppercase text-[10px] text-purple-700 tracking-wider">
-                      <Sparkles className="w-3.5 h-3.5 text-[#ff4f00] animate-pulse" />
-                      <span>Recherche Intelligente IA</span>
+                {/* Results Container */}
+                <div className="max-h-[min(65vh,480px)] overflow-y-auto custom-scrollbar pr-1 pt-2 pb-3 space-y-6">
+                  {/* AI Smart Advice Banner */}
+                  {searchQuery && searchResults.aiAnswer && (
+                    <div className="p-4 rounded-2xl bg-gradient-to-r from-orange-50/90 via-amber-50/60 to-orange-50/90 dark:from-[#ff4f00]/10 dark:to-amber-500/10 border border-orange-200/70 dark:border-[#ff4f00]/20 text-xs text-zinc-800 dark:text-zinc-200 leading-relaxed font-sans space-y-1.5 shadow-xs">
+                      <div className="flex items-center gap-2 font-bold uppercase text-[10px] text-[#ff4f00] tracking-wider">
+                        <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+                        <span>Conseil de l'Atelier Spoolio</span>
+                      </div>
+                      <p className="font-semibold text-zinc-800 dark:text-zinc-200">{searchResults.aiAnswer}</p>
                     </div>
-                    <p className="font-semibold text-zinc-800">{searchResults.aiAnswer}</p>
-                  </div>
-                )}
+                  )}
 
-                {/* If no query, show helper categories/quick links */}
-                {!searchQuery && (
-                  <div className="space-y-4">
-                    <div>
-                      <h5 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-2.5">
-                        Raccourcis rapides
-                      </h5>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        {searchResults.pages?.map((p, idx) => (
-                          <Link
-                            key={idx}
-                            href={`/${p.slug === "boutique" ? "boutique" : p.slug}`}
-                            onClick={() => setIsSearchOpen(false)}
-                            className="flex items-center gap-2.5 p-3 rounded-xl bg-white border border-zinc-200 hover:border-[#ff4f00]/40 hover:bg-orange-50/30 transition-all text-xs font-bold text-zinc-800 shadow-xs search-shortcut-link"
-                          >
-                            <span className="text-sm">📄</span>
-                            <span>{p.title}</span>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
+                  {/* Case 1: Search Query is Active */}
+                  {searchQuery ? (
+                    <div className="space-y-6">
+                      {/* Products */}
+                      {searchResults.products?.length > 0 && (
+                        <div>
+                          <div className="flex items-center justify-between mb-3">
+                            <h5 className="text-[11px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-wider flex items-center gap-1.5">
+                              <span>🛍️</span>
+                              <span>Produits ({searchResults.products.length})</span>
+                            </h5>
+                          </div>
+                          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+                            {searchResults.products.map((p: any) => {
+                              const rawPrice = p.price;
+                              const formattedPrice =
+                                typeof rawPrice === "number"
+                                  ? rawPrice.toFixed(2)
+                                  : !isNaN(parseFloat(rawPrice))
+                                    ? parseFloat(rawPrice).toFixed(2)
+                                    : rawPrice;
+                              const imgUrl = p.image || p.images?.[0]?.src;
 
-                    {searchResults.products?.length > 0 && (
-                      <div>
-                        <h5 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-2.5">
-                          Produits populaires
-                        </h5>
-                        <div className="flex flex-col gap-2">
-                          {searchResults.products.map((p) => (
-                            <Link
-                              key={p.id}
-                              href={`/product/${p.slug}`}
-                              onClick={() => setIsSearchOpen(false)}
-                              className="flex items-center gap-3.5 p-3 rounded-xl bg-white border border-zinc-200 hover:border-[#ff4f00]/40 hover:bg-orange-50/30 transition-all shadow-xs search-shortcut-link"
-                            >
-                              <div className="relative w-9 h-9 rounded-lg overflow-hidden shrink-0 border border-zinc-200 bg-zinc-100">
-                                {(p.image || p.images?.[0]?.src) && (
-                                  <Image
-                                    src={p.image || p.images?.[0]?.src}
-                                    alt={p.name}
-                                    fill
-                                    sizes="36px"
-                                    className="object-cover no-invert"
-                                  />
-                                )}
-                              </div>
-                              <div className="flex-1 flex justify-between items-center text-xs">
-                                <span className="font-bold text-zinc-900">{p.name}</span>
-                                <span className="text-zinc-600 font-extrabold">{parseFloat(p.price).toFixed(2)}€</span>
-                              </div>
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* If query has text, render results */}
-                {searchQuery && (
-                  <div className="space-y-5">
-                    {/* Products Matches */}
-                    {searchResults.products?.length > 0 && (
-                      <div>
-                        <h5 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-2.5">
-                          Produits ({searchResults.products.length})
-                        </h5>
-                        <div className="flex flex-col gap-2">
-                          {searchResults.products.map((p) => (
-                            <Link
-                              key={p.id}
-                              href={`/product/${p.slug}`}
-                              onClick={() => setIsSearchOpen(false)}
-                              className="flex items-center gap-3.5 p-3 rounded-xl bg-white border border-zinc-200 hover:border-[#ff4f00]/40 hover:bg-orange-50/30 transition-all shadow-xs search-result-item"
-                            >
-                              <div className="relative w-9 h-9 rounded-lg overflow-hidden shrink-0 border border-zinc-200 bg-zinc-100">
-                                {(p.image || p.images?.[0]?.src) && (
-                                  <Image
-                                    src={p.image || p.images?.[0]?.src}
-                                    alt={p.name}
-                                    fill
-                                    sizes="36px"
-                                    className="object-cover no-invert"
-                                  />
-                                )}
-                              </div>
-                              <div className="flex-1 flex justify-between items-center text-xs">
-                                <span className="font-bold text-zinc-900">{p.name}</span>
-                                <span className="text-zinc-600 font-extrabold">{parseFloat(p.price).toFixed(2)}€</span>
-                              </div>
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Blog Matches */}
-                    {searchResults.blogPosts?.length > 0 && (
-                      <div>
-                        <h5 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-2.5">
-                          Articles d'Atelier ({searchResults.blogPosts.length})
-                        </h5>
-                        <div className="flex flex-col gap-2">
-                          {searchResults.blogPosts.map((post) => (
-                            <Link
-                              key={post.id}
-                              href={`/blog/${post.slug}`}
-                              onClick={() => setIsSearchOpen(false)}
-                              className="flex items-center gap-3 p-3 rounded-xl bg-white border border-zinc-200 hover:border-[#ff4f00]/40 hover:bg-orange-50/30 transition-all text-xs font-bold text-zinc-900 shadow-xs search-result-item"
-                            >
-                              <span className="text-sm">📝</span>
-                              <span className="truncate">{post.title}</span>
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Pages Matches */}
-                    {searchResults.pages?.length > 0 && (
-                      <div>
-                        <h5 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-2.5">
-                          Pages ({searchResults.pages.length})
-                        </h5>
-                        <div className="flex flex-col gap-2">
-                          {searchResults.pages.map((p, idx) => (
-                            <Link
-                              key={idx}
-                              href={p.isStatic ? `/${p.slug}` : `/page/${p.slug}`}
-                              onClick={() => setIsSearchOpen(false)}
-                              className="flex items-center gap-3 p-3 rounded-xl bg-white border border-zinc-200 hover:border-[#ff4f00]/40 hover:bg-orange-50/30 transition-all text-xs font-bold text-zinc-900 shadow-xs search-result-item"
-                            >
-                              <span className="text-sm">📄</span>
-                              <span className="truncate">{p.title}</span>
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* No Results Message */}
-                    {searchResults.products?.length === 0 &&
-                      searchResults.blogPosts?.length === 0 &&
-                      searchResults.pages?.length === 0 && (
-                        <div className="text-center py-10 text-xs text-zinc-500 font-medium">
-                          Aucun résultat trouvé pour « {searchQuery} ». Essayez d'autres mots clés.
+                              return (
+                                <Link
+                                  key={p.id}
+                                  href={`/product/${p.slug}`}
+                                  onClick={() => setIsSearchOpen(false)}
+                                  className="group flex flex-col p-2.5 rounded-2xl bg-zinc-50/80 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 border border-zinc-200/80 dark:border-white/10 hover:border-[#ff4f00] dark:hover:border-[#ff4f00] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+                                >
+                                  <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-white/5 mb-2.5">
+                                    {imgUrl ? (
+                                      <Image
+                                        src={imgUrl}
+                                        alt={p.name}
+                                        fill
+                                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 200px"
+                                        className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out no-invert"
+                                      />
+                                    ) : (
+                                      <div className="w-full h-full flex items-center justify-center text-zinc-300 text-2xl">
+                                        📦
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div className="flex-1 flex flex-col justify-between">
+                                    <h4 className="font-bold text-xs sm:text-sm text-zinc-900 dark:text-white group-hover:text-[#ff4f00] transition-colors line-clamp-1">
+                                      {p.name}
+                                    </h4>
+                                    <div className="mt-1.5 flex items-center justify-between">
+                                      <span className="text-xs font-black text-[#ff4f00]">
+                                        {formattedPrice} €
+                                      </span>
+                                      <span className="text-[10px] font-semibold text-zinc-400 group-hover:text-[#ff4f00] transition-colors flex items-center gap-0.5">
+                                        Voir <ArrowRight className="w-2.5 h-2.5" />
+                                      </span>
+                                    </div>
+                                  </div>
+                                </Link>
+                              );
+                            })}
+                          </div>
                         </div>
                       )}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>,
-          document.body
-        )}
 
-        {/* Mobile Drawer Navigation Menu (Portaled to document.body) */}
-        {mounted && createPortal(
-          <MobileMenuDrawer
-            isOpen={isMobileMenuOpen}
-            onClose={() => setIsMobileMenuOpen(false)}
-            onOpenSearch={() => setIsSearchOpen(true)}
-            theme={theme}
-            toggleTheme={toggleTheme}
-            t={t}
-          />,
-          document.body
+                      {/* Blog Articles */}
+                      {searchResults.blogPosts?.length > 0 && (
+                        <div>
+                          <div className="flex items-center justify-between mb-2.5">
+                            <h5 className="text-[11px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-wider flex items-center gap-1.5">
+                              <span>📝</span>
+                              <span>Articles d'Atelier ({searchResults.blogPosts.length})</span>
+                            </h5>
+                            <Link
+                              href="/blog"
+                              onClick={() => setIsSearchOpen(false)}
+                              className="text-[11px] font-bold text-[#ff4f00] hover:underline"
+                            >
+                              Tous les articles →
+                            </Link>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            {searchResults.blogPosts.slice(0, 4).map((post: any) => (
+                              <Link
+                                key={post.id}
+                                href={`/blog/${post.slug}`}
+                                onClick={() => setIsSearchOpen(false)}
+                                className="flex items-center justify-between gap-3 p-3 rounded-xl bg-zinc-50 dark:bg-white/5 hover:bg-orange-50/40 dark:hover:bg-[#ff4f00]/10 border border-zinc-200/80 dark:border-white/10 hover:border-[#ff4f00]/50 transition-all text-xs font-bold text-zinc-800 dark:text-zinc-200 group"
+                              >
+                                <span className="truncate group-hover:text-[#ff4f00] transition-colors">{post.title}</span>
+                                <ArrowRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-[#ff4f00] shrink-0 transition-colors" />
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Pages */}
+                      {searchResults.pages?.length > 0 && (
+                        <div>
+                          <h5 className="text-[11px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                            <span>📄</span>
+                            <span>Pages ({searchResults.pages.length})</span>
+                          </h5>
+                          <div className="flex flex-wrap gap-2">
+                            {searchResults.pages.map((p: any, idx: number) => (
+                              <Link
+                                key={idx}
+                                href={p.isStatic ? `/${p.slug}` : `/page/${p.slug}`}
+                                onClick={() => setIsSearchOpen(false)}
+                                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-50 dark:bg-white/5 hover:bg-orange-50/40 dark:hover:bg-[#ff4f00]/10 border border-zinc-200/80 dark:border-white/10 hover:border-[#ff4f00]/50 transition-all text-xs font-bold text-zinc-800 dark:text-zinc-200 group"
+                              >
+                                <span className="group-hover:text-[#ff4f00] transition-colors">{p.title}</span>
+                                <ArrowRight className="w-3 h-3 text-zinc-400 group-hover:text-[#ff4f00] transition-colors" />
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* No Results Fallback */}
+                      {searchResults.products?.length === 0 &&
+                        searchResults.blogPosts?.length === 0 &&
+                        searchResults.pages?.length === 0 &&
+                        !searching && (
+                          <div className="text-center py-10 px-4 space-y-3">
+                            <span className="text-4xl block">🔍</span>
+                            <p className="text-sm font-bold text-zinc-800 dark:text-zinc-200">
+                              Aucun objet trouvé pour « {searchQuery} »
+                            </p>
+                            <p className="text-xs text-zinc-500 max-w-sm mx-auto">
+                              Essayez avec un mot-clé plus simple comme « dragon », « fidget », « clicker », ou parcourez nos créations.
+                            </p>
+                            <Link
+                              href="/boutique"
+                              onClick={() => setIsSearchOpen(false)}
+                              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#ff4f00] hover:bg-[#e04500] text-white text-xs font-black uppercase tracking-wider transition-all shadow-md shadow-[#ff4f00]/20"
+                            >
+                              <span>Explorer la boutique</span>
+                              <ArrowRight className="w-3.5 h-3.5" />
+                            </Link>
+                          </div>
+                        )}
+                    </div>
+                  ) : (
+                    /* Case 2: Empty query (Initial recommendations) */
+                    <div className="space-y-6">
+                      {/* Popular featured products */}
+                      {searchResults.products?.length > 0 && (
+                        <div>
+                          <div className="flex items-center justify-between mb-3">
+                            <h5 className="text-[11px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-wider flex items-center gap-1.5">
+                              <span>🔥</span>
+                              <span>Coups de cœur de l'atelier</span>
+                            </h5>
+                            <Link
+                              href="/boutique"
+                              onClick={() => setIsSearchOpen(false)}
+                              className="text-[11px] font-bold text-[#ff4f00] hover:underline"
+                            >
+                              Voir tout →
+                            </Link>
+                          </div>
+                          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
+                            {searchResults.products.slice(0, 4).map((p: any) => {
+                              const rawPrice = p.price;
+                              const formattedPrice =
+                                typeof rawPrice === "number"
+                                  ? rawPrice.toFixed(2)
+                                  : !isNaN(parseFloat(rawPrice))
+                                    ? parseFloat(rawPrice).toFixed(2)
+                                    : rawPrice;
+                              const imgUrl = p.image || p.images?.[0]?.src;
+
+                              return (
+                                <Link
+                                  key={p.id}
+                                  href={`/product/${p.slug}`}
+                                  onClick={() => setIsSearchOpen(false)}
+                                  className="group flex flex-col p-2.5 rounded-2xl bg-zinc-50/80 dark:bg-white/5 hover:bg-white dark:hover:bg-white/10 border border-zinc-200/80 dark:border-white/10 hover:border-[#ff4f00] dark:hover:border-[#ff4f00] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+                                >
+                                  <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-200/60 dark:border-white/5 mb-2.5">
+                                    {imgUrl ? (
+                                      <Image
+                                        src={imgUrl}
+                                        alt={p.name}
+                                        fill
+                                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 200px"
+                                        className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out no-invert"
+                                      />
+                                    ) : (
+                                      <div className="w-full h-full flex items-center justify-center text-zinc-300 text-2xl">
+                                        📦
+                                      </div>
+                                    )}
+                                  </div>
+                                  <div className="flex-1 flex flex-col justify-between">
+                                    <h4 className="font-bold text-xs sm:text-sm text-zinc-900 dark:text-white group-hover:text-[#ff4f00] transition-colors line-clamp-1">
+                                      {p.name}
+                                    </h4>
+                                    <div className="mt-1.5 flex items-center justify-between">
+                                      <span className="text-xs font-black text-[#ff4f00]">
+                                        {formattedPrice} €
+                                      </span>
+                                      <span className="text-[10px] font-semibold text-zinc-400 group-hover:text-[#ff4f00] transition-colors flex items-center gap-0.5">
+                                        Découvrir <ArrowRight className="w-2.5 h-2.5" />
+                                      </span>
+                                    </div>
+                                  </div>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Quick universe shortcuts */}
+                      <div>
+                        <h5 className="text-[11px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                          <span>⚡</span>
+                          <span>Découvrir l'univers Spoolio</span>
+                        </h5>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                          {QUICK_PAGE_SHORTCUTS.map((item, idx) => (
+                            <Link
+                              key={idx}
+                              href={item.href}
+                              onClick={() => setIsSearchOpen(false)}
+                              className="flex items-center gap-3 p-3 rounded-2xl bg-zinc-50/80 dark:bg-white/5 hover:bg-orange-50/40 dark:hover:bg-[#ff4f00]/10 border border-zinc-200/80 dark:border-white/10 hover:border-[#ff4f00]/50 transition-all group"
+                            >
+                              <span className="text-xl shrink-0">{item.icon}</span>
+                              <div className="min-w-0 flex-1">
+                                <h6 className="font-bold text-xs text-zinc-900 dark:text-white group-hover:text-[#ff4f00] transition-colors truncate">
+                                  {item.title}
+                                </h6>
+                                <p className="text-[10px] text-zinc-500 truncate">
+                                  {item.desc}
+                                </p>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+
+      {/* Soft Dim Backdrop Overlay */}
+      <AnimatePresence>
+        {isSearchOpen && (
+          <motion.div
+            key="search-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setIsSearchOpen(false)}
+            className="fixed inset-0 bg-black/40 backdrop-blur-xs z-[99998]"
+            aria-hidden="true"
+          />
         )}
-    </header>
+      </AnimatePresence>
+
+      {/* Mobile Drawer Navigation Menu (Portaled to document.body) */}
+      {mounted && createPortal(
+        <MobileMenuDrawer
+          isOpen={isMobileMenuOpen}
+          onClose={() => setIsMobileMenuOpen(false)}
+          onOpenSearch={() => setIsSearchOpen(true)}
+          theme={theme}
+          toggleTheme={toggleTheme}
+          t={t}
+        />,
+        document.body
+      )}
+    </>
   );
 }
