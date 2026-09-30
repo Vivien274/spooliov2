@@ -121,8 +121,11 @@ export default function RootLayout({
     >
       <head>
         <JsonLdScript data={organizationLd} id="spoolio-organization-jsonld" />
-        <script
+      </head>
+      <body className="min-h-full flex flex-col bg-white text-zinc-900 selection:bg-[#ff4f00] selection:text-white">
+        <Script
           id="theme-initializer"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
@@ -137,8 +140,6 @@ export default function RootLayout({
             `,
           }}
         />
-      </head>
-      <body className="min-h-full flex flex-col bg-white text-zinc-900 selection:bg-[#ff4f00] selection:text-white">
         {gaId && <GoogleAnalytics gaId={gaId} />}
         <LanguageProvider>
           <CartProvider>

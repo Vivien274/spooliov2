@@ -5,14 +5,15 @@ import SpoolioProductGrid from "@/components/SpoolioProductGrid";
 import HomeTabbedProductGrid from "@/components/HomeTabbedProductGrid";
 import AnimatedHero from "@/components/AnimatedHero";
 import HeroMarqueeBanner from "@/components/HeroMarqueeBanner";
+import HomeCategoryPortals from "@/components/HomeCategoryPortals";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReviewsSection from "@/components/ReviewsSection";
-import HomeEnjeuBanner from "@/components/HomeEnjeuBanner";
+import LatestDropBanner from "@/components/LatestDropBanner";
 import SpotlightMarqueeBanner from "@/components/SpotlightMarqueeBanner";
 import BoutiqueCTAButton from "@/components/BoutiqueCTAButton";
 import ThemeRibbon from "@/components/ThemeRibbon";
-import { Sparkles, Keyboard, Shapes, Gift, Heart, Sprout, FlaskConical, Recycle, Printer, BookOpen } from "lucide-react";
+import { Sparkles, Keyboard, Shapes, Gift, Sprout, FlaskConical, Recycle, Printer, BookOpen } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import fs from "fs";
 import path from "path";
@@ -246,50 +247,17 @@ export default async function HomePage() {
       {/* 2. Full-Width Transition Marquee Ticker */}
       <HeroMarqueeBanner />
 
-      {/* 3. Tabbed Product Showcase & 2-Column Banner */}
+      {/* 2.b Portes d'Entrée vers les 4 Catégories */}
+      <HomeCategoryPortals />
+
+      {/* 3. Tabbed Product Showcase */}
       <section className="w-full max-w-[1200px] px-4 py-8 relative z-10 flex flex-col gap-10">
         {/* Tabbed Product Showcase (Nouveautés, Fidgets, Pochettes, Bureau, etc.) */}
         <HomeTabbedProductGrid />
-
-        {/* 2-Column Balanced Section: Aider l'Atelier + App Enjeu */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-4 items-stretch font-sans">
-          {/* Left Column: Aider l'Atelier (Donation) */}
-          <div className="h-full relative rounded-3xl p-6 sm:p-8 bg-zinc-50 border border-zinc-200 overflow-hidden flex flex-col justify-between gap-6 shadow-sm group hover:border-zinc-400 transition-all duration-300">
-            <div className="relative z-10 flex flex-col items-start gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-[#ff4f00]/10 border border-[#ff4f00]/20 flex items-center justify-center shrink-0 shadow-xs select-none">
-                  <Heart className="w-6 h-6 text-[#ff4f00] fill-[#ff4f00]/20" />
-                </div>
-                <span className="inline-block px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-[#ff4f00]/10 text-[#ff4f00] border border-[#ff4f00]/20 no-invert">
-                  {t("home.donation.badge")}
-                </span>
-              </div>
-
-              <div className="space-y-2">
-                <h4 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight uppercase font-outfit leading-tight no-invert">
-                  {t("home.donation.title")}
-                </h4>
-                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed font-medium">
-                  {t("home.donation.description")}
-                </p>
-              </div>
-            </div>
-
-            <div className="relative z-10 pt-2">
-              <Link
-                href="/don"
-                className="w-full h-12 px-6 rounded-xl bg-zinc-950 hover:bg-[#ff4f00] text-white font-black text-xs uppercase tracking-wider transition-all shadow-sm hover:scale-[1.02] active:scale-[0.98] cursor-pointer flex items-center justify-center gap-2"
-              >
-                <span>{t("home.donation.button")}</span>
-                <span className="transition-transform duration-300 group-hover:translate-x-1 text-sm">&rarr;</span>
-              </Link>
-            </div>
-          </div>
-
-          {/* Right Column: App Enjeu */}
-          <HomeEnjeuBanner className="h-full my-0" />
-        </div>
       </section>
+
+      {/* 4. Section Drop masquée de la Home (code préservé intact dans src/components/LatestDropBanner.tsx) */}
+      {/* <LatestDropBanner /> */}
 
       {/* 5. PLA Storytelling Timeline Section */}
       <section className="w-full max-w-[1200px] px-4 py-14 relative z-10 border-t border-zinc-200">

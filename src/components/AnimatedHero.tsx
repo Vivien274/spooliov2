@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
 import { useTranslation } from "@/context/LanguageContext";
 import { isPreprodEnv } from "@/lib/env";
@@ -307,13 +307,6 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
 
   const activeSlide = heroSlides[activeIndex] || heroSlides[0];
 
-  // Fallback card details if missing
-  const cardTitle = activeSlide.cardTitle || activeSlide.title || "Produit Spoolio 3D";
-  const cardDescription = activeSlide.cardDescription || activeSlide.subtitle || "Fabrication artisanale en France";
-  const cardPrice = activeSlide.cardPrice || "À partir de 3.00€";
-  const cardImage = activeSlide.cardImage || activeSlide.image || "/images/clicker_gallery_2.jpg";
-  const cardLink = activeSlide.cardLink || activeSlide.buttonLink || "/boutique";
-
   const rawBadge = activeSlide.badge || "FABRICATION ARTISANALE À COMINES (59)";
   const cleanBadge = stripEmojis(rawBadge);
 
@@ -344,12 +337,11 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                   alt={activeSlide.title}
                   fill
                   priority
-                  className="object-cover object-center filter brightness-[0.85] contrast-[1.05] saturate-[1.1]"
+                  className="object-cover object-center filter brightness-[0.98] contrast-[1.02] saturate-[1.05]"
                 />
-                {/* Subtle soft vignette for text legibility without washing out the photo */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-transparent lg:w-3/5" />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-black/30" />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-zinc-950/60" />
+                {/* Gradient for text legibility on the left, clear and transparent on the right */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 via-40% to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/40 via-transparent to-black/20" />
               </motion.div>
             </AnimatePresence>
 
@@ -381,13 +373,13 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
             </>
           )}
 
-          {/* Hero Main Body: Split-Screen Grid with Left Typography & Right Clean Media Container */}
-          <div className="relative z-20 w-full max-w-[1360px] mx-auto h-full min-h-[600px] sm:min-h-[660px] lg:min-h-[700px] px-6 sm:px-10 lg:px-14 py-12 sm:py-16 lg:py-20 flex flex-col justify-between">
+          {/* Hero Main Body: Left Typography with wide breathing space */}
+          <div className="relative z-20 w-full max-w-[1360px] mx-auto h-full min-h-[580px] sm:min-h-[640px] lg:min-h-[680px] px-6 sm:px-10 lg:px-14 py-12 sm:py-16 lg:py-20 flex flex-col justify-between">
             
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center flex-1 my-auto">
+            <div className="flex items-center flex-1 my-auto">
               
-              {/* LEFT COLUMN: Main Title, Subtitle, CTA Button with generous breathing room */}
-              <div className="lg:col-span-6 xl:col-span-6 space-y-6 sm:space-y-8 text-left">
+              {/* LEFT COLUMN: Mise en forme Atelier Curiosités (Surtitre liseré, H1 dense, Pitch aéré, CTAs sobres, Specs atelier) */}
+              <div className="max-w-2xl lg:max-w-3xl text-left">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeSlide.id || activeIndex}
@@ -395,109 +387,72 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -15 }}
                     transition={{ duration: 0.4 }}
-                    className="space-y-5 sm:space-y-7"
+                    className="flex flex-col items-start space-y-6"
                   >
-                    {/* Clean Double Badge with Artisanal Accent */}
-                    <div className="flex flex-wrap items-center gap-2.5">
-                      <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-400/40 text-amber-300 text-xs font-extrabold tracking-wider uppercase backdrop-blur-md shadow-lg no-invert keep-white">
-                        <Sparkles className="w-3.5 h-3.5 text-amber-300 shrink-0" />
-                        <span>{cleanBadge || "Atelier Français • Comines"}</span>
-                      </span>
-
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-900/80 border border-white/10 text-zinc-300 text-xs font-bold backdrop-blur-md">
-                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                        <span>Fabrication 100% Locale</span>
+                    {/* Surtitre technique avec liseré orange */}
+                    <div className="inline-flex items-center gap-3 border-l-2 border-[#FF5500] pl-3 py-0.5">
+                      <span className="font-mono text-xs tracking-[0.25em] text-[#FF5500] uppercase font-bold">
+                        {cleanBadge || "CABINET DE CURIOSITÉS CONTEMPORAIN"}
                       </span>
                     </div>
 
-                    {/* Main Title (High-impact tracking tight) */}
-                    <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white font-sans leading-[1.06] drop-shadow-[0_4px_25px_rgba(0,0,0,0.95)] max-w-2xl">
+                    {/* Titre H1 percutant avec interlignage dense */}
+                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] text-white max-w-2xl font-sans uppercase">
                       {renderFormattedText(activeSlide.title)}
                     </h1>
 
-                    {/* Subtitle with high-contrast legibility */}
-                    <p className="text-sm sm:text-base lg:text-lg text-zinc-300 font-sans font-medium leading-relaxed max-w-xl line-clamp-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+                    {/* Pitch sobre & spacieux */}
+                    <p className="text-zinc-200 text-base sm:text-lg lg:text-xl font-normal leading-relaxed max-w-xl">
                       {renderFormattedText(activeSlide.subtitle)}
                     </p>
 
-                    {/* Dual Action CTAs */}
-                    <div className="pt-3 sm:pt-4 flex flex-wrap items-center gap-3">
+                    {/* Deux CTAs sobres */}
+                    <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
                       <Link
                         href={activeSlide.buttonLink || "/boutique"}
-                        className="h-12 sm:h-14 px-7 sm:px-9 inline-flex items-center justify-center gap-3 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider text-white bg-[#ff4f00] hover:bg-[#ff6524] shadow-xl shadow-[#ff4f00]/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 keep-white no-invert cursor-pointer"
+                        className="inline-flex items-center justify-center gap-3 bg-[#FF5500] hover:bg-[#e04b00] text-white font-mono text-xs tracking-[0.16em] uppercase px-7 py-4 rounded-none transition-all duration-200 shadow-[0_4px_20px_rgba(255,85,0,0.25)] hover:shadow-[0_6px_28px_rgba(255,85,0,0.35)] font-bold cursor-pointer"
                       >
-                        <span className="font-black tracking-widest text-white !text-white keep-white">
-                          {activeSlide.buttonText || "DÉCOUVRIR LE CATALOGUE"}
-                        </span>
-                        <ArrowRight className="w-4 h-4 text-white !text-white keep-white group-hover/btn:translate-x-1 transition-transform" />
+                        <span>{activeSlide.buttonText || "DÉCOUVRIR LE CATALOGUE"}</span>
+                        <ArrowRight className="w-4 h-4" />
                       </Link>
 
                       {activeSlide.secondaryButtonLink && (
                         <Link
                           href={activeSlide.secondaryButtonLink}
-                          className="h-12 sm:h-14 px-6 inline-flex items-center justify-center gap-2 rounded-2xl font-black text-xs sm:text-sm uppercase tracking-wider text-white !text-white hover:text-white bg-white/10 hover:bg-white/20 border border-white/25 backdrop-blur-md transition-all duration-300 keep-white no-invert hover:scale-[1.02] active:scale-[0.98]"
+                          className="inline-flex items-center justify-center gap-2 border border-white/30 hover:border-white bg-black/40 hover:bg-white/10 text-white font-mono text-xs tracking-[0.16em] uppercase px-7 py-4 rounded-none transition-all duration-200 shadow-xs font-bold backdrop-blur-md cursor-pointer"
                         >
-                          <span className="text-white !text-white keep-white">{activeSlide.secondaryButtonText}</span>
+                          <span>{activeSlide.secondaryButtonText}</span>
                         </Link>
                       )}
                     </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
 
-              {/* RIGHT COLUMN: Clean Unified Media Container (1:1 Ratio, technical border, rounded-3xl) */}
-              <div className="lg:col-span-6 xl:col-span-6 flex justify-center lg:justify-end">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeSlide.id || activeIndex}
-                    initial={{ opacity: 0, scale: 0.96 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 1 }}
-                    transition={{ duration: 0.45 }}
-                    className="w-full max-w-[440px] sm:max-w-[480px] lg:max-w-[500px]"
-                  >
-                    <Link
-                      href={activeSlide.buttonLink || cardLink}
-                      className="group/media relative block w-full aspect-square rounded-3xl overflow-hidden border border-white/15 bg-zinc-900/80 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] transition-all duration-500 hover:border-[#ff4f00]/50"
-                    >
-                      <Image
-                        src={activeSlide.image || cardImage}
-                        alt={activeSlide.title}
-                        fill
-                        priority
-                        className="object-cover object-center group-hover/media:scale-105 transition-transform duration-700 ease-out filter brightness-[0.95] contrast-[1.02]"
-                      />
-
-                      {/* Technical Inner Specular Ring */}
-                      <div className="absolute inset-0 pointer-events-none rounded-[inherit] ring-1 ring-inset ring-white/15" />
-
-                      {/* Top Corner: Atelier Badge */}
-                      <div className="absolute top-4 left-4 z-10 pointer-events-none">
-                        <span
-                          style={{ color: "#000000" }}
-                          className="px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-white/60 text-[10px] font-black text-black !text-black uppercase tracking-wider shadow-sm"
-                        >
-                          {activeSlide.cardBadge || "Spoolio Studio"}
-                        </span>
-                      </div>
-
-                      {/* Bottom Floating Placard */}
-                      <div className="absolute bottom-4 inset-x-4 z-10 pointer-events-none">
-                        <div className="p-3.5 sm:p-4 rounded-2xl bg-black/75 backdrop-blur-md border border-white/15 flex items-center justify-between gap-3 text-white">
-                          <div>
-                            <div className="text-[10px] font-black uppercase tracking-widest text-[#ff4f00]">
-                              {cardPrice}
-                            </div>
-                            <div className="text-xs sm:text-sm font-bold text-white truncate max-w-[240px]">
-                              {cardTitle}
-                            </div>
-                          </div>
-                          <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white text-xs group-hover/media:bg-[#ff4f00] transition-colors">
-                            →
-                          </span>
+                    {/* Données d'atelier en cartouche discret */}
+                    <div className="pt-6 border-t border-white/15 w-full grid grid-cols-3 gap-4 text-left max-w-xl">
+                      <div>
+                        <div className="font-mono text-[10px] uppercase text-zinc-400 tracking-wider">
+                          Origine
+                        </div>
+                        <div className="font-mono text-xs text-white font-semibold mt-0.5">
+                          Comines, 59
                         </div>
                       </div>
-                    </Link>
+                      <div>
+                        <div className="font-mono text-[10px] uppercase text-zinc-400 tracking-wider">
+                          Matière
+                        </div>
+                        <div className="font-mono text-xs text-white font-semibold mt-0.5">
+                          100% Végétal
+                        </div>
+                      </div>
+                      <div>
+                        <div className="font-mono text-[10px] uppercase text-zinc-400 tracking-wider">
+                          Tirages
+                        </div>
+                        <div className="font-mono text-xs text-white font-semibold mt-0.5">
+                          Atelier Raisonné
+                        </div>
+                      </div>
+                    </div>
                   </motion.div>
                 </AnimatePresence>
               </div>

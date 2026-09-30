@@ -894,53 +894,6 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
             RIGHT COLUMN : CONFIGURATION STEPS & OPTIONS
            ========================================================================= */}
         <div className="lg:col-span-6 space-y-8">
-          
-          {/* POPULAR PRESETS IN 1 CLICK (Point 5 UX) */}
-          <div className="p-4 rounded-3xl bg-gradient-to-br from-[#181822] via-[#14141c] to-[#0d0d12] border border-neutral-700/80 shadow-xl space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-base">✨</span>
-                <h3 className="text-xs font-black uppercase tracking-wider text-white">
-                  Presets Populaires en 1 Clic
-                </h3>
-              </div>
-              <span className="text-[10px] font-mono text-neutral-400">Gagnez du temps</span>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {POPULAR_PRESETS.map((preset) => {
-                const isActive = activePresetId === preset.id;
-                return (
-                  <button
-                    key={preset.id}
-                    type="button"
-                    onClick={() => handleApplyPreset(preset)}
-                    className={`p-2.5 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between group ${
-                      isActive
-                        ? "bg-[#ff4f00]/15 border-[#ff4f00] text-white ring-1 ring-[#ff4f00]/50 shadow-md shadow-[#ff4f00]/10"
-                        : "bg-black/40 border-neutral-800 text-neutral-300 hover:border-neutral-700 hover:bg-black/60"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-lg group-hover:scale-110 transition-transform">{preset.icon}</span>
-                      <span className="text-[8px] font-extrabold px-1.5 py-0.5 rounded-md bg-neutral-800 text-neutral-300 border border-neutral-700/60">
-                        {preset.badge}
-                      </span>
-                    </div>
-                    <div>
-                      <div className="text-[11px] font-bold text-white leading-tight truncate">
-                        {preset.name}
-                      </div>
-                      <div className="text-[9px] text-neutral-400 line-clamp-1 mt-0.5 font-medium">
-                        {preset.desc}
-                      </div>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
           {/* STEP 1 : Forme & Nombre de Touches */}
           <div className="p-4 sm:p-5 rounded-3xl bg-neutral-900/60 border border-neutral-800/90 shadow-md space-y-3">
             <div className="flex items-center gap-2">
@@ -1114,7 +1067,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                       type="button"
                       onClick={() => setGlobalPerso({ type: "blank", value: "" })}
                       className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                        globalPerso.type === "blank" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-neutral-400 hover:text-white"
+                        globalPerso.type === "blank" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-black force-dark-text !text-black hover:opacity-80"
                       }`}
                     >
                       <Slash className="w-3 h-3" />
@@ -1125,7 +1078,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                       type="button"
                       onClick={() => setGlobalPerso({ type: "letter", value: globalPerso.value || "A" })}
                       className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                        globalPerso.type === "letter" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-neutral-400 hover:text-white"
+                        globalPerso.type === "letter" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-black force-dark-text !text-black hover:opacity-80"
                       }`}
                     >
                       <Type className="w-3 h-3" />
@@ -1136,7 +1089,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                       type="button"
                       onClick={() => setGlobalPerso({ type: "word", value: globalPerso.value || "WASD" })}
                       className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                        globalPerso.type === "word" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-neutral-400 hover:text-white"
+                        globalPerso.type === "word" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-black force-dark-text !text-black hover:opacity-80"
                       }`}
                     >
                       <FileText className="w-3 h-3" />
@@ -1147,7 +1100,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                       type="button"
                       onClick={() => setGlobalPerso({ type: "symbol", value: globalPerso.value || "zap" })}
                       className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                        globalPerso.type === "symbol" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-neutral-400 hover:text-white"
+                        globalPerso.type === "symbol" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-black force-dark-text !text-black hover:opacity-80"
                       }`}
                     >
                       <Sparkles className="w-3 h-3" />
@@ -1158,7 +1111,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                       type="button"
                       onClick={() => setGlobalPerso({ type: "texture", value: globalPerso.value || "lego" })}
                       className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                        globalPerso.type === "texture" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-neutral-400 hover:text-white"
+                        globalPerso.type === "texture" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-black force-dark-text !text-black hover:opacity-80"
                       }`}
                     >
                       <Layers className="w-3 h-3" />
