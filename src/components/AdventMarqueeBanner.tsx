@@ -7,7 +7,7 @@ export default function AdventMarqueeBanner() {
   const messages = [
     {
       icon: "🎄",
-      highlight: "PRÉCOMMANDES OUVERTES",
+      highlight: "COMMANDES OUVERTES",
       text: "Le Calendrier de l'Avent 3D Spoolio est disponible !",
     },
     {
@@ -16,19 +16,19 @@ export default function AdventMarqueeBanner() {
       text: "24 créations exclusives 100% fabriquées à Comines (59)",
     },
     {
-      icon: "⭐",
-      highlight: "BONUS LANCEMENT",
-      text: "Un 25ème cadeau offert pour toute commande avant le 30 Septembre !",
+      icon: "📦",
+      highlight: "TARIF STANDARD (50€)",
+      text: "Derniers coffrets disponibles avant clôture des commandes",
     },
     {
-      icon: "⚡",
-      highlight: "TARIF REMISÉ (45€)",
-      text: "Économisez 5€ avant le passage au tarif normal le 16 Octobre",
+      icon: "🚚",
+      highlight: "EXPÉDITION GARANTIE",
+      text: "Envois assurés mi-novembre pour être prêts le 1er décembre",
     },
     {
       icon: "✨",
       highlight: "RÉSERVEZ LE VÔTRE",
-      text: "Cliquez ici pour accéder aux précommandes du Calendrier",
+      text: "Cliquez ici pour commander votre Calendrier de l'Avent 3D",
     },
   ];
 

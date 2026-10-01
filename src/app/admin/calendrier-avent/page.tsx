@@ -822,10 +822,9 @@ export default function AdminCalendrierAventPage() {
               </h3>
 
               <div className="p-3 bg-black/40 border border-white/10 rounded-xl space-y-1.5 text-xs text-white/80">
-                <div className="text-amber-300 font-bold">Rappel des 3 phases automatiques par date :</div>
-                <div>• <strong>Jusqu'au 30 Septembre :</strong> 45 € (remisé) + 25ème cadeau exclusif offert 🎁</div>
-                <div>• <strong>Du 1er au 15 Octobre :</strong> 45 € (remisé) sans 25ème cadeau</div>
-                <div>• <strong>À partir du 16 Octobre :</strong> 50 € (tarif normal)</div>
+                <div className="text-amber-300 font-bold">Rappel des phases automatiques par date :</div>
+                <div>• <strong>Jusqu'au 30 Septembre :</strong> 45 € (remisé) + 25ème cadeau exclusif offert 🎁 <em>(Clôturé)</em></div>
+                <div>• <strong>Depuis le 1er Octobre :</strong> 50 € (tarif standard) sans 25ème cadeau <em>(En cours)</em></div>
               </div>
               
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

@@ -168,38 +168,23 @@ export default function PublicCalendrierAventPage() {
   const totalSold = preorder.totalSold ?? (preorder.tier1Sold || 0);
 
   // Date-based phase determination:
-  // Phase 1: jusqu'au 30 Septembre -> 45€ + 25ème cadeau inclus
-  // Phase 2: du 1er au 15 Octobre -> 45€ remisé (sans 25ème cadeau)
-  // Phase 3: à partir du 16 Octobre -> 50€ tarif normal
+  // Phase 1: jusqu'au 30 Septembre -> 45€ + 25ème cadeau inclus (Offre de lancement remisée)
+  // Phase 2: dès le 1er Octobre -> 50€ tarif standard (sans 25ème cadeau)
   const realNow = new Date();
   const currentYear = realNow.getFullYear();
   const sept30 = new Date(currentYear, 8, 30, 23, 59, 59); // 30 Septembre
-  const oct15 = new Date(currentYear, 9, 15, 23, 59, 59); // 15 Octobre
 
   // Simulation mode date calculation
   const isSeptemberPhase =
     simulatedDateOverride === "sept"
       ? true
-      : simulatedDateOverride === "oct_early" || simulatedDateOverride === "oct_late"
+      : simulatedDateOverride === "oct"
       ? false
       : realNow <= sept30;
 
-  const isEarlyOctoberPhase =
-    simulatedDateOverride === "oct_early"
-      ? true
-      : simulatedDateOverride === "sept" || simulatedDateOverride === "oct_late"
-      ? false
-      : realNow > sept30 && realNow <= oct15;
-
-  const isStandardPhase =
-    simulatedDateOverride === "oct_late"
-      ? true
-      : simulatedDateOverride === "sept" || simulatedDateOverride === "oct_early"
-      ? false
-      : realNow > oct15;
-
+  const isStandardPhase = !isSeptemberPhase;
   const hasBonus25thGift = isSeptemberPhase;
-  const isPriceDiscounted = isSeptemberPhase || isEarlyOctoberPhase;
+  const isPriceDiscounted = isSeptemberPhase;
   const currentPrice = isPriceDiscounted ? (preorder.tier1Price || 45) : (preorder.tier2Price || 50);
 
   const handlePreorder = () => {
@@ -216,8 +201,6 @@ export default function PublicCalendrierAventPage() {
         selectedOptions: {
           "Formule": hasBonus25thGift
             ? "Offre de Lancement (45€ + 25ème Cadeau Exclusif Offert)"
-            : isEarlyOctoberPhase
-            ? "Tarif Remisé Précommande (45€)"
             : "Tarif Standard d'Achat (50€)",
           "Contenu": hasBonus25thGift
             ? "24 créations 3D + 25ème cadeau surprise + Kit Guirlande DIY"
@@ -405,34 +388,27 @@ export default function PublicCalendrierAventPage() {
                         </span>
                       )}
                       <span className="text-xs font-bold text-amber-300 bg-amber-500/20 px-3 py-1 rounded-full border border-amber-500/30 whitespace-nowrap">
-                        {hasBonus25thGift
+                        {isPriceDiscounted
                           ? "⚡ Offre Lancement (-5€ & 25ème Cadeau Offert)"
-                          : isEarlyOctoberPhase
-                          ? "⚡ Tarif Remisé Précommande (-5€)"
-                          : "📦 Tarif Standard"}
+                          : "📦 Tarif Standard (50€)"}
                       </span>
                     </div>
 
                     {/* Conditions Banner */}
                     <div className="space-y-1.5 pt-1">
-                      {hasBonus25thGift ? (
+                      {isPriceDiscounted ? (
                         <div className="p-2.5 rounded-xl bg-gradient-to-r from-red-600/30 to-amber-500/20 border border-amber-500/40 text-xs text-amber-200 flex items-center gap-2">
                           <span className="text-base">🎁</span>
                           <span>
                             <strong>Bonus de Lancement :</strong> Commandez avant le <strong>30 Septembre</strong> et recevez un <strong>25ème cadeau exclusif</strong> dans votre coffret !
                           </span>
                         </div>
-                      ) : isEarlyOctoberPhase ? (
-                        <div className="p-2.5 rounded-xl bg-red-600/20 border border-red-500/40 text-xs text-rose-200 flex items-center gap-2">
-                          <span className="text-base">⏳</span>
-                          <span>
-                            <strong>Prix remisé à 45€ jusqu'au 15 Octobre</strong> (Passage à 50€ dès le 16/10).
-                          </span>
-                        </div>
                       ) : (
-                        <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white/75 flex items-center gap-2">
+                        <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-xs text-white/80 flex items-center gap-2">
                           <span className="text-base">📦</span>
-                          <span>Tarif standard d'achat (50€) • Fin des expéditions mi-novembre, retrait atelier possible jusqu'au 1er décembre.</span>
+                          <span>
+                            <strong>Tarif standard (50€) :</strong> La période de précommande remisée est clôturée (depuis le 30/09). Commandes ouvertes au tarif de 50€ dans la limite des 50 coffrets.
+                          </span>
                         </div>
                       )}
                     </div>
@@ -469,10 +445,15 @@ export default function PublicCalendrierAventPage() {
                       <CheckCircle2 className="w-4 h-4 text-red-400 shrink-0" />
                       <span><strong>24 sachets kraft numérotés</strong> avec 24 créations 3D exclusives</span>
                     </div>
-                    {hasBonus25thGift && (
+                    {hasBonus25thGift ? (
                       <div className="flex items-center gap-2 text-amber-300 font-bold">
                         <Gift className="w-4 h-4 text-amber-400 shrink-0" />
                         <span><strong>25ème cadeau exclusif</strong> offert (commande avant le 30/09)</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2 text-white/50 text-[11px] line-through">
+                        <Gift className="w-4 h-4 text-white/40 shrink-0" />
+                        <span>25ème cadeau exclusif bonus (réservé aux commandes avant le 30/09)</span>
                       </div>
                     )}
                     <div className="flex items-center gap-2">
@@ -543,23 +524,27 @@ export default function PublicCalendrierAventPage() {
               </div>
 
               {/* Timeline Steps */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 relative">
                 {/* Step 1: Jusqu'au 30 Septembre */}
                 <div
                   className={`relative rounded-2xl p-4.5 border transition-all space-y-2.5 ${
                     isSeptemberPhase
                       ? "bg-gradient-to-b from-red-600/25 to-black/60 border-amber-400 shadow-lg shadow-red-950/60 ring-1 ring-amber-400/40"
-                      : "bg-black/40 border-white/10 opacity-75"
+                      : "bg-black/40 border-white/10 opacity-70"
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-300 bg-amber-400/15 px-2.5 py-0.5 rounded-full border border-amber-400/30">
-                      Jalon 1 • Lancement
+                      Jalon 1 • Lancement Remisé
                     </span>
-                    {isSeptemberPhase && (
+                    {isSeptemberPhase ? (
                       <span className="flex items-center gap-1 text-[9px] font-mono font-bold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-md">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
                         En cours
+                      </span>
+                    ) : (
+                      <span className="text-[9px] font-mono font-bold text-white/50 bg-white/10 px-2 py-0.5 rounded-md">
+                        Clôturé
                       </span>
                     )}
                   </div>
@@ -579,51 +564,12 @@ export default function PublicCalendrierAventPage() {
                       <span><strong>25ème cadeau exclusif</strong> offert dans votre boîte !</span>
                     </p>
                     <p className="text-[11px] text-white/60">
-                      Le tarif le plus avantageux avec la surprise bonus.
+                      Offre préférentielle de lancement terminée.
                     </p>
                   </div>
                 </div>
 
-                {/* Step 2: Du 1er au 15 Octobre */}
-                <div
-                  className={`relative rounded-2xl p-4.5 border transition-all space-y-2.5 ${
-                    isEarlyOctoberPhase
-                      ? "bg-gradient-to-b from-red-600/25 to-black/60 border-amber-400 shadow-lg shadow-red-950/60 ring-1 ring-amber-400/40"
-                      : "bg-black/40 border-white/10 opacity-75"
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-rose-300 bg-red-500/15 px-2.5 py-0.5 rounded-full border border-red-500/30">
-                      Jalon 2 • Phase 2
-                    </span>
-                    {isEarlyOctoberPhase && (
-                      <span className="flex items-center gap-1 text-[9px] font-mono font-bold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-md">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                        En cours
-                      </span>
-                    )}
-                  </div>
-
-                  <div>
-                    <div className="text-sm font-bold text-white font-antonio uppercase tracking-wide">
-                      Du 1er au 15 Octobre
-                    </div>
-                    <div className="text-xl font-black font-mono text-white mt-0.5">
-                      45,00 € <span className="text-xs line-through text-white/40">50 €</span>
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5 pt-1 border-t border-white/10 text-xs leading-relaxed text-white/85">
-                    <p className="text-rose-200">
-                      <strong>Prix remisé maintenu</strong> à 45 €.
-                    </p>
-                    <p className="text-[11px] text-white/60">
-                      Fin de l'offre du 25ème cadeau bonus (24 créations dans le coffret).
-                    </p>
-                  </div>
-                </div>
-
-                {/* Step 3: À partir du 16 Octobre */}
+                {/* Step 2: Du 1er Octobre à Mi-Novembre */}
                 <div
                   className={`relative rounded-2xl p-4.5 border transition-all space-y-2.5 ${
                     isStandardPhase
@@ -632,8 +578,8 @@ export default function PublicCalendrierAventPage() {
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-white/70 bg-white/10 px-2.5 py-0.5 rounded-full border border-white/15">
-                      Jalon 3 • Achat Standard
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-rose-300 bg-red-500/15 px-2.5 py-0.5 rounded-full border border-red-500/30">
+                      Jalon 2 • Commandes
                     </span>
                     {isStandardPhase && (
                       <span className="flex items-center gap-1 text-[9px] font-mono font-bold text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-md">
@@ -645,7 +591,7 @@ export default function PublicCalendrierAventPage() {
 
                   <div>
                     <div className="text-sm font-bold text-white font-antonio uppercase tracking-wide">
-                      Dès le 16 Octobre
+                      Du 1er Octobre à Mi-Nov.
                     </div>
                     <div className="text-xl font-black font-mono text-white mt-0.5">
                       50,00 €
@@ -654,19 +600,19 @@ export default function PublicCalendrierAventPage() {
 
                   <div className="space-y-1.5 pt-1 border-t border-white/10 text-xs leading-relaxed text-white/85">
                     <p className="text-white/90">
-                      <strong>Tarif standard d'achat</strong>.
+                      <strong>Tarif standard</strong> (24 créations + kit DIY).
                     </p>
                     <p className="text-[11px] text-white/60">
-                      Ce n'est plus de la précommande : vente dans la limite des 50 pièces produites.
+                      Vente continue dans la limite stricte des 50 exemplaires artisanaux.
                     </p>
                   </div>
                 </div>
 
-                {/* Step 4: Mi-Novembre Expédition & Retrait */}
+                {/* Step 3: Mi-Novembre Expédition & Retrait */}
                 <div className="bg-black/40 border border-white/10 rounded-2xl p-4.5 space-y-2.5 opacity-90">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-300 bg-emerald-500/15 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
-                      Jalon 4 • Réception
+                      Jalon 3 • Réception
                     </span>
                     <Truck className="w-3.5 h-3.5 text-emerald-400" />
                   </div>
@@ -750,7 +696,7 @@ export default function PublicCalendrierAventPage() {
                         +80 € de Valeur Réelle
                       </h4>
                       <p className="text-xs text-white/70 leading-relaxed mt-1">
-                        À 45 € en Early Bird, chaque création revient à moins de 1,90 € pièce, alors que leur valeur individuelle en boutique oscille entre 3,50 € et 8,00 €.
+                        À 50 € le coffret, chaque création revient à seulement ~2,00 € pièce, alors que leur valeur individuelle en boutique oscille entre 3,50 € et 8,00 € (plus de 80 € de valeur cumulée).
                       </p>
                     </div>
                   </div>
@@ -946,9 +892,8 @@ export default function PublicCalendrierAventPage() {
                     Pour garantir un travail artisanal irréprochable et un emballage soigné à la main, notre atelier limite strictement la production à <strong>50 coffrets au total</strong> cette année.
                   </p>
                   <ul className="text-xs text-rose-200/90 space-y-1 font-mono pt-1">
-                    <li>• <strong>Jusqu'au 30 Septembre :</strong> 45 € + <strong>25ème cadeau exclusif</strong> inclus</li>
-                    <li>• <strong>Du 1er au 15 Octobre :</strong> 45 € (remisé, sans 25ème cadeau)</li>
-                    <li>• <strong>À partir du 16 Octobre :</strong> 50 € (tarif normal)</li>
+                    <li className="opacity-60 line-through">• Jusqu'au 30 Septembre : 45 € + 25ème cadeau exclusif inclus (Terminé)</li>
+                    <li>• <strong>Depuis le 1er Octobre :</strong> 50 € (tarif standard, dans la limite des 50 coffrets)</li>
                   </ul>
                 </div>
 
@@ -981,8 +926,8 @@ export default function PublicCalendrierAventPage() {
               <div className="space-y-2.5 max-w-3xl mx-auto">
                 {[
                   {
-                    q: "Quelles sont les conditions et dates clés de précommande ?",
-                    a: "La production est plafonnée à 50 exemplaires : 1) Jusqu'au 30 septembre, vous bénéficiez du tarif remisé à 45 € et un 25ème cadeau exclusif est offert dans votre coffret. 2) Du 1er au 15 octobre, le tarif reste remisé à 45 € mais le 25ème cadeau n'est plus inclus. 3) À partir du 16 octobre, le calendrier passe à son tarif standard de 50 € dans la limite des 50 pièces disponibles.",
+                    q: "Quelles sont les conditions et dates clés du Calendrier de l'Avent ?",
+                    a: "La production est strictement plafonnée à 50 exemplaires : 1) Jusqu'au 30 septembre, l'offre de lancement permettait de commander au tarif remisé de 45 € avec un 25ème cadeau exclusif offert. 2) Dès le 1er octobre, les commandes sont ouvertes au tarif standard de 50 € (comprenant les 24 créations originales sous sachets kraft numérotés et le kit DIY de suspension) dans la limite des 50 pièces disponibles. Les expéditions sont garanties pour mi-novembre 2026, avec retrait à notre atelier à Comines possible jusqu'au 1er décembre.",
                   },
                   {
                     q: "À quel public s'adresse ce calendrier de l'Avent ?",
