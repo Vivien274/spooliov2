@@ -6,12 +6,32 @@ import path from "path";
 import { revalidatePath } from "next/cache";
 import { Drop } from "@/lib/drops";
 
+import { prisma } from "@/lib/prisma";
+
 export const dynamic = "force-dynamic";
 
 const DROPS_PATH = path.join(process.cwd(), "src/data/drops.json");
 const PRODUCTS_PATH = path.join(process.cwd(), "src/data/products.json");
 
-function readDrops(): Drop[] {
+async function readDrops(): Promise<Drop[]> {
+  // 1. Lire d'abord depuis la base de données (Prisma)
+  try {
+    if (prisma) {
+      const page = await prisma.page.findUnique({
+        where: { slug: "config-drops" },
+      });
+      if (page && page.content) {
+        const parsed = JSON.parse(page.content);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    }
+  } catch (e) {
+    console.error("Error reading drops from database:", e);
+  }
+
+  // 2. Fallback fichier local
   try {
     if (fs.existsSync(DROPS_PATH)) {
       const content = fs.readFileSync(DROPS_PATH, "utf-8");
@@ -23,10 +43,36 @@ function readDrops(): Drop[] {
   return [];
 }
 
-function writeDrops(drops: Drop[]) {
-  const dir = path.dirname(DROPS_PATH);
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(DROPS_PATH, JSON.stringify(drops, null, 2), "utf-8");
+async function writeDrops(drops: Drop[]): Promise<void> {
+  // 1. Sauvegarder dans la base de données (évite l'erreur EROFS en serverless / Vercel)
+  try {
+    if (prisma) {
+      await prisma.page.upsert({
+        where: { slug: "config-drops" },
+        update: {
+          content: JSON.stringify(drops, null, 2),
+        },
+        create: {
+          title: "Configuration Drops",
+          slug: "config-drops",
+          content: JSON.stringify(drops, null, 2),
+          status: "publish",
+        },
+      });
+    }
+  } catch (dbErr) {
+    console.error("Error saving drops to database:", dbErr);
+  }
+
+  // 2. Tentative d'écriture locale (environnement dev avec disque en écriture)
+  try {
+    const dir = path.dirname(DROPS_PATH);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(DROPS_PATH, JSON.stringify(drops, null, 2), "utf-8");
+  } catch (fsErr: any) {
+    // Normal sur Vercel serverless (read-only filesystem) : la sauvegarde DB a déjà réussi
+    console.warn("Local drops.json could not be written (serverless read-only filesystem):", fsErr.message);
+  }
 }
 
 function readProductsSummary() {
@@ -70,7 +116,7 @@ export async function GET() {
       return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
     }
 
-    const drops = readDrops();
+    const drops = await readDrops();
     const products = readProductsSummary();
 
     return NextResponse.json({ success: true, drops, products });
@@ -87,7 +133,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const drops = readDrops();
+    const drops = await readDrops();
 
     const dropNumber = body.dropNumber?.trim() || "";
     const dropName = body.dropName?.trim() || body.title?.trim() || "";
@@ -150,7 +196,7 @@ export async function POST(request: Request) {
       updatedDrops = [newDrop, ...drops];
     }
 
-    writeDrops(updatedDrops);
+    await writeDrops(updatedDrops);
 
     revalidatePath("/drops");
     revalidatePath(`/drops/${slug}`);
@@ -174,10 +220,10 @@ export async function PUT(request: Request) {
     }
 
     const body = await request.json();
-    const drops = readDrops();
+    const drops = await readDrops();
 
     if (body.reorderedDrops && Array.isArray(body.reorderedDrops)) {
-      writeDrops(body.reorderedDrops);
+      await writeDrops(body.reorderedDrops);
       revalidatePath("/drops");
       return NextResponse.json({ success: true, drops: body.reorderedDrops });
     }
@@ -199,7 +245,7 @@ export async function PUT(request: Request) {
     };
 
     drops[targetIndex] = updated;
-    writeDrops(drops);
+    await writeDrops(drops);
 
     revalidatePath("/drops");
     revalidatePath(`/drops/${updated.slug}`);
@@ -233,14 +279,14 @@ export async function DELETE(request: Request) {
       return NextResponse.json({ error: "ID requis pour supprimer un drop" }, { status: 400 });
     }
 
-    const drops = readDrops();
+    const drops = await readDrops();
     const filtered = drops.filter((d) => d.id !== id);
 
     if (filtered.length === drops.length) {
       return NextResponse.json({ error: "Drop introuvable" }, { status: 404 });
     }
 
-    writeDrops(filtered);
+    await writeDrops(filtered);
     revalidatePath("/drops");
 
     return NextResponse.json({

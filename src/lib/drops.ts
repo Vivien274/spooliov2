@@ -39,10 +39,9 @@ export interface Drop {
   products?: Product[];
 }
 
-/**
- * Lit tous les drops depuis le fichier drops.json
- */
-export function getAllDrops(): Drop[] {
+import { prisma } from "@/lib/prisma";
+
+export function getDropsFromFile(): Drop[] {
   try {
     const filePath = path.join(process.cwd(), "src/data/drops.json");
     if (!fs.existsSync(filePath)) return [];
@@ -57,10 +56,40 @@ export function getAllDrops(): Drop[] {
 }
 
 /**
+ * Lit tous les drops depuis la base de données (Prisma) avec fallback sur drops.json
+ */
+export async function getAllDrops(): Promise<Drop[]> {
+  try {
+    if (prisma) {
+      const page = await prisma.page.findUnique({
+        where: { slug: "config-drops" },
+      });
+      if (page && page.content) {
+        const parsed = JSON.parse(page.content);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    }
+  } catch (error) {
+    console.warn("Erreur lors de la lecture des drops depuis Prisma, fallback JSON:", error);
+  }
+
+  return getDropsFromFile();
+}
+
+/**
+ * Version synchrone pour les contextes où l'async n'est pas possible (fallback fichier)
+ */
+export function getAllDropsSync(): Drop[] {
+  return getDropsFromFile();
+}
+
+/**
  * Récupère le drop phare du moment (live en priorité, puis upcoming, sinon le plus récent)
  */
-export function getFeaturedDrop(): Drop | null {
-  const drops = getAllDrops();
+export async function getFeaturedDrop(): Promise<Drop | null> {
+  const drops = await getAllDrops();
   if (drops.length === 0) return null;
 
   const live = drops.find((d) => d.status === "live");
@@ -75,8 +104,8 @@ export function getFeaturedDrop(): Drop | null {
 /**
  * Récupère un drop par son slug et hydrate les produits associés
  */
-export function getDropBySlug(slug: string): (Drop & { products: Product[] }) | null {
-  const drops = getAllDrops();
+export async function getDropBySlug(slug: string): Promise<(Drop & { products: Product[] }) | null> {
+  const drops = await getAllDrops();
   const drop = drops.find((d) => d.slug === slug);
   if (!drop) return null;
 

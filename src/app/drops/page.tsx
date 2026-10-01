@@ -15,8 +15,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function DropsPage() {
-  const drops = getAllDrops();
+export default async function DropsPage() {
+  const drops = await getAllDrops();
 
   return <DropsHubClient drops={drops} />;
 }

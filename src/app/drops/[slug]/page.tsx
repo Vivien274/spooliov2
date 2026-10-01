@@ -12,7 +12,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const drop = getDropBySlug(slug);
+  const drop = await getDropBySlug(slug);
 
   if (!drop) {
     return {
@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function DropDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const drop = getDropBySlug(slug);
+  const drop = await getDropBySlug(slug);
 
   if (!drop) {
     notFound();
