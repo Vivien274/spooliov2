@@ -10,6 +10,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReviewsSection from "@/components/ReviewsSection";
 import LatestDropBanner from "@/components/LatestDropBanner";
+import { getFeaturedDrop } from "@/lib/drops";
 import SpotlightMarqueeBanner from "@/components/SpotlightMarqueeBanner";
 import BoutiqueCTAButton from "@/components/BoutiqueCTAButton";
 import ThemeRibbon from "@/components/ThemeRibbon";
@@ -239,6 +240,13 @@ export default async function HomePage() {
     // Silent fallback
   }
 
+  let featuredDrop = null;
+  try {
+    featuredDrop = await getFeaturedDrop();
+  } catch (e) {
+    // Silent fallback
+  }
+
   return (
     <div className="relative min-h-screen bg-white text-zinc-900 font-sans flex flex-col items-center selection:bg-[#ff4f00] selection:text-white overflow-x-hidden">
       {/* 1. Full-Width Animated Hero Section */}
@@ -256,8 +264,8 @@ export default async function HomePage() {
         <HomeTabbedProductGrid />
       </section>
 
-      {/* 4. Section Drop masquée de la Home (code préservé intact dans src/components/LatestDropBanner.tsx) */}
-      {/* <LatestDropBanner /> */}
+      {/* 4. Prochain Drop d'Atelier (date de disponibilité et accès sans clic avant lancement) */}
+      {featuredDrop && <LatestDropBanner drop={featuredDrop} />}
 
       {/* 5. PLA Storytelling Timeline Section */}
       <section className="w-full max-w-[1200px] px-4 py-14 relative z-10 border-t border-zinc-200">
