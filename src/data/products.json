@@ -283,9 +283,7 @@
       "variationPrices": [],
       "tags": [
         "fait-main",
-        "piece-unique",
-        "art-toy",
-        "kurb-monsters"
+        "piece-unique"
       ],
       "uniquePieceData": {
         "hero": {
@@ -428,10 +426,10 @@
     },
     "images": [
       {
-        "id": 3233,
+        "id": 1,
         "src": "/images/produits/monstre-skateur-fait-main.jpg",
-        "alt": "Crank — Le Cyclope",
-        "name": "Crank — Vue principale"
+        "alt": "Crank — Le Cyclope — Édition Atelier",
+        "name": "Crank — Le Cyclope — Édition Atelier"
       }
     ]
   },
