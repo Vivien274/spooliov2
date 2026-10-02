@@ -269,6 +269,173 @@
     }
   },
   {
+    "id": 17,
+    "name": "Crank — Le Cyclope — Édition Atelier",
+    "slug": "crank-le-cyclope-fait-main",
+    "price": "55.00",
+    "regular_price": "55.00",
+    "status": "draft",
+    "stock": 1,
+    "short_description": "Un œil, un pied sur le parpaing et zéro patience.\nCrank est le plus brut de la bande. Toujours posé comme s’il attendait que quelque chose l’énerve, il a cette façon bien à lui d’occuper l’espace sans avoir besoin d’en faire trop.\nUn Kurb Monster à exposer, collectionner, et probablement éviter de contrarier.",
+    "description": "Crank ne sourit pas beaucoup.\nUn œil, une posture de quartier, un pied posé sur un parpaing comme s’il avait réservé la place depuis toujours. Il parle peu, juge beaucoup, et donne surtout l’impression qu’il n’a aucune envie qu’on lui demande de bouger.\nDisponible en Édition Couleur ou en Édition Atelier, peinte et finie à la main.",
+    "attributes": {
+      "attributes": [],
+      "variationPrices": [],
+      "tags": [
+        "fait-main",
+        "piece-unique",
+        "art-toy",
+        "kurb-monsters"
+      ],
+      "uniquePieceData": {
+        "hero": {
+          "badge": "Édition Atelier Spoolio • Fait Main",
+          "availabilityBadge": "Pièce Unique en Stock",
+          "punchline": "Crank n’a pas l’air content. Et ça lui va très bien.",
+          "microPerks": [
+            {
+              "icon": "palette",
+              "text": "Peint à la main"
+            },
+            {
+              "icon": "award",
+              "text": "Signé"
+            },
+            {
+              "icon": "mappin",
+              "text": "Fabriqué à Comines"
+            }
+          ]
+        },
+        "videoSection": {
+          "enabled": false,
+          "badge": "🎥 En Mouvement",
+          "title": "Découvrez Crank en vidéo",
+          "description": "Aperçu sous la lumière d'atelier, posture brute et finitions peintes à la main.",
+          "videoUrl": ""
+        },
+        "gallery": {
+          "badge": "Galerie Photos",
+          "title": "Vues détaillées",
+          "description": "",
+          "items": [
+            {
+              "src": "/images/produits/monstre-skateur-fait-main.jpg",
+              "caption": "Crank – Vue d'atelier",
+              "alt": "Crank le Cyclope – Édition Atelier"
+            }
+          ]
+        },
+        "savoirFaire": {
+          "badge": "Atelier Français",
+          "title": "Le Savoir-Faire Artisanal",
+          "intro": "Chaque figurine nécessite plusieurs heures de travail minutieux. Voici les 4 étapes qui donnent vie à Crank :",
+          "steps": [
+            {
+              "stepNumber": 1,
+              "title": "Impression 3D Haute Précision",
+              "description": "Extrusion lente à 0.08 mm par couche pour restituer l'œil unique, l'attitude brute et la texture du parpaing."
+            },
+            {
+              "stepNumber": 2,
+              "title": "Ponçage Manuel & Ébavurage",
+              "description": "Préparation méticuleuse et ponçage manuel à l'eau, pour gommer les lignes d'impression."
+            },
+            {
+              "stepNumber": 3,
+              "title": "Peint à la Main",
+              "description": "Peinture réalisée à l'aérographe et au pinceau à main levée en plusieurs passages soignés."
+            },
+            {
+              "stepNumber": 4,
+              "title": "Vernis Protecteur Satiné",
+              "description": "Finition protectrice anti-UV et résistante aux manipulations quotidiennes sur votre bureau."
+            }
+          ],
+          "quote": "« Il est déjà de mauvaise humeur. N’en rajoute pas. »"
+        },
+        "lore": {
+          "badge": "L'Histoire du Personnage",
+          "title": "Crank : Kurb Monster cyclope",
+          "paragraphs": [
+            "Crank n’a pas l’air content. Et ça lui va très bien.",
+            "Un œil, un pied sur le parpaing et zéro patience.\nCrank est le plus brut de la bande. Toujours posé comme s’il attendait que quelque chose l’énerve, il a cette façon bien à lui d’occuper l’espace sans avoir besoin d’en faire trop.\nUn Kurb Monster à exposer, collectionner, et probablement éviter de contrarier.",
+            "Crank ne sourit pas beaucoup.\nUn œil, une posture de quartier, un pied posé sur un parpaing comme s’il avait réservé la place depuis toujours. Il parle peu, juge beaucoup, et donne surtout l’impression qu’il n’a aucune envie qu’on lui demande de bouger.\n\nDisponible en Édition Couleur ou en Édition Atelier, peinte et finie à la main."
+          ]
+        },
+        "specs": {
+          "badge": "Fiche Technique & Matériaux",
+          "title": "Caractéristiques & Entretien",
+          "items": [
+            {
+              "label": "Hauteur Totale",
+              "value": "14 cm"
+            },
+            {
+              "label": "Socle / Base",
+              "value": "Parpaing texturé intégré"
+            },
+            {
+              "label": "Poids Estimé",
+              "value": "~175 grammes"
+            },
+            {
+              "label": "Matériau",
+              "value": "PLA Biosourcé + Peint à la main"
+            },
+            {
+              "label": "Temps d'Atelier",
+              "value": "~8h00 de travail manuel"
+            },
+            {
+              "label": "Entretien",
+              "value": "Chiffon microfibre sec"
+            }
+          ]
+        },
+        "ecrin": {
+          "badge": "Protection Renforcée",
+          "title": "Un Écrin Spécial pour une Pièce d'Art",
+          "intro": "Une figurine peinte à la main requiert une attention toute particulière lors de son voyage. Votre colis comprend :",
+          "points": [
+            "Boîte kraft rigide Spoolio renforcée",
+            "Calage individuel anti-chocs sur-mesure",
+            "Certificat numéroté signé par l'artisan",
+            "Pack de stickers exclusifs Spoolio offert"
+          ],
+          "origin": "Comines, France",
+          "shippingMethod": "Expédition Colissimo Suivi ou Mondial Relay"
+        },
+        "faq": {
+          "badge": "FAQ Fait Main",
+          "title": "Vos Questions",
+          "items": [
+            {
+              "q": "La figurine tient-elle debout seule ?",
+              "a": "Oui, Crank est conçu avec son pied ancré sur un parpaing lesté et équilibré, assurant une parfaite stabilité sur n'importe quel meuble ou étagère."
+            },
+            {
+              "q": "La peinture est-elle fragile ?",
+              "a": "La figurine est protégée avec un vernis protecteur satiné anti-UV résistant aux manipulations. Elle peut être manipulée sans risque mais reste un objet de collection d'art."
+            },
+            {
+              "q": "Est-ce une pièce numérotée ?",
+              "a": "Oui, chaque exemplaire de l'Édition Atelier est signé, numéroté et livré avec son certificat d'authenticité de l'atelier de Comines."
+            }
+          ]
+        }
+      }
+    },
+    "images": [
+      {
+        "id": 3233,
+        "src": "/images/produits/monstre-skateur-fait-main.jpg",
+        "alt": "Crank — Le Cyclope",
+        "name": "Crank — Vue principale"
+      }
+    ]
+  },
+  {
     "id": 13167,
     "name": "Support de téléphone industriel",
     "slug": "support-telephone-industriel",
