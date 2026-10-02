@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { useAdminTheme } from "@/app/admin/AdminThemeContext";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -123,6 +124,7 @@ export default function UniquePieceEditorClient({
   isNew = false,
 }: UniquePieceEditorClientProps) {
   const router = useRouter();
+  const { cls, theme } = useAdminTheme();
 
   // Basic Product fields
   const [name, setName] = useState("");
@@ -445,14 +447,14 @@ export default function UniquePieceEditorClient({
   }
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto font-sans pb-28">
-      {/* Sticky Top Header Bar */}
-      <div className="sticky top-0 z-30 bg-[#121214]/95 border border-white/10 rounded-2xl p-4 mb-8 backdrop-blur-xl shadow-2xl space-y-4">
+    <div className="max-w-7xl mx-auto font-sans pb-28 space-y-6">
+      {/* Sticky Top Bar: Header Actions + Navigation Tabs */}
+      <div className={`sticky top-0 z-30 ${cls.cardBg} border ${cls.border} rounded-2xl p-4 shadow-md backdrop-blur-xl space-y-4`}>
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Link
               href="/admin/pieces-uniques"
-              className="p-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-colors"
+              className={`p-2.5 rounded-xl ${cls.inputBg} hover:${cls.hoverRow} border ${cls.border} ${cls.textMuted} hover:${cls.textMain} transition-colors`}
               title="Retour à la liste"
             >
               ←
@@ -462,13 +464,13 @@ export default function UniquePieceEditorClient({
                 <span className="text-xs font-black uppercase tracking-widest text-[#ff4f00]">
                   Éditeur Pièce Unique
                 </span>
-                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                  status === "publish" ? "bg-emerald-500/20 text-emerald-400" : "bg-amber-500/20 text-amber-400"
+                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
+                  status === "publish" ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20" : "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20"
                 }`}>
                   {status === "publish" ? "Publié" : "Brouillon"}
                 </span>
               </div>
-              <h1 className="text-lg sm:text-xl font-black text-white truncate max-w-md">
+              <h1 className={`text-lg sm:text-xl font-black ${cls.textMain} truncate max-w-md`}>
                 {name || "Nouvelle Pièce Unique"}
               </h1>
             </div>
@@ -480,7 +482,7 @@ export default function UniquePieceEditorClient({
                 href={`/product/${slug}`}
                 target="_blank"
                 rel="noreferrer"
-                className="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-bold transition-colors flex items-center gap-1.5"
+                className={`px-4 py-2 rounded-xl ${cls.inputBg} hover:${cls.hoverRow} border ${cls.border} ${cls.textMuted} hover:${cls.textMain} text-xs font-bold transition-colors flex items-center gap-1.5 shadow-2xs`}
               >
                 <span>Voir sur le site</span>
                 <span>↗</span>
@@ -491,10 +493,10 @@ export default function UniquePieceEditorClient({
               type="button"
               onClick={handleSave}
               disabled={saving}
-              className={`px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-lg ${
+              className={`px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer shadow-md ${
                 saveSuccess
                   ? "bg-emerald-500 text-white shadow-emerald-500/30"
-                  : "bg-[#ff4f00] hover:bg-[#ff6524] text-white shadow-[#ff4f00]/30 hover:scale-105 active:scale-95"
+                  : "bg-[#ff4f00] hover:bg-[#e04500] text-white shadow-[#ff4f00]/20 hover:scale-[1.02] active:scale-[0.98]"
               }`}
             >
               {saving ? (
@@ -508,8 +510,8 @@ export default function UniquePieceEditorClient({
           </div>
         </div>
 
-        {/* Tabs Navigation directly in sticky bar */}
-        <div className="flex overflow-x-auto gap-2 pt-3 border-t border-white/10 scrollbar-none">
+        {/* Tabs Navigation Bar - INTEGRATED & ALWAYS VISIBLE */}
+        <div className="flex overflow-x-auto gap-2 pt-3 border-t border-zinc-200/80 dark:border-white/10 scrollbar-none">
           {[
             { id: "hero", label: "1. Hero & Identité", icon: "🖼️" },
             { id: "gallery", label: "2. Galerie Photos & Vidéos", icon: "📸" },
@@ -524,10 +526,10 @@ export default function UniquePieceEditorClient({
               key={tab.id}
               type="button"
               onClick={() => setActiveTab(tab.id as any)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 cursor-pointer border ${
+              className={`px-4 py-2.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-2 cursor-pointer border ${
                 activeTab === tab.id
-                  ? "bg-[#ff4f00] border-[#ff4f00] text-white shadow-lg shadow-[#ff4f00]/20 scale-105"
-                  : "bg-zinc-900 border-white/10 text-zinc-400 hover:text-white hover:border-white/20"
+                  ? "bg-[#ff4f00] border-[#ff4f00] text-white shadow-md shadow-[#ff4f00]/25 scale-[1.02]"
+                  : `${theme === "dark" ? "bg-white/5 border-white/10 text-zinc-300 hover:text-white hover:bg-white/10" : "bg-gray-100 border-gray-200 text-gray-700 hover:text-gray-900 hover:bg-gray-200"}`
               }`}
             >
               <span>{tab.icon}</span>
@@ -549,47 +551,47 @@ export default function UniquePieceEditorClient({
       {activeTab === "hero" && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
-            <div className="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 space-y-4">
-              <h3 className="text-sm font-black uppercase tracking-wider text-white mb-2">
+            <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-6 shadow-xs space-y-4`}>
+              <h3 className={`text-sm font-black uppercase tracking-wider ${cls.textMain} mb-2`}>
                 Informations Principales
               </h3>
 
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                   Nom de la création (Titre du Hero)
                 </label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm text-white font-bold focus:border-[#ff4f00] focus:outline-none"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-sm ${cls.textMain} font-bold focus:border-[#ff4f00] focus:outline-none`}
                   placeholder="Gribouille le Skateur – Figurine Peinte à la Main"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-zinc-400 mb-1">
+                  <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                     Slug d'accès URL (/product/[slug])
                   </label>
                   <input
                     type="text"
                     value={slug}
                     onChange={(e) => setSlug(e.target.value)}
-                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white font-mono focus:border-[#ff4f00] focus:outline-none"
+                    className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain} font-mono focus:border-[#ff4f00] focus:outline-none`}
                     placeholder="monstre-skateur-fait-main"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-zinc-400 mb-1">
+                  <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                     Prix de vente (€)
                   </label>
                   <input
                     type="text"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white font-black focus:border-[#ff4f00] focus:outline-none"
+                    className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-sm ${cls.textMain} font-black focus:border-[#ff4f00] focus:outline-none`}
                     placeholder="59.00"
                   />
                 </div>
@@ -597,13 +599,13 @@ export default function UniquePieceEditorClient({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-zinc-400 mb-1">
+                  <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                     Statut de publication
                   </label>
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
-                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white font-bold focus:border-[#ff4f00] focus:outline-none"
+                    className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain} font-bold focus:border-[#ff4f00] focus:outline-none`}
                   >
                     <option value="publish">Publié (En ligne)</option>
                     <option value="draft">Brouillon (Invisible)</option>
@@ -611,7 +613,7 @@ export default function UniquePieceEditorClient({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-zinc-400 mb-1">
+                  <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                     Stock d'exemplaires
                   </label>
                   <input
@@ -620,20 +622,20 @@ export default function UniquePieceEditorClient({
                     max="99"
                     value={stock}
                     onChange={(e) => setStock(parseInt(e.target.value, 10) || 0)}
-                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white font-bold focus:border-[#ff4f00] focus:outline-none"
+                    className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain} font-bold focus:border-[#ff4f00] focus:outline-none`}
                   />
                 </div>
               </div>
             </div>
 
-            <div className="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 space-y-4">
-              <h3 className="text-sm font-black uppercase tracking-wider text-white mb-2">
+            <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-6 shadow-xs space-y-4`}>
+              <h3 className={`text-sm font-black uppercase tracking-wider ${cls.textMain} mb-2`}>
                 Surimpressions du Hero
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold text-zinc-400 mb-1">
+                  <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                     Badge de Catégorie
                   </label>
                   <input
@@ -645,12 +647,12 @@ export default function UniquePieceEditorClient({
                         hero: { ...prev.hero, badge: e.target.value },
                       }))
                     }
-                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#ff4f00] focus:outline-none"
+                    className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain} focus:border-[#ff4f00] focus:outline-none`}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-zinc-400 mb-1">
+                  <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                     Badge de Disponibilité
                   </label>
                   <input
@@ -662,13 +664,13 @@ export default function UniquePieceEditorClient({
                         hero: { ...prev.hero, availabilityBadge: e.target.value },
                       }))
                     }
-                    className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#ff4f00] focus:outline-none"
+                    className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain} focus:border-[#ff4f00] focus:outline-none`}
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                   Accroche sous le titre
                 </label>
                 <textarea
@@ -680,12 +682,12 @@ export default function UniquePieceEditorClient({
                       hero: { ...prev.hero, punchline: e.target.value },
                     }))
                   }
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white focus:border-[#ff4f00] focus:outline-none"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain} focus:border-[#ff4f00] focus:outline-none`}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-2">
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                   Micro-Pastilles de réassurance (Hero bar)
                 </label>
                 <div className="space-y-3">
@@ -702,7 +704,7 @@ export default function UniquePieceEditorClient({
                             hero: { ...prev.hero, microPerks: next },
                           }));
                         }}
-                        className="w-12 bg-black/50 border border-white/10 rounded-xl text-center py-2 text-sm text-white"
+                        className={`w-20 ${cls.inputBg} border ${cls.border} rounded-xl text-center py-2 text-xs ${cls.textMain} focus:border-[#ff4f00] focus:outline-none`}
                         placeholder="🎨"
                       />
                       <input
@@ -716,7 +718,7 @@ export default function UniquePieceEditorClient({
                             hero: { ...prev.hero, microPerks: next },
                           }));
                         }}
-                        className="flex-1 bg-black/50 border border-white/10 rounded-xl px-4 py-2 text-xs text-white"
+                        className={`flex-1 ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2 text-xs ${cls.textMain}`}
                       />
                     </div>
                   ))}
@@ -727,12 +729,12 @@ export default function UniquePieceEditorClient({
 
           {/* Right Column: Hero Image Preview & Uploader */}
           <div className="space-y-6">
-            <div className="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 space-y-4">
+            <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-6 shadow-xs space-y-4`}>
               <div className="flex items-center justify-between">
-                <h3 className="text-sm font-black uppercase tracking-wider text-white">
+                <h3 className={`text-sm font-black uppercase tracking-wider ${cls.textMain}`}>
                   Photo Pleine Largeur
                 </h3>
-                <span className="text-[10px] font-bold text-zinc-400 bg-white/5 px-2.5 py-0.5 rounded-full">
+                <span className={`text-[10px] font-bold text-zinc-400 ${cls.badgeBg} ${cls.textMuted} px-2.5 py-0.5 rounded-full border ${cls.border}`}>
                   Image Principale (Hero)
                 </span>
               </div>
@@ -765,7 +767,7 @@ export default function UniquePieceEditorClient({
                 className={`relative aspect-[3/4] rounded-2xl overflow-hidden bg-black border-2 transition-all group ${
                   isHeroDragging
                     ? "border-[#ff4f00] ring-4 ring-[#ff4f00]/20 scale-[1.01]"
-                    : "border-white/10 hover:border-white/20"
+                    : `${cls.border} hover:border-[#ff4f00]/40`
                 }`}
               >
                 <Image
@@ -816,41 +818,41 @@ export default function UniquePieceEditorClient({
                 type="button"
                 onClick={() => heroFileInputRef.current?.click()}
                 disabled={isHeroUploading}
-                className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-200 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className={`w-full py-2.5 rounded-xl ${cls.inputBg} hover:${cls.hoverRow} border ${cls.border} ${cls.textMain} text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer`}
               >
                 <UploadCloud className="w-4 h-4 text-[#ff4f00]" />
                 <span>Téléverser un nouveau fichier image</span>
               </button>
 
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                   Chemin / URL de l'image (éditable)
                 </label>
                 <input
                   type="text"
                   value={image}
                   onChange={(e) => setImage(e.target.value)}
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white font-mono focus:border-[#ff4f00] focus:outline-none"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain} font-mono focus:border-[#ff4f00] focus:outline-none`}
                   placeholder="/images/produits/monstre-skateur-fait-main.jpg"
                 />
               </div>
             </div>
 
             {/* 2. Vidéo de Couverture (Optionnel - Fond Hero) */}
-            <div className="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 space-y-4">
+            <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-6 shadow-xs space-y-4`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Film className="w-4 h-4 text-[#ff4f00]" />
-                  <h3 className="text-sm font-black uppercase tracking-wider text-white">
+                  <h3 className={`text-sm font-black uppercase tracking-wider ${cls.textMain}`}>
                     Vidéo de Couverture
                   </h3>
                 </div>
-                <span className="text-[10px] font-bold text-zinc-400 bg-white/5 px-2.5 py-0.5 rounded-full">
+                <span className={`text-[10px] font-bold text-zinc-400 ${cls.badgeBg} ${cls.textMuted} px-2.5 py-0.5 rounded-full border ${cls.border}`}>
                   Optionnel (Fond Hero)
                 </span>
               </div>
 
-              <p className="text-xs text-zinc-400">
+              <p className={`text-xs ${cls.textMuted}`}>
                 Remplace l'image statique en haut de page par une vidéo plein écran animée en boucle, avec contrôles son et pause.
               </p>
 
@@ -890,7 +892,7 @@ export default function UniquePieceEditorClient({
                       type="button"
                       onClick={() => heroVideoInputRef.current?.click()}
                       disabled={isHeroVideoUploading}
-                      className="flex-1 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-200 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+                      className={`flex-1 py-2 rounded-xl ${cls.inputBg} hover:${cls.hoverRow} border ${cls.border} ${cls.textMain} text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer`}
                     >
                       <RefreshCw className={`w-3.5 h-3.5 text-[#ff4f00] ${isHeroVideoUploading ? "animate-spin" : ""}`} />
                       <span>{isHeroVideoUploading ? "Téléversement..." : "Changer la vidéo"}</span>
@@ -913,20 +915,20 @@ export default function UniquePieceEditorClient({
                 <div className="space-y-3">
                   <div
                     onClick={() => heroVideoInputRef.current?.click()}
-                    className="aspect-video rounded-2xl border-2 border-dashed border-white/15 bg-black/40 hover:border-[#ff4f00]/50 hover:bg-black/60 transition-all flex flex-col items-center justify-center p-6 text-center cursor-pointer group"
+                    className={`aspect-video rounded-2xl border-2 border-dashed ${cls.border} ${cls.cardBg} hover:border-[#ff4f00]/50 hover:bg-[#ff4f00]/5 transition-all flex flex-col items-center justify-center p-6 text-center cursor-pointer group`}
                   >
                     {isHeroVideoUploading ? (
                       <div className="flex flex-col items-center gap-2">
                         <RefreshCw className="w-8 h-8 text-[#ff4f00] animate-spin" />
-                        <span className="text-xs font-bold text-white">Téléversement de la vidéo...</span>
+                        <span className={`text-xs font-bold ${cls.textMain}`}>Téléversement de la vidéo...</span>
                       </div>
                     ) : (
                       <>
-                        <div className="w-12 h-12 rounded-2xl bg-white/5 text-[#ff4f00] flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                        <div className={`w-12 h-12 rounded-2xl ${cls.badgeBg} text-[#ff4f00] flex items-center justify-center mb-2 group-hover:scale-110 transition-transform`}>
                           <Film className="w-6 h-6" />
                         </div>
-                        <span className="text-xs font-bold text-white">Ajouter une vidéo de couverture</span>
-                        <span className="text-[11px] text-zinc-400 mt-1">MP4, WEBM, MOV (jusqu'à 50 Mo)</span>
+                        <span className={`text-xs font-bold ${cls.textMain}`}>Ajouter une vidéo de couverture</span>
+                        <span className={`text-[11px] ${cls.textMuted} mt-1`}>MP4, WEBM, MOV (jusqu'à 50 Mo)</span>
                       </>
                     )}
                   </div>
@@ -947,7 +949,7 @@ export default function UniquePieceEditorClient({
               />
 
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                   Chemin / URL directe de la vidéo
                 </label>
                 <input
@@ -960,7 +962,7 @@ export default function UniquePieceEditorClient({
                       hero: { ...prev.hero, video: val },
                     }));
                   }}
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2 text-xs text-white font-mono focus:border-[#ff4f00] focus:outline-none"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2 text-xs ${cls.textMain} font-mono focus:border-[#ff4f00] focus:outline-none`}
                   placeholder="/uploads/hero-video.mp4 ou https://..."
                 />
               </div>
@@ -975,19 +977,19 @@ export default function UniquePieceEditorClient({
       {activeTab === "gallery" && (
         <div className="space-y-6 max-w-5xl">
           {/* Card Header Settings */}
-          <div className="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 space-y-4">
+          <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-6 shadow-xs space-y-4`}>
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="text-sm font-black uppercase tracking-wider text-white">
+              <h3 className={`text-sm font-black uppercase tracking-wider ${cls.textMain}`}>
                 Configuration de la Carte Galerie
               </h3>
-              <span className="text-xs text-zinc-400">
+              <span className={`text-xs ${cls.textMuted}`}>
                 Affichée sous le bloc « Commande d'Atelier » sur la fiche publique
               </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">Badge</label>
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>Badge</label>
                 <input
                   type="text"
                   value={uniqueData.gallery?.badge || "📸 Galerie Photos"}
@@ -995,12 +997,12 @@ export default function UniquePieceEditorClient({
                     ...prev,
                     gallery: { ...(prev.gallery || getDefaultUniquePieceData(name).gallery), badge: e.target.value }
                   }))}
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain}`}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">Titre de la carte</label>
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>Titre de la carte</label>
                 <input
                   type="text"
                   value={uniqueData.gallery?.title || "Vues Détaillées"}
@@ -1008,13 +1010,13 @@ export default function UniquePieceEditorClient({
                     ...prev,
                     gallery: { ...(prev.gallery || getDefaultUniquePieceData(name).gallery), title: e.target.value }
                   }))}
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain}`}
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-zinc-400 mb-1">Description / Accroche</label>
+              <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>Description / Accroche</label>
               <textarea
                 rows={2}
                 value={uniqueData.gallery?.description || ""}
@@ -1022,7 +1024,7 @@ export default function UniquePieceEditorClient({
                   ...prev,
                   gallery: { ...(prev.gallery || getDefaultUniquePieceData(name).gallery), description: e.target.value }
                 }))}
-                className="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-xs text-white resize-none"
+                className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl p-3 text-xs ${cls.textMain} resize-none`}
                 placeholder="Explorez les finitions, les coups de pinceau et la patine sous tous les angles."
               />
             </div>
@@ -1122,10 +1124,10 @@ export default function UniquePieceEditorClient({
                 galleryFileInputRef.current?.click();
               }
             }}
-            className={`relative rounded-3xl border-2 border-dashed p-8 sm:p-10 transition-all cursor-pointer text-center group ${
+            className={`relative rounded-2xl border-2 border-dashed p-8 sm:p-10 transition-all cursor-pointer text-center group ${
               isDragging
-                ? "border-[#ff4f00] bg-[#ff4f00]/15 scale-[1.01] shadow-2xl shadow-[#ff4f00]/30 ring-4 ring-[#ff4f00]/20"
-                : "border-white/15 bg-black/40 hover:border-[#ff4f00]/60 hover:bg-black/60 shadow-xl"
+                ? "border-[#ff4f00] bg-[#ff4f00]/10 scale-[1.01] shadow-lg shadow-[#ff4f00]/20 ring-4 ring-[#ff4f00]/10"
+                : `${cls.border} ${cls.cardBg} hover:border-[#ff4f00]/60 hover:bg-[#ff4f00]/5 shadow-xs`
             }`}
           >
             <div className="flex flex-col items-center justify-center gap-3 max-w-xl mx-auto">
@@ -1140,13 +1142,13 @@ export default function UniquePieceEditorClient({
               </div>
 
               <div>
-                <h4 className="text-base sm:text-lg font-black text-white tracking-wide">
+                <h4 className={`text-base sm:text-lg font-black ${cls.textMain} tracking-wide`}>
                   {isDragging
                     ? "✨ Relâchez vos photos & vidéos pour lancer l'upload !"
                     : "Ajouter des photos & vidéos en lot (Drag & Drop)"}
                 </h4>
-                <p className="text-xs text-zinc-400 mt-1 max-w-md mx-auto">
-                  Prenez vos 5, 10 ou 20 photos et vidéos depuis votre bureau et <strong className="text-zinc-200">déposez-les ici</strong> d'un coup, ou cliquez pour parcourir.
+                <p className={`text-xs ${cls.textMuted} mt-1 max-w-md mx-auto`}>
+                  Prenez vos 5, 10 ou 20 photos et vidéos depuis votre bureau et <strong className={cls.textMain}>déposez-les ici</strong> d'un coup, ou cliquez pour parcourir.
                 </p>
               </div>
 
@@ -1166,15 +1168,15 @@ export default function UniquePieceEditorClient({
               </div>
 
               {/* Badges Features */}
-              <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-[10px] text-zinc-400">
-                <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 flex items-center gap-1.5">
+              <div className={`flex flex-wrap items-center justify-center gap-2 pt-2 text-[10px] ${cls.textMuted}`}>
+                <span className={`px-2.5 py-1 rounded-full ${cls.badgeBg} border ${cls.border} flex items-center gap-1.5`}>
                   <Sparkles className="w-3 h-3 text-[#ff4f00]" />
                   <span>Optimisation & compression auto</span>
                 </span>
-                <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10">
+                <span className={`px-2.5 py-1 rounded-full ${cls.badgeBg} border ${cls.border}`}>
                   🎥 Vidéos : MP4, WEBM, MOV (jusqu'à 50 Mo)
                 </span>
-                <span className="px-2.5 py-1 rounded-full bg-white/5 border border-white/10">
+                <span className={`px-2.5 py-1 rounded-full ${cls.badgeBg} border ${cls.border}`}>
                   📷 Photos : JPG, PNG, WEBP, AVIF, HEIC
                 </span>
               </div>
@@ -1182,8 +1184,8 @@ export default function UniquePieceEditorClient({
 
             {/* Upload Progress Overlay / Banner */}
             {uploadProgress && (
-              <div className="mt-6 pt-6 border-t border-white/10 max-w-lg mx-auto text-left">
-                <div className="flex items-center justify-between text-xs font-bold text-white mb-2">
+              <div className={`mt-6 pt-6 border-t ${cls.border} max-w-lg mx-auto text-left`}>
+                <div className={`flex items-center justify-between text-xs font-bold ${cls.textMain} mb-2`}>
                   <div className="flex items-center gap-2">
                     <RefreshCw className="w-3.5 h-3.5 text-[#ff4f00] animate-spin" />
                     <span>
@@ -1196,14 +1198,14 @@ export default function UniquePieceEditorClient({
                 </div>
 
                 {/* Progress track */}
-                <div className="w-full h-2.5 bg-black/60 rounded-full overflow-hidden border border-white/10">
+                <div className={`w-full h-2.5 ${cls.inputBg} rounded-full overflow-hidden border ${cls.border}`}>
                   <div
                     className="h-full bg-gradient-to-r from-[#ff4f00] to-amber-500 rounded-full transition-all duration-200"
                     style={{ width: `${uploadProgress.percent}%` }}
                   />
                 </div>
 
-                <p className="text-[11px] text-zinc-400 mt-2 truncate font-mono">
+                <p className={`text-[11px] ${cls.textMuted} mt-2 truncate font-mono`}>
                   Envoi de : {uploadProgress.currentFileName}
                 </p>
               </div>
@@ -1211,16 +1213,16 @@ export default function UniquePieceEditorClient({
           </div>
 
           {/* Photos Management */}
-          <div className="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 space-y-5">
+          <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-6 shadow-xs space-y-5`}>
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <h3 className="text-sm font-black uppercase tracking-wider text-white flex items-center gap-2">
+                <h3 className={`text-sm font-black uppercase tracking-wider ${cls.textMain} flex items-center gap-2`}>
                   <span>Médias de la Galerie (Photos & Vidéos)</span>
                   <span className="px-2 py-0.5 rounded-full bg-[#ff4f00]/20 text-[#ff4f00] text-xs font-black">
                     {(uniqueData.gallery?.items || []).length}
                   </span>
                 </h3>
-                <p className="text-xs text-zinc-400 mt-0.5">
+                <p className={`text-xs ${cls.textMuted} mt-0.5`}>
                   Chaque média dispose d'un aperçu direct, d'une légende et d'un zoom plein écran dans la visionneuse.
                 </p>
               </div>
@@ -1258,7 +1260,7 @@ export default function UniquePieceEditorClient({
                       };
                     });
                   }}
-                  className="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-200 text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
+                  className={`px-3.5 py-2 rounded-xl ${cls.inputBg} hover:${cls.hoverRow} border ${cls.border} ${cls.textMain} text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5`}
                 >
                   <span>+ Ligne photo</span>
                 </button>
@@ -1325,8 +1327,8 @@ export default function UniquePieceEditorClient({
                 return (
                   <div
                     key={`gallery-item-${pIdx}`}
-                    className={`p-4 rounded-2xl bg-black/40 border transition-all flex flex-col md:flex-row gap-4 items-start md:items-center ${
-                      isCurrentHero || isCurrentHeroVideo ? "border-[#ff4f00]/50 bg-[#ff4f00]/5" : "border-white/10"
+                    className={`p-4 rounded-2xl ${cls.statusBg} border transition-all flex flex-col md:flex-row gap-4 items-start md:items-center ${
+                      isCurrentHero || isCurrentHeroVideo ? "border-[#ff4f00]/50 bg-[#ff4f00]/5 dark:bg-[#ff4f00]/10" : cls.border
                     }`}
                   >
                     {/* Thumbnail Preview */}
@@ -1389,7 +1391,7 @@ export default function UniquePieceEditorClient({
                       <div className="sm:col-span-2">
                         <div className="flex flex-wrap items-center justify-between gap-1 mb-1">
                           <div className="flex items-center gap-2">
-                            <label className="text-[11px] font-bold text-zinc-400">
+                            <label className={`text-[11px] font-bold ${cls.textMuted}`}>
                               Chemin / URL du fichier {isVid ? "(Vidéo)" : "(Photo)"}
                             </label>
                             {/* Toggle type badge */}
@@ -1409,7 +1411,7 @@ export default function UniquePieceEditorClient({
                               className={`text-[9px] font-black px-1.5 py-0.5 rounded-full border transition-all cursor-pointer ${
                                 isVid
                                   ? "bg-indigo-600/20 border-indigo-500/40 text-indigo-300"
-                                  : "bg-white/5 border-white/10 text-zinc-400"
+                                  : `${cls.badgeBg} ${cls.border} ${cls.textMuted}`
                               }`}
                               title="Cliquer pour changer le type média"
                             >
@@ -1475,7 +1477,7 @@ export default function UniquePieceEditorClient({
                                 setReplacingIndex(pIdx);
                                 replaceItemInputRef.current?.click();
                               }}
-                              className="text-[10px] font-bold text-zinc-300 hover:text-white flex items-center gap-1 cursor-pointer bg-white/5 px-2 py-0.5 rounded hover:bg-white/10"
+                              className={`text-[10px] font-bold ${cls.textMuted} hover:text-[#ff4f00] flex items-center gap-1 cursor-pointer ${cls.badgeBg} px-2 py-0.5 rounded`}
                             >
                               <RefreshCw className="w-2.5 h-2.5" />
                               <span>Remplacer</span>
@@ -1494,13 +1496,13 @@ export default function UniquePieceEditorClient({
                               gallery: { ...(prev.gallery || getDefaultUniquePieceData(name).gallery), items },
                             }));
                           }}
-                          className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white font-mono"
+                          className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-3 py-2 text-xs ${cls.textMain} font-mono`}
                           placeholder="/images/produits/monstre-skateur-fait-main.jpg"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-[11px] font-bold text-zinc-400 mb-1">
+                        <label className={`block text-[11px] font-bold ${cls.textMuted} mb-1`}>
                           Légende (affichée en pastille sous le média)
                         </label>
                         <input
@@ -1514,13 +1516,13 @@ export default function UniquePieceEditorClient({
                               gallery: { ...(prev.gallery || getDefaultUniquePieceData(name).gallery), items },
                             }));
                           }}
-                          className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white"
+                          className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-3 py-2 text-xs ${cls.textMain}`}
                           placeholder={isVid ? "Clip vidéo atelier 360°" : "Gros plan sur les détails"}
                         />
                       </div>
 
                       <div>
-                        <label className="block text-[11px] font-bold text-zinc-400 mb-1">
+                        <label className={`block text-[11px] font-bold ${cls.textMuted} mb-1`}>
                           Texte alternatif (SEO / a11y)
                         </label>
                         <input
@@ -1534,7 +1536,7 @@ export default function UniquePieceEditorClient({
                               gallery: { ...(prev.gallery || getDefaultUniquePieceData(name).gallery), items },
                             }));
                           }}
-                          className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-xs text-white"
+                          className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-3 py-2 text-xs ${cls.textMain}`}
                           placeholder="Vue du produit"
                         />
                       </div>
@@ -1556,7 +1558,7 @@ export default function UniquePieceEditorClient({
                               gallery: { ...(prev.gallery || getDefaultUniquePieceData(name).gallery), items },
                             }));
                           }}
-                          className="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-zinc-300 text-xs font-bold transition-colors cursor-pointer"
+                          className={`p-2 rounded-xl ${cls.inputBg} hover:${cls.hoverRow} border ${cls.border} ${cls.textMain} text-xs font-bold transition-colors cursor-pointer`}
                         >
                           ↑
                         </button>
@@ -1575,7 +1577,7 @@ export default function UniquePieceEditorClient({
                               gallery: { ...(prev.gallery || getDefaultUniquePieceData(name).gallery), items },
                             }));
                           }}
-                          className="p-2 rounded-xl bg-white/5 hover:bg-white/15 text-zinc-300 text-xs font-bold transition-colors cursor-pointer"
+                          className={`p-2 rounded-xl ${cls.inputBg} hover:${cls.hoverRow} border ${cls.border} ${cls.textMain} text-xs font-bold transition-colors cursor-pointer`}
                         >
                           ↓
                         </button>
@@ -1600,9 +1602,9 @@ export default function UniquePieceEditorClient({
               })}
 
               {(!uniqueData.gallery?.items || uniqueData.gallery.items.length === 0) && (
-                <div className="py-12 text-center text-zinc-500 text-xs space-y-2 border border-white/5 rounded-2xl bg-black/20">
-                  <p className="text-zinc-400 font-bold">Aucune photo dans la galerie pour l'instant.</p>
-                  <p className="text-[11px] text-zinc-500">
+                <div className={`py-12 text-center ${cls.textMuted} text-xs space-y-2 border ${cls.border} rounded-2xl ${cls.statusBg}`}>
+                  <p className={`font-bold ${cls.textMuted}`}>Aucune photo dans la galerie pour l'instant.</p>
+                  <p className={`text-[11px] ${cls.textFaint}`}>
                     Glissez vos photos dans la zone ci-dessus ou cliquez sur « Ajouter en lot » pour commencer.
                   </p>
                 </div>
@@ -1618,16 +1620,16 @@ export default function UniquePieceEditorClient({
       {activeTab === "videoSection" && (
         <div className="space-y-6 max-w-4xl">
           {/* Main Activation Card */}
-          <div className="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 space-y-5">
+          <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-6 shadow-xs space-y-5`}>
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <Film className="w-5 h-5 text-[#ff4f00]" />
-                  <h3 className="text-base font-black uppercase tracking-wider text-white">
+                  <h3 className={`text-base font-black uppercase tracking-wider ${cls.textMain}`}>
                     Vidéo Dédiée dans la Fiche Produit
                   </h3>
                 </div>
-                <p className="text-xs text-zinc-400 max-w-xl">
+                <p className={`text-xs ${cls.textMuted} max-w-xl`}>
                   Affiche une section cinéma immersive dans la fiche produit pour montrer la figurine en 360°, son making-of ou son déballage.
                 </p>
               </div>
@@ -1647,7 +1649,7 @@ export default function UniquePieceEditorClient({
                 className={`px-4 py-2 rounded-2xl text-xs font-black transition-all flex items-center gap-2 cursor-pointer border ${
                   uniqueData.videoSection?.enabled
                     ? "bg-emerald-500/20 border-emerald-500/50 text-emerald-300 shadow-lg shadow-emerald-500/10"
-                    : "bg-white/5 border-white/10 text-zinc-400 hover:text-white"
+                    : `${cls.inputBg} ${cls.border} ${cls.textMuted} hover:${cls.textMain}`
                 }`}
               >
                 <span className={`w-2 h-2 rounded-full ${uniqueData.videoSection?.enabled ? "bg-emerald-400 animate-pulse" : "bg-zinc-500"}`} />
@@ -1656,9 +1658,9 @@ export default function UniquePieceEditorClient({
             </div>
 
             {/* Video File Uploader & URL */}
-            <div className="pt-2 border-t border-white/10 space-y-4">
+            <div className={`pt-2 border-t ${cls.border} space-y-4`}>
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-white uppercase tracking-wider">
+                <label className={`text-xs font-bold ${cls.textMain} uppercase tracking-wider`}>
                   Fichier Vidéo (MP4, MOV, WEBM ou lien YouTube)
                 </label>
                 {uniqueData.videoSection?.videoUrl && (
@@ -1707,7 +1709,7 @@ export default function UniquePieceEditorClient({
                       type="button"
                       onClick={() => videoSectionInputRef.current?.click()}
                       disabled={isVideoSectionUploading}
-                      className="flex-1 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-200 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
+                      className={`flex-1 py-2.5 rounded-xl ${cls.inputBg} hover:${cls.hoverRow} border ${cls.border} ${cls.textMain} text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer`}
                     >
                       <RefreshCw className={`w-3.5 h-3.5 text-[#ff4f00] ${isVideoSectionUploading ? "animate-spin" : ""}`} />
                       <span>{isVideoSectionUploading ? "Téléversement..." : "Remplacer par un autre fichier vidéo"}</span>
@@ -1729,20 +1731,20 @@ export default function UniquePieceEditorClient({
               ) : (
                 <div
                   onClick={() => videoSectionInputRef.current?.click()}
-                  className="aspect-video max-h-72 rounded-2xl border-2 border-dashed border-white/15 bg-black/40 hover:border-[#ff4f00]/50 hover:bg-black/60 transition-all flex flex-col items-center justify-center p-6 text-center cursor-pointer group"
+                  className={`aspect-video max-h-72 rounded-2xl border-2 border-dashed ${cls.border} ${cls.inputBg} hover:border-[#ff4f00]/50 hover:bg-[#ff4f00]/5 transition-all flex flex-col items-center justify-center p-6 text-center cursor-pointer group`}
                 >
                   {isVideoSectionUploading ? (
                     <div className="flex flex-col items-center gap-2">
                       <RefreshCw className="w-8 h-8 text-[#ff4f00] animate-spin" />
-                      <span className="text-xs font-bold text-white">Téléversement de la vidéo en cours...</span>
+                      <span className={`text-xs font-bold ${cls.textMain}`}>Téléversement de la vidéo en cours...</span>
                     </div>
                   ) : (
                     <>
                       <div className="w-14 h-14 rounded-2xl bg-[#ff4f00]/10 text-[#ff4f00] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                         <Film className="w-7 h-7" />
                       </div>
-                      <span className="text-sm font-bold text-white">Glissez ou cliquez pour téléverser votre vidéo</span>
-                      <span className="text-xs text-zinc-400 mt-1">MP4, MOV, WEBM (jusqu'à 50 Mo) ou collez un lien YouTube ci-dessous</span>
+                      <span className={`text-sm font-bold ${cls.textMain}`}>Glissez ou cliquez pour téléverser votre vidéo</span>
+                      <span className={`text-xs ${cls.textMuted} mt-1`}>MP4, MOV, WEBM (jusqu'à 50 Mo) ou collez un lien YouTube ci-dessous</span>
                     </>
                   )}
                 </div>
@@ -1762,7 +1764,7 @@ export default function UniquePieceEditorClient({
               />
 
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                   Ou URL directe / Lien YouTube
                 </label>
                 <input
@@ -1779,7 +1781,7 @@ export default function UniquePieceEditorClient({
                       },
                     }));
                   }}
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white font-mono focus:border-[#ff4f00] focus:outline-none"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain} font-mono focus:border-[#ff4f00] focus:outline-none`}
                   placeholder="https://www.youtube.com/watch?v=... ou /uploads/video.mp4"
                 />
               </div>
@@ -1787,14 +1789,14 @@ export default function UniquePieceEditorClient({
           </div>
 
           {/* Texts & Features Configuration */}
-          <div className="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 space-y-4">
-            <h3 className="text-sm font-black uppercase tracking-wider text-white mb-2">
+          <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-6 shadow-xs space-y-4`}>
+            <h3 className={`text-sm font-black uppercase tracking-wider ${cls.textMain} mb-2`}>
               Textes de la Section Vidéo
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">Badge</label>
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>Badge</label>
                 <input
                   type="text"
                   value={uniqueData.videoSection?.badge ?? "🎥 Making-of & Présentation"}
@@ -1807,13 +1809,13 @@ export default function UniquePieceEditorClient({
                       },
                     }))
                   }
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain}`}
                   placeholder="🎥 Making-of & Présentation"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">Titre</label>
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>Titre</label>
                 <input
                   type="text"
                   value={uniqueData.videoSection?.title ?? "Découvrez la création en mouvement"}
@@ -1826,14 +1828,14 @@ export default function UniquePieceEditorClient({
                       },
                     }))
                   }
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain}`}
                   placeholder="Découvrez la création en mouvement"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-zinc-400 mb-1">Description / Histoire du clip</label>
+              <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>Description / Histoire du clip</label>
               <textarea
                 rows={3}
                 value={uniqueData.videoSection?.description ?? ""}
@@ -1846,7 +1848,7 @@ export default function UniquePieceEditorClient({
                     },
                   }))
                 }
-                className="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-xs text-white resize-none"
+                className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl p-3 text-xs ${cls.textMain} resize-none`}
                 placeholder="Un aperçu en direct de notre processus de sculpture et peinture..."
               />
             </div>
@@ -1854,7 +1856,7 @@ export default function UniquePieceEditorClient({
             {/* Highlights / Features points */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-xs font-bold text-zinc-400">
+                <label className={`block text-xs font-bold ${cls.textMuted}`}>
                   Points forts affichés à côté du lecteur vidéo (jusqu'à 4 points)
                 </label>
                 <button
@@ -1897,7 +1899,7 @@ export default function UniquePieceEditorClient({
                           },
                         }));
                       }}
-                      className="flex-1 bg-black/50 border border-white/10 rounded-xl px-3 py-2 text-xs text-white"
+                      className={`flex-1 ${cls.inputBg} border ${cls.border} rounded-xl px-3 py-2 text-xs ${cls.textMain}`}
                     />
                     <button
                       type="button"
@@ -1928,14 +1930,14 @@ export default function UniquePieceEditorClient({
       {/* ============================================================ */}
       {activeTab === "savoirFaire" && (
         <div className="space-y-6 max-w-4xl">
-          <div className="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 space-y-4">
-            <h3 className="text-sm font-black uppercase tracking-wider text-white mb-2">
+          <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-6 shadow-xs space-y-4`}>
+            <h3 className={`text-sm font-black uppercase tracking-wider ${cls.textMain} mb-2`}>
               Carte Savoir-Faire (En-tête)
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">Badge</label>
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>Badge</label>
                 <input
                   type="text"
                   value={uniqueData.savoirFaire.badge}
@@ -1945,12 +1947,12 @@ export default function UniquePieceEditorClient({
                       savoirFaire: { ...prev.savoirFaire, badge: e.target.value },
                     }))
                   }
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain}`}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">Titre de la Carte</label>
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>Titre de la Carte</label>
                 <input
                   type="text"
                   value={uniqueData.savoirFaire.title}
@@ -1960,13 +1962,13 @@ export default function UniquePieceEditorClient({
                       savoirFaire: { ...prev.savoirFaire, title: e.target.value },
                     }))
                   }
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain}`}
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-zinc-400 mb-1">Introduction</label>
+              <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>Introduction</label>
               <textarea
                 rows={2}
                 value={uniqueData.savoirFaire.intro}
@@ -1976,19 +1978,19 @@ export default function UniquePieceEditorClient({
                     savoirFaire: { ...prev.savoirFaire, intro: e.target.value },
                   }))
                 }
-                className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white"
+                className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain}`}
               />
             </div>
           </div>
 
-          <div className="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 space-y-4">
-            <h3 className="text-sm font-black uppercase tracking-wider text-white mb-2">
+          <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-6 shadow-xs space-y-4`}>
+            <h3 className={`text-sm font-black uppercase tracking-wider ${cls.textMain} mb-2`}>
               Les 4 Étapes de Fabrication
             </h3>
 
             <div className="space-y-4">
               {uniqueData.savoirFaire.steps.map((step, idx) => (
-                <div key={idx} className="p-4 rounded-2xl bg-black/40 border border-white/5 space-y-3">
+                <div key={idx} className={`p-4 rounded-2xl ${cls.statusBg} border ${cls.border} space-y-3`}>
                   <div className="flex items-center gap-3">
                     <span className="w-6 h-6 rounded-full bg-[#ff4f00]/20 text-[#ff4f00] font-black text-xs flex items-center justify-center">
                       {idx + 1}
@@ -2004,7 +2006,7 @@ export default function UniquePieceEditorClient({
                           savoirFaire: { ...prev.savoirFaire, steps: next },
                         }));
                       }}
-                      className="flex-1 bg-zinc-900 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white font-bold"
+                      className={`flex-1 ${cls.inputBg} border ${cls.border} rounded-xl px-3 py-1.5 text-xs ${cls.textMain} font-bold`}
                     />
                   </div>
 
@@ -2019,14 +2021,14 @@ export default function UniquePieceEditorClient({
                         savoirFaire: { ...prev.savoirFaire, steps: next },
                       }));
                     }}
-                    className="w-full bg-zinc-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-zinc-300"
+                    className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-3 py-2 text-xs ${cls.textMain}`}
                   />
                 </div>
               ))}
             </div>
 
             <div className="pt-2">
-              <label className="block text-xs font-bold text-zinc-400 mb-1">
+              <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                 Citation / Mot de l'artisan en bas de carte
               </label>
               <input
@@ -2038,7 +2040,7 @@ export default function UniquePieceEditorClient({
                     savoirFaire: { ...prev.savoirFaire, quote: e.target.value },
                   }))
                 }
-                className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-amber-300 italic"
+                className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain} italic`}
               />
             </div>
           </div>
@@ -2050,14 +2052,14 @@ export default function UniquePieceEditorClient({
       {/* ============================================================ */}
       {activeTab === "lore" && (
         <div className="space-y-6 max-w-4xl">
-          <div className="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 space-y-4">
-            <h3 className="text-sm font-black uppercase tracking-wider text-white mb-2">
+          <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-6 shadow-xs space-y-4`}>
+            <h3 className={`text-sm font-black uppercase tracking-wider ${cls.textMain} mb-2`}>
               Histoire de la Création
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">Badge</label>
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>Badge</label>
                 <input
                   type="text"
                   value={uniqueData.lore.badge}
@@ -2067,12 +2069,12 @@ export default function UniquePieceEditorClient({
                       lore: { ...prev.lore, badge: e.target.value },
                     }))
                   }
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain}`}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                   Nom du personnage / de l'œuvre
                 </label>
                 <input
@@ -2084,14 +2086,14 @@ export default function UniquePieceEditorClient({
                       lore: { ...prev.lore, title: e.target.value },
                     }))
                   }
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white font-bold"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain} font-bold`}
                 />
               </div>
             </div>
 
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-xs font-bold text-zinc-400">
+                <label className={`text-xs font-bold ${cls.textMuted}`}>
                   Paragraphes du récit
                 </label>
                 <button
@@ -2122,7 +2124,7 @@ export default function UniquePieceEditorClient({
                           lore: { ...prev.lore, paragraphs: next },
                         }));
                       }}
-                      className="flex-1 bg-black/50 border border-white/10 rounded-xl px-4 py-2 text-xs text-zinc-300"
+                      className={`flex-1 ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2 text-xs ${cls.textMain}`}
                     />
                     {uniqueData.lore.paragraphs.length > 1 && (
                       <button
@@ -2153,14 +2155,14 @@ export default function UniquePieceEditorClient({
       {/* ============================================================ */}
       {activeTab === "specs" && (
         <div className="space-y-6 max-w-4xl">
-          <div className="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 space-y-4">
-            <h3 className="text-sm font-black uppercase tracking-wider text-white mb-2">
+          <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-6 shadow-xs space-y-4`}>
+            <h3 className={`text-sm font-black uppercase tracking-wider ${cls.textMain} mb-2`}>
               Fiche Technique d'Atelier
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">Badge</label>
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>Badge</label>
                 <input
                   type="text"
                   value={uniqueData.specs.badge}
@@ -2170,12 +2172,12 @@ export default function UniquePieceEditorClient({
                       specs: { ...prev.specs, badge: e.target.value },
                     }))
                   }
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain}`}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">Titre de la Carte</label>
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>Titre de la Carte</label>
                 <input
                   type="text"
                   value={uniqueData.specs.title}
@@ -2185,14 +2187,14 @@ export default function UniquePieceEditorClient({
                       specs: { ...prev.specs, title: e.target.value },
                     }))
                   }
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white font-bold"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain} font-bold`}
                 />
               </div>
             </div>
 
             <div className="pt-2">
               <div className="flex items-center justify-between mb-3">
-                <label className="text-xs font-bold text-zinc-400">
+                <label className={`text-xs font-bold ${cls.textMuted}`}>
                   Caractéristiques Clé / Valeur
                 </label>
                 <button
@@ -2214,7 +2216,7 @@ export default function UniquePieceEditorClient({
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {uniqueData.specs.items.map((item, idx) => (
-                  <div key={idx} className="p-3.5 bg-black/40 border border-white/10 rounded-2xl space-y-2 relative group">
+                  <div key={idx} className={`p-3.5 ${cls.statusBg} border ${cls.border} rounded-xl space-y-2 relative group`}>
                     <input
                       type="text"
                       value={item.label}
@@ -2226,7 +2228,7 @@ export default function UniquePieceEditorClient({
                           specs: { ...prev.specs, items: next },
                         }));
                       }}
-                      className="w-full bg-transparent border-b border-white/10 pb-1 text-[11px] font-bold text-zinc-400 uppercase focus:outline-none focus:border-[#ff4f00]"
+                      className={`w-full bg-transparent border-b ${cls.border} pb-1 text-[11px] font-bold ${cls.textMuted} uppercase focus:outline-none focus:border-[#ff4f00]`}
                       placeholder="Libellé"
                     />
                     <input
@@ -2240,7 +2242,7 @@ export default function UniquePieceEditorClient({
                           specs: { ...prev.specs, items: next },
                         }));
                       }}
-                      className="w-full bg-transparent text-sm font-black text-white focus:outline-none"
+                      className={`w-full bg-transparent text-sm font-black ${cls.textMain} focus:outline-none`}
                       placeholder="Valeur"
                     />
                     <button
@@ -2269,14 +2271,14 @@ export default function UniquePieceEditorClient({
       {/* ============================================================ */}
       {activeTab === "ecrin" && (
         <div className="space-y-6 max-w-4xl">
-          <div className="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 space-y-4">
-            <h3 className="text-sm font-black uppercase tracking-wider text-white mb-2">
+          <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-6 shadow-xs space-y-4`}>
+            <h3 className={`text-sm font-black uppercase tracking-wider ${cls.textMain} mb-2`}>
               Écrin & Protection
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">Badge</label>
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>Badge</label>
                 <input
                   type="text"
                   value={uniqueData.ecrin.badge}
@@ -2286,12 +2288,12 @@ export default function UniquePieceEditorClient({
                       ecrin: { ...prev.ecrin, badge: e.target.value },
                     }))
                   }
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain}`}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">Titre de la Carte</label>
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>Titre de la Carte</label>
                 <input
                   type="text"
                   value={uniqueData.ecrin.title}
@@ -2301,13 +2303,13 @@ export default function UniquePieceEditorClient({
                       ecrin: { ...prev.ecrin, title: e.target.value },
                     }))
                   }
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white font-bold"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain} font-bold`}
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-zinc-400 mb-1">Description</label>
+              <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>Description</label>
               <textarea
                 rows={2}
                 value={uniqueData.ecrin.intro}
@@ -2317,17 +2319,17 @@ export default function UniquePieceEditorClient({
                     ecrin: { ...prev.ecrin, intro: e.target.value },
                   }))
                 }
-                className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white"
+                className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-xs ${cls.textMain}`}
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-zinc-400 mb-2">
+              <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                 Les 4 Points du Packaging
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {uniqueData.ecrin.points.map((pt, idx) => (
-                  <div key={idx} className="flex items-center gap-2 bg-black/40 border border-white/10 p-2.5 rounded-xl">
+                  <div key={idx} className={`flex items-center gap-2 ${cls.statusBg} border ${cls.border} p-2.5 rounded-xl`}>
                     <span className="text-emerald-400 font-bold">✓</span>
                     <input
                       type="text"
@@ -2340,16 +2342,16 @@ export default function UniquePieceEditorClient({
                           ecrin: { ...prev.ecrin, points: next },
                         }));
                       }}
-                      className="flex-1 bg-transparent text-xs text-white focus:outline-none"
+                      className={`flex-1 bg-transparent text-xs ${cls.textMain} focus:outline-none`}
                     />
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-white/10">
+            <div className={`grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t ${cls.border}`}>
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                   Méthode d'Expédition
                 </label>
                 <input
@@ -2361,12 +2363,12 @@ export default function UniquePieceEditorClient({
                       ecrin: { ...prev.ecrin, shippingMethod: e.target.value },
                     }))
                   }
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2 text-xs text-white"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2 text-xs ${cls.textMain}`}
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-zinc-400 mb-1">
+                <label className={`block text-xs font-bold ${cls.textMuted} mb-1.5`}>
                   Origine d'Atelier
                 </label>
                 <input
@@ -2378,7 +2380,7 @@ export default function UniquePieceEditorClient({
                       ecrin: { ...prev.ecrin, origin: e.target.value },
                     }))
                   }
-                  className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-2 text-xs text-white font-bold"
+                  className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2 text-xs ${cls.textMain} font-bold`}
                 />
               </div>
             </div>
@@ -2391,13 +2393,13 @@ export default function UniquePieceEditorClient({
       {/* ============================================================ */}
       {activeTab === "faq" && (
         <div className="space-y-6 max-w-4xl">
-          <div className="bg-zinc-900/80 border border-white/10 rounded-3xl p-6 space-y-4">
+          <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-6 shadow-xs space-y-4`}>
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-black uppercase tracking-wider text-white">
+                <h3 className={`text-sm font-black uppercase tracking-wider ${cls.textMain}`}>
                   Foire Aux Questions Spécifique Fait Main
                 </h3>
-                <p className="text-xs text-zinc-400 mt-0.5">
+                <p className={`text-xs ${cls.textMuted} mt-0.5`}>
                   Répondez précisément aux questions sur la fragilité, l'entretien et l'exclusivité.
                 </p>
               </div>
@@ -2421,7 +2423,7 @@ export default function UniquePieceEditorClient({
 
             <div className="space-y-4 pt-2">
               {uniqueData.faq.items.map((item, idx) => (
-                <div key={idx} className="p-4 bg-black/40 border border-white/10 rounded-2xl space-y-2.5 relative group">
+                <div key={idx} className={`p-4 ${cls.statusBg} border ${cls.border} rounded-xl space-y-2.5 relative group`}>
                   <div className="flex items-center justify-between gap-2">
                     <input
                       type="text"
@@ -2434,7 +2436,7 @@ export default function UniquePieceEditorClient({
                           faq: { ...prev.faq, items: next },
                         }));
                       }}
-                      className="flex-1 bg-zinc-900 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white font-bold focus:border-[#ff4f00] focus:outline-none"
+                      className={`flex-1 ${cls.inputBg} border ${cls.border} rounded-xl px-3 py-1.5 text-xs ${cls.textMain} font-bold focus:border-[#ff4f00] focus:outline-none`}
                       placeholder="Question..."
                     />
                     <button
@@ -2464,7 +2466,7 @@ export default function UniquePieceEditorClient({
                         faq: { ...prev.faq, items: next },
                       }));
                     }}
-                    className="w-full bg-zinc-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-zinc-300 focus:border-[#ff4f00] focus:outline-none"
+                    className={`w-full ${cls.inputBg} border ${cls.border} rounded-xl px-3 py-2 text-xs ${cls.textMain} focus:border-[#ff4f00] focus:outline-none`}
                     placeholder="Réponse détaillée..."
                   />
                 </div>
