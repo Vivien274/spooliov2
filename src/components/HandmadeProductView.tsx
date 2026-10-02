@@ -23,10 +23,17 @@ import {
   Maximize2,
   ShoppingBag,
   ArrowDown,
+  ArrowUpRight,
   Truck,
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  Film,
 } from "lucide-react";
 import { Product } from "@/components/ProductCard";
 import { getDefaultUniquePieceData, UniquePieceData } from "@/lib/uniquePieceDefaults";
+import { isVideoMedia, isYouTubeUrl, getYouTubeEmbedUrl, getYouTubeThumbnail } from "@/lib/mediaUtils";
 
 function stripEmojis(text: string = ""): string {
   return text
@@ -40,11 +47,14 @@ function renderPerkIcon(icon: string = "", text: string = "") {
   if (lower.includes("peint") || lower.includes("palette") || lower.includes("art") || lower.includes("couleur")) {
     return <Palette color="#ff4f00" style={{ color: "#ff4f00", stroke: "#ff4f00" }} className="w-3.5 h-3.5 shrink-0" />;
   }
+  if (lower.includes("sign") || lower.includes("signature") || lower.includes("award") || lower.includes("certif")) {
+    return <Award color="#60a5fa" style={{ color: "#60a5fa", stroke: "#60a5fa" }} className="w-3.5 h-3.5 shrink-0" />;
+  }
+  if (lower.includes("comines") || lower.includes("france") || lower.includes("atelier") || lower.includes("mappin") || lower.includes("fabriq")) {
+    return <MapPin color="#fbbf24" style={{ color: "#fbbf24", stroke: "#fbbf24" }} className="w-3.5 h-3.5 shrink-0" />;
+  }
   if (lower.includes("vernis") || lower.includes("protect") || lower.includes("shield")) {
     return <ShieldCheck color="#34d399" style={{ color: "#34d399", stroke: "#34d399" }} className="w-3.5 h-3.5 shrink-0" />;
-  }
-  if (lower.includes("comines") || lower.includes("france") || lower.includes("atelier") || lower.includes("mappin")) {
-    return <MapPin color="#fbbf24" style={{ color: "#fbbf24", stroke: "#fbbf24" }} className="w-3.5 h-3.5 shrink-0" />;
   }
   return <Sparkles color="#ff4f00" style={{ color: "#ff4f00", stroke: "#ff4f00" }} className="w-3.5 h-3.5 shrink-0" />;
 }
@@ -170,6 +180,38 @@ export default function HandmadeProductView({
       ...(rawUniqueData?.faq || {}),
       items: rawUniqueData?.faq?.items || defaultData.faq.items,
     },
+    videoSection: {
+      ...defaultData.videoSection,
+      ...(rawUniqueData?.videoSection || {}),
+    },
+  };
+
+  // Video Cover (Hero) state
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
+  const [isHeroMuted, setIsHeroMuted] = useState(true);
+  const [isHeroPlaying, setIsHeroPlaying] = useState(true);
+
+  const heroVideoUrl = data.hero?.video || (isVideoMedia(mainImage) ? mainImage : null);
+  const hasHeroVideo = Boolean(heroVideoUrl);
+  const isHeroYouTube = heroVideoUrl ? isYouTubeUrl(heroVideoUrl) : false;
+
+  const toggleHeroPlay = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!heroVideoRef.current) return;
+    if (heroVideoRef.current.paused) {
+      heroVideoRef.current.play();
+      setIsHeroPlaying(true);
+    } else {
+      heroVideoRef.current.pause();
+      setIsHeroPlaying(false);
+    }
+  };
+
+  const toggleHeroMute = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!heroVideoRef.current) return;
+    heroVideoRef.current.muted = !isHeroMuted;
+    setIsHeroMuted(!isHeroMuted);
   };
 
   // Handle scroll detection on gallery track to update slide index indicator
@@ -214,25 +256,77 @@ export default function HandmadeProductView({
         {/* 1. HERO SECTION PLEINE LARGEUR SOUS LE MENU                 */}
         {/* ============================================================ */}
         <section className="relative w-full h-[72vh] sm:h-[80vh] lg:h-[86vh] min-h-[520px] max-h-[860px] overflow-hidden bg-black select-none">
-          {/* Background Full Bleed Product Image */}
-          <div 
-            onClick={() => setLightboxIndex(0)}
-            className="absolute inset-0 cursor-zoom-in group/hero"
-          >
-            <Image
-              src={mainImage}
-              alt={mainImageAlt}
-              fill
-              priority
-              className="object-cover object-center sm:object-[center_35%] transform scale-100 group-hover/hero:scale-[1.015] transition-transform duration-700 ease-out"
-            />
+          {/* Background Full Bleed Media (Video or Product Image) */}
+          {hasHeroVideo ? (
+            <div className="absolute inset-0">
+              {isHeroYouTube ? (
+                <iframe
+                  src={getYouTubeEmbedUrl(heroVideoUrl!) || ""}
+                  title={displayName}
+                  className="w-full h-full object-cover pointer-events-none scale-125"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                />
+              ) : (
+                <video
+                  ref={heroVideoRef}
+                  src={heroVideoUrl!}
+                  autoPlay
+                  loop
+                  muted={isHeroMuted}
+                  playsInline
+                  poster={mainImage && !isVideoMedia(mainImage) ? mainImage : undefined}
+                  className="w-full h-full object-cover object-center transform scale-100"
+                />
+              )}
 
-            {/* Top Subtle Vignette to separate menu */}
-            <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-black/90 via-black/50 to-transparent pointer-events-none" />
+              {/* Floating Hero Video Controls (Audio & Play/Pause) */}
+              {!isHeroYouTube && (
+                <div className="absolute top-24 sm:top-28 right-4 sm:right-32 z-30 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={toggleHeroPlay}
+                    className="p-2.5 rounded-full bg-black/60 hover:bg-[#ff4f00] text-white border border-white/20 backdrop-blur-md transition-all shadow-xl cursor-pointer"
+                    title={isHeroPlaying ? "Mettre en pause" : "Lire la vidéo"}
+                  >
+                    {isHeroPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-current" />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={toggleHeroMute}
+                    className="p-2.5 rounded-full bg-black/60 hover:bg-[#ff4f00] text-white border border-white/20 backdrop-blur-md transition-all shadow-xl cursor-pointer"
+                    title={isHeroMuted ? "Activer le son" : "Couper le son"}
+                  >
+                    {isHeroMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+                  </button>
+                </div>
+              )}
 
-            {/* Bottom Dramatic Gradient for Text Legibility */}
-            <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-[#0b0b0e] via-[#0b0b0e]/75 to-transparent pointer-events-none" />
-          </div>
+              {/* Top Subtle Vignette */}
+              <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-black/90 via-black/50 to-transparent pointer-events-none" />
+
+              {/* Bottom Dramatic Gradient for Text Legibility */}
+              <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-[#0b0b0e] via-[#0b0b0e]/75 to-transparent pointer-events-none" />
+            </div>
+          ) : (
+            <div 
+              onClick={() => setLightboxIndex(0)}
+              className="absolute inset-0 cursor-zoom-in group/hero"
+            >
+              <Image
+                src={mainImage}
+                alt={mainImageAlt}
+                fill
+                priority
+                className="object-cover object-center sm:object-[center_35%] transform scale-100 group-hover/hero:scale-[1.015] transition-transform duration-700 ease-out"
+              />
+
+              {/* Top Subtle Vignette to separate menu */}
+              <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-black/90 via-black/50 to-transparent pointer-events-none" />
+
+              {/* Bottom Dramatic Gradient for Text Legibility */}
+              <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-[#0b0b0e] via-[#0b0b0e]/75 to-transparent pointer-events-none" />
+            </div>
+          )}
 
           {/* Top Control Bar (Pills & Quick Switcher) */}
           <div className="absolute top-24 sm:top-28 inset-x-0 px-4 sm:px-8 z-20 flex items-center justify-between pointer-events-auto">
@@ -257,28 +351,25 @@ export default function HandmadeProductView({
                 type="button"
                 onClick={() => setLightboxIndex(0)}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#18181b] hover:bg-[#ff4f00] border border-white/20 text-xs font-bold text-white shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer no-invert"
-                title="Agrandir la photo en plein écran"
+                title="Agrandir en plein écran"
               >
                 <Maximize2 color="#ffffff" style={{ color: "#ffffff", stroke: "#ffffff" }} className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Zoom HD</span>
+                <span className="hidden sm:inline">Plein Écran</span>
               </button>
             </div>
           </div>
 
           {/* HERO CONTENT OVERLAY (Bottom-Aligned on the Image) */}
           <div className="absolute inset-x-0 bottom-0 z-20 px-4 sm:px-8 lg:px-12 pb-8 sm:pb-12 max-w-7xl mx-auto flex flex-col justify-end">
-            {/* Category Pill with artisanal badge */}
-            <div className="flex flex-wrap items-center gap-2.5 mb-3">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-400/40 text-amber-300 text-xs font-extrabold tracking-wider uppercase backdrop-blur-md shadow-lg no-invert keep-white">
-                <Sparkles color="#fcd34d" style={{ color: "#fcd34d", stroke: "#fcd34d" }} className="w-3.5 h-3.5 shrink-0" />
-                <span>{stripEmojis(data.hero.badge)}</span>
-              </span>
-
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-900/80 border border-white/10 text-zinc-300 text-xs font-bold backdrop-blur-md">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                <span>{data.hero.availabilityBadge}</span>
-              </span>
-            </div>
+            {/* Cover Video Indicator if active */}
+            {hasHeroVideo && (
+              <div className="flex flex-wrap items-center gap-2.5 mb-3">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/70 border border-[#ff4f00]/40 text-[#ff4f00] text-xs font-bold backdrop-blur-md">
+                  <Film className="w-3 h-3" />
+                  <span>Vidéo de Couverture</span>
+                </span>
+              </div>
+            )}
 
             {/* Main Product Name */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.08] mb-3 drop-shadow-md max-w-4xl">
@@ -299,17 +390,34 @@ export default function HandmadeProductView({
                 </span>
               </div>
 
-              {/* Micro-perks pills */}
-              {data.hero.microPerks && data.hero.microPerks.length > 0 && (
-                <div className="hidden lg:flex items-center gap-4 text-xs font-semibold text-zinc-300">
-                  {data.hero.microPerks.map((perk, idx) => (
-                    <span key={`perk-${idx}`} className="flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-xl border border-white/10 backdrop-blur-md">
-                      {renderPerkIcon(perk.icon, perk.text)}
-                      <span>{stripEmojis(perk.text)}</span>
-                    </span>
-                  ))}
-                </div>
-              )}
+              {/* Micro-perks pills: Peint à la main · Signé · Fabriqué à Comines */}
+              {(() => {
+                const perks = (data.hero.microPerks && data.hero.microPerks.length > 0)
+                  ? data.hero.microPerks.map((p) => {
+                      if (p.text.toLowerCase().includes("vernis")) return { icon: "award", text: "Signé" };
+                      if (p.text.toLowerCase().includes("atelier de comines")) return { icon: "mappin", text: "Fabriqué à Comines" };
+                      return p;
+                    })
+                  : [
+                      { icon: "palette", text: "Peint à la main" },
+                      { icon: "award", text: "Signé" },
+                      { icon: "mappin", text: "Fabriqué à Comines" },
+                    ];
+
+                return (
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-semibold text-zinc-300">
+                    {perks.map((perk, idx) => (
+                      <span
+                        key={`perk-${idx}`}
+                        className="flex items-center gap-2 bg-black/50 px-3.5 py-1.5 rounded-xl border border-white/10 backdrop-blur-md text-xs font-bold text-zinc-200 shadow-sm"
+                      >
+                        {renderPerkIcon(perk.icon, perk.text)}
+                        <span>{stripEmojis(perk.text)}</span>
+                      </span>
+                    ))}
+                  </div>
+                );
+              })()}
 
               {/* Scroll to Action CTA Button */}
               <button
@@ -553,61 +661,74 @@ export default function HandmadeProductView({
             className="flex gap-6 sm:gap-8 overflow-x-auto scrollbar-none px-4 sm:px-8 lg:px-12 py-3 snap-x snap-mandatory relative z-10"
             style={{ scrollSnapType: "x mandatory" }}
           >
-            {galleryItems.map((item, idx) => (
-              <div
-                key={`art-photo-${idx}`}
-                onClick={() => setLightboxIndex(idx)}
-                className="w-[84vw] sm:w-[540px] lg:w-[720px] shrink-0 snap-center rounded-3xl overflow-hidden bg-white border border-zinc-200 shadow-md hover:shadow-xl group cursor-zoom-in relative flex flex-col justify-end transition-all hover:border-[#ff4f00]/60"
-              >
-                {/* Photo Frame */}
-                <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-100">
-                  <Image
-                    src={item.src}
-                    alt={item.alt || item.caption || `${displayName} - Vue ${idx + 1}`}
-                    fill
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                  />
-
-                  {/* Subtle gallery vignette */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent pointer-events-none" />
-
-                  {/* Top Corner: Number & Zoom Indicator */}
-                  <div className="absolute top-4 inset-x-4 flex items-center justify-between pointer-events-none">
-                    <span 
-                      style={{ color: "#18181b" }}
-                      className="px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-zinc-200/90 text-[11px] font-extrabold text-zinc-900 shadow-sm"
-                    >
-                      Cliché 0{idx + 1}
-                    </span>
-
-                    <span 
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 hover:bg-[#ff4f00] group-hover:bg-[#ff4f00] text-zinc-900 hover:text-white group-hover:text-white backdrop-blur-md border border-zinc-200/90 text-[11px] font-extrabold shadow-sm transition-all"
-                    >
-                      <Maximize2 className="w-3.5 h-3.5 text-zinc-800 group-hover:text-white transition-colors" />
-                      <span>Plein écran</span>
-                    </span>
-                  </div>
-
-                  {/* Bottom Gallery Placard */}
-                  <div className="absolute bottom-4 inset-x-4 pointer-events-none">
-                    <div className="p-4 rounded-2xl bg-white/90 backdrop-blur-md border border-zinc-200/90 shadow-md flex items-center justify-between gap-4 text-zinc-900">
-                      <div>
-                        <div className="text-[10px] font-black uppercase tracking-widest text-[#ff4f00]">
-                          Vue détaillée
+            {galleryItems.map((item, idx) => {
+              const isVid = isVideoMedia(item.src) || item.type === "video";
+              const isItemYT = isYouTubeUrl(item.src);
+              return (
+                <div
+                  key={`art-photo-${idx}`}
+                  onClick={() => setLightboxIndex(idx)}
+                  className="w-[84vw] sm:w-[540px] lg:w-[720px] shrink-0 snap-center rounded-3xl overflow-hidden bg-white border border-zinc-200 shadow-md hover:shadow-xl group cursor-pointer relative flex flex-col justify-end transition-all hover:border-[#ff4f00]/60"
+                >
+                  {/* Photo / Video Frame */}
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-black">
+                    {isVid ? (
+                      isItemYT ? (
+                        <div className="relative w-full h-full">
+                          <Image
+                            src={getYouTubeThumbnail(item.src) || "/images/produits/monstre-skateur-fait-main.jpg"}
+                            alt={item.alt || item.caption || displayName}
+                            fill
+                            className="object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                            <div className="w-14 h-14 rounded-full bg-[#ff4f00] text-white flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+                              <Play className="w-6 h-6 ml-0.5 fill-current" />
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-xs sm:text-sm font-black text-zinc-950 truncate max-w-md">
-                          {item.caption || `${displayName} • Prise de vue détaillée`}
+                      ) : (
+                        <div className="relative w-full h-full">
+                          <video
+                            src={item.src}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                          />
+                          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors flex items-center justify-center pointer-events-none">
+                            <div className="w-12 h-12 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center justify-center group-hover:bg-[#ff4f00] group-hover:scale-110 transition-all shadow-lg">
+                              <Play className="w-5 h-5 ml-0.5 fill-current" />
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                      )
+                    ) : (
+                      <Image
+                        src={item.src}
+                        alt={item.alt || item.caption || `${displayName} - Vue ${idx + 1}`}
+                        fill
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                      />
+                    )}
 
-                      <span className="text-zinc-400 group-hover:text-[#ff4f00] transition-colors text-lg font-bold">
-                        ↗
+                    {/* Fullscreen Expand Arrow Button */}
+                    <div className="absolute top-4 right-4 pointer-events-none z-10">
+                      <span 
+                        className="w-10 h-10 rounded-full bg-white/25 group-hover:bg-white/50 backdrop-blur-md border border-white/40 shadow-md flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                        title="Plein écran"
+                      >
+                        <ArrowUpRight 
+                          strokeWidth={2.5}
+                          className="w-5 h-5 text-zinc-950 group-hover:text-[#ff4f00] transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 drop-shadow-xs" 
+                        />
                       </span>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Minimal Progress Indicator */}
@@ -633,12 +754,58 @@ export default function HandmadeProductView({
                       ? "w-8 bg-[#ff4f00]"
                       : "w-2 bg-zinc-300 hover:bg-zinc-400"
                   }`}
-                  title={`Aller à la photo ${i + 1}`}
+                  title={`Aller au média ${i + 1}`}
                 />
               ))}
             </div>
           )}
         </section>
+
+        {/* ============================================================ */}
+        {/* SECTION VIDÉO DÉDIÉE : LES COULISSES EN MOUVEMENT            */}
+        {/* ============================================================ */}
+        {data.videoSection?.enabled && data.videoSection.videoUrl && (
+          <section className="w-full bg-[#0b0b0e] text-white py-16 sm:py-20 border-b border-white/10 relative overflow-hidden">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#ff4f00]/10 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+              <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#ff4f00]/20 border border-[#ff4f00]/40 text-[#ff4f00] text-xs font-black uppercase tracking-wider mb-3">
+                  <Film className="w-3.5 h-3.5" />
+                  <span>{stripEmojis(data.videoSection.badge || "Coulisses & Mouvement")}</span>
+                </span>
+                <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+                  {data.videoSection.title || "Découvrez la création en vidéo"}
+                </h2>
+                {data.videoSection.description && (
+                  <p className="mt-2.5 text-xs sm:text-sm text-zinc-400 leading-relaxed">
+                    {data.videoSection.description}
+                  </p>
+                )}
+              </div>
+
+              {/* Video Player Container */}
+              <div className="relative aspect-video w-full rounded-3xl overflow-hidden bg-black border border-white/15 shadow-2xl">
+                {isYouTubeUrl(data.videoSection.videoUrl) ? (
+                  <iframe
+                    src={getYouTubeEmbedUrl(data.videoSection.videoUrl) || ""}
+                    title={data.videoSection.title || "Vidéo de la création"}
+                    className="w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <video
+                    src={data.videoSection.videoUrl}
+                    controls
+                    playsInline
+                    className="w-full h-full object-contain"
+                  />
+                )}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* ============================================================ */}
         {/* 4. BENTO BAS : 4 CARTES PARFAITEMENT SYMÉTRIQUES (2x2)       */}
@@ -827,17 +994,47 @@ export default function HandmadeProductView({
             </button>
           )}
 
-          {/* Main Fullscreen Image */}
+          {/* Main Fullscreen Media (Video or Image) */}
           <div 
-            className="relative w-full max-w-5xl h-full max-h-[80vh] pointer-events-auto"
+            className="relative w-full max-w-5xl h-full max-h-[80vh] flex items-center justify-center pointer-events-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <Image
-              src={galleryItems[lightboxIndex]?.src || mainImage}
-              alt={galleryItems[lightboxIndex]?.alt || displayName}
-              fill
-              className="object-contain"
-            />
+            {(() => {
+              const currentSrc = galleryItems[lightboxIndex]?.src || mainImage;
+              const isVid = isVideoMedia(currentSrc) || galleryItems[lightboxIndex]?.type === "video";
+              if (isVid) {
+                if (isYouTubeUrl(currentSrc)) {
+                  return (
+                    <div className="w-full max-w-4xl aspect-video rounded-3xl overflow-hidden shadow-2xl border border-white/20 bg-black">
+                      <iframe
+                        src={getYouTubeEmbedUrl(currentSrc) || ""}
+                        title={galleryItems[lightboxIndex]?.caption || displayName}
+                        className="w-full h-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  );
+                }
+                return (
+                  <video
+                    src={currentSrc}
+                    controls
+                    autoPlay
+                    playsInline
+                    className="max-w-full max-h-[80vh] rounded-3xl shadow-2xl border border-white/20 bg-black"
+                  />
+                );
+              }
+              return (
+                <Image
+                  src={currentSrc}
+                  alt={galleryItems[lightboxIndex]?.alt || displayName}
+                  fill
+                  className="object-contain"
+                />
+              );
+            })()}
           </div>
 
           {/* Right Arrow */}

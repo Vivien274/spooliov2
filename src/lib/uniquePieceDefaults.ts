@@ -2,6 +2,16 @@ export interface UniquePieceGalleryItem {
   src: string;
   caption?: string;
   alt?: string;
+  type?: "image" | "video";
+}
+
+export interface UniquePieceVideoSection {
+  enabled?: boolean;
+  badge?: string;
+  title?: string;
+  description?: string;
+  videoUrl?: string;
+  features?: string[];
 }
 
 export interface UniquePieceData {
@@ -10,6 +20,7 @@ export interface UniquePieceData {
     availabilityBadge: string;
     punchline: string;
     microPerks: Array<{ icon: string; text: string }>;
+    video?: string;
   };
   gallery: {
     badge: string;
@@ -17,6 +28,7 @@ export interface UniquePieceData {
     description: string;
     items: UniquePieceGalleryItem[];
   };
+  videoSection?: UniquePieceVideoSection;
   savoirFaire: {
     badge: string;
     title: string;
@@ -57,9 +69,17 @@ export function getDefaultUniquePieceData(productName: string = "Pièce Unique")
       punchline: "Imprimé en 3D haute définition, entièrement préparé et peint au pinceau dans notre atelier à Comines (Nord).",
       microPerks: [
         { icon: "palette", text: "Peint à la main" },
-        { icon: "shield", text: "Vernis protecteur satiné" },
-        { icon: "mappin", text: "Atelier de Comines" },
+        { icon: "award", text: "Signé" },
+        { icon: "mappin", text: "Fabriqué à Comines" },
       ],
+      video: "",
+    },
+    videoSection: {
+      enabled: false,
+      badge: "🎥 En Mouvement",
+      title: "Découvrez la création en vidéo",
+      description: "Aperçu à 360°, détails sous la lumière d'atelier et finitions peintes à la main.",
+      videoUrl: "",
     },
     gallery: {
       badge: "Galerie Photos",

@@ -1,10 +1,10 @@
 [
   {
     "id": 16,
-    "name": "Skratch le Skateur – Figurine Peinte à la Main",
+    "name": "Kratch Le Skateur — Édition Atelier",
     "slug": "monstre-skateur-fait-main",
-    "price": "59.00",
-    "regular_price": "59.00",
+    "price": "55.00",
+    "regular_price": "55.00",
     "status": "draft",
     "stock": 1,
     "attributes": {
@@ -16,38 +16,80 @@
       ],
       "uniquePieceData": {
         "hero": {
-          "badge": "✨ Édition Atelier Spoolio • Fait Main",
-          "availabilityBadge": "Pièce Unique en Stock (1 seul dispo)",
-          "punchline": "Imprimé en 3D haute définition, entièrement préparé et peint à l'aérographe et au pinceau dans notre atelier à Comines (Nord).",
+          "badge": "Édition Atelier Spoolio • Fait Main",
+          "availabilityBadge": "Pièce Unique en Stock ",
+          "punchline": "D’abord le skate. On réfléchira après.",
           "microPerks": [
             {
-              "icon": "🎨",
+              "icon": "palette",
               "text": "Peint à la main"
             },
             {
-              "icon": "🛡️",
-              "text": "Vernis protecteur satiné"
+              "icon": "award",
+              "text": "Signé"
             },
             {
-              "icon": "🇫🇷",
-              "text": "Atelier de Comines"
+              "icon": "mappin",
+              "text": "Fabriqué à Comines"
             }
           ]
         },
+        "videoSection": {
+          "enabled": false,
+          "badge": "🎥 En Mouvement",
+          "title": "Découvrez la création en vidéo",
+          "description": "Aperçu à 360°, détails sous la lumière d'atelier et finitions peintes à la main.",
+          "videoUrl": ""
+        },
         "gallery": {
-          "badge": "📸 Galerie Photos",
-          "title": "Vues Détaillées de l'Atelier",
-          "description": "Explorez les finitions, les coups de pinceau et la patine sous tous les angles.",
+          "badge": "Galerie Photos",
+          "title": "Vues détaillées",
+          "description": "",
           "items": [
+            {
+              "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865930834.webp",
+              "caption": "DSC4216 2",
+              "alt": "Kratch le Skateur – Handpainted Edition - DSC4216 2"
+            },
+            {
+              "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865931764.webp",
+              "caption": "DSC4219",
+              "alt": "Kratch le Skateur – Handpainted Edition - DSC4219"
+            },
             {
               "src": "/images/produits/monstre-skateur-fait-main.jpg",
               "caption": "Vue principale – Figurine sur son établi d'atelier",
               "alt": "Figurine peinte à la main sur établi de découpe"
+            },
+            {
+              "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865925818.webp",
+              "caption": "DSC4183",
+              "alt": "Kratch le Skateur – Handpainted Edition - DSC4183"
+            },
+            {
+              "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865927671.webp",
+              "caption": "DSC4189",
+              "alt": "Kratch le Skateur – Handpainted Edition - DSC4189"
+            },
+            {
+              "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865926738.webp",
+              "caption": "DSC4186",
+              "alt": "Kratch le Skateur – Handpainted Edition - DSC4186"
+            },
+            {
+              "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865928767.webp",
+              "caption": "DSC4204",
+              "alt": "Kratch le Skateur – Handpainted Edition - DSC4204"
+            },
+            {
+              "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865929846.webp",
+              "caption": "DSC4206",
+              "alt": "Kratch le Skateur – Handpainted Edition - DSC4206"
             }
           ]
         },
         "savoirFaire": {
-          "badge": "🖐️ Atelier Français",
+          "badge": "Atelier Français",
           "title": "Le Savoir-Faire Artisanal",
           "intro": "Chaque figurine nécessite plusieurs heures de travail minutieux. Voici les 4 étapes qui donnent vie à cette création :",
           "steps": [
@@ -59,7 +101,7 @@
             {
               "stepNumber": 2,
               "title": "Ponçage Manuel & Ébavurage",
-              "description": "Préparation méticuleuse et ponçage manuelle à l'eau, pour gommer les lignes d'impression."
+              "description": "Préparation méticuleuse et ponçage manuel à l'eau, pour gommer les lignes d'impression."
             },
             {
               "stepNumber": 3,
@@ -75,16 +117,16 @@
           "quote": "« Deux figurines ne sont jamais 100% identiques : chaque coup de pinceau en fait une œuvre singulière. »"
         },
         "lore": {
-          "badge": "🛹 L'Histoire de la Création",
-          "title": "Le roi de la street",
+          "badge": "L'Histoire de la Création",
+          "title": "Kratch : Kurb Monster skateur",
           "paragraphs": [
-            "Né d’un croquis spontané sur un coin d’établi dans notre atelier de Comines, ce personnage est un garnement intrépide de Spoolio.",
-            "Avec son regard espiègle, ses finitions soignées et son caractère affirmé, il incarne l’esprit fun, rebelle et créatif de l'artisanat 3D.",
-            "Il trônera fièrement sur votre bureau, votre étagère de collection ou votre setup gaming."
+            "Kratch traîne toujours quelque part entre deux trottoirs.\nSweat rouge, pantalon bleu, skate sous les pieds et l’air beaucoup trop content d’être là : c’est le Kurb Monster qui donne l’impression d’avoir déjà une mauvaise idée en tête.",
+            "Pensé comme un petit art toy à exposer, Kratch existe en deux versions : une édition imprimée directement en couleur, et une édition \npeinte à la main, préparée, assemblée et finie à l’atelier.\n\n\nChaque version peinte main présente forcément de légères variations. Et c’est très bien comme ça : deux Kratch ne seront jamais parfaitement identiques.",
+            "Kratch n’est pas un jouet. C’est juste un type sur un skate qui a décidé de squatter ton étagère."
           ]
         },
         "specs": {
-          "badge": "📐 Fiche Technique & Matériaux",
+          "badge": "Fiche Technique & Matériaux",
           "title": "Caractéristiques & Entretien",
           "items": [
             {
@@ -114,7 +156,7 @@
           ]
         },
         "ecrin": {
-          "badge": "🎁 Protection Renforcée",
+          "badge": "Protection Renforcée",
           "title": "Un Écrin Spécial pour une Pièce d'Art",
           "intro": "Une figurine peinte à la main requiert une attention toute particulière lors de son voyage. Votre colis comprend :",
           "points": [
@@ -123,11 +165,11 @@
             "Certificat numéroté signé par l'artisan",
             "Pack de stickers exclusifs Spoolio offert"
           ],
-          "origin": "Comines, France 🇫🇷",
+          "origin": "Comines, France",
           "shippingMethod": "Expédition Colissimo Suivi ou Mondial Relay"
         },
         "faq": {
-          "badge": "💬 FAQ Fait Main",
+          "badge": "FAQ Fait Main",
           "title": "Vos Questions",
           "items": [
             {
@@ -149,9 +191,51 @@
     "images": [
       {
         "id": 1,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865929846.webp",
+        "alt": "Kratch Le Skateur — Édition Atelier",
+        "name": "Kratch Le Skateur — Édition Atelier"
+      },
+      {
+        "id": 2,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865930834.webp",
+        "alt": "Kratch le Skateur – Handpainted Edition - DSC4216 2",
+        "name": "DSC4216 2"
+      },
+      {
+        "id": 3,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865931764.webp",
+        "alt": "Kratch le Skateur – Handpainted Edition - DSC4219",
+        "name": "DSC4219"
+      },
+      {
+        "id": 4,
         "src": "/images/produits/monstre-skateur-fait-main.jpg",
-        "alt": "Skratch le Skateur – Figurine Peinte à la Main",
-        "name": "Skratch le Skateur – Figurine Peinte à la Main"
+        "alt": "Figurine peinte à la main sur établi de découpe",
+        "name": "Vue principale – Figurine sur son établi d'atelier"
+      },
+      {
+        "id": 5,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865925818.webp",
+        "alt": "Kratch le Skateur – Handpainted Edition - DSC4183",
+        "name": "DSC4183"
+      },
+      {
+        "id": 6,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865927671.webp",
+        "alt": "Kratch le Skateur – Handpainted Edition - DSC4189",
+        "name": "DSC4189"
+      },
+      {
+        "id": 7,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865926738.webp",
+        "alt": "Kratch le Skateur – Handpainted Edition - DSC4186",
+        "name": "DSC4186"
+      },
+      {
+        "id": 8,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865928767.webp",
+        "alt": "Kratch le Skateur – Handpainted Edition - DSC4204",
+        "name": "DSC4204"
       }
     ],
     "uniquePieceData": {

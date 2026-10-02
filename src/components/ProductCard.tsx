@@ -43,6 +43,7 @@ interface ProductCardProps {
   product: Product;
   compact?: boolean;
   priority?: boolean;
+  hideBadge?: boolean;
 }
 
 function hasProductVariables(p: any): boolean {
@@ -98,7 +99,7 @@ function getProductRarityBadge(product: Product, categoryName: string | null): R
   return null;
 }
 
-export default function ProductCard({ product, compact = false, priority = false }: ProductCardProps) {
+export default function ProductCard({ product, compact = false, priority = false, hideBadge = false }: ProductCardProps) {
   const router = useRouter();
   const { addToCart, cartItems } = useCart();
   const { locale } = useTranslation();
@@ -172,7 +173,7 @@ export default function ProductCard({ product, compact = false, priority = false
         ? (typeof product.tags[0] === 'object' ? product.tags[0].name : product.tags[0])
         : null);
 
-  const rarityBadge = getProductRarityBadge(product, categoryName);
+  const rarityBadge = hideBadge ? null : getProductRarityBadge(product, categoryName);
 
   // Price formatting to match mockup (e.g. 5,00€)
   const formatPrice = (val: string) => {

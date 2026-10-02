@@ -168,6 +168,35 @@ export async function POST(request: Request) {
 
     let savedProduct: any = null;
 
+    const syncImages = async (productId: number) => {
+      const allImagesToSave: { src: string; name: string; alt: string }[] = [];
+      if (image) {
+        allImagesToSave.push({ src: image, name, alt: name });
+      }
+      if (uniquePieceData?.gallery?.items && Array.isArray(uniquePieceData.gallery.items)) {
+        for (const item of uniquePieceData.gallery.items) {
+          if (item?.src && !allImagesToSave.some((img) => img.src === item.src)) {
+            allImagesToSave.push({
+              src: item.src,
+              name: item.caption || name,
+              alt: item.alt || name,
+            });
+          }
+        }
+      }
+      if (allImagesToSave.length > 0) {
+        await prisma.productImage.deleteMany({ where: { productId } });
+        await prisma.productImage.createMany({
+          data: allImagesToSave.map((img) => ({
+            productId,
+            src: img.src,
+            name: img.name,
+            alt: img.alt,
+          })),
+        });
+      }
+    };
+
     if (id && id !== 999901 && id !== "999901" && id !== "new") {
       // Update existing
       savedProduct = await prisma.product.update({
@@ -183,17 +212,7 @@ export async function POST(request: Request) {
         },
         include: { images: true }
       });
-      if (image) {
-        await prisma.productImage.deleteMany({ where: { productId: savedProduct.id } });
-        await prisma.productImage.create({
-          data: {
-            productId: savedProduct.id,
-            src: image,
-            name: name,
-            alt: name
-          }
-        });
-      }
+      await syncImages(savedProduct.id);
     } else {
       // Upsert / Create
       const existing = await prisma.product.findFirst({ where: { slug: effectiveSlug } });
@@ -210,17 +229,7 @@ export async function POST(request: Request) {
           },
           include: { images: true }
         });
-        if (image) {
-          await prisma.productImage.deleteMany({ where: { productId: savedProduct.id } });
-          await prisma.productImage.create({
-            data: {
-              productId: savedProduct.id,
-              src: image,
-              name: name,
-              alt: name
-            }
-          });
-        }
+        await syncImages(savedProduct.id);
       } else {
         savedProduct = await prisma.product.create({
           data: {
@@ -243,6 +252,7 @@ export async function POST(request: Request) {
           },
           include: { images: true }
         });
+        await syncImages(savedProduct.id);
       }
     }
 
@@ -254,6 +264,21 @@ export async function POST(request: Request) {
         const parsed = JSON.parse(fileData);
         if (Array.isArray(parsed)) {
           const idx = parsed.findIndex((p: any) => p.slug === effectiveSlug || p.id === savedProduct.id);
+          const allImagesList = [
+            ...(image ? [{ id: 1, src: image, alt: name, name }] : []),
+            ...(uniquePieceData?.gallery?.items || [])
+              .filter((it: any) => it?.src && it.src !== image)
+              .map((it: any, i: number) => ({
+                id: i + 2,
+                src: it.src,
+                alt: it.alt || it.caption || name,
+                name: it.caption || name,
+              })),
+          ];
+          if (allImagesList.length === 0) {
+            allImagesList.push({ id: 1, src: "/images/produits/monstre-skateur-fait-main.jpg", alt: name, name });
+          }
+
           const itemPayload = {
             id: savedProduct.id,
             name: savedProduct.name,
@@ -263,7 +288,7 @@ export async function POST(request: Request) {
             status: status || "publish",
             stock: typeof stock === "number" ? stock : 1,
             attributes: attributesObj,
-            images: [{ id: 1, src: image || "/images/produits/monstre-skateur-fait-main.jpg", alt: name, name }]
+            images: allImagesList,
           };
           if (idx >= 0) {
             parsed[idx] = { ...parsed[idx], ...itemPayload };

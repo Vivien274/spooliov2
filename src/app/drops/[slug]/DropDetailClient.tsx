@@ -472,19 +472,8 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
                   background: `radial-gradient(circle at 50% 0%, ${dAccent}25, transparent 75%)`,
                 }}
               >
-                {/* Drop Exclusive Badge overlay */}
-                <div className="absolute top-3 left-3 z-20 pointer-events-none">
-                  <span
-                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-mono font-black uppercase tracking-wider text-white shadow-lg"
-                    style={{ backgroundColor: dAccent }}
-                  >
-                    <Sparkles className="w-3 h-3" />
-                    <span>{drop.dropNumber || "DROP"}</span>
-                  </span>
-                </div>
-
                 {/* Standard robust Spoolio Product Card */}
-                <ProductCard product={product} />
+                <ProductCard product={product} hideBadge={true} />
               </div>
             ))}
           </div>
