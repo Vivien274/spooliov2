@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { verifySession } from "@/lib/auth";
 import { cookies } from "next/headers";
 import fs from "fs";
+import os from "os";
 import path from "path";
 import { exec } from "child_process";
 import { promisify } from "util";
@@ -59,11 +60,6 @@ export async function POST(request: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const uploadDir = path.join(process.cwd(), "public/uploads");
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-
     const timestamp = Date.now();
     let finalFilename = `upload_${timestamp}`;
     let finalBuffer = buffer;
@@ -71,12 +67,15 @@ export async function POST(request: Request) {
 
     // Video conversion / optimization via ffmpeg
     if (isVideo) {
-      const tempInputPath = path.join(uploadDir, `temp_${timestamp}_${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`);
-      const optimizedMp4Path = path.join(uploadDir, `drop_video_${timestamp}.mp4`);
+      // Serverless deployments expose a read-only application filesystem. Video
+      // conversion must therefore happen in the platform's writable temp folder.
+      const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "spoolio-upload-"));
+      const tempInputPath = path.join(tempDir, `source_${timestamp}`);
+      const optimizedMp4Path = path.join(tempDir, `drop_video_${timestamp}.mp4`);
 
       try {
         fs.writeFileSync(tempInputPath, buffer);
-        
+
         // Convert to universal web streaming MP4 (H.264 / AAC, faststart, max 1080p)
         await execAsync(
           `ffmpeg -y -i "${tempInputPath}" -c:v libx264 -pix_fmt yuv420p -preset fast -crf 23 -vf "scale='min(1080,iw)':-2" -c:a aac -b:a 128k -movflags +faststart "${optimizedMp4Path}"`
@@ -87,74 +86,77 @@ export async function POST(request: Request) {
           finalBuffer = fs.readFileSync(optimizedMp4Path);
           finalContentType = "video/mp4";
         }
-
-        // Clean up temp file
-        if (fs.existsSync(tempInputPath)) {
-          fs.unlinkSync(tempInputPath);
-        }
-      } catch (ffErr: any) {
-        console.warn("FFmpeg conversion skipped/failed, using raw video:", ffErr.message);
-        // Fallback to saving raw video
+      } catch (ffErr: unknown) {
+        const ffmpegError = ffErr instanceof Error ? ffErr.message : String(ffErr);
+        console.warn("FFmpeg conversion skipped/failed, using raw video:", ffmpegError);
+        // Fall back to uploading the original video buffer.
         const ext = file.name.split(".").pop()?.toLowerCase() || "mp4";
         finalFilename = `drop_video_${timestamp}.${ext}`;
-        if (fs.existsSync(tempInputPath)) {
-          fs.renameSync(tempInputPath, path.join(uploadDir, finalFilename));
-        } else {
-          fs.writeFileSync(path.join(uploadDir, finalFilename), buffer);
-        }
+      } finally {
+        fs.rmSync(tempDir, { recursive: true, force: true });
       }
     } else {
-      // Image: use .webp if provided, otherwise preserve or save as webp/original
+      // Images can be sent directly to object storage without touching disk.
       const ext = file.type === "image/webp" || file.name.toLowerCase().endsWith(".webp")
         ? "webp"
         : file.name.split(".").pop()?.toLowerCase() || "jpg";
       finalFilename = `upload_${timestamp}.${ext}`;
-      fs.writeFileSync(path.join(uploadDir, finalFilename), finalBuffer);
     }
 
-    // Optional Supabase Storage mirror
+    // Supabase Storage is the persistent source of truth in production.
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
     if (supabaseUrl && supabaseKey) {
-      try {
-        const { createClient } = await import("@supabase/supabase-js");
-        const supabase = createClient(supabaseUrl, supabaseKey);
-        const { error: uploadError } = await supabase.storage
-          .from("spoolio-uploads")
-          .upload(finalFilename, finalBuffer, {
-            contentType: finalContentType,
-            upsert: true,
-          });
+      const { createClient } = await import("@supabase/supabase-js");
+      const supabase = createClient(supabaseUrl, supabaseKey);
+      const { error: uploadError } = await supabase.storage
+        .from("spoolio-uploads")
+        .upload(finalFilename, finalBuffer, {
+          contentType: finalContentType || "application/octet-stream",
+          upsert: true,
+        });
 
-        if (!uploadError) {
-          const { data: pubData } = supabase.storage
-            .from("spoolio-uploads")
-            .getPublicUrl(finalFilename);
-          if (pubData?.publicUrl) {
-            return NextResponse.json({
-              success: true,
-              url: pubData.publicUrl,
-              filename: finalFilename,
-              isOptimized: isVideo,
-            });
-          }
-        }
-      } catch (sbErr: any) {
-        console.warn("Supabase upload notice:", sbErr.message);
+      if (uploadError) {
+        throw new Error(`Échec de l'envoi vers le stockage : ${uploadError.message}`);
       }
+
+      const { data: pubData } = supabase.storage
+        .from("spoolio-uploads")
+        .getPublicUrl(finalFilename);
+
+      return NextResponse.json({
+        success: true,
+        url: pubData.publicUrl,
+        filename: finalFilename,
+        isOptimized: isVideo && finalContentType === "video/mp4",
+      });
     }
+
+    if (process.env.NODE_ENV === "production") {
+      throw new Error(
+        "Le stockage des fichiers n'est pas configuré (variables Supabase manquantes)."
+      );
+    }
+
+    // Local development fallback only. The deployed app filesystem is read-only.
+    const uploadDir = path.join(process.cwd(), "public/uploads");
+    fs.mkdirSync(uploadDir, { recursive: true });
+    fs.writeFileSync(path.join(uploadDir, finalFilename), finalBuffer);
 
     const fileUrl = `/uploads/${finalFilename}`;
     return NextResponse.json({
       success: true,
       url: fileUrl,
       filename: finalFilename,
-      isOptimized: isVideo,
+      isOptimized: isVideo && finalContentType === "video/mp4",
     });
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const errorMessage = err instanceof Error
+      ? err.message
+      : "Erreur interne lors du téléversement.";
     console.error("Upload route error:", err);
     return NextResponse.json(
-      { error: err.message || "Erreur interne lors du téléversement." },
+      { error: errorMessage },
       { status: 500 }
     );
   }
