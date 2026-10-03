@@ -152,7 +152,7 @@ export default function FicheAnimal({ fiche }: { fiche: Fiche }) {
         </div>
 
         <p className="text-center text-white/30 text-xs mt-6">
-          Badge SOS par <a href="https://spoolio.fr" className="underline">Spoolio</a>
+          Badge SOS par <a href="https://www.spoolio.fr" className="underline">Spoolio</a>
         </p>
       </div>
     </main>

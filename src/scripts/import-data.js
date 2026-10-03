@@ -17,7 +17,7 @@ if (!fs.existsSync(imagesDir)) {
 }
 
 // Load configurations
-let wcUrl = 'https://spoolio.fr';
+let wcUrl = 'https://www.spoolio.fr';
 let consumerKey = '';
 let consumerSecret = '';
 

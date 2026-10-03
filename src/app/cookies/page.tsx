@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { createPageMetadata } from "@/lib/seoMetadata";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://spoolio.fr"),
-  alternates: {
-    canonical: "https://spoolio.fr/cookies",
-  },
+export const metadata: Metadata = createPageMetadata({
   title: "Cookies et Confidentialité | Spoolio",
-  description: "Consultez notre politique de cookies et de protection de la vie privée (RGPD).",
-};
+  description: "Consultez notre politique de cookies et de protection de la vie privée (RGPD) sur la boutique Spoolio.",
+  canonicalPath: "/cookies",
+});
 
 export default function CookiesPage() {
   return (

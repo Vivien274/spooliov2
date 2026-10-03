@@ -54,14 +54,14 @@ export default async function JeuxDeSocietePage() {
     "@graph": [
       {
         "@type": "WebPage",
-        "@id": "https://spoolio.fr/jeux-de-societe#webpage",
-        "url": "https://spoolio.fr/jeux-de-societe",
+        "@id": "https://www.spoolio.fr/jeux-de-societe#webpage",
+        "url": "https://www.spoolio.fr/jeux-de-societe",
         "name": "Jeux de Société & App Enjeu 🎲 | Accessoires 3D & Soirées Jeux Spoolio",
         "description": "Boostez vos soirées jeux de société avec nos accessoires 3D (tours à dés, pinces à cartes, compteurs) et découvrez Enjeu, l'application compagnon gratuite de calcul de score et paris amicaux.",
         "publisher": {
           "@type": "Organization",
           "name": "Spoolio",
-          "url": "https://spoolio.fr"
+          "url": "https://www.spoolio.fr"
         }
       },
       {

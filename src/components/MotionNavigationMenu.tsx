@@ -262,7 +262,7 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
                         </h5>
 
                         <Link
-                          href="/categorie/Fidgets"
+                          href="/categorie/fidgets"
                           onClick={() => setActiveTab(null)}
                           className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
@@ -283,7 +283,7 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
                         </Link>
 
                         <Link
-                          href="/categorie/Geek %2F Gaming"
+                          href="/categorie/geek-gaming"
                           onClick={() => setActiveTab(null)}
                           className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
@@ -304,7 +304,7 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
                         </Link>
 
                         <Link
-                          href="/categorie/Porte clés"
+                          href="/categorie/porte-cles"
                           onClick={() => setActiveTab(null)}
                           className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >
@@ -325,7 +325,7 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
                         </Link>
 
                         <Link
-                          href="/categorie/Animaux %26 Figurines"
+                          href="/categorie/animaux-figurines"
                           onClick={() => setActiveTab(null)}
                           className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                         >

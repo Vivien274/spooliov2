@@ -216,7 +216,7 @@ async function fetchSingleProduct(slug: string, status: string) {
       id: 999901,
       name: "Gribouille le Skateur – Figurine Peinte à la Main",
       slug: "monstre-skateur-fait-main",
-      permalink: "https://spoolio.fr/product/monstre-skateur-fait-main",
+      permalink: "https://www.spoolio.fr/product/monstre-skateur-fait-main",
       price: "59.00",
       regular_price: "59.00",
       sale_price: "",

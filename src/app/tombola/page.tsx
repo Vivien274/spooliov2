@@ -22,18 +22,24 @@ import {
   HelpCircle,
 } from "lucide-react";
 
+import { createPageMetadata } from "@/lib/seoMetadata";
+
 export async function generateMetadata(): Promise<Metadata> {
   const config = await getTombolaConfigAction();
   const isActive = config.status === "active";
 
-  return {
-    title: isActive
-      ? `${config.title} | Tombola Spoolio 🎟️`
-      : "Tombola Spoolio 🎟️ | Aucune tombola en ce moment",
-    description: isActive
-      ? config.description || "Participe à la grande Tombola Spoolio !"
-      : "Nos tombolas sont organisées ponctuellement. Découvre la boutique Spoolio et nos créations 3D en attendant la prochaine session !",
-  };
+  const title = isActive
+    ? `${config.title} | Tombola Spoolio 🎟️`
+    : "Tombola Spoolio 🎟️ | Tirages et créations 3D";
+  const description = isActive
+    ? config.description || "Participe à la grande Tombola Spoolio !"
+    : "Nos tombolas sont organisées ponctuellement. Découvre la boutique Spoolio et nos créations 3D en attendant la prochaine session !";
+
+  return createPageMetadata({
+    title,
+    description,
+    canonicalPath: "/tombola",
+  });
 }
 
 export default async function TombolaPage() {

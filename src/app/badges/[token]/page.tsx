@@ -242,7 +242,7 @@ export default async function BadgePublicPage({ params }: Props) {
         </div>
 
         <p className="text-center text-white/40 text-xs mt-6">
-          Badge SOS créé par <a href="https://spoolio.fr" className="underline font-bold">Spoolio.fr</a>
+          Badge SOS créé par <a href="https://www.spoolio.fr" className="underline font-bold">Spoolio.fr</a>
         </p>
       </div>
     </main>

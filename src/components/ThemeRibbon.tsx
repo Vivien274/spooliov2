@@ -24,13 +24,13 @@ const THEMES: ThemePill[] = [
   {
     id: "anti-stress",
     label: "Anti-Stress",
-    href: "/categorie/Fidgets",
+    href: "/categorie/fidgets",
     icon: Brain,
   },
   {
     id: "gaming",
     label: "Gaming & Setup",
-    href: "/categorie/Geek %2F Gaming",
+    href: "/categorie/geek-gaming",
     icon: Gamepad2,
   },
   {

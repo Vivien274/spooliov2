@@ -3,6 +3,7 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getPageSeoMetadata } from "@/lib/seoPages";
+import { BUSINESS_CONFIG } from "@/lib/businessConfig";
 
 export async function generateMetadata(): Promise<Metadata> {
   return getPageSeoMetadata("a-propos");
@@ -111,14 +112,16 @@ export default function AboutPage() {
           <div className="p-6 rounded-2xl bg-zinc-50 border border-zinc-200/90 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-xs font-mono">
             <div>
               <span className="text-[10px] text-zinc-400 uppercase tracking-widest block mb-1">Notre Atelier</span>
-              <span className="text-zinc-950 font-bold block">Spoolio 3D</span>
-              <span className="text-zinc-600 block">40 rue du Hoccart</span>
-              <span className="text-zinc-600 block">59560 Comines, France</span>
+              <span className="text-zinc-950 font-bold block">{BUSINESS_CONFIG.legalName}</span>
+              <span className="text-zinc-600 block">{BUSINESS_CONFIG.address}</span>
+              <span className="text-zinc-600 block">{BUSINESS_CONFIG.postalCode} {BUSINESS_CONFIG.city}, {BUSINESS_CONFIG.country}</span>
             </div>
             <div className="text-left sm:text-right shrink-0">
               <span className="text-[10px] text-zinc-400 uppercase tracking-widest block mb-1">Contact</span>
-              <span className="text-[#ff4f00] font-bold block">contact@spoolio.fr</span>
-              <span className="text-zinc-600 block">Lundi au Samedi — 10h à 18h</span>
+              <a href={`mailto:${BUSINESS_CONFIG.email}`} className="text-[#ff4f00] font-bold block hover:underline">
+                {BUSINESS_CONFIG.email}
+              </a>
+              <span className="text-zinc-600 block">{BUSINESS_CONFIG.openingHoursDisplay}</span>
             </div>
           </div>
 

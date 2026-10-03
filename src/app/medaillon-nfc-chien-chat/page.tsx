@@ -5,36 +5,25 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import JsonLdScript from "@/components/JsonLdScript";
 import { getProductJsonLd, getBreadcrumbJsonLd } from "@/lib/jsonLd";
-import { ShieldCheck, Zap, Phone, Heart, Award, ArrowRight, CheckCircle2, Lock, BatteryCharging, Sparkles, MapPin, AlertCircle } from "lucide-react";
+import { Zap, ArrowRight, CheckCircle2, Lock, BatteryCharging, Sparkles, AlertCircle } from "lucide-react";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://spoolio.fr"),
-  title: "Médaillon NFC pour Chien, Chat & Porte-Clés SOS Enfant | Spoolio",
-  description:
-    "Le médaillon connecté NFC pour animaux et enfants. Un simple scan de smartphone permet d'appeler immédiatement le propriétaire. Sans batterie, sans abonnement, résine brillante ultra-résistante, fabriqué en France.",
-  alternates: {
-    canonical: "https://spoolio.fr/medaillon-nfc-chien-chat",
-  },
-  openGraph: {
-    title: "Médaillon NFC Chien, Chat & Porte-Clés SOS Enfant | Spoolio",
-    description: "La médaille connectée sécurité pour vos animaux & proches. Un scan de smartphone suffit.",
-    url: "https://spoolio.fr/medaillon-nfc-chien-chat",
-    type: "website",
-  },
-};
+import { createPageMetadata } from "@/lib/seoMetadata";
 
-const SPOOLIO_ORANGE = "#ff4f00";
-const SPOOLIO_BLUE = "#2F3CD9";
+export const metadata: Metadata = createPageMetadata({
+  title: "Médaillon NFC Chien, Chat & SOS Enfant | Spoolio",
+  description: "Médaillon connecté NFC pour animaux et enfants sans batterie ni abonnement. Résine protectrice, fabriqué en France à Comines.",
+  canonicalPath: "/medaillon-nfc-chien-chat",
+});
 
 export default function MedaillonNfcLandingPage() {
   const productLd = getProductJsonLd({
     name: "Médaillon NFC Chien, Chat & Porte-Clés SOS Enfant",
     description:
       "Médaillon connecté NFC personnalisé avec résine transparente protectrice. Un scan de smartphone permet de contacter le propriétaire immédiatement.",
-    slug: "medaillon-nfc-chien-chat",
+    slug: "medaillon-nfc-chien-et-chat",
+    pageUrl: "/medaillon-nfc-chien-chat",
+    offerUrl: "/product/medaillon-nfc-chien-et-chat",
     price: 7.0,
-    ratingValue: 5.0,
-    reviewCount: 32,
   });
 
   const breadcrumbLd = getBreadcrumbJsonLd([

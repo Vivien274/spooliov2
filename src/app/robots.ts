@@ -1,7 +1,21 @@
 import { MetadataRoute } from "next";
+import { BUSINESS_CONFIG } from "@/lib/businessConfig";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://spoolio.fr";
+  const baseUrl = BUSINESS_CONFIG.siteUrl;
+
+  const privatePaths = [
+    "/admin",
+    "/admin/*",
+    "/api/*",
+    "/suivi",
+    "/suivi/*",
+    "/panier",
+    "/success",
+    "/badges/*",
+    "/sos/*",
+    "/loyalty/*",
+  ];
 
   const aiBots = [
     "GPTBot",
@@ -18,12 +32,12 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin", "/admin/*", "/api/admin/*", "/suivi/*", "/success"],
+        disallow: privatePaths,
       },
       ...aiBots.map((bot) => ({
         userAgent: bot,
         allow: "/",
-        disallow: ["/admin", "/admin/*", "/api/admin/*", "/suivi/*", "/success"],
+        disallow: privatePaths,
       })),
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

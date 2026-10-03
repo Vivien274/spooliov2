@@ -124,7 +124,7 @@ export default function MobileMenuDrawer({
 
             {/* Fidgets & Anti-Stress */}
             <Link
-              href="/categorie/Fidgets"
+              href="/categorie/fidgets"
               onClick={onClose}
               className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-zinc-100 transition-colors group"
             >
@@ -175,7 +175,7 @@ export default function MobileMenuDrawer({
 
             {/* Dragons & Figurines */}
             <Link
-              href="/categorie/Animaux %26 Figurines"
+              href="/categorie/animaux-figurines"
               onClick={onClose}
               className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-zinc-100 transition-colors group"
             >

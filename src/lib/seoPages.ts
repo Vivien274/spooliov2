@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import { Metadata } from "next";
 import { PageSeoConfig, DEFAULT_PAGES_SEO } from "./seoPagesTypes";
+import { buildPageMetadata } from "./seoMetadata";
 
 export { DEFAULT_PAGES_SEO };
 export type { PageSeoConfig };
@@ -24,46 +25,20 @@ export function getPageSeoMetadata(pageKey: string): Metadata {
   const allConfigs = getAllPagesSeoConfig();
   const config = allConfigs[pageKey] || DEFAULT_PAGES_SEO[pageKey] || {
     title: "Spoolio | Impression 3D & Fidgets Sensoriels",
-    description: "Créations 3D et fidgets sensoriels fabriqués en France."
+    description: "Créations 3D et fidgets sensoriels fabriqués en France à Comines en polymère biosourcé.",
   };
 
-  const domain = "https://spoolio.fr";
-  const ogImg = config.ogImage 
-    ? (config.ogImage.startsWith("http") ? config.ogImage : `${domain}${config.ogImage}`)
-    : `${domain}/images/imported/Spoolio_Kit-Festival-16-scaled.webp`;
+  const path = pageKey === "home" ? "/" : `/${pageKey}`;
+  const keywords = config.keywords
+    ? config.keywords.split(",").map((k) => k.trim()).filter(Boolean)
+    : undefined;
 
-  const canonicalUrl = pageKey === 'home' ? domain : `${domain}/${pageKey}`;
-
-  return {
-    metadataBase: new URL(domain),
-    alternates: {
-      canonical: canonicalUrl,
-    },
+  return buildPageMetadata({
     title: config.title,
     description: config.description,
-    keywords: config.keywords ? config.keywords.split(",").map(k => k.trim()) : undefined,
-    robots: config.noIndex ? { index: false, follow: false } : { index: true, follow: true },
-    openGraph: {
-      title: config.title,
-      description: config.description,
-      url: canonicalUrl,
-      siteName: "Spoolio",
-      images: [
-        {
-          url: ogImg,
-          width: 1200,
-          height: 630,
-          alt: config.title,
-        }
-      ],
-      locale: "fr_FR",
-      type: "website",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: config.title,
-      description: config.description,
-      images: [ogImg],
-    }
-  };
+    path,
+    ogImage: config.ogImage,
+    noIndex: config.noIndex,
+    keywords,
+  });
 }

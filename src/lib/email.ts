@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://spoolio.fr').replace(/\/$/, "");
+const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://www.spoolio.fr').replace(/\/$/, "");
 const logoUrl = `${appUrl}/images/logo.png`;
 
 function getSenderEmail(rawFrom: string): string {
@@ -232,7 +232,7 @@ export async function sendOrderShippedEmail({
       }
     }
 
-    const trackingUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://spoolio.fr'}/suivi?id=${orderId}&email=${encodeURIComponent(customerEmail)}`;
+    const trackingUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.spoolio.fr'}/suivi?id=${orderId}&email=${encodeURIComponent(customerEmail)}`;
 
     const emailHtml = `
       <!DOCTYPE html>
@@ -398,7 +398,7 @@ export async function sendPickupSlotProposedEmail({
     const fromAddress = process.env.RESEND_EMAIL_FROM || process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
     const recipient = process.env.RESEND_TO_EMAIL || customerEmail;
     
-    const confirmationUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://spoolio.fr'}/suivi/pickup?id=${orderId}&slot=${encodeURIComponent(pickupSlot)}&email=${encodeURIComponent(customerEmail)}`;
+    const confirmationUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.spoolio.fr'}/suivi/pickup?id=${orderId}&slot=${encodeURIComponent(pickupSlot)}&email=${encodeURIComponent(customerEmail)}`;
 
     const emailHtml = `
       <!DOCTYPE html>
@@ -690,7 +690,7 @@ export async function sendOrderNoteEmail({
       recipients = [process.env.RESEND_TO_EMAIL];
     }
 
-    const trackingUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://spoolio.fr'}/suivi?id=${orderId}&email=${encodeURIComponent(customerEmail)}`;
+    const trackingUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'https://www.spoolio.fr'}/suivi?id=${orderId}&email=${encodeURIComponent(customerEmail)}`;
 
     // Convert linebreaks in note text to HTML safely
     const formattedNoteHtml = note
@@ -813,7 +813,7 @@ export async function sendReviewRequestEmail({
   customerEmail,
   items = [],
   googleReviewUrl = "https://g.page/r/spoolio/review",
-  siteReviewUrl = "https://spoolio.fr/avis",
+  siteReviewUrl = "https://www.spoolio.fr/avis",
 }: ReviewRequestEmailParams): Promise<{ success: boolean; error?: string }> {
   try {
     const resendKey = process.env.RESEND_API_KEY;
@@ -977,7 +977,7 @@ export async function sendLoyaltyCardEmail({
     const fromAddress = process.env.RESEND_EMAIL_FROM || "Spoolio <contact@spoolio.fr>";
     const recipient = customerEmail;
     const clientName = customerName ? customerName.trim() : "Cher(e) passionné(e)";
-    const cardUrl = `https://spoolio.fr/loyalty/${cardId}`;
+    const cardUrl = `https://www.spoolio.fr/loyalty/${cardId}`;
     const percentage = Math.min(100, Math.round((points / maxPoints) * 100));
 
     const subject = isReward
@@ -1041,7 +1041,7 @@ export async function sendLoyaltyCardEmail({
             </div>
 
             <p style="font-size: 11px; color: #71717a; margin: 12px 0 0 0;">
-              🏷️ Présentez votre carte ou votre e-mail lors de votre passage sur nos stands de marché ou lors de vos commandes sur <a href="https://spoolio.fr" style="color: #ff4f00; text-decoration: none;">spoolio.fr</a>.
+              🏷️ Présentez votre carte ou votre e-mail lors de votre passage sur nos stands de marché ou lors de vos commandes sur <a href="https://www.spoolio.fr" style="color: #ff4f00; text-decoration: none;">spoolio.fr</a>.
             </p>
           </div>
 

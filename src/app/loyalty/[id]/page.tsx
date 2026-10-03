@@ -470,7 +470,7 @@ export default function LoyaltyCardPage({ params }: PageProps) {
 
           {/* Lien externe vers boutique */}
           <a
-            href="https://spoolio.fr"
+            href="https://www.spoolio.fr"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs sm:text-sm text-[#ff4f00] hover:text-white transition-colors font-black uppercase tracking-wider flex items-center gap-2 mt-2 py-2 cursor-pointer font-sans"

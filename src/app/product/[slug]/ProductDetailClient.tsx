@@ -16,6 +16,8 @@ import HandmadeProductView from "@/components/HandmadeProductView";
 interface ProductDetailClientProps {
   slug: string;
   isDraftPreview?: boolean;
+  initialProduct?: Product | null;
+  initialRelatedProducts?: Product[];
 }
 
 import {
@@ -28,11 +30,16 @@ export { isVideoMedia };
 
 import { useTranslation } from "@/context/LanguageContext";
 
-export default function ProductDetailClient({ slug, isDraftPreview = false }: ProductDetailClientProps) {
+export default function ProductDetailClient({
+  slug,
+  isDraftPreview = false,
+  initialProduct = null,
+  initialRelatedProducts = [],
+}: ProductDetailClientProps) {
   const { locale, t } = useTranslation();
   const { addToCart } = useCart();
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [product, setProduct] = useState<Product | null>(initialProduct);
+  const [loading, setLoading] = useState<boolean>(!initialProduct);
   const [error, setError] = useState<string | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [quantity, setQuantity] = useState<number>(1);
@@ -80,7 +87,7 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
 
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState<boolean>(false);
-  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>(initialRelatedProducts);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState<boolean>(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
@@ -304,6 +311,12 @@ export default function ProductDetailClient({ slug, isDraftPreview = false }: Pr
 
 
   useEffect(() => {
+    if (initialProduct && initialProduct.slug === slug) {
+      setProduct(initialProduct);
+      setLoading(false);
+      return;
+    }
+
     async function fetchProduct() {
       try {
         const endpoint = isDraftPreview ? `/api/products/${slug}?status=all` : `/api/products/${slug}`;

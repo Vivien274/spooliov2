@@ -5,16 +5,15 @@ import { prisma } from "@/lib/prisma";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
+import { createPageMetadata } from "@/lib/seoMetadata";
+
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://spoolio.fr"),
-  alternates: {
-    canonical: "https://spoolio.fr/blog",
-  },
-  title: "L'Atelier Spoolio | Blog, Actualités & Secrets de l'Impression 3D",
-  description: "Découvrez les coulisses de l'atelier de Spoolio. Conseils, guides sur les fidgets, secrets de fabrication et actualités sur nos objets imprimés en 3D.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: "Blog et Coulisses de l'Atelier 3D | Spoolio",
+  description: "Découvrez les coulisses de l'atelier Spoolio, nos guides pratiques sur les fidgets et les secrets de l'impression 3D en France.",
+  canonicalPath: "/blog",
+});
 
 function decodeHtml(str: string): string {
   if (!str) return "";

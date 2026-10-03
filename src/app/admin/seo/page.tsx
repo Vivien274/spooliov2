@@ -7,15 +7,15 @@ import { useAdminTheme } from "../AdminThemeContext";
 import { PageSeoConfig, DEFAULT_PAGES_SEO } from "@/lib/seoPagesTypes";
 
 const PAGES_LIST = [
-  { id: "home", label: "🏠 Page d'Accueil", path: "/", defaultUrl: "https://spoolio.fr" },
-  { id: "boutique", label: "🛍️ Boutique", path: "/boutique", defaultUrl: "https://spoolio.fr/boutique" },
-  { id: "tombola", label: "🎟️ Tombola", path: "/tombola", defaultUrl: "https://spoolio.fr/tombola" },
-  { id: "boussole-sensorielle", label: "🧩 Boussole Sensorielle", path: "/boussole-sensorielle", defaultUrl: "https://spoolio.fr/boussole-sensorielle" },
-  { id: "pochette-surprise", label: "🎁 Pochette Surprise", path: "/pochette-surprise", defaultUrl: "https://spoolio.fr/pochette-surprise" },
-  { id: "createur-cliqueur", label: "🖱️ Créateur de Cliqueur", path: "/createur-cliqueur", defaultUrl: "https://spoolio.fr/createur-cliqueur" },
-  { id: "a-propos", label: "ℹ️ À Propos", path: "/a-propos", defaultUrl: "https://spoolio.fr/a-propos" },
-  { id: "liens", label: "🔗 Hub de Liens", path: "/liens", defaultUrl: "https://spoolio.fr/liens" },
-  { id: "faq", label: "❓ FAQ", path: "/faq", defaultUrl: "https://spoolio.fr/faq" },
+  { id: "home", label: "🏠 Page d'Accueil", path: "/", defaultUrl: "https://www.spoolio.fr" },
+  { id: "boutique", label: "🛍️ Boutique", path: "/boutique", defaultUrl: "https://www.spoolio.fr/boutique" },
+  { id: "tombola", label: "🎟️ Tombola", path: "/tombola", defaultUrl: "https://www.spoolio.fr/tombola" },
+  { id: "boussole-sensorielle", label: "🧩 Boussole Sensorielle", path: "/boussole-sensorielle", defaultUrl: "https://www.spoolio.fr/boussole-sensorielle" },
+  { id: "pochette-surprise", label: "🎁 Pochette Surprise", path: "/pochette-surprise", defaultUrl: "https://www.spoolio.fr/pochette-surprise" },
+  { id: "createur-cliqueur", label: "🖱️ Créateur de Cliqueur", path: "/createur-cliqueur", defaultUrl: "https://www.spoolio.fr/createur-cliqueur" },
+  { id: "a-propos", label: "ℹ️ À Propos", path: "/a-propos", defaultUrl: "https://www.spoolio.fr/a-propos" },
+  { id: "liens", label: "🔗 Hub de Liens", path: "/liens", defaultUrl: "https://www.spoolio.fr/liens" },
+  { id: "faq", label: "❓ FAQ", path: "/faq", defaultUrl: "https://www.spoolio.fr/faq" },
 ];
 
 export default function AdminSeoPagesPage() {

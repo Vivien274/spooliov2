@@ -1,79 +1,163 @@
 {
   "home": {
-    "title": "Spoolio | Fidgets Sensoriels & Objets Fun Imprimés en 3D",
-    "description": "Boutique française de fidgets sensoriels, accessoires et décoration imprimés en 3D à Comines. Conçus en PLA biodégradable à base d'amidon de maïs 🌱",
-    "keywords": "fidgets 3d, impression 3d france, fidgets tdah, spoolio, comines, pla eco responsable",
+    "title": "Fidgets Sensoriels & Objets 3D Biosourcés | Spoolio",
+    "description": "Boutique française d'objets sensoriels, fidgets TDAH et accessoires imprimés en 3D à Comines en polymère végétal biosourcé. Zéro surstock.",
+    "keywords": "fidgets 3d, impression 3d france, fidgets tdah, spoolio, comines, pla vegetal",
     "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
     "noIndex": false
   },
   "boutique": {
-    "title": "La Boutique Spoolio | Objets Fun & Utiles Imprimés en 3D",
-    "description": "Parcourez notre collection d'objets uniques imprimés en 3D de qualité. Fidgets, décoration insolite et gadgets fun fabriqués localement en PLA biodégradable.",
-    "keywords": "boutique 3d, fidget spinner, jouet anti stress, porte clefs 3d, deco originale",
-    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
-    "noIndex": false
-  },
-  "tombola": {
-    "title": "Tombola Spoolio 🎟️ | Tente ta chance et gagne des lots 3D exclusifs",
-    "description": "Participe à la Tombola Spoolio ! Choisis tes cases sur la grille et tente de remporter un pack complet de fidgets sensoriels et créations 3D.",
-    "keywords": "tombola 3d, jeu concours spoolio, lot fidgets, tirage au sort 3d",
-    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
-    "noIndex": false
-  },
-  "loterie": {
-    "title": "Roue de la Fortune Spoolio 🎰 | Gagne des Fidgets 3D & Bons d'achat",
-    "description": "Tourne la roue de la fortune officielle Spoolio ! Des réductions, fidgets sensoriels TDAH, produits 3D et bons d'achat à gagner instantanément.",
-    "keywords": "roue de la fortune, loterie 3d, jeu concours spoolio, cadeau 3d gratuit",
+    "title": "Boutique Fidgets Sensoriels & Objets 3D | Spoolio",
+    "description": "Explorez notre collection d'objets imprimés en 3D en France : fidgets sensoriels TDAH, accessoires de bureau, clickers et pochettes surprises.",
+    "keywords": "boutique 3d, fidget sensoriel, clicker mecanique, objet 3d france",
     "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
     "noIndex": false
   },
   "boussole-sensorielle": {
-    "title": "Boussole Sensorielle TDAH & Autisme | Spoolio",
-    "description": "Trouvez le fidget parfait selon vos besoins sensoriels (besoin de pression, de bruit, de mouvement ou de stimulation visuelle).",
+    "title": "Boussole Sensorielle TDAH & Autisme | Guide Spoolio",
+    "description": "Trouvez le fidget idéal selon vos besoins sensoriels : niveau sonore, stimulation tactile, retour haptique ou apaisement du stress au quotidien.",
     "keywords": "boussole sensorielle, fidget tdah, autisme, besoins sensoriels, anti stress",
     "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
     "noIndex": false
   },
   "pochette-surprise": {
-    "title": "Pochette Surprise Spoolio 🎁 | Mystère & Fidgets 3D",
-    "description": "Craquez pour la Pochette Surprise Spoolio ! Recevez un assortiment mystère d'objets imprimés en 3D à prix réduit.",
+    "title": "Pochette Surprise Fidgets 3D | Coffrets Mystère Spoolio",
+    "description": "Découvrez nos pochettes surprises S, M et L : un assortiment mystère de fidgets tactiles et objets 3D en PLA végétal avec une réduction immédiate.",
     "keywords": "pochette surprise, blind box 3d, mystere fidget, box cadeau 3d",
     "ogImage": "/images/pochette-kraft.jpg",
     "noIndex": false
   },
   "createur-cliqueur": {
-    "title": "Créateur de Cliqueur Personnalisé 🖱️ | Spoolio",
-    "description": "Concevez votre cliqueur Fidget sur-mesure ! Choisissez les couleurs, le type de switch mécanique et le fini pour une expérience sensorielle unique.",
+    "title": "Créateur de Clicker 3D Sur-Mesure | Atelier Spoolio",
+    "description": "Personnalisez votre clicker mécanique 3D : choisissez vos couleurs, switches tactiles ou clicky et symboles gravés pour une sensation ASMR unique.",
     "keywords": "cliqueur 3d, fidget switch mecanique, cliqueur personnalise, clicky fidget",
     "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
     "noIndex": false
   },
-  "a-propos": {
-    "title": "À Propos de Spoolio | Fabrication Artisanale 3D en France 🇫🇷",
-    "description": "Découvrez l'histoire de Spoolio, atelier d'impression 3D basé à Comines. Notre mission : concevoir des objets sensoriels et utiles respectueux de l'environnement.",
-    "keywords": "histoire spoolio, impression 3d comines, fabricant français 3d, pla biodégradable",
+  "jeux-de-societe": {
+    "title": "Accessoires Jeux de Société 3D & App Enjeu | Spoolio",
+    "description": "Tours à dés, rangements et accessoires imprimés en 3D pour jeux de société. Découvrez aussi Enjeu, l'application gratuite pour compter vos scores.",
+    "keywords": "jeux de societe, accessoires jeux 3d, tour a de 3d, porte cartes, enjeu app",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-74-scaled.webp",
+    "noIndex": false
+  },
+  "calendrier-avent": {
+    "title": "Calendrier de l'Avent 3D | 24 Créations d'Atelier Spoolio",
+    "description": "Réservez le Calendrier de l'Avent 3D Spoolio : 24 surprises exclusives en PLA biosourcé, imprimées à Comines en édition limitée à 50 exemplaires.",
+    "keywords": "calendrier avent 3d, noel 3d, surprises atelier spoolio",
+    "ogImage": "/images/calendrier-avent-hero.jpg",
+    "noIndex": false
+  },
+  "carte-cadeau": {
+    "title": "Carte Cadeau Spoolio | Offrez des Fidgets & Objets 3D",
+    "description": "Offrez une carte cadeau Spoolio valable sur toute la boutique : fidgets sensoriels TDAH, cliqueurs sur mesure et créations 3D écoresponsables.",
+    "keywords": "carte cadeau spoolio, bon d'achat 3d, cadeau fidget",
     "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
     "noIndex": false
   },
-  "liens": {
-    "title": "Hub de Liens Spoolio 🔗 | TikTok, Insta, Boutique & Offres",
-    "description": "Retrouvez tous les liens officiels de Spoolio : TikTok, Instagram, boutique en ligne, boussole sensorielle et réseaux sociaux.",
-    "keywords": "spoolio tiktok, instagram spoolio, liens spoolio, linktree spoolio",
+  "a-propos": {
+    "title": "À Propos de Spoolio | Atelier 3D Artisanal à Comines",
+    "description": "Découvrez l'histoire de Spoolio, atelier d'impression 3D fondé à Comines : fabrication raisonnée en PLA végétal, engagement écoresponsable et passion.",
+    "keywords": "histoire spoolio, impression 3d comines, fabricant francais 3d, pla vegetal",
     "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
     "noIndex": false
+  },
+  "contact": {
+    "title": "Contactez l'Atelier Spoolio | Impression 3D à Comines",
+    "description": "Une question sur une commande ou un projet 3D sur mesure ? Contactez l'atelier Spoolio à Comines. Notre équipe vous répond du lundi au vendredi.",
+    "keywords": "contact spoolio, atelier comines, support client spoolio",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "pro": {
+    "title": "Spoolio Pro | Objets 3D & Fidgets sur Mesure pour Entreprises",
+    "description": "Découvrez l'offre Spoolio Pro : goodies d'entreprise écoresponsables, fidgets sensoriels personnalisés et création 3D en PLA biosourcé à Comines.",
+    "keywords": "spoolio pro, goodies 3d rse, impression 3d entreprise, fidgets marque blanche",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "fidelite": {
+    "title": "Programme Fidélité Spoolio | Points & Récompenses 3D",
+    "description": "Rejoignez le programme de fidélité Spoolio ! Cumulez des points sur vos commandes de fidgets et débloquez des réductions et créations 3D exclusives.",
+    "keywords": "fidelite spoolio, points fidelite, recompenses 3d",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "suivi": {
+    "title": "Suivi de Commande en Direct | Atelier Spoolio",
+    "description": "Suivez la fabrication et l'expédition de votre commande Spoolio en direct : impression 3D, contrôle qualité et préparation de votre colis à Comines.",
+    "keywords": "suivi commande spoolio, etat impression 3d",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": true
   },
   "faq": {
-    "title": "Foire Aux Questions (FAQ) | Livraison, Matériaux & Garanties Spoolio",
-    "description": "Des questions sur la livraison Colissimo / Mondial Relay, les matériaux PLA ou le suivi de commande ? Retrouvez toutes les réponses dans notre FAQ.",
+    "title": "Foire Aux Questions (FAQ) | Livraison & Atelier Spoolio",
+    "description": "Toutes les réponses à vos questions sur les créations Spoolio : matériaux biosourcés, délais de livraison Colissimo, Mondial Relay et retours.",
     "keywords": "faq spoolio, livraison mondial relay, materiau pla, questions impression 3d",
     "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
     "noIndex": false
   },
-  "jeux-de-societe": {
-    "title": "Jeux de Société & App Enjeu 🎲 | Accessoires 3D & Soirées Jeux Spoolio",
-    "description": "Boostez vos soirées jeux de société avec nos accessoires 3D (tours à dés, pinces à cartes, compteurs) et découvrez Enjeu, l'application compagnon gratuite de calcul de score et paris amicaux.",
-    "keywords": "jeux de societe, accessoires jeux 3d, tour a de 3d, porte cartes, enjeu app, calcul score jeux de societe, spoolio",
-    "ogImage": "/images/imported/Spoolio_Kit-Festival-74-scaled.webp",
+  "mentions-legales": {
+    "title": "Mentions Légales | Atelier Spoolio 3D à Comines",
+    "description": "Consultez les mentions légales de Spoolio, atelier d'impression 3D à Comines : éditeur, hébergement, propriété intellectuelle et coordonnées.",
+    "keywords": "mentions legales spoolio, editeur spoolio comines",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "cgv": {
+    "title": "Conditions Générales de Vente (CGV) | Spoolio 3D",
+    "description": "Consultez les Conditions Générales de Vente (CGV) de Spoolio : commandes, prix, livraison en France, droit de rétractation et garanties légales.",
+    "keywords": "cgv spoolio, conditions vente impression 3d",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "cookies": {
+    "title": "Politique de Cookies & Confidentialité | Spoolio",
+    "description": "Découvrez la politique de gestion des cookies et de protection des données personnelles (RGPD) appliquée sur la boutique en ligne Spoolio.",
+    "keywords": "cookies spoolio, confidentialite rgpd",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "retours": {
+    "title": "Retours & Droit de Rétractation | Spoolio Atelier",
+    "description": "Modalités de retour et formulaire de rétractation sous 14 jours pour vos commandes de créations et fidgets 3D achetés sur la boutique Spoolio.",
+    "keywords": "retours spoolio, retractation 14 jours, service apres vente",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "tombola": {
+    "title": "Tombola Solidaire Spoolio | Tentez de Gagner un Lot 3D",
+    "description": "Participez à la tombola officielle Spoolio : choisissez vos numéros et tentez de remporter une sélection exclusive de fidgets et créations 3D.",
+    "keywords": "tombola 3d, jeu concours spoolio, lot fidgets",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "loterie": {
+    "title": "Roue de la Fortune Spoolio | Fidgets & Réductions 3D",
+    "description": "Tournez la roue de la fortune Spoolio et tentez de gagner des bons d'achat, des fidgets tactiles et des surprises 3D imprimées dans notre atelier.",
+    "keywords": "roue fortune spoolio, loterie 3d, cadeau 3d gratuit",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "don": {
+    "title": "Soutenez l'Atelier Spoolio | Impression 3D Locale",
+    "description": "Aidez l'atelier Spoolio à investir dans de nouvelles buses et machines pour développer l'artisanat 3D écoresponsable et local à Comines.",
+    "keywords": "soutien spoolio, don atelier 3d, financement participatif",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "liens": {
+    "title": "Liens & Réseaux Officiels | Boutique & Atelier Spoolio",
+    "description": "Retrouvez tous les liens officiels de Spoolio : boutique en ligne, TikTok, Instagram, boussole sensorielle et actualités de l'atelier 3D.",
+    "keywords": "spoolio tiktok, instagram spoolio, liens spoolio, linktree",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    "noIndex": false
+  },
+  "blog": {
+    "title": "Le Blog de l'Atelier | Conseils Fidgets & Impression 3D",
+    "description": "Articles, guides neuroergonomie, conseils TDAH et coulisses de l'atelier Spoolio : découvrez l'univers des fidgets et de l'impression 3D en France.",
+    "keywords": "blog spoolio, articles fidgets tdah, coulisses impression 3d",
+    "ogImage": "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
     "noIndex": false
   }
 }

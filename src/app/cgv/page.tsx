@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { createPageMetadata } from "@/lib/seoMetadata";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://spoolio.fr"),
-  alternates: {
-    canonical: "https://spoolio.fr/cgv",
-  },
+export const metadata: Metadata = createPageMetadata({
   title: "Conditions Générales de Vente (CGV) | Spoolio",
-  description: "Consultez les Conditions Générales de Vente (CGV) de Spoolio 3D.",
-};
+  description: "Consultez les Conditions Générales de Vente (CGV) applicables aux commandes passées sur la boutique Spoolio.",
+  canonicalPath: "/cgv",
+});
 
 export default function CGVPage() {
   return (

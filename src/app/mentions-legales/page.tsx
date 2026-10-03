@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { createPageMetadata } from "@/lib/seoMetadata";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://spoolio.fr"),
-  alternates: {
-    canonical: "https://spoolio.fr/mentions-legales",
-  },
+export const metadata: Metadata = createPageMetadata({
   title: "Mentions Légales | Spoolio",
-  description: "Informations légales concernant l'éditeur du site Spoolio, entreprise individuelle Bocquelet.",
-};
+  description: "Informations légales et mentions obligatoires concernant l'éditeur du site Spoolio, entreprise artisanale à Comines.",
+  canonicalPath: "/mentions-legales",
+});
 
 export default function MentionsLegalesPage() {
   return (

@@ -4,15 +4,13 @@ import Footer from "@/components/Footer";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { DEFAULT_COLORS } from "@/lib/defaultColors";
+import { createPageMetadata } from "@/lib/seoMetadata";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://spoolio.fr"),
-  alternates: {
-    canonical: "https://spoolio.fr/palette-couleurs",
-  },
-  title: "Palette de couleurs disponibles | Spoolio",
-  description: "Découvrez notre palette complète de filaments PLA (bicolores, pailletés, phosphorescents, unis) pour personnaliser vos créations imprimées en 3D.",
-};
+export const metadata: Metadata = createPageMetadata({
+  title: "Palette de Couleurs Disponibles | Spoolio",
+  description: "Découvrez notre palette complète de filaments PLA (bicolores, pailletés, phosphorescents, unis) pour vos créations imprimées en 3D.",
+  canonicalPath: "/palette-couleurs",
+});
 
 // Revalidate every 60 seconds
 export const revalidate = 60;

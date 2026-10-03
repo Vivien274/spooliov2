@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Antonio, Plus_Jakarta_Sans, DynaPuff, Righteous, Outfit, Permanent_Marker, Sedgwick_Ave_Display } from "next/font/google";
+import { Antonio, Plus_Jakarta_Sans, DynaPuff, Righteous, Outfit, Permanent_Marker } from "next/font/google";
 import dynamic from "next/dynamic";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
@@ -49,52 +49,48 @@ const permanentMarker = Permanent_Marker({
   weight: ["400"],
 });
 
-const sedgwickAve = Sedgwick_Ave_Display({
-  variable: "--font-sedgwick",
-  subsets: ["latin"],
-  weight: ["400"],
-});
+import { BUSINESS_CONFIG } from "@/lib/businessConfig";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://spoolio.fr"),
+  metadataBase: new URL(BUSINESS_CONFIG.siteUrl),
   alternates: {
-    canonical: "https://spoolio.fr",
+    canonical: BUSINESS_CONFIG.siteUrl,
   },
-  title: "Spoolio | Objets funs & Fidgets en Impression 3D Biosourcée",
+  title: "Fidgets Sensoriels & Objets 3D Biosourcés | Spoolio",
   description:
-    "Découvre Spoolio : objets funs, fidgets sensoriels TDAH et porte-clés NFC personnalisés, fabriqués en France à Comines en plastique biosourcé.",
+    "Boutique française de fidgets sensoriels, accessoires et objets imprimés en 3D à Comines en PLA biosourcé. Fabrication artisanale à la commande.",
   keywords: [
     "Spoolio",
-    "fidgets TDAH",
-    "impression 3D France",
-    "porte-clés NFC",
-    "plastique biosourcé",
-    "objets 3D Comines",
     "fidgets sensoriels",
+    "impression 3D France",
+    "porte-clés personnalisés",
+    "PLA biosourcé",
+    "objets 3D Comines",
+    "atelier impression 3D",
   ],
   openGraph: {
-    title: "Spoolio | Objets funs & Fidgets en Impression 3D Biosourcée",
+    title: "Fidgets Sensoriels & Objets 3D Biosourcés | Spoolio",
     description:
-      "Découvre Spoolio : objets funs, fidgets sensoriels TDAH et porte-clés NFC personnalisés, fabriqués en France à Comines en plastique biosourcé.",
-    url: "https://spoolio.fr",
+      "Boutique française de fidgets sensoriels, accessoires et objets imprimés en 3D à Comines en PLA biosourcé. Fabrication artisanale à la commande.",
+    url: BUSINESS_CONFIG.siteUrl,
     siteName: "Spoolio",
     locale: "fr_FR",
     type: "website",
     images: [
       {
-        url: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+        url: `${BUSINESS_CONFIG.siteUrl}/images/imported/Spoolio_Kit-Festival-16-scaled.webp`,
         width: 1200,
         height: 630,
-        alt: "Spoolio - Objets funs & Fidgets en Impression 3D Biosourcée",
+        alt: "Spoolio - Fidgets Sensoriels & Objets 3D Biosourcés",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Spoolio | Objets funs & Fidgets en Impression 3D Biosourcée",
+    title: "Fidgets Sensoriels & Objets 3D Biosourcés | Spoolio",
     description:
-      "Découvre Spoolio : objets funs, fidgets sensoriels TDAH et porte-clés NFC personnalisés, fabriqués en France à Comines en plastique biosourcé.",
-    images: ["/images/imported/Spoolio_Kit-Festival-16-scaled.webp"],
+      "Boutique française de fidgets sensoriels, accessoires et objets imprimés en 3D à Comines en PLA biosourcé. Fabrication artisanale à la commande.",
+    images: [`${BUSINESS_CONFIG.siteUrl}/images/imported/Spoolio_Kit-Festival-16-scaled.webp`],
   },
   robots: {
     index: true,
@@ -116,7 +112,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${antonio.variable} ${plusJakarta.variable} ${dynapuff.variable} ${righteous.variable} ${outfit.variable} ${permanentMarker.variable} ${sedgwickAve.variable} light h-full antialiased bg-white text-zinc-900`}
+      className={`${antonio.variable} ${plusJakarta.variable} ${dynapuff.variable} ${righteous.variable} ${outfit.variable} ${permanentMarker.variable} light h-full antialiased bg-white text-zinc-900`}
       suppressHydrationWarning
     >
       <head>

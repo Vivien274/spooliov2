@@ -51,6 +51,25 @@ function renderFormattedText(text: string) {
 const PREPROD_SLIDES_FR: HeroSlide[] = [
   {
     id: 1,
+    badge: "ATELIER D'IMPRESSION 3D • COMINES (59)",
+    title: "Fidgets sensoriels et objets imprimés en 3D fabriqués en France",
+    subtitle:
+      "Conçus et imprimés à la demande dans notre atelier avec un polymère végétal biosourcé. Zéro surstock, du caractère et des finitions soignées.",
+    buttonText: "DÉCOUVRIR LE CATALOGUE",
+    buttonLink: "/boutique",
+    secondaryButtonText: "BOUSSOLE SENSORIELLE",
+    secondaryButtonLink: "/boussole-sensorielle",
+    image: "/images/clicker_gallery_2.jpg",
+    accentColor: "#ff4f00",
+    cardTitle: "Créations Spoolio 3D",
+    cardDescription: "Objets tactiles et accessoires façonnés sur mesure à Comines.",
+    cardPrice: "À partir de 3.00€",
+    cardImage: "/images/clicker_gallery_2.jpg",
+    cardLink: "/boutique",
+    cardBadge: "Made in France",
+  },
+  {
+    id: 2,
     badge: "PRÉCOMMANDES • ÉDITION LIMITÉE",
     title: "LE CALENDRIER DE L'AVENT 3D SPOOLIO",
     subtitle:
@@ -67,24 +86,6 @@ const PREPROD_SLIDES_FR: HeroSlide[] = [
     cardImage: "/images/calendrier-avent-hero.jpg",
     cardLink: "/calendrier-avent",
     cardBadge: "Précommandes 2026",
-  },
-  {
-    id: 2,
-    badge: "ATELIER D'IMPRESSION 3D • COMINES (59)",
-    title: "Objets tactiles, accessoires de bureau et créations d'atelier.",
-    subtitle:
-      "Conçus et imprimés à la demande dans notre atelier avec un polymère végétal biosourcé. Zéro surstock, du caractère et des finitions soignées.",
-    buttonText: "DÉCOUVRIR LE CATALOGUE",
-    buttonLink: "/boutique",
-    secondaryButtonText: "CONCEVOIR MON CLICKER",
-    secondaryButtonLink: "/createur-cliqueur",
-    image: "/images/clicker_gallery_2.jpg",
-    accentColor: "#ff4f00",
-    cardTitle: "Créations Spoolio 3D",
-    cardDescription: "Objets tactiles et accessoires façonnés sur mesure à Comines.",
-    cardPrice: "À partir de 3.00€",
-    cardImage: "/images/clicker_gallery_2.jpg",
-    cardLink: "/boutique",
   },
 ];
 
@@ -131,6 +132,25 @@ const PREPROD_SLIDES_EN: HeroSlide[] = [
 const DEFAULT_SLIDES_FR: HeroSlide[] = [
   {
     id: 1,
+    badge: "ATELIER D'IMPRESSION 3D • COMINES (59)",
+    title: "Fidgets sensoriels et objets imprimés en 3D fabriqués en France",
+    subtitle:
+      "Conçus et imprimés à la demande dans notre atelier avec un polymère végétal biosourcé. Zéro surstock, du caractère et des finitions soignées.",
+    buttonText: "DÉCOUVRIR LE CATALOGUE",
+    buttonLink: "/boutique",
+    secondaryButtonText: "BOUSSOLE SENSORIELLE",
+    secondaryButtonLink: "/boussole-sensorielle",
+    image: "/images/clicker_gallery_2.jpg",
+    accentColor: "#ff4f00",
+    cardTitle: "Créations Spoolio 3D",
+    cardDescription: "Objets tactiles et accessoires façonnés sur mesure à Comines.",
+    cardPrice: "À partir de 3.00€",
+    cardImage: "/images/clicker_gallery_2.jpg",
+    cardLink: "/boutique",
+    cardBadge: "Made in France",
+  },
+  {
+    id: 2,
     badge: "PRÉCOMMANDES • ÉDITION LIMITÉE",
     title: "LE CALENDRIER DE L'AVENT 3D SPOOLIO",
     subtitle:
@@ -149,30 +169,12 @@ const DEFAULT_SLIDES_FR: HeroSlide[] = [
     cardBadge: "Précommandes 2026",
   },
   {
-    id: 2,
-    badge: "ATELIER D'IMPRESSION 3D • COMINES (59)",
-    title: "Objets tactiles, accessoires de bureau et créations d'atelier.",
-    subtitle:
-      "Conçus et imprimés à la demande dans notre atelier avec un polymère végétal biosourcé. Zéro surstock, du caractère et des finitions soignées.",
-    buttonText: "DÉCOUVRIR LE CATALOGUE",
-    buttonLink: "/boutique",
-    secondaryButtonText: "CONCEVOIR MON CLICKER",
-    secondaryButtonLink: "/createur-cliqueur",
-    image: "/images/clicker_gallery_2.jpg",
-    accentColor: "#ff4f00",
-    cardTitle: "Créations Spoolio 3D",
-    cardDescription: "Objets tactiles et accessoires façonnés sur mesure à Comines.",
-    cardPrice: "À partir de 3.00€",
-    cardImage: "/images/clicker_gallery_2.jpg",
-    cardLink: "/boutique"
-  },
-  {
     id: 3,
-    badge: "JEUX DE SOCIÉTÉ & TABLETOP",
-    title: "UPGRADEZ VOS SESSIONS DE JEU",
-    subtitle: "Tours de dés sculptées, inserts précis et accessoires pensés par et pour les passionnés de jeu de société.",
+    badge: "JEUX DE SOCIÉTÉ & DE PLATEAU",
+    title: "ACCESSOIRES ET CRÉATIONS POUR JEUX DE SOCIÉTÉ",
+    subtitle: "Tours de dés sculptées, inserts précis et accessoires pensés par et pour les passionnés de jeu de plateau.",
     buttonText: "VOIR LES ACCESSOIRES JEUX",
-    buttonLink: "/boutique",
+    buttonLink: "/jeux-de-societe",
     secondaryButtonText: "APPLICATION ENJEU",
     secondaryButtonLink: "/jeux-de-societe#enjeu-app",
     image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
@@ -181,21 +183,21 @@ const DEFAULT_SLIDES_FR: HeroSlide[] = [
     cardDescription: "L'accessoire indispensable pour vos parties de JdR et jeux de plateau.",
     cardPrice: "14.90€",
     cardImage: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
-    cardLink: "/boutique"
+    cardLink: "/jeux-de-societe"
   },
   {
     id: 4,
-    badge: "DESK SETUP & ACCESSOIRES",
-    title: "CLICKERS MÉCANIQUES & ASMR",
-    subtitle: "Concevez votre clicker mécanique sur-mesure : switchs réels, touches custom et sensations tactiles uniques.",
-    buttonText: "CONCEVOIR MON CLICKER",
+    badge: "BUREAU & ACCESSOIRES SENSORIELS",
+    title: "CLIQUEURS MÉCANIQUES & DESK TOYS",
+    subtitle: "Concevez votre cliqueur mécanique sur-mesure : switches authentiques, touches personnalisées et sensations tactiles uniques.",
+    buttonText: "CONCEVOIR MON CLIQUEUR",
     buttonLink: "/createur-cliqueur",
     secondaryButtonText: "VOIR LE CATALOGUE",
     secondaryButtonLink: "/boutique",
     image: "/images/imported/PochetteM-1.png",
     accentColor: "#ff4f00",
-    cardTitle: "Clicker Mécanique Studio",
-    cardDescription: "Touches interchangeables et switchs tactiles de précision.",
+    cardTitle: "Studio Cliqueur Mécanique",
+    cardDescription: "Touches interchangeables et switches tactiles de précision.",
     cardPrice: "À partir de 3.00€",
     cardImage: "/images/imported/PochetteM-1.png",
     cardLink: "/createur-cliqueur"
@@ -396,10 +398,16 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                       </span>
                     </div>
 
-                    {/* Titre H1 percutant avec interlignage dense */}
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] text-white max-w-2xl font-sans uppercase">
-                      {renderFormattedText(activeSlide.title)}
-                    </h1>
+                    {/* Titre H1 percutant avec interlignage dense (H1 unique au premier affichage/SSR, H2 pour les slides suivants) */}
+                    {activeIndex === 0 ? (
+                      <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] text-white max-w-2xl font-sans uppercase">
+                        {renderFormattedText(activeSlide.title)}
+                      </h1>
+                    ) : (
+                      <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] text-white max-w-2xl font-sans uppercase">
+                        {renderFormattedText(activeSlide.title)}
+                      </h2>
+                    )}
 
                     {/* Pitch sobre & spacieux */}
                     <p className="text-zinc-200 text-base sm:text-lg lg:text-xl font-normal leading-relaxed max-w-xl">

@@ -1,122 +1,91 @@
 import ProductDetailClient from "./ProductDetailClient";
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-import { prisma } from '@/lib/prisma';
-import fs from 'fs';
-import path from 'path';
 import { cookies } from "next/headers";
 import { verifySession } from "@/lib/auth";
 import { isPreprodEnv } from "@/lib/env";
+import { getProductBySlug, getRelatedProducts } from "@/lib/serverProducts";
+import { buildPageMetadata, formatDescription } from "@/lib/seoMetadata";
+import JsonLdScript from "@/components/JsonLdScript";
+import { getProductJsonLd, getBreadcrumbJsonLd } from "@/lib/jsonLd";
+import { BUSINESS_CONFIG } from "@/lib/businessConfig";
+import { prisma } from "@/lib/prisma";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Dynamically generate metadata for SEO from MySQL data or local JSON fallback
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
   if (slug === "clicker-mecanique-sur-mesure") {
-    return {
+    return buildPageMetadata({
       title: "Créateur de Clicker 3D Sur-Mesure | Spoolio",
-      description: "Personnalisez votre clicker mécanique 3D sur-mesure avec vos couleurs, formes, switchs et symboles.",
+      description: "Personnalisez votre clicker mécanique 3D sur-mesure avec vos couleurs, formes, switches et symboles gravés.",
+      path: "/createur-cliqueur",
+    });
+  }
+
+  const product = await getProductBySlug(slug);
+
+  if (!product) {
+    return {
+      title: "Produit introuvable | Spoolio",
+      robots: { index: false, follow: false },
     };
   }
 
-  let productName = "";
-  let productDesc = "";
-  let found = false;
-
-  // 1. Try Prisma DB with an 800ms timeout race to avoid blocking on blocked hosts
-  try {
-    const product = await Promise.race([
-      prisma.product.findUnique({ where: { slug } }),
-      new Promise<null>((_, reject) => setTimeout(() => reject(new Error("DB Timeout")), 5000))
-    ]) as any;
-
-    if (product) {
-      if (product.status !== "publish" && product.status !== "") {
-        if (!isPreprodEnv()) {
-          return {
-            title: "Produit non disponible | Spoolio",
-            robots: { index: false, follow: false },
-          };
-        }
-      }
-      productName = product.metaTitle || product.name;
-      productDesc = product.metaDescription || product.shortDescription?.replace(/<[^>]*>/g, '') || `Découvrez le produit ${product.name} imprimé en 3D par Spoolio.`;
-      found = true;
-    }
-  } catch (e) {
-    console.warn("DB metadata fetch failed or timed out, trying JSON fallback...");
-  }
-
-  // 2. Try products.json fallback
-  if (!found) {
-    try {
-      const jsonPath = path.join(process.cwd(), "src/data/products.json");
-      if (fs.existsSync(jsonPath)) {
-        const fileData = fs.readFileSync(jsonPath, "utf8");
-        const parsed = JSON.parse(fileData);
-        if (Array.isArray(parsed)) {
-          const match = parsed.find(p => p.slug === slug || String(p.id) === slug);
-          if (match) {
-            if (match.status !== "publish" && match.status) {
-              if (!isPreprodEnv()) {
-                return {
-                  title: "Produit non disponible | Spoolio",
-                  robots: { index: false, follow: false },
-                };
-              }
-            }
-            productName = match.name;
-            productDesc = (match.short_description || match.description || "").replace(/<[^>]*>/g, '').substring(0, 160) || `Découvrez le produit ${match.name} imprimé en 3D par Spoolio.`;
-            found = true;
-          }
-        }
-      }
-    } catch (jsonErr: any) {
-      console.warn("JSON metadata fallback failed:", jsonErr.message);
-    }
-  }
-
-  // 3. Fallback metadata names
-  if (!found) {
-    const fallbackTitles: Record<string, string> = {
-      "pack-alien-capsule": "Pack Alien / Capsule",
-      "support-telephone-industriel": "Support Téléphone Industriel",
-      "chat-goofy": "Chat Goofy",
-      "support-clavier-mecanique": "Support Clavier Mécanique",
-      "porte-cles-nfc-spoolio": "Porte-clés NFC Spoolio",
-      "marcel-le-poulpe-fidget": "Marcel le Poulpe Fidget",
-      "monstre-skateur-fait-main": "Gribouille le Skateur – Figurine Peinte à la Main",
-      "pochette-surprise-s": "Pochette Surprise — S (3 objets)",
-      "pochette-surprise-m": "Pochette Surprise — M (6 objets)",
-      "pochette-surprise-l": "Pochette Surprise — L (10 objets)",
+  const isPreprod = isPreprodEnv();
+  if (product.status !== "publish" && !isPreprod) {
+    return {
+      title: "Produit non disponible | Spoolio",
+      robots: { index: false, follow: false },
     };
-
-    productName = fallbackTitles[slug] || "Produit";
-    productDesc = `Découvrez le produit ${productName} imprimé en 3D par Spoolio.`;
   }
 
-  return {
-    metadataBase: new URL("https://spoolio.fr"),
-    alternates: {
-      canonical: `https://spoolio.fr/product/${slug}`,
-    },
-    title: `${productName} | Spoolio`,
-    description: productDesc,
-  };
+  const primaryCategory = product.categories?.[0]?.name || "Fidgets & Impression 3D";
+  const rawDesc = (product as any).metaDescription || product.short_description || product.description;
+  const fallbackDesc = `Découvrez ${product.name} conçu et imprimé en 3D à Comines en PLA végétal biosourcé. Finitions d'atelier soignées et expédition rapide.`;
+  const baseDesc = rawDesc || fallbackDesc;
+  const prefixedDesc = baseDesc.toLowerCase().includes(product.name.toLowerCase().slice(0, 15))
+    ? baseDesc
+    : `${product.name} : ${baseDesc}`;
+  const cleanDesc = formatDescription(prefixedDesc, fallbackDesc);
+
+  const titleBase = (product as any).metaTitle || product.name;
+  const cleanTitle = titleBase.length < 35
+    ? `${titleBase} — ${primaryCategory} 3D | Spoolio`
+    : `${titleBase} | Spoolio`;
+
+  return buildPageMetadata({
+    title: cleanTitle,
+    description: cleanDesc,
+    path: `/product/${slug}`,
+    ogImage: product.images?.[0]?.src,
+  });
 }
 
-import JsonLdScript from "@/components/JsonLdScript";
-import { getProductJsonLd, getBreadcrumbJsonLd } from "@/lib/jsonLd";
+function sanitizeHtmlHeadings(html?: string | null): string {
+  if (!html) return "";
+  return html.replace(/<h1(\s[^>]*)?>/gi, "<h2$1>").replace(/<\/h1>/gi, "</h2>");
+}
 
 export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
 
+  // Specific semantic 301 redirects for legacy or modified product slugs
   if (slug === "clicker-mecanique-sur-mesure") {
     redirect("/createur-cliqueur");
+  }
+  if (slug === "oeuf-de-serpent-dragon" || slug === "oeuf-de-serpent-/-dragon") {
+    redirect("/product/oeuf-serpent-dinosaure-petit");
+  }
+  if (
+    slug === "boucles-doreilles-feuilles-ete" ||
+    slug.startsWith("boucles-d'oreilles") ||
+    slug.includes("feuilles-ete")
+  ) {
+    redirect("/categorie/bijoux");
   }
 
   // 1. Verify if user is an authenticated admin
@@ -124,72 +93,103 @@ export default async function ProductPage({ params }: PageProps) {
   const token = cookieStore.get("spoolio_admin_session")?.value;
   const secret = process.env.JWT_SECRET || "spoolio-ultra-secure-key-928372651";
   const isAdmin = token ? await verifySession(token, secret) : false;
-
-  // 2. Fetch product from DB to check status
-  let dbProduct: any = null;
-  try {
-    dbProduct = await prisma.product.findFirst({
-      where: { slug },
-      select: { id: true, name: true, status: true }
-    });
-  } catch (err: any) {
-    console.warn("Product status check failed:", err.message);
-  }
-
   const isPreprod = isPreprodEnv();
   const canViewDraft = isAdmin || isPreprod;
 
-  // If found in DB and it's a draft:
-  if (dbProduct && dbProduct.status !== "publish" && dbProduct.status !== "") {
-    if (!canViewDraft) {
-      notFound();
+  // 2. Fetch full product directly on server
+  const product = await getProductBySlug(slug);
+
+  if (!product) {
+    notFound();
+  }
+
+  // Ensure no embedded <h1> in descriptions compromises the page's unique H1
+  if (product.description) {
+    product.description = sanitizeHtmlHeadings(product.description);
+  }
+  if (product.short_description) {
+    product.short_description = sanitizeHtmlHeadings(product.short_description);
+  }
+
+  // If found and it's a draft, only allowed for admin or preview
+  if (product.status !== "publish" && !canViewDraft) {
+    notFound();
+  }
+
+  const isDraftPreview = product.status !== "publish" && canViewDraft;
+  const primaryCategory = product.categories?.[0];
+
+  // 3. Fetch related products for server rendering
+  const relatedProducts = await getRelatedProducts(slug, primaryCategory?.id);
+
+  // 4. Fetch real approved reviews for this product to compute verified rating (no fake rating!)
+  let realRatingValue: number | undefined = undefined;
+  let realReviewCount: number | undefined = undefined;
+
+  try {
+    const reviews = await prisma.review.findMany({
+      where: {
+        productId: product.id,
+        approved: true,
+      },
+      select: { rating: true },
+    });
+
+    if (reviews.length > 0) {
+      const sum = reviews.reduce((acc, r) => acc + r.rating, 0);
+      realRatingValue = Number((sum / reviews.length).toFixed(1));
+      realReviewCount = reviews.length;
     }
+  } catch (err) {
+    // Silent fallback: no aggregate rating if reviews cannot be computed
   }
 
-  // If not found in DB, check products.json fallback
-  if (!dbProduct) {
-    try {
-      const jsonPath = path.join(process.cwd(), "src/data/products.json");
-      if (fs.existsSync(jsonPath)) {
-        const fileData = fs.readFileSync(jsonPath, "utf8");
-        const parsed = JSON.parse(fileData);
-        if (Array.isArray(parsed)) {
-          const match = parsed.find((p: any) => p.slug === slug);
-          if (match && match.status !== "publish" && match.status && !canViewDraft) {
-            notFound();
-          }
-        }
-      }
-    } catch {}
-  }
-
-  const isDraftPreview = !!(dbProduct && dbProduct.status !== "publish" && dbProduct.status !== "" && canViewDraft);
-
-  const productName = slug
-    .split("-")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
-
+  // 5. Build structured data JSON-LD (Strictly canonical URL on www.spoolio.fr)
   const productLd = getProductJsonLd({
-    name: productName,
-    description: `Découvrez le produit ${productName} imprimé en 3D de haute qualité par Spoolio à Comines.`,
+    name: product.name,
+    description: formatDescription(
+      product.description || product.short_description || "",
+      `Découvrez ${product.name} imprimé en 3D avec soin dans notre atelier à Comines.`
+    ),
     slug: slug,
-    price: 5.00,
-    ratingValue: 4.9,
-    reviewCount: 48
+    sku: String(product.id),
+    price: product.price,
+    inStock: product.stock !== 0 && product.stock !== -2,
+    category: primaryCategory?.name || "Fidgets & Impression 3D",
+    image: product.images?.[0]?.src,
+    ratingValue: realRatingValue,
+    reviewCount: realReviewCount,
   });
 
-  const breadcrumbLd = getBreadcrumbJsonLd([
+  const breadcrumbItems = [
     { name: "Accueil", url: "/" },
     { name: "Boutique", url: "/boutique" },
-    { name: productName, url: `/product/${slug}` }
-  ]);
+  ];
+
+  if (primaryCategory) {
+    breadcrumbItems.push({
+      name: primaryCategory.name,
+      url: `/categorie/${primaryCategory.slug || primaryCategory.name.toLowerCase().replace(/\s+/g, "-")}`,
+    });
+  }
+
+  breadcrumbItems.push({
+    name: product.name,
+    url: `/product/${slug}`,
+  });
+
+  const breadcrumbLd = getBreadcrumbJsonLd(breadcrumbItems);
 
   return (
     <>
       <JsonLdScript data={productLd} id={`product-jsonld-${slug}`} />
       <JsonLdScript data={breadcrumbLd} id={`breadcrumb-jsonld-${slug}`} />
-      <ProductDetailClient slug={slug} isDraftPreview={isDraftPreview} />
+      <ProductDetailClient
+        slug={slug}
+        isDraftPreview={isDraftPreview}
+        initialProduct={product}
+        initialRelatedProducts={relatedProducts}
+      />
     </>
   );
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seoMetadata";
 import { notFound } from "next/navigation";
 import { getAllDrops, getDropBySlug } from "@/lib/drops";
 import DropDetailClient from "./DropDetailClient";
@@ -17,25 +18,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!drop) {
     return {
       title: "Drop Introuvable | Spoolio 3D",
+      robots: { index: false, follow: false },
     };
   }
 
-  return {
+  return buildPageMetadata({
     title: `${drop.title} | Drop Exclusif Spoolio`,
     description: drop.tagline || drop.description.slice(0, 160),
-    openGraph: {
-      title: `${drop.title} | Drop Exclusif Spoolio`,
-      description: drop.tagline,
-      images: [
-        {
-          url: drop.bannerImage.startsWith("http") ? drop.bannerImage : `https://spoolio.fr${drop.bannerImage}`,
-          width: 1200,
-          height: 630,
-          alt: drop.title,
-        },
-      ],
-    },
-  };
+    path: `/drops/${slug}`,
+    ogImage: drop.bannerImage,
+  });
 }
 
 export default async function DropDetailPage({ params }: PageProps) {

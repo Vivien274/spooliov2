@@ -6,6 +6,12 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "www.spoolio.fr",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
         hostname: "spoolio.fr",
         port: "",
         pathname: "/**",
@@ -54,6 +60,40 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: "/produit/:slug*",
+        destination: "/product/:slug*",
+        permanent: true,
+      },
+      {
+        source: "/medaillon-nfc-chien-et-chat",
+        destination: "/medaillon-nfc-chien-chat",
+        permanent: true,
+      },
+      {
+        source: "/product/clicker-mecanique-sur-mesure",
+        destination: "/createur-cliqueur",
+        permanent: true,
+      },
+      {
+        source: "/product/oeuf-de-serpent-dragon",
+        destination: "/product/oeuf-serpent-dinosaure-petit",
+        permanent: true,
+      },
+      {
+        source: "/product/boucles-doreilles-feuilles-ete",
+        destination: "/categorie/bijoux",
+        permanent: true,
+      },
+      {
+        source: "/product/boucles-d'oreilles---feuilles-été",
+        destination: "/categorie/bijoux",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
@@ -70,5 +110,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-// Dev server reload trigger
-
