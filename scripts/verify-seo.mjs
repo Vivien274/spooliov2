@@ -237,6 +237,45 @@ async function fetchAndParseSitemap() {
   }
 }
 
+async function verifyRedirectsAnd404() {
+  console.log(`\n2b. 🔍 Contrôle des redirections historiques et de la réponse 404...`);
+  const redirectTests = [
+    { from: "/produit/pot-a-crayon-serpent", expectedTarget: "/product/pot-a-crayon-serpent" },
+    { from: "/medaillon-nfc-chien-et-chat", expectedTarget: "/medaillon-nfc-chien-chat" },
+    { from: "/product/clicker-mecanique-sur-mesure", expectedTarget: "/createur-cliqueur" },
+    { from: "/product/oeuf-de-serpent-dragon", expectedTarget: "/product/oeuf-serpent-dinosaure-petit" },
+  ];
+
+  for (const test of redirectTests) {
+    try {
+      const res = await fetch(`${baseUrl}${test.from}`, { redirect: "manual" });
+      const location = res.headers.get("location");
+      if (![301, 307, 308].includes(res.status)) {
+        logGlobalError(`Redirection attendue sur ${test.from} mais reçu HTTP ${res.status}`);
+      } else if (!location || !location.endsWith(test.expectedTarget)) {
+        logGlobalError(`Redirection sur ${test.from} incorrecte : attendu finissant par "${test.expectedTarget}", reçu "${location}"`);
+      } else {
+        logSuccess(`Redirection ${res.status} validée : ${test.from} -> ${location}`);
+      }
+    } catch (err) {
+      logGlobalError(`Échec test redirection ${test.from} : ${err.message}`);
+    }
+  }
+
+  // Test 404
+  try {
+    const test404Url = `${baseUrl}/page-inexistante-test-controle-seo-404`;
+    const res404 = await fetch(test404Url, { redirect: "manual" });
+    if (res404.status === 404) {
+      logSuccess(`Réponse 404 conforme sur URL inexistante : HTTP 404 reçu.`);
+    } else {
+      logGlobalError(`URL inexistante ${test404Url} a retourné HTTP ${res404.status} au lieu de 404.`);
+    }
+  } catch (err) {
+    logGlobalError(`Échec test 404 : ${err.message}`);
+  }
+}
+
 async function preloadDatabaseProducts() {
   console.log(`\n3. ⏳ Préchargement groupé des produits et avis réels depuis la base de données...`);
   try {
@@ -279,6 +318,10 @@ async function crawlAndVerifyUrls(urls, dbProductsMap) {
     const pathPart = canonicalUrl.replace(CANONICAL_ORIGIN, "") || "/";
     const targetUrl = `${baseUrl}${pathPart}`;
 
+    if ((i + 1) % 10 === 0 || i === 0 || i === urls.length - 1) {
+      console.log(`  ⏳ [${i + 1}/${urls.length}] En cours : ${pathPart}`);
+    }
+
     results.totalChecked++;
     const pageErrors = [];
 
@@ -289,8 +332,8 @@ async function crawlAndVerifyUrls(urls, dbProductsMap) {
     };
 
     try {
-      // Visite sans redirection automatique
-      const res = await fetch(targetUrl, { redirect: "manual" });
+      // Visite sans redirection automatique avec timeout de sécurité
+      const res = await fetch(targetUrl, { redirect: "manual", signal: AbortSignal.timeout(10000) });
 
       if (res.status !== 200) {
         if ([301, 302, 307, 308].includes(res.status)) {
@@ -556,6 +599,7 @@ async function main() {
   try {
     await verifyRobotsTxt();
     const urls = await fetchAndParseSitemap();
+    await verifyRedirectsAnd404();
     const dbProductsMap = await preloadDatabaseProducts();
 
     if (!dbProductsMap) {
@@ -577,8 +621,8 @@ async function main() {
     console.log(`  - Total Erreurs bloquantes : ${results.allErrors.length}`);
     console.log("==================================================================");
 
-    if (results.allErrors.length > 0 || results.failedPages > 0) {
-      console.error(`\n❌ ÉCHEC DE LA VALIDATION : ${results.allErrors.length} erreur(s) détectée(s) sur ${results.failedPages} page(s).`);
+    if (results.allErrors.length > 0 || results.failedPages > 0 || results.warnings.length > 0) {
+      console.error(`\n❌ ÉCHEC DE LA VALIDATION : ${results.allErrors.length} erreur(s) et ${results.warnings.length} avertissement(s) détecté(s).`);
       process.exit(1);
     } else {
       console.log(`\n🎉 SUCCÈS COMPLET : 100% conforme. Toutes les URLs, prix et avis ont été réellement vérifiés.`);

@@ -26,7 +26,18 @@ const isDryRun = !isApply;
 async function runSeoMigrations() {
   console.log("==================================================================");
   console.log(`🔒 [MIGRATION SEO BDD] Mode : ${isDryRun ? "SIMULATION (--dry-run)" : "APPLICATION RÉELLE (--apply)"}`);
-  console.log("==================================================================\n");
+  let dbTarget = "Non définie";
+  try {
+    const rawUrl = process.env.DATABASE_URL || "";
+    if (rawUrl) {
+      const parsed = new URL(rawUrl);
+      const userProject = parsed.username ? (parsed.username.includes(".") ? parsed.username.split(".")[1] : parsed.username) : "inconnu";
+      dbTarget = `Host: ${parsed.host} | Projet Supabase: ${userProject} | Base: ${parsed.pathname.replace(/^\//, "")}`;
+    }
+  } catch {
+    dbTarget = "URL non analysable";
+  }
+  console.log(`📡 [CIBLE BDD] ${dbTarget}\n`);
 
   const plannedOperations = [];
   const conflicts = [];
