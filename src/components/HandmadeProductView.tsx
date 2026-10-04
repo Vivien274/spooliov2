@@ -805,14 +805,6 @@ export default function HandmadeProductView({
                           </span>
                         </div>
 
-                        {/* Meaningful Human Caption (filtered to avoid DSC/technical names) */}
-                        {item.caption && !isTechnicalLabel(item.caption) && (
-                          <div className="absolute bottom-3 left-3 right-3 z-10 pointer-events-none">
-                            <span className="inline-block text-[11px] font-semibold text-white line-clamp-1 drop-shadow-sm px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-xs border border-white/10">
-                              {item.caption}
-                            </span>
-                          </div>
-                        )}
 
                         {/* Overlay "+X autres photos" sur la dernière vignette si la galerie en contient plus */}
                         {hasMore && (
