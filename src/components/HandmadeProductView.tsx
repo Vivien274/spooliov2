@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -103,16 +103,6 @@ export default function HandmadeProductView({
     }
   };
 
-  const scrollGallery = (direction: "left" | "right") => {
-    if (!gallerySliderRef.current) return;
-    const cardWidth = gallerySliderRef.current.firstElementChild
-      ? (gallerySliderRef.current.firstElementChild as HTMLElement).clientWidth + 24
-      : 540;
-    gallerySliderRef.current.scrollBy({
-      left: direction === "left" ? -cardWidth : cardWidth,
-      behavior: "smooth",
-    });
-  };
 
   // Helper to format prices
   const formatPrice = (p: string | number | undefined | null) => {
@@ -192,6 +182,48 @@ export default function HandmadeProductView({
   const hasHeroVideo = Boolean(heroVideoUrl);
   const isHeroYouTube = heroVideoUrl ? isYouTubeUrl(heroVideoUrl) : false;
 
+  // Liste unifiée des médias plein écran (Couverture Hero en #0 puis Galerie)
+  const allLightboxItems = useMemo(() => {
+    const list: { src: string; caption?: string; alt?: string; type?: "image" | "video" }[] = [];
+
+    // 1. Média de couverture Hero toujours en premier (#0)
+    if (hasHeroVideo && heroVideoUrl) {
+      list.push({
+        src: heroVideoUrl,
+        caption: "Vidéo de Couverture d'Atelier",
+        alt: `${displayName} — Vidéo de couverture`,
+        type: "video",
+      });
+    } else if (mainImage) {
+      list.push({
+        src: mainImage,
+        caption: "Photo de Couverture",
+        alt: `${displayName} — Couverture principale`,
+        type: "image",
+      });
+    }
+
+    // 2. Ajout des photos & vidéos de la galerie
+    galleryItems.forEach((item) => {
+      if (item.src && item.src !== heroVideoUrl && item.src !== mainImage) {
+        list.push(item);
+      } else if (item.src && list.length === 0) {
+        list.push(item);
+      }
+    });
+
+    if (list.length === 0) {
+      list.push({
+        src: mainImage || "/images/produits/monstre-skateur-fait-main.jpg",
+        caption: displayName,
+        alt: displayName,
+        type: "image",
+      });
+    }
+
+    return list;
+  }, [hasHeroVideo, heroVideoUrl, mainImage, displayName, galleryItems]);
+
   const toggleHeroPlay = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!heroVideoRef.current) return;
@@ -204,19 +236,31 @@ export default function HandmadeProductView({
     }
   };
 
-  // Handle scroll detection on gallery track to update slide index indicator
-  const handleGalleryScroll = () => {
+  // Défilement fluide de la galerie sur 2 lignes
+  const scrollGallery = (direction: "left" | "right") => {
     if (!gallerySliderRef.current) return;
-    const scrollLeft = gallerySliderRef.current.scrollLeft;
-    const card = gallerySliderRef.current.firstElementChild as HTMLElement;
-    if (card) {
-      const cardWidth = card.clientWidth + 24;
-      const index = Math.round(scrollLeft / cardWidth);
-      setActiveGalleryIndex(Math.min(Math.max(0, index), galleryItems.length - 1));
-    }
+    const scrollAmount = Math.max(320, Math.floor(gallerySliderRef.current.clientWidth * 0.75));
+    gallerySliderRef.current.scrollBy({
+      left: direction === "left" ? -scrollAmount : scrollAmount,
+      behavior: "smooth",
+    });
   };
 
-  // Keyboard navigation for Lightbox
+  // Détection du défilement pour la pagination
+  const handleGalleryScroll = () => {
+    if (!gallerySliderRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = gallerySliderRef.current;
+    const maxScroll = scrollWidth - clientWidth;
+    if (maxScroll <= 0) {
+      setActiveGalleryIndex(0);
+      return;
+    }
+    const ratio = Math.min(Math.max(0, scrollLeft / maxScroll), 1);
+    const index = Math.round(ratio * (Math.max(1, galleryItems.length - 1)));
+    setActiveGalleryIndex(index);
+  };
+
+  // Navigation clavier pour la Lightbox
   useEffect(() => {
     if (lightboxIndex === null) return;
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -224,17 +268,17 @@ export default function HandmadeProductView({
         setLightboxIndex(null);
       } else if (e.key === "ArrowLeft") {
         setLightboxIndex((prev) =>
-          prev !== null && prev > 0 ? prev - 1 : galleryItems.length - 1
+          prev !== null && prev > 0 ? prev - 1 : allLightboxItems.length - 1
         );
       } else if (e.key === "ArrowRight") {
         setLightboxIndex((prev) =>
-          prev !== null && prev < galleryItems.length - 1 ? prev + 1 : 0
+          prev !== null && prev < allLightboxItems.length - 1 ? prev + 1 : 0
         );
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [lightboxIndex, galleryItems.length]);
+  }, [lightboxIndex, allLightboxItems.length]);
 
   return (
     <div className="w-full bg-white text-zinc-900 font-sans selection:bg-[#ff4f00] selection:text-black">
@@ -627,24 +671,36 @@ export default function HandmadeProductView({
             </div>
           </div>
 
-          {/* 100% Full Bleed Horizontal Artwork Track */}
+          {/* 100% Full Bleed 2-ROW MASONRY Artwork Track */}
           <div
             ref={gallerySliderRef}
             onScroll={handleGalleryScroll}
-            className="flex gap-6 sm:gap-8 overflow-x-auto scrollbar-none px-4 sm:px-8 lg:px-12 py-3 snap-x snap-mandatory relative z-10"
-            style={{ scrollSnapType: "x mandatory" }}
+            className="grid grid-rows-2 grid-flow-col auto-cols-max gap-4 sm:gap-6 overflow-x-auto scrollbar-none px-4 sm:px-8 lg:px-12 py-3 snap-x relative z-10"
           >
             {galleryItems.map((item, idx) => {
               const isVid = isVideoMedia(item.src) || item.type === "video";
               const isItemYT = isYouTubeUrl(item.src);
+              // Alternance harmonieuse de largeurs façon "masonry"
+              const cardWidthClass =
+                idx % 4 === 0
+                  ? "w-[270px] sm:w-[350px] lg:w-[410px]"
+                  : idx % 4 === 1
+                  ? "w-[240px] sm:w-[300px] lg:w-[340px]"
+                  : idx % 4 === 2
+                  ? "w-[290px] sm:w-[380px] lg:w-[440px]"
+                  : "w-[250px] sm:w-[320px] lg:w-[360px]";
+
               return (
                 <div
                   key={`art-photo-${idx}`}
-                  onClick={() => setLightboxIndex(idx)}
-                  className="w-[84vw] sm:w-[540px] lg:w-[720px] shrink-0 snap-center rounded-3xl overflow-hidden bg-white border border-zinc-200 shadow-md hover:shadow-xl group cursor-pointer relative flex flex-col justify-end transition-all hover:border-[#ff4f00]/60"
+                  onClick={() => {
+                    const targetIdx = allLightboxItems.findIndex((it) => it.src === item.src);
+                    setLightboxIndex(targetIdx >= 0 ? targetIdx : idx);
+                  }}
+                  className={`${cardWidthClass} h-[190px] sm:h-[240px] lg:h-[280px] shrink-0 snap-center rounded-2xl sm:rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-200/90 shadow-sm hover:shadow-xl group cursor-pointer relative flex flex-col justify-end transition-all duration-300 hover:border-[#ff4f00] hover:-translate-y-1`}
                 >
-                  {/* Photo / Video Frame */}
-                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-black">
+                  {/* Photo / Video Container */}
+                  <div className="relative w-full h-full overflow-hidden bg-black">
                     {isVid ? (
                       isItemYT ? (
                         <div className="relative w-full h-full">
@@ -652,11 +708,11 @@ export default function HandmadeProductView({
                             src={getYouTubeThumbnail(item.src) || "/images/produits/monstre-skateur-fait-main.jpg"}
                             alt={item.alt || item.caption || displayName}
                             fill
-                            className="object-cover"
+                            className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                           />
                           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                            <div className="w-14 h-14 rounded-full bg-[#ff4f00] text-white flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
-                              <Play className="w-6 h-6 ml-0.5 fill-current" />
+                            <div className="w-12 h-12 rounded-full bg-[#ff4f00] text-white flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+                              <Play className="w-5 h-5 ml-0.5 fill-current" />
                             </div>
                           </div>
                         </div>
@@ -668,10 +724,10 @@ export default function HandmadeProductView({
                             loop
                             muted
                             playsInline
-                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                           />
                           <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors flex items-center justify-center pointer-events-none">
-                            <div className="w-12 h-12 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center justify-center group-hover:bg-[#ff4f00] group-hover:scale-110 transition-all shadow-lg">
+                            <div className="w-11 h-11 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center justify-center group-hover:bg-[#ff4f00] group-hover:scale-110 transition-all shadow-lg">
                               <Play className="w-5 h-5 ml-0.5 fill-current" />
                             </div>
                           </div>
@@ -682,19 +738,32 @@ export default function HandmadeProductView({
                         src={item.src}
                         alt={item.alt || item.caption || `${displayName} - Vue ${idx + 1}`}
                         fill
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                        sizes="(max-width: 768px) 300px, 450px"
+                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                       />
                     )}
 
-                    {/* Fullscreen Expand Arrow Button */}
-                    <div className="absolute top-4 right-4 pointer-events-none z-10">
+                    {/* Subtle Gradient for Bottom Caption Legibility */}
+                    <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/80 via-black/30 to-transparent pointer-events-none" />
+
+                    {/* Caption badge at bottom left if provided */}
+                    {item.caption && (
+                      <div className="absolute bottom-3 left-3 right-12 z-10 pointer-events-none">
+                        <span className="inline-block text-[11px] font-semibold text-white/95 line-clamp-1 drop-shadow-sm px-2 py-0.5 rounded-md bg-black/50 backdrop-blur-xs">
+                          {item.caption}
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Fullscreen Expand Button (top right) */}
+                    <div className="absolute top-3 right-3 pointer-events-none z-10">
                       <span 
-                        className="w-10 h-10 rounded-full bg-white/25 group-hover:bg-white/50 backdrop-blur-md border border-white/40 shadow-md flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                        className="w-8 h-8 rounded-full bg-black/50 group-hover:bg-[#ff4f00] text-white backdrop-blur-md border border-white/20 shadow-md flex items-center justify-center transition-all duration-300 group-hover:scale-110"
                         title="Plein écran"
                       >
                         <ArrowUpRight 
                           strokeWidth={2.5}
-                          className="w-5 h-5 text-zinc-950 group-hover:text-[#ff4f00] transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 drop-shadow-xs" 
+                          className="w-4 h-4 text-white group-hover:text-white transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" 
                         />
                       </span>
                     </div>
@@ -705,31 +774,11 @@ export default function HandmadeProductView({
           </div>
 
           {/* Minimal Progress Indicator */}
-          {galleryItems.length > 1 && (
+          {galleryItems.length > 2 && (
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 flex items-center justify-center gap-2">
-              {galleryItems.map((_, i) => (
-                <button
-                  key={`dot-${i}`}
-                  type="button"
-                  onClick={() => {
-                    if (gallerySliderRef.current) {
-                      const card = gallerySliderRef.current.firstElementChild as HTMLElement;
-                      if (card) {
-                        gallerySliderRef.current.scrollTo({
-                          left: i * (card.clientWidth + 24),
-                          behavior: "smooth",
-                        });
-                      }
-                    }
-                  }}
-                  className={`h-1.5 rounded-full transition-all cursor-pointer ${
-                    activeGalleryIndex === i
-                      ? "w-8 bg-[#ff4f00]"
-                      : "w-2 bg-zinc-300 hover:bg-zinc-400"
-                  }`}
-                  title={`Aller au média ${i + 1}`}
-                />
-              ))}
+              <span className="text-xs font-mono font-bold text-zinc-500">
+                {galleryItems.length} photos &amp; vidéos d&apos;atelier • Disposition sur 2 lignes
+              </span>
             </div>
           )}
         </section>
@@ -937,14 +986,22 @@ export default function HandmadeProductView({
             className="absolute top-6 inset-x-6 flex items-center justify-between z-50 pointer-events-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold text-white">
-              Photo {lightboxIndex + 1} sur {galleryItems.length}
+            <div className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-bold text-white flex items-center gap-2">
+              <span className="text-[#ff4f00] font-black">
+                {lightboxIndex === 0
+                  ? hasHeroVideo
+                    ? "🎬 Vidéo Couverture"
+                    : "📷 Photo Couverture"
+                  : `Photo #${lightboxIndex}`}
+              </span>
+              <span className="text-white/40">/</span>
+              <span>{allLightboxItems.length} médias</span>
             </div>
 
             <button
               type="button"
               onClick={() => setLightboxIndex(null)}
-              className="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer border border-white/20"
+              className="w-11 h-11 rounded-full bg-white/10 hover:bg-[#ff4f00] text-white flex items-center justify-center transition-all cursor-pointer border border-white/20"
               title="Fermer (Échap)"
             >
               <X color="#ffffff" style={{ color: "#ffffff", stroke: "#ffffff" }} className="w-5 h-5 text-white" />
@@ -952,17 +1009,17 @@ export default function HandmadeProductView({
           </div>
 
           {/* Left Arrow */}
-          {galleryItems.length > 1 && (
+          {allLightboxItems.length > 1 && (
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 setLightboxIndex((prev) =>
-                  prev !== null && prev > 0 ? prev - 1 : galleryItems.length - 1
+                  prev !== null && prev > 0 ? prev - 1 : allLightboxItems.length - 1
                 );
               }}
               className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-[#ff4f00] text-white flex items-center justify-center transition-all cursor-pointer z-50 border border-white/20"
-              title="Photo précédente (Flèche gauche)"
+              title="Média précédent (Flèche gauche)"
             >
               <ChevronLeft color="#ffffff" style={{ color: "#ffffff", stroke: "#ffffff" }} className="w-6 h-6 text-white" />
             </button>
@@ -974,15 +1031,16 @@ export default function HandmadeProductView({
             onClick={(e) => e.stopPropagation()}
           >
             {(() => {
-              const currentSrc = galleryItems[lightboxIndex]?.src || mainImage;
-              const isVid = isVideoMedia(currentSrc) || galleryItems[lightboxIndex]?.type === "video";
+              const currentItem = allLightboxItems[lightboxIndex] || allLightboxItems[0];
+              const currentSrc = currentItem?.src || mainImage;
+              const isVid = isVideoMedia(currentSrc) || currentItem?.type === "video";
               if (isVid) {
                 if (isYouTubeUrl(currentSrc)) {
                   return (
                     <div className="w-full max-w-4xl aspect-video rounded-3xl overflow-hidden shadow-2xl border border-white/20 bg-black">
                       <iframe
                         src={getYouTubeEmbedUrl(currentSrc) || ""}
-                        title={galleryItems[lightboxIndex]?.caption || displayName}
+                        title={currentItem?.caption || displayName}
                         className="w-full h-full"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
@@ -994,7 +1052,6 @@ export default function HandmadeProductView({
                   <video
                     src={currentSrc}
                     controls
-                    muted
                     autoPlay
                     playsInline
                     className="max-w-full max-h-[80vh] rounded-3xl shadow-2xl border border-white/20 bg-black"
@@ -1002,41 +1059,44 @@ export default function HandmadeProductView({
                 );
               }
               return (
-                <Image
-                  src={currentSrc}
-                  alt={galleryItems[lightboxIndex]?.alt || displayName}
-                  fill
-                  className="object-contain"
-                />
+                <div className="relative w-full h-[80vh] flex items-center justify-center">
+                  <Image
+                    src={currentSrc}
+                    alt={currentItem?.alt || displayName}
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 1200px) 100vw, 1200px"
+                  />
+                </div>
               );
             })()}
           </div>
 
           {/* Right Arrow */}
-          {galleryItems.length > 1 && (
+          {allLightboxItems.length > 1 && (
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 setLightboxIndex((prev) =>
-                  prev !== null && prev < galleryItems.length - 1 ? prev + 1 : 0
+                  prev !== null && prev < allLightboxItems.length - 1 ? prev + 1 : 0
                 );
               }}
               className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-[#ff4f00] text-white flex items-center justify-center transition-all cursor-pointer z-50 border border-white/20"
-              title="Photo suivante (Flèche droite)"
+              title="Média suivant (Flèche droite)"
             >
               <ChevronRight color="#ffffff" style={{ color: "#ffffff", stroke: "#ffffff" }} className="w-6 h-6 text-white" />
             </button>
           )}
 
           {/* Bottom Caption Pill */}
-          {galleryItems[lightboxIndex]?.caption && (
+          {allLightboxItems[lightboxIndex]?.caption && (
             <div 
               className="absolute bottom-6 inset-x-6 text-center z-50 pointer-events-auto"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="inline-block px-5 py-2 rounded-2xl bg-black/80 backdrop-blur-md border border-white/20 text-xs sm:text-sm text-zinc-100 font-medium max-w-2xl">
-                {galleryItems[lightboxIndex]?.caption}
+                {allLightboxItems[lightboxIndex]?.caption}
               </div>
             </div>
           )}

@@ -24,6 +24,7 @@ import {
   Film,
   Play,
   Video,
+  GripVertical,
 } from "lucide-react";
 import { isVideoMedia, isYouTubeUrl, getYouTubeEmbedUrl } from "@/lib/mediaUtils";
 
@@ -153,6 +154,8 @@ export default function UniquePieceEditorClient({
   const [isHeroVideoUploading, setIsHeroVideoUploading] = useState(false);
   const [isVideoSectionUploading, setIsVideoSectionUploading] = useState(false);
   const [replacingIndex, setReplacingIndex] = useState<number | null>(null);
+  const [draggedGalleryIdx, setDraggedGalleryIdx] = useState<number | null>(null);
+  const [dragOverGalleryIdx, setDragOverGalleryIdx] = useState<number | null>(null);
 
   const galleryFileInputRef = useRef<HTMLInputElement>(null);
   const heroFileInputRef = useRef<HTMLInputElement>(null);
@@ -1325,20 +1328,87 @@ export default function UniquePieceEditorClient({
               </div>
             </div>
 
+            {/* Drag & Drop Hint Banner */}
+            {(uniqueData.gallery?.items || []).length > 1 && (
+              <div className="flex items-center gap-2 p-3 rounded-xl bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-medium">
+                <GripVertical className="w-4 h-4 shrink-0 text-orange-500" />
+                <span>
+                  <strong>Glisser-déposer actif :</strong> Attrapez n&apos;importe quelle carte par la poignée <strong className="font-mono">⋮⋮</strong> pour réordonner facilement l&apos;ordre des photos et vidéos.
+                </span>
+              </div>
+            )}
+
             {/* List of Photo / Video Cards */}
             <div className="space-y-4">
               {(uniqueData.gallery?.items || []).map((photo, pIdx) => {
                 const isVid = photo.type === "video" || isVideoMedia(photo.src);
                 const isCurrentHero = !isVid && image && photo.src && image === photo.src;
                 const isCurrentHeroVideo = isVid && uniqueData.hero?.video && uniqueData.hero.video === photo.src;
+                const isBeingDragged = draggedGalleryIdx === pIdx;
+                const isDragTarget = dragOverGalleryIdx === pIdx && !isBeingDragged;
 
                 return (
                   <div
                     key={`gallery-item-${pIdx}`}
+                    draggable
+                    onDragStart={(e) => {
+                      setDraggedGalleryIdx(pIdx);
+                      e.dataTransfer.effectAllowed = "move";
+                      e.dataTransfer.setData("text/plain", `${pIdx}`);
+                    }}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      e.dataTransfer.dropEffect = "move";
+                      if (dragOverGalleryIdx !== pIdx) {
+                        setDragOverGalleryIdx(pIdx);
+                      }
+                    }}
+                    onDragLeave={() => {
+                      if (dragOverGalleryIdx === pIdx) {
+                        setDragOverGalleryIdx(null);
+                      }
+                    }}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      if (draggedGalleryIdx === null || draggedGalleryIdx === pIdx) {
+                        setDraggedGalleryIdx(null);
+                        setDragOverGalleryIdx(null);
+                        return;
+                      }
+                      const items = [...(uniqueData.gallery?.items || [])];
+                      const [moved] = items.splice(draggedGalleryIdx, 1);
+                      items.splice(pIdx, 0, moved);
+                      setUniqueData((prev) => ({
+                        ...prev,
+                        gallery: {
+                          ...(prev.gallery || getDefaultUniquePieceData(name).gallery),
+                          items,
+                        },
+                      }));
+                      setDraggedGalleryIdx(null);
+                      setDragOverGalleryIdx(null);
+                    }}
+                    onDragEnd={() => {
+                      setDraggedGalleryIdx(null);
+                      setDragOverGalleryIdx(null);
+                    }}
                     className={`p-4 rounded-2xl ${cls.statusBg} border transition-all flex flex-col md:flex-row gap-4 items-start md:items-center ${
-                      isCurrentHero || isCurrentHeroVideo ? "border-[#ff4f00]/50 bg-[#ff4f00]/5 dark:bg-[#ff4f00]/10" : cls.border
+                      isBeingDragged
+                        ? "opacity-35 border-dashed border-[#ff4f00] scale-[0.98]"
+                        : isDragTarget
+                        ? "border-[#ff4f00] ring-2 ring-[#ff4f00]/50 bg-[#ff4f00]/10 scale-[1.01]"
+                        : isCurrentHero || isCurrentHeroVideo
+                        ? "border-[#ff4f00]/50 bg-[#ff4f00]/5 dark:bg-[#ff4f00]/10"
+                        : cls.border
                     }`}
                   >
+                    {/* Drag Handle */}
+                    <div
+                      className="cursor-grab active:cursor-grabbing text-zinc-400 hover:text-[#ff4f00] transition-colors p-1 shrink-0 self-center hidden md:flex items-center justify-center rounded-lg hover:bg-white/5"
+                      title="Glisser pour réordonner"
+                    >
+                      <GripVertical className="w-5 h-5" />
+                    </div>
                     {/* Thumbnail Preview */}
                     <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden bg-black border border-white/15 shrink-0 group">
                       {isVid ? (

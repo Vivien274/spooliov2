@@ -10,6 +10,7 @@ import JsonLdScript from "@/components/JsonLdScript";
 import { getProductJsonLd, getBreadcrumbJsonLd } from "@/lib/jsonLd";
 import { BUSINESS_CONFIG } from "@/lib/businessConfig";
 import { prisma } from "@/lib/prisma";
+import { getAllDrops } from "@/lib/drops";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -26,6 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     });
   }
 
+  await getAllDrops();
   const product = await getProductBySlug(slug);
 
   if (!product) {
@@ -94,7 +96,8 @@ export default async function ProductPage({ params }: PageProps) {
   const isPreprod = isPreprodEnv();
   const canViewDraft = isAdmin || isPreprod;
 
-  // 2. Fetch full product directly on server
+  // 2. Fetch full product directly on server (en synchronisant les drops JIT)
+  await getAllDrops();
   const product = await getProductBySlug(slug);
 
   if (!product) {

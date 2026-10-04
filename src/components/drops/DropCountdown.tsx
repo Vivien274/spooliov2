@@ -8,6 +8,7 @@ interface DropCountdownProps {
   className?: string;
   compact?: boolean;
   theme?: DropTheme;
+  onExpire?: () => void;
 }
 
 interface TimeRemaining {
@@ -33,7 +34,7 @@ function calculateTimeRemaining(target: string): TimeRemaining {
   return { days, hours, minutes, seconds, isExpired: false };
 }
 
-export default function DropCountdown({ targetDate, className = "", compact = false, theme }: DropCountdownProps) {
+export default function DropCountdown({ targetDate, className = "", compact = false, theme, onExpire }: DropCountdownProps) {
   const [mounted, setMounted] = useState(false);
   const [time, setTime] = useState<TimeRemaining>({
     days: 0,
@@ -45,14 +46,20 @@ export default function DropCountdown({ targetDate, className = "", compact = fa
 
   useEffect(() => {
     setMounted(true);
-    setTime(calculateTimeRemaining(targetDate));
+    const initial = calculateTimeRemaining(targetDate);
+    setTime(initial);
 
     const interval = setInterval(() => {
-      setTime(calculateTimeRemaining(targetDate));
+      const nextTime = calculateTimeRemaining(targetDate);
+      setTime(nextTime);
+      if (nextTime.isExpired) {
+        clearInterval(interval);
+        onExpire?.();
+      }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [targetDate]);
+  }, [targetDate, onExpire]);
 
   if (!mounted) {
     return (

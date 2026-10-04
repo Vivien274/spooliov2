@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import ProductCard, { Product } from "@/components/ProductCard";
 import DropCountdown from "@/components/drops/DropCountdown";
 import { Drop } from "@/lib/drops";
+import { useRouter } from "next/navigation";
 import {
   Sparkles,
   Calendar,
@@ -21,6 +22,7 @@ import {
   MapPin,
   Flame,
   CheckCircle2,
+  Lock,
 } from "lucide-react";
 
 interface DropDetailClientProps {
@@ -28,6 +30,8 @@ interface DropDetailClientProps {
 }
 
 export default function DropDetailClient({ drop }: DropDetailClientProps) {
+  const router = useRouter();
+
   useEffect(() => {
     const cleanName = drop.dropName || (drop.title ? drop.title.replace(/^DROP\s*\d*\s*—\s*/i, "").trim() : drop.title);
     document.title = `Drop - ${cleanName} | Spoolio`;
@@ -229,7 +233,15 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
                   <Clock className="w-4 h-4" style={{ color: dAccent }} />
                   <span>Lancement dans :</span>
                 </span>
-                <DropCountdown targetDate={drop.startDate} theme={dTheme} />
+                <DropCountdown
+                  targetDate={drop.startDate}
+                  theme={dTheme}
+                  onExpire={() => {
+                    setTimeout(() => {
+                      router.refresh();
+                    }, 500);
+                  }}
+                />
               </div>
             )}
 
@@ -479,7 +491,27 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
                 }}
               >
                 {/* Standard robust Spoolio Product Card */}
-                <ProductCard product={product} hideBadge={true} />
+                {isUpcoming ? (
+                  <div className="relative overflow-hidden rounded-[22px] sm:rounded-[28px]">
+                    <div className="pointer-events-none select-none opacity-85 filter contrast-90">
+                      <ProductCard product={product} hideBadge={true} />
+                    </div>
+                    {/* Locked Badge Overlay */}
+                    <div className="absolute inset-0 bg-black/55 backdrop-blur-[2px] flex flex-col items-center justify-center p-5 text-center z-30 transition-all group-hover/dropcard:bg-black/65">
+                      <div className="w-12 h-12 rounded-2xl bg-black/80 border border-white/20 flex items-center justify-center mb-3 shadow-2xl text-[#ff5500]">
+                        <Lock className="w-6 h-6" />
+                      </div>
+                      <span className="text-xs font-mono font-black text-white uppercase tracking-wider">
+                        Dévoilé le {formattedDate}
+                      </span>
+                      <p className="text-[11px] text-zinc-300 font-medium mt-1.5 max-w-[200px]">
+                        Fiche et commande disponibles dès le lancement
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <ProductCard product={product} hideBadge={true} />
+                )}
               </div>
             ))}
           </div>
