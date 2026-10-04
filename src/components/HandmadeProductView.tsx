@@ -28,6 +28,7 @@ import {
   Play,
   Pause,
   Film,
+  Images,
 } from "lucide-react";
 import { Product } from "@/components/ProductCard";
 import { getDefaultUniquePieceData, UniquePieceData } from "@/lib/uniquePieceDefaults";
@@ -38,6 +39,22 @@ function stripEmojis(text: string = ""): string {
     .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, "")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function isTechnicalLabel(str?: string): boolean {
+  if (!str) return true;
+  const s = str.trim();
+  if (/^DSC\d+/i.test(s)) return true;
+  if (/^IMG[_\d]+/i.test(s)) return true;
+  if (/^PXL[_\d]+/i.test(s)) return true;
+  if (/upload_\d+/i.test(s)) return true;
+  if (/\.(webp|jpg|jpeg|png)$/i.test(s)) return true;
+  if (/KurbMonsters\s*\d+/i.test(s)) return true;
+  if (/Edition\s*-\s*DSC/i.test(s)) return true;
+  if (s.toLowerCase().includes("dsc4")) return true;
+  if (s.toLowerCase().includes("fait-main")) return true;
+  if (s.toLowerCase().startsWith("spoolio")) return true;
+  return false;
 }
 
 function renderPerkIcon(icon: string = "", text: string = "") {
@@ -622,7 +639,7 @@ export default function HandmadeProductView({
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[350px] bg-gradient-to-r from-orange-500/5 via-amber-500/5 to-transparent rounded-full blur-3xl pointer-events-none" />
 
           {/* Section Header */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-12 flex flex-wrap items-end justify-between gap-6 relative z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 sm:mb-10 flex flex-wrap items-end justify-between gap-6 relative z-10">
             <div className="max-w-2xl">
               {data.gallery.badge && (
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-zinc-200 text-[10px] font-extrabold uppercase tracking-wider text-zinc-800 mb-3 shadow-2xs">
@@ -640,147 +657,184 @@ export default function HandmadeProductView({
               )}
             </div>
 
-            {/* Gallery Navigation Controls */}
-            <div className="flex items-center gap-4">
-              <div className="text-xs font-mono font-bold text-zinc-400">
-                <span className="text-zinc-900 text-sm font-black">
-                  {String(activeGalleryIndex + 1).padStart(2, "0")}
-                </span>
-                <span className="mx-1 text-zinc-300">/</span>
-                <span>{String(galleryItems.length).padStart(2, "0")}</span>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() => scrollGallery("left")}
-                  className="w-11 h-11 rounded-full bg-white hover:bg-[#ff4f00] hover:text-white border border-zinc-200 hover:border-[#ff4f00] text-zinc-800 flex items-center justify-center transition-all shadow-xs hover:scale-105 active:scale-95 cursor-pointer"
-                  title="Photo précédente"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => scrollGallery("right")}
-                  className="w-11 h-11 rounded-full bg-white hover:bg-[#ff4f00] hover:text-white border border-zinc-200 hover:border-[#ff4f00] text-zinc-800 flex items-center justify-center transition-all shadow-xs hover:scale-105 active:scale-95 cursor-pointer"
-                  title="Photo suivante"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
+            {/* Bouton d'accès direct plein écran */}
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setLightboxIndex(0)}
+                className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-zinc-900 hover:bg-[#ff4f00] text-white text-xs sm:text-sm font-bold transition-all shadow-md hover:shadow-lg hover:scale-105 active:scale-95 cursor-pointer"
+                title="Parcourir toutes les photos en plein écran"
+              >
+                <Images className="w-4 h-4 text-white" />
+                <span>Ouvrir la galerie ({allLightboxItems.length})</span>
+              </button>
             </div>
           </div>
 
-          {/* 100% Full Bleed 2-ROW MASONRY Artwork Track */}
-          <div
-            ref={gallerySliderRef}
-            onScroll={handleGalleryScroll}
-            className="grid grid-rows-2 grid-flow-col auto-cols-max gap-4 sm:gap-6 overflow-x-auto scrollbar-none px-4 sm:px-8 lg:px-12 py-3 snap-x relative z-10"
-          >
-            {galleryItems.map((item, idx) => {
-              const isVid = isVideoMedia(item.src) || item.type === "video";
-              const isItemYT = isYouTubeUrl(item.src);
-              // Alternance harmonieuse de largeurs façon "masonry"
-              const cardWidthClass =
-                idx % 4 === 0
-                  ? "w-[270px] sm:w-[350px] lg:w-[410px]"
-                  : idx % 4 === 1
-                  ? "w-[240px] sm:w-[300px] lg:w-[340px]"
-                  : idx % 4 === 2
-                  ? "w-[290px] sm:w-[380px] lg:w-[440px]"
-                  : "w-[250px] sm:w-[320px] lg:w-[360px]";
-
-              return (
-                <div
-                  key={`art-photo-${idx}`}
-                  onClick={() => {
-                    const targetIdx = allLightboxItems.findIndex((it) => it.src === item.src);
-                    setLightboxIndex(targetIdx >= 0 ? targetIdx : idx);
-                  }}
-                  className={`${cardWidthClass} h-[190px] sm:h-[240px] lg:h-[280px] shrink-0 snap-center rounded-2xl sm:rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-200/90 shadow-sm hover:shadow-xl group cursor-pointer relative flex flex-col justify-end transition-all duration-300 hover:border-[#ff4f00] hover:-translate-y-1`}
-                >
-                  {/* Photo / Video Container */}
-                  <div className="relative w-full h-full overflow-hidden bg-black">
-                    {isVid ? (
-                      isItemYT ? (
-                        <div className="relative w-full h-full">
+          {/* BENTO GRID ÉDITORIALE (1 grande photo phare + 6 vignettes sur 2 lignes) */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            {galleryItems.length <= 4 ? (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                {galleryItems.map((item, idx) => {
+                  const isVid = isVideoMedia(item.src) || item.type === "video";
+                  const isItemYT = isYouTubeUrl(item.src);
+                  return (
+                    <div
+                      key={`gallery-item-${idx}`}
+                      onClick={() => {
+                        const targetIdx = allLightboxItems.findIndex((it) => it.src === item.src);
+                        setLightboxIndex(targetIdx >= 0 ? targetIdx : idx);
+                      }}
+                      className="group relative aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:border-[#ff4f00] hover:-translate-y-1 cursor-pointer"
+                    >
+                      <div className="relative w-full h-full">
+                        {isVid ? (
+                          isItemYT ? (
+                            <Image
+                              src={getYouTubeThumbnail(item.src) || "/images/produits/monstre-skateur-fait-main.jpg"}
+                              alt={item.alt || displayName}
+                              fill
+                              className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                            />
+                          ) : (
+                            <video
+                              src={item.src}
+                              autoPlay
+                              loop
+                              muted
+                              playsInline
+                              className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                            />
+                          )
+                        ) : (
                           <Image
-                            src={getYouTubeThumbnail(item.src) || "/images/produits/monstre-skateur-fait-main.jpg"}
-                            alt={item.alt || item.caption || displayName}
-                            fill
-                            className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                          />
-                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                            <div className="w-12 h-12 rounded-full bg-[#ff4f00] text-white flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
-                              <Play className="w-5 h-5 ml-0.5 fill-current" />
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="relative w-full h-full">
-                          <video
                             src={item.src}
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                            alt={item.alt || `${displayName} - Vue ${idx + 1}`}
+                            fill
+                            sizes="(max-width: 768px) 50vw, 25vw"
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                           />
-                          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors flex items-center justify-center pointer-events-none">
-                            <div className="w-11 h-11 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center justify-center group-hover:bg-[#ff4f00] group-hover:scale-110 transition-all shadow-lg">
-                              <Play className="w-5 h-5 ml-0.5 fill-current" />
-                            </div>
-                          </div>
-                        </div>
-                      )
-                    ) : (
-                      <Image
-                        src={item.src}
-                        alt={item.alt || item.caption || `${displayName} - Vue ${idx + 1}`}
-                        fill
-                        sizes="(max-width: 768px) 300px, 450px"
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                      />
-                    )}
-
-                    {/* Subtle Gradient for Bottom Caption Legibility */}
-                    <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/80 via-black/30 to-transparent pointer-events-none" />
-
-                    {/* Caption badge at bottom left if provided */}
-                    {item.caption && (
-                      <div className="absolute bottom-3 left-3 right-12 z-10 pointer-events-none">
-                        <span className="inline-block text-[11px] font-semibold text-white/95 line-clamp-1 drop-shadow-sm px-2 py-0.5 rounded-md bg-black/50 backdrop-blur-xs">
-                          {item.caption}
+                        )}
+                      </div>
+                      <div className="absolute top-3 right-3 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span className="w-8 h-8 rounded-full bg-black/60 text-white backdrop-blur-md flex items-center justify-center">
+                          <Maximize2 className="w-3.5 h-3.5" />
                         </span>
                       </div>
-                    )}
-
-                    {/* Fullscreen Expand Button (top right) */}
-                    <div className="absolute top-3 right-3 pointer-events-none z-10">
-                      <span 
-                        className="w-8 h-8 rounded-full bg-black/50 group-hover:bg-[#ff4f00] text-white backdrop-blur-md border border-white/20 shadow-md flex items-center justify-center transition-all duration-300 group-hover:scale-110"
-                        title="Plein écran"
-                      >
-                        <ArrowUpRight 
-                          strokeWidth={2.5}
-                          className="w-4 h-4 text-white group-hover:text-white transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" 
-                        />
-                      </span>
                     </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 lg:grid-rows-2 gap-3 sm:gap-4 lg:gap-5 lg:h-[540px]">
+                {galleryItems.slice(0, 7).map((item, idx) => {
+                  const isVid = isVideoMedia(item.src) || item.type === "video";
+                  const isItemYT = isYouTubeUrl(item.src);
+                  const isFeature = idx === 0;
+                  const isLastCard = idx === 6;
+                  const hasMore = isLastCard && galleryItems.length > 7;
+                  const remainingCount = galleryItems.length - 6;
 
-          {/* Minimal Progress Indicator */}
-          {galleryItems.length > 2 && (
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 flex items-center justify-center gap-2">
-              <span className="text-xs font-mono font-bold text-zinc-500">
-                {galleryItems.length} photos &amp; vidéos d&apos;atelier • Disposition sur 2 lignes
-              </span>
-            </div>
-          )}
+                  const bentoGridClasses = isFeature
+                    ? "col-span-2 sm:col-span-3 lg:col-span-2 lg:row-span-2 aspect-[4/3] sm:aspect-[16/10] lg:aspect-auto h-full"
+                    : "col-span-1 aspect-square sm:aspect-auto lg:h-full";
+
+                  return (
+                    <div
+                      key={`bento-item-${idx}`}
+                      onClick={() => {
+                        const targetIdx = allLightboxItems.findIndex((it) => it.src === item.src);
+                        setLightboxIndex(targetIdx >= 0 ? targetIdx : idx);
+                      }}
+                      className={`${bentoGridClasses} group relative rounded-2xl lg:rounded-3xl overflow-hidden bg-zinc-900 border border-zinc-200/90 shadow-sm hover:shadow-xl transition-all duration-300 hover:border-[#ff4f00] hover:-translate-y-0.5 cursor-pointer`}
+                    >
+                      <div className="relative w-full h-full overflow-hidden bg-black">
+                        {isVid ? (
+                          isItemYT ? (
+                            <div className="relative w-full h-full">
+                              <Image
+                                src={getYouTubeThumbnail(item.src) || "/images/produits/monstre-skateur-fait-main.jpg"}
+                                alt={item.alt || displayName}
+                                fill
+                                className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                              />
+                              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                <div className="w-12 h-12 rounded-full bg-[#ff4f00] text-white flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+                                  <Play className="w-5 h-5 ml-0.5 fill-current" />
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="relative w-full h-full">
+                              <video
+                                src={item.src}
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                              />
+                              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors flex items-center justify-center pointer-events-none">
+                                <div className="w-11 h-11 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white flex items-center justify-center group-hover:bg-[#ff4f00] group-hover:scale-110 transition-all shadow-lg">
+                                  <Play className="w-5 h-5 ml-0.5 fill-current" />
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        ) : (
+                          <Image
+                            src={item.src}
+                            alt={item.alt || `${displayName} - Vue ${idx + 1}`}
+                            fill
+                            sizes={
+                              isFeature
+                                ? "(max-width: 1024px) 100vw, 50vw"
+                                : "(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                            }
+                            priority={isFeature}
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                          />
+                        )}
+
+                        {/* Expand Icon on Hover */}
+                        <div className="absolute top-3 right-3 pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <span 
+                            className="w-8 h-8 rounded-full bg-black/60 text-white backdrop-blur-md border border-white/20 shadow-md flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:bg-[#ff4f00]"
+                          >
+                            <Maximize2 className="w-3.5 h-3.5 text-white" />
+                          </span>
+                        </div>
+
+                        {/* Meaningful Human Caption (filtered to avoid DSC/technical names) */}
+                        {item.caption && !isTechnicalLabel(item.caption) && (
+                          <div className="absolute bottom-3 left-3 right-3 z-10 pointer-events-none">
+                            <span className="inline-block text-[11px] font-semibold text-white line-clamp-1 drop-shadow-sm px-2.5 py-1 rounded-lg bg-black/70 backdrop-blur-xs border border-white/10">
+                              {item.caption}
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Overlay "+X autres photos" sur la dernière vignette si la galerie en contient plus */}
+                        {hasMore && (
+                          <div className="absolute inset-0 bg-black/65 backdrop-blur-[2px] flex flex-col items-center justify-center text-white p-3 text-center transition-all group-hover:bg-black/75 z-20">
+                            <div className="w-10 h-10 rounded-full bg-white/20 border border-white/30 flex items-center justify-center mb-1 group-hover:scale-110 group-hover:bg-[#ff4f00] transition-all shadow-md">
+                              <Images className="w-5 h-5 text-white" />
+                            </div>
+                            <span className="text-xl sm:text-2xl font-black text-white leading-none">
+                              +{remainingCount}
+                            </span>
+                            <span className="text-[10px] sm:text-[11px] font-bold text-zinc-300 uppercase tracking-wider mt-1">
+                              Autres vues
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </section>
 
         {/* ============================================================ */}
@@ -1089,8 +1143,8 @@ export default function HandmadeProductView({
             </button>
           )}
 
-          {/* Bottom Caption Pill */}
-          {allLightboxItems[lightboxIndex]?.caption && (
+          {/* Bottom Caption Pill (only if real non-technical description) */}
+          {allLightboxItems[lightboxIndex]?.caption && !isTechnicalLabel(allLightboxItems[lightboxIndex]?.caption) && (
             <div 
               className="absolute bottom-6 inset-x-6 text-center z-50 pointer-events-auto"
               onClick={(e) => e.stopPropagation()}
