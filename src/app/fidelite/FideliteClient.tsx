@@ -138,7 +138,7 @@ export default function FideliteClient() {
         {/* Banner Hero */}
         <section className="text-center mb-12 relative">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-tr from-[#ff4f00]/10 via-[#005cff]/10 to-transparent blur-3xl rounded-full -z-10 pointer-events-none" />
-          
+
           {/* Mascotte Spoolio */}
           <div className="w-28 h-28 sm:w-36 sm:h-36 mx-auto mb-4 relative group">
             <img
@@ -156,7 +156,7 @@ export default function FideliteClient() {
           <h1 className="text-3xl sm:text-5xl font-black uppercase tracking-tight font-antonio mb-4 text-zinc-950">
             Consulter mon <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4f00] via-orange-500 to-[#005cff]">Solde de Tampons</span>
           </h1>
-          
+
           <p className="text-sm sm:text-base text-zinc-600 max-w-xl mx-auto font-medium">
             Entrez votre adresse e-mail ou scannez votre QR Code pour découvrir vos points accumulés et débloquer vos récompenses exclusives.
           </p>

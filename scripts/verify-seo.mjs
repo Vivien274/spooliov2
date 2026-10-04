@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * scripts/verify-seo.mjs
- * 
+ *
  * Audit et contrôle automatisé SEO technique de bout en bout :
  * 1. Téléchargement et validation de /robots.txt
  * 2. Téléchargement, parsing XML et contrôle d'unicité des URLs de /sitemap.xml
@@ -19,7 +19,7 @@
  * 14. Contrôle des horaires d'ouverture conditionné dynamiquement par openingHoursConfirmed
  * 15. Confirmation qu'aucune URL du sitemap n'a de noindex ni n'est une page privée
  * 16. Décompte rigoureux : toute anomalie BDD ou HTTP entraîne l'échec strict de la page et du script.
- * 
+ *
  * Utilisation :
  *   node scripts/verify-seo.mjs [--base-url=http://localhost:3000]
  */
@@ -269,7 +269,7 @@ async function preloadDatabaseProducts() {
 
 async function crawlAndVerifyUrls(urls, dbProductsMap) {
   console.log(`\n4. 🚀 Crawl et inspection approfondie de chaque URL du sitemap...`);
-  
+
   const titleToUrls = new Map();
   const descToUrls = new Map();
   const sitemapUrlsSet = new Set(urls);

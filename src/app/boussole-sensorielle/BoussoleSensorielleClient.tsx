@@ -197,7 +197,7 @@ export default function BoussoleSensorielleClient() {
           const data = await res.json();
           if (Array.isArray(data)) {
             const boussoleItems = data.filter((p: any) => Boolean(p.show_in_sensory_compass || p.showInSensoryCompass));
-            
+
             const mappedLive: FidgetProduct[] = boussoleItems.map((p: any) => ({
               id: String(p.id || p.slug),
               slug: p.slug,
@@ -282,7 +282,7 @@ export default function BoussoleSensorielleClient() {
         window.dispatchEvent(new CustomEvent('calm-stats-updated', { detail: currentStats }));
       } catch (e) {}
     }
-    
+
     if (typeof window !== 'undefined') {
       try {
         const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
@@ -291,13 +291,13 @@ export default function BoussoleSensorielleClient() {
         const gainNode = audioCtx.createGain();
         oscillator.connect(gainNode);
         gainNode.connect(audioCtx.destination);
-        
+
         oscillator.frequency.setValueAtTime(350, audioCtx.currentTime);
         oscillator.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.04);
-        
+
         gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
-        
+
         oscillator.start();
         oscillator.stop(audioCtx.currentTime + 0.04);
       } catch (e) {}

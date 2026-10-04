@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
  * scripts/apply-prod-seo-migrations.mjs
- * 
+ *
  * Script sécurisé et idempotent de mise à niveau de la base de données :
  * 1. Renommage contrôlé des slugs invalides vers leurs cibles normalisées.
  * 2. Rétrogradation des balises <h1> parasites internes en <h2> dans les articles et fiches produits.
- * 
+ *
  * Sécurités implémentées :
  * - Mode --dry-run par défaut (aucune écriture sans argument explicite --apply).
  * - Détection et arrêt bloquant en cas de conflit ambigu (ancien slug et slug cible existant simultanément).

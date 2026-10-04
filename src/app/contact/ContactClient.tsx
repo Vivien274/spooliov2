@@ -85,7 +85,7 @@ export default function ContactClient() {
 
         {/* Contact Info & Form Layout */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
+
           {/* Column 1: Info Cards (1/3 width) */}
           <div className="md:col-span-1 flex flex-col gap-4 font-sans">
             <div className="bg-white border border-zinc-200/90 rounded-2xl p-5 flex flex-col gap-2 shadow-xs">

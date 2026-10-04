@@ -61,7 +61,7 @@ export default function SuiviClient() {
       if (cleanId.toLowerCase().startsWith("sim_")) {
         cleanId = cleanId.slice(4);
       }
-      
+
       const res = await fetch(`/api/suivi?id=${cleanId}&email=${email.trim()}`);
       const data = await res.json();
 
@@ -202,12 +202,12 @@ export default function SuiviClient() {
             {/* Visual Progress Timeline */}
             <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 md:p-8 flex flex-col gap-8">
               <h3 className="text-sm sm:text-base font-black text-zinc-950 uppercase tracking-wider">Avancement de la fabrication</h3>
-              
+
               <div className="relative flex flex-col sm:flex-row justify-between gap-8 sm:gap-4 select-none">
                 {/* Connecting Line background */}
                 <div className="absolute left-[15px] sm:left-0 sm:top-[18px] right-0 bottom-0 sm:bottom-auto w-[2px] sm:w-full h-full sm:h-[2px] bg-zinc-200 z-0" />
                 {/* Active progress bar overlay */}
-                <div 
+                <div
                   className="absolute left-[15px] sm:left-0 sm:top-[18px] w-[2px] sm:h-[2px] bg-emerald-500 z-0 transition-all duration-500"
                   style={{
                     height: typeof window !== 'undefined' && window.innerWidth < 640 ? `${((activeStep - 1) / 3) * 100}%` : '2px',
@@ -226,8 +226,8 @@ export default function SuiviClient() {
                   return (
                     <div key={s.step} className="flex sm:flex-col items-start sm:items-center text-left sm:text-center gap-4 sm:gap-2 z-10 flex-1 relative">
                       <div className={`w-9 h-9 rounded-full flex items-center justify-center font-black text-sm border transition-all ${
-                        isDone 
-                          ? "bg-emerald-500 border-emerald-500 text-white shadow-md shadow-emerald-500/20 no-invert keep-white" 
+                        isDone
+                          ? "bg-emerald-500 border-emerald-500 text-white shadow-md shadow-emerald-500/20 no-invert keep-white"
                           : "bg-zinc-100 border-zinc-200 text-zinc-400"
                       } ${isCurrent ? "ring-4 ring-emerald-500/20 animate-pulse scale-105" : ""}`}>
                         {isDone && s.step < activeStep ? "✓" : s.step}
@@ -252,20 +252,20 @@ export default function SuiviClient() {
                   <div className="relative w-48 h-36 border border-white/10 rounded-xl overflow-hidden bg-black/40 flex flex-col justify-end p-2 z-0 no-invert shadow-inner">
                     {/* Grid design background */}
                     <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
-                    
+
                     {/* Printer Frame structure */}
                     <div className="absolute top-2 left-4 right-4 h-0.5 bg-white/20" />
                     <div className="absolute top-2 left-6 bottom-2 w-0.5 bg-white/10" />
                     <div className="absolute top-2 right-6 bottom-2 w-0.5 bg-white/10" />
-                    
+
                     {/* Vertical Lead screw */}
                     <div className="absolute top-2 left-12 bottom-2 w-0.5 bg-white/5 border-l border-dashed border-white/25" />
-                    
+
                     {/* Printer Bed (heated plate) */}
                     <div className="w-full h-2 bg-[#ff4f00]/20 border-t border-[#ff4f00]/40 rounded-sm relative z-0 flex items-center justify-center shadow-lg shadow-[#ff4f00]/10">
                       <span className="w-8 h-0.5 bg-[#ff4f00]/80 blur-[2px] animate-pulse" />
                     </div>
-                    
+
                     {/* Moving print nozzle/gantry */}
                     <div className="absolute left-8 right-8 top-1/2 -translate-y-1/2 h-1 bg-white/20 flex items-center justify-center animate-printer-gantry z-10">
                       {/* Nozzle Block */}
@@ -275,10 +275,10 @@ export default function SuiviClient() {
                         <div className="absolute bottom-[-3px] w-1.5 h-1.5 bg-yellow-600 rounded-full" />
                       </div>
                     </div>
-                    
+
                     {/* Filament Line */}
                     <div className="absolute top-2 left-1/2 -translate-x-1/2 w-[1px] bg-[#ff4f00]/50 bottom-1/2 z-0" />
-                    
+
                     {/* Spoolio Logo watermark inside container */}
                     <span className="absolute top-4 right-8 text-[8px] font-black text-white/5 uppercase tracking-widest pointer-events-none">Spoolio V2</span>
                   </div>
@@ -307,8 +307,8 @@ export default function SuiviClient() {
                   <p>📦 <strong className="text-white">Fini d'imprimer !</strong> Votre commande a passé le contrôle qualité. Nous l'emballons soigneusement dans un carton éco-conçu avec une surprise exclusive imprimée en 3D à l'intérieur.</p>
                 )}
                 {order.status === "expedie" && (
-                  <p>🚚 {order.shippingMethod === "pickup" 
-                    ? <span>✨ <strong className="text-white">Disponible !</strong> Votre commande est prête. Vous pouvez venir la récupérer directement à notre atelier de Comines dès aujourd'hui.</span> 
+                  <p>🚚 {order.shippingMethod === "pickup"
+                    ? <span>✨ <strong className="text-white">Disponible !</strong> Votre commande est prête. Vous pouvez venir la récupérer directement à notre atelier de Comines dès aujourd'hui.</span>
                     : <span>✨ <strong className="text-white">Expédié !</strong> Votre colis a été remis au transporteur via Boxtal ({order.shippingMethod === "relay" ? "Mondial Relay" : "Colissimo Domicile"}). Vous recevrez un e-mail de suivi contenant les informations de transport incessamment.</span>
                   }</p>
                 )}
@@ -350,7 +350,7 @@ export default function SuiviClient() {
                     </div>
                   );
                 })}
-                
+
                 <div className="flex items-center justify-between text-xs text-gray-500 border-t border-white/5 pt-4 mt-2">
                   <span>Frais d'envoi ({order.shippingMethod === "pickup" ? "Retrait" : (order.shippingMethod === "relay" ? "Relais" : "Domicile")})</span>
                   <span>{order.shippingCost === 0 ? "Offert" : `${order.shippingCost.toFixed(2)}€`}</span>

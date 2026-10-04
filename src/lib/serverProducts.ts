@@ -306,5 +306,3 @@ export async function getRelatedProducts(slug: string, categoryId?: number): Pro
   const all = await getPublishedProducts();
   return all.filter((p) => p.slug !== slug).slice(0, 4);
 }
-
-

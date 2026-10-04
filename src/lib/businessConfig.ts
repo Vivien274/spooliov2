@@ -16,8 +16,8 @@ export const BUSINESS_CONFIG = {
   email: "contact@spoolio.fr",
   contactUrl: "/contact",
   phone: "06 34 72 55 13",
-  
-  // NOTE METIER A CONFIRMER : 
+
+  // NOTE METIER A CONFIRMER :
   // La page Contact indiquait "Du Lundi au Vendredi de 9h à 17h", tandis que la page À Propos
   // mentionnait "Lundi au Samedi de 10h à 18h".
   // Par défaut, nous retenons les horaires officiels de service client déclarés dans les CGV :

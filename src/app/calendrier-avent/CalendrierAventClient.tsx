@@ -882,7 +882,7 @@ export default function CalendrierAventClient({
             {/* MARKETING SECTION 3: URGENCE & ÉDITION LIMITÉE + REASSURANCE CTA */}
             <div className="relative overflow-hidden bg-gradient-to-r from-[#2a070f]/95 via-[#1c050a]/95 to-[#120206]/95 border-2 border-red-500/50 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-5">
               <div className="absolute top-0 right-0 -mt-8 -mr-8 w-48 h-48 bg-red-600/20 rounded-full blur-3xl pointer-events-none" />
-              
+
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
                 <div className="space-y-2 max-w-xl">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/30 border border-red-500/50 text-red-200 font-mono font-bold text-xs">
