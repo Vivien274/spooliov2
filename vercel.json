@@ -3,10 +3,6 @@
     {
       "path": "/api/cron/abandoned-carts-recovery",
       "schedule": "0 8 * * *"
-    },
-    {
-      "path": "/api/cron/publish-drops",
-      "schedule": "0 * * * *"
     }
   ]
 }
