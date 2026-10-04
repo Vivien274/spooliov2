@@ -80,6 +80,19 @@ export default function AdminPromosPage() {
     refreshData();
   }, []);
 
+  useEffect(() => {
+    if (isModalOpen) {
+      const code = formCode.trim() || editingPromo?.code || "";
+      if (editingPromo) {
+        document.title = code ? `Code Promo - ${code}` : "Code Promo - Édition";
+      } else {
+        document.title = code ? `Code Promo - ${code}` : "Code Promo - Nouveau";
+      }
+    } else {
+      document.title = "Codes Promo";
+    }
+  }, [isModalOpen, editingPromo, formCode]);
+
   const handleSyncTombola = async () => {
     setSyncingTombola(true);
     setActionError(null);

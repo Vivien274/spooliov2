@@ -4,7 +4,7 @@ import UniquePieceEditorClient from "./UniquePieceEditorClient";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "ADMIN - Éditeur Pièce Unique | Spoolio",
+  title: "Pièce Unique",
 };
 
 interface PageProps {

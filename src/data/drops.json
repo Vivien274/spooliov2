@@ -5,18 +5,19 @@
     "dropNumber": "DROP 1",
     "dropName": "Kurb Monsters",
     "title": "DROP 1 — Kurb Monsters",
-    "tagline": "Série limitée d'automne imprimée dans nos filaments phosphorescents et bicolores d'exception.",
+    "tagline": "Le quartier a de nouveaux voisins.",
     "quote": "Chaque monstre de cette série est tiré en une seule salve dans nos filaments phosphorescents, puis préparé et peint à la main à l'atelier de Comines.",
     "description": "Pour célébrer l'automne, notre atelier à Comines prépare un drop ultra-exclusif de créations sensorielles et figurines en série numérotée. Au programme : figurines préparées et peintes à la main, fidgets articulés phosphorescents qui brillent dans le noir, et clickers mécaniques exclusifs tirés à seulement 40 exemplaires.",
     "status": "upcoming",
-    "startDate": "2026-10-09T16:00:00.000Z",
-    "bannerImage": "/images/produits/monstre-skateur-fait-main.jpg",
-    "bannerVideo": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/drop_video_1790238766614.mp4",
+    "startDate": "2026-10-09T06:00:00.000Z",
+    "bannerImage": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1791105280021.webp",
     "badge": "Prochain Drop d'Atelier",
     "themeColor": "#ff5500",
-    "editionSize": 1,
+    "editionSize": 3,
     "productIds": [
-      16
+      16,
+      17,
+      18
     ],
     "theme": {
       "bgColor": "linear-gradient(135deg, #180b2b 0%, #0d0617 100%)",

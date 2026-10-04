@@ -288,6 +288,14 @@ export default function ProductFormClient({ productId, isNew }: Props) {
     fetchProductDetails();
   }, [productId, isNew]);
 
+  useEffect(() => {
+    if (isNew) {
+      document.title = form.name.trim() ? `Produit - ${form.name.trim()}` : "Produit - Nouveau";
+    } else {
+      document.title = form.name.trim() ? `Produit - ${form.name.trim()}` : "Produit";
+    }
+  }, [form.name, isNew]);
+
   // Image upload states & ref
   const [isDragOver, setIsDragOver] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);

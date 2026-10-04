@@ -451,7 +451,9 @@ export default function AdminDashboard() {
             className={`px-4 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${
               activeTab === "dashboard"
                 ? "bg-gradient-to-r from-[#2F3CD9] to-[#4351FF] text-white shadow-lg shadow-[#2F3CD9]/35 scale-[1.03]"
-                : "text-neutral-400 hover:text-white hover:bg-white/5"
+                : theme === "dark"
+                ? "text-neutral-400 hover:text-white hover:bg-white/5"
+                : "text-gray-600 hover:text-gray-900 hover:bg-black/5"
             }`}
           >
             Dashboard
@@ -461,7 +463,9 @@ export default function AdminDashboard() {
             className={`px-4 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${
               activeTab === "stats"
                 ? "bg-gradient-to-r from-[#2F3CD9] to-[#4351FF] text-white shadow-lg shadow-[#2F3CD9]/35 scale-[1.03]"
-                : "text-neutral-400 hover:text-white hover:bg-white/5"
+                : theme === "dark"
+                ? "text-neutral-400 hover:text-white hover:bg-white/5"
+                : "text-gray-600 hover:text-gray-900 hover:bg-black/5"
             }`}
           >
             Visites & Analytics
@@ -471,7 +475,9 @@ export default function AdminDashboard() {
             className={`px-4 py-2 text-xs font-black uppercase tracking-wider rounded-xl transition-all duration-300 cursor-pointer ${
               activeTab === "printers"
                 ? "bg-gradient-to-r from-[#2F3CD9] to-[#4351FF] text-white shadow-lg shadow-[#2F3CD9]/35 scale-[1.03]"
-                : "text-neutral-400 hover:text-white hover:bg-white/5"
+                : theme === "dark"
+                ? "text-neutral-400 hover:text-white hover:bg-white/5"
+                : "text-gray-600 hover:text-gray-900 hover:bg-black/5"
             }`}
           >
             État de l'Atelier 🤖
@@ -494,7 +500,7 @@ export default function AdminDashboard() {
               <button
                 onClick={fetchVisitsStats}
                 disabled={loadingStats}
-                className={`text-xs font-bold px-3.5 py-1.5 rounded-xl border border-white/10 ${cls.inputBg} hover:bg-white/10 ${cls.textMain} transition-all flex items-center gap-1.5 cursor-pointer shadow-sm`}
+                className={`text-xs font-bold px-3.5 py-1.5 rounded-xl border ${cls.border} ${cls.inputBg} hover:border-[#ff4f00]/50 ${cls.textMain} transition-all flex items-center gap-1.5 cursor-pointer shadow-sm`}
               >
                 <span>🔄</span>
                 <span>{loadingStats ? "Mise à jour..." : "Actualiser"}</span>
@@ -503,36 +509,36 @@ export default function AdminDashboard() {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {/* KPI 1: Live Active Users */}
-              <div className={`p-4 rounded-2xl ${cls.cardBg} border border-white/10 flex flex-col justify-between shadow-lg relative overflow-hidden`}>
+              <div className={`p-4 rounded-2xl ${cls.cardBg} border ${cls.border} flex flex-col justify-between shadow-sm relative overflow-hidden`}>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-400">En Direct (5 min)</span>
+                  <span className={`text-[10px] font-extrabold uppercase tracking-wider ${cls.textMuted}`}>En Direct (5 min)</span>
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
                 </div>
-                <span className="text-3xl font-black font-mono text-white my-1">{visitsStats?.liveActiveUsers || 0}</span>
-                <span className="text-[10px] text-emerald-400 font-bold">🟢 Utilisateur(s) connecté(s)</span>
+                <span className={`text-3xl font-black font-mono ${cls.textMain} my-1`}>{visitsStats?.liveActiveUsers || 0}</span>
+                <span className="text-[10px] text-emerald-500 dark:text-emerald-400 font-bold">🟢 Utilisateur(s) connecté(s)</span>
               </div>
 
               {/* KPI 2: Today Visits */}
-              <div className={`p-4 rounded-2xl ${cls.cardBg} border border-white/10 flex flex-col justify-between shadow-lg`}>
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-400">Visites Aujourd'hui</span>
-                <span className="text-3xl font-black font-mono text-white my-1">{visitsStats?.todayVisits || 0}</span>
-                <span className="text-[10px] text-gray-400">{visitsStats?.uniqueToday || 0} visiteur(s) unique(s)</span>
+              <div className={`p-4 rounded-2xl ${cls.cardBg} border ${cls.border} flex flex-col justify-between shadow-sm`}>
+                <span className={`text-[10px] font-extrabold uppercase tracking-wider ${cls.textMuted}`}>Visites Aujourd'hui</span>
+                <span className={`text-3xl font-black font-mono ${cls.textMain} my-1`}>{visitsStats?.todayVisits || 0}</span>
+                <span className={`text-[10px] ${cls.textFaint}`}>{visitsStats?.uniqueToday || 0} visiteur(s) unique(s)</span>
               </div>
 
               {/* KPI 3: Week Visits */}
-              <div className={`p-4 rounded-2xl ${cls.cardBg} border border-white/10 flex flex-col justify-between shadow-lg`}>
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-400">Visites (7 derniers jours)</span>
-                <span className="text-3xl font-black font-mono text-white my-1">{visitsStats?.weekVisits || 0}</span>
-                <span className="text-[10px] text-gray-400">{visitsStats?.uniqueWeek || 0} uniques cette semaine</span>
+              <div className={`p-4 rounded-2xl ${cls.cardBg} border ${cls.border} flex flex-col justify-between shadow-sm`}>
+                <span className={`text-[10px] font-extrabold uppercase tracking-wider ${cls.textMuted}`}>Visites (7 derniers jours)</span>
+                <span className={`text-3xl font-black font-mono ${cls.textMain} my-1`}>{visitsStats?.weekVisits || 0}</span>
+                <span className={`text-[10px] ${cls.textFaint}`}>{visitsStats?.uniqueWeek || 0} uniques cette semaine</span>
               </div>
 
               {/* KPI 4: Top Product */}
-              <div className={`p-4 rounded-2xl ${cls.cardBg} border border-white/10 flex flex-col justify-between shadow-lg`}>
-                <span className="text-[10px] font-extrabold uppercase tracking-wider text-gray-400">Produit #1 Consulté</span>
-                <span className="text-sm font-black text-white truncate my-1" title={visitsStats?.topProducts?.[0]?.name || "—"}>
+              <div className={`p-4 rounded-2xl ${cls.cardBg} border ${cls.border} flex flex-col justify-between shadow-sm`}>
+                <span className={`text-[10px] font-extrabold uppercase tracking-wider ${cls.textMuted}`}>Produit #1 Consulté</span>
+                <span className={`text-sm font-black ${cls.textMain} truncate my-1`} title={visitsStats?.topProducts?.[0]?.name || "—"}>
                   {visitsStats?.topProducts?.[0]?.name || "En attente de visites"}
                 </span>
-                <span className="text-[10px] text-gray-300 font-bold font-mono">
+                <span className={`text-[10px] ${cls.textFaint} font-bold font-mono`}>
                   {visitsStats?.topProducts?.[0]?.count || 0} vue(s) enregistrée(s)
                 </span>
               </div>
@@ -550,7 +556,7 @@ export default function AdminDashboard() {
                   {(() => {
                     const pending = orders.filter(o => o.status !== "expedie" && !(o as any).archived);
                     return (
-                      <span className="text-xs font-mono font-bold px-2.5 py-0.5 rounded-full bg-white/10 border border-white/20 text-white">
+                      <span className={`text-xs font-mono font-bold px-2.5 py-0.5 rounded-full ${cls.inputBg} border ${cls.border} ${cls.textMain}`}>
                         {pending.length} en attente
                       </span>
                     );
@@ -564,13 +570,13 @@ export default function AdminDashboard() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleExportBoxtalCSV}
-                  className="text-xs px-3 py-2 rounded-xl border border-white/10 bg-white/5 text-gray-300 hover:text-white hover:bg-white/10 cursor-pointer transition-all font-bold"
+                  className={`text-xs px-3 py-2 rounded-xl border ${cls.border} ${cls.inputBg} ${cls.textMain} hover:border-[#ff4f00]/50 cursor-pointer transition-all font-bold`}
                 >
                   Exporter pour Boxtal 📤
                 </button>
                 <Link
                   href="/admin/orders"
-                  className="text-xs px-3.5 py-2 rounded-xl border border-white/10 bg-white/5 text-gray-300 hover:text-white hover:bg-white/10 transition-all font-bold"
+                  className={`text-xs px-3.5 py-2 rounded-xl border ${cls.border} ${cls.inputBg} ${cls.textMain} hover:border-[#ff4f00]/50 transition-all font-bold`}
                 >
                   Historique complet →
                 </Link>
@@ -586,10 +592,10 @@ export default function AdminDashboard() {
               
               if (pendingOrders.length === 0) {
                 return (
-                  <div className="py-10 text-center rounded-2xl bg-white/[0.03] border border-white/10 text-emerald-400 space-y-1">
+                  <div className={`py-10 text-center rounded-2xl ${cls.inputBg} border ${cls.border} text-emerald-500 space-y-1`}>
                     <span className="text-xl block">🎉</span>
                     <span className="text-xs font-bold uppercase tracking-wider block">Toutes les commandes sont traitées !</span>
-                    <span className="text-[11px] text-gray-400 block">Aucune commande en attente d'impression ou d'emballage pour le moment.</span>
+                    <span className={`text-[11px] ${cls.textMuted} block`}>Aucune commande en attente d'impression ou d'emballage pour le moment.</span>
                   </div>
                 );
               }
@@ -613,8 +619,8 @@ export default function AdminDashboard() {
                         const pkg = recommendPackaging(o.items, o.shippingMethod);
 
                         return (
-                          <tr key={o.id} className="hover:bg-white/[0.02] transition-colors">
-                            <td className="py-4 pr-4 font-mono font-bold text-gray-300 select-all shrink-0">
+                          <tr key={o.id} className={`${cls.hoverRow} transition-colors`}>
+                            <td className={`py-4 pr-4 font-mono font-bold ${cls.textMuted} select-all shrink-0`}>
                               {o.id}
                             </td>
                             <td className="py-4 px-4 max-w-[200px]">
@@ -627,17 +633,17 @@ export default function AdminDashboard() {
                                   const { mainName } = parseItemName(item.name);
                                   return (
                                     <div key={idx} className="flex items-center gap-1.5">
-                                      <span className="inline-flex items-center justify-center font-mono font-black text-[10px] px-1.5 py-0.5 rounded bg-white/10 text-white border border-white/20 shrink-0">
+                                      <span className={`inline-flex items-center justify-center font-mono font-black text-[10px] px-1.5 py-0.5 rounded ${theme === "dark" ? "bg-white/10 text-white border-white/20" : "bg-gray-100 text-gray-800 border-gray-200"} border shrink-0`}>
                                         x{item.quantity}
                                       </span>
-                                      <span className="font-bold text-gray-100 text-xs truncate max-w-[180px]" title={mainName}>
+                                      <span className={`font-bold ${cls.textMain} text-xs truncate max-w-[180px]`} title={mainName}>
                                         {mainName}
                                       </span>
                                     </div>
                                   );
                                 })}
                                 {o.items && o.items.length > 3 && (
-                                  <div className="text-gray-400 font-bold text-[10px] mt-1 pl-1">
+                                  <div className={`text-[10px] font-bold mt-1 pl-1 ${cls.textFaint}`}>
                                     + {o.items.length - 3} autre(s)...
                                   </div>
                                 )}
@@ -716,9 +722,9 @@ export default function AdminDashboard() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {modules.map((mod) => (
-                <div key={mod.href} className={`${cls.cardBg} border border-white/10 hover:border-white/25 rounded-3xl p-5 flex flex-col justify-between gap-4 transition-all duration-300 shadow-md`}>
+                <div key={mod.href} className={`${cls.cardBg} border ${cls.border} hover:border-[#2F3CD9]/50 rounded-3xl p-5 flex flex-col justify-between gap-4 transition-all duration-300 shadow-sm`}>
                   <div className="flex items-start gap-3.5">
-                    <div className="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 text-white flex items-center justify-center shrink-0">
+                    <div className={`w-10 h-10 rounded-2xl ${cls.inputBg} border ${cls.border} ${cls.textMain} flex items-center justify-center shrink-0`}>
                       {mod.icon}
                     </div>
                     <div>
@@ -729,7 +735,7 @@ export default function AdminDashboard() {
 
                   <Link
                     href={mod.href}
-                    className="w-full py-2.5 rounded-xl text-center text-xs font-bold font-mono tracking-wider uppercase transition-all bg-white/5 hover:bg-white/10 text-white border border-white/10 mt-2"
+                    className={`w-full py-2.5 rounded-xl text-center text-xs font-bold font-mono tracking-wider uppercase transition-all ${cls.inputBg} hover:border-[#2F3CD9]/50 ${cls.textMain} border ${cls.border} mt-2`}
                   >
                     {mod.cta} →
                   </Link>
@@ -738,9 +744,10 @@ export default function AdminDashboard() {
             </div>
           </div>
         </>
-      ) : activeTab === "stats" ? (      <div className="space-y-6">
+      ) : activeTab === "stats" ? (
+        <div className="space-y-6">
           {/* Header & Refresh */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+          <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b ${cls.border} pb-4`}>
             <div>
               <nav className={`text-[10px] uppercase font-bold tracking-wider ${cls.textFaint} mb-0.5`}>
                 <span className="text-[#ff4f00]">Analytics & Trafic Studio</span>
@@ -752,7 +759,7 @@ export default function AdminDashboard() {
               <button
                 onClick={handleExportAnalyticsCSV}
                 disabled={!visitsStats}
-                className="text-xs px-3.5 py-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 font-bold transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-40"
+                className={`text-xs px-3.5 py-2 rounded-xl border border-emerald-500/30 ${theme === 'dark' ? 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700'} font-bold transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-40`}
               >
                 <span>📥</span>
                 <span>Exporter (CSV)</span>
@@ -761,7 +768,7 @@ export default function AdminDashboard() {
               <button
                 onClick={fetchVisitsStats}
                 disabled={loadingStats}
-                className={`text-xs px-4 py-2 rounded-xl border border-white/10 ${cls.inputBg} hover:bg-white/10 hover:text-white cursor-pointer transition-all flex items-center gap-1.5 font-bold shadow-md`}
+                className={`text-xs px-4 py-2 rounded-xl border ${cls.border} ${cls.inputBg} hover:border-[#ff4f00]/50 ${cls.textMain} cursor-pointer transition-all flex items-center gap-1.5 font-bold shadow-sm`}
               >
                 <span>🔄</span>
                 <span>{loadingStats ? "Mise à jour..." : "Actualiser"}</span>
@@ -783,61 +790,61 @@ export default function AdminDashboard() {
               {/* Analytics KPIs Row */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* KPI 1: En Direct (5 min) */}
-                <div className={`${cls.cardBg} border border-white/10 hover:border-white/20 rounded-2xl p-5 flex flex-col justify-between shadow-sm transition-all`}>
+                <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-5 flex flex-col justify-between shadow-sm transition-all`}>
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-white/60">En direct (5 min)</span>
-                    <span className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className={`text-[11px] font-bold uppercase tracking-wider ${cls.textMuted}`}>En direct (5 min)</span>
+                    <span className="flex items-center gap-1.5 text-[10px] font-bold text-emerald-500 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
                       Live
                     </span>
                   </div>
                   <div className="mt-4">
-                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
+                    <div className={`text-3xl font-black font-antonio ${cls.textMain} tracking-tight`}>
                       {visitsStats.liveActiveUsers || 0}
                     </div>
-                    <span className="text-[11px] text-white/40">Visiteur{(visitsStats.liveActiveUsers || 0) > 1 ? "s" : ""} actif{(visitsStats.liveActiveUsers || 0) > 1 ? "s" : ""}</span>
+                    <span className={`text-[11px] ${cls.textFaint}`}>Visiteur{(visitsStats.liveActiveUsers || 0) > 1 ? "s" : ""} actif{(visitsStats.liveActiveUsers || 0) > 1 ? "s" : ""}</span>
                   </div>
                 </div>
 
                 {/* KPI 2: Visiteurs Uniques */}
-                <div className={`${cls.cardBg} border border-white/10 hover:border-white/20 rounded-2xl p-5 flex flex-col justify-between shadow-sm transition-all`}>
+                <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-5 flex flex-col justify-between shadow-sm transition-all`}>
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-white/60">Visiteurs Uniques</span>
-                    <span className="text-white/40 text-xs">👤</span>
+                    <span className={`text-[11px] font-bold uppercase tracking-wider ${cls.textMuted}`}>Visiteurs Uniques</span>
+                    <span className={`${cls.textFaint} text-xs`}>👤</span>
                   </div>
                   <div className="mt-4">
-                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
+                    <div className={`text-3xl font-black font-antonio ${cls.textMain} tracking-tight`}>
                       {visitsStats.uniqueToday || 0}
                     </div>
-                    <span className="text-[11px] text-white/40">Aujourd'hui · <strong className="text-white/80 font-mono">{visitsStats.uniqueWeek || 0}</strong> sur 7j</span>
+                    <span className={`text-[11px] ${cls.textFaint}`}>Aujourd'hui · <strong className={`${cls.textMain} font-mono`}>{visitsStats.uniqueWeek || 0}</strong> sur 7j</span>
                   </div>
                 </div>
 
                 {/* KPI 3: Pages Vues */}
-                <div className={`${cls.cardBg} border border-white/10 hover:border-white/20 rounded-2xl p-5 flex flex-col justify-between shadow-sm transition-all`}>
+                <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-5 flex flex-col justify-between shadow-sm transition-all`}>
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-white/60">Pages Vues</span>
-                    <span className="text-white/40 text-xs">📄</span>
+                    <span className={`text-[11px] font-bold uppercase tracking-wider ${cls.textMuted}`}>Pages Vues</span>
+                    <span className={`${cls.textFaint} text-xs`}>📄</span>
                   </div>
                   <div className="mt-4">
-                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
+                    <div className={`text-3xl font-black font-antonio ${cls.textMain} tracking-tight`}>
                       {visitsStats.todayVisits || 0}
                     </div>
-                    <span className="text-[11px] text-white/40">Aujourd'hui · <strong className="text-white/80 font-mono">{visitsStats.totalVisits || 0}</strong> total</span>
+                    <span className={`text-[11px] ${cls.textFaint}`}>Aujourd'hui · <strong className={`${cls.textMain} font-mono`}>{visitsStats.totalVisits || 0}</strong> total</span>
                   </div>
                 </div>
 
                 {/* KPI 4: Taux de Conversion */}
-                <div className={`${cls.cardBg} border border-white/10 hover:border-white/20 rounded-2xl p-5 flex flex-col justify-between shadow-sm transition-all`}>
+                <div className={`${cls.cardBg} border ${cls.border} rounded-2xl p-5 flex flex-col justify-between shadow-sm transition-all`}>
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-white/60">Conversion</span>
-                    <span className="text-white/40 text-xs">🎯</span>
+                    <span className={`text-[11px] font-bold uppercase tracking-wider ${cls.textMuted}`}>Conversion</span>
+                    <span className={`${cls.textFaint} text-xs`}>🎯</span>
                   </div>
                   <div className="mt-4">
-                    <div className="text-3xl font-black font-antonio text-white tracking-tight">
+                    <div className={`text-3xl font-black font-antonio ${cls.textMain} tracking-tight`}>
                       {visitsStats.conversionRate || 0}%
                     </div>
-                    <span className="text-[11px] text-white/40">{visitsStats.funnel?.step3_orders || 0} commande{(visitsStats.funnel?.step3_orders || 0) > 1 ? "s" : ""} sur 7j</span>
+                    <span className={`text-[11px] ${cls.textFaint}`}>{visitsStats.funnel?.step3_orders || 0} commande{(visitsStats.funnel?.step3_orders || 0) > 1 ? "s" : ""} sur 7j</span>
                   </div>
                 </div>
               </div>
@@ -846,25 +853,25 @@ export default function AdminDashboard() {
               {/* Main Content Grid: Graph on Left, Top Products & Pages on Right */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 {/* Left (7 cols): Interactive Bar Graph */}
-                <div className={`lg:col-span-7 ${cls.cardBg} border border-white/10 rounded-3xl p-6 sm:p-7 flex flex-col justify-between shadow-sm relative overflow-hidden min-h-[400px]`}>
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
+                <div className={`lg:col-span-7 ${cls.cardBg} border ${cls.border} rounded-3xl p-6 sm:p-7 flex flex-col justify-between shadow-sm relative overflow-hidden min-h-[400px]`}>
+                  <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b ${cls.border} pb-4`}>
                     <div>
-                      <span className="text-[10px] uppercase font-bold text-white/50 tracking-wider">7 Derniers Jours</span>
-                      <h4 className="text-lg font-black text-white font-antonio uppercase tracking-tight">Trafic Quotidien</h4>
+                      <span className={`text-[10px] uppercase font-bold ${cls.textFaint} tracking-wider`}>7 Derniers Jours</span>
+                      <h4 className={`text-lg font-black ${cls.textMain} font-antonio uppercase tracking-tight`}>Trafic Quotidien</h4>
                     </div>
-                    <span className="inline-flex items-center gap-1.5 text-[10px] font-bold text-white/60 bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+                    <span className={`inline-flex items-center gap-1.5 text-[10px] font-bold ${cls.textMuted} ${cls.inputBg} border ${cls.border} px-3 py-1 rounded-full`}>
                       <span className="w-2 h-2 rounded-full bg-amber-500" />
                       Pages Vues par Jour
                     </span>
                   </div>
 
                   {/* SVG Reference Grid & Bar Chart */}
-                  <div className="flex-1 flex items-end justify-between gap-3 sm:gap-4 h-56 mt-6 pt-6 border-b border-white/10 pb-3 relative z-0">
+                  <div className={`flex-1 flex items-end justify-between gap-3 sm:gap-4 h-56 mt-6 pt-6 border-b ${cls.border} pb-3 relative z-0`}>
                     {/* Background Grid Lines */}
-                    <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-10 z-0 pb-6">
-                      <div className="border-b border-dashed border-white w-full" />
-                      <div className="border-b border-dashed border-white w-full" />
-                      <div className="border-b border-dashed border-white w-full" />
+                    <div className="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20 z-0 pb-6">
+                      <div className={`border-b border-dashed ${theme === "dark" ? "border-white" : "border-gray-400"} w-full`} />
+                      <div className={`border-b border-dashed ${theme === "dark" ? "border-white" : "border-gray-400"} w-full`} />
+                      <div className={`border-b border-dashed ${theme === "dark" ? "border-white" : "border-gray-400"} w-full`} />
                     </div>
 
                     {visitsStats.dailyStats.map((day: any) => {
@@ -874,12 +881,12 @@ export default function AdminDashboard() {
                       return (
                         <div key={day.label} className="flex-1 flex flex-col items-center gap-2 group h-full justify-end relative z-10">
                           {/* Value Tag Above Bar */}
-                          <span className="text-[11px] font-mono font-bold text-white/90 bg-white/10 border border-white/10 px-2 py-0.5 rounded-lg shadow-sm group-hover:scale-105 group-hover:bg-amber-500 group-hover:text-black transition-all cursor-pointer">
+                          <span className={`text-[11px] font-mono font-bold ${cls.textMain} ${theme === "dark" ? "bg-white/10 border-white/10" : "bg-gray-100 border-gray-200"} border px-2 py-0.5 rounded-lg shadow-sm group-hover:scale-105 group-hover:bg-amber-500 group-hover:text-black group-hover:border-amber-500 transition-all cursor-pointer`}>
                             {day.count}
                           </span>
                           
                           {/* Clean Bar */}
-                          <div className="w-full max-w-[46px] bg-white/5 rounded-t-xl overflow-hidden flex items-end h-full p-0.5">
+                          <div className={`w-full max-w-[46px] ${theme === "dark" ? "bg-white/5" : "bg-gray-100"} rounded-t-xl overflow-hidden flex items-end h-full p-0.5`}>
                             <div 
                               className="w-full bg-gradient-to-t from-amber-600/90 to-amber-500 rounded-t-lg transition-all duration-300 group-hover:brightness-125"
                               style={{ height: `${percent}%` }}
@@ -887,7 +894,7 @@ export default function AdminDashboard() {
                           </div>
 
                           {/* Day Label */}
-                          <span className="text-[10px] font-bold text-white/50 uppercase tracking-wider text-center group-hover:text-white transition-colors">
+                          <span className={`text-[10px] font-bold ${cls.textMuted} uppercase tracking-wider text-center group-hover:${cls.textMain} transition-colors`}>
                             {day.label}
                           </span>
                         </div>
@@ -895,22 +902,22 @@ export default function AdminDashboard() {
                     })}
                   </div>
 
-                  <div className="mt-3 flex items-center justify-between text-[11px] text-white/40">
+                  <div className={`mt-3 flex items-center justify-between text-[11px] ${cls.textFaint}`}>
                     <span>Mise à jour automatique en temps réel</span>
                   </div>
 
                   {/* Hourly Peak Slots Widget */}
                   {visitsStats.hourlySlots && visitsStats.hourlySlots.length > 0 && (
-                    <div className="mt-6 border-t border-white/10 pt-5">
+                    <div className={`mt-6 border-t ${cls.border} pt-5`}>
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
                         <div>
-                          <h5 className="text-xs font-bold text-white/70 uppercase tracking-wider font-antonio">Affluence par tranche horaire</h5>
-                          <p className="text-[10px] text-white/40">Distribution sur les 30 derniers jours.</p>
+                          <h5 className={`text-xs font-bold ${cls.textMain} uppercase tracking-wider font-antonio`}>Affluence par tranche horaire</h5>
+                          <p className={`text-[10px] ${cls.textMuted}`}>Distribution sur les 30 derniers jours.</p>
                         </div>
                         {visitsStats.peakSlot && (
-                          <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/20 flex items-center gap-1.5 self-start sm:self-auto">
+                          <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-300 border border-amber-500/20 flex items-center gap-1.5 self-start sm:self-auto">
                             <span>Pic :</span>
-                            <span className="text-white font-mono">{visitsStats.peakSlot.shortLabel}</span>
+                            <span className={`${cls.textMain} font-mono`}>{visitsStats.peakSlot.shortLabel}</span>
                           </span>
                         )}
                       </div>
@@ -922,19 +929,19 @@ export default function AdminDashboard() {
                           const isPeak = visitsStats.peakSlot && visitsStats.peakSlot.key === slot.key;
 
                           return (
-                            <div key={slot.key} className={`bg-white/[0.02] border ${isPeak ? 'border-amber-500/40 bg-amber-500/5' : 'border-white/5'} rounded-xl p-3 flex flex-col justify-between space-y-2 transition-all`}>
+                            <div key={slot.key} className={`${cls.inputBg} border ${isPeak ? 'border-amber-500/50 bg-amber-500/10' : cls.border} rounded-xl p-3 flex flex-col justify-between space-y-2 transition-all`}>
                               <div className="flex items-center justify-between text-[11px]">
-                                <span className={isPeak ? "text-amber-300 font-bold" : "text-white/60"}>{slot.label}</span>
-                                <span className="font-mono text-white font-bold">{slot.count}</span>
+                                <span className={isPeak ? "text-amber-600 dark:text-amber-300 font-bold" : cls.textMuted}>{slot.label}</span>
+                                <span className={`font-mono ${cls.textMain} font-bold`}>{slot.count}</span>
                               </div>
                               <div className="space-y-1">
-                                <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                                <div className={`w-full h-1 ${theme === "dark" ? "bg-white/10" : "bg-gray-200"} rounded-full overflow-hidden`}>
                                   <div 
-                                    className={`h-full rounded-full transition-all duration-500 ${isPeak ? 'bg-amber-400' : 'bg-white/30'}`}
+                                    className={`h-full rounded-full transition-all duration-500 ${isPeak ? 'bg-amber-400' : (theme === 'dark' ? 'bg-white/30' : 'bg-gray-400')}`}
                                     style={{ width: `${percent}%` }}
                                   />
                                 </div>
-                                <div className="flex justify-between text-[9px] font-mono text-white/40">
+                                <div className={`flex justify-between text-[9px] font-mono ${cls.textFaint}`}>
                                   <span>{percent}%</span>
                                 </div>
                               </div>
@@ -949,17 +956,17 @@ export default function AdminDashboard() {
                 {/* Right (5 cols): Top Products & Top Pages */}
                 <div className="lg:col-span-5 flex flex-col gap-6">
                   {/* Top Products Card */}
-                  <div className={`${cls.cardBg} border border-white/10 rounded-3xl p-6 flex-1 shadow-sm flex flex-col justify-between`}>
+                  <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 flex-1 shadow-sm flex flex-col justify-between`}>
                     <div>
-                      <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
-                        <h4 className="text-xs font-bold text-white/70 uppercase tracking-wider font-antonio">Top Produits Consultés</h4>
-                        <span className="text-[10px] font-mono text-white/50 bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
+                      <div className={`flex items-center justify-between border-b ${cls.border} pb-3 mb-4`}>
+                        <h4 className={`text-xs font-bold ${cls.textMain} uppercase tracking-wider font-antonio`}>Top Produits Consultés</h4>
+                        <span className={`text-[10px] font-mono ${cls.textMuted} ${cls.inputBg} px-2 py-0.5 rounded-full border ${cls.border}`}>
                           {visitsStats.topProducts.length} fiches
                         </span>
                       </div>
                       
                       {visitsStats.topProducts.length === 0 ? (
-                        <div className="py-8 text-center text-xs text-white/40">
+                        <div className={`py-8 text-center text-xs ${cls.textMuted}`}>
                           Aucune vue produit enregistrée pour le moment.
                         </div>
                       ) : (
@@ -971,16 +978,16 @@ export default function AdminDashboard() {
                               <div key={p.url || idx} className="space-y-1 group">
                                 <div className="flex items-center justify-between text-xs">
                                   <div className="flex items-center gap-2 truncate max-w-[200px]">
-                                    <span className="w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-mono font-bold bg-white/10 text-white/70 shrink-0">
+                                    <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-mono font-bold ${theme === "dark" ? "bg-white/10 text-gray-300" : "bg-gray-100 text-gray-700 border border-gray-200"} shrink-0`}>
                                       {idx + 1}
                                     </span>
-                                    <span className="text-white/90 group-hover:text-amber-300 transition-colors truncate">{p.name}</span>
+                                    <span className={`${cls.textMain} group-hover:text-amber-500 transition-colors truncate`}>{p.name}</span>
                                   </div>
-                                  <span className="text-white/80 font-mono text-[11px] shrink-0">{p.count} vues</span>
+                                  <span className={`${cls.textMuted} font-mono text-[11px] shrink-0`}>{p.count} vues</span>
                                 </div>
-                                <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                                <div className={`w-full h-1 ${theme === "dark" ? "bg-white/10" : "bg-gray-200"} rounded-full overflow-hidden`}>
                                   <div 
-                                    className="h-full bg-white/40 rounded-full transition-all duration-500 group-hover:bg-amber-400" 
+                                    className={`h-full ${theme === "dark" ? "bg-white/40" : "bg-gray-400"} rounded-full transition-all duration-500 group-hover:bg-amber-400`} 
                                     style={{ width: `${barWidth}%` }} 
                                   />
                                 </div>
@@ -993,10 +1000,10 @@ export default function AdminDashboard() {
                   </div>
 
                   {/* Top Pages Card */}
-                  <div className={`${cls.cardBg} border border-white/10 rounded-3xl p-6 flex-1 shadow-sm`}>
-                    <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
-                      <h4 className="text-xs font-bold text-white/70 uppercase tracking-wider font-antonio">Pages Fréquentées</h4>
-                      <span className="text-[10px] font-mono text-white/50 bg-white/5 px-2 py-0.5 rounded-full border border-white/10">
+                  <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 flex-1 shadow-sm`}>
+                    <div className={`flex items-center justify-between border-b ${cls.border} pb-3 mb-4`}>
+                      <h4 className={`text-xs font-bold ${cls.textMain} uppercase tracking-wider font-antonio`}>Pages Fréquentées</h4>
+                      <span className={`text-[10px] font-mono ${cls.textMuted} ${cls.inputBg} px-2 py-0.5 rounded-full border ${cls.border}`}>
                         URLs
                       </span>
                     </div>
@@ -1009,13 +1016,13 @@ export default function AdminDashboard() {
                           : 0;
 
                         return (
-                          <div key={p.url} className="flex items-center justify-between text-xs py-1.5 px-2.5 rounded-xl hover:bg-white/5 transition-colors border border-transparent hover:border-white/5 group">
-                            <span className="font-mono text-[11px] text-white/60 group-hover:text-white truncate max-w-[200px]">
+                          <div key={p.url} className={`flex items-center justify-between text-xs py-1.5 px-2.5 rounded-xl ${cls.hoverRow} transition-colors border border-transparent hover:${cls.border} group`}>
+                            <span className={`font-mono text-[11px] ${cls.textMuted} group-hover:${cls.textMain} truncate max-w-[200px]`}>
                               {pageLabel}
                             </span>
                             <div className="flex items-center gap-2 shrink-0">
-                              <span className="text-[10px] text-white/40 font-mono">{percentage}%</span>
-                              <span className="font-mono text-[11px] text-white/90 bg-white/10 px-2 py-0.5 rounded-md">
+                              <span className={`text-[10px] ${cls.textFaint} font-mono`}>{percentage}%</span>
+                              <span className={`font-mono text-[11px] ${cls.textMain} ${cls.inputBg} border ${cls.border} px-2 py-0.5 rounded-md`}>
                                 {p.count}
                               </span>
                             </div>
@@ -1039,7 +1046,7 @@ export default function AdminDashboard() {
             <button
               onClick={fetchPrinters}
               disabled={loadingPrinters}
-              className={`text-xs px-3 py-1.5 rounded-lg border ${cls.border} ${cls.inputBg} hover:text-white cursor-pointer transition-colors`}
+              className={`text-xs px-3 py-1.5 rounded-lg border ${cls.border} ${cls.inputBg} ${cls.textMain} hover:border-[#ff4f00]/50 cursor-pointer transition-colors`}
             >
               {loadingPrinters ? "Chargement..." : "Rafraîchir"}
             </button>
@@ -1053,11 +1060,11 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
               {printers.map((p: any) => {
                 const statusColors: any = {
-                  "Active": { border: "border-emerald-500/30", text: "text-emerald-400", dot: "bg-emerald-400 animate-pulse" },
-                  "En veille": { border: "border-purple-500/30", text: "text-purple-400", dot: "bg-purple-400/50" },
-                  "En panne": { border: "border-red-500/30", text: "text-red-400", dot: "bg-red-500 animate-ping" }
+                  "Active": { border: "border-emerald-500/30", text: "text-emerald-500 dark:text-emerald-400", dot: "bg-emerald-400 animate-pulse" },
+                  "En veille": { border: "border-purple-500/30", text: "text-purple-500 dark:text-purple-400", dot: "bg-purple-400/50" },
+                  "En panne": { border: "border-red-500/30", text: "text-red-500 dark:text-red-400", dot: "bg-red-500 animate-ping" }
                 };
-                const colors = statusColors[p.status] || { border: "border-gray-500/30", text: "text-gray-400", dot: "bg-gray-400" };
+                const colors = statusColors[p.status] || { border: "border-gray-500/30", text: cls.textMuted, dot: "bg-gray-400" };
 
                 return (
                   <div key={p.id} className={`${cls.cardBg} border ${colors.border} rounded-2xl p-5 flex flex-col justify-between h-[210px] font-sans transition-colors duration-300`}>
@@ -1076,7 +1083,11 @@ export default function AdminDashboard() {
                         <button
                           onClick={() => handleUpdatePrinterStatus(p.id, "Active")}
                           className={`w-full py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg border transition-colors ${
-                            p.status === "Active" ? "bg-white text-black border-white" : `bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 ${cls.textMain}`
+                            p.status === "Active"
+                              ? theme === "dark"
+                                ? "bg-white text-black border-white"
+                                : "bg-gray-900 text-white border-gray-900"
+                              : `${cls.inputBg} border ${cls.border} hover:border-[#2F3CD9]/50 ${cls.textMain}`
                           }`}
                         >
                           Activer
@@ -1084,7 +1095,11 @@ export default function AdminDashboard() {
                         <button
                           onClick={() => handleUpdatePrinterStatus(p.id, "En veille")}
                           className={`w-full py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg border transition-colors ${
-                            p.status === "En veille" ? "bg-white text-black border-white" : `bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 ${cls.textMain}`
+                            p.status === "En veille"
+                              ? theme === "dark"
+                                ? "bg-white text-black border-white"
+                                : "bg-gray-900 text-white border-gray-900"
+                              : `${cls.inputBg} border ${cls.border} hover:border-[#2F3CD9]/50 ${cls.textMain}`
                           }`}
                         >
                           En veille
@@ -1092,7 +1107,11 @@ export default function AdminDashboard() {
                         <button
                           onClick={() => handleUpdatePrinterStatus(p.id, "En panne")}
                           className={`w-full py-1 text-[10px] font-bold uppercase tracking-wider rounded-lg border transition-colors ${
-                            p.status === "En panne" ? "bg-white text-black border-white" : `bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 ${cls.textMain}`
+                            p.status === "En panne"
+                              ? theme === "dark"
+                                ? "bg-white text-black border-white"
+                                : "bg-gray-900 text-white border-gray-900"
+                              : `${cls.inputBg} border ${cls.border} hover:border-[#2F3CD9]/50 ${cls.textMain}`
                           }`}
                         >
                           En panne ⚠️

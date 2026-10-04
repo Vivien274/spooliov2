@@ -22,8 +22,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  const cleanName = drop.dropName || (drop.title ? drop.title.replace(/^DROP\s*\d*\s*—\s*/i, "").trim() : drop.title);
+
   return buildPageMetadata({
-    title: `${drop.title} | Drop Exclusif Spoolio`,
+    title: `Drop - ${cleanName} | Spoolio`,
     description: drop.tagline || drop.description.slice(0, 160),
     path: `/drops/${slug}`,
     ogImage: drop.bannerImage,

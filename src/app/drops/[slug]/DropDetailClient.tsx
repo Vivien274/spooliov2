@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Header from "@/components/Header";
@@ -27,6 +28,11 @@ interface DropDetailClientProps {
 }
 
 export default function DropDetailClient({ drop }: DropDetailClientProps) {
+  useEffect(() => {
+    const cleanName = drop.dropName || (drop.title ? drop.title.replace(/^DROP\s*\d*\s*—\s*/i, "").trim() : drop.title);
+    document.title = `Drop - ${cleanName} | Spoolio`;
+  }, [drop]);
+
   const isUpcoming = drop.status === "upcoming";
   const isLive = drop.status === "live";
   const isEnded = drop.status === "ended";

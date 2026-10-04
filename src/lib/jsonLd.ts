@@ -24,8 +24,8 @@ export function getOrganizationJsonLd() {
     "name": BUSINESS_CONFIG.name,
     "legalName": BUSINESS_CONFIG.legalName,
     "url": domain,
-    "logo": `${domain}/images/imported/Spoolio_Kit-Festival-16-scaled.webp`,
-    "image": `${domain}/images/imported/Spoolio_Kit-Festival-16-scaled.webp`,
+    "logo": `${domain}/images/logo-spoolio-eyes.png`,
+    "image": `${domain}/images/seo-default-spoolio.png`,
     "description": "Atelier artisanal de fabrication de fidgets sensoriels, accessoires et objets imprimés en 3D à Comines (Nord).",
     "telephone": BUSINESS_CONFIG.phone,
     "email": BUSINESS_CONFIG.email,
@@ -74,7 +74,7 @@ export function getProductJsonLd(data: ProductLdData) {
 
   const imageUrl = data.image
     ? (data.image.startsWith("http") ? data.image : `${domain}${data.image.startsWith('/') ? '' : '/'}${data.image}`)
-    : `${domain}/images/imported/Spoolio_Kit-Festival-16-scaled.webp`;
+    : `${domain}/images/seo-default-spoolio.png`;
 
   const rawNumeric = typeof data.price === "number"
     ? data.price
@@ -190,7 +190,7 @@ export function getBlogPostingJsonLd(data: {
   const postUrl = `${domain}/blog/${data.slug}`;
   const imageUrl = data.image
     ? (data.image.startsWith("http") ? data.image : `${domain}${data.image.startsWith('/') ? '' : '/'}${data.image}`)
-    : `${domain}/images/imported/Spoolio_Kit-Festival-16-scaled.webp`;
+    : `${domain}/images/seo-default-spoolio.png`;
 
   const schema: Record<string, unknown> = {
     "@context": "https://schema.org",
@@ -209,7 +209,7 @@ export function getBlogPostingJsonLd(data: {
       "name": "Spoolio",
       "logo": {
         "@type": "ImageObject",
-        "url": `${domain}/images/imported/Spoolio_Kit-Festival-16-scaled.webp`,
+        "url": `${domain}/images/logo-spoolio-eyes.png`,
       },
     },
     "mainEntityOfPage": {

@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const base = getPageSeoMetadata("drops");
   return {
     ...base,
-    title: "Drops Exclusifs & Séries Limitées | Spoolio 3D",
+    title: "Drops | Spoolio",
     description: "Découvrez les drops exclusifs Spoolio : séries limitées de fidgets, figurines d'atelier peintes à la main et créations imprimées en 3D à Comines.",
   };
 }

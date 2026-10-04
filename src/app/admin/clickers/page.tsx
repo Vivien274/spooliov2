@@ -235,6 +235,19 @@ export default function AdminClickersPage() {
       .catch((e) => console.error("Error loading gallery:", e));
   }, []);
 
+  useEffect(() => {
+    const tabNames: Record<string, string> = {
+      shapes: "Formes",
+      switches: "Switches",
+      icons: "Icônes",
+      attachments: "Attaches",
+      colors: "Couleurs",
+      gallery: "Galerie",
+      orders: "Commandes",
+    };
+    document.title = `Studio Clickers - ${tabNames[activeTab] || "Config"}`;
+  }, [activeTab]);
+
   // Dynamic Theme Classes
   const cls = {
     cardBg: theme === "dark" ? "bg-spoolio-card" : "bg-white",

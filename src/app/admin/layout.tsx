@@ -304,57 +304,68 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    let title = "ADMIN - Dashboard";
+    // Only skip individual item editor routes that have dedicated URL IDs
+    if (
+      pathname.startsWith("/admin/pieces-uniques/") ||
+      (pathname.startsWith("/admin/products/") &&
+        pathname !== "/admin/products/categories" &&
+        pathname !== "/admin/products/attributes")
+    ) {
+      return;
+    }
+
+    let title = "Dashboard";
     if (pathname === "/admin") {
-      title = "ADMIN - Dashboard";
-    } else if (pathname.includes("/admin/products/new")) {
-      title = "ADMIN - Nouveau Produit";
-    } else if (pathname.includes("/admin/products/categories")) {
-      title = "ADMIN - Catégories Produits";
-    } else if (pathname.includes("/admin/products/attributes")) {
-      title = "ADMIN - Attributs Produits";
+      title = "Dashboard";
+    } else if (pathname === "/admin/drops") {
+      title = "Drops";
+    } else if (pathname === "/admin/products/categories") {
+      title = "Produits - Catégories";
+    } else if (pathname === "/admin/products/attributes") {
+      title = "Produits - Attributs";
+    } else if (pathname === "/admin/products") {
+      title = "Produits";
+    } else if (pathname === "/admin/pieces-uniques") {
+      title = "Pièces Uniques";
     } else if (pathname.includes("/admin/clickers")) {
-      title = "ADMIN - Studio Clickers";
+      title = "Studio Clickers";
     } else if (pathname.includes("/admin/colors")) {
-      title = "ADMIN - Palette Couleurs";
-    } else if (pathname.includes("/admin/products/")) {
-      title = "ADMIN - Modifier Produit";
-    } else if (pathname.includes("/admin/products")) {
-      title = "ADMIN - Produits";
-    } else if (pathname.includes("/admin/orders")) {
-      title = "ADMIN - Commandes";
+      title = "Palette Couleurs";
+    } else if (pathname.includes("/admin/shipping")) {
+      title = "Finances & Livraison";
     } else if (pathname.includes("/admin/reviews")) {
-      title = "ADMIN - Avis Clients";
-    } else if (pathname.includes("/admin/pages")) {
-      title = "ADMIN - Gestion Pages";
-    } else if (pathname.includes("/admin/blog")) {
-      title = "ADMIN - Articles Blog";
+      title = "Avis Clients";
     } else if (pathname.includes("/admin/hero")) {
-      title = "ADMIN - Design Accueil";
+      title = "Design Accueil";
+    } else if (pathname.includes("/admin/announcement")) {
+      title = "Bandeau Annonce";
     } else if (pathname.includes("/admin/pickup")) {
-      title = "ADMIN - Créneaux Retrait";
+      title = "Créneaux Retrait";
+    } else if (pathname.includes("/admin/badges")) {
+      title = "Badges NFC";
     } else if (pathname.includes("/admin/don")) {
-      title = "ADMIN - Paliers de Dons";
+      title = "Paliers de Dons";
     } else if (pathname.includes("/admin/abandoned")) {
-      title = "ADMIN - Paniers Abandonnés";
+      title = "Paniers Abandonnés";
     } else if (pathname.includes("/admin/loyalty")) {
-      title = "ADMIN - Cartes de Fidélité";
-    } else if (pathname.includes("/admin/promos")) {
-      title = "ADMIN - Codes Promo";
+      title = "Cartes de Fidélité";
     } else if (pathname.includes("/admin/tombola")) {
-      title = "ADMIN - Tombolas";
+      title = "Tombolas";
     } else if (pathname.includes("/admin/loterie")) {
-      title = "ADMIN - Roue de la Loterie";
+      title = "Roue de la Loterie";
+    } else if (pathname.includes("/admin/calendrier-avent")) {
+      title = "Calendrier de l'Avent";
+    } else if (pathname.includes("/admin/gift-cards")) {
+      title = "Cartes Cadeaux";
     } else if (pathname.includes("/admin/liens")) {
-      title = "ADMIN - Liens";
+      title = "Hub de Liens";
     } else if (pathname.includes("/admin/seo")) {
-      title = "ADMIN - SEO";
+      title = "SEO Pages";
     } else if (pathname.includes("/admin/login")) {
-      title = "ADMIN - Connexion";
+      title = "Connexion Admin";
     } else {
       const seg = pathname.split("/").filter(Boolean).pop() || "Admin";
-      const readable = seg.charAt(0).toUpperCase() + seg.slice(1);
-      title = `ADMIN - ${readable}`;
+      title = seg.charAt(0).toUpperCase() + seg.slice(1);
     }
     document.title = title;
   }, [pathname]);

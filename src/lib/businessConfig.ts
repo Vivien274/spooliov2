@@ -34,7 +34,7 @@ export const BUSINESS_CONFIG = {
 
   // Canonical Domain (Strictly with www as required by Objective 1)
   siteUrl: "https://www.spoolio.fr",
-  defaultOgImage: "https://www.spoolio.fr/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+  defaultOgImage: "https://www.spoolio.fr/images/seo-default-spoolio.png",
 
   // Social networks
   socials: {

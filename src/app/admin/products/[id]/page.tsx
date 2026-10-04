@@ -4,7 +4,7 @@ import ProductFormClient from "./ProductFormClient";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "ADMIN - Modifier Produit",
+  title: "Produit",
 };
 
 interface PageProps {

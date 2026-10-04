@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Header from "@/components/Header";
@@ -13,6 +14,10 @@ interface DropsHubClientProps {
 }
 
 export default function DropsHubClient({ drops }: DropsHubClientProps) {
+  useEffect(() => {
+    document.title = "Drops | Spoolio";
+  }, []);
+
   // Top featured block: active (live) drop in priority, or upcoming drop, otherwise first drop
   const featuredDrop =
     drops.find((d) => d.status === "live") ||

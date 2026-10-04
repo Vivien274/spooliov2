@@ -27,8 +27,6 @@ import {
   Truck,
   Play,
   Pause,
-  Volume2,
-  VolumeX,
   Film,
 } from "lucide-react";
 import { Product } from "@/components/ProductCard";
@@ -188,7 +186,6 @@ export default function HandmadeProductView({
 
   // Video Cover (Hero) state
   const heroVideoRef = useRef<HTMLVideoElement>(null);
-  const [isHeroMuted, setIsHeroMuted] = useState(true);
   const [isHeroPlaying, setIsHeroPlaying] = useState(true);
 
   const heroVideoUrl = data.hero?.video || (isVideoMedia(mainImage) ? mainImage : null);
@@ -205,13 +202,6 @@ export default function HandmadeProductView({
       heroVideoRef.current.pause();
       setIsHeroPlaying(false);
     }
-  };
-
-  const toggleHeroMute = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!heroVideoRef.current) return;
-    heroVideoRef.current.muted = !isHeroMuted;
-    setIsHeroMuted(!isHeroMuted);
   };
 
   // Handle scroll detection on gallery track to update slide index indicator
@@ -272,14 +262,14 @@ export default function HandmadeProductView({
                   src={heroVideoUrl!}
                   autoPlay
                   loop
-                  muted={isHeroMuted}
+                  muted
                   playsInline
                   poster={mainImage && !isVideoMedia(mainImage) ? mainImage : undefined}
                   className="w-full h-full object-cover object-center transform scale-100"
                 />
               )}
 
-              {/* Floating Hero Video Controls (Audio & Play/Pause) */}
+              {/* Floating Hero Video Controls (Play/Pause only) */}
               {!isHeroYouTube && (
                 <div className="absolute top-24 sm:top-28 right-4 sm:right-32 z-30 flex items-center gap-2">
                   <button
@@ -289,14 +279,6 @@ export default function HandmadeProductView({
                     title={isHeroPlaying ? "Mettre en pause" : "Lire la vidéo"}
                   >
                     {isHeroPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-current" />}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={toggleHeroMute}
-                    className="p-2.5 rounded-full bg-black/60 hover:bg-[#ff4f00] text-white border border-white/20 backdrop-blur-md transition-all shadow-xl cursor-pointer"
-                    title={isHeroMuted ? "Activer le son" : "Couper le son"}
-                  >
-                    {isHeroMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
                   </button>
                 </div>
               )}
@@ -361,15 +343,6 @@ export default function HandmadeProductView({
 
           {/* HERO CONTENT OVERLAY (Bottom-Aligned on the Image) */}
           <div className="absolute inset-x-0 bottom-0 z-20 px-4 sm:px-8 lg:px-12 pb-8 sm:pb-12 max-w-7xl mx-auto flex flex-col justify-end">
-            {/* Cover Video Indicator if active */}
-            {hasHeroVideo && (
-              <div className="flex flex-wrap items-center gap-2.5 mb-3">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/70 border border-[#ff4f00]/40 text-[#ff4f00] text-xs font-bold backdrop-blur-md">
-                  <Film className="w-3 h-3" />
-                  <span>Vidéo de Couverture</span>
-                </span>
-              </div>
-            )}
 
             {/* Main Product Name */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.08] mb-3 drop-shadow-md max-w-4xl">
@@ -798,6 +771,7 @@ export default function HandmadeProductView({
                   <video
                     src={data.videoSection.videoUrl}
                     controls
+                    muted
                     playsInline
                     className="w-full h-full object-contain"
                   />
@@ -1020,6 +994,7 @@ export default function HandmadeProductView({
                   <video
                     src={currentSrc}
                     controls
+                    muted
                     autoPlay
                     playsInline
                     className="max-w-full max-h-[80vh] rounded-3xl shadow-2xl border border-white/20 bg-black"

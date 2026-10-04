@@ -54,6 +54,15 @@ export default function AdminPagesPage() {
     fetchPages();
   }, []);
 
+  useEffect(() => {
+    if (editingPage) {
+      const pageTitle = editingPage.title?.trim();
+      document.title = pageTitle ? `Page - ${pageTitle}` : "Page - Édition";
+    } else {
+      document.title = "Pages Sur-Mesure";
+    }
+  }, [editingPage]);
+
   // Fetch page detail for editing
   const handleEditClick = async (slug: string) => {
     setLoadingDetail(true);

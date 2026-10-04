@@ -464,6 +464,17 @@ export default function AdminOrdersPage() {
     fetchOrders();
   }, []);
 
+  useEffect(() => {
+    if (selectedOrder) {
+      const client = selectedOrder.customerName?.trim() || selectedOrder.email?.trim() || "";
+      document.title = client
+        ? `Commande #${selectedOrder.id} - ${client}`
+        : `Commande #${selectedOrder.id}`;
+    } else {
+      document.title = "Commandes";
+    }
+  }, [selectedOrder]);
+
   const handleUpdateStatus = async (orderId: string, newStatus: string, trackingNumber?: string) => {
     setStatusChangeLoading(orderId);
     try {

@@ -249,6 +249,19 @@ export default function AdminDropsPage() {
     fetchDropsAndProducts();
   }, []);
 
+  useEffect(() => {
+    if (isFormOpen) {
+      const cleanName = dropName.trim() || (title ? title.replace(/^DROP\s*\d*\s*—\s*/i, "").trim() : "");
+      if (editingDropId) {
+        document.title = cleanName ? `Drop - ${cleanName}` : "Drop - Édition";
+      } else {
+        document.title = cleanName ? `Drop - ${cleanName}` : "Drop - Nouveau";
+      }
+    } else {
+      document.title = "Drops";
+    }
+  }, [isFormOpen, editingDropId, dropName, title]);
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement> | React.DragEvent) => {
     let file: File | null = null;
     if ("dataTransfer" in e && e.dataTransfer?.files?.[0]) {
@@ -963,26 +976,18 @@ export default function AdminDropsPage() {
                     <div
                       key={p.id}
                       onClick={() => toggleProductSelection(p.id)}
-                      className={`p-2.5 rounded-xl border cursor-pointer transition-all flex items-center gap-3 select-none ${
+                      className={`p-2.5 rounded-xl border cursor-pointer transition-all flex items-center justify-between gap-3 select-none ${
                         isSelected
                           ? "bg-orange-50/80 border-[#ff4f00] shadow-xs"
                           : "bg-white border-zinc-200/80 hover:border-zinc-300"
                       }`}
                     >
-                      <div className="w-10 h-10 rounded-lg bg-zinc-100 overflow-hidden shrink-0 relative">
-                        {p.image ? (
-                          <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
-                        ) : (
-                          <Package className="w-5 h-5 text-zinc-400 m-auto" />
-                        )}
-                      </div>
-
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-xs font-bold text-zinc-900 truncate">{p.name}</h4>
-                        <div className="flex items-center gap-2 text-[10px] text-zinc-500">
-                          <span>{p.price}</span>
-                          <span>•</span>
-                          <span className="truncate">{p.category}</span>
+                        <h4 className="text-xs font-bold text-zinc-900 truncate" title={p.name}>
+                          {p.name}
+                        </h4>
+                        <div className="text-[11px] font-semibold text-zinc-500 mt-0.5">
+                          {p.price ? (String(p.price).includes("€") ? p.price : `${p.price}€`) : "—"}
                         </div>
                       </div>
 

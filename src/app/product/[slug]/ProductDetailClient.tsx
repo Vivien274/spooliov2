@@ -63,6 +63,13 @@ export default function ProductDetailClient({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (product?.name) {
+      const titleBase = (product as any).metaTitle || product.name;
+      document.title = titleBase.includes("Spoolio") ? titleBase : `${titleBase} | Spoolio`;
+    }
+  }, [product]);
+
   const displayName = (locale === "en" && (product?.nameEn || product?.name_en))
     ? (product?.nameEn || product?.name_en)!
     : product?.name || "";

@@ -244,36 +244,36 @@ export default function AdminProductsPage() {
   return (
     <div className="max-w-[1700px] w-full mx-auto space-y-6 font-sans">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <nav className={`text-[10px] uppercase font-bold tracking-wider ${cls.textFaint} mb-1 flex items-center gap-1.5`}>
-            <Link href="/admin" className="hover:text-white transition-colors">Admin</Link>
+            <Link href="/admin" className={`hover:${cls.textMain} transition-colors`}>Admin</Link>
             <span>&rarr;</span>
             <span>Catalogue</span>
             <span>&rarr;</span>
             <span className="text-[#ff4f00]">Produits</span>
           </nav>
-          <h1 className={`text-3xl sm:text-4xl font-black font-antonio uppercase tracking-tight ${cls.textMain}`}>
+          <h1 className={`text-2xl sm:text-3xl font-black font-antonio uppercase tracking-tight ${cls.textMain}`}>
             Gestion des produits
           </h1>
-          <p className={`text-sm ${cls.textMuted} mt-1 flex items-center gap-2 flex-wrap`}>
+          <p className={`text-xs sm:text-sm ${cls.textMuted} mt-1 flex items-center gap-2 flex-wrap`}>
             <span>{products.length} produits enregistrés</span>
             <span>·</span>
-            <span className="text-emerald-400 font-bold">{products.filter(p => p.status === "publish").length} publiés</span>
+            <span className="text-emerald-500 dark:text-emerald-400 font-bold">{products.filter(p => p.status === "publish").length} publiés</span>
             <span>·</span>
-            <span className="text-gray-400 font-bold">{products.filter(p => p.status === "draft").length} brouillons</span>
+            <span className="text-gray-500 dark:text-gray-400 font-bold">{products.filter(p => p.status === "draft").length} brouillons</span>
             <span>·</span>
-            <span className="text-amber-400 font-bold">{products.filter(p => p.admin_audit_tag === "A_RETRAVAILLER" || p.adminAuditTag === "A_RETRAVAILLER").length} à retravailler</span>
+            <span className="text-amber-500 dark:text-amber-400 font-bold">{products.filter(p => p.admin_audit_tag === "A_RETRAVAILLER" || p.adminAuditTag === "A_RETRAVAILLER").length} à retravailler</span>
             <span>·</span>
-            <span className="text-rose-400 font-bold">{products.filter(p => p.admin_audit_tag === "A_SUPPRIMER" || p.adminAuditTag === "A_SUPPRIMER").length} à supprimer</span>
+            <span className="text-rose-500 dark:text-rose-400 font-bold">{products.filter(p => p.admin_audit_tag === "A_SUPPRIMER" || p.adminAuditTag === "A_SUPPRIMER").length} à supprimer</span>
             <span>·</span>
-            <span className="text-red-400 font-bold">{products.filter(p => p.stock === 0).length} indisponibles</span>
+            <span className="text-red-500 dark:text-red-400 font-bold">{products.filter(p => p.stock === 0).length} indisponibles</span>
           </p>
         </div>
 
         <Link
           href="/admin/products/new"
-          className="flex items-center gap-2 text-white text-xs font-black uppercase tracking-wider px-6 py-3 rounded-2xl transition-all shadow-xl cursor-pointer hover:scale-[1.02] active:scale-[0.98] shrink-0"
+          className="flex items-center justify-center gap-2 text-white text-xs font-black uppercase tracking-wider px-5 py-2.5 rounded-2xl transition-all shadow-lg cursor-pointer hover:scale-[1.02] active:scale-[0.98] shrink-0 self-start sm:self-auto"
           style={{ background: ADMIN_BLUE, boxShadow: `0 8px 24px rgba(47, 60, 217, 0.35)` }}
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -285,41 +285,43 @@ export default function AdminProductsPage() {
 
       {/* KPI Stats Quick Bar */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className={`${cls.cardBg} border ${cls.border} p-4 rounded-2xl flex items-center justify-between`}>
+        <div className={`${cls.cardBg} border ${cls.border} p-4 rounded-2xl flex items-center justify-between shadow-sm`}>
           <div>
             <span className={`text-[10px] font-bold uppercase tracking-wider ${cls.textFaint} block`}>Total Catalogue</span>
             <span className={`text-xl font-black ${cls.textMain}`}>{products.length}</span>
           </div>
           <span className="text-2xl opacity-70">📦</span>
         </div>
-        <div className={`${cls.cardBg} border ${cls.border} p-4 rounded-2xl flex items-center justify-between`}>
+        <div className={`${cls.cardBg} border ${cls.border} p-4 rounded-2xl flex items-center justify-between shadow-sm`}>
           <div>
             <span className={`text-[10px] font-bold uppercase tracking-wider ${cls.textFaint} block`}>Boussole Active</span>
-            <span className="text-xl font-black text-purple-400">{products.filter(p => p.show_in_sensory_compass).length}</span>
+            <span className="text-xl font-black text-purple-500 dark:text-purple-400">{products.filter(p => p.show_in_sensory_compass).length}</span>
           </div>
           <span className="text-2xl opacity-70">🧭</span>
         </div>
-        <div className={`${cls.cardBg} border ${cls.border} p-4 rounded-2xl flex items-center justify-between`}>
+        <div className={`${cls.cardBg} border ${cls.border} p-4 rounded-2xl flex items-center justify-between shadow-sm`}>
           <div>
             <span className={`text-[10px] font-bold uppercase tracking-wider ${cls.textFaint} block`}>Publiés en Ligne</span>
-            <span className="text-xl font-black text-emerald-400">{products.filter(p => p.status === "publish").length}</span>
+            <span className="text-xl font-black text-emerald-500 dark:text-emerald-400">{products.filter(p => p.status === "publish").length}</span>
           </div>
           <span className="text-2xl opacity-70">🟢</span>
         </div>
-        <div className={`${cls.cardBg} border ${cls.border} p-4 rounded-2xl flex items-center justify-between`}>
+        <div className={`${cls.cardBg} border ${cls.border} p-4 rounded-2xl flex items-center justify-between shadow-sm`}>
           <div>
             <span className={`text-[10px] font-bold uppercase tracking-wider ${cls.textFaint} block`}>Indisponibles</span>
-            <span className="text-xl font-black text-red-400">{products.filter(p => p.stock === 0).length}</span>
+            <span className="text-xl font-black text-red-500 dark:text-red-400">{products.filter(p => p.stock === 0).length}</span>
           </div>
           <span className="text-2xl opacity-70">🔴</span>
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
-        <div className="flex flex-1 gap-2 flex-col sm:flex-row">
-          <div className="relative flex-1">
-            <svg className={`w-4 h-4 ${cls.textMuted} absolute left-3 top-1/2 -translate-y-1/2`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      {/* Filters & Categories Section */}
+      <div className="space-y-3">
+        {/* Row 1: Search, Status, Audit, and Sort */}
+        <div className="flex flex-wrap items-center gap-2.5">
+          {/* Search bar */}
+          <div className="relative flex-1 min-w-[220px]">
+            <svg className={`w-4 h-4 ${cls.textMuted} absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <input
@@ -327,12 +329,21 @@ export default function AdminProductsPage() {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Rechercher un produit par nom ou slug…"
-              className={`w-full ${cls.cardBg} border ${cls.border} rounded-xl pl-9 pr-4 py-2.5 text-sm ${cls.textMain} placeholder-gray-500 focus:outline-none transition-colors`}
+              className={`w-full ${cls.cardBg} border ${cls.border} rounded-xl pl-9 pr-8 py-2.5 text-xs sm:text-sm ${cls.textMain} placeholder-gray-400 focus:outline-none focus:border-[#2F3CD9] transition-colors shadow-sm`}
             />
+            {searchTerm && (
+              <button
+                type="button"
+                onClick={() => setSearchTerm("")}
+                className={`absolute right-2.5 top-1/2 -translate-y-1/2 text-xs ${cls.textMuted} hover:${cls.textMain} p-1 cursor-pointer`}
+              >
+                ✕
+              </button>
+            )}
           </div>
           
           {/* Status Filters Toggle */}
-          <div className={`flex items-center gap-1 p-1 rounded-xl border ${cls.border} ${cls.cardBg} w-fit h-fit shrink-0`}>
+          <div className={`flex items-center gap-1 p-1 rounded-xl border ${cls.border} ${cls.cardBg} shrink-0 shadow-sm`}>
             {[
               { id: "all", label: "Tous" },
               { id: "publish", label: "Publiés" },
@@ -341,10 +352,10 @@ export default function AdminProductsPage() {
               <button
                 key={st.id}
                 onClick={() => setStatusFilter(st.id)}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   statusFilter === st.id
-                    ? (theme === "dark" ? "bg-white/10 text-white shadow-sm" : "bg-[#2F3CD9]/10 text-[#2F3CD9]")
-                    : `text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white`
+                    ? (theme === "dark" ? "bg-white/15 text-white shadow-sm" : "bg-[#2F3CD9] text-white shadow-sm")
+                    : `${cls.textMuted} hover:${cls.textMain} hover:bg-black/5 dark:hover:bg-white/5`
                 }`}
               >
                 {st.label}
@@ -353,7 +364,7 @@ export default function AdminProductsPage() {
           </div>
 
           {/* Audit Tag Filter Pills */}
-          <div className={`flex items-center gap-1 p-1 rounded-xl border ${cls.border} ${cls.cardBg} w-fit h-fit shrink-0`}>
+          <div className={`flex items-center gap-1 p-1 rounded-xl border ${cls.border} ${cls.cardBg} shrink-0 shadow-sm`}>
             {[
               { id: "ALL", label: "Tous", count: products.length, icon: "" },
               { id: "A_RETRAVAILLER", label: "À Retravailler", count: products.filter(p => p.admin_audit_tag === "A_RETRAVAILLER" || p.adminAuditTag === "A_RETRAVAILLER").length, icon: "⚠️" },
@@ -363,14 +374,14 @@ export default function AdminProductsPage() {
                 key={item.id}
                 type="button"
                 onClick={() => setAuditFilter(item.id as any)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                   auditFilter === item.id
                     ? item.id === "A_RETRAVAILLER"
-                      ? "bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-sm"
+                      ? "bg-amber-500/20 text-amber-600 dark:text-amber-300 border border-amber-500/40 shadow-sm"
                       : item.id === "A_SUPPRIMER"
-                      ? "bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm"
-                      : (theme === "dark" ? "bg-white/10 text-white shadow-sm" : "bg-[#2F3CD9]/10 text-[#2F3CD9]")
-                    : "text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+                      ? "bg-rose-500/20 text-rose-600 dark:text-rose-300 border border-rose-500/40 shadow-sm"
+                      : (theme === "dark" ? "bg-white/15 text-white shadow-sm" : "bg-[#2F3CD9] text-white shadow-sm")
+                    : `${cls.textMuted} hover:${cls.textMain} hover:bg-black/5 dark:hover:bg-white/5`
                 }`}
               >
                 {item.icon && <span>{item.icon}</span>}
@@ -381,7 +392,7 @@ export default function AdminProductsPage() {
           </div>
 
           {/* Sort Selector Dropdown */}
-          <div className="relative shrink-0">
+          <div className="relative shrink-0 min-w-[190px]">
             <select
               value={`${sortBy}-${sortOrder}`}
               onChange={(e) => {
@@ -389,7 +400,7 @@ export default function AdminProductsPage() {
                 setSortBy(parts[0] as typeof sortBy);
                 setSortOrder(parts[1] as typeof sortOrder);
               }}
-              className={`h-full ${cls.cardBg} border ${cls.border} rounded-xl px-3.5 py-2 text-xs font-bold ${cls.textMain} focus:outline-none cursor-pointer transition-colors appearance-none pr-8 hover:border-white/20`}
+              className={`w-full ${cls.cardBg} border ${cls.border} rounded-xl px-3.5 py-2.5 text-xs font-bold ${cls.textMain} focus:outline-none cursor-pointer transition-colors appearance-none pr-8 hover:border-[#2F3CD9]/50 shadow-sm`}
             >
               <option value="date-desc">Tri : Plus récents d&apos;abord</option>
               <option value="date-asc">Tri : Plus anciens d&apos;abord</option>
@@ -400,25 +411,39 @@ export default function AdminProductsPage() {
               <option value="seo-desc">Tri : Score SEO (Élevé &rarr; Faible)</option>
               <option value="seo-asc">Tri : Score SEO (Faible &rarr; Élevé)</option>
             </select>
-            <svg className={`w-3.5 h-3.5 ${cls.textMuted} absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className={`w-3.5 h-3.5 ${cls.textMuted} absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
           </div>
         </div>
-        <div className="flex gap-1.5 flex-wrap items-center">
-          {categoriesList.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-3.5 py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
-                selectedCategory === cat
-                  ? "bg-white text-black border-white shadow-md"
-                  : `${cls.cardBg} ${cls.border} ${cls.textMuted} hover:text-white`
-              }`}
-            >
-              <span>{cat}</span>
-            </button>
-          ))}
+
+        {/* Row 2: Category Chips (Dedicated horizontal scrollable / wrap row) */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 max-w-full custom-scrollbar">
+          {categoriesList.map((cat) => {
+            const isSelected = selectedCategory === cat;
+            const catCount = cat === "Tous" 
+              ? products.length 
+              : products.filter(p => p.categories?.some((c: any) => c.name.toLowerCase() === cat.toLowerCase())).length;
+
+            return (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-all cursor-pointer shrink-0 flex items-center gap-1.5 ${
+                  isSelected
+                    ? theme === "dark"
+                      ? "bg-white text-black border-white shadow-sm font-black"
+                      : "bg-gray-900 text-white border-gray-900 shadow-sm font-black"
+                    : `${cls.cardBg} ${cls.border} ${cls.textMuted} hover:${cls.textMain} hover:border-[#2F3CD9]/40`
+                }`}
+              >
+                <span>{cat}</span>
+                <span className={`text-[10px] font-mono ${isSelected ? (theme === 'dark' ? 'text-black/60' : 'text-white/70') : cls.textFaint}`}>
+                  {catCount}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 

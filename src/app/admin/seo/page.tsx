@@ -51,7 +51,7 @@ export default function AdminSeoPagesPage() {
     title: "",
     description: "",
     keywords: "",
-    ogImage: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
+    ogImage: "/images/seo-default-spoolio.png",
     noIndex: false
   };
 

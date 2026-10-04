@@ -53,9 +53,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const cleanDesc = formatDescription(prefixedDesc, fallbackDesc);
 
   const titleBase = (product as any).metaTitle || product.name;
-  const cleanTitle = titleBase.length < 35
-    ? `${titleBase} — ${primaryCategory} 3D | Spoolio`
-    : `${titleBase} | Spoolio`;
+  const cleanTitle = titleBase.includes("Spoolio") ? titleBase : `${titleBase} | Spoolio`;
 
   return buildPageMetadata({
     title: cleanTitle,

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import ProductFormClient from "../[id]/ProductFormClient";
 
 export const metadata: Metadata = {
-  title: "ADMIN - Nouveau Produit",
+  title: "Produit - Nouveau",
 };
 
 export default function NewProductPage() {

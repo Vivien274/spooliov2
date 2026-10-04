@@ -211,6 +211,14 @@ export default function UniquePieceEditorClient({
     loadData();
   }, [pieceId, isNew]);
 
+  useEffect(() => {
+    if (isNew) {
+      document.title = name.trim() ? `Pièce Unique - ${name.trim()}` : "Pièce Unique - Nouvelle";
+    } else {
+      document.title = name.trim() ? `Pièce Unique - ${name.trim()}` : "Pièce Unique";
+    }
+  }, [name, isNew]);
+
   // Batch Upload handler for gallery (images & videos)
   const handleBatchUpload = async (filesToUpload: FileList | File[]) => {
     const fileArray = Array.from(filesToUpload).filter(

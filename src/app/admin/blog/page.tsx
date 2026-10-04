@@ -80,6 +80,19 @@ export default function AdminBlogPage() {
     fetchPosts();
   }, []);
 
+  useEffect(() => {
+    if (viewMode === "editor") {
+      const articleTitle = formData.title.trim();
+      if (editingPost) {
+        document.title = articleTitle ? `Article - ${articleTitle}` : "Article - Édition";
+      } else {
+        document.title = articleTitle ? `Article - ${articleTitle}` : "Article - Nouveau";
+      }
+    } else {
+      document.title = "Articles Blog";
+    }
+  }, [viewMode, editingPost, formData.title]);
+
   const openCreateEditor = () => {
     setEditingPost(null);
     setFormData({
