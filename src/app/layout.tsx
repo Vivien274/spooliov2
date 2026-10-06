@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Antonio, Plus_Jakarta_Sans, DynaPuff, Righteous, Outfit, Permanent_Marker } from "next/font/google";
+import { Antonio, Plus_Jakarta_Sans, DynaPuff, Righteous, Outfit, Permanent_Marker, Be_Vietnam_Pro } from "next/font/google";
 import dynamic from "next/dynamic";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
@@ -15,6 +15,12 @@ const NewsletterPopup = dynamic(() => import("@/components/NewsletterPopup"));
 const TombolaFloatingBanner = dynamic(() => import("@/components/TombolaFloatingBanner"));
 const SpoolioBotMascot = dynamic(() => import("@/components/SpoolioBotMascot"));
 import AdminToolbarLoader from "@/components/AdminToolbarLoader";
+
+const beVietnamPro = Be_Vietnam_Pro({
+  variable: "--font-be-vietnam-pro",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
 
 const antonio = Antonio({
   variable: "--font-antonio",
@@ -112,7 +118,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${antonio.variable} ${plusJakarta.variable} ${dynapuff.variable} ${righteous.variable} ${outfit.variable} ${permanentMarker.variable} light h-full antialiased bg-white text-zinc-900`}
+      className={`${antonio.variable} ${plusJakarta.variable} ${dynapuff.variable} ${righteous.variable} ${outfit.variable} ${permanentMarker.variable} ${beVietnamPro.variable} light h-full antialiased bg-white text-zinc-900`}
       suppressHydrationWarning
     >
       <head>

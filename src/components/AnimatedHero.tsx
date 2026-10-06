@@ -71,7 +71,7 @@ const PREPROD_SLIDES_FR: HeroSlide[] = [
   {
     id: 2,
     badge: "PRÉCOMMANDES • ÉDITION LIMITÉE",
-    title: "LE CALENDRIER DE L'AVENT 3D SPOOLIO",
+    title: "Le calendrier de l'Avent 3D Spoolio",
     subtitle:
       "24 créations exclusives imprimées en 3D dans notre atelier. Édition limitée à 50 exemplaires, disponible au tarif de 50€ !",
     buttonText: "RÉSERVER (50€)",
@@ -93,7 +93,7 @@ const PREPROD_SLIDES_EN: HeroSlide[] = [
   {
     id: 1,
     badge: "PRE-ORDERS OPEN • LIMITED EDITION",
-    title: "THE SPOOLIO 3D ADVENT CALENDAR",
+    title: "The Spoolio 3D Advent Calendar",
     subtitle:
       "24 exclusive 3D creations crafted in our workshop. Limited edition of 50 pieces, available now at €50!",
     buttonText: "PRE-ORDER NOW (€50)",
@@ -152,7 +152,7 @@ const DEFAULT_SLIDES_FR: HeroSlide[] = [
   {
     id: 2,
     badge: "PRÉCOMMANDES • ÉDITION LIMITÉE",
-    title: "LE CALENDRIER DE L'AVENT 3D SPOOLIO",
+    title: "Le calendrier de l'Avent 3D Spoolio",
     subtitle:
       "24 créations exclusives imprimées en 3D dans notre atelier. Édition limitée à 50 exemplaires, disponible au tarif de 50€ !",
     buttonText: "RÉSERVER (50€)",
@@ -171,7 +171,7 @@ const DEFAULT_SLIDES_FR: HeroSlide[] = [
   {
     id: 3,
     badge: "JEUX DE SOCIÉTÉ & DE PLATEAU",
-    title: "ACCESSOIRES ET CRÉATIONS POUR JEUX DE SOCIÉTÉ",
+    title: "Accessoires et créations pour jeux de société",
     subtitle: "Tours de dés sculptées, inserts précis et accessoires pensés par et pour les passionnés de jeu de plateau.",
     buttonText: "VOIR LES ACCESSOIRES JEUX",
     buttonLink: "/jeux-de-societe",
@@ -188,7 +188,7 @@ const DEFAULT_SLIDES_FR: HeroSlide[] = [
   {
     id: 4,
     badge: "BUREAU & ACCESSOIRES SENSORIELS",
-    title: "CLIQUEURS MÉCANIQUES & DESK TOYS",
+    title: "Cliqueurs mécaniques & desk toys",
     subtitle: "Concevez votre cliqueur mécanique sur-mesure : switches authentiques, touches personnalisées et sensations tactiles uniques.",
     buttonText: "CONCEVOIR MON CLIQUEUR",
     buttonLink: "/createur-cliqueur",
@@ -398,13 +398,25 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                       </span>
                     </div>
 
-                    {/* Titre H1 percutant avec interlignage dense (H1 unique au premier affichage/SSR, H2 pour les slides suivants) */}
+                    {/* Titre H1 percutant avec typographie Be Vietnam (Canva : letter-spacing -107, line-height 0.78, bold) */}
                     {activeIndex === 0 ? (
-                      <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] text-white max-w-2xl font-sans uppercase">
+                      <h1
+                        className="text-4xl sm:text-5xl md:text-6xl lg:text-[70px] xl:text-[76px] font-bold text-white max-w-3xl font-be-vietnam py-1"
+                        style={{
+                          letterSpacing: "-0.107em",
+                          lineHeight: 0.78,
+                        }}
+                      >
                         {renderFormattedText(activeSlide.title)}
                       </h1>
                     ) : (
-                      <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] text-white max-w-2xl font-sans uppercase">
+                      <h2
+                        className="text-4xl sm:text-5xl md:text-6xl lg:text-[70px] xl:text-[76px] font-bold text-white max-w-3xl font-be-vietnam py-1"
+                        style={{
+                          letterSpacing: "-0.107em",
+                          lineHeight: 0.78,
+                        }}
+                      >
                         {renderFormattedText(activeSlide.title)}
                       </h2>
                     )}

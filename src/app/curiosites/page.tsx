@@ -223,8 +223,14 @@ export default function CuriositesPage() {
                 </span>
               </div>
 
-              {/* Titre H1 percutant avec interlignage dense */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] text-neutral-950 max-w-2xl">
+              {/* Titre H1 percutant avec typographie Be Vietnam (Canva : letter-spacing -107, line-height 0.78, bold) */}
+              <h1
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-[70px] xl:text-[76px] font-bold text-neutral-950 max-w-3xl font-be-vietnam py-1"
+                style={{
+                  letterSpacing: "-0.107em",
+                  lineHeight: 0.78,
+                }}
+              >
                 {heroData.h1}
               </h1>
 

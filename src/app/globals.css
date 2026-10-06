@@ -14,6 +14,7 @@
   --font-outfit: var(--font-outfit), sans-serif;
   --font-permanent-marker: var(--font-permanent-marker), cursive, sans-serif;
   --font-sedgwick: var(--font-sedgwick), cursive, sans-serif;
+  --font-be-vietnam: var(--font-be-vietnam-pro), sans-serif;
   --font-mono: monospace;
 }
 
@@ -35,6 +36,10 @@
 
 .font-outfit {
   font-family: var(--font-outfit), sans-serif;
+}
+
+.font-be-vietnam {
+  font-family: var(--font-be-vietnam-pro), sans-serif;
 }
 
 body {
