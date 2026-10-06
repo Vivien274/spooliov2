@@ -2,51 +2,129 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+const COOKIE_NAME = "spoolio_newsletter_dismissed";
+const STORAGE_KEY = "spoolio_newsletter_dismissed";
+const REFUSAL_DAYS = 30; // Masqué 30 jours en cas de refus / fermeture
+const ACCEPTED_DAYS = 90; // Masqué 90 jours en cas d'inscription
+
+function getCookie(name: string): string | null {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([.$?*|{}()[\]\\/+^])/g, "\\$1") + "=([^;]*)"));
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+function setCookie(name: string, value: string, days: number) {
+  if (typeof document === "undefined") return;
+  const maxAge = days * 24 * 60 * 60;
+  document.cookie = `${name}=${encodeURIComponent(value)}; max-age=${maxAge}; path=/; SameSite=Lax`;
+}
+
+function isNewsletterDismissed(): boolean {
+  if (typeof window === "undefined") return true;
+
+  // 1. Vérification par Cookie
+  const cookieVal = getCookie(COOKIE_NAME);
+  if (cookieVal) return true;
+
+  // 2. Vérification par localStorage avec expiration
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const data = JSON.parse(raw);
+      if (data.expiresAt && Date.now() < data.expiresAt) {
+        return true;
+      }
+      // Expiré, on nettoie
+      localStorage.removeItem(STORAGE_KEY);
+    }
+    // Nettoyage de l'ancienne clé legacy si présente
+    if (localStorage.getItem("spoolio_newsletter_popup_dismissed") === "true") {
+      return true;
+    }
+  } catch (e) {
+    // Fallback simple
+    if (localStorage.getItem(STORAGE_KEY)) return true;
+  }
+
+  return false;
+}
+
+function saveNewsletterDismissed(status: "refused" | "subscribed") {
+  const days = status === "subscribed" ? ACCEPTED_DAYS : REFUSAL_DAYS;
+  setCookie(COOKIE_NAME, status, days);
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        status,
+        dismissedAt: Date.now(),
+        expiresAt: Date.now() + days * 24 * 60 * 60 * 1000,
+      })
+    );
+  } catch (e) {}
+}
 
 export default function NewsletterPopup() {
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const pathname = usePathname();
 
-  const handleDismiss = useCallback(() => {
-    // Dismiss popup for 7 days (or standard dismiss setting)
-    localStorage.getItem("spoolio_newsletter_popup_dismissed");
-    localStorage.setItem("spoolio_newsletter_popup_dismissed", "true");
+  const handleDismiss = useCallback((status: "refused" | "subscribed" = "refused") => {
+    saveNewsletterDismissed(status);
     setIsVisible(false);
   }, []);
 
   useEffect(() => {
-    // Check if dismissed or accepted before showing
-    const dismissed = localStorage.getItem("spoolio_newsletter_popup_dismissed");
-    if (!dismissed) {
-      // Show popup after 8 seconds
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 8000);
-
-      // Or show on scroll past 35% of the page
-      const handleScroll = () => {
-        const scrolled = window.scrollY;
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        if (maxScroll > 0 && scrolled / maxScroll > 0.35) {
-          setIsVisible(true);
-          window.removeEventListener("scroll", handleScroll);
-        }
-      };
-
-      window.addEventListener("scroll", handleScroll);
-      return () => {
-        clearTimeout(timer);
-        window.removeEventListener("scroll", handleScroll);
-      };
+    // Ne pas afficher sur les pages d'inscription, admin, checkout ou commande réussie
+    if (
+      !pathname ||
+      pathname === "/inscription-newsletter-spoolio" ||
+      pathname.startsWith("/admin") ||
+      pathname.startsWith("/checkout") ||
+      pathname === "/success"
+    ) {
+      return;
     }
-  }, []);
 
-  // Prevent scrolling when modal is open & add Escape key listener
+    // Vérifier si déjà masqué (cookie ou localStorage actif)
+    if (isNewsletterDismissed()) {
+      return;
+    }
+
+    // Déclencheur après 8 secondes
+    const timer = setTimeout(() => {
+      if (!isNewsletterDismissed()) {
+        setIsVisible(true);
+      }
+    }, 8000);
+
+    // Déclencheur sur scroll (> 35% de la page)
+    const handleScroll = () => {
+      const scrolled = window.scrollY;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (maxScroll > 0 && scrolled / maxScroll > 0.35) {
+        if (!isNewsletterDismissed()) {
+          setIsVisible(true);
+        }
+        window.removeEventListener("scroll", handleScroll);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [pathname]);
+
+  // Bloquer le scroll d'arrière-plan quand ouvert & écoute de la touche Échap
   useEffect(() => {
     if (isVisible) {
       document.body.style.overflow = "hidden";
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
-          handleDismiss();
+          handleDismiss("refused");
         }
       };
       window.addEventListener("keydown", handleKeyDown);
@@ -65,7 +143,7 @@ export default function NewsletterPopup() {
     <div className="fixed inset-0 z-[99998] flex items-center justify-center p-4 sm:p-6 font-sans select-none">
       {/* Backdrop blur overlay */}
       <div
-        onClick={handleDismiss}
+        onClick={() => handleDismiss("refused")}
         className="fixed inset-0 bg-black/70 backdrop-blur-md transition-opacity duration-300 animate-fade-in cursor-pointer"
         aria-hidden="true"
       />
@@ -78,7 +156,7 @@ export default function NewsletterPopup() {
 
         {/* Close Button */}
         <button
-          onClick={handleDismiss}
+          onClick={() => handleDismiss("refused")}
           className="absolute top-5 right-5 p-2 rounded-full text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 transition-colors cursor-pointer z-20"
           title="Fermer"
           aria-label="Fermer"
@@ -112,13 +190,13 @@ export default function NewsletterPopup() {
         <div className="flex flex-col gap-2.5 mt-2">
           <Link
             href="/inscription-newsletter-spoolio"
-            onClick={handleDismiss}
+            onClick={() => handleDismiss("subscribed")}
             className="w-full py-3.5 px-6 rounded-2xl bg-[#ff4f00] hover:bg-[#e04500] text-white transition-all font-black uppercase tracking-wider text-center text-xs sm:text-sm block cursor-pointer shadow-lg shadow-[#ff4f00]/20 transform hover:-translate-y-0.5 active:translate-y-0"
           >
             Rejoindre le club ✉️
           </Link>
           <button
-            onClick={handleDismiss}
+            onClick={() => handleDismiss("refused")}
             className="w-full py-2 text-xs text-zinc-400 hover:text-zinc-700 font-bold transition-colors cursor-pointer text-center"
           >
             Non merci, une autre fois

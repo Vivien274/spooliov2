@@ -81,15 +81,19 @@ export default function FAQPage() {
       ]
     },
     {
-      title: "Spécificités & Sécurité 🎒",
+      title: "Spécificités, Résistance & Sécurité 🎒",
       items: [
         {
+          q: "Comment la résistance et la solidité des objets sont-elles garanties ?",
+          a: "Chaque modèle est rigoureusement testé et évalué par mes soins en atelier avant d'être proposé sur la boutique. Je vérifie personnellement la résistance mécanique des axes, la flexibilité des articulations et la tenue des parois sous manipulation répétée afin de garantir une robustesse optimale au quotidien. Bien que nos créations artisanales ne fassent pas l'objet d'un marquage CE (qui concerne les jouets industriels certifiés en laboratoire), elles bénéficient d'un contrôle qualité direct et exigeant."
+        },
+        {
           q: "Les produits sont-ils adaptés aux enfants ?",
-          a: "La plupart de nos produits sont conçus pour être manipulés par des enfants à partir de 5 ans. Cependant, certains articles contiennent de petites pièces et ne conviennent pas aux tout-petits. Pour obtenir la norme CE qui nous permettrait de vendre les objets comme des JOUETS pour enfant, nous devrions faire passer des tests en laboratoire pour chaque objet. Vu le coût que cela représente, nous privilégions la responsabilité de chacun. Nos objets sont vérifiés et testés par nos soins, mais ne sont pas conseillés aux enfants de moins de 14 ans sans surveillance. Vérifiez les recommandations spécifiques sur chaque fiche produit."
+          a: "Nos créations sont conçues pour être manipulées au quotidien et sont fabriquées en PLA végétal sain sans perturbateurs endocriniens. Cependant, en tant qu'objets d'artisanat d'atelier sans certification CE jouet, et en raison de petites pièces articulées ou d'éléments amovibles sur certains modèles, ils sont déconseillés aux enfants de moins de 14 ans sans la surveillance d'un adulte."
         },
         {
           q: "Vos produits sont-ils éco-responsables ?",
-          a: "Absolument ! Nos produits sont imprimés avec du PLA, qui est un plastique biodégradable à base de ressources renouvelables comme l’amidon de maïs. C'est une fabrication française réalisée couche par couche dans notre atelier à Comines (59)."
+          a: "Absolument ! Nos produits sont imprimés avec du PLA, qui est un polymère végétal biosourcé à base de ressources renouvelables (amidon de maïs ou canne à sucre). C'est une fabrication française réalisée couche par couche à la commande dans notre atelier à Comines (59), avec zéro surstock."
         }
       ]
     }

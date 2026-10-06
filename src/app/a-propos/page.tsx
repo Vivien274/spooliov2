@@ -106,6 +106,9 @@ export default function AboutPage() {
             <p className="leading-relaxed">
               Nous mettons un point d&apos;honneur à utiliser du <strong>PLA (Acide Polylactique)</strong>, un thermoplastique d&apos;origine végétale (généralement issu d&apos;amidon de maïs ou de canne à sucre), biodégradable dans des conditions industrielles. C&apos;est notre façon de vous proposer des créations durables et respectueuses de l&apos;environnement.
             </p>
+            <p className="leading-relaxed">
+              <strong>Qualité &amp; Résistance éprouvées :</strong> chaque prototype et modèle est directement testé, manipulé et évalué par Vivien en atelier pour s&apos;assurer d&apos;une robustesse optimale, d&apos;une excellente durabilité sous manipulation intensive et de finitions irréprochables.
+            </p>
           </div>
 
           {/* Section 4: Address */}
