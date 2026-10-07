@@ -77,7 +77,7 @@ interface LinkHubClientProps {
 const DEFAULT_PROFILE: HubProfile = {
   title: "Spoolio",
   subtitle: "Atelier d'impression 3D & Fidgets sensoriels façonnés en France",
-  avatar: "https://ugc.production.linktr.ee/fdb01a4c-7a6f-4109-92fc-331e44f5bb26_Frame-294.png",
+  avatar: "/images/spoolio-avatar.png",
   verifiedBadge: true,
   socials: {
     tiktok: "https://www.tiktok.com/@spoolio.fr",
@@ -260,7 +260,7 @@ export default function LinkHubClient({
             <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white border border-neutral-200/90 p-2 shadow-md flex items-center justify-center relative overflow-hidden">
               <div className="relative w-full h-full rounded-xl overflow-hidden bg-neutral-50 flex items-center justify-center">
                 <Image
-                  src={profile.avatar || "/images/logo-spoolio-eyes.png"}
+                  src={profile.avatar || "/images/spoolio-avatar.png"}
                   alt={cleanEmoji(profile.title) || "Spoolio"}
                   fill
                   unoptimized

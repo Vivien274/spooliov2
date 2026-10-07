@@ -22,6 +22,8 @@ import {
   MapPin,
   Link2,
   ShieldCheck,
+  Upload,
+  Loader2,
 } from "lucide-react";
 
 export default function AdminLinksPage() {
@@ -31,7 +33,7 @@ export default function AdminLinksPage() {
   const [profile, setProfile] = useState<HubProfile>({
     title: "Spoolio.fr",
     subtitle: "Impression 3D & Objets Fidgets Sensoriels TDAH 🇫🇷",
-    avatar: "https://ugc.production.linktr.ee/fdb01a4c-7a6f-4109-92fc-331e44f5bb26_Frame-294.png",
+    avatar: "/images/spoolio-avatar.png",
     verifiedBadge: true,
     socials: {
       tiktok: "https://www.tiktok.com/@spoolio.fr",
@@ -45,6 +47,8 @@ export default function AdminLinksPage() {
   const [activeTab, setActiveTab] = useState<"links" | "events" | "profile">("links");
   const [isClient, setIsClient] = useState<boolean>(false);
   const [saveSuccess, setSaveSuccess] = useState<boolean>(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState<boolean>(false);
+  const [avatarError, setAvatarError] = useState<string | null>(null);
   const [editingLinkId, setEditingLinkId] = useState<string | null>(null);
   const [editingEventId, setEditingEventId] = useState<string | null>(null);
 
@@ -78,6 +82,34 @@ export default function AdminLinksPage() {
       })
       .catch((e) => console.error("Error loading admin links:", e));
   }, []);
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingAvatar(true);
+    setAvatarError(null);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok && data.imageUrl) {
+        setProfile((prev) => ({ ...prev, avatar: data.imageUrl }));
+      } else {
+        setAvatarError(data.error || "Erreur lors du téléversement");
+      }
+    } catch (err) {
+      setAvatarError("Impossible de téléverser l'image.");
+    } finally {
+      setUploadingAvatar(false);
+    }
+  };
 
   // Save Config to Server
   const handleSaveConfig = async () => {
@@ -965,14 +997,65 @@ export default function AdminLinksPage() {
                 />
               </div>
 
-              <div>
-                <label className="text-xs text-gray-400 font-mono block mb-1">URL Photo Avatar</label>
-                <input
-                  type="text"
-                  value={profile.avatar}
-                  onChange={(e) => setProfile({ ...profile, avatar: e.target.value })}
-                  className={`w-full px-3.5 py-2.5 text-xs rounded-xl border ${cls.border} ${cls.inputBg} focus:outline-none focus:border-[#ff4f00]`}
-                />
+              <div className="space-y-2">
+                <label className="text-xs text-gray-400 font-mono block">Photo de Profil (Avatar)</label>
+                <div className={`p-4 rounded-xl border ${cls.border} ${cls.cardBg} flex flex-col sm:flex-row items-center gap-4`}>
+                  <div className="w-20 h-20 rounded-full overflow-hidden bg-[#0011ff] border-2 border-[#ff4f00] relative shrink-0 shadow-lg flex items-center justify-center">
+                    {profile.avatar ? (
+                      <img
+                        src={profile.avatar}
+                        alt="Aperçu avatar"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-xs text-gray-400">Aucun</span>
+                    )}
+                  </div>
+                  <div className="flex-1 space-y-2.5 text-center sm:text-left w-full">
+                    <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                      <label className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#ff4f00] hover:bg-[#e04500] text-white text-xs font-semibold cursor-pointer transition shadow-sm">
+                        {uploadingAvatar ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span>Téléversement...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="w-4 h-4" />
+                            <span>Changer la photo</span>
+                          </>
+                        )}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          disabled={uploadingAvatar}
+                          onChange={handleAvatarUpload}
+                        />
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setProfile({ ...profile, avatar: "/images/spoolio-avatar.png" })}
+                        className={`px-3 py-2 rounded-xl border ${cls.border} text-xs text-gray-400 hover:text-white transition`}
+                      >
+                        Logo Officiel
+                      </button>
+                    </div>
+                    {avatarError && (
+                      <p className="text-[11px] text-red-400">{avatarError}</p>
+                    )}
+                    <div>
+                      <span className="text-[11px] text-gray-500 block mb-1">Ou saisir une URL directe :</span>
+                      <input
+                        type="text"
+                        value={profile.avatar}
+                        onChange={(e) => setProfile({ ...profile, avatar: e.target.value })}
+                        placeholder="https://... ou /images/..."
+                        className={`w-full px-3 py-1.5 text-xs rounded-lg border ${cls.border} ${cls.inputBg} focus:outline-none focus:border-[#ff4f00]`}
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div className="pt-3 border-t border-white/5 space-y-3">
