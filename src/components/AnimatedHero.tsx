@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Header from "@/components/Header";
 import { useTranslation } from "@/context/LanguageContext";
-import { isPreprodEnv } from "@/lib/env";
 
 export interface HeroSlide {
   id: number;
@@ -46,88 +45,6 @@ function renderFormattedText(text: string) {
     </React.Fragment>
   ));
 }
-
-// Hero Slides for Preproduction V2
-const PREPROD_SLIDES_FR: HeroSlide[] = [
-  {
-    id: 1,
-    badge: "ATELIER D'IMPRESSION 3D • COMINES (59)",
-    title: "Fidgets sensoriels et objets imprimés en 3D fabriqués en France",
-    subtitle:
-      "Conçus et imprimés à la demande dans notre atelier avec un polymère végétal biosourcé. Zéro surstock, du caractère et des finitions soignées.",
-    buttonText: "DÉCOUVRIR LE CATALOGUE",
-    buttonLink: "/boutique",
-    secondaryButtonText: "BOUSSOLE SENSORIELLE",
-    secondaryButtonLink: "/boussole-sensorielle",
-    image: "/images/clicker_gallery_2.jpg",
-    accentColor: "#ff4f00",
-    cardTitle: "Créations Spoolio 3D",
-    cardDescription: "Objets tactiles et accessoires façonnés sur mesure à Comines.",
-    cardPrice: "À partir de 3.00€",
-    cardImage: "/images/clicker_gallery_2.jpg",
-    cardLink: "/boutique",
-    cardBadge: "Made in France",
-  },
-  {
-    id: 2,
-    badge: "PRÉCOMMANDES • ÉDITION LIMITÉE",
-    title: "Le calendrier de l'Avent 3D Spoolio",
-    subtitle:
-      "24 créations exclusives imprimées en 3D dans notre atelier. Édition limitée à 50 exemplaires, disponible au tarif de 50€ !",
-    buttonText: "RÉSERVER (50€)",
-    buttonLink: "/calendrier-avent",
-    secondaryButtonText: "DÉCOUVRIR LE CALENDRIER",
-    secondaryButtonLink: "/calendrier-avent",
-    image: "/images/calendrier-avent-hero.jpg",
-    accentColor: "#ff4f00",
-    cardTitle: "Calendrier de l'Avent 3D",
-    cardDescription: "24 surprises inédites d'atelier à découvrir chaque jour.",
-    cardPrice: "50€ • Édition Limitée (50 ex.)",
-    cardImage: "/images/calendrier-avent-hero.jpg",
-    cardLink: "/calendrier-avent",
-    cardBadge: "Précommandes 2026",
-  },
-];
-
-const PREPROD_SLIDES_EN: HeroSlide[] = [
-  {
-    id: 1,
-    badge: "PRE-ORDERS OPEN • LIMITED EDITION",
-    title: "The Spoolio 3D Advent Calendar",
-    subtitle:
-      "24 exclusive 3D creations crafted in our workshop. Limited edition of 50 pieces, available now at €50!",
-    buttonText: "PRE-ORDER NOW (€50)",
-    buttonLink: "/calendrier-avent",
-    secondaryButtonText: "DISCOVER THE CALENDAR",
-    secondaryButtonLink: "/calendrier-avent",
-    image: "/images/calendrier-avent-hero.jpg",
-    accentColor: "#ff4f00",
-    cardTitle: "3D Advent Calendar",
-    cardDescription: "24 daily tactile workshop surprises to discover.",
-    cardPrice: "€50 • Limited Edition (50 pcs)",
-    cardImage: "/images/calendrier-avent-hero.jpg",
-    cardLink: "/calendrier-avent",
-    cardBadge: "Pre-order 2026",
-  },
-  {
-    id: 2,
-    badge: "3D PRINTING WORKSHOP • COMINES (59)",
-    title: "Tactile objects, desk accessories and studio creations.",
-    subtitle:
-      "Designed and 3D printed on demand in our workshop with bio-sourced plant polymer. Zero overstock, character and meticulous finishes.",
-    buttonText: "DISCOVER THE CATALOG",
-    buttonLink: "/boutique",
-    secondaryButtonText: "DESIGN MY CLICKER",
-    secondaryButtonLink: "/createur-cliqueur",
-    image: "/images/clicker_gallery_2.jpg",
-    accentColor: "#ff4f00",
-    cardTitle: "Spoolio 3D Studio",
-    cardDescription: "Tactile objects and 3D creations crafted in Comines.",
-    cardPrice: "From €3.00",
-    cardImage: "/images/clicker_gallery_2.jpg",
-    cardLink: "/boutique",
-  },
-];
 
 const DEFAULT_SLIDES_FR: HeroSlide[] = [
   {
@@ -208,7 +125,7 @@ const DEFAULT_SLIDES_EN: HeroSlide[] = [
   {
     id: 1,
     badge: "PRE-ORDERS OPEN • LIMITED EDITION",
-    title: "THE SPOOLIO 3D ADVENT CALENDAR",
+    title: "The Spoolio 3D Advent Calendar",
     subtitle:
       "24 exclusive 3D creations crafted in our workshop. Limited edition of 50 pieces, available now at €50!",
     buttonText: "PRE-ORDER NOW (€50)",
@@ -242,7 +159,7 @@ const DEFAULT_SLIDES_EN: HeroSlide[] = [
   {
     id: 3,
     badge: "BOARD GAMES & TABLETOP",
-    title: "UPGRADE YOUR GAME NIGHTS",
+    title: "Upgrade your game nights",
     subtitle: "Sculpted dice towers, precise inserts, and tabletop accessories crafted for enthusiasts.",
     buttonText: "VIEW GAMING ACCESSORIES",
     buttonLink: "/boutique",
@@ -257,7 +174,7 @@ const DEFAULT_SLIDES_EN: HeroSlide[] = [
   {
     id: 4,
     badge: "DESK SETUP & GEEK CULTURE",
-    title: "MECHANICAL CLICKERS & ASMR",
+    title: "Mechanical clickers & ASMR",
     subtitle: "Design your custom mechanical clicker: authentic switches, custom keycaps, and satisfying tactile feedback.",
     buttonText: "DESIGN MY CLICKER",
     buttonLink: "/createur-cliqueur",
@@ -280,14 +197,10 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [isPaused, setIsPaused] = useState<boolean>(false);
 
-  const isPreprod = isPreprodEnv();
   const defaultSlides = locale === "en" ? DEFAULT_SLIDES_EN : DEFAULT_SLIDES_FR;
-  const preprodSlides = locale === "en" ? PREPROD_SLIDES_EN : PREPROD_SLIDES_FR;
 
-  // In preprod, strictly isolate to the single editorial slide. In production, keep existing slides.
-  const heroSlides = isPreprod
-    ? preprodSlides
-    : (slides && slides.length > 0 ? slides : defaultSlides);
+  // Harmoniser préprod et prod : utiliser les slides configurées en BDD si fournies, sinon les slides d'atelier par défaut
+  const heroSlides = slides && slides.length > 0 ? slides : defaultSlides;
 
   useEffect(() => {
     if (isPaused || heroSlides.length <= 1) return;
