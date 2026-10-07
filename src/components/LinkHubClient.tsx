@@ -22,7 +22,6 @@ import {
   ShieldCheck,
   CheckCircle2,
   Leaf,
-  Zap,
   Sparkles,
   Link2,
 } from "lucide-react";
@@ -88,7 +87,7 @@ const DEFAULT_PROFILE: HubProfile = {
   },
 };
 
-// Nettoyage systématique des emojis pour préserver la DA sobre de l'atelier
+// Nettoyage systématique des emojis pour préserver la DA épurée
 function cleanEmoji(text?: string): string {
   if (!text) return "";
   return text
@@ -221,34 +220,34 @@ export default function LinkHubClient({
   };
 
   return (
-    <div className="w-full min-h-screen bg-[#09090b] text-white flex flex-col items-center justify-between p-4 sm:p-6 font-sans relative overflow-x-hidden selection:bg-[#FF5500] selection:text-white">
+    <div className="w-full min-h-screen bg-[#FAFAFA] text-neutral-900 flex flex-col items-center justify-between p-4 sm:p-6 font-sans relative overflow-x-hidden selection:bg-[#FF5500] selection:text-white antialiased">
       
-      {/* 1. Trame d'atelier technique discrète */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
+      {/* 1. Trame d'atelier technique discrète en thème clair */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
 
-      {/* 2. Halo ambré Spoolio subtil en haut */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[680px] h-[340px] bg-[#FF5500]/[0.07] rounded-full blur-[130px] pointer-events-none" />
+      {/* 2. Halo ambré Spoolio très subtil en arrière-plan */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[680px] h-[340px] bg-[#FF5500]/[0.035] rounded-full blur-[140px] pointer-events-none" />
 
       {/* 3. CONTENEUR PRINCIPAL */}
       <main className="w-full max-w-xl mx-auto space-y-6 pt-3 pb-12 z-10 flex flex-col items-center">
         
         {/* Bandeau d'en-tête discret avec retour vers le site principal */}
-        <div className="w-full flex items-center justify-between pb-3 border-b border-zinc-800/80 text-[11px] font-mono text-zinc-400">
+        <div className="w-full flex items-center justify-between pb-3 border-b border-neutral-200/90 text-[11px] font-mono text-neutral-500">
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 hover:text-white transition-colors group"
+            className="inline-flex items-center gap-1.5 text-neutral-700 hover:text-neutral-950 font-medium transition-colors group"
           >
             <ArrowLeft className="w-3.5 h-3.5 text-[#FF5500] group-hover:-translate-x-0.5 transition-transform" />
             <span>spoolio.fr</span>
           </Link>
-          <div className="flex items-center gap-1.5 text-zinc-400">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Atelier en ligne</span>
+          <div className="flex items-center gap-1.5 text-neutral-500 font-medium">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Atelier en direct</span>
           </div>
         </div>
 
         {/* =========================================================================
-            HEADER DE PROFIL ATELIER (NOUVELLE DA SPOOLIO V2)
+            HEADER DE PROFIL ATELIER (THÈME CLAIR SPOOLIO V2)
            ========================================================================= */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
@@ -256,12 +255,12 @@ export default function LinkHubClient({
           transition={{ duration: 0.35 }}
           className="w-full flex flex-col sm:flex-row items-center sm:items-start gap-5 pt-2 pb-2 text-center sm:text-left"
         >
-          {/* Avatar / Logo Spoolio dans un boîtier technique d'atelier */}
+          {/* Avatar / Logo Spoolio dans un boîtier technique blanc atelier */}
           <div className="relative shrink-0 group">
-            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-zinc-900 border border-zinc-800 p-2 shadow-2xl flex items-center justify-center relative ring-1 ring-inset ring-white/10 overflow-hidden">
-              <div className="relative w-full h-full rounded-xl overflow-hidden bg-black/50 flex items-center justify-center">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white border border-neutral-200/90 p-2 shadow-md flex items-center justify-center relative overflow-hidden">
+              <div className="relative w-full h-full rounded-xl overflow-hidden bg-neutral-50 flex items-center justify-center">
                 <Image
-                  src={profile.avatar || "/images/logo-spoolio-eyes-white.png"}
+                  src={profile.avatar || "/images/logo-spoolio-eyes.png"}
                   alt={cleanEmoji(profile.title) || "Spoolio"}
                   fill
                   unoptimized
@@ -271,7 +270,7 @@ export default function LinkHubClient({
               </div>
             </div>
 
-            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 bg-[#FF5500] text-white text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow border border-white/20 whitespace-nowrap flex items-center gap-1">
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 sm:left-auto sm:right-0 sm:translate-x-0 bg-[#FF5500] text-white text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm border border-white/40 whitespace-nowrap flex items-center gap-1">
               <Layers className="w-2.5 h-2.5" />
               <span>COMINES (59)</span>
             </div>
@@ -287,7 +286,7 @@ export default function LinkHubClient({
             </div>
 
             <div className="flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white font-be-vietnam">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-neutral-950 font-be-vietnam">
                 {cleanEmoji(profile.title) || "Spoolio"}
               </h1>
               {profile.verifiedBadge !== false && (
@@ -297,19 +296,19 @@ export default function LinkHubClient({
               )}
             </div>
 
-            <p className="text-xs sm:text-sm text-zinc-300 font-sans leading-relaxed max-w-md">
-              {cleanEmoji(profile.subtitle) || "Objets sensoriels, fidgets tactiles et créations imprimées à la demande en polymère végétal biosourcé."}
+            <p className="text-xs sm:text-sm text-neutral-600 font-sans leading-relaxed max-w-md">
+              {cleanEmoji(profile.subtitle) || "Objets sensoriels, fidgets tactiles et créations façonnées à la demande en polymère végétal biosourcé."}
             </p>
 
             {/* Badges de réassurance atelier */}
             <div className="pt-1 flex items-center justify-center sm:justify-start gap-2 flex-wrap">
-              <span className="text-[10px] font-mono text-zinc-300 bg-zinc-900 border border-zinc-800 px-2.5 py-1 rounded-lg flex items-center gap-1.5 shadow-xs">
-                <Leaf className="w-3 h-3 text-emerald-400" />
-                <span>100% Polymère végétal</span>
+              <span className="text-[10px] font-mono text-neutral-700 bg-white border border-neutral-200/90 px-2.5 py-1 rounded-lg flex items-center gap-1.5 shadow-xs">
+                <Leaf className="w-3 h-3 text-emerald-600" />
+                <span>100% Matière végétale (PLA)</span>
               </span>
-              <span className="text-[10px] font-mono text-zinc-300 bg-zinc-900 border border-zinc-800 px-2.5 py-1 rounded-lg flex items-center gap-1.5 shadow-xs">
-                <CheckCircle2 className="w-3 h-3 text-amber-400" />
-                <span>Fabrication en France</span>
+              <span className="text-[10px] font-mono text-neutral-700 bg-white border border-neutral-200/90 px-2.5 py-1 rounded-lg flex items-center gap-1.5 shadow-xs">
+                <CheckCircle2 className="w-3 h-3 text-amber-600" />
+                <span>Fabriqué en France</span>
               </span>
             </div>
           </div>
@@ -326,11 +325,11 @@ export default function LinkHubClient({
             className="w-full space-y-2.5 pt-1"
           >
             <div className="flex items-center justify-between px-1">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-2">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-600 flex items-center gap-2">
                 <Calendar className="w-3.5 h-3.5 text-[#FF5500]" />
                 <span>Rencontres &amp; Marchés</span>
               </span>
-              <span className="text-[10px] font-mono text-zinc-500 flex items-center gap-1">
+              <span className="text-[10px] font-mono text-neutral-500 flex items-center gap-1">
                 <MapPin className="w-3 h-3 text-[#FF5500]" />
                 <span>Atelier physique</span>
               </span>
@@ -340,32 +339,32 @@ export default function LinkHubClient({
               {publishedEvents.map((ev) => (
                 <div
                   key={ev.id}
-                  className="group relative p-4 sm:p-5 rounded-2xl bg-zinc-900/90 border border-zinc-800 hover:border-zinc-700 transition-all shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5 ring-1 ring-inset ring-white/5"
+                  className="group relative p-4 sm:p-5 rounded-2xl bg-white border border-neutral-200/90 hover:border-neutral-300 transition-all shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3.5"
                 >
                   <div className="space-y-1.5 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#FF5500]/15 text-[#FF5500] border border-[#FF5500]/30">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#FF5500]/10 text-[#FF5500] border border-[#FF5500]/25">
                         {cleanEmoji(ev.date)}
                       </span>
                       {ev.badge && (
-                        <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-300 border border-zinc-700">
+                        <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-md bg-neutral-100 text-neutral-700 border border-neutral-200">
                           {cleanEmoji(ev.badge)}
                         </span>
                       )}
                     </div>
 
                     <div>
-                      <h3 className="text-sm sm:text-base font-bold text-white font-be-vietnam group-hover:text-[#FF5500] transition-colors leading-snug">
+                      <h3 className="text-sm sm:text-base font-bold text-neutral-950 font-be-vietnam group-hover:text-[#FF5500] transition-colors leading-snug">
                         {cleanEmoji(ev.title)}
                       </h3>
-                      <p className="text-xs font-medium text-zinc-400 flex items-center gap-1.5 mt-0.5">
+                      <p className="text-xs font-medium text-neutral-600 flex items-center gap-1.5 mt-0.5">
                         <MapPin className="w-3.5 h-3.5 text-[#FF5500] shrink-0" />
                         <span>{cleanEmoji(ev.location)}</span>
                       </p>
                     </div>
 
                     {ev.description && (
-                      <p className="text-xs text-zinc-400 leading-relaxed max-w-md pt-0.5">
+                      <p className="text-xs text-neutral-500 leading-relaxed max-w-md pt-0.5">
                         {cleanEmoji(ev.description)}
                       </p>
                     )}
@@ -376,7 +375,7 @@ export default function LinkHubClient({
                       href={ev.linkUrl}
                       target={ev.linkUrl.startsWith("http") ? "_blank" : undefined}
                       rel={ev.linkUrl.startsWith("http") ? "noopener noreferrer" : undefined}
-                      className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-white bg-zinc-800 hover:bg-[#FF5500] px-3.5 py-2 rounded-xl transition-all shadow-sm active:scale-95 shrink-0"
+                      className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-neutral-800 bg-neutral-100 hover:bg-[#FF5500] hover:text-white px-3.5 py-2 rounded-xl transition-all shadow-xs active:scale-95 shrink-0"
                     >
                       <span>{cleanEmoji(ev.linkLabel) || "Voir les infos"}</span>
                       <ArrowUpRight className="w-3.5 h-3.5" />
@@ -389,16 +388,16 @@ export default function LinkHubClient({
         )}
 
         {/* =========================================================================
-            GRILLE BENTO DES LIENS (ATELIER EDITION)
+            GRILLE BENTO DES LIENS (THÈME CLAIR ATELIER)
            ========================================================================= */}
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
           {publishedLinks.map((link, idx) => {
             const titleClean = cleanEmoji(link.title);
             const subtitleClean = cleanEmoji(link.subtitle);
             const isHeroBoutique = isBoutiqueHero(link);
             const isHeroClicker = isClickerHero(link);
 
-            // 1. CARTE HERO : LA BOUTIQUE OFFICIELLE SPOOLIO (Pleine largeur avec liseré orange)
+            // 1. CARTE HERO : LA BOUTIQUE OFFICIELLE SPOOLIO (Pleine largeur avec liseré orange Spoolio)
             if (isHeroBoutique) {
               return (
                 <motion.a
@@ -412,28 +411,28 @@ export default function LinkHubClient({
                   transition={{ duration: 0.35, delay: 0.04 * (idx + 1) }}
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.99 }}
-                  className="sm:col-span-2 group relative p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-zinc-900 via-zinc-900 to-zinc-950 border border-zinc-800 hover:border-[#FF5500]/70 transition-all duration-200 shadow-lg hover:shadow-[0_8px_30px_rgba(255,85,0,0.15)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ring-1 ring-inset ring-white/5 cursor-pointer border-l-4 border-l-[#FF5500]"
+                  className="sm:col-span-2 group relative p-5 sm:p-6 rounded-2xl bg-white border border-neutral-200/90 hover:border-[#FF5500]/60 transition-all duration-200 shadow-[0_4px_18px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_28px_rgba(255,85,0,0.12)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 cursor-pointer border-l-4 border-l-[#FF5500]"
                 >
                   <div className="flex items-start sm:items-center gap-4 relative z-10 flex-1">
-                    <div className="w-12 h-12 rounded-xl bg-[#FF5500] text-white flex items-center justify-center shrink-0 shadow-[0_4px_16px_rgba(255,85,0,0.35)]">
+                    <div className="w-12 h-12 rounded-xl bg-[#FF5500] text-white flex items-center justify-center shrink-0 shadow-[0_4px_14px_rgba(255,85,0,0.25)]">
                       <ShoppingBag className="w-6 h-6" />
                     </div>
 
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#FF5500]/15 text-[#FF5500] border border-[#FF5500]/30">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#FF5500]/10 text-[#FF5500] border border-[#FF5500]/25">
                           {cleanEmoji(link.badge) || "CATALOGUE OFFICIEL"}
                         </span>
-                        <span className="text-[10px] font-mono text-zinc-400">
+                        <span className="text-[10px] font-mono text-neutral-500">
                           Expédition 24/48h
                         </span>
                       </div>
 
-                      <h2 className="text-lg sm:text-xl font-bold text-white font-be-vietnam group-hover:text-[#FF5500] transition-colors">
+                      <h2 className="text-lg sm:text-xl font-bold text-neutral-950 font-be-vietnam group-hover:text-[#FF5500] transition-colors">
                         {titleClean}
                       </h2>
                       {subtitleClean && (
-                        <p className="text-xs text-zinc-300 font-sans leading-snug">
+                        <p className="text-xs text-neutral-600 font-sans leading-snug">
                           {subtitleClean}
                         </p>
                       )}
@@ -441,7 +440,7 @@ export default function LinkHubClient({
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
-                    <span className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider bg-white text-zinc-950 px-4 py-2.5 rounded-xl group-hover:bg-[#FF5500] group-hover:text-white transition-all shadow-md">
+                    <span className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider bg-neutral-950 text-white px-4 py-2.5 rounded-xl group-hover:bg-[#FF5500] transition-all shadow-sm">
                       <span>Explorer</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </span>
@@ -464,28 +463,28 @@ export default function LinkHubClient({
                   transition={{ duration: 0.35, delay: 0.04 * (idx + 1) }}
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.99 }}
-                  className="sm:col-span-2 group relative p-5 sm:p-6 rounded-2xl bg-zinc-900/90 hover:bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition-all duration-200 shadow-md hover:shadow-[0_8px_30px_rgba(0,0,0,0.4)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ring-1 ring-inset ring-white/5 cursor-pointer"
+                  className="sm:col-span-2 group relative p-5 sm:p-6 rounded-2xl bg-white hover:bg-neutral-50/60 border border-neutral-200/90 hover:border-neutral-300 transition-all duration-200 shadow-[0_2px_12px_rgba(0,0,0,0.03)] hover:shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 cursor-pointer"
                 >
                   <div className="flex items-start sm:items-center gap-4 relative z-10 flex-1">
-                    <div className="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 text-[#FF5500] flex items-center justify-center shrink-0 shadow-inner group-hover:border-[#FF5500]/50 transition-colors">
+                    <div className="w-12 h-12 rounded-xl bg-neutral-100 border border-neutral-200 text-[#FF5500] flex items-center justify-center shrink-0 shadow-inner group-hover:border-[#FF5500]/40 transition-colors">
                       <Keyboard className="w-6 h-6" strokeWidth={1.8} />
                     </div>
 
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#FF5500]/15 text-[#FF5500] border border-[#FF5500]/30">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-[#FF5500]/10 text-[#FF5500] border border-[#FF5500]/25">
                           {cleanEmoji(link.badge) || "CONFIGURATEUR 3D"}
                         </span>
-                        <span className="text-[10px] font-mono text-zinc-400">
+                        <span className="text-[10px] font-mono text-neutral-500">
                           1 à 9 touches mécaniques
                         </span>
                       </div>
 
-                      <h2 className="text-base sm:text-lg font-bold text-white font-be-vietnam group-hover:text-[#FF5500] transition-colors">
+                      <h2 className="text-base sm:text-lg font-bold text-neutral-950 font-be-vietnam group-hover:text-[#FF5500] transition-colors">
                         {titleClean}
                       </h2>
                       {subtitleClean && (
-                        <p className="text-xs text-zinc-300 font-sans leading-snug">
+                        <p className="text-xs text-neutral-600 font-sans leading-snug">
                           {subtitleClean}
                         </p>
                       )}
@@ -493,7 +492,7 @@ export default function LinkHubClient({
                   </div>
 
                   <div className="flex items-center gap-3 shrink-0 self-end sm:self-center">
-                    <span className="text-xs font-mono font-bold text-zinc-300 bg-zinc-950 border border-zinc-800 px-3 py-1.5 rounded-lg">
+                    <span className="text-xs font-mono font-bold text-neutral-700 bg-neutral-100 border border-neutral-200 px-3 py-1.5 rounded-lg">
                       Dès 3.00€
                     </span>
                     <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase text-[#FF5500] group-hover:translate-x-1 transition-transform">
@@ -518,38 +517,38 @@ export default function LinkHubClient({
                 transition={{ duration: 0.35, delay: 0.04 * (idx + 1) }}
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.99 }}
-                className="group relative p-4 sm:p-5 rounded-2xl bg-zinc-900/90 hover:bg-zinc-900 border border-zinc-800 hover:border-zinc-700 transition-all duration-200 shadow-sm hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)] flex flex-col justify-between gap-4 ring-1 ring-inset ring-white/5 cursor-pointer"
+                className="group relative p-4 sm:p-5 rounded-2xl bg-white hover:bg-neutral-50/60 border border-neutral-200/90 hover:border-neutral-300 transition-all duration-200 shadow-[0_2px_10px_rgba(0,0,0,0.03)] hover:shadow-md flex flex-col justify-between gap-4 cursor-pointer"
               >
                 <div className="space-y-3 relative z-10">
                   <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-xl bg-zinc-950 border border-zinc-800 text-zinc-300 group-hover:text-[#FF5500] group-hover:border-[#FF5500]/40 transition-colors flex items-center justify-center shadow-inner">
+                    <div className="w-10 h-10 rounded-xl bg-neutral-100/90 border border-neutral-200/90 text-neutral-700 group-hover:text-[#FF5500] group-hover:border-[#FF5500]/40 transition-colors flex items-center justify-center shadow-xs">
                       {renderLinkIcon(link.icon, link.id, "w-5 h-5")}
                     </div>
 
                     {link.badge && (
-                      <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-300 border border-zinc-700">
+                      <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-neutral-100 text-neutral-700 border border-neutral-200">
                         {cleanEmoji(link.badge)}
                       </span>
                     )}
                   </div>
 
                   <div>
-                    <h3 className="text-sm sm:text-base font-bold text-white font-be-vietnam group-hover:text-[#FF5500] transition-colors leading-snug">
+                    <h3 className="text-sm sm:text-base font-bold text-neutral-950 font-be-vietnam group-hover:text-[#FF5500] transition-colors leading-snug">
                       {titleClean}
                     </h3>
                     {subtitleClean && (
-                      <p className="text-xs text-zinc-400 font-sans leading-snug mt-1">
+                      <p className="text-xs text-neutral-600 font-sans leading-snug mt-1">
                         {subtitleClean}
                       </p>
                     )}
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-2 border-t border-zinc-800/80 relative z-10">
-                  <span className="text-[11px] font-mono text-zinc-400 group-hover:text-white transition-colors">
+                <div className="flex items-center justify-between pt-2 border-t border-neutral-100 relative z-10">
+                  <span className="text-[11px] font-mono text-neutral-500 group-hover:text-neutral-950 font-medium transition-colors">
                     Accéder
                   </span>
-                  <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-[#FF5500] group-hover:translate-x-0.5 transition-all" />
+                  <ArrowUpRight className="w-4 h-4 text-neutral-400 group-hover:text-[#FF5500] group-hover:translate-x-0.5 transition-all" />
                 </div>
               </motion.a>
             );
@@ -557,16 +556,16 @@ export default function LinkHubClient({
         </div>
 
         {/* =========================================================================
-            RÉSEAUX SOCIAUX OFFICIELS (PILLS MINIMALISTES ATELIER)
+            RÉSEAUX SOCIAUX OFFICIELS (PILLS CLAIRES ATELIER)
            ========================================================================= */}
         {profile.socials && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="pt-6 w-full border-t border-zinc-800/80 flex flex-col items-center gap-3"
+            className="pt-6 w-full border-t border-neutral-200/90 flex flex-col items-center gap-3"
           >
-            <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-zinc-400">
+            <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-neutral-500 font-semibold">
               Réseaux officiels de l'atelier
             </span>
 
@@ -576,7 +575,7 @@ export default function LinkHubClient({
                   href={profile.socials.tiktok}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3.5 py-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-850 text-zinc-300 hover:text-white flex items-center gap-2 transition-all hover:scale-105 shadow-xs"
+                  className="px-3.5 py-2 rounded-xl bg-white border border-neutral-200/90 hover:border-neutral-300 hover:bg-neutral-50 text-neutral-700 hover:text-neutral-950 flex items-center gap-2 transition-all hover:scale-105 shadow-xs"
                   title="TikTok Spoolio"
                 >
                   <TikTokIcon className="w-3.5 h-3.5" />
@@ -589,7 +588,7 @@ export default function LinkHubClient({
                   href={profile.socials.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3.5 py-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-850 text-zinc-300 hover:text-white flex items-center gap-2 transition-all hover:scale-105 shadow-xs"
+                  className="px-3.5 py-2 rounded-xl bg-white border border-neutral-200/90 hover:border-neutral-300 hover:bg-neutral-50 text-neutral-700 hover:text-neutral-950 flex items-center gap-2 transition-all hover:scale-105 shadow-xs"
                   title="Instagram Spoolio"
                 >
                   <InstagramIcon className="w-3.5 h-3.5" />
@@ -602,7 +601,7 @@ export default function LinkHubClient({
                   href={profile.socials.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3.5 py-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-850 text-zinc-300 hover:text-white flex items-center gap-2 transition-all hover:scale-105 shadow-xs"
+                  className="px-3.5 py-2 rounded-xl bg-white border border-neutral-200/90 hover:border-neutral-300 hover:bg-neutral-50 text-neutral-700 hover:text-neutral-950 flex items-center gap-2 transition-all hover:scale-105 shadow-xs"
                   title="Facebook Spoolio"
                 >
                   <FacebookIcon className="w-3.5 h-3.5" />
@@ -615,7 +614,7 @@ export default function LinkHubClient({
                   href={profile.socials.youtube}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3.5 py-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-850 text-zinc-300 hover:text-white flex items-center gap-2 transition-all hover:scale-105 shadow-xs"
+                  className="px-3.5 py-2 rounded-xl bg-white border border-neutral-200/90 hover:border-neutral-300 hover:bg-neutral-50 text-neutral-700 hover:text-neutral-950 flex items-center gap-2 transition-all hover:scale-105 shadow-xs"
                   title="YouTube Spoolio"
                 >
                   <YouTubeIcon className="w-3.5 h-3.5" />
@@ -626,7 +625,7 @@ export default function LinkHubClient({
               {profile.socials.email && (
                 <a
                   href={`mailto:${profile.socials.email}`}
-                  className="px-3.5 py-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-850 text-zinc-300 hover:text-white flex items-center gap-2 transition-all hover:scale-105 shadow-xs"
+                  className="px-3.5 py-2 rounded-xl bg-white border border-neutral-200/90 hover:border-neutral-300 hover:bg-neutral-50 text-neutral-700 hover:text-neutral-950 flex items-center gap-2 transition-all hover:scale-105 shadow-xs"
                   title="Email Spoolio"
                 >
                   <Mail className="w-3.5 h-3.5" />
@@ -640,17 +639,17 @@ export default function LinkHubClient({
         {/* =========================================================================
             FOOTER ATELIER
            ========================================================================= */}
-        <div className="text-center pt-3 space-y-1.5 border-t border-zinc-800/80 w-full">
+        <div className="text-center pt-3 space-y-1.5 border-t border-neutral-200/90 w-full">
           <Link
             href="/"
-            className="text-xs font-mono font-bold text-zinc-400 hover:text-white transition-colors inline-flex items-center justify-center gap-2"
+            className="text-xs font-mono font-bold text-neutral-600 hover:text-neutral-950 transition-colors inline-flex items-center justify-center gap-2"
           >
             <span>Spoolio.fr</span>
             <span className="w-1 h-1 rounded-full bg-[#FF5500]" />
             <span>Atelier d'impression 3D &amp; Objets sensoriels</span>
           </Link>
-          <p className="text-[11px] text-zinc-400 font-mono flex items-center justify-center gap-1.5">
-            <Leaf className="w-3 h-3 text-emerald-400 shrink-0" />
+          <p className="text-[11px] text-neutral-500 font-mono flex items-center justify-center gap-1.5">
+            <Leaf className="w-3 h-3 text-emerald-600 shrink-0" />
             <span>Comines (59) • 100% Polymère végétal biosourcé • Zéro surstock</span>
           </p>
         </div>

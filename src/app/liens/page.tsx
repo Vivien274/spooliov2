@@ -4,6 +4,8 @@ import fs from "fs";
 import path from "path";
 import { getPageSeoMetadata } from "@/lib/seoPages";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata(): Promise<Metadata> {
   return getPageSeoMetadata("liens");
 }
