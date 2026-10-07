@@ -11,7 +11,12 @@
       "facebook": "https://www.facebook.com/spoolio.fr",
       "youtube": "",
       "email": "contact@spoolio.fr"
-    }
+    },
+    "instagramPhotos": [
+      "/images/clicker_gallery_0.jpg",
+      "/images/marcel_octopus.jpg",
+      "/images/alien_capsule.jpg"
+    ]
   },
   "links": [
     {
