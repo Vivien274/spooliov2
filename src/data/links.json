@@ -1,12 +1,12 @@
 {
   "profile": {
     "title": "Spoolio.fr",
-    "subtitle": "Impression 3D & Objets Fidgets Sensoriels TDAH",
+    "subtitle": "",
     "avatar": "/images/spoolio-avatar.png",
     "verifiedBadge": true,
     "theme": "spoolio-dark",
     "socials": {
-      "tiktok": "https://www.tiktok.com/@spoolio.fr",
+      "tiktok": "",
       "instagram": "https://www.instagram.com/spoolio.fr",
       "facebook": "https://www.facebook.com/spoolio.fr",
       "youtube": "",
@@ -70,7 +70,7 @@
       "icon": "ticket",
       "badge": "JEU CONCOURS",
       "style": "highlight",
-      "isPublished": true,
+      "isPublished": false,
       "order": 5,
       "clicks": 76
     },
@@ -93,7 +93,7 @@
       "url": "https://www.spoolio.fr/#avis",
       "icon": "star",
       "badge": "99% SATISFAIT",
-      "style": "normal",
+      "style": "pulse",
       "isPublished": true,
       "order": 6,
       "clicks": 41
@@ -109,8 +109,20 @@
       "linkUrl": "https://www.spoolio.fr/",
       "linkLabel": "En savoir plus",
       "badge": "STAND",
-      "isPublished": true,
+      "isPublished": false,
       "order": 1
+    },
+    {
+      "id": "event-1791366317026",
+      "title": "Braderie Spoolio",
+      "date": "Samedi 24 Octobre",
+      "location": "A l'atelier - Comines FR",
+      "description": "On liquide le stock ! On a pas mal de pièces uniques, sympa mais non vendues à vous proposer. Plutôt que ça prenne la poussière, on met des petits prix, et on fait plaisir !",
+      "linkUrl": "",
+      "linkLabel": "En savoir plus",
+      "badge": "CAFÉ OFFERT",
+      "isPublished": true,
+      "order": 2
     }
   ]
 }

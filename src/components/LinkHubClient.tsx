@@ -232,6 +232,7 @@ export default function LinkHubClient({
       <main className="w-full max-w-xl mx-auto space-y-6 pt-3 pb-12 z-10 flex flex-col items-center">
         
         {/* Bandeau d'en-tête discret avec retour vers le site principal */}
+        {/* Barre technique supérieure */}
         <div className="w-full flex items-center justify-between pb-3 border-b border-neutral-200/90 text-[11px] font-mono text-neutral-500">
           <Link
             href="/"
@@ -240,10 +241,6 @@ export default function LinkHubClient({
             <ArrowLeft className="w-3.5 h-3.5 text-[#FF5500] group-hover:-translate-x-0.5 transition-transform" />
             <span>spoolio.fr</span>
           </Link>
-          <div className="flex items-center gap-1.5 text-neutral-500 font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Atelier en direct</span>
-          </div>
         </div>
 
         {/* =========================================================================
@@ -296,10 +293,6 @@ export default function LinkHubClient({
               )}
             </div>
 
-            <p className="text-xs sm:text-sm text-neutral-600 font-sans leading-relaxed max-w-md">
-              {cleanEmoji(profile.subtitle) || "Objets sensoriels, fidgets tactiles et créations façonnées à la demande en polymère végétal biosourcé."}
-            </p>
-
             {/* Badges de réassurance atelier */}
             <div className="pt-1 flex items-center justify-center sm:justify-start gap-2 flex-wrap">
               <span className="text-[10px] font-mono text-neutral-700 bg-white border border-neutral-200/90 px-2.5 py-1 rounded-lg flex items-center gap-1.5 shadow-xs">
@@ -328,10 +321,6 @@ export default function LinkHubClient({
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-600 flex items-center gap-2">
                 <Calendar className="w-3.5 h-3.5 text-[#FF5500]" />
                 <span>Rencontres &amp; Marchés</span>
-              </span>
-              <span className="text-[10px] font-mono text-neutral-500 flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-[#FF5500]" />
-                <span>Atelier physique</span>
               </span>
             </div>
 
