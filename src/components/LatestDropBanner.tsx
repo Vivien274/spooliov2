@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Sparkles, Calendar, Clock, Lock, ArrowRight, EyeOff } from "lucide-react";
+import { Sparkles, Calendar, Clock, Lock, ArrowRight, EyeOff, Bell, Mail, CheckCircle2 } from "lucide-react";
 import DropCountdown from "@/components/drops/DropCountdown";
 import { Drop } from "@/lib/drops";
 
@@ -14,6 +14,8 @@ interface LatestDropBannerProps {
 export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
   const [mounted, setMounted] = useState(false);
   const [isLive, setIsLive] = useState(false);
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -168,8 +170,8 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
               <DropCountdown targetDate={drop.startDate} theme={dTheme} />
             </div>
 
-            {/* Statut d'accès : verrouillé sans clic avant la date */}
-            <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-4">
+            {/* Statut d'accès : Live ou Inscription Mailchimp pour être notifié */}
+            <div className="pt-2">
               {isLive ? (
                 // Une fois la date atteinte : CTA actif cliquable
                 <Link
@@ -185,39 +187,99 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
                   <ArrowRight className="w-4 h-4" style={{ color: "#ffffff" }} />
                 </Link>
               ) : (
-                // Avant la date : AUCUN CLIC possible, bouton teaser verrouillé avec texte parfaitement lisible
-                <div className="flex flex-col sm:flex-row sm:items-center gap-3.5">
-                  <div
-                    className="inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-2xl border shadow-xl backdrop-blur-md select-none cursor-not-allowed transition-all"
-                    style={{
-                      backgroundColor: "rgba(255, 255, 255, 0.14)",
-                      borderColor: "rgba(255, 255, 255, 0.28)",
-                    }}
-                    title={`Disponible le ${formattedDate}`}
-                  >
-                    <div
-                      className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
-                      style={{ backgroundColor: "rgba(251, 191, 36, 0.25)" }}
-                    >
-                      <Lock className="w-3.5 h-3.5" style={{ color: "#fde047" }} />
-                    </div>
-                    <span
-                      className="font-mono text-xs sm:text-sm font-black uppercase tracking-wider"
-                      style={{ color: "#ffffff" }}
-                    >
-                      Ouverture le {formattedDate}
-                    </span>
+                // Avant la date : Inscription Mailchimp pour être prévenu(e) à l'ouverture du drop
+                <div className="space-y-3 max-w-xl">
+                  <div className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-amber-300">
+                    <Bell className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+                    <span>Être prévenu(e) à l'ouverture :</span>
                   </div>
 
-                  <span
-                    className="text-xs font-mono flex items-center gap-1.5"
-                    style={{ color: "#d4d4d8" }}
-                  >
-                    <EyeOff className="w-3.5 h-3.5 shrink-0" style={{ color: "#a1a1aa" }} />
-                    <span style={{ color: "#d4d4d8" }}>
-                      Fiche et pièces révélées à l'heure du lancement
-                    </span>
-                  </span>
+                  {submitted ? (
+                    <div
+                      className="p-3.5 sm:p-4 rounded-2xl border flex items-center justify-between gap-3 backdrop-blur-md animate-fade-in"
+                      style={{
+                        backgroundColor: "rgba(16, 185, 129, 0.15)",
+                        borderColor: "rgba(16, 185, 129, 0.4)",
+                      }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+                        <div>
+                          <p className="font-bold text-xs sm:text-sm text-white">
+                            Tu es sur la liste d'attente !
+                          </p>
+                          <p className="text-[11px] text-emerald-200">
+                            Vérifie ta boîte mail pour valider ton inscription.
+                          </p>
+                        </div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSubmitted(false);
+                          setEmail("");
+                        }}
+                        className="text-[10px] text-zinc-400 hover:text-white underline cursor-pointer shrink-0"
+                      >
+                        Autre email
+                      </button>
+                    </div>
+                  ) : (
+                    <form
+                      action="https://spoolio.us15.list-manage.com/subscribe/post?u=ac0c921fbe515914135ceab3c&amp;id=bcabd4b111&amp;f_id=001a85e0f0"
+                      method="post"
+                      target="_blank"
+                      onSubmit={() => setSubmitted(true)}
+                      className="flex flex-col sm:flex-row items-stretch gap-2.5"
+                    >
+                      {/* Champ anti-bot Mailchimp */}
+                      <div aria-hidden="true" style={{ position: "absolute", left: "-5000px" }}>
+                        <input
+                          type="text"
+                          name="b_ac0c921fbe515914135ceab3c_bcabd4b111"
+                          tabIndex={-1}
+                          defaultValue=""
+                        />
+                      </div>
+                      <input type="hidden" name="tags" value="info-drop" />
+
+                      <div className="relative flex-grow">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-zinc-400">
+                          <Mail className="w-4 h-4" />
+                        </div>
+                        <input
+                          type="email"
+                          name="EMAIL"
+                          required
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="ton.email@exemple.com"
+                          className="w-full pl-10 pr-3.5 py-3 rounded-xl sm:rounded-2xl border text-xs sm:text-sm font-sans placeholder:text-zinc-400 text-white outline-none transition-all duration-200 focus:ring-2 focus:ring-amber-400/50"
+                          style={{
+                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                            borderColor: "rgba(255, 255, 255, 0.22)",
+                          }}
+                        />
+                      </div>
+
+                      <button
+                        type="submit"
+                        className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer shrink-0 text-white"
+                        style={{
+                          backgroundColor: dAccent,
+                          boxShadow: `0 8px 24px -4px ${dAccent}60`,
+                        }}
+                      >
+                        <span>M'avertir du drop</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                    </form>
+                  )}
+
+                  <div className="flex items-center gap-1.5 text-[11px] font-mono text-zinc-400">
+                    <EyeOff className="w-3.5 h-3.5 shrink-0 text-zinc-500" />
+                    <span>Fiche et pièces révélées à l'heure du lancement • 0 spam garanti</span>
+                  </div>
                 </div>
               )}
             </div>
