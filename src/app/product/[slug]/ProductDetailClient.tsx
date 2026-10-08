@@ -18,6 +18,7 @@ interface ProductDetailClientProps {
   isDraftPreview?: boolean;
   initialProduct?: Product | null;
   initialRelatedProducts?: Product[];
+  initialReviews?: any[];
 }
 
 import {
@@ -35,6 +36,7 @@ export default function ProductDetailClient({
   isDraftPreview = false,
   initialProduct = null,
   initialRelatedProducts = [],
+  initialReviews = [],
 }: ProductDetailClientProps) {
   const { locale, t } = useTranslation();
   const { addToCart } = useCart();
@@ -223,8 +225,8 @@ export default function ProductDetailClient({
   };
 
   // Reviews states
-  const [reviews, setReviews] = useState<any[]>([]);
-  const [loadingReviews, setLoadingReviews] = useState<boolean>(true);
+  const [reviews, setReviews] = useState<any[]>(initialReviews);
+  const [loadingReviews, setLoadingReviews] = useState<boolean>(false);
   const [reviewName, setReviewName] = useState<string>("");
   const [reviewEmail, setReviewEmail] = useState<string>("");
   const [reviewRating, setReviewRating] = useState<number>(5);
@@ -1410,14 +1412,14 @@ export default function ProductDetailClient({
                     return (
                       <div key={name} className="relative flex flex-col gap-2 w-full">
                         <div className="flex items-center justify-between">
-                          <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
+                          <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 font-sans">
                             {decodedName}
                           </label>
                           {showPaletteLink && (
                             <Link 
                               href="/palette-couleurs" 
                               target="_blank" 
-                              className="text-[10px] text-[#ff4f00] hover:text-[#ff4f00]/80 underline font-semibold transition-colors flex items-center gap-1 font-sans"
+                              className="text-[11px] text-[#ff4f00] hover:text-[#ff4f00]/80 underline font-semibold transition-colors flex items-center gap-1 font-sans"
                             >
                               🎨 Palette de couleurs
                             </Link>
@@ -1428,22 +1430,22 @@ export default function ProductDetailClient({
                           <button
                             onClick={() => setActiveDropdown(activeDropdown === name ? null : name)}
                             type="button"
-                            className={`w-full h-12 px-4 rounded-xl bg-spoolio-card border transition-all cursor-pointer text-left flex items-center justify-between focus:outline-none select-none ${
-                              activeDropdown === name ? "border-[#ff4f00] ring-1 ring-[#ff4f00]/25" : "border-spoolio-border/60 hover:border-white/30"
+                            className={`w-full h-12 px-4 rounded-xl bg-white border transition-all cursor-pointer text-left flex items-center justify-between focus:outline-none select-none ${
+                              activeDropdown === name ? "border-[#ff4f00] ring-2 ring-[#ff4f00]/20 shadow-sm" : "border-zinc-200 hover:border-zinc-300"
                             }`}
                           >
-                            <div className="flex items-center gap-3">
-                              {/* Micro-bobine de la couleur sélectionnée */}
+                            <div className="flex items-center gap-3 min-w-0">
+                              {/* Pastille de la couleur sélectionnée (+30% plus grande, sans point noir) */}
                               <div 
                                 style={{ background: getCssColor(selectedVal) }} 
-                                className="w-6 h-6 rounded-full border border-white/20 relative shrink-0 shadow-md"
-                              >
-                                <div className="absolute inset-[30%] rounded-full bg-[#111113] border border-black/35 pointer-events-none" />
-                              </div>
-                              <span className="text-sm font-semibold text-white truncate max-w-[220px] md:max-w-xs">{selectedVal || "Choisir une couleur..."}</span>
+                                className="w-8 h-8 rounded-full border border-black/15 relative shrink-0 shadow-xs ring-1 ring-black/5"
+                              />
+                              <span className={`text-sm font-bold truncate max-w-[220px] md:max-w-xs ${selectedVal ? "text-zinc-900" : "text-zinc-400 font-normal"}`}>
+                                {selectedVal || "Choisir une couleur..."}
+                              </span>
                             </div>
                             <svg 
-                              className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${activeDropdown === name ? "rotate-180 text-white" : ""}`} 
+                              className={`w-4 h-4 text-zinc-400 transition-transform duration-300 ${activeDropdown === name ? "rotate-180 text-zinc-900" : ""}`} 
                               fill="none" 
                               viewBox="0 0 24 24" 
                               stroke="currentColor"
@@ -1458,7 +1460,7 @@ export default function ProductDetailClient({
                               {/* Background overlay to catch click-away events */}
                               <div className="fixed inset-0 z-40" onClick={() => setActiveDropdown(null)} />
                               
-                              <div className="absolute left-0 right-0 mt-2 max-h-60 overflow-y-auto bg-spoolio-card/95 border border-spoolio-border/80 rounded-xl shadow-2xl z-50 backdrop-blur-md divide-y divide-spoolio-border/30 animate-none no-scrollbar">
+                              <div className="absolute left-0 right-0 mt-2 max-h-60 overflow-y-auto bg-white border border-zinc-200 rounded-xl shadow-2xl z-50 divide-y divide-zinc-100/90 no-scrollbar">
                                 {options.map((opt: string) => {
                                   const isOptionSelected = selectedVal === opt;
                                   const optionBg = getCssColor(opt);
@@ -1470,18 +1472,16 @@ export default function ProductDetailClient({
                                         setActiveDropdown(null);
                                       }}
                                       type="button"
-                                      className={`w-full px-4 py-3.5 flex items-center gap-3 transition-colors hover:bg-white/[0.04] cursor-pointer text-left ${
-                                        isOptionSelected ? "bg-white/[0.02]" : ""
+                                      className={`w-full px-4 py-3 flex items-center gap-3 transition-colors hover:bg-zinc-50 cursor-pointer text-left ${
+                                        isOptionSelected ? "bg-orange-50/50" : ""
                                       }`}
                                     >
-                                      {/* Micro-bobine de l'option */}
+                                      {/* Pastille de l'option (+30% plus grande, sans point noir) */}
                                       <div 
                                         style={{ background: optionBg }} 
-                                        className="w-5 h-5 rounded-full border border-white/10 relative shrink-0"
-                                      >
-                                        <div className="absolute inset-[30%] rounded-full bg-[#111113] pointer-events-none" />
-                                      </div>
-                                      <span className={`text-xs font-semibold flex-1 truncate ${isOptionSelected ? "text-[#ff4f00] font-black" : "text-gray-300"}`}>
+                                        className="w-7 h-7 rounded-full border border-black/15 relative shrink-0 shadow-2xs ring-1 ring-black/5"
+                                      />
+                                      <span className={`text-xs flex-1 truncate ${isOptionSelected ? "text-[#ff4f00] font-black" : "text-zinc-700 font-medium"}`}>
                                         {opt}
                                       </span>
                                       {isOptionSelected && (
@@ -2117,164 +2117,341 @@ export default function ProductDetailClient({
         </section>
 
         {/* Section Avis Clients */}
-        <section className="border-t border-spoolio-border pt-12 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Liste des avis (2/3 de l'espace) */}
-          <div className="lg:col-span-2 space-y-6">
-            <div>
-              <h2 className="text-xl font-bold text-zinc-900 mb-2 tracking-tight font-sans">
-                Avis Clients ({reviews.length})
-              </h2>
-              {reviews.length > 0 ? (
-                <div className="flex items-center gap-2 mt-1">
-                  <div className="flex text-[#ff4f00]">
-                    {Array.from({ length: 5 }).map((_, idx) => {
-                      const avg = reviews.reduce((acc, curr) => acc + curr.rating, 0) / reviews.length;
-                      return (
-                        <span key={idx} className="text-sm select-none">
-                          {idx < Math.round(avg) ? "★" : "☆"}
-                        </span>
-                      );
-                    })}
-                  </div>
-                  <span className="text-xs text-zinc-500 font-semibold">
-                    {(reviews.reduce((acc, curr) => acc + curr.rating, 0) / reviews.length).toFixed(1)} sur 5 étoiles
-                  </span>
-                </div>
-              ) : null}
-            </div>
+        {reviews.length === 0 && !loadingReviews ? (
+          <section className="border-t border-zinc-200/80 pt-10 mt-12 space-y-6 font-sans">
+            {/* Rappel Avis Google (Style Réassurance Home Page) */}
+            <div className="reviews-gradient-container relative rounded-3xl bg-gradient-to-tr from-[#ff3c00] via-[#ff6200] to-[#e60067] p-6 sm:p-7 text-white shadow-xl shadow-[#ff4f00]/10 border border-white/10 overflow-hidden">
+              {/* Soft grid background overlay */}
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
 
-            {loadingReviews ? (
-              <div className="text-xs text-gray-500 font-medium py-6 animate-pulse">
-                Chargement des avis...
+              <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
+                <div className="space-y-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-extrabold font-outfit tracking-tight text-white no-invert">
+                      Nos clients adorent l&apos;atelier Spoolio ⭐
+                    </h3>
+                    <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-white/80 px-2.5 py-0.5 rounded-full bg-white/15 border border-white/20 no-invert">
+                      Avis Vérifiés
+                    </span>
+                    <span className="inline-block text-[10px] font-bold tracking-wider text-white px-2 py-0.5 rounded-full bg-black/25 border border-white/15 no-invert">
+                      4.9 / 5 sur Google
+                    </span>
+                  </div>
+                  <p className="text-xs text-white/90 max-w-xl font-medium leading-relaxed no-invert">
+                    Pas encore d&apos;avis direct sur ce modèle, mais la qualité de fabrication de notre atelier et nos finitions d&apos;impression 3D sont plébiscitées par notre communauté.
+                  </p>
+                </div>
+
+                <a
+                  href="https://g.page/r/CZEMl8MXwp-kEBM/review"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="google-review-btn inline-flex items-center justify-center gap-2 text-xs font-extrabold px-4 py-2.5 rounded-full bg-zinc-950 text-white hover:bg-white hover:text-zinc-950 border border-white/30 hover:border-white transition-all duration-300 shadow-md shrink-0 cursor-pointer no-invert"
+                >
+                  <span className="!bg-transparent text-inherit">Déposer un avis Google ✍️</span>
+                </a>
               </div>
-            ) : reviews.length === 0 ? (
-              <div className="p-8 rounded-2xl bg-spoolio-card border border-spoolio-border text-center text-xs text-gray-500 leading-relaxed">
-                Aucun avis n'a été publié pour ce produit. Soyez le premier à donner votre avis !
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {reviews.map((rev) => (
-                  <div key={rev.id} className="p-5 rounded-2xl bg-spoolio-card border border-spoolio-border space-y-3">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <span className="block text-xs font-bold text-zinc-900">{rev.customerName}</span>
-                        <span className="block text-[10px] text-gray-500 mt-0.5">
-                          Publié le {new Date(rev.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
-                        </span>
-                      </div>
-                      <div className="flex text-[#ff4f00]">
-                        {Array.from({ length: 5 }).map((_, idx) => (
-                          <span key={idx} className="text-xs select-none">
-                            {idx < rev.rating ? "★" : "☆"}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    <p className="text-xs text-zinc-700 leading-relaxed whitespace-pre-line">
-                      {rev.comment}
+
+              {/* Mini-cartes témoignages Google */}
+              <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {[
+                  {
+                    name: "Camille R.",
+                    comment: "La boîte magique est incroyable ! Reçue rapidement avec un mot sympa. La finition de l'impression 3D est vraiment au top.",
+                  },
+                  {
+                    name: "Romain M.",
+                    comment: "Super produits et créateur très à l'écoute avec beaucoup de bienveillance. Objets 3D robustes et parfaits au quotidien.",
+                  },
+                  {
+                    name: "Justine D.",
+                    comment: "J'adore ! Le site regorge d'idées originales. Mon fils est fan de ses créations articulées. Coup de cœur garanti !",
+                  },
+                ].map((rev, idx) => (
+                  <div
+                    key={idx}
+                    className="bg-white/10 backdrop-blur-md border border-white/15 p-3.5 sm:p-4 rounded-2xl flex flex-col justify-between"
+                  >
+                    <p className="text-xs text-white/95 leading-relaxed font-medium italic mb-2.5 line-clamp-3 no-invert">
+                      &ldquo;{rev.comment}&rdquo;
                     </p>
+                    <div className="relative z-10 flex items-center justify-between pt-2 border-t border-white/15 text-[11px]">
+                      <span className="font-black text-white flex items-center gap-1 no-invert">
+                        {rev.name}
+                        <span className="text-[10px] text-white/80">✔️</span>
+                      </span>
+                      <span className="text-[#ffd166] drop-shadow-[0_0_6px_rgba(255,209,102,0.4)]">
+                        ★★★★★
+                      </span>
+                    </div>
                   </div>
                 ))}
               </div>
-            )}
-          </div>
-
-          {/* Formulaire de dépôt (1/3 de l'espace) */}
-          <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 h-fit space-y-5">
-            <div>
-              <h3 className="text-sm font-bold text-zinc-900 uppercase tracking-wider font-sans">
-                Déposer un avis
-              </h3>
-              <p className="text-[11px] text-gray-500 mt-1 leading-normal">
-                Votre avis doit être associé à l'adresse e-mail utilisée lors de votre commande pour être validé.
-              </p>
             </div>
 
-            <form onSubmit={handleSubmitReview} className="space-y-4 text-xs font-sans">
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
-                  Nom Complet
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={reviewName}
-                  onChange={(e) => setReviewName(e.target.value)}
-                  placeholder="Ex: Hélène Felchner"
-                  className="h-10 border rounded-xl px-3 outline-none transition-colors review-input"
-                />
+            {/* Formulaire de dépôt compact pleine largeur */}
+            <div className="bg-white border border-zinc-200/90 rounded-2xl p-5 sm:p-6 shadow-xs space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 pb-3 border-b border-zinc-100">
+                <div>
+                  <h3 className="text-sm font-bold text-zinc-900 tracking-tight font-sans">
+                    Vous possédez déjà cet objet ? Partagez votre avis
+                  </h3>
+                  <p className="text-[11px] text-zinc-500 mt-0.5">
+                    Votre avis sera associé à l&apos;adresse e-mail de votre commande pour être validé.
+                  </p>
+                </div>
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
-                  E-mail de votre commande
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={reviewEmail}
-                  onChange={(e) => setReviewEmail(e.target.value)}
-                  placeholder="Ex: client@exemple.com"
-                  className="h-10 border rounded-xl px-3 outline-none transition-colors review-input"
-                />
+              <form onSubmit={handleSubmitReview} className="space-y-3.5 text-xs font-sans">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-end">
+                  {/* Nom */}
+                  <div className="lg:col-span-4 flex flex-col gap-1">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">
+                      Nom Complet
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={reviewName}
+                      onChange={(e) => setReviewName(e.target.value)}
+                      placeholder="Ex: Hélène Felchner"
+                      className="h-10 border rounded-xl px-3 outline-none transition-colors review-input text-xs w-full"
+                    />
+                  </div>
+
+                  {/* Email */}
+                  <div className="lg:col-span-5 flex flex-col gap-1">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">
+                      E-mail de votre commande
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={reviewEmail}
+                      onChange={(e) => setReviewEmail(e.target.value)}
+                      placeholder="Ex: client@exemple.com"
+                      className="h-10 border rounded-xl px-3 outline-none transition-colors review-input text-xs w-full"
+                    />
+                  </div>
+
+                  {/* Note */}
+                  <div className="lg:col-span-3 flex flex-col gap-1">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">
+                      Note
+                    </label>
+                    <div className="h-10 flex items-center px-3 border border-zinc-200/80 rounded-xl bg-zinc-50/60 gap-1.5">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <button
+                          key={star}
+                          type="button"
+                          onClick={() => setReviewRating(star)}
+                          className={`text-base transition-colors cursor-pointer select-none ${
+                            star <= reviewRating ? "text-[#ff4f00]" : "text-zinc-300 hover:text-zinc-400"
+                          }`}
+                        >
+                          ★
+                        </button>
+                      ))}
+                      <span className="text-[10px] text-zinc-500 font-bold ml-auto">{reviewRating}/5</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Commentaire + Bouton submit */}
+                <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-end">
+                  <div className="flex-1 flex flex-col gap-1">
+                    <label className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">
+                      Votre commentaire
+                    </label>
+                    <textarea
+                      required
+                      rows={2}
+                      value={reviewComment}
+                      onChange={(e) => setReviewComment(e.target.value)}
+                      placeholder="Qu'avez-vous pensé de cet objet ? (qualité, finition, prise en main...)"
+                      className="border rounded-xl p-2.5 outline-none resize-none transition-colors leading-relaxed review-input text-xs w-full"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={submittingReview}
+                    className="sm:w-48 h-10 sm:h-[58px] shrink-0 flex items-center justify-center text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-md disabled:opacity-50 review-submit-btn"
+                  >
+                    {submittingReview ? "Envoi..." : "Envoyer mon avis"}
+                  </button>
+                </div>
+
+                {reviewSuccess && (
+                  <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 rounded-lg text-[11px] leading-normal">
+                    ✓ {reviewSuccess}
+                  </div>
+                )}
+
+                {reviewError && (
+                  <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-500 rounded-lg text-[11px] leading-normal">
+                    ⚠️ {reviewError}
+                  </div>
+                )}
+              </form>
+            </div>
+          </section>
+        ) : (
+          <section className="border-t border-spoolio-border pt-12 mt-12 grid grid-cols-1 lg:grid-cols-3 gap-12 font-sans">
+            {/* Liste des avis (2/3 de l'espace) */}
+            <div className="lg:col-span-2 space-y-6">
+              <div>
+                <h2 className="text-xl font-bold text-zinc-900 mb-2 tracking-tight font-sans">
+                  Avis Clients ({reviews.length})
+                </h2>
+                {reviews.length > 0 ? (
+                  <div className="flex items-center gap-2 mt-1">
+                    <div className="flex text-[#ff4f00]">
+                      {Array.from({ length: 5 }).map((_, idx) => {
+                        const avg = reviews.reduce((acc, curr) => acc + curr.rating, 0) / reviews.length;
+                        return (
+                          <span key={idx} className="text-sm select-none">
+                            {idx < Math.round(avg) ? "★" : "☆"}
+                          </span>
+                        );
+                      })}
+                    </div>
+                    <span className="text-xs text-zinc-500 font-semibold">
+                      {(reviews.reduce((acc, curr) => acc + curr.rating, 0) / reviews.length).toFixed(1)} sur 5 étoiles
+                    </span>
+                  </div>
+                ) : null}
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
-                  Note
-                </label>
-                <div className="flex gap-1.5">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star}
-                      type="button"
-                      onClick={() => setReviewRating(star)}
-                      className={`text-lg transition-colors cursor-pointer select-none ${
-                        star <= reviewRating ? "text-[#ff4f00]" : "text-gray-600 hover:text-gray-400"
-                      }`}
-                    >
-                      ★
-                    </button>
+              {loadingReviews ? (
+                <div className="text-xs text-gray-500 font-medium py-6 animate-pulse">
+                  Chargement des avis...
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {reviews.map((rev) => (
+                    <div key={rev.id} className="p-5 rounded-2xl bg-spoolio-card border border-spoolio-border space-y-3">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <span className="block text-xs font-bold text-zinc-900">{rev.customerName}</span>
+                          <span className="block text-[10px] text-gray-500 mt-0.5">
+                            Publié le {new Date(rev.createdAt).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+                          </span>
+                        </div>
+                        <div className="flex text-[#ff4f00]">
+                          {Array.from({ length: 5 }).map((_, idx) => (
+                            <span key={idx} className="text-xs select-none">
+                              {idx < rev.rating ? "★" : "☆"}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-xs text-zinc-700 leading-relaxed whitespace-pre-line">
+                        {rev.comment}
+                      </p>
+                    </div>
                   ))}
                 </div>
+              )}
+            </div>
+
+            {/* Formulaire de dépôt (1/3 de l'espace) */}
+            <div className="bg-spoolio-card border border-spoolio-border rounded-3xl p-6 h-fit space-y-5">
+              <div>
+                <h3 className="text-sm font-bold text-zinc-900 uppercase tracking-wider font-sans">
+                  Déposer un avis
+                </h3>
+                <p className="text-[11px] text-gray-500 mt-1 leading-normal">
+                  Votre avis doit être associé à l'adresse e-mail utilisée lors de votre commande pour être validé.
+                </p>
               </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
-                  Votre commentaire
-                </label>
-                <textarea
-                  required
-                  rows={4}
-                  value={reviewComment}
-                  onChange={(e) => setReviewComment(e.target.value)}
-                  placeholder="Qu'avez-vous pensé de cet objet ?"
-                  className="border rounded-xl p-3 outline-none resize-none transition-colors leading-relaxed review-input"
-                />
-              </div>
-
-              {reviewSuccess && (
-                <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg text-[11px] leading-normal">
-                  ✓ {reviewSuccess}
+              <form onSubmit={handleSubmitReview} className="space-y-4 text-xs font-sans">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
+                    Nom Complet
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={reviewName}
+                    onChange={(e) => setReviewName(e.target.value)}
+                    placeholder="Ex: Hélène Felchner"
+                    className="h-10 border rounded-xl px-3 outline-none transition-colors review-input"
+                  />
                 </div>
-              )}
 
-              {reviewError && (
-                <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-[11px] leading-normal">
-                  ⚠️ {reviewError}
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
+                    E-mail de votre commande
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={reviewEmail}
+                    onChange={(e) => setReviewEmail(e.target.value)}
+                    placeholder="Ex: client@exemple.com"
+                    className="h-10 border rounded-xl px-3 outline-none transition-colors review-input"
+                  />
                 </div>
-              )}
 
-              <button
-                type="submit"
-                disabled={submittingReview}
-                className="w-full h-11 flex items-center justify-center text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-lg disabled:opacity-50 review-submit-btn"
-              >
-                {submittingReview ? "Envoi..." : "Envoyer mon avis"}
-              </button>
-            </form>
-          </div>
-        </section>
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
+                    Note
+                  </label>
+                  <div className="flex gap-1.5">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setReviewRating(star)}
+                        className={`text-lg transition-colors cursor-pointer select-none ${
+                          star <= reviewRating ? "text-[#ff4f00]" : "text-gray-600 hover:text-gray-400"
+                        }`}
+                      >
+                        ★
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[9px] font-black uppercase tracking-wider text-gray-500">
+                    Votre commentaire
+                  </label>
+                  <textarea
+                    required
+                    rows={4}
+                    value={reviewComment}
+                    onChange={(e) => setReviewComment(e.target.value)}
+                    placeholder="Qu'avez-vous pensé de cet objet ?"
+                    className="border rounded-xl p-3 outline-none resize-none transition-colors leading-relaxed review-input"
+                  />
+                </div>
+
+                {reviewSuccess && (
+                  <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-lg text-[11px] leading-normal">
+                    ✓ {reviewSuccess}
+                  </div>
+                )}
+
+                {reviewError && (
+                  <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-[11px] leading-normal">
+                    ⚠️ {reviewError}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={submittingReview}
+                  className="w-full h-11 flex items-center justify-center text-xs font-bold uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-lg disabled:opacity-50 review-submit-btn"
+                >
+                  {submittingReview ? "Envoi..." : "Envoyer mon avis"}
+                </button>
+              </form>
+            </div>
+          </section>
+        )}
 
         {/* Lightbox Modal (Point 3 UX) */}
         {isLightboxOpen && hasImage && (

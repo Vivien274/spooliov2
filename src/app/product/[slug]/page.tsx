@@ -127,19 +127,27 @@ export default async function ProductPage({ params }: PageProps) {
   let realRatingValue: number | undefined = undefined;
   let realReviewCount: number | undefined = undefined;
 
+  let initialReviews: any[] = [];
   try {
     const reviews = await prisma.review.findMany({
       where: {
         productId: product.id,
         approved: true,
       },
-      select: { rating: true },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     if (reviews.length > 0) {
       const sum = reviews.reduce((acc, r) => acc + r.rating, 0);
       realRatingValue = Number((sum / reviews.length).toFixed(1));
       realReviewCount = reviews.length;
+      initialReviews = reviews.map((r) => ({
+        ...r,
+        createdAt: r.createdAt.toISOString(),
+        updatedAt: r.updatedAt.toISOString(),
+      }));
     }
   } catch (err) {
     // Silent fallback: no aggregate rating if reviews cannot be computed
@@ -190,6 +198,7 @@ export default async function ProductPage({ params }: PageProps) {
         isDraftPreview={isDraftPreview}
         initialProduct={product}
         initialRelatedProducts={relatedProducts}
+        initialReviews={initialReviews}
       />
     </>
   );
