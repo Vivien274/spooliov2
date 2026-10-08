@@ -219,8 +219,9 @@ export default function HeroCustomizerPage() {
         body: formData,
       });
       const data = await res.json();
-      if (res.ok) {
-        handleSlideChange(slideIndex, "cardImage", data.imageUrl);
+      const uploadedUrl = data.imageUrl || data.url || data.src;
+      if (res.ok && uploadedUrl) {
+        handleSlideChange(slideIndex, "cardImage", uploadedUrl);
         setHeroSuccess(`Image miniature produit pour la slide #${slideIndex + 1} téléversée !`);
       } else {
         setHeroError(data.error || "Erreur de téléversement.");
@@ -249,8 +250,9 @@ export default function HeroCustomizerPage() {
         body: formData,
       });
       const data = await res.json();
-      if (res.ok) {
-        handleSlideChange(slideIndex, "image", data.imageUrl);
+      const uploadedUrl = data.imageUrl || data.url || data.src;
+      if (res.ok && uploadedUrl) {
+        handleSlideChange(slideIndex, "image", uploadedUrl);
         setHeroSuccess(`Image de la slide #${slideIndex + 1} téléversée !`);
       } else {
         setHeroError(data.error || "Erreur de téléversement.");

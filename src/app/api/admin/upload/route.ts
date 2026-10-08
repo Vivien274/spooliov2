@@ -127,6 +127,8 @@ export async function POST(request: Request) {
       return NextResponse.json({
         success: true,
         url: pubData.publicUrl,
+        imageUrl: pubData.publicUrl,
+        src: pubData.publicUrl,
         filename: finalFilename,
         isOptimized: isVideo && finalContentType === "video/mp4",
       });
@@ -147,6 +149,8 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       url: fileUrl,
+      imageUrl: fileUrl,
+      src: fileUrl,
       filename: finalFilename,
       isOptimized: isVideo && finalContentType === "video/mp4",
     });

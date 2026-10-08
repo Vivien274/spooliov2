@@ -396,10 +396,12 @@ export default function ProductFormClient({ productId, isNew }: Props) {
         // Response wasn't valid JSON (e.g. plain text or HTML error from server proxy)
       }
 
-      if (res.ok && data?.imageUrl) {
+      const uploadedUrl = data?.imageUrl || data?.url || data?.src;
+
+      if (res.ok && uploadedUrl) {
         const newImage = {
           id: Date.now() + Math.floor(Math.random() * 1000),
-          src: data.imageUrl,
+          src: uploadedUrl,
           alt: form.name || "Média produit"
         };
         setForm(prev => ({ ...prev, images: [...prev.images, newImage] }));

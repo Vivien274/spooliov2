@@ -100,8 +100,9 @@ export default function AdminLinksPage() {
         body: formData,
       });
       const data = await res.json();
-      if (res.ok && data.imageUrl) {
-        setProfile((prev) => ({ ...prev, avatar: data.imageUrl }));
+      const uploadedUrl = data.imageUrl || data.url || data.src;
+      if (res.ok && uploadedUrl) {
+        setProfile((prev) => ({ ...prev, avatar: uploadedUrl }));
       } else {
         setAvatarError(data.error || "Erreur lors du téléversement");
       }
@@ -126,7 +127,8 @@ export default function AdminLinksPage() {
         body: formData,
       });
       const data = await res.json();
-      if (res.ok && data.imageUrl) {
+      const uploadedUrl = data.imageUrl || data.url || data.src;
+      if (res.ok && uploadedUrl) {
         setProfile((prev) => {
           const currentPhotos = prev.instagramPhotos && prev.instagramPhotos.length >= 3
             ? [...prev.instagramPhotos]
@@ -135,7 +137,7 @@ export default function AdminLinksPage() {
                 "/images/marcel_octopus.jpg",
                 "/images/alien_capsule.jpg",
               ];
-          currentPhotos[index] = data.imageUrl;
+          currentPhotos[index] = uploadedUrl;
           return { ...prev, instagramPhotos: currentPhotos };
         });
       }
