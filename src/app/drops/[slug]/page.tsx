@@ -23,10 +23,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const cleanName = drop.dropName || (drop.title ? drop.title.replace(/^DROP\s*\d*\s*—\s*/i, "").trim() : drop.title);
+  const effectiveTagline = slug === "drop-kurb-monsters" ? "Trois gueules. Zéro règle. Trois pièces uniques faites à la main à Comines." : (drop.tagline || drop.description.slice(0, 160));
 
   return buildPageMetadata({
     title: `Drop - ${cleanName} | Spoolio`,
-    description: drop.tagline || drop.description.slice(0, 160),
+    description: effectiveTagline,
     path: `/drops/${slug}`,
     ogImage: drop.bannerImage,
   });

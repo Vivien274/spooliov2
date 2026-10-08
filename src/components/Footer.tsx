@@ -8,21 +8,30 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 interface FooterProps {
   className?: string;
+  isDark?: boolean;
 }
 
-export default function Footer({ className = "" }: FooterProps) {
+export default function Footer({ className = "", isDark = false }: FooterProps) {
   const { t } = useTranslation();
 
+  const bgCls = isDark ? "bg-[#0d0617] border-t border-white/10 text-zinc-400" : "bg-zinc-50 border-t border-zinc-200 text-zinc-600";
+  const borderCls = isDark ? "border-white/10" : "border-zinc-200";
+  const titleCls = isDark ? "text-white" : "text-zinc-900";
+  const linkCls = isDark ? "text-zinc-400 hover:text-white" : "text-zinc-600 hover:text-[#ff4f00]";
+  const legalLinkCls = isDark ? "text-zinc-400 hover:text-white" : "text-zinc-500 hover:text-zinc-900";
+  const cardBgCls = isDark ? "bg-white/10 border-white/15" : "bg-white border-zinc-200";
+  const iconCls = isDark ? "text-zinc-300 bg-white/10 border-white/15" : "text-zinc-600 bg-white border-zinc-200";
+
   return (
-    <footer className={`w-full border-t border-zinc-200 bg-zinc-50 pt-12 pb-8 text-xs text-zinc-600 relative z-10 ${className} font-sans`}>
+    <footer className={`w-full pt-12 pb-8 text-xs relative z-10 ${bgCls} ${className} font-sans`}>
       <div className="max-w-[1200px] mx-auto px-6 space-y-10">
         
         {/* Upper Section: Brand Bio & Social Networks */}
-        <div className="flex flex-col md:flex-row items-start justify-between gap-8 pb-8 border-b border-zinc-200">
+        <div className={`flex flex-col md:flex-row items-start justify-between gap-8 pb-8 border-b ${borderCls}`}>
           
           {/* Brand & Bio */}
           <div className="flex items-start gap-4 max-w-md">
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white border border-zinc-200 shrink-0 shadow-xs overflow-hidden group hover:scale-105 transition-transform">
+            <div className={`relative w-16 h-16 sm:w-20 sm:h-20 rounded-2xl ${cardBgCls} border shrink-0 shadow-xs overflow-hidden group hover:scale-105 transition-transform`}>
               <Image
                 src="/images/vivien-avatar.png"
                 alt="Vivien - Fondateur Spoolio"
@@ -32,12 +41,12 @@ export default function Footer({ className = "" }: FooterProps) {
             </div>
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center gap-2">
-                <span className="font-black text-zinc-900 text-lg tracking-wider uppercase font-antonio">Spoolio</span>
+                <span className={`font-black ${titleCls} text-lg tracking-wider uppercase font-antonio`}>Spoolio</span>
                 <span className="text-[10px] text-[#ff4f00] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#ff4f00]/10 border border-[#ff4f00]/20">
                   {t("footer.brand_by")}
                 </span>
               </div>
-              <p className="text-[11px] text-zinc-500 leading-relaxed font-medium">
+              <p className={`text-[11px] ${isDark ? "text-zinc-400" : "text-zinc-500"} leading-relaxed font-medium`}>
                 {t("footer.description")}
               </p>
             </div>
@@ -45,7 +54,7 @@ export default function Footer({ className = "" }: FooterProps) {
 
           {/* Social Networks Icons */}
           <div className="flex flex-col md:items-end gap-3">
-            <div className="text-xs font-black text-zinc-900 uppercase tracking-widest font-antonio">
+            <div className={`text-xs font-black ${titleCls} uppercase tracking-widest font-antonio`}>
               {t("footer.join_adventure")}
             </div>
             
@@ -55,7 +64,7 @@ export default function Footer({ className = "" }: FooterProps) {
                 href="https://www.instagram.com/spoolio.fr/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 hover:text-white hover:bg-gradient-to-tr hover:from-[#f9ce34] hover:via-[#ee2a7b] hover:to-[#6228d7] hover:border-transparent transition-all duration-300 hover:scale-110 cursor-pointer shadow-xs"
+                className={`w-9 h-9 rounded-xl ${iconCls} border flex items-center justify-center hover:text-white hover:bg-gradient-to-tr hover:from-[#f9ce34] hover:via-[#ee2a7b] hover:to-[#6228d7] hover:border-transparent transition-all duration-300 hover:scale-110 cursor-pointer shadow-xs`}
                 title="Instagram"
                 aria-label="Rejoignez-nous sur Instagram"
               >
@@ -69,7 +78,7 @@ export default function Footer({ className = "" }: FooterProps) {
                 href="https://www.tiktok.com/@spoolio.fr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 hover:text-white hover:bg-black hover:border-black transition-all duration-300 hover:scale-110 cursor-pointer shadow-xs"
+                className={`w-9 h-9 rounded-xl ${iconCls} border flex items-center justify-center hover:text-white hover:bg-black hover:border-black transition-all duration-300 hover:scale-110 cursor-pointer shadow-xs`}
                 title="TikTok"
                 aria-label="Rejoignez-nous sur TikTok"
               >
@@ -83,7 +92,7 @@ export default function Footer({ className = "" }: FooterProps) {
                 href="https://www.facebook.com/spoolio.fr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-xl bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 hover:text-white hover:bg-[#1877F2] hover:border-[#1877F2] transition-all duration-300 hover:scale-110 cursor-pointer shadow-xs"
+                className={`w-9 h-9 rounded-xl ${iconCls} border flex items-center justify-center hover:text-white hover:bg-[#1877F2] hover:border-[#1877F2] transition-all duration-300 hover:scale-110 cursor-pointer shadow-xs`}
                 title="Facebook"
                 aria-label="Rejoignez-nous sur Facebook"
               >
@@ -96,31 +105,31 @@ export default function Footer({ className = "" }: FooterProps) {
         </div>
 
         {/* Structured Columns Navigation */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-8 border-b border-zinc-200">
+        <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-8 border-b ${borderCls}`}>
           
           {/* Column 1: Expérience & Récompenses */}
           <div className="space-y-3">
-            <h4 className="text-xs font-black text-zinc-900 uppercase tracking-widest font-antonio">
+            <h4 className={`text-xs font-black ${titleCls} uppercase tracking-widest font-antonio`}>
               ⭐ Expériences & Club
             </h4>
             <ul className="space-y-2 font-medium">
               <li>
-                <Link href="/fidelite" className="text-zinc-600 hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
+                <Link href="/fidelite" className={`${linkCls} transition-colors flex items-center gap-1.5`}>
                   <span>👑 Points & Fidélité</span>
                 </Link>
               </li>
               <li>
-                <Link href="/inscription-newsletter-spoolio" className="text-zinc-600 hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
+                <Link href="/inscription-newsletter-spoolio" className={`${linkCls} transition-colors flex items-center gap-1.5`}>
                   <span>🎁 Club Spoolio</span>
                 </Link>
               </li>
               <li>
-                <Link href="/carte-cadeau" className="text-zinc-600 hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
+                <Link href="/carte-cadeau" className={`${linkCls} transition-colors flex items-center gap-1.5`}>
                   <span>🎁 Carte Cadeau 3D</span>
                 </Link>
               </li>
               <li>
-                <Link href="/don" className="text-zinc-600 hover:text-[#ff4f00] transition-colors flex items-center gap-1.5">
+                <Link href="/don" className={`${linkCls} transition-colors flex items-center gap-1.5`}>
                   <span>🚀 Soutenir l'Atelier</span>
                 </Link>
               </li>
@@ -129,27 +138,27 @@ export default function Footer({ className = "" }: FooterProps) {
 
           {/* Column 2: À Propos & Support */}
           <div className="space-y-3">
-            <h4 className="text-xs font-black text-zinc-900 uppercase tracking-widest font-antonio">
+            <h4 className={`text-xs font-black ${titleCls} uppercase tracking-widest font-antonio`}>
               ℹ️ Spoolio & Aide
             </h4>
             <ul className="space-y-2 font-medium">
               <li>
-                <Link href="/a-propos" className="text-zinc-600 hover:text-[#ff4f00] transition-colors">
+                <Link href="/a-propos" className={`${linkCls} transition-colors`}>
                   {t("footer.about")}
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-zinc-600 hover:text-[#ff4f00] transition-colors">
+                <Link href="/faq" className={`${linkCls} transition-colors`}>
                   {t("footer.faq")}
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-zinc-600 hover:text-[#ff4f00] transition-colors">
+                <Link href="/contact" className={`${linkCls} transition-colors`}>
                   {t("footer.contact")}
                 </Link>
               </li>
               <li>
-                <Link href="/pro" className="text-zinc-600 hover:text-[#ff4f00] transition-colors">
+                <Link href="/pro" className={`${linkCls} transition-colors`}>
                   {t("footer.pro_space")}
                 </Link>
               </li>
@@ -158,27 +167,27 @@ export default function Footer({ className = "" }: FooterProps) {
 
           {/* Column 3: Informations Légales */}
           <div className="space-y-3">
-            <h4 className="text-xs font-black text-zinc-900 uppercase tracking-widest font-antonio">
+            <h4 className={`text-xs font-black ${titleCls} uppercase tracking-widest font-antonio`}>
               ⚖️ Informations Légales
             </h4>
-            <ul className="space-y-2 font-medium text-zinc-500">
+            <ul className={`space-y-2 font-medium ${isDark ? "text-zinc-400" : "text-zinc-500"}`}>
               <li>
-                <Link href="/mentions-legales" className="hover:text-zinc-900 transition-colors">
+                <Link href="/mentions-legales" className={`${legalLinkCls} transition-colors`}>
                   {t("footer.links.legal")}
                 </Link>
               </li>
               <li>
-                <Link href="/cgv" className="hover:text-zinc-900 transition-colors">
+                <Link href="/cgv" className={`${legalLinkCls} transition-colors`}>
                   {t("footer.links.cgv")}
                 </Link>
               </li>
               <li>
-                <Link href="/cookies" className="hover:text-zinc-900 transition-colors">
+                <Link href="/cookies" className={`${legalLinkCls} transition-colors`}>
                   {t("footer.links.cookies")}
                 </Link>
               </li>
               <li>
-                <Link href="/retours" className="hover:text-zinc-900 transition-colors">
+                <Link href="/retours" className={`${legalLinkCls} transition-colors`}>
                   {t("footer.links.returns")}
                 </Link>
               </li>
@@ -188,12 +197,12 @@ export default function Footer({ className = "" }: FooterProps) {
         </div>
 
         {/* Bottom Bar: Copyright & Location Badge */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-zinc-500 font-medium">
+        <div className={`flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] ${isDark ? "text-zinc-400" : "text-zinc-500"} font-medium`}>
           <div>
             &copy; {new Date().getFullYear()} Spoolio. {t("footer.rights")}
           </div>
-          <div className="flex items-center gap-2 text-zinc-600">
-            <span>🇫🇷 Fabrication additive de précision à Comines (59) • PLA biosourcé</span>
+          <div className={`flex items-center gap-2 ${isDark ? "text-zinc-400" : "text-zinc-600"}`}>
+            <span>🇫🇷 Fabrication d'art et créations à Comines (59)</span>
           </div>
         </div>
 

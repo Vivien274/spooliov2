@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard, { Product } from "@/components/ProductCard";
 import DropCountdown from "@/components/drops/DropCountdown";
-import { Drop } from "@/lib/drops";
+import DropGallery from "@/components/drops/DropGallery";
+import { Drop, DropGalleryItem } from "@/lib/drops";
 import { useRouter } from "next/navigation";
 import {
   Sparkles,
@@ -23,6 +24,8 @@ import {
   Flame,
   CheckCircle2,
   Lock,
+  Camera,
+  Palette,
 } from "lucide-react";
 
 interface DropDetailClientProps {
@@ -65,6 +68,78 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
   // Check if dark theme
   const isDark = dText.toLowerCase() === "#ffffff" || dBg.includes("#18") || dBg.includes("#0") || dBg.includes("black");
   const blendColor = isDark ? "#0d0617" : "#fafaf9";
+
+  // Extract gallery photos: either from drop.gallery or fallback to drop.products
+  const galleryItems = useMemo<DropGalleryItem[]>(() => {
+    if (drop.gallery && drop.gallery.length > 0) {
+      return drop.gallery.map((g) => {
+        if (typeof g === "string") {
+          return { src: g, alt: drop.title, caption: drop.title };
+        }
+        return g;
+      });
+    }
+
+    // Fallback: extract from drop.products
+    const extracted: DropGalleryItem[] = [];
+    drop.products?.forEach((product) => {
+      const upGallery = (product as any).attributes?.uniquePieceData?.gallery?.items;
+      const cleanProductName = product.name.split("—")[0].trim().replace(/^.+Le\s+/i, "");
+      if (Array.isArray(upGallery)) {
+        upGallery.forEach((item: any) => {
+          if (item.src && !extracted.some((e) => e.src === item.src)) {
+            extracted.push({
+              src: item.src,
+              alt: item.alt || product.name,
+              caption: `${product.name}${item.caption ? ` — ${item.caption}` : ""}`,
+              category: cleanProductName,
+            });
+          }
+        });
+      }
+
+      if (Array.isArray(product.images)) {
+        product.images.forEach((img: any) => {
+          if (img.src && !extracted.some((e) => e.src === img.src)) {
+            extracted.push({
+              src: img.src,
+              alt: img.alt || product.name,
+              caption: product.name,
+              category: cleanProductName,
+            });
+          }
+        });
+      }
+    });
+
+    return extracted;
+  }, [drop]);
+
+  const kurbMonstersStory = `Kratch, Crank et Dozy sont les trois premiers Kurb Monsters à sortir de l’atelier.
+
+Chacun a été imaginé comme un véritable petit personnage : une silhouette, une attitude et suffisamment de caractère pour squatter une étagère comme s’il était chez lui.
+
+Pour cette première série, nous avons choisi de ne produire qu’un seul exemplaire Atelier de chaque modèle. Chaque pièce est préparée, peinte, assemblée et finie à la main à Comines.
+
+Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
+
+  const kurbMonstersQuote =
+    "Chaque Kurb de cette série est préparé, peint et fini à la main dans notre atelier de Comines. Trois personnages. Trois exemplaires uniques.";
+
+  const storyText =
+    drop.slug === "drop-kurb-monsters" || drop.description.includes("40 exemplaires")
+      ? kurbMonstersStory
+      : drop.description;
+
+  const quoteText =
+    drop.slug === "drop-kurb-monsters" || drop.quote?.includes("salve")
+      ? kurbMonstersQuote
+      : drop.quote || kurbMonstersQuote;
+
+  const taglineText =
+    drop.slug === "drop-kurb-monsters" || drop.tagline?.includes("nouveaux voisins")
+      ? "Trois gueules. Zéro règle."
+      : drop.tagline;
 
   return (
     <div
@@ -152,15 +227,13 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
               </span>
             )}
 
-            {drop.editionSize && (
-              <span
-                className="hidden sm:inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-xl text-white keep-white no-invert text-xs font-mono font-bold border border-white/20 shadow-xl"
-                style={{ color: "#ffffff" }}
-              >
-                <span className="text-white" style={{ color: "#ffffff" }}>Tirage limité :</span>
-                <span className="text-white font-black" style={{ color: "#ffffff" }}>{drop.editionSize} pcs</span>
-              </span>
-            )}
+            <span
+              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-xl text-white keep-white no-invert text-xs font-mono font-black uppercase tracking-wider border border-white/20 shadow-xl"
+              style={{ color: "#ffffff" }}
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff5500]" />
+              <span>3 PIÈCES UNIQUES</span>
+            </span>
           </div>
         </div>
 
@@ -206,12 +279,17 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
           </h1>
 
           {/* Tagline / Punchline */}
-          <p
-            className="text-sm sm:text-lg lg:text-xl font-medium max-w-3xl leading-relaxed drop-shadow-md"
-            style={{ color: dSubtitle }}
-          >
-            {drop.tagline}
-          </p>
+          <div className="space-y-1.5 max-w-3xl">
+            <p
+              className="text-lg sm:text-2xl lg:text-3xl font-extrabold tracking-tight leading-snug drop-shadow-md"
+              style={{ color: dSubtitle }}
+            >
+              {taglineText}
+            </p>
+            <p className="text-xs sm:text-sm font-mono tracking-wider uppercase text-white/80 font-bold">
+              Trois pièces uniques. Pas une de plus.
+            </p>
+          </div>
 
           {/* Quick Action & Countdown Row */}
           <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -259,6 +337,17 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
               <ArrowDown className="w-4 h-4 animate-bounce" />
             </a>
 
+            {/* Smooth Scroll to Gallery CTA */}
+            {galleryItems.length > 0 && (
+              <a
+                href="#galerie-drop"
+                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider bg-white/10 hover:bg-white/15 backdrop-blur-xl border border-white/20 text-white transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-xl"
+              >
+                <Camera className="w-4 h-4 text-white" />
+                <span>Galerie Photo ({galleryItems.length})</span>
+              </a>
+            )}
+
           </div>
 
         </div>
@@ -294,7 +383,7 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
               className="text-lg sm:text-2xl md:text-3xl font-extrabold italic leading-relaxed tracking-tight"
               style={{ color: dText }}
             >
-              “{drop.quote || "Chaque création de ce drop est tirée en une seule salve dans nos filaments d'exception, assemblée et inspectée à la main à l'atelier de Comines."}”
+              “{quoteText}”
             </blockquote>
 
             <p
@@ -338,7 +427,7 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
               className="text-sm sm:text-base leading-relaxed font-medium whitespace-pre-line"
               style={{ color: dSubtitle }}
             >
-              {drop.description}
+              {storyText}
             </p>
           </div>
 
@@ -353,14 +442,14 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
                 className="p-2.5 rounded-xl shrink-0"
                 style={{ backgroundColor: dBadgeBg, color: dBadgeText }}
               >
-                <Package className="w-5 h-5" />
+                <Sparkles className="w-5 h-5" />
               </div>
               <div className="space-y-0.5 min-w-0">
                 <span className="block text-xs font-bold uppercase tracking-wide" style={{ color: dText }}>
-                  Tirage Numéroté &amp; Limité
+                  PIÈCE 01/01
                 </span>
                 <p className="text-xs" style={{ color: dSubtitle }}>
-                  {drop.editionSize ? `${drop.editionSize} exemplaires certifiés.` : "Série courte."} Aucune réimpression ni surproduction après la clôture.
+                  Un seul exemplaire Atelier de chaque personnage pour ce drop.
                 </p>
               </div>
             </div>
@@ -373,34 +462,14 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
                 className="p-2.5 rounded-xl shrink-0"
                 style={{ backgroundColor: dBadgeBg, color: dBadgeText }}
               >
-                <MapPin className="w-5 h-5" />
+                <Palette className="w-5 h-5" />
               </div>
               <div className="space-y-0.5 min-w-0">
                 <span className="block text-xs font-bold uppercase tracking-wide" style={{ color: dText }}>
-                  Atelier de Comines (Nord, 59)
+                  PEINT À LA MAIN À COMINES
                 </span>
                 <p className="text-xs" style={{ color: dSubtitle }}>
-                  Imprimé en 3D haute précision FDM, calibré et ajusté unitairement par notre équipe.
-                </p>
-              </div>
-            </div>
-
-            <div
-              className="p-5 rounded-2xl border backdrop-blur-xs flex items-start gap-3.5 shadow-md"
-              style={{ backgroundColor: dCardBg, borderColor: dBorder }}
-            >
-              <div
-                className="p-2.5 rounded-xl shrink-0"
-                style={{ backgroundColor: dBadgeBg, color: dBadgeText }}
-              >
-                <Truck className="w-5 h-5" />
-              </div>
-              <div className="space-y-0.5 min-w-0">
-                <span className="block text-xs font-bold uppercase tracking-wide" style={{ color: dText }}>
-                  Expédition Express sous 24-48h
-                </span>
-                <p className="text-xs" style={{ color: dSubtitle }}>
-                  Les articles du drop sont préparés et prêts en stock pour un envoi immédiat avec numéro de suivi.
+                  Préparé, peint, assemblé et fini individuellement dans notre atelier.
                 </p>
               </div>
             </div>
@@ -417,10 +486,30 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
               </div>
               <div className="space-y-0.5 min-w-0">
                 <span className="block text-xs font-bold uppercase tracking-wide" style={{ color: dText }}>
-                  Finitions &amp; Filaments d'Exception
+                  CARTE COLLECTOR INCLUSE
                 </span>
                 <p className="text-xs" style={{ color: dSubtitle }}>
-                  Polymères biosourcés signature sélectionnés pour leur robustesse, texture et éclat tactile.
+                  Chaque Kurb est accompagné de sa carte DROP 001 dédiée et numérotée.
+                </p>
+              </div>
+            </div>
+
+            <div
+              className="p-5 rounded-2xl border backdrop-blur-xs flex items-start gap-3.5 shadow-md"
+              style={{ backgroundColor: dCardBg, borderColor: dBorder }}
+            >
+              <div
+                className="p-2.5 rounded-xl shrink-0"
+                style={{ backgroundColor: dBadgeBg, color: dBadgeText }}
+              >
+                <Camera className="w-5 h-5" />
+              </div>
+              <div className="space-y-0.5 min-w-0">
+                <span className="block text-xs font-bold uppercase tracking-wide" style={{ color: dText }}>
+                  CELUI DES PHOTOS
+                </span>
+                <p className="text-xs" style={{ color: dSubtitle }}>
+                  La pièce que vous voyez sur les photos est exactement celle que vous recevrez.
                 </p>
               </div>
             </div>
@@ -430,6 +519,19 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
         </div>
 
       </section>
+
+      {/* ============================================================ */}
+      {/* 2b. GALERIE PHOTO D'ATELIER (ÉPURÉE & IMMERSIVE)            */}
+      {/* ============================================================ */}
+      {galleryItems.length > 0 && (
+        <DropGallery
+          items={galleryItems}
+          theme={dTheme}
+          title="L'Atelier en Détails"
+          subtitle="Clichés authentiques, textures brutes et finitions peintes à la main sous la lumière de l'atelier de Comines."
+          badge="Galerie d'Atelier"
+        />
+      )}
 
       {/* ============================================================ */}
       {/* 3. GRILLE DE PRODUITS SPÉCIALE « ÉDITION DROP »              */}
@@ -450,7 +552,7 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
               style={{ backgroundColor: dBadgeBg, color: dBadgeText }}
             >
               <Package className="w-3.5 h-3.5" />
-              <span>Série Limitée Exclusive • {drop.products.length} Pièces</span>
+              <span>SÉRIE LIMITÉE EXCLUSIVE • 3 PIÈCES UNIQUES</span>
             </div>
 
             <h2
@@ -461,14 +563,14 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
             </h2>
 
             <p className="text-xs sm:text-sm mt-1" style={{ color: dSubtitle }}>
-              Disponibles uniquement jusqu'à épuisement du tirage atelier. Chaque modèle est un exemplaire exclusif.
+              3 personnages. 3 pièces uniques. Une fois parties, elles ne reviendront pas.
             </p>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
             {isUpcoming && (
-              <span className="text-xs font-mono font-bold px-3 py-1.5 rounded-xl bg-black/60 backdrop-blur border border-white/20 text-white">
-                🔒 Vente active dès le {formattedDate}
+              <span className="text-xs font-mono font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-xl bg-black/60 backdrop-blur border border-white/20 text-white shadow-lg">
+                🔒 VENTE ACTIVE DÈS LE 10 OCTOBRE 2026 À 20:00
               </span>
             )}
             {isEnded && (
@@ -481,7 +583,7 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
 
         {/* Enhanced Drop Product Grid */}
         {drop.products && drop.products.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {drop.products.map((product) => (
               <div
                 key={product.id}
@@ -502,7 +604,7 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
                         <Lock className="w-6 h-6" />
                       </div>
                       <span className="text-xs font-mono font-black text-white uppercase tracking-wider">
-                        Dévoilé le {formattedDate}
+                        Dévoilé le 10 octobre 2026 à 20:00
                       </span>
                       <p className="text-[11px] text-zinc-300 font-medium mt-1.5 max-w-[200px]">
                         Fiche et commande disponibles dès le lancement
@@ -548,7 +650,7 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
 
       </section>
 
-      <Footer />
+      <Footer isDark={isDark} />
     </div>
   );
 }

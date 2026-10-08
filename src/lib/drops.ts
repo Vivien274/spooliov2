@@ -17,6 +17,13 @@ export interface DropTheme {
   buttonTextColor?: string;
 }
 
+export interface DropGalleryItem {
+  src: string;
+  alt?: string;
+  caption?: string;
+  category?: string;
+}
+
 export interface Drop {
   id: string;
   slug: string;
@@ -37,6 +44,7 @@ export interface Drop {
   editionSize?: number;
   productIds: number[];
   products?: Product[];
+  gallery?: (string | DropGalleryItem)[];
 }
 
 import { prisma } from "@/lib/prisma";
