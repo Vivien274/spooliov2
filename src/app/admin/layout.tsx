@@ -410,7 +410,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className={`min-h-screen ${cls.pageBg} ${cls.textMain} flex font-sans transition-colors duration-300 relative select-none`}>
+    <div className={`min-h-screen ${cls.pageBg} ${cls.textMain} flex font-sans relative select-none`}>
       {/* Mobile Drawer Backdrop */}
       {isMobileOpen && (
         <div

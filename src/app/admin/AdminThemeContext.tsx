@@ -27,14 +27,18 @@ interface AdminThemeContextValue {
 const AdminThemeContext = createContext<AdminThemeContextValue | null>(null);
 
 export function AdminThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
-    // Sync with existing global theme
-    const saved = localStorage.getItem("theme") as Theme | null;
-    const isLight =
-      saved === "light" || document.documentElement.classList.contains("light");
-    if (isLight) setTheme("light");
+    // Sync with saved preference, default to light
+    const saved = (localStorage.getItem("admin_theme") || localStorage.getItem("theme")) as Theme | null;
+    if (saved === "dark") {
+      setTheme("dark");
+      document.documentElement.classList.remove("light");
+    } else {
+      setTheme("light");
+      document.documentElement.classList.add("light");
+    }
   }, []);
 
   const toggleTheme = () => {
@@ -44,6 +48,7 @@ export function AdminThemeProvider({ children }: { children: React.ReactNode }) 
     } else {
       document.documentElement.classList.remove("light");
     }
+    localStorage.setItem("admin_theme", next);
     localStorage.setItem("theme", next);
     setTheme(next);
   };

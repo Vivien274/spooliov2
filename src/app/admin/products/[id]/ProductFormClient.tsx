@@ -466,6 +466,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
 
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [isTranslating, setIsTranslating] = useState<boolean>(false);
+  const [showTranslationEn, setShowTranslationEn] = useState<boolean>(false);
   const [aiSeoAdvice, setAiSeoAdvice] = useState<string[]>([]);
   const [isAiModalOpen, setIsAiModalOpen] = useState<boolean>(false);
   const [aiUse, setAiUse] = useState<string>("");
@@ -950,79 +951,93 @@ export default function ProductFormClient({ productId, isNew }: Props) {
               </div>
             </SectionCard>
 
-            {/* 2b. Traduction Anglaise (EN 🇬🇧) */}
-            <SectionCard
-              title="Traduction Anglaise (EN 🇬🇧)"
-              icon={<span className="text-base">🇬🇧</span>}
-              cardBg={cls.cardBg} border={cls.border} textMain={cls.textMain}
-            >
-              <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                <div className="flex flex-col">
-                  <span className="text-xs font-bold text-white uppercase tracking-wider">Version Anglaise pour l'International</span>
-                  <span className={`text-[11px] ${cls.textFaint}`}>Renseignez les équivalents anglais ou laissez l'IA tout traduire en 1 clic.</span>
+            {/* 2b. Traduction Anglaise (EN 🇬🇧) - Masqué par défaut */}
+            <div className="flex justify-end -mt-2">
+              <button
+                type="button"
+                onClick={() => setShowTranslationEn(!showTranslationEn)}
+                className={`text-xs font-semibold px-3 py-1.5 rounded-xl border ${cls.border} ${cls.inputBg} ${cls.textMuted} hover:text-white transition-colors flex items-center gap-2 cursor-pointer shadow-sm`}
+              >
+                <span>🇬🇧</span>
+                <span>{showTranslationEn ? "Masquer le bloc Traduction EN" : "Afficher le bloc Traduction EN (optionnel)"}</span>
+                <span className="text-[10px] opacity-70">{showTranslationEn ? "▲" : "▼"}</span>
+              </button>
+            </div>
+
+            {showTranslationEn && (
+              <SectionCard
+                title="Traduction Anglaise (EN 🇬🇧)"
+                icon={<span className="text-base">🇬🇧</span>}
+                cardBg={cls.cardBg} border={cls.border} textMain={cls.textMain}
+              >
+                <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                  <div className="flex flex-col">
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">Version Anglaise pour l'International</span>
+                    <span className={`text-[11px] ${cls.textFaint}`}>Renseignez les équivalents anglais ou laissez l'IA tout traduire en 1 clic.</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleTranslateProduct}
+                    disabled={isTranslating}
+                    className="flex items-center gap-1.5 text-xs font-black text-white bg-[#2F3CD9] hover:bg-[#2F3CD9]/80 px-4 py-2 rounded-xl transition-all cursor-pointer shadow-lg shadow-[#2F3CD9]/20 disabled:opacity-50"
+                  >
+                    <svg className={`w-3.5 h-3.5 ${isTranslating ? "animate-spin" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      {isTranslating ? (
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      ) : (
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      )}
+                    </svg>
+                    {isTranslating ? "Traduction en cours..." : "✨ Traduire en Anglais avec l'IA"}
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  onClick={handleTranslateProduct}
-                  disabled={isTranslating}
-                  className="flex items-center gap-1.5 text-xs font-black text-white bg-[#2F3CD9] hover:bg-[#2F3CD9]/80 px-4 py-2 rounded-xl transition-all cursor-pointer shadow-lg shadow-[#2F3CD9]/20 disabled:opacity-50"
-                >
-                  <svg className={`w-3.5 h-3.5 ${isTranslating ? "animate-spin" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    {isTranslating ? (
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    ) : (
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    )}
-                  </svg>
-                  {isTranslating ? "Traduction en cours..." : "✨ Traduire en Anglais avec l'IA"}
-                </button>
-              </div>
 
-              <InputField
-                label="Nom du produit (EN)"
-                value={form.nameEn || ""}
-                onChange={(v) => set("nameEn")(v)}
-                placeholder="Ex: Mechanical Iris Fidget"
-                inputBg={cls.inputBg} border={cls.border} textMain={cls.textMain} textMuted={cls.textMuted}
-              />
-
-              <div className="flex flex-col gap-1.5">
-                <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Description courte (EN)</label>
-                <WysiwygEditor
-                  value={form.shortDescriptionEn || ""}
-                  onChange={(v) => set("shortDescriptionEn")(v)}
-                  placeholder="Catchy product short summary in English..."
-                  theme={theme}
+                <InputField
+                  label="Nom du produit (EN)"
+                  value={form.nameEn || ""}
+                  onChange={(v) => set("nameEn")(v)}
+                  placeholder="Ex: Mechanical Iris Fidget"
+                  inputBg={cls.inputBg} border={cls.border} textMain={cls.textMain} textMuted={cls.textMuted}
                 />
-              </div>
 
-              <div className="flex flex-col gap-1.5">
-                <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Description longue (EN)</label>
-                <WysiwygEditor
-                  value={form.descriptionEn || ""}
-                  onChange={(v) => set("descriptionEn")(v)}
-                  placeholder="Detailed English product description, material info..."
-                  theme={theme}
+                <div className="flex flex-col gap-1.5">
+                  <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Description courte (EN)</label>
+                  <WysiwygEditor
+                    value={form.shortDescriptionEn || ""}
+                    onChange={(v) => set("shortDescriptionEn")(v)}
+                    placeholder="Catchy product short summary in English..."
+                    theme={theme}
+                  />
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Description longue (EN)</label>
+                  <WysiwygEditor
+                    value={form.descriptionEn || ""}
+                    onChange={(v) => set("descriptionEn")(v)}
+                    placeholder="Detailed English product description, material info..."
+                    theme={theme}
+                  />
+                </div>
+
+                <InputField
+                  label="SEO Meta Title (EN)"
+                  value={form.metaTitleEn || ""}
+                  onChange={(v) => set("metaTitleEn")(v)}
+                  placeholder="English SEO Title"
+                  inputBg={cls.inputBg} border={cls.border} textMain={cls.textMain} textMuted={cls.textMuted}
                 />
-              </div>
 
-              <InputField
-                label="SEO Meta Title (EN)"
-                value={form.metaTitleEn || ""}
-                onChange={(v) => set("metaTitleEn")(v)}
-                placeholder="English SEO Title"
-                inputBg={cls.inputBg} border={cls.border} textMain={cls.textMain} textMuted={cls.textMuted}
-              />
-
-              <TextareaField
-                label="SEO Meta Description (EN)"
-                value={form.metaDescriptionEn || ""}
-                onChange={(v) => set("metaDescriptionEn")(v)}
-                placeholder="English Google search result description..."
-                rows={2}
-                inputBg={cls.inputBg} border={cls.border} textMain={cls.textMain} textMuted={cls.textMuted}
-              />
-            </SectionCard>
+                <TextareaField
+                  label="SEO Meta Description (EN)"
+                  value={form.metaDescriptionEn || ""}
+                  onChange={(v) => set("metaDescriptionEn")(v)}
+                  placeholder="English Google search result description..."
+                  rows={2}
+                  inputBg={cls.inputBg} border={cls.border} textMain={cls.textMain} textMuted={cls.textMuted}
+                />
+              </SectionCard>
+            )}
 
             {/* 3. Photos & Vidéos */}
             <SectionCard
