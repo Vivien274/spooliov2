@@ -58,15 +58,18 @@ interface Props {
   isNew: boolean;
 }
 
-function SectionCard({ title, icon, children, cardBg, border, textMain }: {
-  title: string; icon: React.ReactNode; children: React.ReactNode;
+function SectionCard({ title, icon, action, children, cardBg, border, textMain }: {
+  title: string; icon: React.ReactNode; action?: React.ReactNode; children: React.ReactNode;
   cardBg: string; border: string; textMain: string;
 }) {
   return (
     <div className={`${cardBg} border ${border} rounded-3xl p-6 flex flex-col gap-5 transition-colors`}>
-      <div className={`flex items-center gap-3 pb-4 border-b ${border}`}>
-        <span className="text-[#ff4f00]">{icon}</span>
-        <h2 className={`text-sm font-bold ${textMain} uppercase tracking-widest font-antonio`}>{title}</h2>
+      <div className={`flex items-center justify-between pb-4 border-b ${border}`}>
+        <div className="flex items-center gap-3">
+          <span className="text-[#ff4f00]">{icon}</span>
+          <h2 className={`text-sm font-bold ${textMain} uppercase tracking-widest font-antonio`}>{title}</h2>
+        </div>
+        {action && <div>{action}</div>}
       </div>
       {children}
     </div>
@@ -465,6 +468,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
   const removeTag = (tag: string) => set("tags")(form.tags.filter((t) => t !== tag));
 
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
+  const [isGeneratingSeo, setIsGeneratingSeo] = useState<boolean>(false);
   const [isTranslating, setIsTranslating] = useState<boolean>(false);
   const [showTranslationEn, setShowTranslationEn] = useState<boolean>(false);
   const [aiSeoAdvice, setAiSeoAdvice] = useState<string[]>([]);
@@ -556,6 +560,49 @@ export default function ProductFormClient({ productId, isNew }: Props) {
       alert("Erreur réseau lors de la communication avec l'API.");
     } finally {
       setIsGenerating(false);
+    }
+  };
+
+  const handleGenerateSeoOnly = async () => {
+    if (!form.name.trim()) {
+      alert("Veuillez saisir au moins le nom du produit avant de lancer la génération SEO.");
+      return;
+    }
+    setIsGeneratingSeo(true);
+    try {
+      const res = await fetch("/api/admin/generate-description", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: form.name,
+          shortDescription: form.shortDescription,
+          category: form.category,
+          aiUse,
+          aiTarget,
+          aiFeatures,
+          aiDetails
+        })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setForm(prev => ({
+          ...prev,
+          metaTitle: data.seoTitle || prev.metaTitle,
+          metaDescription: data.seoMetaDesc || prev.metaDescription
+        }));
+        if (data.seoAdvice) {
+          setAiSeoAdvice(data.seoAdvice);
+        }
+        alert("✨ Contenu SEO (Meta Title & Meta Description) généré avec succès par l'IA !");
+      } else {
+        alert(data.error || "Erreur lors de la génération SEO.");
+      }
+    } catch (e) {
+      alert("Erreur réseau lors de la communication avec l'API.");
+    } finally {
+      setIsGeneratingSeo(false);
     }
   };
 
@@ -929,7 +976,11 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                       setIsAiModalOpen(true);
                     }}
                     disabled={isGenerating}
-                    className="flex items-center gap-1.5 text-[11px] font-bold text-white bg-white/10 hover:bg-white/15 border border-white/20 px-3 py-1.5 rounded-full transition-colors cursor-pointer disabled:opacity-50"
+                    className={`flex items-center gap-1.5 text-[11px] font-bold px-3 py-1.5 rounded-full transition-colors cursor-pointer disabled:opacity-50 border ${
+                      theme === "dark"
+                        ? "text-white bg-white/10 hover:bg-white/15 border-white/20"
+                        : "text-blue-700 bg-blue-50 hover:bg-blue-100 border-blue-200"
+                    }`}
                   >
                     <svg className={`w-3 h-3 ${isGenerating ? "animate-spin" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       {isGenerating ? (
@@ -1825,6 +1876,27 @@ export default function ProductFormClient({ productId, isNew }: Props) {
               title="SEO & Référencement"
               icon={<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>}
               cardBg={cls.cardBg} border={cls.border} textMain={cls.textMain}
+              action={
+                <button
+                  type="button"
+                  onClick={handleGenerateSeoOnly}
+                  disabled={isGeneratingSeo || isGenerating}
+                  className={`flex items-center gap-1.5 text-[11px] font-bold px-3 py-1.5 rounded-full transition-colors cursor-pointer disabled:opacity-50 border ${
+                    theme === "dark"
+                      ? "text-purple-300 bg-purple-500/15 hover:bg-purple-500/25 border-purple-500/30"
+                      : "text-purple-700 bg-purple-50 hover:bg-purple-100 border-purple-200"
+                  }`}
+                >
+                  <svg className={`w-3.5 h-3.5 ${isGeneratingSeo ? "animate-spin" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    {isGeneratingSeo ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    )}
+                  </svg>
+                  {isGeneratingSeo ? "Génération SEO..." : "✨ Générer SEO (IA)"}
+                </button>
+              }
             >
               {/* Score indicator */}
               <div className={`flex items-center gap-4 p-4 ${cls.inputBg} border ${cls.border} rounded-2xl`}>
@@ -1905,6 +1977,68 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                   </ul>
                 </div>
               )}
+
+              {/* Bannière Génération SEO IA */}
+              <div className={`p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                theme === "dark"
+                  ? "bg-purple-950/20 border-purple-500/20 text-purple-200"
+                  : "bg-purple-50/70 border-purple-200 text-purple-900"
+              }`}>
+                <div className="flex items-start gap-3">
+                  <div className={`p-2 rounded-xl shrink-0 ${theme === "dark" ? "bg-purple-500/20 text-purple-300" : "bg-purple-100 text-purple-700"}`}>
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className={`text-xs font-bold ${cls.textMain}`}>Génération SEO automatique par l'IA</p>
+                    <p className={`text-[11px] ${cls.textMuted} mt-0.5`}>
+                      Générez en 1 clic un Meta Title optimisé (30-60 car.) et une Meta Description vendeuse (100-160 car.) pour Google.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
+                  <button
+                    type="button"
+                    onClick={handleGenerateSeoOnly}
+                    disabled={isGeneratingSeo || isGenerating}
+                    className="px-3.5 py-2 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-xl transition-all cursor-pointer shadow-sm disabled:opacity-50 flex items-center gap-1.5"
+                  >
+                    {isGeneratingSeo ? (
+                      <>
+                        <svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Génération...
+                      </>
+                    ) : (
+                      <>
+                        <span>✨</span>
+                        <span>Générer le SEO</span>
+                      </>
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!form.name.trim()) {
+                        alert("Veuillez saisir le nom du produit avant d'ouvrir l'assistant.");
+                        return;
+                      }
+                      setIsAiModalOpen(true);
+                    }}
+                    title="Ouvrir l'assistant IA avec questions guidées"
+                    className={`px-3 py-2 text-xs font-semibold rounded-xl border transition-colors cursor-pointer ${
+                      theme === "dark"
+                        ? "border-purple-500/30 text-purple-300 hover:bg-purple-500/10"
+                        : "border-purple-200 text-purple-700 bg-white hover:bg-purple-50"
+                    }`}
+                  >
+                    Assistant guidé
+                  </button>
+                </div>
+              </div>
 
               <InputField
                 label={`Meta title (${form.metaTitle.length}/60 car.)`}
