@@ -80,7 +80,7 @@ export default async function ColorPalettePage() {
   const unis = colors.filter((c) => c.category === "UNIS");
 
   return (
-    <div className="relative min-h-screen bg-spoolio-bg text-white font-sans flex flex-col items-center selection:bg-spoolio-orange selection:text-black overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#fafafb] text-zinc-900 font-sans flex flex-col items-center selection:bg-[#ff4f00] selection:text-white overflow-x-hidden">
       
       {/* Custom styles for complex swatches */}
       <style dangerouslySetInnerHTML={{ __html: `
@@ -89,8 +89,8 @@ export default async function ColorPalettePage() {
           width: 80px;
           height: 80px;
           border-radius: 9999px;
-          border: 2px solid rgba(255, 255, 255, 0.1);
-          box-shadow: 0 10px 25px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.1);
+          border: 2px solid rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 14px rgba(0,0,0,0.08), inset 0 2px 4px rgba(255,255,255,0.4);
           overflow: hidden;
           flex-shrink: 0;
           transition: transform 0.3s ease;
@@ -100,9 +100,9 @@ export default async function ColorPalettePage() {
           position: absolute;
           inset: 28%;
           border-radius: 9999px;
-          background: #121214;
-          border: 2px solid rgba(0, 0, 0, 0.5);
-          box-shadow: inset 0 2px 5px rgba(0,0,0,0.8), 0 2px 4px rgba(255,255,255,0.05);
+          background: #27272a;
+          border: 2px solid rgba(0, 0, 0, 0.3);
+          box-shadow: inset 0 2px 5px rgba(0,0,0,0.8), 0 2px 4px rgba(255,255,255,0.1);
           z-index: 10;
         }
         .swatch-spool::after {
@@ -110,7 +110,7 @@ export default async function ColorPalettePage() {
           position: absolute;
           inset: 38%;
           border-radius: 9999px;
-          background: #000;
+          background: #09090b;
           z-index: 11;
         }
         .swatch-rainbow {
@@ -153,7 +153,7 @@ export default async function ColorPalettePage() {
             radial-gradient(circle at 10% 20%, rgba(0,0,0,0.06) 1px, transparent 1px),
             linear-gradient(35deg, transparent 45%, rgba(0,0,0,0.12) 48%, rgba(0,0,0,0.12) 52%, transparent 55%),
             linear-gradient(125deg, transparent 40%, rgba(0,0,0,0.08) 43%, rgba(0,0,0,0.08) 47%, transparent 50%);
-          border: 1px solid rgba(255,255,255,0.15);
+          border: 1px solid rgba(0, 0, 0, 0.08);
         }
         .swatch-transparent {
           background-color: rgba(255, 255, 255, 0.15);
@@ -163,6 +163,7 @@ export default async function ColorPalettePage() {
           background-size: 10px 10px;
           background-position: 0 0, 5px 5px;
           backdrop-filter: blur(1px);
+          border: 1px solid rgba(0, 0, 0, 0.08);
         }
         .color-card-item:hover .swatch-spool {
           transform: rotate(45deg) scale(1.05);
@@ -171,8 +172,8 @@ export default async function ColorPalettePage() {
 
       {/* Decorative Blobs */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="absolute top-[5%] right-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full" style={{ backgroundColor: 'rgba(255, 79, 0, 0.12)', filter: 'blur(120px)' }} />
-        <div className="absolute bottom-[20%] left-[-15%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full" style={{ backgroundColor: 'rgba(99, 102, 241, 0.1)', filter: 'blur(120px)' }} />
+        <div className="absolute top-[5%] right-[-10%] w-[350px] md:w-[600px] h-[350px] md:h-[600px] rounded-full" style={{ backgroundColor: 'rgba(255, 79, 0, 0.06)', filter: 'blur(120px)' }} />
+        <div className="absolute bottom-[20%] left-[-15%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full" style={{ backgroundColor: 'rgba(99, 102, 241, 0.05)', filter: 'blur(120px)' }} />
       </div>
 
       <Header />
@@ -181,50 +182,51 @@ export default async function ColorPalettePage() {
         
         {/* Banner Title */}
         <div className="text-center mb-16">
-          <span className="text-xs font-black text-[#ff4f00] uppercase tracking-widest bg-[#ff4f00]/10 px-4.5 py-1.5 rounded-full border border-[#ff4f00]/20 inline-block mb-4">
+          <span className="text-xs font-black text-[#ff4f00] uppercase tracking-widest bg-orange-50 px-4.5 py-1.5 rounded-full border border-orange-200 inline-block mb-4 shadow-xs">
             Impression 3D Responsable 🌿
           </span>
-          <h1 className="text-4xl md:text-6xl font-extrabold uppercase tracking-tight font-antonio text-white mb-4">
+          <h1 className="text-4xl md:text-6xl font-extrabold uppercase tracking-tight font-antonio text-zinc-950 mb-4">
             Notre Palette de <span className="text-[#ff4f00]">Couleurs</span> 🎨
           </h1>
-          <p className="text-sm md:text-base text-gray-400 max-w-xl mx-auto font-sans leading-relaxed">
+          <p className="text-sm md:text-base text-zinc-600 max-w-xl mx-auto font-sans leading-relaxed">
             Retrouvez toutes les teintes et textures de filaments PLA biosourcés disponibles pour personnaliser vos produits Spoolio.
           </p>
-          <div className="mt-4 text-xs text-amber-500 font-semibold bg-amber-500/10 border border-amber-500/20 max-w-md mx-auto px-4 py-2.5 rounded-2xl font-sans">
-            ⚠️ Attention : le rendu des couleurs peut légèrement varier selon les écrans (~90% de fidélité par rapport à la réalité).
+          <div className="mt-4 text-xs text-amber-900 font-medium bg-amber-50 border border-amber-200/90 max-w-md mx-auto px-4 py-2.5 rounded-2xl font-sans shadow-xs flex items-center justify-center gap-2">
+            <span>⚠️</span>
+            <span>Le rendu des couleurs peut légèrement varier selon votre écran (~90% de fidélité).</span>
           </div>
         </div>
 
         {/* SECTION 1: BICOLORES & DEGRADES */}
         {bicolors.length > 0 && (
           <section className="mb-16">
-            <div className="flex items-center gap-3 mb-8 border-b border-spoolio-border/40 pb-4">
+            <div className="flex items-center gap-3 mb-8 border-b border-zinc-200/80 pb-4">
               <span className="text-2xl">🌈</span>
-              <h2 className="text-2xl font-black font-antonio uppercase tracking-wide text-white">
-                Bicolores & Dégradés
+              <h2 className="text-2xl font-black font-antonio uppercase tracking-wide text-zinc-900">
+                Bicolores &amp; Dégradés
               </h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {bicolors.map((color) => (
                 <div
                   key={color.id}
-                  className={`color-card-item p-5 rounded-[24px] bg-spoolio-card border flex gap-4 items-center transition-all ${
+                  className={`color-card-item group p-5 rounded-[24px] bg-white border flex gap-4 items-center transition-all shadow-xs ${
                     color.isAvailable
-                      ? "border-spoolio-border hover:border-[#ff4f00]/30 hover:shadow-xl"
-                      : "border-amber-500/30 opacity-70 bg-amber-500/5"
+                      ? "border-zinc-200/80 hover:border-[#ff4f00]/40 hover:shadow-xl hover:-translate-y-0.5"
+                      : "border-amber-200 bg-amber-50/30 opacity-75"
                   }`}
                 >
                   <div className={`swatch-spool ${color.className || ""}`} style={getStyleObject(color.style)} />
                   <div className="flex flex-col gap-1 font-sans flex-1">
                     <div className="flex items-center justify-between gap-2">
-                      <h3 className="font-bold text-white text-base leading-tight">{color.name}</h3>
+                      <h3 className="font-bold text-zinc-900 text-base leading-tight group-hover:text-[#ff4f00] transition-colors">{color.name}</h3>
                       {!color.isAvailable && (
-                        <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 whitespace-nowrap">
+                        <span className="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300/80 whitespace-nowrap shadow-xs">
                           Indisponible
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-gray-400 leading-relaxed mt-1">{color.description}</p>
+                    <p className="text-xs text-zinc-500 leading-relaxed mt-1 font-normal">{color.description}</p>
                   </div>
                 </div>
               ))}
@@ -235,33 +237,33 @@ export default async function ColorPalettePage() {
         {/* SECTION 2: EFFETS SPECIAUX & TEXTURES */}
         {specials.length > 0 && (
           <section className="mb-16">
-            <div className="flex items-center gap-3 mb-8 border-b border-spoolio-border/40 pb-4">
+            <div className="flex items-center gap-3 mb-8 border-b border-zinc-200/80 pb-4">
               <span className="text-2xl">✨</span>
-              <h2 className="text-2xl font-black font-antonio uppercase tracking-wide text-white">
-                Matières & Effets Spéciaux
+              <h2 className="text-2xl font-black font-antonio uppercase tracking-wide text-zinc-900">
+                Matières &amp; Effets Spéciaux
               </h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {specials.map((color) => (
                 <div
                   key={color.id}
-                  className={`color-card-item p-5 rounded-[24px] bg-spoolio-card border flex gap-4 items-center transition-all ${
+                  className={`color-card-item group p-5 rounded-[24px] bg-white border flex gap-4 items-center transition-all shadow-xs ${
                     color.isAvailable
-                      ? "border-spoolio-border hover:border-[#ff4f00]/30 hover:shadow-xl"
-                      : "border-amber-500/30 opacity-70 bg-amber-500/5"
+                      ? "border-zinc-200/80 hover:border-[#ff4f00]/40 hover:shadow-xl hover:-translate-y-0.5"
+                      : "border-amber-200 bg-amber-50/30 opacity-75"
                   }`}
                 >
                   <div className={`swatch-spool ${color.className || ""}`} style={getStyleObject(color.style)} />
                   <div className="flex flex-col gap-1 font-sans flex-1">
                     <div className="flex items-center justify-between gap-2">
-                      <h3 className="font-bold text-white text-base leading-tight">{color.name}</h3>
+                      <h3 className="font-bold text-zinc-900 text-base leading-tight group-hover:text-[#ff4f00] transition-colors">{color.name}</h3>
                       {!color.isAvailable && (
-                        <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 whitespace-nowrap">
+                        <span className="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300/80 whitespace-nowrap shadow-xs">
                           Indisponible
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-gray-400 leading-relaxed mt-1">{color.description}</p>
+                    <p className="text-xs text-zinc-500 leading-relaxed mt-1 font-normal">{color.description}</p>
                   </div>
                 </div>
               ))}
@@ -272,9 +274,9 @@ export default async function ColorPalettePage() {
         {/* SECTION 3: COULEURS UNIES */}
         {unis.length > 0 && (
           <section className="mb-16">
-            <div className="flex items-center gap-3 mb-8 border-b border-spoolio-border/40 pb-4">
+            <div className="flex items-center gap-3 mb-8 border-b border-zinc-200/80 pb-4">
               <span className="text-2xl">🎨</span>
-              <h2 className="text-2xl font-black font-antonio uppercase tracking-wide text-white">
+              <h2 className="text-2xl font-black font-antonio uppercase tracking-wide text-zinc-900">
                 Couleurs Unies Classiques
               </h2>
             </div>
@@ -282,23 +284,23 @@ export default async function ColorPalettePage() {
               {unis.map((color) => (
                 <div
                   key={color.id}
-                  className={`color-card-item p-5 rounded-[24px] bg-spoolio-card border flex gap-4 items-center transition-all ${
+                  className={`color-card-item group p-5 rounded-[24px] bg-white border flex gap-4 items-center transition-all shadow-xs ${
                     color.isAvailable
-                      ? "border-spoolio-border hover:border-[#ff4f00]/30 hover:shadow-xl"
-                      : "border-amber-500/30 opacity-70 bg-amber-500/5"
+                      ? "border-zinc-200/80 hover:border-[#ff4f00]/40 hover:shadow-xl hover:-translate-y-0.5"
+                      : "border-amber-200 bg-amber-50/30 opacity-75"
                   }`}
                 >
                   <div className={`swatch-spool ${color.className || ""}`} style={getStyleObject(color.style)} />
                   <div className="flex flex-col gap-1 font-sans flex-1">
                     <div className="flex items-center justify-between gap-2">
-                      <h3 className="font-bold text-white text-base leading-tight">{color.name}</h3>
+                      <h3 className="font-bold text-zinc-900 text-base leading-tight group-hover:text-[#ff4f00] transition-colors">{color.name}</h3>
                       {!color.isAvailable && (
-                        <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 whitespace-nowrap">
+                        <span className="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-300/80 whitespace-nowrap shadow-xs">
                           Indisponible
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-gray-400 leading-relaxed mt-1">{color.description}</p>
+                    <p className="text-xs text-zinc-500 leading-relaxed mt-1 font-normal">{color.description}</p>
                   </div>
                 </div>
               ))}
@@ -307,19 +309,19 @@ export default async function ColorPalettePage() {
         )}
 
         {/* CTA BOTTOM BLOCK */}
-        <div className="p-8 rounded-[32px] bg-spoolio-card border border-spoolio-border text-center space-y-6 max-w-xl mx-auto shadow-2xl relative overflow-hidden font-sans">
+        <div className="p-8 rounded-[32px] bg-white border border-zinc-200/90 text-center space-y-6 max-w-xl mx-auto shadow-xl relative overflow-hidden font-sans">
           <div className="absolute -right-12 -top-12 w-28 h-28 bg-[#ff4f00]/10 rounded-full blur-xl pointer-events-none" />
-          <h3 className="text-xl md:text-2xl font-black font-antonio uppercase tracking-tight text-white">
+          <h3 className="text-xl md:text-2xl font-black font-antonio uppercase tracking-tight text-zinc-950">
             Une couleur manque à l'appel ? 🛠️
           </h3>
-          <p className="text-sm text-gray-400 leading-relaxed max-w-md mx-auto">
+          <p className="text-sm text-zinc-600 leading-relaxed max-w-md mx-auto">
             Nous renouvelons régulièrement nos stocks de filaments. Si vous cherchez un coloris bien particulier, écrivez-nous !
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/contact" className="px-6 py-3 font-bold text-black bg-spoolio-orange hover:bg-spoolio-orange/90 rounded-xl transition-all shadow-lg shadow-spoolio-orange/20 w-full sm:w-auto">
+            <Link href="/contact" className="px-6 py-3 font-bold text-white bg-[#ff4f00] hover:bg-[#e04500] rounded-xl transition-all shadow-lg shadow-[#ff4f00]/25 w-full sm:w-auto">
               Nous Contacter
             </Link>
-            <Link href="/boutique" className="px-6 py-3 font-bold text-white bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl transition-all w-full sm:w-auto">
+            <Link href="/boutique" className="px-6 py-3 font-bold text-zinc-800 bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 rounded-xl transition-all w-full sm:w-auto">
               Retourner à la boutique
             </Link>
           </div>
