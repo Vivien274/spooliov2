@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { fetchTombolaStatus } from "@/lib/tombolaClient";
 import { useTranslation } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -51,12 +52,9 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    fetch("/api/tombola")
-      .then((res) => res.json())
+    fetchTombolaStatus()
       .then((data) => {
-        if (data.success && data.tombola?.status === "active") {
-          setIsTombolaActive(true);
-        }
+        setIsTombolaActive(data.isActive);
       })
       .catch(() => {});
   }, []);
@@ -552,6 +550,7 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
                         {isTombolaActive && (
                           <Link
                             href="/tombola"
+                            prefetch={false}
                             onClick={() => setActiveTab(null)}
                             className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
                           >

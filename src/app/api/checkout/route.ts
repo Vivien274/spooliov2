@@ -17,6 +17,29 @@ export async function POST(request: Request) {
       );
     }
 
+    // Server-side verification: prevent checkout if any product is out of stock (stock === 0)
+    const itemProductIds = items
+      .map((item: any) => item.productId || item.id)
+      .filter((id: any) => typeof id === "number" && id > 0);
+
+    if (itemProductIds.length > 0) {
+      try {
+        const dbProducts = await prisma.product.findMany({
+          where: { id: { in: itemProductIds } },
+          select: { id: true, name: true, stock: true },
+        });
+        const outOfStockItem = dbProducts.find((p) => p.stock === 0);
+        if (outOfStockItem) {
+          return NextResponse.json(
+            { error: `Le produit "${outOfStockItem.name}" est en rupture de stock.` },
+            { status: 400 }
+          );
+        }
+      } catch (e) {
+        console.warn("[Checkout] Stock verification warning:", e);
+      }
+    }
+
     let stripeKey = process.env.STRIPE_SECRET_KEY;
     if (stripeKey) {
       // Clean any whitespaces, tabs, carriage returns or formatting glyphs from copy-paste

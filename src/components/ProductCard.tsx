@@ -308,40 +308,50 @@ export default function ProductCard({ product, compact = false, priority = false
             <div className="w-full h-full rounded-br-[16px] shadow-[6px_6px_0_6px_#ffffff]" />
           </div>
 
-          {/* Button: Minimalist Black Pill (turns Spoolio orange on hover) */}
-          <button
-            type="button"
-            onClick={handleButtonClick}
-            onMouseEnter={() => setIsButtonHovered(true)}
-            onMouseLeave={() => setIsButtonHovered(false)}
-            title={isVariable ? (locale === "en" ? "Choose options" : "Choisir les options (couleur, taille...)") : (locale === "en" ? "Add to cart" : "Ajouter au panier")}
-            aria-label={isVariable ? "Choisir les options" : "Ajouter au panier"}
-            className={`relative h-11 px-4 rounded-full transition-all duration-200 flex items-center gap-2.5 cursor-pointer outline-none active:scale-95 no-invert shrink-0 ${
-              !isVariable && (isAlreadyInCart || wasJustAdded)
-                ? "bg-emerald-600 text-white shadow-[0_4px_14px_rgba(16,185,129,0.3)]"
-                : "bg-zinc-950 hover:bg-[#ff4f00] text-white shadow-[0_4px_14px_rgba(0,0,0,0.16)] hover:scale-[1.02]"
-            }`}
-          >
-            {!isVariable && (isAlreadyInCart || wasJustAdded) ? (
-              <>
-                <Check className="w-5 h-5 text-white shrink-0" />
-                <span className="text-xs font-black uppercase font-mono tracking-tight text-white">Ajouté</span>
-              </>
-            ) : (
-              <>
-                <div className="w-7 h-7 flex items-center justify-center pointer-events-none shrink-0 overflow-hidden brightness-0 invert">
-                  <UnicornIcon
-                    animationData={cartIconData}
-                    className="w-10 h-10 scale-[2.2] pointer-events-none"
-                    isHovered={isButtonHovered}
-                  />
-                </div>
-                <span className="text-sm font-black font-mono tracking-tight shrink-0 text-white">
-                  {formatPrice(product.price)}
-                </span>
-              </>
-            )}
-          </button>
+          {/* Button: Minimalist Black Pill (turns Spoolio orange on hover) or Out of stock */}
+          {product.stock === 0 ? (
+            <div
+              className="relative h-11 px-4 rounded-full bg-zinc-100 text-zinc-500 border border-zinc-200 flex items-center justify-center shrink-0 select-none shadow-xs"
+            >
+              <span className="text-xs font-black uppercase font-mono tracking-tight text-zinc-700">
+                Épuisé
+              </span>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={handleButtonClick}
+              onMouseEnter={() => setIsButtonHovered(true)}
+              onMouseLeave={() => setIsButtonHovered(false)}
+              title={isVariable ? (locale === "en" ? "Choose options" : "Choisir les options (couleur, taille...)") : (locale === "en" ? "Add to cart" : "Ajouter au panier")}
+              aria-label={isVariable ? "Choisir les options" : "Ajouter au panier"}
+              className={`relative h-11 px-4 rounded-full transition-all duration-200 flex items-center gap-2.5 cursor-pointer outline-none active:scale-95 no-invert shrink-0 ${
+                !isVariable && (isAlreadyInCart || wasJustAdded)
+                  ? "bg-emerald-600 text-white shadow-[0_4px_14px_rgba(16,185,129,0.3)]"
+                  : "bg-zinc-950 hover:bg-[#ff4f00] text-white shadow-[0_4px_14px_rgba(0,0,0,0.16)] hover:scale-[1.02]"
+              }`}
+            >
+              {!isVariable && (isAlreadyInCart || wasJustAdded) ? (
+                <>
+                  <Check className="w-5 h-5 text-white shrink-0" />
+                  <span className="text-xs font-black uppercase font-mono tracking-tight text-white">Ajouté</span>
+                </>
+              ) : (
+                <>
+                  <div className="w-7 h-7 flex items-center justify-center pointer-events-none shrink-0 overflow-hidden brightness-0 invert">
+                    <UnicornIcon
+                      animationData={cartIconData}
+                      className="w-10 h-10 scale-[2.2] pointer-events-none"
+                      isHovered={isButtonHovered}
+                    />
+                  </div>
+                  <span className="text-sm font-black font-mono tracking-tight shrink-0 text-white">
+                    {formatPrice(product.price)}
+                  </span>
+                </>
+              )}
+            </button>
+          )}
         </div>
       </div>
     );
@@ -409,6 +419,14 @@ export default function ProductCard({ product, compact = false, priority = false
             </span>
           )}
 
+          {/* Out of stock badge overlay */}
+          {product.stock === 0 && (
+            <span className="absolute top-3 right-3 sm:top-3.5 sm:right-3.5 inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 text-[9px] sm:text-[10px] font-black uppercase tracking-wider rounded-full bg-zinc-900/90 text-white border border-white/20 shadow-sm z-10 no-invert keep-white">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+              <span>Épuisé</span>
+            </span>
+          )}
+
         </div>
 
         {/* Content Container (Title, Description) with fixed minimum heights for pixel-perfect alignment */}
@@ -437,16 +455,29 @@ export default function ProductCard({ product, compact = false, priority = false
 
       {/* Bottom Action Row (Price & Cart button) - Strictly pinned to baseline */}
       <div className="p-3.5 sm:p-5 lg:p-6 pt-0 mt-auto shrink-0">
-        <div
-          onMouseEnter={() => setIsButtonHovered(true)}
-          onMouseLeave={() => setIsButtonHovered(false)}
-          className="w-full h-10 sm:h-[46px] lg:h-[48px] inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 text-xs font-bold text-white bg-zinc-950 hover:bg-[#ff4f00] rounded-xl transition-colors shadow-sm select-none border-none cursor-pointer no-invert"
-        >
-          <div className="brightness-0 invert flex items-center">
-            <UnicornIcon animationData={cartIconData} className="w-6 h-6 sm:w-8 sm:h-8 scale-[1.6] sm:scale-[1.8]" isHovered={isButtonHovered} />
+        {product.stock === 0 ? (
+          <div
+            className="w-full h-10 sm:h-[46px] lg:h-[48px] inline-flex items-center justify-between px-3.5 sm:px-4 text-xs font-bold bg-zinc-100 text-zinc-500 rounded-xl border border-zinc-200 select-none shadow-xs"
+          >
+            <span className="text-xs sm:text-sm font-extrabold font-mono text-zinc-400 line-through">
+              {formatPrice(product.price)}
+            </span>
+            <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-zinc-700">
+              Rupture de stock
+            </span>
           </div>
-          <span className="text-xs sm:text-sm font-extrabold font-mono">{formatPrice(product.price)}</span>
-        </div>
+        ) : (
+          <div
+            onMouseEnter={() => setIsButtonHovered(true)}
+            onMouseLeave={() => setIsButtonHovered(false)}
+            className="w-full h-10 sm:h-[46px] lg:h-[48px] inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 text-xs font-bold text-white bg-zinc-950 hover:bg-[#ff4f00] rounded-xl transition-colors shadow-sm select-none border-none cursor-pointer no-invert"
+          >
+            <div className="brightness-0 invert flex items-center">
+              <UnicornIcon animationData={cartIconData} className="w-6 h-6 sm:w-8 sm:h-8 scale-[1.6] sm:scale-[1.8]" isHovered={isButtonHovered} />
+            </div>
+            <span className="text-xs sm:text-sm font-extrabold font-mono">{formatPrice(product.price)}</span>
+          </div>
+        )}
       </div>
     </Link>
   );

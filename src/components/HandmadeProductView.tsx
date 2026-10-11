@@ -29,6 +29,7 @@ import {
   Pause,
   Film,
   Images,
+  Ban,
 } from "lucide-react";
 import { Product } from "@/components/ProductCard";
 import { getDefaultUniquePieceData, UniquePieceData } from "@/lib/uniquePieceDefaults";
@@ -127,6 +128,8 @@ export default function HandmadeProductView({
     const num = typeof p === "number" ? p : parseFloat(String(p).replace(",", "."));
     return isNaN(num) ? "0,00" : num.toFixed(2).replace(".", ",");
   };
+
+  const isOutOfStock = product?.stock === 0;
 
   // Load custom uniquePieceData or fall back to crafted defaults
   let rawUniqueData: any = null;
@@ -419,9 +422,14 @@ export default function HandmadeProductView({
             <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-white/10">
               {/* Price section */}
               <div className="flex items-baseline gap-3">
-                <span className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
+                <span className={`text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight ${isOutOfStock ? "text-zinc-500 line-through" : "text-white"}`}>
                   {formatPrice(currentPrice)}€
                 </span>
+                {isOutOfStock && (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-black uppercase tracking-wider backdrop-blur-md">
+                    Épuisé / Vendu
+                  </span>
+                )}
               </div>
 
               {/* Micro-perks pills: Peint à la main · Signé · Fabriqué à Comines */}
@@ -457,9 +465,13 @@ export default function HandmadeProductView({
               <button
                 type="button"
                 onClick={scrollToBuy}
-                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-2xl bg-[#ff4f00] hover:bg-[#ff6524] text-white font-black text-sm uppercase tracking-wider shadow-xl shadow-[#ff4f00]/30 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                className={`inline-flex items-center gap-2.5 px-6 py-3 rounded-2xl font-black text-sm uppercase tracking-wider shadow-xl transition-all cursor-pointer ${
+                  isOutOfStock
+                    ? "bg-zinc-800 text-zinc-300 hover:bg-zinc-700 border border-white/10"
+                    : "bg-[#ff4f00] hover:bg-[#ff6524] text-white shadow-[#ff4f00]/30 hover:scale-105 active:scale-95"
+                }`}
               >
-                <span>Adopter cette pièce</span>
+                <span>{isOutOfStock ? "Pièce vendue (voir détails)" : "Adopter cette pièce"}</span>
                 <ArrowDown color="#ffffff" style={{ color: "#ffffff", stroke: "#ffffff" }} className="w-4 h-4 animate-bounce" />
               </button>
             </div>
@@ -485,25 +497,27 @@ export default function HandmadeProductView({
                 <div className="flex items-center justify-between gap-4 mb-6 pb-5 border-b border-white/10">
                   <div>
                     <div className="text-[11px] font-black uppercase tracking-widest text-[#ff4f00] mb-1">
-                      Commande d'Atelier
+                      {isOutOfStock ? "Archive d'Atelier" : "Commande d'Atelier"}
                     </div>
                     <h2 className="text-xl sm:text-2xl font-black text-white">
-                      Adopter cette Pièce Unique
+                      {isOutOfStock ? "Pièce Unique Vendue" : "Adopter cette Pièce Unique"}
                     </h2>
                   </div>
                   <div className="text-right">
-                    <div className="text-2xl sm:text-3xl font-black text-white">
+                    <div className={`text-2xl sm:text-3xl font-black ${isOutOfStock ? "text-zinc-500 line-through" : "text-white"}`}>
                       {formatPrice(currentPrice)}€
                     </div>
-                    <div className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">
-                      ● Prêt à expédier
+                    <div className={`text-[10px] font-bold uppercase tracking-wider ${isOutOfStock ? "text-zinc-400" : "text-emerald-400"}`}>
+                      {isOutOfStock ? "● Non disponible" : "● Prêt à expédier"}
                     </div>
                   </div>
                 </div>
 
                 {/* Presentation note */}
                 <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-6">
-                  Chaque pièce fait main est signée et soigneusement inspectée avant son départ. Une seule unité disponible pour cette référence d'atelier.
+                  {isOutOfStock
+                    ? "Cet exemplaire unique réalisé à la main en atelier a trouvé preneur et n'est plus disponible à la commande. La fiche reste en ligne pour archives et découverte des créations d'atelier."
+                    : "Chaque pièce fait main est signée et soigneusement inspectée avant son départ. Une seule unité disponible pour cette référence d'atelier."}
                 </p>
 
                 {/* Collector Badge & Direct Add to Cart */}
@@ -511,35 +525,48 @@ export default function HandmadeProductView({
                   <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                     {/* Badge 1/1 Unique */}
                     <div className="flex items-center gap-2.5 px-4 py-3.5 rounded-2xl bg-white/5 border border-white/10 shrink-0">
-                      <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className={`w-2.5 h-2.5 rounded-full ${isOutOfStock ? "bg-zinc-500" : "bg-emerald-400 animate-pulse"}`} />
                       <div className="text-left">
                         <div className="text-[10px] uppercase font-bold tracking-wider text-zinc-400">Édition d'Atelier</div>
-                        <div className="text-xs font-black text-white">Exemplaire 1/1 unique</div>
+                        <div className="text-xs font-black text-white">
+                          {isOutOfStock ? "Exemplaire vendu (1/1)" : "Exemplaire 1/1 unique"}
+                        </div>
                       </div>
                     </div>
 
                     {/* Big Add to Cart Button */}
-                    <button
-                      type="button"
-                      onClick={handleAddToCart}
-                      className={`flex-1 py-4 px-6 rounded-2xl font-black text-sm sm:text-base uppercase tracking-wider flex items-center justify-center gap-3 transition-all cursor-pointer shadow-xl ${
-                        isAdded
-                          ? "bg-emerald-500 text-white shadow-emerald-500/30 scale-100"
-                          : "bg-[#ff4f00] hover:bg-[#ff6524] text-white shadow-[#ff4f00]/30 hover:scale-[1.01] active:scale-[0.99]"
-                      }`}
-                    >
-                      {isAdded ? (
-                        <>
-                          <Check className="w-5 h-5 animate-scale" strokeWidth={3} />
-                          <span>Ajouté au panier !</span>
-                        </>
-                      ) : (
-                        <>
-                          <ShoppingBag className="w-5 h-5" strokeWidth={2.5} />
-                          <span>Adopter cette pièce unique • {formatPrice(currentPrice)}€</span>
-                        </>
-                      )}
-                    </button>
+                    {isOutOfStock ? (
+                      <button
+                        type="button"
+                        disabled
+                        className="flex-1 py-4 px-6 rounded-2xl font-black text-sm sm:text-base uppercase tracking-wider flex items-center justify-center gap-3 bg-zinc-800/80 text-zinc-400 border border-white/10 cursor-not-allowed shadow-none"
+                      >
+                        <Ban className="w-5 h-5 text-zinc-500" strokeWidth={2.5} />
+                        <span>Pièce vendue • Épuisé</span>
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleAddToCart}
+                        className={`flex-1 py-4 px-6 rounded-2xl font-black text-sm sm:text-base uppercase tracking-wider flex items-center justify-center gap-3 transition-all cursor-pointer shadow-xl ${
+                          isAdded
+                            ? "bg-emerald-500 text-white shadow-emerald-500/30 scale-100"
+                            : "bg-[#ff4f00] hover:bg-[#ff6524] text-white shadow-[#ff4f00]/30 hover:scale-[1.01] active:scale-[0.99]"
+                        }`}
+                      >
+                        {isAdded ? (
+                          <>
+                            <Check className="w-5 h-5 animate-scale" strokeWidth={3} />
+                            <span>Ajouté au panier !</span>
+                          </>
+                        ) : (
+                          <>
+                            <ShoppingBag className="w-5 h-5" strokeWidth={2.5} />
+                            <span>Adopter cette pièce unique • {formatPrice(currentPrice)}€</span>
+                          </>
+                        )}
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

@@ -814,15 +814,25 @@ export default function ProductDetailClient({
           <div className="fixed bottom-0 inset-x-0 z-40 bg-zinc-950/95 border-t border-white/10 p-3 sm:hidden backdrop-blur-lg flex items-center justify-between gap-3 shadow-2xl animate-fadeIn no-invert keep-white">
             <div>
               <div className="text-xs font-black text-white truncate max-w-[180px]">{displayName}</div>
-              <div className="text-sm font-extrabold text-[#ff4f00]">{formatPrice(currentPrice)}€</div>
+              <div className={`text-sm font-extrabold ${isNotAvailableToBuy ? "text-zinc-500 line-through" : "text-[#ff4f00]"}`}>{formatPrice(currentPrice)}€</div>
             </div>
-            <button
-              type="button"
-              onClick={handleAddToCartClick}
-              className="px-4 py-2.5 rounded-xl bg-[#ff4f00] text-white text-xs font-black uppercase tracking-wider shadow-lg cursor-pointer"
-            >
-              {isAdded ? "Ajouté !" : "Commander"}
-            </button>
+            {isNotAvailableToBuy ? (
+              <button
+                type="button"
+                disabled
+                className="px-4 py-2.5 rounded-xl bg-zinc-800 text-zinc-400 text-xs font-black uppercase tracking-wider border border-white/10 cursor-not-allowed shadow-none"
+              >
+                Épuisé
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleAddToCartClick}
+                className="px-4 py-2.5 rounded-xl bg-[#ff4f00] text-white text-xs font-black uppercase tracking-wider shadow-lg cursor-pointer"
+              >
+                {isAdded ? "Ajouté !" : "Commander"}
+              </button>
+            )}
           </div>
         )}
 

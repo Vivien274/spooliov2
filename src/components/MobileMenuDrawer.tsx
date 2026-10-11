@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { fetchTombolaStatus } from "@/lib/tombolaClient";
 import {
   ShoppingBag,
   Sparkles,
@@ -41,12 +42,9 @@ export default function MobileMenuDrawer({
   const [isTombolaActive, setIsTombolaActive] = useState<boolean>(false);
 
   useEffect(() => {
-    fetch("/api/tombola")
-      .then((res) => res.json())
+    fetchTombolaStatus()
       .then((data) => {
-        if (data.success && data.tombola?.status === "active") {
-          setIsTombolaActive(true);
-        }
+        setIsTombolaActive(data.isActive);
       })
       .catch(() => {});
   }, []);
@@ -278,6 +276,7 @@ export default function MobileMenuDrawer({
             {isTombolaActive && (
               <Link
                 href="/tombola"
+                prefetch={false}
                 onClick={onClose}
                 className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-zinc-100 transition-colors group"
               >
