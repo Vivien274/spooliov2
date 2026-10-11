@@ -15,20 +15,43 @@ import {
 // GET: Fetch tombola details & all 50 tickets
 export async function GET() {
   try {
-    const [tombola, tickets] = await Promise.all([
-      getTombolaConfigAction(),
-      getTombolaTicketsAction(),
-    ]);
+    const tombola = await getTombolaConfigAction();
 
-    return NextResponse.json({
-      success: true,
-      tombola,
-      tickets,
-      // For backwards compatibility
-      reservedTickets: tickets
-        .filter((t) => t.status === "reserved" || t.status === "paid")
-        .map((t) => t.ticket_number),
-    });
+    // If tombola is not active, return immediately without querying tickets in DB
+    if (!tombola || tombola.status !== "active") {
+      return NextResponse.json(
+        {
+          success: true,
+          tombola: tombola || { status: "inactive" },
+          tickets: [],
+          reservedTickets: [],
+        },
+        {
+          headers: {
+            "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+          },
+        }
+      );
+    }
+
+    const tickets = await getTombolaTicketsAction();
+
+    return NextResponse.json(
+      {
+        success: true,
+        tombola,
+        tickets,
+        // For backwards compatibility
+        reservedTickets: tickets
+          .filter((t) => t.status === "reserved" || t.status === "paid")
+          .map((t) => t.ticket_number),
+      },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=10, stale-while-revalidate=30",
+        },
+      }
+    );
   } catch (error: any) {
     console.error("GET /api/tombola error:", error?.message);
     return NextResponse.json(

@@ -152,7 +152,7 @@ export default function CartDrawer() {
                       <div>
                         <h4 className="text-sm font-semibold text-zinc-900 leading-snug">
                           {item.slug === "tombola" ? (
-                            <Link href="/tombola" onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
+                            <Link href="/tombola" prefetch={false} onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
                               {item.name}
                             </Link>
                           ) : item.slug === "calendrier-avent" ? (

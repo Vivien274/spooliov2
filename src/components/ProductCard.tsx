@@ -309,40 +309,50 @@ export default function ProductCard({ product, compact = false, priority = false
             <div className="w-full h-full rounded-br-[16px] shadow-[6px_6px_0_6px_#ffffff]" />
           </div>
 
-          {/* Button: Minimalist Black Pill (turns Spoolio orange on hover) */}
-          <button
-            type="button"
-            onClick={handleButtonClick}
-            onMouseEnter={() => setIsButtonHovered(true)}
-            onMouseLeave={() => setIsButtonHovered(false)}
-            title={isVariable ? (locale === "en" ? "Choose options" : "Choisir les options (couleur, taille...)") : (locale === "en" ? "Add to cart" : "Ajouter au panier")}
-            aria-label={isVariable ? "Choisir les options" : "Ajouter au panier"}
-            className={`relative h-11 px-4 rounded-full transition-all duration-200 flex items-center gap-2.5 cursor-pointer outline-none active:scale-95 no-invert shrink-0 ${
-              !isVariable && (isAlreadyInCart || wasJustAdded)
-                ? "bg-emerald-600 text-white shadow-[0_4px_14px_rgba(16,185,129,0.3)]"
-                : "bg-zinc-950 hover:bg-[#ff4f00] text-white shadow-[0_4px_14px_rgba(0,0,0,0.16)] hover:scale-[1.02]"
-            }`}
-          >
-            {!isVariable && (isAlreadyInCart || wasJustAdded) ? (
-              <>
-                <Check className="w-5 h-5 text-white shrink-0" />
-                <span className="text-xs font-black uppercase font-mono tracking-tight text-white">Ajouté</span>
-              </>
-            ) : (
-              <>
-                <div className="w-7 h-7 flex items-center justify-center pointer-events-none shrink-0 overflow-hidden brightness-0 invert">
-                  <UnicornIcon
-                    animationData={cartIconData}
-                    className="w-10 h-10 scale-[2.2] pointer-events-none"
-                    isHovered={isButtonHovered}
-                  />
-                </div>
-                <span className="text-sm font-black font-mono tracking-tight shrink-0 text-white">
-                  {formatPrice(product.price)}
-                </span>
-              </>
-            )}
-          </button>
+          {/* Button: Minimalist Black Pill (turns Spoolio orange on hover) or Out of stock */}
+          {product.stock === 0 ? (
+            <div
+              className="relative h-11 px-4 rounded-full bg-zinc-100 text-zinc-500 border border-zinc-200 flex items-center justify-center shrink-0 select-none shadow-xs"
+            >
+              <span className="text-xs font-black uppercase font-mono tracking-tight text-zinc-700">
+                Épuisé
+              </span>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={handleButtonClick}
+              onMouseEnter={() => setIsButtonHovered(true)}
+              onMouseLeave={() => setIsButtonHovered(false)}
+              title={isVariable ? (locale === "en" ? "Choose options" : "Choisir les options (couleur, taille...)") : (locale === "en" ? "Add to cart" : "Ajouter au panier")}
+              aria-label={isVariable ? "Choisir les options" : "Ajouter au panier"}
+              className={`relative h-11 px-4 rounded-full transition-all duration-200 flex items-center gap-2.5 cursor-pointer outline-none active:scale-95 no-invert shrink-0 ${
+                !isVariable && (isAlreadyInCart || wasJustAdded)
+                  ? "bg-emerald-600 text-white shadow-[0_4px_14px_rgba(16,185,129,0.3)]"
+                  : "bg-zinc-950 hover:bg-[#ff4f00] text-white shadow-[0_4px_14px_rgba(0,0,0,0.16)] hover:scale-[1.02]"
+              }`}
+            >
+              {!isVariable && (isAlreadyInCart || wasJustAdded) ? (
+                <>
+                  <Check className="w-5 h-5 text-white shrink-0" />
+                  <span className="text-xs font-black uppercase font-mono tracking-tight text-white">Ajouté</span>
+                </>
+              ) : (
+                <>
+                  <div className="w-7 h-7 flex items-center justify-center pointer-events-none shrink-0 overflow-hidden brightness-0 invert">
+                    <UnicornIcon
+                      animationData={cartIconData}
+                      className="w-10 h-10 scale-[2.2] pointer-events-none"
+                      isHovered={isButtonHovered}
+                    />
+                  </div>
+                  <span className="text-sm font-black font-mono tracking-tight shrink-0 text-white">
+                    {formatPrice(product.price)}
+                  </span>
+                </>
+              )}
+            </button>
+          )}
         </div>
       </div>
     );
@@ -403,6 +413,13 @@ export default function ProductCard({ product, compact = false, priority = false
               <span>{decodeHtml(rarityBadge.label)}</span>
             </span>
           )}
+          {/* Out of stock badge overlay */}
+          {product.stock === 0 && (
+            <span className="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-md bg-zinc-900/90 text-white border border-white/20 shadow-xs z-10 no-invert keep-white">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+              <span>Épuisé</span>
+            </span>
+          )}
         </div>
 
         {/* Content Container (Title strictly aligned) */}
@@ -419,31 +436,37 @@ export default function ProductCard({ product, compact = false, priority = false
                   {formatPrice(product.regular_price)}
                 </span>
               )}
-              <span className="text-xs sm:text-sm font-bold text-[#18181B]">
+              <span className={`text-xs sm:text-sm font-bold ${product.stock === 0 ? "text-[#A1A1AA] line-through" : "text-[#18181B]"}`}>
                 {formatPrice(product.price)}
               </span>
             </div>
 
-            {/* Discreet Tactile Button */}
-            <button
-              type="button"
-              onClick={handleButtonClick}
-              title={isVariable ? "Choisir les options" : "Ajouter au panier"}
-              aria-label={isVariable ? "Choisir les options" : "Ajouter au panier"}
-              className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs shrink-0 ${
-                !isVariable && (isAlreadyInCart || wasJustAdded)
-                  ? "bg-emerald-600 text-white"
-                  : "bg-[#18181B] hover:bg-[#FF5500] text-white hover:scale-105 active:scale-95"
-              }`}
-            >
-              {!isVariable && (isAlreadyInCart || wasJustAdded) ? (
-                <Check className="w-3.5 h-3.5 text-white" />
-              ) : isVariable ? (
-                <Sliders className="w-3 h-3 text-white" />
-              ) : (
-                <Plus className="w-3.5 h-3.5 text-white" />
-              )}
-            </button>
+            {/* Discreet Tactile Button or Out of stock badge */}
+            {product.stock === 0 ? (
+              <span className="px-2 py-1 rounded-md bg-zinc-100 text-zinc-500 text-[10px] font-bold uppercase tracking-wider border border-zinc-200 select-none">
+                Épuisé
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={handleButtonClick}
+                title={isVariable ? "Choisir les options" : "Ajouter au panier"}
+                aria-label={isVariable ? "Choisir les options" : "Ajouter au panier"}
+                className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs shrink-0 ${
+                  !isVariable && (isAlreadyInCart || wasJustAdded)
+                    ? "bg-emerald-600 text-white"
+                    : "bg-[#18181B] hover:bg-[#FF5500] text-white hover:scale-105 active:scale-95"
+                }`}
+              >
+                {!isVariable && (isAlreadyInCart || wasJustAdded) ? (
+                  <Check className="w-3.5 h-3.5 text-white" />
+                ) : isVariable ? (
+                  <Sliders className="w-3 h-3 text-white" />
+                ) : (
+                  <Plus className="w-3.5 h-3.5 text-white" />
+                )}
+              </button>
+            )}
           </div>
         </div>
       </div>

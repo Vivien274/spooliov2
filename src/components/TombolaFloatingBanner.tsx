@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { fetchTombolaStatus } from "@/lib/tombolaClient";
 
 export default function TombolaFloatingBanner() {
   const pathname = usePathname();
@@ -41,17 +42,18 @@ export default function TombolaFloatingBanner() {
       }
     } catch (e) {}
 
-    // Fetch active tombola data configured in Admin
-    fetch("/api/tombola")
-      .then((res) => res.json())
+    // Fetch tombola data using cached client utility
+    fetchTombolaStatus()
       .then((data) => {
-        if (data.success && data.tombola) {
+        if (data.isActive && data.tombola) {
           setTombolaConfig({
             title: data.tombola.title || "Mega Pack Fidget & Impression 3D Spoolio",
             estimatedValue: data.tombola.estimatedValue ?? 85,
             totalCases: data.tombola.totalCases ?? 40,
             status: data.tombola.status || "active",
           });
+        } else {
+          setTombolaConfig((prev) => ({ ...prev, status: "inactive" }));
         }
       })
       .catch((e) => console.warn("Failed to fetch tombola config for floating banner:", e))
@@ -150,6 +152,7 @@ export default function TombolaFloatingBanner() {
             <div className="pt-2">
               <Link
                 href="/tombola"
+                prefetch={false}
                 className="w-full py-2.5 px-4 bg-gradient-to-r from-[#ff4f00] to-[#FF7700] hover:from-[#e04500] hover:to-[#ff4f00] text-white text-xs font-black uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-[#ff4f00]/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer no-invert"
               >
                 <span>Tenter ma chance</span>
