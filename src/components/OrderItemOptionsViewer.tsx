@@ -13,6 +13,7 @@ interface KeyDetail {
 
 interface OrderItemOptionsViewerProps {
   options: string[];
+  isLight?: boolean;
 }
 
 export function parseClickerOptions(options: string[]) {
@@ -119,7 +120,7 @@ export function parseClickerOptions(options: string[]) {
   return { specs, keys, configUrl };
 }
 
-export default function OrderItemOptionsViewer({ options }: OrderItemOptionsViewerProps) {
+export default function OrderItemOptionsViewer({ options, isLight = false }: OrderItemOptionsViewerProps) {
   if (!options || options.length === 0) return null;
 
   const { specs, keys, configUrl } = parseClickerOptions(options);
@@ -136,13 +137,21 @@ export default function OrderItemOptionsViewer({ options }: OrderItemOptionsView
               key={idx}
               className={`inline-flex items-center gap-1 text-[10px] font-medium px-2.5 py-1 rounded-lg border max-w-full break-all ${
                 item.isComposition
-                  ? "bg-purple-500/10 border-purple-500/30 text-purple-200"
+                  ? isLight
+                    ? "bg-purple-100 border-purple-300 text-purple-900 font-semibold"
+                    : "bg-purple-500/10 border-purple-500/30 text-purple-200"
+                  : isLight
+                  ? "bg-white border-gray-300 text-gray-900 shadow-xs"
                   : "bg-black/60 border-white/15 text-gray-200"
               }`}
             >
               {item.key ? (
                 <>
-                  <span className={item.isComposition ? "text-purple-300 font-bold" : "text-gray-400 font-semibold shrink-0"}>
+                  <span className={
+                    item.isComposition 
+                      ? (isLight ? "text-purple-800 font-bold" : "text-purple-300 font-bold")
+                      : (isLight ? "text-gray-600 font-semibold shrink-0" : "text-gray-400 font-semibold shrink-0")
+                  }>
                     {item.isComposition ? "🎁 " : ""}
                     {item.key === "Couleur Boîtier" || item.key === "Couleur"
                       ? "🎨 Boîtier"
@@ -155,10 +164,10 @@ export default function OrderItemOptionsViewer({ options }: OrderItemOptionsView
                       : item.key}
                     :
                   </span>
-                  <span className="text-white font-bold">{item.val}</span>
+                  <span className={isLight ? "text-gray-950 font-bold" : "text-white font-bold"}>{item.val}</span>
                 </>
               ) : (
-                <span className="text-gray-200">{item.val}</span>
+                <span className={isLight ? "text-gray-900 font-medium" : "text-gray-200"}>{item.val}</span>
               )}
             </span>
           ))}
@@ -170,7 +179,11 @@ export default function OrderItemOptionsViewer({ options }: OrderItemOptionsView
               target="_blank"
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
-              className="inline-flex items-center gap-1.5 text-[10px] font-bold bg-[#ff4f00]/15 hover:bg-[#ff4f00]/25 text-[#ff4f00] border border-[#ff4f00]/40 px-2.5 py-1 rounded-lg transition-all shadow-sm"
+              className={`inline-flex items-center gap-1.5 text-[10px] font-bold ${
+                isLight
+                  ? "bg-[#ff4f00]/10 hover:bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30"
+                  : "bg-[#ff4f00]/15 hover:bg-[#ff4f00]/25 text-[#ff4f00] border border-[#ff4f00]/40"
+              } px-2.5 py-1 rounded-lg transition-all shadow-xs`}
             >
               <span>🎨</span>
               <span>Ouvrir la configuration 3D</span>
@@ -182,8 +195,8 @@ export default function OrderItemOptionsViewer({ options }: OrderItemOptionsView
 
       {/* 2. Structured Keycaps Customization Grid for Clickers */}
       {keys.length > 0 && (
-        <div className="bg-[#121216] border border-[#ff4f00]/30 rounded-xl p-3 shadow-inner space-y-2.5 mt-2 w-full max-w-full">
-          <div className="flex items-center justify-between border-b border-white/10 pb-1.5 gap-2">
+        <div className={`${isLight ? "bg-gray-100/90 border-gray-300 shadow-xs" : "bg-[#121216] border-[#ff4f00]/30 shadow-inner"} border rounded-xl p-3 space-y-2.5 mt-2 w-full max-w-full`}>
+          <div className={`flex items-center justify-between border-b ${isLight ? "border-gray-200" : "border-white/10"} pb-1.5 gap-2`}>
             <span className="text-[10px] font-black uppercase tracking-wider text-[#ff4f00] flex items-center gap-1.5">
               <span>⌨️</span> Personnalisation des Touches ({keys.length} touche{keys.length > 1 ? "s" : ""})
             </span>
@@ -195,7 +208,11 @@ export default function OrderItemOptionsViewer({ options }: OrderItemOptionsView
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="inline-flex items-center gap-1 text-[9px] font-bold bg-[#ff4f00]/15 hover:bg-[#ff4f00]/30 text-[#ff4f00] border border-[#ff4f00]/40 px-2 py-0.5 rounded-md transition-all shadow-sm shrink-0"
+                className={`inline-flex items-center gap-1 text-[9px] font-bold ${
+                  isLight
+                    ? "bg-[#ff4f00]/10 hover:bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30"
+                    : "bg-[#ff4f00]/15 hover:bg-[#ff4f00]/30 text-[#ff4f00] border border-[#ff4f00]/40"
+                } px-2 py-0.5 rounded-md transition-all shadow-xs shrink-0`}
               >
                 <span>🎨 Config 3D</span>
                 <span className="text-[8px]">↗</span>
@@ -215,19 +232,25 @@ export default function OrderItemOptionsViewer({ options }: OrderItemOptionsView
             {keys.map((k) => (
               <div
                 key={k.keyNum}
-                className="bg-black/50 border border-white/10 hover:border-[#ff4f00]/40 rounded-lg p-2 flex items-center justify-between text-xs transition-colors min-w-0"
+                className={`${
+                  isLight 
+                    ? "bg-white border-gray-200 hover:border-[#ff4f00]/50 shadow-xs" 
+                    : "bg-black/50 border-white/10 hover:border-[#ff4f00]/40"
+                } border rounded-lg p-2 flex items-center justify-between text-xs transition-colors min-w-0`}
               >
                 <div className="flex items-center gap-2 min-w-0 w-full">
-                  <span className="bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30 text-[10px] font-black px-1.5 py-0.5 rounded shrink-0 font-mono">
+                  <span className={`${
+                    isLight ? "bg-[#ff4f00]/10 text-[#ff4f00] border border-[#ff4f00]/30" : "bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30"
+                  } text-[10px] font-black px-1.5 py-0.5 rounded shrink-0 font-mono`}>
                     #{k.keyNum}
                   </span>
                   <div className="flex flex-col min-w-0 flex-1">
-                    <span className="text-white font-bold truncate text-[11px] leading-tight">
+                    <span className={`${isLight ? "text-gray-900" : "text-white"} font-bold truncate text-[11px] leading-tight`}>
                       {k.val}
                     </span>
                     {k.color && (
-                      <span className="text-[9px] text-amber-300 font-semibold flex items-center gap-1 leading-tight truncate">
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block shrink-0" />
+                      <span className={`text-[9px] ${isLight ? "text-amber-800" : "text-amber-300"} font-semibold flex items-center gap-1 leading-tight truncate`}>
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block shrink-0" />
                         {k.color}
                       </span>
                     )}

@@ -3,83 +3,88 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useTranslation } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ShoppingBag,
   Sparkles,
-  Compass,
-  Gift,
-  Ticket,
-  ChevronDown,
-  ArrowUpRight,
-  Gamepad2,
-  Smile,
-  Key,
+  Zap,
   Palette,
-  Building2,
+  Dices,
   BookOpen,
   HelpCircle,
-  ShieldCheck,
-  Dices,
-  Flame,
-  Zap,
-  Leaf,
+  Building2,
+  ChevronDown,
+  ArrowUpRight,
   ArrowRight,
+  Flame,
+  Hammer,
+  Layers,
+  Moon,
+  MousePointerClick,
+  Bot,
+  Shield,
+  Eye,
+  Package,
+  Ghost,
+  Gem,
 } from "lucide-react";
-import { isPreprodEnv } from "@/lib/env";
-
-interface MenuItem {
-  id: string;
-  label: string;
-  badge?: string;
-  badgeColor?: string;
-  href?: string;
-  hasDropdown?: boolean;
-}
+import {
+  MAIN_NAV_ITEMS,
+  SHOP_UNIVERSES,
+  COLLECTIONS_LIST,
+  WORKSHOP_PAGES,
+  EDITORIAL_MEGA_CARD,
+} from "@/config/navigationConfig";
 
 interface MotionNavigationMenuProps {
   isDark?: boolean;
 }
 
+function getUniversIcon(iconName?: string) {
+  switch (iconName) {
+    case "Sparkles":
+      return <Sparkles className="w-4 h-4 text-[#ff4f00]" />;
+    case "Zap":
+      return <Zap className="w-4 h-4 text-[#ff4f00]" />;
+    case "Palette":
+      return <Palette className="w-4 h-4 text-[#ff4f00]" />;
+    case "Dices":
+      return <Dices className="w-4 h-4 text-[#ff4f00]" />;
+    default:
+      return <Sparkles className="w-4 h-4 text-[#ff4f00]" />;
+  }
+}
+
+function getWorkshopIcon(iconName: string) {
+  switch (iconName) {
+    case "Palette":
+      return <Palette className="w-4.5 h-4.5" />;
+    case "BookOpen":
+      return <BookOpen className="w-4.5 h-4.5" />;
+    case "HelpCircle":
+      return <HelpCircle className="w-4.5 h-4.5" />;
+    case "Building2":
+      return <Building2 className="w-4.5 h-4.5" />;
+    default:
+      return <Palette className="w-4.5 h-4.5" />;
+  }
+}
+
+const COLLECTION_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
+  Moon,
+  MousePointerClick,
+  Bot,
+  Shield,
+  Eye,
+  Package,
+  Ghost,
+  Gem,
+};
+
 export default function MotionNavigationMenu({ isDark = false }: MotionNavigationMenuProps) {
-  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [hoveredTab, setHoveredTab] = useState<string | null>(null);
-  const [isTombolaActive, setIsTombolaActive] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    fetch("/api/tombola")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success && data.tombola?.status === "active") {
-          setIsTombolaActive(true);
-        }
-      })
-      .catch(() => {});
-  }, []);
-
-  const menuItems: MenuItem[] = [
-    {
-      id: "boutique",
-      label: t("header.shop"),
-      href: "/boutique",
-      hasDropdown: true,
-    },
-    {
-      id: "univers",
-      label: t("header.experiences"),
-      hasDropdown: true,
-    },
-    {
-      id: "atelier",
-      label: t("header.workshop"),
-      href: "/a-propos",
-      hasDropdown: true,
-    },
-  ];
 
   const handleMouseEnter = (id: string) => {
     if (timeoutRef.current) {
@@ -105,14 +110,12 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
     }
   };
 
-  // Clean up timer on unmount
   useEffect(() => {
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, []);
 
-  // Close dropdown on Escape press
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
@@ -130,19 +133,75 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
       className="relative hidden md:flex items-center"
       onMouseLeave={handleMouseLeave}
     >
-      {/* Mega Navigation Links - Transparent container & refined typography */}
-      <nav className="relative flex items-center gap-1">
-        {menuItems.map((item) => {
+      {/* Mega Navigation Links - V2.1 */}
+      <nav className="relative flex items-center gap-0.5 lg:gap-1">
+        {MAIN_NAV_ITEMS.map((item) => {
           const isSelected = activeTab === item.id;
           const isHovered = hoveredTab === item.id;
+
+          const linkInner = (
+            <div
+              className={`relative z-10 flex items-center gap-1 text-[11px] xl:text-xs font-black uppercase tracking-wider transition-colors no-invert ${
+                isDark ? "text-white" : "text-zinc-900"
+              }`}
+              style={isDark ? { color: "#ffffff" } : undefined}
+            >
+              <span style={isDark ? { color: "#ffffff" } : undefined}>{item.label}</span>
+
+              {item.badge && (
+                <span className="text-[8px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-[#ff4f00] text-white shadow-xs no-invert">
+                  {item.badge}
+                </span>
+              )}
+
+              {item.hasDropdown && (
+                <motion.div
+                  animate={{ rotate: isSelected ? 180 : 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ChevronDown
+                    className={`w-3 h-3 transition-colors ${
+                      isDark ? "text-zinc-300 group-hover:text-white" : "text-zinc-400 group-hover:text-zinc-900"
+                    }`}
+                    style={isDark ? { color: "#ffffff" } : undefined}
+                  />
+                </motion.div>
+              )}
+            </div>
+          );
+
+          if (!item.hasDropdown) {
+            return (
+              <Link
+                key={item.id}
+                href={item.href}
+                className="relative px-2 lg:px-2.5 xl:px-3 py-1.5 rounded-full cursor-pointer select-none transition-all duration-200 group"
+                onMouseEnter={() => {
+                  handleMouseLeave();
+                  setHoveredTab(item.id);
+                }}
+                onMouseLeave={() => setHoveredTab(null)}
+              >
+                {(isHovered || isSelected) && (
+                  <motion.div
+                    layoutId="motion-nav-pill-active"
+                    className={`absolute inset-0 rounded-full ${
+                      isDark ? "bg-white/15 backdrop-blur-md border border-white/10" : "bg-zinc-100"
+                    }`}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                {linkInner}
+              </Link>
+            );
+          }
 
           return (
             <div
               key={item.id}
-              className="relative px-3.5 py-2 rounded-full cursor-pointer select-none transition-all duration-200"
+              className="relative px-2 lg:px-2.5 xl:px-3 py-1.5 rounded-full cursor-pointer select-none transition-all duration-200 group"
               onMouseEnter={() => handleMouseEnter(item.id)}
             >
-              {/* Animated Active/Hover Backdrop */}
               {(isHovered || isSelected) && (
                 <motion.div
                   layoutId="motion-nav-pill-active"
@@ -152,44 +211,13 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
-
-              {/* Label & Indicators */}
-              <div
-                className={`relative z-10 flex items-center gap-1.5 text-xs font-black uppercase tracking-wider transition-colors no-invert ${
-                  isDark ? "text-white" : "text-zinc-900"
-                }`}
-                style={isDark ? { color: "#ffffff" } : undefined}
-              >
-                <span style={isDark ? { color: "#ffffff" } : undefined}>{item.label}</span>
-
-                {item.badge && (
-                  <span
-                    className={`text-[8px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full text-white shadow-xs no-invert ${item.badgeColor}`}
-                  >
-                    {item.badge}
-                  </span>
-                )}
-
-                {item.hasDropdown && (
-                  <motion.div
-                    animate={{ rotate: isSelected ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <ChevronDown
-                      className={`w-3.5 h-3.5 transition-colors ${
-                        isDark ? "text-zinc-300 group-hover:text-white" : "text-zinc-400 group-hover:text-zinc-900"
-                      }`}
-                      style={isDark ? { color: "#ffffff" } : undefined}
-                    />
-                  </motion.div>
-                )}
-              </div>
+              {linkInner}
             </div>
           );
         })}
       </nav>
 
-      {/* Morphing Mega Dropdown Panel */}
+      {/* Morphing Dropdown Panels */}
       <AnimatePresence>
         {activeTab && (
           <motion.div
@@ -197,463 +225,211 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.98 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute top-full left-0 pt-3 z-[999999] origin-top-left"
+            className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-[999999] origin-top pointer-events-auto"
             onMouseEnter={handleDropdownMouseEnter}
           >
-            {/* Panel Body Container */}
-            <div className="w-[940px] max-w-[calc(100vw-3rem)] bg-white/98 backdrop-blur-3xl border border-zinc-200/90 rounded-[32px] p-6 shadow-[0_25px_70px_rgba(0,0,0,0.12)] ring-1 ring-zinc-900/5 relative overflow-hidden text-zinc-900">
-              {/* Subtle ambient lighting glows */}
-              <div className="absolute -top-20 -left-20 w-56 h-56 bg-[#ff4f00]/5 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-20 -right-20 w-56 h-56 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
+            {/* ============================================================ */}
+            {/* PANEL 1: MEGA-MENU "BOUTIQUE"                                */}
+            {/* ============================================================ */}
+            {activeTab === "boutique" && (
+              <div className="w-[1040px] max-w-[calc(100vw-2.5rem)] bg-white/98 backdrop-blur-3xl border border-zinc-200/90 rounded-[32px] p-6 shadow-[0_25px_70px_rgba(0,0,0,0.12)] ring-1 ring-zinc-900/5 relative overflow-hidden text-zinc-900">
+                {/* Subtle ambient lighting glows */}
+                <div className="absolute -top-20 -left-20 w-56 h-56 bg-[#ff4f00]/5 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute -bottom-20 -right-20 w-56 h-56 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
 
-              {/* ============================================================ */}
-              {/* TAB 1: BOUTIQUE & CATALOGUE                                  */}
-              {/* ============================================================ */}
-              {activeTab === "boutique" && (
                 <div className="grid grid-cols-12 gap-6 relative z-10">
-                  {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 4) */}
-                  <div className="col-span-4 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-[#ff4f00]/30 via-black/80 to-black/95 p-6 flex flex-col justify-between group/hero shadow-xl keep-white no-invert">
+                  {/* CARTE ÉDITORIALE GAUCHE (Col 1 to 3) */}
+                  <div className="col-span-3 relative rounded-2xl overflow-hidden border border-white/15 bg-gradient-to-br from-[#ff4f00]/30 via-zinc-950 to-black p-5 flex flex-col justify-between group/hero shadow-xl keep-white no-invert">
                     {/* Light Sweep Reflection animation */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] group-hover/hero:translate-x-[150%] transition-transform duration-1000 z-20 pointer-events-none" />
 
                     <div className="absolute inset-0 opacity-25 group-hover/hero:opacity-40 transition-opacity duration-500 pointer-events-none">
                       <Image
-                        src="/images/marcel_octopus.jpg"
-                        alt="Spoolio 3D Creations"
+                        src={EDITORIAL_MEGA_CARD.imageSrc}
+                        alt="Spoolio Cabinet de Curiosités"
                         fill
                         className="object-cover object-center no-invert filter brightness-95 group-hover/hero:scale-105 transition-transform duration-700 ease-out"
                       />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/90 via-zinc-900/50 to-transparent z-10" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/60 to-transparent z-10" />
 
-                    <div className="relative z-20 space-y-2.5">
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#ff4f00] text-white !text-white text-[10px] font-black uppercase tracking-wider shadow-md no-invert keep-white">
+                    <div className="relative z-20 space-y-2">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#ff4f00] text-white !text-white text-[9px] font-black uppercase tracking-wider shadow-md no-invert keep-white">
                         <Flame className="w-3 h-3 text-yellow-300 animate-pulse" />
-                        Catalogue Spoolio 3D
+                        {EDITORIAL_MEGA_CARD.badge}
                       </span>
-                      <h4 className="text-xl font-black text-white !text-white leading-tight font-antonio uppercase tracking-wide keep-white">
-                        Créations 3D &amp; Objets Tactiles
+                      <h4 className="text-lg font-black text-white !text-white leading-tight font-antonio uppercase tracking-wide keep-white">
+                        {EDITORIAL_MEGA_CARD.title}
                       </h4>
-                      <p className="text-xs text-zinc-200 font-medium leading-relaxed">
-                        Figurines, objets tactiles, accessoires gaming &amp; jeux de société.
+                      <p className="text-[11px] text-zinc-200 font-medium leading-relaxed keep-white">
+                        {EDITORIAL_MEGA_CARD.description}
                       </p>
                     </div>
 
-                    <div className="relative z-20 pt-6">
+                    <div className="relative z-20 pt-5">
+                      <Link
+                        href={EDITORIAL_MEGA_CARD.ctaHref}
+                        onClick={() => setActiveTab(null)}
+                        className="inline-flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl bg-white text-zinc-950 font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all duration-200 shadow-md group/btn btn-light force-dark-text no-invert"
+                      >
+                        <span className="text-zinc-950 !text-zinc-950 font-black group-hover/btn:!text-white">
+                          {EDITORIAL_MEGA_CARD.ctaLabel}
+                        </span>
+                        <ArrowUpRight className="w-4 h-4 text-zinc-950 !text-zinc-950 group-hover/btn:!text-white group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-200" />
+                      </Link>
+                    </div>
+                  </div>
+
+                  {/* 4 UNIVERS ET CATÉGORIES (Col 4 to 12) */}
+                  <div className="col-span-9 flex flex-col justify-between space-y-4">
+                    <div className="grid grid-cols-4 gap-3">
+                      {SHOP_UNIVERSES.map((univers) => (
+                        <div key={univers.id} className="flex flex-col space-y-2">
+                          {/* En-tête de l'univers : priorité graphique et titre complet */}
+                          <Link
+                            href={univers.href}
+                            onClick={() => setActiveTab(null)}
+                            className="p-2.5 rounded-xl bg-zinc-50 border border-zinc-200/80 hover:bg-zinc-100 hover:border-zinc-300 transition-all group/u flex flex-col justify-between min-h-[64px]"
+                          >
+                            <div className="flex items-start gap-2 text-black group-hover/u:text-[#ff4f00] transition-colors">
+                              <div className="mt-0.5 shrink-0">
+                                {getUniversIcon(univers.iconName)}
+                              </div>
+                              <span className="font-be-vietnam font-normal text-black group-hover/u:text-[#ff4f00] text-[13px] xl:text-[14px] uppercase tracking-normal leading-snug transition-colors">
+                                {univers.label}
+                              </span>
+                            </div>
+                            <p className="text-[10px] text-zinc-400 font-medium leading-tight mt-1.5">
+                              {univers.shortDesc}
+                            </p>
+                          </Link>
+
+                          {/* Liste des catégories filles */}
+                          <ul className="space-y-0.5">
+                            {univers.categories.map((cat) => (
+                              <li key={cat.href}>
+                                <Link
+                                  href={cat.href}
+                                  onClick={() => setActiveTab(null)}
+                                  className="px-2 py-1.5 rounded-lg text-[11px] font-semibold text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 transition-all flex items-center justify-between group/cat"
+                                >
+                                  <span className="group-hover/cat:translate-x-0.5 transition-transform truncate">
+                                    {cat.label}
+                                  </span>
+                                  {cat.badge ? (
+                                    <span className="text-[8px] font-black uppercase px-1.5 py-0.2 rounded bg-zinc-900 text-white shrink-0">
+                                      {cat.badge}
+                                    </span>
+                                  ) : (
+                                    <ArrowUpRight className="w-3 h-3 text-zinc-400 opacity-0 group-hover/cat:opacity-100 transition-opacity shrink-0" />
+                                  )}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Bottom Action Bar */}
+                    <div className="p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200/90 flex items-center justify-between gap-4 mt-2">
+                      <div className="min-w-0">
+                        <h6 className="text-xs font-black text-zinc-900 font-antonio uppercase tracking-wide">
+                          FABRIQUÉ À L&apos;ATELIER &bull; PETITES SÉRIES &bull; IMPRIMÉ À COMINES
+                        </h6>
+                        <p className="text-[11px] text-zinc-500">
+                          Des objets conçus, imprimés et préparés dans notre atelier.
+                        </p>
+                      </div>
+
                       <Link
                         href="/boutique"
                         onClick={() => setActiveTab(null)}
-                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-zinc-950 font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all duration-200 shadow-md group/btn btn-light force-dark-text no-invert"
+                        className="px-4 py-2 rounded-full bg-zinc-950 hover:bg-[#ff4f00] text-white text-xs font-black shrink-0 transition-all duration-200 border border-zinc-950 cursor-pointer no-invert shadow-sm flex items-center gap-1.5"
                       >
-                        <span className="text-zinc-950 !text-zinc-950 font-black group-hover/btn:!text-white">Tout le catalogue</span>
-                        <ArrowUpRight className="w-4 h-4 text-zinc-950 !text-zinc-950 group-hover/btn:!text-white group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-200" />
-                      </Link>
-                    </div>
-                  </div>
-
-                  {/* RIGHT SECTION: 2 SUB-COLUMNS + BOTTOM ACTION BAR (Col 5 to 12) */}
-                  <div className="col-span-8 flex flex-col justify-between space-y-4">
-                    {/* Top 2 Vertical Columns */}
-                    <div className="grid grid-cols-2 gap-5">
-                      {/* Column A: Nos Collections */}
-                      <div className="space-y-1.5">
-                        <h5 className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest px-2 mb-2">
-                          Nos Collections
-                        </h5>
-
-                        <Link
-                          href="/categorie/fidgets"
-                          onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
-                        >
-                          <div className="w-9 h-9 rounded-xl bg-[#ff4f00]/10 text-[#ff4f00] flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                            <Sparkles className="w-4.5 h-4.5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
-                                {t("header.categories.fidgets")}
-                              </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </div>
-                            <p className="text-[11px] text-zinc-500 truncate">
-                              Objets sensoriels, desk toys &amp; clickers
-                            </p>
-                          </div>
-                        </Link>
-
-                        <Link
-                          href="/categorie/geek-gaming"
-                          onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
-                        >
-                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                            <Gamepad2 className="w-4.5 h-4.5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
-                                {t("nav_menu.geek_gaming")}
-                              </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </div>
-                            <p className="text-[11px] text-zinc-500 truncate">
-                              Supports manette &amp; accessoires bureau
-                            </p>
-                          </div>
-                        </Link>
-
-                        <Link
-                          href="/categorie/porte-cles"
-                          onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
-                        >
-                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                            <Key className="w-4.5 h-4.5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
-                                {t("nav_menu.keychain_title")}
-                              </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </div>
-                            <p className="text-[11px] text-zinc-500 truncate">
-                              Porte-clés originaux &amp; fun
-                            </p>
-                          </div>
-                        </Link>
-
-                        <Link
-                          href="/categorie/animaux-figurines"
-                          onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
-                        >
-                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                            <Smile className="w-4.5 h-4.5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
-                                Figurines &amp; Sculptures 3D
-                              </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </div>
-                            <p className="text-[11px] text-zinc-500 truncate">
-                              Créations décoratives &amp; figurines articulées
-                            </p>
-                          </div>
-                        </Link>
-                      </div>
-
-                      {/* Column B: Spécialités Spoolio */}
-                      <div className="space-y-1.5">
-                        <h5 className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest px-2 mb-2">
-                          Spécialités &amp; Univers
-                        </h5>
-
-                        <Link
-                          href="/medaillon-nfc-chien-chat"
-                          onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
-                        >
-                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                            <ShieldCheck className="w-4.5 h-4.5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate flex items-center gap-1.5">
-                                <span>{t("nav_menu.nfc_title")}</span>
-                                <span className="text-[8px] font-black px-1.5 py-0.2 rounded bg-zinc-900 text-white">
-                                  SOS
-                                </span>
-                              </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </div>
-                            <p className="text-[11px] text-zinc-500 truncate">
-                              Puce d'urgence pour animaux
-                            </p>
-                          </div>
-                        </Link>
-
-                        <Link
-                          href="/jeux-de-societe"
-                          onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
-                        >
-                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                            <Dices className="w-4.5 h-4.5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate flex items-center gap-1.5">
-                                <span>Jeux &amp; Accessoires 3D</span>
-                                <span className="text-[8px] font-black px-1.5 py-0.2 rounded bg-[#ff4f00] text-white">
-                                  ENJEU
-                                </span>
-                              </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </div>
-                            <p className="text-[11px] text-zinc-500 truncate">
-                              Accessoires 3D &amp; compteur de score
-                            </p>
-                          </div>
-                        </Link>
-
-                        <Link
-                          href="/pochette-surprise"
-                          onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
-                        >
-                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                            <Gift className="w-4.5 h-4.5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
-                                Pochettes Surprises
-                              </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </div>
-                            <p className="text-[11px] text-zinc-500 truncate">
-                              Packs surprises multi-créations d'atelier
-                            </p>
-                          </div>
-                        </Link>
-
-                        <Link
-                          href="/drops"
-                          onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
-                        >
-                          <div className="w-9 h-9 rounded-xl bg-[#ff4f00]/10 text-[#ff4f00] flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                            <Flame className="w-4.5 h-4.5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate flex items-center gap-1.5">
-                                <span>Drops Exclusifs</span>
-                                <span className="text-[8px] font-black px-1.5 py-0.2 rounded bg-[#ff4f00] text-white">
-                                  DROP ROOM
-                                </span>
-                              </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </div>
-                            <p className="text-[11px] text-zinc-500 truncate">
-                              Séries limitées, créations atelier &amp; collectors
-                            </p>
-                          </div>
-                        </Link>
-                      </div>
-                    </div>
-
-                    {/* Bottom Action Bar */}
-                    <div className="p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 flex items-center justify-between gap-4 mt-2">
-                      <div className="min-w-0">
-                        <h6 className="text-xs font-black text-zinc-900 font-antonio uppercase tracking-wide">
-                          Besoin d'aide pour choisir votre création 3D ?
-                        </h6>
-                        <p className="text-[11px] text-zinc-500 truncate">
-                          Notre équipe est disponible pour vous conseiller dans l'atelier.
-                        </p>
-                      </div>
-
-                      <Link
-                        href="/faq"
-                        onClick={() => setActiveTab(null)}
-                        className="px-4 py-2 rounded-full bg-zinc-950 hover:bg-[#ff4f00] text-white text-xs font-black shrink-0 transition-all duration-200 border border-zinc-950 cursor-pointer no-invert shadow-sm"
-                      >
-                        Contacter l'Atelier
+                        <span>Tout le catalogue</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
                     </div>
                   </div>
                 </div>
-              )}
+              </div>
+            )}
 
-              {/* ============================================================ */}
-              {/* TAB 2: EXPÉRIENCES & JEUX                                   */}
-              {/* ============================================================ */}
-              {activeTab === "univers" && (
-                <div className="grid grid-cols-12 gap-6 relative z-10">
-                  {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 4) */}
-                  <div className="col-span-4 relative rounded-2xl overflow-hidden border border-zinc-200 bg-zinc-900 p-6 flex flex-col justify-between group/hero shadow-md keep-white no-invert">
-                    {/* Light Sweep Reflection animation */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] group-hover/hero:translate-x-[150%] transition-transform duration-1000 z-20 pointer-events-none" />
-
-                    <div className="absolute inset-0 opacity-25 group-hover/hero:opacity-40 transition-opacity duration-500 pointer-events-none">
-                      <Image
-                        src="/images/enjeu/Enjeu_banniere.png"
-                        alt="Spoolio Experiences & Games"
-                        fill
-                        className="object-cover object-center no-invert filter brightness-95 group-hover/hero:scale-105 transition-transform duration-700 ease-out"
-                      />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-900/60 to-transparent z-10" />
-
-                    <div className="relative z-20 space-y-2.5">
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-zinc-800 text-white !text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-sm no-invert keep-white border border-zinc-700">
-                        <Dices className="w-3.5 h-3.5 text-[#ff4f00] animate-pulse" />
-                        Expériences &amp; Jeux
-                      </span>
-                      <h4 className="text-xl font-black text-white !text-white leading-tight font-antonio uppercase tracking-wide keep-white">
-                        L'Univers Jeux Spoolio 🎲
-                      </h4>
-                      <p className="text-xs text-zinc-300 font-medium leading-relaxed keep-white">
-                        Apps Web gratuites, studio 3D &amp; accessoires de jeu.
-                      </p>
-                    </div>
-
-                    <div className="relative z-20 pt-6">
-                      <Link
-                        href="/jeux-de-societe"
-                        onClick={() => setActiveTab(null)}
-                        className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-zinc-950 font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all duration-200 shadow-md group/btn btn-light force-dark-text no-invert"
-                      >
-                        <span className="text-zinc-950 !text-zinc-950 font-black group-hover/btn:!text-white">Découvrir l'App Enjeu</span>
-                        <ArrowUpRight className="w-4 h-4 text-zinc-950 !text-zinc-950 group-hover/btn:!text-white group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-200" />
-                      </Link>
-                    </div>
+            {/* ============================================================ */}
+            {/* PANEL 2: DROPDOWN COMPACT "COLLECTIONS"                      */}
+            {/* ============================================================ */}
+            {activeTab === "collections" && (
+              <div className="w-[560px] max-w-[calc(100vw-3rem)] bg-white/98 backdrop-blur-3xl border border-zinc-200/90 rounded-[28px] p-5 shadow-[0_25px_70px_rgba(0,0,0,0.12)] ring-1 ring-zinc-900/5 relative overflow-hidden text-zinc-900">
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-zinc-100 px-1">
+                  <div className="flex items-center gap-2">
+                    <Layers className="w-4 h-4 text-[#ff4f00]" />
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-zinc-400">
+                      Séries &amp; Collections Thématiques
+                    </span>
                   </div>
-
-                  {/* RIGHT SECTION: 2 SUB-COLUMNS + BOTTOM ACTION BAR (Col 5 to 12) */}
-                  <div className="col-span-8 flex flex-col justify-between space-y-4">
-                    {/* Top 2 Vertical Columns */}
-                    <div className="grid grid-cols-2 gap-5">
-                      {/* Column A: Jeux & Compagnons */}
-                      <div className="space-y-1.5">
-                        <h5 className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest px-2 mb-2">
-                          Jeux &amp; Compagnons Web
-                        </h5>
-
-                        <Link
-                          href="/jeux-de-societe"
-                          onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
-                        >
-                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                            <Dices className="w-4.5 h-4.5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate flex items-center gap-1">
-                                <span>Jeux &amp; App Enjeu</span>
-                                <span className="text-[8px] font-black px-1 py-0.2 rounded bg-[#ff4f00] text-white">
-                                  GRATUIT
-                                </span>
-                              </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </div>
-                            <p className="text-[11px] text-zinc-500 truncate">
-                              Calculateur de score &amp; tours à dés
-                            </p>
-                          </div>
-                        </Link>
-
-                        {isTombolaActive && (
-                          <Link
-                            href="/tombola"
-                            onClick={() => setActiveTab(null)}
-                            className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
-                          >
-                            <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                              <Ticket className="w-4.5 h-4.5" />
-                            </div>
-                            <div className="min-w-0 flex-1">
-                              <div className="flex items-center justify-between">
-                                <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
-                                  Tombola Spoolio
-                                </h6>
-                                <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                              </div>
-                              <p className="text-[11px] text-zinc-500 truncate">
-                                {t("nav_menu.tombola_desc")}
-                              </p>
-                            </div>
-                          </Link>
-                        )}
-                      </div>
-
-                      {/* Column B: Outils & Studio 3D */}
-                      <div className="space-y-1.5">
-                        <h5 className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest px-2 mb-2">
-                          Outils &amp; Studio 3D
-                        </h5>
-
-                        <Link
-                          href="/boussole-sensorielle"
-                          onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
-                        >
-                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                            <Compass className="w-4.5 h-4.5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
-                                {t("nav_menu.boussole_title")}
-                              </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </div>
-                            <p className="text-[11px] text-zinc-500 truncate">
-                              Trouvez votre objet idéal en 3 clics
-                            </p>
-                          </div>
-                        </Link>
-
-                        <Link
-                          href="/createur-cliqueur"
-                          onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
-                        >
-                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                            <Gamepad2 className="w-4.5 h-4.5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
-                                {t("nav_menu.clicker_studio")}
-                              </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </div>
-                            <p className="text-[11px] text-zinc-500 truncate">
-                              Personnalisez votre clicker en 3D
-                            </p>
-                          </div>
-                        </Link>
-                      </div>
-                    </div>
-
-                    {/* Bottom Action Bar */}
-                    <div className="p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 flex items-center justify-between gap-4 mt-2">
-                      <div className="min-w-0">
-                        <h6 className="text-xs font-black text-zinc-900 font-antonio uppercase tracking-wide">
-                          Une idée de jeu de société ou d'accessoire ?
-                        </h6>
-                        <p className="text-[11px] text-zinc-500 truncate">
-                          Partagez vos idées pour enrichir les prochaines créations 3D.
-                        </p>
-                      </div>
-
-                      <Link
-                        href="/jeux-de-societe#communaute"
-                        onClick={() => setActiveTab(null)}
-                        className="px-4 py-2 rounded-full bg-zinc-950 hover:bg-[#ff4f00] text-white text-xs font-black shrink-0 transition-all duration-200 border border-zinc-950 cursor-pointer no-invert shadow-sm"
-                      >
-                        Suggérer une idée
-                      </Link>
-                    </div>
-                  </div>
+                  <span className="text-[10px] font-bold text-zinc-500 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200">
+                    8 Séries
+                  </span>
                 </div>
-              )}
 
-              {/* ============================================================ */}
-              {/* TAB 3: L'ATELIER                                             */}
-              {/* ============================================================ */}
-              {activeTab === "atelier" && (
+                <div className="grid grid-cols-2 gap-2">
+                  {COLLECTIONS_LIST.map((col) => {
+                    const IconComponent = (col.iconName && COLLECTION_ICONS[col.iconName]) || Layers;
+                    return (
+                      <Link
+                        key={col.id}
+                        href={col.href}
+                        onClick={() => setActiveTab(null)}
+                        className="p-3 rounded-2xl bg-zinc-50/70 hover:bg-zinc-100/90 border border-zinc-200/60 hover:border-zinc-300 transition-all flex flex-col justify-between group/col"
+                      >
+                        <div className="flex items-center justify-between gap-1.5">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <IconComponent className="w-4 h-4 text-zinc-500 group-hover/col:text-[#ff4f00] transition-colors shrink-0" />
+                            <span className="font-be-vietnam font-medium text-[13px] xl:text-[14px] text-zinc-950 group-hover/col:text-[#ff4f00] transition-colors truncate">
+                              {col.label}
+                            </span>
+                          </div>
+                          {col.badge ? (
+                            <span className="text-[8px] font-black uppercase px-1.5 py-0.5 rounded bg-zinc-900 text-white shrink-0">
+                              {col.badge}
+                            </span>
+                          ) : (
+                            <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover/col:opacity-100 group-hover/col:translate-x-0.5 transition-all shrink-0" />
+                          )}
+                        </div>
+                        <p className="text-[10px] text-zinc-500 font-medium truncate mt-1 pl-6">
+                          {col.tagline}
+                        </p>
+                      </Link>
+                    );
+                  })}
+                </div>
+
+                <div className="pt-3 mt-3 border-t border-zinc-100 flex items-center justify-between px-1">
+                  <span className="text-[11px] text-zinc-500 font-medium">
+                    Explorations artistiques &amp; séries capsules
+                  </span>
+                  <Link
+                    href="/collections"
+                    onClick={() => setActiveTab(null)}
+                    className="text-xs font-bold text-zinc-950 hover:text-[#ff4f00] transition-colors flex items-center gap-1 group/link"
+                  >
+                    <span>Toutes les collections</span>
+                    <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform" />
+                  </Link>
+                </div>
+              </div>
+            )}
+
+            {/* ============================================================ */}
+            {/* PANEL 3: DROPDOWN "L'ATELIER"                                */}
+            {/* ============================================================ */}
+            {activeTab === "atelier" && (
+              <div className="w-[820px] max-w-[calc(100vw-3rem)] bg-white/98 backdrop-blur-3xl border border-zinc-200/90 rounded-[32px] p-6 shadow-[0_25px_70px_rgba(0,0,0,0.12)] ring-1 ring-zinc-900/5 relative overflow-hidden text-zinc-900">
                 <div className="grid grid-cols-12 gap-6 relative z-10">
-                  {/* LEFT HERO / SPOTLIGHT CARD (Col 1 to 4) */}
+                  {/* CARTE ÉDITORIALE GAUCHE (Col 1 to 4) */}
                   <div className="col-span-4 relative rounded-2xl overflow-hidden border border-zinc-200 bg-zinc-900 p-6 flex flex-col justify-between group/hero shadow-md keep-white no-invert">
-                    {/* Light Sweep Reflection animation */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-150%] group-hover/hero:translate-x-[150%] transition-transform duration-1000 z-20 pointer-events-none" />
 
                     <div className="absolute inset-0 opacity-25 group-hover/hero:opacity-40 transition-opacity duration-500 pointer-events-none">
@@ -667,15 +443,15 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-900/60 to-transparent z-10" />
 
                     <div className="relative z-20 space-y-2.5">
-                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-zinc-800 text-white !text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-sm no-invert keep-white border border-zinc-700">
-                        <Leaf className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-                        Impression 3D Eco 🇫🇷
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-800 text-white !text-white text-[10px] font-mono font-bold uppercase tracking-wider shadow-sm no-invert keep-white border border-zinc-700">
+                        <Hammer className="w-3.5 h-3.5 text-[#ff4f00]" />
+                        ATELIER SPOOLIO &bull; COMINES
                       </span>
                       <h4 className="text-xl font-black text-white !text-white leading-tight font-antonio uppercase tracking-wide keep-white">
-                        Savoir-Faire &amp; Engagement
+                        SAVOIR-FAIRE &amp; ATELIER
                       </h4>
                       <p className="text-xs text-zinc-300 font-medium leading-relaxed keep-white">
-                        Objets conçus en France à partir de bioplastiques recyclables.
+                        Objets conçus, imprimés et préparés en petites séries dans notre atelier à Comines.
                       </p>
                     </div>
 
@@ -685,141 +461,65 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
                         onClick={() => setActiveTab(null)}
                         className="inline-flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-white text-zinc-950 font-black text-xs uppercase tracking-wider hover:bg-[#ff4f00] hover:text-white transition-all duration-200 shadow-md group/btn btn-light force-dark-text no-invert"
                       >
-                        <span className="text-zinc-950 !text-zinc-950 font-black group-hover/btn:!text-white">Découvrir l'Atelier</span>
+                        <span className="text-zinc-950 !text-zinc-950 font-black group-hover/btn:!text-white">
+                          DÉCOUVRIR L&apos;ATELIER
+                        </span>
                         <ArrowUpRight className="w-4 h-4 text-zinc-950 !text-zinc-950 group-hover/btn:!text-white group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform duration-200" />
                       </Link>
                     </div>
                   </div>
 
-                  {/* RIGHT SECTION: 2 SUB-COLUMNS + BOTTOM ACTION BAR (Col 5 to 12) */}
+                  {/* PAGES INSTITUTIONNELLES (Col 5 to 12) */}
                   <div className="col-span-8 flex flex-col justify-between space-y-4">
-                    {/* Top 2 Vertical Columns */}
-                    <div className="grid grid-cols-2 gap-5">
-                      {/* Column A: L'Univers Spoolio */}
-                      <div className="space-y-1.5">
-                        <h5 className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest px-2 mb-2">
-                          L'Univers Spoolio
-                        </h5>
-
+                    <div className="grid grid-cols-2 gap-3.5">
+                      {WORKSHOP_PAGES.map((page) => (
                         <Link
-                          href="/a-propos"
+                          key={page.href}
+                          href={page.href}
                           onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
+                          className="flex items-center gap-3 p-3 rounded-2xl hover:bg-zinc-100 border border-zinc-200/70 hover:border-zinc-300 transition-all duration-150 group"
                         >
-                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                            <Palette className="w-4.5 h-4.5" />
+                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:text-[#ff4f00] transition-all shadow-xs">
+                            {getWorkshopIcon(page.iconName)}
                           </div>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
-                                {t("nav_menu.our_story")}
+                              <h6 className="font-be-vietnam font-normal text-[13px] xl:text-[14px] text-black group-hover:text-[#ff4f00] transition-colors truncate">
+                                {page.label}
                               </h6>
                               <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-zinc-500 truncate">
-                              Savoir-faire &amp; fabrication à Comines
+                            <p className="text-[11px] text-zinc-500 truncate mt-0.5">
+                              {page.desc}
                             </p>
                           </div>
                         </Link>
-
-                        <Link
-                          href="/blog"
-                          onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
-                        >
-                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                            <BookOpen className="w-4.5 h-4.5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
-                                {t("nav_menu.blog_title")}
-                              </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </div>
-                            <p className="text-[11px] text-zinc-500 truncate">
-                              Guides 3D, coulisses &amp; actualités
-                            </p>
-                          </div>
-                        </Link>
-                      </div>
-
-                      {/* Column B: Services & Support */}
-                      <div className="space-y-1.5">
-                        <h5 className="text-[10px] font-mono font-bold text-zinc-400 uppercase tracking-widest px-2 mb-2">
-                          Services &amp; Support
-                        </h5>
-
-                        <Link
-                          href="/pro"
-                          onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
-                        >
-                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                            <Building2 className="w-4.5 h-4.5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate flex items-center gap-1">
-                                <span>{t("nav_menu.pro_space")}</span>
-                                <span className="text-[8px] font-black px-1 py-0.2 rounded bg-zinc-900 text-white">
-                                  B2B
-                                </span>
-                              </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </div>
-                            <p className="text-[11px] text-zinc-500 truncate">
-                              Goodies &amp; séries 3D sur-mesure
-                            </p>
-                          </div>
-                        </Link>
-
-                        <Link
-                          href="/faq"
-                          onClick={() => setActiveTab(null)}
-                          className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-zinc-100 border border-transparent hover:border-zinc-200 transition-all duration-150 group"
-                        >
-                          <div className="w-9 h-9 rounded-xl bg-zinc-100 text-zinc-900 flex items-center justify-center shrink-0 group-hover:scale-105 transition-all shadow-xs">
-                            <HelpCircle className="w-4.5 h-4.5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between">
-                              <h6 className="text-xs font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors truncate">
-                                {t("nav_menu.faq_title")}
-                              </h6>
-                              <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
-                            </div>
-                            <p className="text-[11px] text-zinc-500 truncate">
-                              Livraison, retours &amp; questions
-                            </p>
-                          </div>
-                        </Link>
-                      </div>
+                      ))}
                     </div>
 
                     {/* Bottom Action Bar */}
                     <div className="p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200 flex items-center justify-between gap-4 mt-2">
                       <div className="min-w-0">
                         <h6 className="text-xs font-black text-zinc-900 font-antonio uppercase tracking-wide">
-                          Un projet d'impression 3D sur-mesure pour votre entreprise ?
+                          Une question ou un projet sur-mesure ?
                         </h6>
                         <p className="text-[11px] text-zinc-500 truncate">
-                          Demandez une étude de faisabilité et un devis rapide.
+                          Notre équipe d&apos;artisanat 3D vous répond avec plaisir.
                         </p>
                       </div>
 
                       <Link
-                        href="/pro"
+                        href="/faq"
                         onClick={() => setActiveTab(null)}
                         className="px-4 py-2 rounded-full bg-zinc-950 hover:bg-[#ff4f00] text-white text-xs font-black shrink-0 transition-all duration-200 border border-zinc-950 cursor-pointer no-invert shadow-sm"
                       >
-                        Demander un devis
+                        Contacter l&apos;Atelier
                       </Link>
                     </div>
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

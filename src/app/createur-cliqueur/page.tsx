@@ -14,15 +14,21 @@ const ClickerConfiguratorClient = nextDynamic(
   () => import("@/components/ClickerConfiguratorClient"),
   {
     loading: () => (
-      <div className="w-full max-w-6xl mx-auto h-[520px] rounded-3xl bg-neutral-900/40 border border-neutral-800 animate-pulse flex items-center justify-center text-neutral-400 font-mono text-sm">
-        Chargement du Studio Clicker Spoolio 3D...
+      <div className="w-full max-w-7xl mx-auto h-[560px] rounded-2xl bg-white border border-[#E4E4E0] shadow-xs animate-pulse flex flex-col items-center justify-center text-[#707070] font-mono text-xs gap-3">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#FF5500] animate-ping" />
+        <span>INITIALISATION DU STUDIO CLICKER 3D...</span>
       </div>
     ),
   }
 );
 
 export async function generateMetadata(): Promise<Metadata> {
-  return getPageSeoMetadata("createur-cliqueur");
+  const base = getPageSeoMetadata("createur-cliqueur");
+  return {
+    ...base,
+    title: "Clicker Studio — Compose ton clicker 3D | Spoolio",
+    description: "Composez votre fidget mécanique sur-mesure dans le Clicker Studio Spoolio : formats, couleurs de boîtier, switches et gravures personnalisées.",
+  };
 }
 
 export default function CreateurCliqueurPage() {
@@ -37,76 +43,99 @@ export default function CreateurCliqueurPage() {
   }
 
   return (
-    <div className="relative min-h-screen bg-[#fafaf9] text-zinc-900 font-sans flex flex-col items-center selection:bg-[#FF5500] selection:text-white">
-      {/* Background Decorative Glows */}
+    <div className="clicker-studio-page relative min-h-screen bg-[#FAF9F6] text-[#121212] font-sans flex flex-col items-center selection:bg-[#FF5500] selection:text-white overflow-x-hidden">
+      {/* Subtle Warm Studio Background Glow */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <div
-          className="absolute top-[-10%] right-[-10%] w-[550px] h-[550px] rounded-full"
-          style={{ backgroundColor: "rgba(255, 85, 0, 0.05)", filter: "blur(120px)" }}
+          className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full"
+          style={{ backgroundColor: "rgba(255, 85, 0, 0.04)", filter: "blur(140px)" }}
         />
         <div
-          className="absolute top-[40%] left-[-10%] w-[500px] h-[500px] rounded-full"
-          style={{ backgroundColor: "rgba(0, 240, 255, 0.05)", filter: "blur(120px)" }}
+          className="absolute top-[40%] left-[-10%] w-[450px] h-[450px] rounded-full"
+          style={{ backgroundColor: "rgba(0, 160, 255, 0.02)", filter: "blur(140px)" }}
         />
       </div>
 
-      {/* Header */}
-      <Header />
+      {/* Light Header */}
+      <Header isDark={false} />
 
-      {/* Main Content Area */}
-      <main className="w-full max-w-[1200px] px-4 pt-28 lg:pt-32 pb-8 relative z-10 flex flex-col items-center">
-        {/* Hero Title & Presentation Banner */}
-        <div className="text-center max-w-2xl mb-8">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700 text-xs font-mono font-bold uppercase tracking-wider mb-3">
-            <span>⌨️ STUDIO Fidget Mécanique</span>
+      {/* Main Studio Area */}
+      <main className="w-full max-w-7xl px-4 sm:px-6 pt-24 lg:pt-28 pb-16 relative z-10 flex flex-col items-center">
+        
+        {/* Editorial Studio Header */}
+        <div className="w-full text-center max-w-3xl mb-8 sm:mb-10 space-y-2.5">
+          {/* Over-title / Studio Tag */}
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-[#E4E4E0] text-[#555555] text-[11px] font-mono tracking-widest uppercase shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FF5500]" />
+            <span>SPOOLIO / CLICKER STUDIO</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold uppercase tracking-tight text-zinc-950 font-[family-name:var(--font-antonio)] mb-3">
-            CRÉATEUR DE CLICKER ⚡
+
+          {/* Monumental Headline */}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-[#121212]">
+            Compose ton clicker.
           </h1>
-          <p className="text-sm sm:text-base text-zinc-600 font-[family-name:var(--font-plus-jakarta)] leading-relaxed">
-            Composez votre fidget mécanique unique : choisissez la forme, le nombre de touches, le type de switch, la couleur du boîtier et personnalisez chaque touche à l'unité.
+
+          {/* Editorial Subtitle */}
+          <p className="text-xs sm:text-sm font-mono text-[#666666] tracking-tight max-w-xl mx-auto">
+            Une forme. Des couleurs. Une sensation. À toi de jouer.
           </p>
         </div>
 
-        {/* Dedicated Clicker Configurator Client */}
-        <ClickerConfiguratorClient className="w-full mb-12" />
+        {/* Dedicated Clicker Configurator Client in Light Theme */}
+        <ClickerConfiguratorClient className="w-full mb-16" />
 
-        {/* Reassurance Badges Row */}
-        <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 border-t border-zinc-200/90 text-center font-[family-name:var(--font-plus-jakarta)]">
-          <div className="p-4 rounded-2xl reassurance-card bg-white border border-zinc-200/90 shadow-2xs flex flex-col items-center gap-2">
-            <span className="text-2xl">🎹</span>
-            <span className="text-xs font-bold text-zinc-950 uppercase tracking-wide">
-              Vrais Switchs Mécaniques
-            </span>
-            <span className="text-[11px] text-zinc-500">
-              Chaque touche intègre un switch mécanique haute précision au clic satisfaisant.
-            </span>
+        {/* Technical Reassurance Specs in Light Theme */}
+        <div className="w-full max-w-5xl grid grid-cols-1 sm:grid-cols-3 gap-3 pt-10 border-t border-[#E4E4E0] text-left font-mono">
+          <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[#E4E4E0] shadow-xs flex flex-col justify-between gap-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold text-[#FF5500]">01 // SENSATION</span>
+              <span className="text-[10px] text-[#888888]">50M CLICS</span>
+            </div>
+            <div>
+              <h2 className="text-xs font-bold uppercase text-[#121212] mb-1">
+                SWITCHES MÉCANIQUES RÉELS
+              </h2>
+              <p className="text-[11px] text-[#666666] leading-relaxed">
+                Switches clicky, tactiles ou linéaires certifiés haute longévité. Chaque touche offre un retour physique franc et dosé.
+              </p>
+            </div>
           </div>
 
-          <div className="p-4 rounded-2xl reassurance-card bg-white border border-zinc-200/90 shadow-2xs flex flex-col items-center gap-2">
-            <span className="text-2xl">🌱</span>
-            <span className="text-xs font-bold text-zinc-950 uppercase tracking-wide">
-              Boîtier PLA Biosourcé
-            </span>
-            <span className="text-[11px] text-zinc-500">
-              Imprimé en 3D à Comines dans du plastique écologique sans pétrole.
-            </span>
+          <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[#E4E4E0] shadow-xs flex flex-col justify-between gap-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold text-[#FF5500]">02 // ATELIER</span>
+              <span className="text-[10px] text-[#888888]">COMINES • NORD</span>
+            </div>
+            <div>
+              <h2 className="text-xs font-bold uppercase text-[#121212] mb-1">
+                FABRICATION ARTISANALE 3D
+              </h2>
+              <p className="text-[11px] text-[#666666] leading-relaxed">
+                Boîtier imprimé en 3D en PLA biosourcé végétal dans notre atelier français. Finitions manuelles et inspection unitaire.
+              </p>
+            </div>
           </div>
 
-          <div className="p-4 rounded-2xl reassurance-card bg-white border border-zinc-200/90 shadow-2xs flex flex-col items-center gap-2">
-            <span className="text-2xl">🔗</span>
-            <span className="text-xs font-bold text-zinc-950 uppercase tracking-wide">
-              Porte-Clés ou Bureau
-            </span>
-            <span className="text-[11px] text-zinc-500">
-              Livré avec ou sans attache inox pour l'emporter partout avec vous.
-            </span>
+          <div className="p-4 sm:p-5 rounded-2xl bg-white border border-[#E4E4E0] shadow-xs flex flex-col justify-between gap-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-bold text-[#FF5500]">03 // USAGE</span>
+              <span className="text-[10px] text-[#888888]">1K → 9K</span>
+            </div>
+            <div>
+              <h2 className="text-xs font-bold uppercase text-[#121212] mb-1">
+                NOMADE OU BUREAU
+              </h2>
+              <p className="text-[11px] text-[#666666] leading-relaxed">
+                Du mono-touche discret au pad 9 touches. Livré avec chaînette inox, mousqueton, dragonne ou patins pour usage bureau.
+              </p>
+            </div>
           </div>
         </div>
+
       </main>
 
-      {/* Footer */}
-      <Footer />
+      {/* Light Footer */}
+      <Footer isDark={false} />
     </div>
   );
 }

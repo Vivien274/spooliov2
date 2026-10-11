@@ -63,6 +63,11 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/art-toys/cabinet-noir",
+        destination: "/collections/cabinet-noir",
+        permanent: true,
+      },
+      {
         source: "/produit/:slug*",
         destination: "/product/:slug*",
         permanent: true,

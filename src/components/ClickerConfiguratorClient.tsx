@@ -5,11 +5,11 @@ import { useCart } from "@/context/CartContext";
 import AnimateDigits from "@/components/ui/AnimateDigits";
 import ModernBentoGallery, { GalleryItem } from "@/components/ui/ModernBentoGallery";
 import ClickerSvgSymbol, { VECTOR_SYMBOLS } from "@/components/ui/ClickerSvgSymbol";
-import { Sparkles, Type, FileText, Slash, Check, Layers } from "lucide-react";
+import { Sparkles, Type, FileText, Slash, Check, Layers, Volume2, ArrowRight } from "lucide-react";
 import Clicker3DViewer from "@/components/Clicker3DViewer";
 
 // Color Definition Type
-interface ColorOption {
+export interface ColorOption {
   id: string;
   name: string;
   hex: string;
@@ -17,8 +17,8 @@ interface ColorOption {
   isGlow?: boolean;
 }
 
-// Case Colors Palette
-const CASE_COLORS: ColorOption[] = [
+// Case Colors Palette (13 official colors)
+export const CASE_COLORS: ColorOption[] = [
   { id: "noir", name: "Noir Mat", hex: "#18181b", textColor: "#ffffff" },
   { id: "blanc", name: "Blanc Pur", hex: "#f4f4f5", textColor: "#000000" },
   { id: "gris", name: "Gris Carbone", hex: "#3f3f46", textColor: "#ffffff" },
@@ -34,8 +34,8 @@ const CASE_COLORS: ColorOption[] = [
   { id: "glow", name: "Phosphorescent", hex: "#a3e635", textColor: "#000000", isGlow: true },
 ];
 
-// Keycap Colors Palette
-const KEYCAP_COLORS: ColorOption[] = [
+// Keycap Colors Palette (11 official colors)
+export const KEYCAP_COLORS: ColorOption[] = [
   { id: "orange", name: "Orange Spoolio", hex: "#ff4f00", textColor: "#ffffff" },
   { id: "jaune", name: "Jaune Soleil", hex: "#facc15", textColor: "#000000" },
   { id: "noir", name: "Noir Mat", hex: "#18181b", textColor: "#ffffff" },
@@ -49,42 +49,51 @@ const KEYCAP_COLORS: ColorOption[] = [
   { id: "glow", name: "Phosphorescent", hex: "#a3e635", textColor: "#000000", isGlow: true },
 ];
 
-// Switch Types Definition
-interface SwitchOption {
+// Switch Types Definition with sensory focus
+export interface SwitchOption {
   id: "blue" | "brown" | "red";
   name: string;
+  sensationLabel: string;
+  feel: string;
   desc: string;
   soundLabel: string;
-  badge: string;
+  volumeLevel: 1 | 2 | 3;
 }
 
-const SWITCHES: SwitchOption[] = [
+export const SWITCHES: SwitchOption[] = [
   {
     id: "blue",
-    name: "Clicky Bleu",
-    desc: "Clic aigu, franc et très satisfaisant",
-    soundLabel: "🔊 Fort & Clic",
-    badge: "Populaire"
+    name: "Clicky",
+    sensationLabel: "SEC / FRANC / SONORE",
+    feel: "Clic franc & retour tactile net",
+    desc: "Switch Bleu de précision. Déclenchement sonore immédiat et addictif.",
+    soundLabel: "Sonore",
+    volumeLevel: 3,
   },
   {
     id: "brown",
-    name: "Tactile Marron",
-    desc: "Bosse tactile nette sans bruit aigu fort",
-    soundLabel: "🔉 Discret",
-    badge: "Bureau"
+    name: "Tactile",
+    sensationLabel: "NET / DOSÉ / ÉQUILIBRÉ",
+    feel: "Résistance dosée sans bruit aigu",
+    desc: "Switch Marron feutré. Bosse tactile franche et discrétion sonore au bureau.",
+    soundLabel: "Modéré",
+    volumeLevel: 2,
   },
   {
     id: "red",
-    name: "Linéaire Rouge",
-    desc: "Enfoncement ultra fluide et très silencieux",
-    soundLabel: "🤫 Silencieux",
-    badge: "Discrétion"
-  }
+    name: "Linéaire",
+    sensationLabel: "FLUIDE / DOUX / DISCRET",
+    feel: "Enfoncement soyeux sans à-coup",
+    desc: "Switch Rouge silencieux. Glisse fluide continue pour les manipulations discrètes.",
+    soundLabel: "Feutré",
+    volumeLevel: 1,
+  },
 ];
 
 // Shapes / Layouts
-interface LayoutShape {
+export interface LayoutShape {
   id: string;
+  code: string;
   name: string;
   keyCount: number;
   price: number;
@@ -96,31 +105,31 @@ interface LayoutShape {
   active?: boolean;
 }
 
-const SHAPES: LayoutShape[] = [
-  { id: "mono", name: "1 Touche", keyCount: 1, price: 4.90, rows: 1, cols: 1, gridTemplate: "grid-cols-1", validIndices: [0] },
-  { id: "duo", name: "2 Touches en Ligne", keyCount: 2, price: 6.90, rows: 1, cols: 2, gridTemplate: "grid-cols-2", validIndices: [0, 1] },
-  { id: "trio", name: "3 Touches en Ligne", keyCount: 3, price: 7.90, rows: 1, cols: 3, gridTemplate: "grid-cols-3", validIndices: [0, 1, 2] },
-  { id: "square_2x2", name: "4 Touches Carré", keyCount: 4, price: 9.90, rows: 2, cols: 2, gridTemplate: "grid-cols-2", validIndices: [0, 1, 2, 3], badge: "🔥 Best-Seller" },
-  { id: "line_4", name: "4 Touches en Ligne", keyCount: 4, price: 9.90, rows: 1, cols: 4, gridTemplate: "grid-cols-4", validIndices: [0, 1, 2, 3] },
-  { id: "shape_t", name: "4 Touches en T", keyCount: 4, price: 9.90, rows: 2, cols: 3, gridTemplate: "grid-cols-3", validIndices: [1, 3, 4, 5], badge: "Original" },
-  { id: "line_7", name: "7 Touches en Ligne", keyCount: 7, price: 14.90, rows: 1, cols: 7, gridTemplate: "grid-cols-7", validIndices: [0, 1, 2, 3, 4, 5, 6], badge: "⚡ Fidget Extra" },
-  { id: "grid_3x3", name: "9 Touches Carré", keyCount: 9, price: 16.90, rows: 3, cols: 3, gridTemplate: "grid-cols-3", validIndices: [0, 1, 2, 3, 4, 5, 6, 7, 8], badge: "⚡ Max Fidget" }
+export const SHAPES: LayoutShape[] = [
+  { id: "mono", code: "1K", name: "1 Touche", keyCount: 1, price: 4.90, rows: 1, cols: 1, gridTemplate: "grid-cols-1", validIndices: [0] },
+  { id: "duo", code: "2K", name: "2 Touches Ligne", keyCount: 2, price: 6.90, rows: 1, cols: 2, gridTemplate: "grid-cols-2", validIndices: [0, 1] },
+  { id: "trio", code: "3K", name: "3 Touches Ligne", keyCount: 3, price: 7.90, rows: 1, cols: 3, gridTemplate: "grid-cols-3", validIndices: [0, 1, 2] },
+  { id: "square_2x2", code: "4K SQ", name: "4 Touches Carré", keyCount: 4, price: 9.90, rows: 2, cols: 2, gridTemplate: "grid-cols-2", validIndices: [0, 1, 2, 3] },
+  { id: "line_4", code: "4K LN", name: "4 Touches Ligne", keyCount: 4, price: 9.90, rows: 1, cols: 4, gridTemplate: "grid-cols-4", validIndices: [0, 1, 2, 3] },
+  { id: "shape_t", code: "4K T", name: "4 Touches en T", keyCount: 4, price: 9.90, rows: 2, cols: 3, gridTemplate: "grid-cols-3", validIndices: [1, 3, 4, 5] },
+  { id: "line_7", code: "7K LN", name: "7 Touches Ligne", keyCount: 7, price: 14.90, rows: 1, cols: 7, gridTemplate: "grid-cols-7", validIndices: [0, 1, 2, 3, 4, 5, 6] },
+  { id: "grid_3x3", code: "9K SQ", name: "9 Touches Carré", keyCount: 9, price: 16.90, rows: 3, cols: 3, gridTemplate: "grid-cols-3", validIndices: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
 ];
 
 // Attachments
-interface AttachmentOption {
+export interface AttachmentOption {
   id: string;
   name: string;
+  shortLabel: string;
   price: number;
-  icon: string;
 }
 
-const ATTACHMENTS: AttachmentOption[] = [
-  { id: "chain", name: "Chaînette à Billes Inox", price: 0.50, icon: "⛓️" },
-  { id: "clip", name: "Mousqueton Métal Premium", price: 1.00, icon: "🪝" },
-  { id: "lanyard", name: "Dragonne de Poignet Souple", price: 1.50, icon: "🎗️" },
-  { id: "ring", name: "Anneau Porte-Clés Renforcé", price: 0.50, icon: "🔑" },
-  { id: "none", name: "Sans attache (Usage Bureau)", price: 0.00, icon: "🚫" },
+export const ATTACHMENTS: AttachmentOption[] = [
+  { id: "chain", name: "Chaînette à Billes Inox", shortLabel: "Inox", price: 0.50 },
+  { id: "clip", name: "Câble Métallique", shortLabel: "Câble", price: 0.80 },
+  { id: "lanyard", name: "Dragonne de Poignet Souple", shortLabel: "Dragonne", price: 1.50 },
+  { id: "ring", name: "Anneau Porte-Clés Renforcé", shortLabel: "Anneau", price: 0.50 },
+  { id: "none", name: "Sans attache (Usage Bureau)", shortLabel: "Bureau", price: 0.00 },
 ];
 
 export type KeyCustomizationType = "blank" | "letter" | "word" | "symbol" | "texture";
@@ -128,14 +137,13 @@ export type KeyCustomizationType = "blank" | "letter" | "word" | "symbol" | "tex
 export interface TextureOption {
   id: "lego" | "caisse" | "fromage";
   name: string;
-  icon: string;
   desc: string;
 }
 
 export const TEXTURE_OPTIONS: TextureOption[] = [
-  { id: "lego", name: "Lego", icon: "🧱", desc: "Ergots / tenons style brique de construction" },
-  { id: "caisse", name: "Caisse en bois", icon: "🪵", desc: "Motif lattes & renforts croisés de caisse de transport" },
-  { id: "fromage", name: "Fromage", icon: "🧀", desc: "Alvéoles & trous style gruyère / fromage suisse" },
+  { id: "lego", name: "Studs Lego", desc: "4 tenons cylindriques style brique de construction" },
+  { id: "caisse", name: "Caisse Atelier", desc: "Rainures croisées et renforts de caisse en bois" },
+  { id: "fromage", name: "Alvéoles Gruyère", desc: "Cavités asymétriques sculptées dans la matière" },
 ];
 
 export interface SingleKeyPerso {
@@ -146,10 +154,9 @@ export interface SingleKeyPerso {
 
 export interface ClickerPreset {
   id: string;
-  name: string;
-  badge: string;
-  icon: string;
-  desc: string;
+  editionName: string;
+  subline: string;
+  colorsPreview: string[];
   shapeId: string;
   caseColorId: string;
   switchId: "blue" | "brown" | "red";
@@ -163,10 +170,9 @@ export interface ClickerPreset {
 export const POPULAR_PRESETS: ClickerPreset[] = [
   {
     id: "spoolio_signature",
-    name: "Spoolio Signature",
-    badge: "🔥 Best-Seller",
-    icon: "🍊",
-    desc: "Boîtier Noir Mat + Touches Orange & Jaune Spoolio",
+    editionName: "SIGNATURE",
+    subline: "Noir mat, orange & jaune Spoolio • Clicky",
+    colorsPreview: ["#18181b", "#ff4f00", "#facc15"],
     shapeId: "square_2x2",
     caseColorId: "noir",
     switchId: "blue",
@@ -180,27 +186,10 @@ export const POPULAR_PRESETS: ClickerPreset[] = [
     },
   },
   {
-    id: "cyberpunk_neon",
-    name: "Cyberpunk Néon",
-    badge: "⚡ Populaire",
-    icon: "🌆",
-    desc: "Gris Carbone + Néon Cyan & Rose avec switch Clicky",
-    shapeId: "duo",
-    caseColorId: "gris",
-    switchId: "blue",
-    attachmentId: "chain",
-    keycapMode: "custom",
-    keyConfigs: {
-      0: { type: "symbol", value: "lightning", colorId: "cyan" },
-      1: { type: "symbol", value: "gamepad", colorId: "rose" },
-    },
-  },
-  {
     id: "stealth_bureau",
-    name: "Stealth Discret",
-    badge: "🤫 Bureau",
-    icon: "💼",
-    desc: "Noir & Blanc avec switch Linéaire Silencieux",
+    editionName: "STEALTH",
+    subline: "Monochrome noir & blanc • Linéaire silencieux",
+    colorsPreview: ["#18181b", "#ffffff"],
     shapeId: "mono",
     caseColorId: "noir",
     switchId: "red",
@@ -210,11 +199,25 @@ export const POPULAR_PRESETS: ClickerPreset[] = [
     globalPerso: { type: "symbol", value: "star" },
   },
   {
+    id: "cyberpunk_neon",
+    editionName: "CYBER",
+    subline: "Gris carbone, cyan & rose néon • Clicky",
+    colorsPreview: ["#3f3f46", "#06b6d4", "#ec4899"],
+    shapeId: "duo",
+    caseColorId: "gris",
+    switchId: "blue",
+    attachmentId: "chain",
+    keycapMode: "custom",
+    keyConfigs: {
+      0: { type: "symbol", value: "zap", colorId: "cyan" },
+      1: { type: "symbol", value: "gamepad", colorId: "rose" },
+    },
+  },
+  {
     id: "gamer_wasd",
-    name: "Gamer WASD",
-    badge: "🎮 Gaming",
-    icon: "🕹️",
-    desc: "4 touches WASD Violet & Cyan pour vos sessions",
+    editionName: "SIGNAL WASD",
+    subline: "Format directionnel T, violet & cyan • Tactile",
+    colorsPreview: ["#7c3aed", "#06b6d4"],
     shapeId: "shape_t",
     caseColorId: "violet",
     switchId: "brown",
@@ -229,10 +232,9 @@ export const POPULAR_PRESETS: ClickerPreset[] = [
   },
   {
     id: "glow_night",
-    name: "Glow Phospho",
-    badge: "✨ Brille la nuit",
-    icon: "🌙",
-    desc: "Boîtier Phosphorescent qui brille dans le noir !",
+    editionName: "PHOSPHO",
+    subline: "Corps & touches phosphorescents dans le noir • Clicky",
+    colorsPreview: ["#a3e635", "#a3e635"],
     shapeId: "duo",
     caseColorId: "glow",
     switchId: "blue",
@@ -257,13 +259,13 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
   const [galleryList, setGalleryList] = useState<GalleryItem[]>([]);
 
   // Config State
-  const [selectedShape, setSelectedShape] = useState<LayoutShape>(SHAPES[0]);
-  const [caseColor, setCaseColor] = useState<ColorOption>(CASE_COLORS[0]);
-  const [switchType, setSwitchType] = useState<SwitchOption>(SWITCHES[0]);
-  const [attachment, setAttachment] = useState<AttachmentOption>(ATTACHMENTS[0]);
+  const [selectedShape, setSelectedShape] = useState<LayoutShape>(SHAPES[3]); // Default: 4K Carré
+  const [caseColor, setCaseColor] = useState<ColorOption>(CASE_COLORS[0]); // Noir Mat
+  const [switchType, setSwitchType] = useState<SwitchOption>(SWITCHES[0]); // Clicky
+  const [attachment, setAttachment] = useState<AttachmentOption>(ATTACHMENTS[1]); // Mousqueton
 
   // Keycap customization mode: "all" (global) or "custom" (par touche)
-  const [keycapMode, setKeycapMode] = useState<"all" | "custom">("all");
+  const [keycapMode, setKeycapMode] = useState<"all" | "custom">("custom");
 
   // Global mode configuration
   const [globalKeycapColor, setGlobalKeycapColor] = useState<ColorOption>(KEYCAP_COLORS[0]);
@@ -276,9 +278,10 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
   const [activeKeyIndex, setActiveKeyIndex] = useState<number>(0);
   const [activePresetId, setActivePresetId] = useState<string | null>("spoolio_signature");
 
-  // Pressed keys visual feedback state
-  const [pressedKey, setPressedKey] = useState<number | null>(null);
+  // Visual View Mode: 3d or 2d
   const [viewMode, setViewMode] = useState<"3d" | "2d">("3d");
+  const [pressedKey, setPressedKey] = useState<number | null>(null);
+  const [justAdded, setJustAdded] = useState<boolean>(false);
 
   // Audio Context Ref
   const audioCtxRef = useRef<AudioContext | null>(null);
@@ -500,14 +503,14 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
     });
   };
 
-  // Render SVG symbol or text inside keycap
+  // Render SVG symbol or text inside 2D keycap view
   const renderKeyLegend = (slotIdx: number, color: ColorOption) => {
     const config = getKeyConfig(slotIdx);
 
     if (config.type === "letter" && config.value) {
       return (
         <span
-          className="text-lg sm:text-2xl font-black tracking-tight select-none uppercase drop-shadow-sm"
+          className="text-lg sm:text-xl font-mono font-bold tracking-tight select-none uppercase"
           style={{ color: color.textColor }}
         >
           {config.value.substring(0, 1)}
@@ -517,11 +520,11 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
 
     if (config.type === "word" && config.value) {
       const len = config.value.length;
-      const fontSizeClass = len <= 3 ? "text-xs sm:text-sm font-extrabold" : "text-[9px] sm:text-[11px] font-bold";
+      const fontSizeClass = len <= 3 ? "text-xs font-mono font-bold" : "text-[9px] font-mono font-bold";
 
       return (
         <span
-          className={`${fontSizeClass} font-mono tracking-tighter select-none uppercase px-1 leading-none drop-shadow-sm text-center`}
+          className={`${fontSizeClass} tracking-tight select-none uppercase px-1 leading-none text-center`}
           style={{ color: color.textColor }}
         >
           {config.value.substring(0, 6)}
@@ -533,8 +536,8 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
       return (
         <ClickerSvgSymbol
           symbolId={config.value}
-          size={20}
-          className="drop-shadow-sm transition-transform group-hover:scale-110"
+          size={18}
+          className="transition-transform group-hover:scale-105"
         />
       );
     }
@@ -542,63 +545,30 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
     if (config.type === "texture" && config.value) {
       if (config.value === "lego") {
         return (
-          <div className="w-full h-full flex items-center justify-center p-1 select-none pointer-events-none">
-            <div className="grid grid-cols-2 gap-1.5 w-full h-full items-center justify-center">
-              {[0, 1, 2, 3].map((studIdx) => (
-                <div
-                  key={studIdx}
-                  className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full border border-white/40 shadow-[0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(255,255,255,0.6)] flex items-center justify-center"
-                  style={{
-                    background: `radial-gradient(circle at 35% 35%, rgba(255,255,255,0.5) 0%, rgba(0,0,0,0.2) 100%), ${color.hex}`
-                  }}
-                >
-                  <div className="w-1.5 h-1.5 rounded-full border border-black/20 opacity-40" />
-                </div>
-              ))}
-            </div>
+          <div className="grid grid-cols-2 gap-1.5 p-1">
+            {[0, 1, 2, 3].map((i) => (
+              <span key={i} className="w-2.5 h-2.5 rounded-full border border-white/40 shadow-xs" style={{ backgroundColor: color.hex }} />
+            ))}
           </div>
         );
       }
-
-      if (config.value === "caisse") {
-        return (
-          <div className="w-full h-full relative rounded-lg border border-black/40 overflow-hidden flex flex-col justify-between p-1 bg-black/20 select-none pointer-events-none">
-            <div className="w-full h-full border-b border-black/30 bg-white/5 flex items-center justify-between px-1">
-              <span className="w-1 h-1 rounded-full bg-black/40" />
-              <span className="w-1 h-1 rounded-full bg-black/40" />
-            </div>
-            <div className="w-full h-full border-b border-black/30 bg-black/10 flex items-center justify-between px-1 relative">
-              <div className="absolute inset-0 border-t border-b border-black/40 transform -rotate-12 scale-110 opacity-30 bg-black/20" />
-              <span className="w-1 h-1 rounded-full bg-black/40" />
-              <span className="w-1 h-1 rounded-full bg-black/40" />
-            </div>
-            <div className="w-full h-full bg-white/5 flex items-center justify-between px-1">
-              <span className="w-1 h-1 rounded-full bg-black/40" />
-              <span className="w-1 h-1 rounded-full bg-black/40" />
-            </div>
-          </div>
-        );
-      }
-
       if (config.value === "fromage") {
         return (
-          <div className="w-full h-full relative p-1.5 select-none pointer-events-none overflow-hidden rounded-lg">
-            <div className="absolute top-1 left-2 w-3.5 h-3.5 rounded-full bg-black/35 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] border border-black/30" />
-            <div className="absolute top-3.5 right-1.5 w-4 h-4 rounded-full bg-black/35 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] border border-black/30" />
-            <div className="absolute bottom-1 left-3.5 w-3 h-3 rounded-full bg-black/35 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] border border-black/30" />
-            <div className="absolute bottom-3 right-5 w-2.5 h-2.5 rounded-full bg-black/35 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] border border-black/30" />
+          <div className="relative w-full h-full p-1 opacity-60">
+            <span className="absolute top-1 left-1 w-2.5 h-2.5 rounded-full bg-black/40" />
+            <span className="absolute bottom-1 right-2 w-3.5 h-3.5 rounded-full bg-black/40" />
           </div>
         );
       }
+      return <span className="text-[10px] font-mono opacity-50 uppercase">CAISSE</span>;
     }
 
-    // Blank keycap surface default
-    return <span className="w-2.5 h-2.5 rounded-full bg-white/25 border border-white/10" />;
+    return <span className="w-2 h-2 rounded-full bg-current opacity-25" />;
   };
 
-  // Total price calculation
-  const shapePrice = typeof selectedShape.price === "number" ? selectedShape.price : parseFloat(selectedShape.price) || 0;
-  const attachmentPrice = typeof attachment.price === "number" ? attachment.price : parseFloat(attachment.price) || 0;
+  // Total price calculation (strict preserve business rules)
+  const shapePrice = typeof selectedShape.price === "number" ? selectedShape.price : parseFloat(String(selectedShape.price)) || 0;
+  const attachmentPrice = typeof attachment.price === "number" ? attachment.price : parseFloat(String(attachment.price)) || 0;
   const totalPrice = shapePrice + attachmentPrice;
 
   // Apply a popular preset in 1 click
@@ -645,7 +615,7 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
       else if (cfg.type === "word") label = `Mot '${cfg.value}'`;
       else if (cfg.type === "symbol") label = `Symbole ${cfg.value}`;
       else if (cfg.type === "texture") {
-        const foundTex = TEXTURE_OPTIONS.find(t => t.id === cfg.value);
+        const foundTex = TEXTURE_OPTIONS.find((t) => t.id === cfg.value);
         label = `Texture '${foundTex ? foundTex.name : cfg.value}'`;
       }
       return `Touche #${i + 1} (${cfg.color.name} - ${label})`;
@@ -690,56 +660,67 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
       selectedOptions,
       image: cartImage,
     }, 1, true);
+
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 2400);
   };
 
   const activeKeyConfig = getKeyConfig(activeKeyIndex);
 
+  // Technical shorthand summary line
+  const technicalSummary = `${selectedShape.code} // ${caseColor.name.toUpperCase()} // ${keycapMode === "all" ? globalKeycapColor.name.toUpperCase() : "MIX"} // ${switchType.name.toUpperCase()} // ${attachment.shortLabel.toUpperCase()}`;
+
   return (
-    <div className={`w-full max-w-6xl mx-auto font-sans ${className}`}>
-      {/* 3D & 2D Configurator Studio Console */}
-      <div className="rounded-3xl bg-gradient-to-b from-[#16161c] via-[#121217] to-[#0c0c10] border border-neutral-800/90 p-4 sm:p-6 lg:p-8 shadow-2xl space-y-8 no-invert">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    <div className={`w-full max-w-7xl mx-auto font-sans text-[#18181B] ${className}`}>
+      
+      {/* =========================================================================
+          MAIN PRODUCT DESIGN STUDIO CONSOLE (LIGHT THEME)
+         ========================================================================= */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
         
         {/* =========================================================================
-            LEFT COLUMN : INTERACTIVE 3D/2D VISUALIZER & SOUND SANDBOX
+            LEFT COLUMN (~60%): 3D IMMERSIVE VIEWER & HARDWARE DECK
            ========================================================================= */}
-        <div className="lg:col-span-6 lg:sticky lg:top-28 lg:self-start z-20 space-y-4 select-none">
-          {/* View Mode Mode Toggle Header */}
-          <div className="flex items-center justify-between bg-neutral-900/80 border border-neutral-800 rounded-2xl p-2">
-            <div className="flex items-center gap-1 bg-black/50 p-1 rounded-xl border border-neutral-800 text-xs">
+        <div className="lg:col-span-7 lg:sticky lg:top-24 lg:self-start z-20 space-y-4">
+          
+          {/* Viewer Mode Bar */}
+          <div className="flex items-center justify-between bg-white border border-[#E4E4E0] shadow-xs rounded-xl px-3 py-2 text-xs">
+            <div className="flex items-center gap-1">
               <button
                 type="button"
                 onClick={() => setViewMode("3d")}
-                className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                className={`px-3 py-1 rounded-lg font-mono text-[11px] font-bold transition-all cursor-pointer ${
                   viewMode === "3d"
-                    ? "bg-[#ff4f00] text-white shadow-md font-black"
-                    : "text-neutral-400 hover:text-white"
+                    ? "bg-[#FF5500] text-white shadow-2xs"
+                    : "text-[#666663] hover:text-[#18181B]"
                 }`}
               >
-                <span>🕹️ Studio 3D</span>
+                3D STUDIO
               </button>
               <button
                 type="button"
                 onClick={() => setViewMode("2d")}
-                className={`px-3 py-1.5 rounded-lg font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                className={`px-3 py-1 rounded-lg font-mono text-[11px] font-bold transition-all cursor-pointer ${
                   viewMode === "2d"
-                    ? "bg-[#ff4f00] text-white shadow-md font-black"
-                    : "text-neutral-400 hover:text-white"
+                    ? "bg-[#FF5500] text-white shadow-2xs"
+                    : "text-[#666663] hover:text-[#18181B]"
                 }`}
               >
-                <span>🎛️ Vue Plat (2D)</span>
+                PLAN 2D
               </button>
             </div>
 
             <button
               type="button"
               onClick={() => playClickSound(switchType.id)}
-              className="text-xs font-bold text-neutral-200 bg-neutral-800 hover:bg-neutral-700 border border-neutral-700 px-3 py-1.5 rounded-xl transition-colors cursor-pointer flex items-center gap-1.5 shadow"
+              className="font-mono text-[11px] text-[#444444] hover:text-[#18181B] bg-[#F4F3EE] hover:bg-[#EAE9E3] border border-[#E0DFD8] px-3 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1.5"
             >
-              🔊 Tester le son ({switchType.name.split(' ')[0]})
+              <Volume2 className="w-3.5 h-3.5 text-[#FF5500]" />
+              <span>TESTER LE SON ({switchType.name.toUpperCase()})</span>
             </button>
           </div>
 
+          {/* Viewer Area */}
           {viewMode === "3d" ? (
             <Clicker3DViewer
               shapeId={selectedShape.id}
@@ -757,41 +738,32 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
               keycapMode={keycapMode}
               globalKeycapColor={globalKeycapColor}
               keycapColorsList={colorsList}
+              onKeyClick={handleKeyClick}
+              activeKeyIndex={activeKeyIndex}
             />
           ) : (
-            <div className="relative bg-gradient-to-b from-neutral-900/90 via-neutral-900/60 to-black/90 border border-neutral-800/80 rounded-3xl p-6 sm:p-10 shadow-2xl overflow-hidden backdrop-blur-md flex flex-col items-center justify-center min-h-[420px]">
-            
-            {/* Ambient Background Glows */}
-            <div
-              className="absolute w-72 h-72 rounded-full pointer-events-none transition-all duration-700 blur-[90px] opacity-20"
-              style={{ backgroundColor: caseColor.hex }}
-            />
-            
-            {/* Top Bar Status */}
-            <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-20">
-              <span className="text-[11px] font-mono uppercase tracking-widest text-neutral-400 bg-black/50 border border-white/10 px-3 py-1 rounded-full flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                Aperçu 3D Interactif
-              </span>
+            <div className="relative bg-[#F6F5F1] border border-[#E4E3DD] shadow-xs rounded-2xl p-6 sm:p-10 flex flex-col items-center justify-center min-h-[400px] sm:min-h-[460px] lg:min-h-[500px]">
+              <span className="absolute top-3.5 left-3.5 text-[11px] font-mono text-[#BBBBB5]">+</span>
+              <span className="absolute top-3.5 right-3.5 text-[11px] font-mono text-[#BBBBB5]">+</span>
+              <span className="absolute bottom-3.5 left-3.5 text-[11px] font-mono text-[#BBBBB5]">+</span>
+              <span className="absolute bottom-3.5 right-3.5 text-[11px] font-mono text-[#BBBBB5]">+</span>
 
-              <button
-                type="button"
-                onClick={() => playClickSound(switchType.id)}
-                className="text-xs font-bold text-neutral-200 bg-neutral-800/90 hover:bg-neutral-700 border border-neutral-700 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer flex items-center gap-1.5 shadow"
+              <div className="text-center mb-6">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#707070] block">
+                  VUE ORTHOGONALE 2D
+                </span>
+                <span className="text-xs text-[#888888] font-mono">
+                  Cliquez sur une touche pour la tester ou la sélectionner
+                </span>
+              </div>
+
+              {/* 2D Grid Representation */}
+              <div
+                className="p-3 sm:p-4 rounded-2xl border border-black/10 shadow-lg transition-all"
+                style={{ backgroundColor: caseColor.hex }}
               >
-                🔊 Tester le son ({switchType.name.split(' ')[0]})
-              </button>
-            </div>
-
-            {/* Main Interactive Clicker Preview Box */}
-            <div className="relative my-10 py-4 flex items-center justify-center">
-              
-              {/* 3D Printed Case Container */}
-              <div className="relative p-2 flex items-center justify-center transition-all duration-500">
-                
-                {/* Keycaps Grid Layout */}
                 <div
-                  className={`grid gap-3.5 ${selectedShape.gridTemplate} relative z-10 p-2`}
+                  className={`grid gap-3 ${selectedShape.gridTemplate}`}
                   style={{
                     gridTemplateRows: `repeat(${selectedShape.rows}, minmax(0, 1fr))`,
                     gridTemplateColumns: `repeat(${selectedShape.cols}, minmax(0, 1fr))`,
@@ -804,12 +776,12 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                       : "w-16 h-16 sm:w-20 sm:h-20";
 
                     if (selectedShape.id === "shape_t" && (slotIdx === 0 || slotIdx === 2)) {
-                      return <div key={slotIdx} className={`${keySizeClass} opacity-0 pointer-events-none p-1.5`} />;
+                      return <div key={slotIdx} className={`${keySizeClass} opacity-0 pointer-events-none`} />;
                     }
 
                     const isValid = selectedShape.validIndices.includes(slotIdx);
                     if (!isValid) {
-                      return <div key={slotIdx} className={`${keySizeClass} opacity-0 pointer-events-none p-1.5`} />;
+                      return <div key={slotIdx} className={`${keySizeClass} opacity-0 pointer-events-none`} />;
                     }
 
                     const keyCfg = getKeyConfig(slotIdx);
@@ -818,800 +790,688 @@ export default function ClickerConfiguratorClient({ className = "" }: { classNam
                     const isSelectedInCustom = keycapMode === "custom" && activeKeyIndex === slotIdx;
 
                     return (
-                      <div
+                      <button
                         key={slotIdx}
-                        className="p-1.5 rounded-2xl border border-white/15 shadow-lg transition-all"
-                        style={{ backgroundColor: caseColor.hex }}
+                        type="button"
+                        onClick={() => handleKeyClick(slotIdx)}
+                        className={`relative ${keySizeClass} rounded-xl transition-all cursor-pointer flex items-center justify-center border ${
+                          isSelectedInCustom
+                            ? "ring-2 ring-[#FF5500] ring-offset-2 ring-offset-white scale-105 z-20"
+                            : "border-black/15 hover:scale-102"
+                        }`}
+                        style={{
+                          backgroundColor: color.hex,
+                          transform: isPressed ? "scale(0.94)" : "scale(1)",
+                        }}
                       >
-                        <button
-                          type="button"
-                          onClick={() => handleKeyClick(slotIdx)}
-                          className={`relative ${keySizeClass} rounded-2xl transition-all duration-100 cursor-pointer flex items-center justify-center select-none group border ${
-                            isSelectedInCustom
-                              ? "ring-4 ring-white ring-offset-2 ring-offset-black z-30 scale-105"
-                              : "border-white/20 hover:scale-102"
-                          }`}
-                          style={{
-                            backgroundColor: color.hex,
-                            transform: isPressed ? "translateY(5px) scale(0.95)" : "translateY(0px)",
-                            boxShadow: isPressed
-                              ? "0 2px 4px rgba(0,0,0,0.6), inset 0 3px 6px rgba(0,0,0,0.5)"
-                              : `0 8px 0 ${color.hex}88, 0 12px 16px rgba(0,0,0,0.6), inset 0 2px 2px rgba(255,255,255,0.4)`
-                          }}
-                        >
-                          {/* Keycap Top Bevel Dish */}
-                          <div
-                            className="absolute inset-1.5 rounded-xl border border-white/20 pointer-events-none flex items-center justify-center overflow-hidden"
-                            style={{
-                              background: `linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(0,0,0,0.15) 100%)`
-                            }}
-                          >
-                            {renderKeyLegend(slotIdx, color)}
-                          </div>
-
-                          {color.isGlow && (
-                            <div className="absolute inset-0 rounded-2xl bg-lime-400/20 animate-pulse pointer-events-none" />
-                          )}
-
-                          {isPressed && (
-                            <div className="absolute inset-0 rounded-2xl bg-white/40 animate-ping pointer-events-none" />
-                          )}
-                        </button>
-                      </div>
+                        {renderKeyLegend(slotIdx, color)}
+                        <span className="absolute top-1 left-1.5 text-[8px] font-mono opacity-50 font-bold">
+                          #{slotIdx + 1}
+                        </span>
+                      </button>
                     );
                   })}
                 </div>
               </div>
             </div>
-
-            {/* Interactive Instruction Banner */}
-            <div className="text-center">
-              <p className="text-xs text-neutral-400 flex items-center justify-center gap-1.5 font-medium">
-                <span>👇</span>
-                <span>Cliquez sur les touches pour tester le son et sélectionner une touche !</span>
-              </p>
-            </div>
-          </div>
           )}
 
-          {/* Quick Recap Card */}
-          <div className="p-4 rounded-2xl bg-neutral-900/60 border border-neutral-800 text-xs text-neutral-300 space-y-2 font-mono">
-            <div className="flex items-center justify-between text-neutral-400 border-b border-neutral-800 pb-2">
-              <span>RÉSUMÉ CONFIGURATION</span>
-              <span className="text-white font-bold">{selectedShape.keyCount} Touche(s)</span>
+          {/* Hardware Status Strip */}
+          <div className="bg-white border border-[#E4E4E0] shadow-xs rounded-xl px-4 py-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs font-mono">
+            <div className="space-y-0.5">
+              <span className="text-[10px] text-[#777777] tracking-wider uppercase block">SYNTHÈSE DU MODÈLE</span>
+              <span className="text-[#18181B] font-bold tracking-tight text-[11px] sm:text-xs">
+                {technicalSummary}
+              </span>
             </div>
-            <div className="grid grid-cols-2 gap-2 text-[11px]">
-              <div>Boîtier: <strong className="text-white">{caseColor.name}</strong></div>
-              <div>Switchs: <strong className="text-white">{switchType.name}</strong></div>
-              <div>Mode Touches: <strong className="text-white">{keycapMode === "all" ? "Identiques" : "Sur-mesure"}</strong></div>
-              <div>Attache: <strong className="text-white">{attachment.name.split(' ')[0]}</strong></div>
+            <div className="flex items-center gap-2 text-[11px] text-[#666663] shrink-0">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#10b981]" />
+              <span>ATELIER DE COMINES</span>
             </div>
           </div>
+
         </div>
 
 
         {/* =========================================================================
-            RIGHT COLUMN : CONFIGURATION STEPS & OPTIONS
+            RIGHT COLUMN (~40%): CUSTOMIZATION CONTROL PANEL (LIGHT THEME)
            ========================================================================= */}
-        <div className="lg:col-span-6 space-y-8">
-          {/* STEP 1 : Forme & Nombre de Touches */}
-          <div className="p-4 sm:p-5 rounded-3xl bg-neutral-900/60 border border-neutral-800/90 shadow-md space-y-3">
-            <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-[#ff4f00] text-white font-black text-xs flex items-center justify-center shadow-sm">1</span>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-white">Forme &amp; Nombre de Touches</h3>
+        <div className="lg:col-span-5 space-y-6">
+          
+
+
+
+          {/* =========================================================================
+              01 / FORMAT & GÉOMÉTRIE
+             ========================================================================= */}
+          <section className="bg-white border border-[#E4E4E0] shadow-xs rounded-2xl p-4 sm:p-5 space-y-3.5">
+            <div className="flex items-center justify-between border-b border-[#F0EFEA] pb-2.5">
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[11px] font-bold text-[#FF5500]">01 /</span>
+                <h2 className="font-mono text-xs font-bold uppercase tracking-widest text-[#18181B]">
+                  FORMAT
+                </h2>
+              </div>
+              <span className="font-mono text-xs font-bold text-[#FF5500]">{selectedShape.name}</span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {shapesList.map((shape) => {
                 const isSelected = selectedShape.id === shape.id;
                 return (
                   <button
                     key={shape.id}
                     type="button"
-                    onClick={() => setSelectedShape(shape)}
-                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between min-h-26 ${
+                    onClick={() => {
+                      setSelectedShape(shape);
+                      setActivePresetId(null);
+                    }}
+                    className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between min-h-20 ${
                       isSelected
-                        ? "bg-[#ff4f00]/15 border-[#ff4f00] text-white ring-1 ring-[#ff4f00]/50 shadow-md shadow-[#ff4f00]/10"
-                        : "bg-neutral-950/80 border-neutral-800 text-neutral-300 hover:border-neutral-700 hover:bg-neutral-950"
+                        ? "bg-[#FFF7F2] border-[#FF5500] ring-1 ring-[#FF5500]/50 shadow-2xs"
+                        : "bg-[#FBFBFA] border-[#E8E8E4] hover:border-[#D0D0CA] hover:bg-white"
                     }`}
                   >
-                    <div>
-                      <div className="flex items-start justify-between gap-1.5 mb-1">
-                        <div className="text-xs font-bold leading-snug">
-                          {shape.name.split(" (")[0]}
-                        </div>
-                        {shape.badge && (
-                          <span className="shrink-0 text-[9px] font-extrabold bg-neutral-800 text-neutral-300 border border-neutral-700 px-1.5 py-0.5 rounded-md">
-                            {shape.badge}
-                          </span>
-                        )}
-                      </div>
-                      <div className="text-[11px] text-neutral-400 font-medium">
-                        {shape.keyCount} {shape.keyCount > 1 ? "Touches" : "Touche"}
-                      </div>
+                    <div className="flex items-center justify-between w-full">
+                      <span className="font-mono text-xs font-bold text-[#18181B]">
+                        {shape.code}
+                      </span>
+                      <span className="text-[10px] font-mono text-[#777777]">
+                        {shape.keyCount}K
+                      </span>
                     </div>
-                    <div className="text-xs font-black text-white pt-2">
-                      {(Number(shape.price) || 0).toFixed(2)} €
+
+                    <div className="pt-2 flex items-baseline justify-between w-full">
+                      <span className="text-[10px] text-[#666663] font-mono truncate max-w-[65px]">
+                        {shape.name.replace(/Touches|Touche/i, "").trim()}
+                      </span>
+                      <span className="font-mono text-[11px] font-bold text-[#18181B]">
+                        {(Number(shape.price) || 0).toFixed(2)}€
+                      </span>
                     </div>
                   </button>
                 );
               })}
             </div>
-          </div>
+          </section>
 
 
-          {/* STEP 2 : Couleur du Boîtier 3D */}
-          <div className="p-4 sm:p-5 rounded-3xl bg-neutral-900/60 border border-neutral-800/90 shadow-md space-y-3">
-            <div className="flex items-center justify-between">
+          {/* =========================================================================
+              02 / COQUE (BOÎTIER PLA)
+             ========================================================================= */}
+          <section className="bg-white border border-[#E4E4E0] shadow-xs rounded-2xl p-4 sm:p-5 space-y-3.5">
+            <div className="flex items-center justify-between border-b border-[#F0EFEA] pb-2.5">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-[#ff4f00] text-white font-black text-xs flex items-center justify-center shadow-sm">2</span>
-                <h3 className="text-sm font-bold uppercase tracking-wider text-white">Couleur du Boîtier 3D</h3>
+                <span className="font-mono text-[11px] font-bold text-[#FF5500]">02 /</span>
+                <h2 className="font-mono text-xs font-bold uppercase tracking-widest text-[#18181B]">
+                  COQUE
+                </h2>
               </div>
-              <span className="text-xs font-bold text-neutral-300">{caseColor.name}</span>
+              <span className="font-mono text-xs font-bold text-[#18181B] uppercase">
+                {caseColor.name}
+              </span>
             </div>
 
-            <div className="grid grid-cols-4 sm:grid-cols-8 gap-2">
+            <div className="grid grid-cols-5 sm:grid-cols-7 gap-2">
               {colorsList.map((c, idx) => {
-                const isSelected = caseColor.id === c.id || (caseColor.hex.toLowerCase() === c.hex.toLowerCase() && caseColor.name === c.name);
+                const isSelected = caseColor.id === c.id;
                 return (
                   <button
                     key={`${c.id}-${idx}`}
                     type="button"
-                    onClick={() => setCaseColor(c)}
+                    onClick={() => {
+                      setCaseColor(c);
+                      setActivePresetId(null);
+                    }}
                     className={`relative aspect-square rounded-xl transition-all cursor-pointer flex items-center justify-center border ${
-                      isSelected ? "ring-2 ring-white ring-offset-2 ring-offset-black scale-105 border-white shadow-md" : "border-white/10 hover:scale-102"
+                      isSelected
+                        ? "border-[#FF5500] ring-2 ring-[#FF5500] ring-offset-2 ring-offset-white scale-105"
+                        : "border-black/15 hover:border-[#888888]"
                     }`}
                     style={{ backgroundColor: c.hex }}
                     title={c.name}
                   >
-                    {isSelected && <span className="w-2 h-2 rounded-full shadow" style={{ backgroundColor: c.textColor || '#ffffff' }} />}
+                    {isSelected && (
+                      <span
+                        className="w-2 h-2 rounded-full shadow-xs"
+                        style={{ backgroundColor: c.textColor || "#ffffff" }}
+                      />
+                    )}
                   </button>
                 );
               })}
             </div>
-          </div>
+          </section>
 
 
-          {/* STEP 3 : Personnalisation des Touches (Global vs Par Touche) */}
-          <div className="space-y-5 p-5 rounded-3xl bg-neutral-900/60 border border-neutral-800/90 shadow-md">
-            
-            {/* Step Header & Mode Switch */}
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-6 h-6 rounded-full bg-[#ff4f00] text-white font-black text-xs flex items-center justify-center shadow-sm">3</span>
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-white">Personnalisation des Touches</h3>
-                </div>
+          {/* =========================================================================
+              03 / TOUCHES (PERSONNALISATION)
+             ========================================================================= */}
+          <section className="bg-white border border-[#E4E4E0] shadow-xs rounded-2xl p-4 sm:p-5 space-y-4">
+            <div className="flex items-center justify-between border-b border-[#F0EFEA] pb-2.5">
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[11px] font-bold text-[#FF5500]">03 /</span>
+                <h2 className="font-mono text-xs font-bold uppercase tracking-widest text-[#18181B]">
+                  TOUCHES
+                </h2>
               </div>
 
-              {/* Mode Selection Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+              {/* Mode Toggle Switch */}
+              <div className="flex items-center bg-[#F4F3EE] border border-[#E4E3DD] p-0.5 rounded-lg text-[10px] font-mono font-bold">
                 <button
                   type="button"
                   onClick={() => setKeycapMode("all")}
-                  className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
-                    keycapMode === "all"
-                      ? "bg-[#ff4f00]/15 border-[#ff4f00] text-white ring-1 ring-[#ff4f00]/50 shadow-md shadow-[#ff4f00]/10"
-                      : "bg-neutral-950 border-neutral-800 text-neutral-400 hover:border-neutral-700"
+                  className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
+                    keycapMode === "all" ? "bg-[#FF5500] text-white shadow-2xs" : "text-[#666663] hover:text-[#18181B]"
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs font-bold">📦 Global</span>
-                    {keycapMode === "all" && <Check className="w-4 h-4 text-[#ff4f00]" />}
-                  </div>
-                  <p className="text-[11px] text-neutral-400 leading-snug">
-                    Toutes les touches ont la même couleur et la même gravure.
-                  </p>
+                  IDENTIQUES
                 </button>
-
                 <button
                   type="button"
                   onClick={() => setKeycapMode("custom")}
-                  className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
-                    keycapMode === "custom"
-                      ? "bg-[#ff4f00]/15 border-[#ff4f00] text-white ring-1 ring-[#ff4f00]/50 shadow-md shadow-[#ff4f00]/10"
-                      : "bg-neutral-950 border-neutral-800 text-neutral-400 hover:border-neutral-700"
+                  className={`px-2.5 py-1 rounded-md transition-all cursor-pointer ${
+                    keycapMode === "custom" ? "bg-[#FF5500] text-white shadow-2xs" : "text-[#666663] hover:text-[#18181B]"
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs font-bold">🎨 Sur-Mesure</span>
-                    {keycapMode === "custom" && <Check className="w-4 h-4 text-[#ff4f00]" />}
-                  </div>
-                  <p className="text-[11px] text-neutral-400 leading-snug">
-                    Une perso unique pour chaque touche (couleur, lettre, mot, symbole).
-                  </p>
+                  SUR-MESURE
                 </button>
               </div>
             </div>
 
-            {/* =========================================================================
-                MODE A : GLOBAL (TOUTES LES TOUCHES IDENTIQUES)
-               ========================================================================= */}
-            {keycapMode === "all" && (
-              <div className="space-y-4 pt-2 border-t border-neutral-800">
-                
-                {/* Global Color */}
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-between">
-                    <label className="text-xs text-neutral-300 font-mono font-bold">Couleur unique des touches :</label>
-                    <span className="text-xs font-bold text-white">{globalKeycapColor.name}</span>
-                  </div>
-                  <div className="grid grid-cols-6 sm:grid-cols-11 gap-1.5">
-                    {KEYCAP_COLORS.map((color, idx) => {
-                      const isSelected = globalKeycapColor.id === color.id;
-                      return (
-                        <button
-                          key={`${color.id}-${idx}`}
-                          type="button"
-                          onClick={() => setGlobalKeycapColor(color)}
-                          className={`relative aspect-square rounded-xl transition-all cursor-pointer flex items-center justify-center border ${
-                            isSelected ? "ring-2 ring-white ring-offset-2 ring-offset-black scale-105 border-white shadow-md" : "border-white/10 hover:scale-102"
-                          }`}
-                          style={{ backgroundColor: color.hex }}
-                          title={color.name}
-                        >
-                          {isSelected && <span className="w-1.5 h-1.5 rounded-full shadow" style={{ backgroundColor: color.textColor || '#ffffff' }} />}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Global Perso Selection */}
-                <div className="space-y-3 pt-2">
-                  <label className="text-xs text-neutral-300 font-mono font-bold">Motif ou gravure sur toutes les touches :</label>
-                  
-                  {/* Perso Type Tabs */}
-                  <div className="grid grid-cols-5 gap-1.5 p-1 bg-black/60 rounded-xl border border-neutral-800 text-[11px] font-bold">
-                    <button
-                      type="button"
-                      onClick={() => setGlobalPerso({ type: "blank", value: "" })}
-                      className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                        globalPerso.type === "blank" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-black force-dark-text !text-black hover:opacity-80"
-                      }`}
-                    >
-                      <Slash className="w-3 h-3" />
-                      <span>Vierge</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setGlobalPerso({ type: "letter", value: globalPerso.value || "A" })}
-                      className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                        globalPerso.type === "letter" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-black force-dark-text !text-black hover:opacity-80"
-                      }`}
-                    >
-                      <Type className="w-3 h-3" />
-                      <span>Lettre</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setGlobalPerso({ type: "word", value: globalPerso.value || "WASD" })}
-                      className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                        globalPerso.type === "word" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-black force-dark-text !text-black hover:opacity-80"
-                      }`}
-                    >
-                      <FileText className="w-3 h-3" />
-                      <span>Mot</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setGlobalPerso({ type: "symbol", value: globalPerso.value || "zap" })}
-                      className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                        globalPerso.type === "symbol" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-black force-dark-text !text-black hover:opacity-80"
-                      }`}
-                    >
-                      <Sparkles className="w-3 h-3" />
-                      <span>Symbole</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setGlobalPerso({ type: "texture", value: globalPerso.value || "lego" })}
-                      className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                        globalPerso.type === "texture" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-black force-dark-text !text-black hover:opacity-80"
-                      }`}
-                    >
-                      <Layers className="w-3 h-3" />
-                      <span>Texture</span>
-                    </button>
-                  </div>
-
-                  {/* Global Content Options */}
-                  {globalPerso.type === "letter" && (
-                    <div className="space-y-2 p-3 rounded-2xl bg-neutral-950 border border-neutral-800">
-                      <div className="flex items-center gap-2">
-                        <input
-                          type="text"
-                          maxLength={1}
-                          value={globalPerso.value}
-                          onChange={(e) => setGlobalPerso({ type: "letter", value: e.target.value.toUpperCase() })}
-                          placeholder="Ex: A"
-                          className="w-16 h-10 px-3 py-2 text-center text-sm font-black uppercase rounded-xl border border-neutral-700 bg-neutral-900 text-white focus:outline-none focus:border-[#ff4f00]"
-                        />
-                        <span className="text-xs text-neutral-400 font-medium">Choisissez ou saisissez une lettre (A-Z, 0-9)</span>
-                      </div>
-
-                      <div className="flex flex-wrap gap-1 max-h-24 overflow-y-auto pt-1">
-                        {QUICK_LETTERS.map((char) => (
-                          <button
-                            key={char}
-                            type="button"
-                            onClick={() => setGlobalPerso({ type: "letter", value: char })}
-                            className={`w-7 h-7 rounded-lg text-xs font-bold border transition-colors cursor-pointer ${
-                              globalPerso.value === char ? "bg-[#ff4f00] text-white border-[#ff4f00] font-black shadow-md scale-105" : "bg-neutral-900 border-neutral-800 text-neutral-300 hover:border-neutral-700"
-                            }`}
-                          >
-                            {char}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {globalPerso.type === "word" && (
-                    <div className="space-y-2 p-3 rounded-2xl bg-neutral-950 border border-neutral-800">
-                      <div className="flex items-center gap-2">
-                        <input
-                          type="text"
-                          maxLength={6}
-                          value={globalPerso.value}
-                          onChange={(e) => setGlobalPerso({ type: "word", value: e.target.value.toUpperCase() })}
-                          placeholder="Ex: WASD"
-                          className="w-28 h-10 px-3 py-2 text-center text-xs font-black uppercase rounded-xl border border-neutral-700 bg-neutral-900 text-white focus:outline-none focus:border-[#ff4f00] font-mono"
-                        />
-                        <span className="text-xs text-neutral-400 font-medium">Mot court (max 6 lettres)</span>
-                      </div>
-
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        {WORD_SUGGESTIONS.map((w) => (
-                          <button
-                            key={w}
-                            type="button"
-                            onClick={() => setGlobalPerso({ type: "word", value: w })}
-                            className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold border transition-colors cursor-pointer ${
-                              globalPerso.value === w ? "bg-[#ff4f00] text-white border-[#ff4f00] font-black shadow-md" : "bg-neutral-900 border-neutral-800 text-neutral-300 hover:border-neutral-700"
-                            }`}
-                          >
-                            {w}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-
-                  {globalPerso.type === "symbol" && (
-                    <div className="p-3 rounded-2xl bg-neutral-950 border border-neutral-800 space-y-2">
-                      <span className="text-[11px] text-neutral-400 font-mono block">Symboles Vectoriels SVG (Style Noun Project) :</span>
-                      <div className="grid grid-cols-6 sm:grid-cols-11 gap-1.5">
-                        {VECTOR_SYMBOLS.map((sym) => {
-                          const isSelected = globalPerso.value === sym.id;
-                          return (
-                            <button
-                              key={sym.id}
-                              type="button"
-                              onClick={() => setGlobalPerso({ type: "symbol", value: sym.id })}
-                              className={`h-9 rounded-xl border transition-all cursor-pointer flex items-center justify-center ${
-                                isSelected
-                                  ? "bg-[#ff4f00] text-white border-[#ff4f00] shadow-md scale-105"
-                                  : "bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white"
-                              }`}
-                              title={sym.name}
-                            >
-                              <ClickerSvgSymbol symbolId={sym.id} size={16} />
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-
-                  {globalPerso.type === "texture" && (
-                    <div className="p-3 rounded-2xl bg-neutral-950 border border-neutral-800 space-y-2">
-                      <span className="text-[11px] text-neutral-400 font-mono block">Textures &amp; Reliefs 3D Spoolio :</span>
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                        {TEXTURE_OPTIONS.map((tex) => {
-                          const isSelected = globalPerso.value === tex.id;
-                          return (
-                            <button
-                              key={tex.id}
-                              type="button"
-                              onClick={() => setGlobalPerso({ type: "texture", value: tex.id })}
-                              className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-1.5 ${
-                                isSelected
-                                  ? "bg-[#ff4f00]/20 border-[#ff4f00] text-white ring-1 ring-[#ff4f00]/50 shadow-md scale-102"
-                                  : "bg-neutral-900 border-neutral-800 text-neutral-400 hover:border-neutral-700 hover:text-white"
-                              }`}
-                            >
-                              <div className="flex items-center gap-2">
-                                <span className="text-xl">{tex.icon}</span>
-                                <span className="text-xs font-bold uppercase">{tex.name}</span>
-                              </div>
-                              <p className={`text-[10px] leading-tight ${isSelected ? "text-neutral-200 font-medium" : "text-neutral-400"}`}>
-                                {tex.desc}
-                              </p>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-
-            {/* =========================================================================
-                MODE B : SUR-MESURE (PAR TOUCHE)
-               ========================================================================= */}
+            {/* Target key selector if in custom mode */}
             {keycapMode === "custom" && (
-              <div className="space-y-4 pt-2 border-t border-neutral-800">
-                
-                {/* Visual Target Key Selector Bar */}
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-between">
-                    <label className="text-xs text-neutral-300 font-mono font-bold">Sélectionner la touche à configurer :</label>
-                    <span className="text-xs font-bold text-[#ff4f00]">Touche #{selectedShape.validIndices.indexOf(activeKeyIndex) + 1}</span>
-                  </div>
+              <div className="space-y-1.5">
+                <span className="text-[10px] font-mono text-[#777777] uppercase block">
+                  CHOISIR LA TOUCHE CIBLE :
+                </span>
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+                  {selectedShape.validIndices.map((slotIdx, i) => {
+                    const isSelected = activeKeyIndex === slotIdx;
+                    const cfg = getKeyConfig(slotIdx);
+                    return (
+                      <button
+                        key={slotIdx}
+                        type="button"
+                        onClick={() => setActiveKeyIndex(slotIdx)}
+                        className={`px-3 py-1.5 rounded-lg text-[11px] font-mono font-bold transition-all cursor-pointer shrink-0 flex items-center gap-2 border ${
+                          isSelected
+                            ? "bg-[#FFF7F2] text-[#18181B] border-[#FF5500] ring-1 ring-[#FF5500]"
+                            : "bg-[#FBFBFA] text-[#666663] border-[#E8E8E4] hover:border-[#D0D0CA] hover:text-[#18181B]"
+                        }`}
+                      >
+                        <span
+                          className="w-2.5 h-2.5 rounded-full border border-black/30 shrink-0"
+                          style={{ backgroundColor: cfg.color.hex }}
+                        />
+                        <span>#{i + 1}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
-                  <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
-                    {selectedShape.validIndices.map((slotIdx, i) => {
-                      const isSelected = activeKeyIndex === slotIdx;
-                      const cfg = getKeyConfig(slotIdx);
+            {/* Keycap Color Swatches */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-[11px] font-mono">
+                <span className="text-[#777777]">COULEUR DES TOUCHES :</span>
+                <span className="text-[#18181B] font-bold">
+                  {keycapMode === "all" ? globalKeycapColor.name : activeKeyConfig.color.name}
+                </span>
+              </div>
+              <div className="grid grid-cols-6 sm:grid-cols-11 gap-1.5">
+                {KEYCAP_COLORS.map((color, idx) => {
+                  const isSelected =
+                    keycapMode === "all"
+                      ? globalKeycapColor.id === color.id
+                      : activeKeyConfig.color.id === color.id;
+                  return (
+                    <button
+                      key={`${color.id}-${idx}`}
+                      type="button"
+                      onClick={() => {
+                        if (keycapMode === "all") {
+                          setGlobalKeycapColor(color);
+                        } else {
+                          updateActiveKeyPerso({ color });
+                        }
+                        setActivePresetId(null);
+                      }}
+                      className={`relative aspect-square rounded-xl transition-all cursor-pointer flex items-center justify-center border ${
+                        isSelected
+                          ? "border-[#FF5500] ring-2 ring-[#FF5500] ring-offset-2 ring-offset-white scale-105"
+                          : "border-black/15 hover:border-[#888888]"
+                      }`}
+                      style={{ backgroundColor: color.hex }}
+                      title={color.name}
+                    >
+                      {isSelected && (
+                        <span
+                          className="w-1.5 h-1.5 rounded-full shadow-xs"
+                          style={{ backgroundColor: color.textColor || "#ffffff" }}
+                        />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Keycap Engraving / Relief Type Tabs */}
+            <div className="space-y-3 pt-2 border-t border-[#F0EFEA]">
+              <span className="text-[10px] font-mono text-[#777777] uppercase block">
+                GRAVURE &amp; SURFACE TACTILE :
+              </span>
+
+              {/* Type Switcher */}
+              <div className="grid grid-cols-5 gap-1 p-1 bg-[#F4F3EE] rounded-xl border border-[#E4E3DD] text-[10px] font-mono font-bold">
+                {[
+                  { id: "blank", label: "VIERGE", icon: Slash },
+                  { id: "letter", label: "LETTRE", icon: Type },
+                  { id: "word", label: "MOT", icon: FileText },
+                  { id: "symbol", label: "SYMBOLE", icon: Sparkles },
+                  { id: "texture", label: "TEXTURE", icon: Layers },
+                ].map((item) => {
+                  const currentType = keycapMode === "all" ? globalPerso.type : activeKeyConfig.type;
+                  const isSelected = currentType === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => {
+                        if (keycapMode === "all") {
+                          setGlobalPerso({
+                            type: item.id as KeyCustomizationType,
+                            value: item.id === "letter" ? "A" : item.id === "word" ? "WASD" : item.id === "symbol" ? "zap" : item.id === "texture" ? "lego" : "",
+                          });
+                        } else {
+                          updateActiveKeyPerso({
+                            type: item.id as KeyCustomizationType,
+                            value: item.id === "letter" ? "A" : item.id === "word" ? "WASD" : item.id === "symbol" ? "zap" : item.id === "texture" ? "lego" : "",
+                          });
+                        }
+                        setActivePresetId(null);
+                      }}
+                      className={`py-1.5 rounded-lg flex flex-col sm:flex-row items-center justify-center gap-1 transition-colors cursor-pointer ${
+                        isSelected
+                          ? "bg-[#FF5500] text-white font-bold shadow-2xs"
+                          : "text-[#666663] hover:text-[#18181B]"
+                      }`}
+                    >
+                      <item.icon className="w-3 h-3" />
+                      <span>{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Content Panel: Letter */}
+              {((keycapMode === "all" && globalPerso.type === "letter") ||
+                (keycapMode === "custom" && activeKeyConfig.type === "letter")) && (
+                <div className="p-3 rounded-xl bg-[#FBFBFA] border border-[#E8E8E4] space-y-2">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      maxLength={1}
+                      value={keycapMode === "all" ? globalPerso.value : activeKeyConfig.value}
+                      onChange={(e) => {
+                        const val = e.target.value.toUpperCase();
+                        if (keycapMode === "all") setGlobalPerso({ type: "letter", value: val });
+                        else updateActiveKeyPerso({ type: "letter", value: val });
+                      }}
+                      placeholder="A"
+                      className="w-12 h-9 px-2 text-center font-mono font-bold text-sm uppercase rounded-lg border border-[#D5D5CF] bg-white text-[#18181B] focus:outline-none focus:border-[#FF5500]"
+                    />
+                    <span className="text-[11px] font-mono text-[#777777]">Caractère unique gravé</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1 max-h-20 overflow-y-auto pt-1">
+                    {QUICK_LETTERS.map((char) => {
+                      const curVal = keycapMode === "all" ? globalPerso.value : activeKeyConfig.value;
                       return (
                         <button
-                          key={slotIdx}
+                          key={char}
                           type="button"
-                          onClick={() => setActiveKeyIndex(slotIdx)}
-                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shrink-0 flex items-center gap-2 border ${
-                            isSelected
-                              ? "bg-[#ff4f00] text-white border-[#ff4f00] shadow-md font-black scale-102"
-                              : "bg-neutral-950 text-neutral-400 border-neutral-800 hover:border-neutral-700 hover:text-white"
+                          onClick={() => {
+                            if (keycapMode === "all") setGlobalPerso({ type: "letter", value: char });
+                            else updateActiveKeyPerso({ type: "letter", value: char });
+                          }}
+                          className={`w-6 h-6 rounded-md text-[10px] font-mono font-bold border transition-colors cursor-pointer ${
+                            curVal === char
+                              ? "bg-[#FF5500] text-white border-[#FF5500]"
+                              : "bg-white border-[#E0DFD8] text-[#555555] hover:text-[#18181B]"
                           }`}
                         >
-                          <span className="w-3 h-3 rounded-full border border-white/30 shrink-0" style={{ backgroundColor: cfg.color.hex }} />
-                          <span>Touche #{i + 1}</span>
-                          {cfg.type !== "blank" && (
-                            <span className={`text-[10px] font-mono px-1 py-0.5 rounded ${isSelected ? "bg-black/30 text-white" : "bg-neutral-800 text-neutral-300"}`}>
-                              {cfg.type === "symbol" ? "SVG" : cfg.value}
-                            </span>
-                          )}
+                          {char}
                         </button>
                       );
                     })}
                   </div>
                 </div>
+              )}
 
-                {/* Configuration Panel for Active Key */}
-                <div className="p-4 rounded-2xl bg-neutral-950 border border-neutral-800 space-y-4">
-                  
-                  {/* Active Key Color */}
-                  <div className="space-y-1.5">
-                    <div className="flex items-center justify-between">
-                      <label className="text-xs text-neutral-300 font-mono">Couleur Touche #{selectedShape.validIndices.indexOf(activeKeyIndex) + 1} :</label>
-                      <span className="text-xs font-bold text-white">{activeKeyConfig.color.name}</span>
-                    </div>
-                    <div className="grid grid-cols-6 sm:grid-cols-11 gap-1.5">
-                      {KEYCAP_COLORS.map((color, idx) => {
-                        const isSelected = activeKeyConfig.color.id === color.id;
-                        return (
-                          <button
-                            key={`${color.id}-${idx}`}
-                            type="button"
-                            onClick={() => updateActiveKeyPerso({ color })}
-                            className={`relative aspect-square rounded-xl transition-all cursor-pointer flex items-center justify-center border ${
-                              isSelected ? "ring-2 ring-white ring-offset-2 ring-offset-black scale-105 border-white shadow-md" : "border-white/10 hover:scale-102"
-                            }`}
-                            style={{ backgroundColor: color.hex }}
-                            title={color.name}
-                          >
-                            {isSelected && <span className="w-1.5 h-1.5 rounded-full shadow" style={{ backgroundColor: color.textColor || '#ffffff' }} />}
-                          </button>
-                        );
-                      })}
-                    </div>
+              {/* Content Panel: Word */}
+              {((keycapMode === "all" && globalPerso.type === "word") ||
+                (keycapMode === "custom" && activeKeyConfig.type === "word")) && (
+                <div className="p-3 rounded-xl bg-[#FBFBFA] border border-[#E8E8E4] space-y-2">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      maxLength={6}
+                      value={keycapMode === "all" ? globalPerso.value : activeKeyConfig.value}
+                      onChange={(e) => {
+                        const val = e.target.value.toUpperCase();
+                        if (keycapMode === "all") setGlobalPerso({ type: "word", value: val });
+                        else updateActiveKeyPerso({ type: "word", value: val });
+                      }}
+                      placeholder="WASD"
+                      className="w-24 h-9 px-2 text-center font-mono font-bold text-xs uppercase rounded-lg border border-[#D5D5CF] bg-white text-[#18181B] focus:outline-none focus:border-[#FF5500]"
+                    />
+                    <span className="text-[11px] font-mono text-[#777777]">Max 6 lettres</span>
                   </div>
-
-                  {/* Active Key Content Type Tabs */}
-                  <div className="space-y-2 pt-1 border-t border-neutral-900">
-                    <label className="text-xs text-neutral-300 font-mono">Contenu Touche #{selectedShape.validIndices.indexOf(activeKeyIndex) + 1} :</label>
-
-                    <div className="grid grid-cols-5 gap-1.5 p-1 bg-neutral-900 rounded-xl border border-neutral-800 text-[11px] font-bold">
-                      <button
-                        type="button"
-                        onClick={() => updateActiveKeyPerso({ type: "blank", value: "" })}
-                        className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                          activeKeyConfig.type === "blank" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-neutral-400 hover:text-white"
-                        }`}
-                      >
-                        <Slash className="w-3 h-3" />
-                        <span>Vierge</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => updateActiveKeyPerso({ type: "letter", value: activeKeyConfig.value || "A" })}
-                        className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                          activeKeyConfig.type === "letter" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-neutral-400 hover:text-white"
-                        }`}
-                      >
-                        <Type className="w-3 h-3" />
-                        <span>Lettre</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => updateActiveKeyPerso({ type: "word", value: activeKeyConfig.value || "WASD" })}
-                        className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                          activeKeyConfig.type === "word" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-neutral-400 hover:text-white"
-                        }`}
-                      >
-                        <FileText className="w-3 h-3" />
-                        <span>Mot</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => updateActiveKeyPerso({ type: "symbol", value: activeKeyConfig.value || "zap" })}
-                        className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                          activeKeyConfig.type === "symbol" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-neutral-400 hover:text-white"
-                        }`}
-                      >
-                        <Sparkles className="w-3 h-3" />
-                        <span>Symbole</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => updateActiveKeyPerso({ type: "texture", value: activeKeyConfig.value || "lego" })}
-                        className={`py-1.5 rounded-lg flex items-center justify-center gap-1 transition-colors cursor-pointer ${
-                          activeKeyConfig.type === "texture" ? "bg-[#ff4f00] text-white font-extrabold shadow-md" : "text-neutral-400 hover:text-white"
-                        }`}
-                      >
-                        <Layers className="w-3 h-3" />
-                        <span>Texture</span>
-                      </button>
-                    </div>
-
-                    {/* Active Key Content Inputs */}
-                    {activeKeyConfig.type === "letter" && (
-                      <div className="space-y-2 pt-2">
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="text"
-                            maxLength={1}
-                            value={activeKeyConfig.value}
-                            onChange={(e) => updateActiveKeyPerso({ type: "letter", value: e.target.value.toUpperCase() })}
-                            placeholder="Ex: K"
-                            className="w-16 h-10 px-3 py-2 text-center text-sm font-black uppercase rounded-xl border border-neutral-700 bg-neutral-900 text-white focus:outline-none focus:border-[#ff4f00]"
-                          />
-                          <span className="text-xs text-neutral-400 font-medium">Une seule lettre (A-Z, 0-9)</span>
-                        </div>
-
-                        <div className="flex flex-wrap gap-1 max-h-24 overflow-y-auto pt-1">
-                          {QUICK_LETTERS.map((char) => (
-                            <button
-                              key={char}
-                              type="button"
-                              onClick={() => updateActiveKeyPerso({ type: "letter", value: char })}
-                              className={`w-7 h-7 rounded-lg text-xs font-bold border transition-colors cursor-pointer ${
-                                activeKeyConfig.value === char ? "bg-[#ff4f00] text-white border-[#ff4f00] font-black shadow-md scale-105" : "bg-neutral-900 border-neutral-800 text-neutral-300 hover:border-neutral-700"
-                              }`}
-                            >
-                              {char}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {activeKeyConfig.type === "word" && (
-                      <div className="space-y-2 pt-2">
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="text"
-                            maxLength={6}
-                            value={activeKeyConfig.value}
-                            onChange={(e) => updateActiveKeyPerso({ type: "word", value: e.target.value.toUpperCase() })}
-                            placeholder="Ex: WASD"
-                            className="w-28 h-10 px-3 py-2 text-center text-xs font-black uppercase rounded-xl border border-neutral-700 bg-neutral-900 text-white focus:outline-none focus:border-[#ff4f00] font-mono"
-                          />
-                          <span className="text-xs text-neutral-400 font-medium">Mot court (max 6 lettres)</span>
-                        </div>
-
-                        <div className="flex flex-wrap gap-1.5 pt-1">
-                          {WORD_SUGGESTIONS.map((w) => (
-                            <button
-                              key={w}
-                              type="button"
-                              onClick={() => updateActiveKeyPerso({ type: "word", value: w })}
-                              className={`px-2.5 py-1 rounded-lg text-xs font-mono font-bold border transition-colors cursor-pointer ${
-                                activeKeyConfig.value === w ? "bg-[#ff4f00] text-white border-[#ff4f00] font-black shadow-md" : "bg-neutral-900 border-neutral-800 text-neutral-300 hover:border-neutral-700"
-                              }`}
-                            >
-                              {w}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {activeKeyConfig.type === "symbol" && (
-                      <div className="pt-2 space-y-2">
-                        <span className="text-[11px] text-neutral-400 font-mono block">Symboles Vectoriels SVG (Style Noun Project) :</span>
-                        <div className="grid grid-cols-6 sm:grid-cols-11 gap-1.5">
-                          {VECTOR_SYMBOLS.map((sym) => {
-                            const isSelected = activeKeyConfig.value === sym.id;
-                            return (
-                              <button
-                                key={sym.id}
-                                type="button"
-                                onClick={() => updateActiveKeyPerso({ type: "symbol", value: sym.id })}
-                                className={`h-9 rounded-xl border transition-all cursor-pointer flex items-center justify-center ${
-                                  isSelected
-                                    ? "bg-[#ff4f00] text-white border-[#ff4f00] shadow-md scale-105"
-                                    : "bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white"
-                                }`}
-                                title={sym.name}
-                              >
-                                <ClickerSvgSymbol symbolId={sym.id} size={16} />
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-
-                    {activeKeyConfig.type === "texture" && (
-                      <div className="pt-2 space-y-2">
-                        <span className="text-[11px] text-neutral-400 font-mono block">Textures &amp; Reliefs 3D Spoolio :</span>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                          {TEXTURE_OPTIONS.map((tex) => {
-                            const isSelected = activeKeyConfig.value === tex.id;
-                            return (
-                              <button
-                                key={tex.id}
-                                type="button"
-                                onClick={() => updateActiveKeyPerso({ type: "texture", value: tex.id })}
-                                className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-1.5 ${
-                                  isSelected
-                                    ? "bg-[#ff4f00]/20 border-[#ff4f00] text-white ring-1 ring-[#ff4f00]/50 shadow-md scale-102"
-                                    : "bg-neutral-900 border-neutral-800 text-neutral-400 hover:border-neutral-700 hover:text-white"
-                                }`}
-                              >
-                                <div className="flex items-center gap-2">
-                                  <span className="text-xl">{tex.icon}</span>
-                                  <span className="text-xs font-bold uppercase">{tex.name}</span>
-                                </div>
-                                <p className={`text-[10px] leading-tight ${isSelected ? "text-neutral-200 font-medium" : "text-neutral-400"}`}>
-                                  {tex.desc}
-                                </p>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-
+                  <div className="flex flex-wrap gap-1 pt-1">
+                    {WORD_SUGGESTIONS.map((w) => {
+                      const curVal = keycapMode === "all" ? globalPerso.value : activeKeyConfig.value;
+                      return (
+                        <button
+                          key={w}
+                          type="button"
+                          onClick={() => {
+                            if (keycapMode === "all") setGlobalPerso({ type: "word", value: w });
+                            else updateActiveKeyPerso({ type: "word", value: w });
+                          }}
+                          className={`px-2 py-0.5 rounded-md text-[10px] font-mono font-bold border transition-colors cursor-pointer ${
+                            curVal === w
+                              ? "bg-[#FF5500] text-white border-[#FF5500]"
+                              : "bg-white border-[#E0DFD8] text-[#555555] hover:text-[#18181B]"
+                          }`}
+                        >
+                          {w}
+                        </button>
+                      );
+                    })}
                   </div>
-
                 </div>
+              )}
 
-              </div>
-            )}
+              {/* Content Panel: Symbol */}
+              {((keycapMode === "all" && globalPerso.type === "symbol") ||
+                (keycapMode === "custom" && activeKeyConfig.type === "symbol")) && (
+                <div className="p-3 rounded-xl bg-[#FBFBFA] border border-[#E8E8E4] space-y-2">
+                  <span className="text-[10px] font-mono text-[#777777] block">SYMBOLES VECTORIELS GRAVÉS :</span>
+                  <div className="grid grid-cols-6 sm:grid-cols-10 gap-1.5 max-h-36 overflow-y-auto">
+                    {VECTOR_SYMBOLS.map((sym) => {
+                      const curVal = keycapMode === "all" ? globalPerso.value : activeKeyConfig.value;
+                      const isSelected = curVal === sym.id;
+                      return (
+                        <button
+                          key={sym.id}
+                          type="button"
+                          onClick={() => {
+                            if (keycapMode === "all") setGlobalPerso({ type: "symbol", value: sym.id });
+                            else updateActiveKeyPerso({ type: "symbol", value: sym.id });
+                          }}
+                          className={`h-8 rounded-lg border transition-all cursor-pointer flex items-center justify-center ${
+                            isSelected
+                              ? "bg-[#FF5500] text-white border-[#FF5500]"
+                              : "bg-white border-[#E0DFD8] text-[#666663] hover:text-[#18181B]"
+                          }`}
+                          title={sym.name}
+                        >
+                          <ClickerSvgSymbol symbolId={sym.id} size={15} />
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
 
-          </div>
+              {/* Content Panel: Texture */}
+              {((keycapMode === "all" && globalPerso.type === "texture") ||
+                (keycapMode === "custom" && activeKeyConfig.type === "texture")) && (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  {TEXTURE_OPTIONS.map((tex) => {
+                    const curVal = keycapMode === "all" ? globalPerso.value : activeKeyConfig.value;
+                    const isSelected = curVal === tex.id;
+                    return (
+                      <button
+                        key={tex.id}
+                        type="button"
+                        onClick={() => {
+                          if (keycapMode === "all") setGlobalPerso({ type: "texture", value: tex.id });
+                          else updateActiveKeyPerso({ type: "texture", value: tex.id });
+                        }}
+                        className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-1.5 ${
+                          isSelected
+                            ? "bg-[#FFF7F2] border-[#FF5500] ring-1 ring-[#FF5500]"
+                            : "bg-[#FBFBFA] border-[#E8E8E4] text-[#666663] hover:text-[#18181B]"
+                        }`}
+                      >
+                        <span className="text-xs font-mono font-bold uppercase text-[#18181B]">{tex.name}</span>
+                        <p className="text-[10px] text-[#777777] font-mono leading-tight">{tex.desc}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </section>
 
 
-          {/* STEP 4 : Switchs Mécaniques */}
-          <div className="p-4 sm:p-5 rounded-3xl bg-neutral-900/60 border border-neutral-800/90 shadow-md space-y-3">
-            <div className="flex items-center justify-between">
+          {/* =========================================================================
+              04 / SENSATION (SWITCHES MÉCANIQUES)
+             ========================================================================= */}
+          <section className="bg-white border border-[#E4E4E0] shadow-xs rounded-2xl p-4 sm:p-5 space-y-3.5">
+            <div className="flex items-center justify-between border-b border-[#F0EFEA] pb-2.5">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-[#ff4f00] text-white font-black text-xs flex items-center justify-center shadow-sm">4</span>
-                <h3 className="text-sm font-bold uppercase tracking-wider text-white">Switchs Mécaniques</h3>
+                <span className="font-mono text-[11px] font-bold text-[#FF5500]">04 /</span>
+                <h2 className="font-mono text-xs font-bold uppercase tracking-widest text-[#18181B]">
+                  SENSATION
+                </h2>
               </div>
-              <span className="text-xs text-neutral-400">{switchType.soundLabel}</span>
+              <span className="font-mono text-xs font-bold text-[#FF5500]">
+                {switchType.name.toUpperCase()}
+              </span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               {switchesList.map((sw) => {
                 const isSelected = switchType.id === sw.id;
                 return (
-                  <button
+                  <div
                     key={sw.id}
-                    type="button"
                     onClick={() => {
                       setSwitchType(sw);
                       playClickSound(sw.id);
+                      setActivePresetId(null);
                     }}
-                    className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                    className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between min-h-28 ${
                       isSelected
-                        ? "bg-[#ff4f00]/15 border-[#ff4f00] text-white ring-1 ring-[#ff4f00]/50 shadow-md shadow-[#ff4f00]/10"
-                        : "bg-neutral-950/80 border-neutral-800 text-neutral-300 hover:border-neutral-700 hover:bg-neutral-950"
+                        ? "bg-[#FFF7F2] border-[#FF5500] ring-1 ring-[#FF5500]/50 shadow-2xs"
+                        : "bg-[#FBFBFA] border-[#E8E8E4] hover:border-[#D0D0CA] hover:bg-white"
                     }`}
                   >
                     <div>
-                      <div className="flex items-center justify-between gap-1 mb-1">
-                        <span className="text-xs font-bold">{sw.name}</span>
-                        <span className={`text-[9px] px-1.5 py-0.5 rounded font-mono ${isSelected ? "bg-[#ff4f00]/30 text-white font-bold" : "bg-neutral-800 text-neutral-300"}`}>
-                          {sw.badge}
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-mono text-xs font-bold uppercase text-[#18181B]">
+                          {sw.name}
                         </span>
+                        {/* Audio Preview Icon Button */}
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            playClickSound(sw.id);
+                          }}
+                          className="p-1 rounded-md bg-[#EBEAE5] hover:bg-[#FF5500] text-[#555555] hover:text-white transition-colors cursor-pointer"
+                          title="Écouter le clic"
+                        >
+                          <Volume2 className="w-3 h-3" />
+                        </button>
                       </div>
-                      <p className="text-[10px] text-neutral-400 leading-tight">
+
+                      <span className="text-[10px] font-mono text-[#FF5500] block mb-1 font-bold">
+                        {sw.sensationLabel}
+                      </span>
+                      <p className="text-[10px] text-[#666663] font-mono leading-tight">
                         {sw.desc}
                       </p>
                     </div>
-                  </button>
+
+                    <div className="pt-2 flex items-center justify-between text-[10px] font-mono text-[#888888]">
+                      <span>SON {sw.soundLabel.toUpperCase()}</span>
+                      <div className="flex gap-0.5">
+                        <span className={`w-1.5 h-1.5 rounded-full ${sw.volumeLevel >= 1 ? "bg-[#FF5500]" : "bg-[#D8D8D2]"}`} />
+                        <span className={`w-1.5 h-1.5 rounded-full ${sw.volumeLevel >= 2 ? "bg-[#FF5500]" : "bg-[#D8D8D2]"}`} />
+                        <span className={`w-1.5 h-1.5 rounded-full ${sw.volumeLevel >= 3 ? "bg-[#FF5500]" : "bg-[#D8D8D2]"}`} />
+                      </div>
+                    </div>
+                  </div>
                 );
               })}
             </div>
-          </div>
+          </section>
 
 
-          {/* STEP 5 : Option Porte-Clés / Dragonne */}
-          <div className="p-4 sm:p-5 rounded-3xl bg-neutral-900/60 border border-neutral-800/90 shadow-md space-y-3">
-            <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-[#ff4f00] text-white font-black text-xs flex items-center justify-center shadow-sm">5</span>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-white">Attache &amp; Porte-Clés</h3>
+          {/* =========================================================================
+              05 / FINITIONS (ATTACHE & ACCESSOIRES)
+             ========================================================================= */}
+          <section className="bg-white border border-[#E4E4E0] shadow-xs rounded-2xl p-4 sm:p-5 space-y-3.5">
+            <div className="flex items-center justify-between border-b border-[#F0EFEA] pb-2.5">
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[11px] font-bold text-[#FF5500]">05 /</span>
+                <h2 className="font-mono text-xs font-bold uppercase tracking-widest text-[#18181B]">
+                  FINITIONS
+                </h2>
+              </div>
+              <span className="font-mono text-xs font-bold text-[#FF5500]">{attachment.shortLabel}</span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {attachmentsList.map((att) => {
                 const isSelected = attachment.id === att.id;
                 return (
                   <button
                     key={att.id}
                     type="button"
-                    onClick={() => setAttachment(att)}
-                    className={`p-3 rounded-2xl border text-left transition-all cursor-pointer flex items-center justify-between ${
+                    onClick={() => {
+                      setAttachment(att);
+                      setActivePresetId(null);
+                    }}
+                    className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex items-center justify-between ${
                       isSelected
-                        ? "bg-[#ff4f00]/15 border-[#ff4f00] text-white ring-1 ring-[#ff4f00]/50 shadow-md shadow-[#ff4f00]/10"
-                        : "bg-neutral-950/80 border-neutral-800 text-neutral-300 hover:border-neutral-700 hover:bg-neutral-950"
+                        ? "bg-[#FFF7F2] border-[#FF5500] ring-1 ring-[#FF5500]/50 shadow-2xs"
+                        : "bg-[#FBFBFA] border-[#E8E8E4] hover:border-[#D0D0CA] hover:bg-white"
                     }`}
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg">{att.icon}</span>
-                      <span className="text-xs font-bold">{att.name}</span>
-                    </div>
-                    <span className="text-xs font-mono text-neutral-300">
-                      {(Number(att.price) || 0) > 0 ? `+${(Number(att.price) || 0).toFixed(2)}€` : "Gratuit"}
+                    <span className="text-xs font-mono font-bold text-[#18181B]">
+                      {att.name}
+                    </span>
+                    <span className="text-xs font-mono font-bold text-[#666663]">
+                      {(Number(att.price) || 0) > 0 ? `+${(Number(att.price) || 0).toFixed(2)}€` : "INCLUS"}
                     </span>
                   </button>
                 );
               })}
             </div>
-          </div>
+          </section>
 
 
           {/* =========================================================================
-              PRICE & ADD TO CART BAR
+              HARDWARE ACTION BAR & PURCHASE CTA (DESKTOP PANEL - LIGHT)
              ========================================================================= */}
-          <div className="p-4 sm:p-5 rounded-3xl bg-neutral-950 border border-neutral-800/90 shadow-xl flex items-center justify-between gap-4 flex-wrap">
-            <div>
-              <div className="text-xs text-neutral-400 uppercase font-mono mb-1">Prix Total Personnalisé</div>
-              <AnimateDigits value={totalPrice} className="text-3xl sm:text-4xl text-white font-[family-name:var(--font-antonio)]" />
+          <div className="bg-white border border-[#E4E4E0] shadow-md rounded-2xl p-5 space-y-4">
+            <div className="flex items-baseline justify-between">
+              <div>
+                <span className="text-[10px] font-mono text-[#777777] uppercase tracking-wider block">
+                  PRIX TOTAL CONCEPTION
+                </span>
+                <div className="flex items-baseline gap-1 mt-0.5">
+                  <AnimateDigits value={totalPrice} className="text-3xl font-mono font-bold text-[#18181B]" />
+                  <span className="text-xs font-mono text-[#888888]">TTC</span>
+                </div>
+              </div>
+
+              <div className="text-right font-mono text-[11px] text-[#666663]">
+                <span>EXPÉDITION RAPIDE 48H</span>
+              </div>
             </div>
 
             <button
               type="button"
               onClick={handleAddToCart}
-              className="flex-1 sm:flex-initial px-8 py-4 rounded-2xl bg-[#ff4f00] hover:bg-[#e04500] text-white text-sm font-extrabold uppercase tracking-wider transition-all shadow-lg shadow-[#ff4f00]/25 cursor-pointer flex items-center justify-center gap-2 hover:scale-102"
+              className={`w-full py-4 px-6 rounded-xl text-xs font-mono font-bold uppercase tracking-widest transition-all cursor-pointer flex items-center justify-center gap-2 shadow-sm ${
+                justAdded
+                  ? "bg-[#10b981] text-white"
+                  : "bg-[#FF5500] hover:bg-[#E04B00] text-white hover:scale-[1.01]"
+              }`}
             >
-              <span>Ajouter au Panier 🛒</span>
+              {justAdded ? (
+                <>
+                  <Check className="w-4 h-4" />
+                  <span>AJOUTÉ AU PANIER</span>
+                </>
+              ) : (
+                <>
+                  <span>AJOUTER AU PANIER</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
             </button>
           </div>
 
         </div>
 
       </div>
+
+
+      {/* =========================================================================
+          STICKY MOBILE ACTION BAR (FIXED AT SCREEN BOTTOM - LIGHT)
+         ========================================================================= */}
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-xl border-t border-[#E4E4E0] p-3.5 pb-6 safe-area-bottom shadow-2xl">
+        <div className="max-w-md mx-auto flex items-center justify-between gap-3">
+          <div className="flex flex-col">
+            <span className="text-[9px] font-mono text-[#777777] uppercase">PRIX STUDIO</span>
+            <div className="flex items-baseline gap-1">
+              <span className="text-xl font-mono font-bold text-[#18181B]">
+                {totalPrice.toFixed(2)}€
+              </span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            className={`flex-1 py-3 px-4 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center justify-center gap-2 ${
+              justAdded
+                ? "bg-[#10b981] text-white"
+                : "bg-[#FF5500] text-white active:scale-95 shadow-sm"
+            }`}
+          >
+            {justAdded ? (
+              <>
+                <Check className="w-4 h-4" />
+                <span>AJOUTÉ</span>
+              </>
+            ) : (
+              <>
+                <span>AJOUTER AU PANIER</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </>
+            )}
+          </button>
+        </div>
       </div>
 
-      {/* MODERN BENTO IMAGE GALLERY */}
-      <div className="mt-16 pt-12 border-t border-zinc-200/90">
-        <ModernBentoGallery items={galleryList} />
-      </div>
+
+      {/* =========================================================================
+          ATELIER BENTO GALLERY (LIGHT THEME)
+         ========================================================================= */}
+      {galleryList && galleryList.length > 0 && (
+        <div className="mt-16 pt-8 border-t border-[#E4E4E0]">
+          <ModernBentoGallery items={galleryList} />
+        </div>
+      )}
 
     </div>
   );

@@ -9,6 +9,8 @@ import WysiwygEditor from "@/components/WysiwygEditor";
 import { parseNoiseLevel, formatNoiseLevelText } from "@/lib/sensoryUtils";
 import { isVideoMedia, isYouTubeUrl, getYouTubeThumbnail } from "@/lib/mediaUtils";
 import { computeSeoScore } from "@/lib/seoUtils";
+import ProductTaxonomyV2Card from "@/components/admin/ProductTaxonomyV2Card";
+import type { SaveProductTaxonomyPayload } from "@/types/taxonomy";
 
 const CATEGORIES = [
   "Accessoires & Petits Objets",
@@ -160,6 +162,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
   // Predefined attributes & dynamic categories states
   const [predefinedAttributes, setPredefinedAttributes] = useState<{ id: number; name: string; values: string; controlType?: string }[]>([]);
   const [dynamicCategories, setDynamicCategories] = useState<{ id: number; name: string }[]>([]);
+  const [taxonomyV2Payload, setTaxonomyV2Payload] = useState<SaveProductTaxonomyPayload | null>(null);
 
   useEffect(() => {
     const fetchPredefined = async () => {
@@ -633,6 +636,21 @@ export default function ProductFormClient({ productId, isNew }: Props) {
 
       if (res.ok) {
         const data = await res.json();
+        const savedId = (data.product && (data.product.id || data.product.slug)) || targetId;
+
+        // Sauvegarde coordonnée de la taxonomie V2.1
+        if (taxonomyV2Payload && savedId && savedId !== "new") {
+          try {
+            await fetch(`/api/admin/taxonomy/product/${savedId}`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(taxonomyV2Payload),
+            });
+          } catch (tErr) {
+            console.warn("Taxonomy V2.1 sync notice:", tErr);
+          }
+        }
+
         setSaved(true);
         if (isNew && data.product) {
           router.push(`/admin/products/${data.product.id || data.product.slug}`);
@@ -947,6 +965,15 @@ export default function ProductFormClient({ productId, isNew }: Props) {
             })()}
               </div>
             </SectionCard>
+
+            {/* Taxonomie V2.1 contemporaine Spoolio */}
+            <ProductTaxonomyV2Card
+              productId={form.id || productId}
+              isNew={isNew}
+              productStatus={form.status}
+              cls={cls}
+              onTaxonomyChange={(payload) => setTaxonomyV2Payload(payload)}
+            />
 
             {/* 2. Descriptions */}
             <SectionCard

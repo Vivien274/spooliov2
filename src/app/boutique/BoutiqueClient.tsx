@@ -10,6 +10,8 @@ import BoutiqueEditorialHero from "@/components/boutique/BoutiqueEditorialHero";
 import BoutiqueReassuranceBar from "@/components/boutique/BoutiqueReassuranceBar";
 import BoutiqueUniverses, { BOUTIQUE_UNIVERSES } from "@/components/boutique/BoutiqueUniverses";
 import BoutiqueEditorialSelection, { EditorialTabType } from "@/components/boutique/BoutiqueEditorialSelection";
+import BoutiqueDropBanner from "@/components/boutique/BoutiqueDropBanner";
+import { Drop } from "@/lib/drops";
 
 import {
   LayoutGrid,
@@ -75,10 +77,12 @@ function BoutiqueClientContent({
   initialProducts = [],
   initialCategory,
   initialQuery,
+  featuredDrop,
 }: {
   initialProducts?: Product[];
   initialCategory?: string;
   initialQuery?: string;
+  featuredDrop?: Drop | null;
 }) {
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [loading, setLoading] = useState<boolean>(initialProducts.length === 0);
@@ -92,6 +96,18 @@ function BoutiqueClientContent({
   const [onlyOnSale, setOnlyOnSale] = useState<boolean>(false);
   const [sortOption, setSortOption] = useState<string>("newest");
   const [visibleCount, setVisibleCount] = useState<number>(PRODUCTS_PER_PAGE);
+  const [shippingThreshold, setShippingThreshold] = useState<number>(60);
+
+  useEffect(() => {
+    fetch("/api/shipping-config")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d?.config?.freeShippingThreshold) {
+          setShippingThreshold(d.config.freeShippingThreshold);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Pills horizontal scroll ref & helper
   const pillsRef = useRef<HTMLDivElement>(null);
@@ -333,22 +349,22 @@ function BoutiqueClientContent({
   }, [visibleCount, processedProducts.length]);
 
   return (
-    <div className="min-h-screen bg-[#fafaf9] text-zinc-900 font-sans flex flex-col justify-between selection:bg-[#ff4f00] selection:text-white">
-      {/* Sticky Header */}
-      <Header />
+    <div className="min-h-screen bg-[#FAFAFA] text-[#121212] font-sans flex flex-col justify-between selection:bg-[#FF5500] selection:text-white">
+      {/* Header (Light Theme) */}
+      <Header isDark={false} />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-[1200px] w-full mx-auto px-4 sm:px-6 pt-24 lg:pt-28 pb-12 lg:pb-16">
-        {/* SEO Header & Breadcrumb */}
+      <main className="flex-1 max-w-[1240px] w-full mx-auto px-4 sm:px-6 pt-24 lg:pt-28 pb-12 lg:pb-16">
+        {/* Breadcrumb */}
         <nav
           aria-label="Fil d'Ariane"
-          className="flex items-center gap-2 text-xs font-semibold text-zinc-500 mb-5 font-sans select-none"
+          className="flex items-center gap-2 text-xs font-mono text-[#71717A] mb-4 select-none"
         >
-          <Link href="/" className="hover:text-zinc-950 transition-colors duration-200">
+          <Link href="/" className="hover:text-[#18181B] transition-colors">
             Accueil
           </Link>
-          <span className="text-zinc-300 font-bold" aria-hidden="true">/</span>
-          <span className="text-zinc-950 font-black">Boutique</span>
+          <span>/</span>
+          <span className="text-[#18181B] font-bold">Boutique</span>
         </nav>
 
         {/* 1. Compact Editorial Hero */}
@@ -357,25 +373,19 @@ function BoutiqueClientContent({
           onUniversesClick={scrollToUniverses}
         />
 
-        {/* 2. Reassurance Bar (Livraison offerte, Fabrication Comines, PLA Bio, Zéro surstock) */}
-        <BoutiqueReassuranceBar />
-
-        {/* 3. The 4 Visual Universes ("Pour jouer", "Pour le bureau", "Petits cadeaux", "Nos curiosités") */}
+        {/* 2. The 4 Visual Universes (Compact single row) */}
         <BoutiqueUniverses
           selectedUniverse={selectedUniverse}
           onSelectUniverse={handleSelectUniverse}
         />
 
-        {/* 4. Petite sélection éditoriale ("Favoris de l'atelier", "Nouveautés", "À moins de 10 €") */}
-        <BoutiqueEditorialSelection
-          products={products}
-          onApplySelectionToCatalogue={handleApplySelection}
-        />
+        {/* ENCART ÉDITORIAL DROPS SPOOLIO (Entre univers et catalogue) */}
+        <BoutiqueDropBanner drop={featuredDrop} />
 
-        {/* 5. Main Catalogue Explorer Section */}
+        {/* 3. Main Catalogue Explorer Section (Starts immediately!) */}
         <section
           id="catalogue-explorer"
-          className="scroll-mt-24 pt-6 border-t border-zinc-200/80"
+          className="scroll-mt-20 pt-2"
           aria-labelledby="catalogue-heading"
         >
           {/* Catalogue Title & Status */}
@@ -710,8 +720,8 @@ function BoutiqueClientContent({
             </div>
           ) : (
             <>
-              {/* Products Bento-Style Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6 mb-8">
+              {/* Products Grid: 2 columns on mobile, 3 on tablet, 4 on desktop */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 lg:gap-6 mb-8">
                 {displayedProducts.map((p, index) => (
                   <div key={p.id} className="h-full animate-reveal">
                     <ProductCard product={p} priority={index < 4} />
@@ -762,9 +772,16 @@ function BoutiqueClientContent({
             </div>
           )}
         </section>
+
+        {/* 4. Sélection éditoriale de l'atelier (Les pépites de l'atelier) */}
+        <BoutiqueEditorialSelection products={products} />
+
+        {/* 5. Engagements de l'atelier (Comines, Artisanal, PLA Bio, Port offert) */}
+        <BoutiqueReassuranceBar freeShippingThreshold={shippingThreshold} />
       </main>
 
-      <Footer />
+      {/* 6. Footer (Light Theme) */}
+      <Footer isDark={false} />
     </div>
   );
 }
@@ -773,16 +790,19 @@ export default function BoutiqueClient({
   initialProducts = [],
   initialCategory,
   initialQuery,
+  featuredDrop,
 }: {
   initialProducts?: Product[];
   initialCategory?: string;
   initialQuery?: string;
+  featuredDrop?: Drop | null;
 }) {
   return (
     <BoutiqueClientContent
       initialProducts={initialProducts}
       initialCategory={initialCategory}
       initialQuery={initialQuery}
+      featuredDrop={featuredDrop}
     />
   );
 }

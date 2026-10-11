@@ -18,9 +18,9 @@ export const CATEGORY_PORTALS: CategoryPortal[] = [
   {
     id: "art-toys",
     code: "01 //",
-    title: "POCHETTES SURPRISES",
-    subtitle: "Silhouettes urbaines, monstres de bitume et Blind Bags kraft.",
-    imageUrl: "/images/pochette-kraft-studio-gen.png",
+    title: "BLIND BAG",
+    subtitle: "Silhouettes mystères, monstres de bitume et Blind Bags kraft.",
+    imageUrl: "/images/blind-bag-home.jpg",
     count: "12 PIÈCES",
     href: "/pochette-surprise",
   },

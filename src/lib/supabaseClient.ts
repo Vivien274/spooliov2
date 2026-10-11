@@ -1,16 +1,16 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://twjqfwigssfkiwjvhpjy.supabase.co';
-const supabaseKey =
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
-  process.env.SUPABASE_SERVICE_ROLE_KEY ||
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR3anFmd2lnc3Nma2l3anZocGp5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ0ODAzMTUsImV4cCI6MjEwMDA1NjMxNX0.iR_dLN38cIbEJm_gZenPEqkGidl4WgLdfZ94XNuCfdY';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 let clientInstance: SupabaseClient | null = null;
 
 export function getSupabaseBrowserClient(): SupabaseClient {
   if (!clientInstance) {
-    clientInstance = createClient(supabaseUrl, supabaseKey);
+    if (!supabaseAnonKey) {
+      console.warn('[Supabase] NEXT_PUBLIC_SUPABASE_ANON_KEY is not defined.');
+    }
+    clientInstance = createClient(supabaseUrl, supabaseAnonKey);
   }
   return clientInstance;
 }
@@ -18,9 +18,12 @@ export function getSupabaseBrowserClient(): SupabaseClient {
 // Export singleton client for browser Realtime subscriptions & queries
 export const supabase = getSupabaseBrowserClient();
 
-// Server-side admin instance with full permissions
+// Server-side admin instance with full permissions (SERVER ONLY)
 export const getSupabaseServerClient = () => {
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || supabaseKey;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+  if (!serviceKey) {
+    console.warn('[Supabase Server] No service role key or anon key available.');
+  }
   return createClient(supabaseUrl, serviceKey, {
     auth: {
       persistSession: false,

@@ -95,7 +95,7 @@ const INITIAL_ICONS: IconConfig[] = [
 
 const INITIAL_ATTACHMENTS: AttachmentConfig[] = [
   { id: "chain", name: "Chaînette à Billes Inox", price: 0.50, icon: "⛓️", inStock: true },
-  { id: "clip", name: "Mousqueton Métal Premium", price: 0.80, icon: "🪝", inStock: true },
+  { id: "clip", name: "Câble Métallique", price: 0.80, icon: "🪝", inStock: true },
   { id: "lanyard", name: "Dragonne de Poignet Souple", price: 1.50, icon: "🎗️", inStock: true },
   { id: "ring", name: "Anneau Porte-Clés Renforcé", price: 0.50, icon: "🔑", inStock: true },
   { id: "none", name: "Sans attache (Usage Bureau)", price: 0.00, icon: "🚫", inStock: true },
