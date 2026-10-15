@@ -429,22 +429,22 @@ export default function AdminPromosPage() {
                       {/* Code */}
                       <td className="py-3.5 px-4">
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="font-mono font-black text-sm text-white bg-white/10 px-2.5 py-1 rounded-lg border border-white/15">
+                          <span className="font-mono font-black text-sm text-gray-900 bg-gray-100 px-2.5 py-1 rounded-lg border border-gray-200">
                             {p.code}
                           </span>
                           <button
                             onClick={() => handleCopy(p.code)}
-                            className={`p-1.5 rounded-md hover:bg-white/10 ${cls.textMuted} hover:text-white transition-colors cursor-pointer`}
+                            className={`p-1.5 rounded-md hover:bg-gray-100 ${cls.textMuted} hover:text-gray-900 transition-colors cursor-pointer`}
                             title="Copier le code"
                           >
                             {copiedCode === p.code ? (
-                              <Check className="w-3.5 h-3.5 text-emerald-400" />
+                              <Check className="w-3.5 h-3.5 text-emerald-500" />
                             ) : (
                               <Copy className="w-3.5 h-3.5" />
                             )}
                           </button>
                           {isFromTombola && (
-                            <span className="inline-flex items-center gap-1 text-[9px] font-bold text-amber-300 bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 rounded-full">
+                            <span className="inline-flex items-center gap-1 text-[9px] font-bold text-amber-600 bg-amber-500/15 border border-amber-500/30 px-2 py-0.5 rounded-full">
                               🎡 Tombola
                             </span>
                           )}
@@ -460,15 +460,15 @@ export default function AdminPromosPage() {
                       <td className="py-3.5 px-4">
                         <div className="flex items-center gap-1.5">
                           {p.discountType === "percentage" ? (
-                            <span className="inline-flex items-center gap-1 font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-md border border-amber-400/20">
+                            <span className="inline-flex items-center gap-1 font-bold text-amber-600 bg-amber-400/15 px-2 py-0.5 rounded-md border border-amber-400/30">
                               <Percent className="w-3 h-3" /> -{p.discountValue}%
                             </span>
                           ) : p.discountType === "fixed" ? (
-                            <span className="inline-flex items-center gap-1 font-bold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-md border border-emerald-400/20">
+                            <span className="inline-flex items-center gap-1 font-bold text-emerald-600 bg-emerald-400/15 px-2 py-0.5 rounded-md border border-emerald-400/30">
                               <Coins className="w-3 h-3" /> -{p.discountValue.toFixed(2)}€
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 font-bold text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded-md border border-blue-400/20">
+                            <span className="inline-flex items-center gap-1 font-bold text-blue-600 bg-blue-400/15 px-2 py-0.5 rounded-md border border-blue-400/30">
                               <Truck className="w-3 h-3" /> Port Offert
                             </span>
                           )}
@@ -478,7 +478,7 @@ export default function AdminPromosPage() {
                       {/* Conditions */}
                       <td className="py-3.5 px-4">
                         {p.minOrderAmount > 0 ? (
-                          <span className="font-semibold text-gray-300">
+                          <span className="font-semibold text-gray-800">
                             Min. {p.minOrderAmount.toFixed(2)}€
                           </span>
                         ) : (
@@ -489,16 +489,16 @@ export default function AdminPromosPage() {
                       {/* Validité */}
                       <td className="py-3.5 px-4">
                         {isExpired ? (
-                          <span className="text-[10px] font-bold text-red-400 bg-red-500/10 px-2 py-0.5 rounded-md border border-red-500/20">
+                          <span className="text-[10px] font-bold text-red-600 bg-red-500/10 px-2 py-0.5 rounded-md border border-red-500/20">
                             Expiré ({new Date(p.endDate!).toLocaleDateString("fr-FR")})
                           </span>
                         ) : isNotStarted ? (
-                          <span className="text-[10px] font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20">
+                          <span className="text-[10px] font-bold text-amber-600 bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20">
                             Débute le {new Date(p.startDate!).toLocaleDateString("fr-FR")}
                           </span>
                         ) : p.endDate ? (
-                          <span className="text-[11px] text-gray-300 flex items-center gap-1">
-                            <Calendar className="w-3 h-3 text-gray-500" />
+                          <span className="text-[11px] text-gray-700 flex items-center gap-1">
+                            <Calendar className="w-3 h-3 text-gray-400" />
                             <span>Jusqu'au {new Date(p.endDate).toLocaleDateString("fr-FR")}</span>
                           </span>
                         ) : (
@@ -508,7 +508,7 @@ export default function AdminPromosPage() {
 
                       {/* Utilisations */}
                       <td className="py-3.5 px-4">
-                        <span className="font-mono font-bold text-gray-200">
+                        <span className="font-mono font-bold text-gray-800">
                           {p.usedCount}
                           {p.maxUses ? (
                             <span className={cls.textMuted}> / {p.maxUses}</span>
@@ -524,11 +524,11 @@ export default function AdminPromosPage() {
                           onClick={() => handleToggleStatus(p)}
                           className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold transition-all cursor-pointer ${
                             p.isActive
-                              ? "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25"
-                              : "bg-red-500/15 text-red-400 border border-red-500/30 hover:bg-red-500/25"
+                              ? "bg-emerald-500/15 text-emerald-600 border border-emerald-500/30 hover:bg-emerald-500/25"
+                              : "bg-red-500/15 text-red-600 border border-red-500/30 hover:bg-red-500/25"
                           }`}
                         >
-                          <span className={`w-1.5 h-1.5 rounded-full ${p.isActive ? "bg-emerald-400 animate-pulse" : "bg-red-400"}`} />
+                          <span className={`w-1.5 h-1.5 rounded-full ${p.isActive ? "bg-emerald-500 animate-pulse" : "bg-red-500"}`} />
                           <span>{p.isActive ? "Actif" : "Désactivé"}</span>
                         </button>
                       </td>
@@ -538,14 +538,14 @@ export default function AdminPromosPage() {
                         <div className="flex items-center justify-end gap-1.5">
                           <button
                             onClick={() => openEditModal(p)}
-                            className={`p-2 rounded-lg hover:bg-white/10 ${cls.textMuted} hover:text-white transition-colors cursor-pointer`}
+                            className={`p-2 rounded-lg hover:bg-gray-100 ${cls.textMuted} hover:text-gray-900 transition-colors cursor-pointer`}
                             title="Modifier"
                           >
                             <Edit className="w-3.5 h-3.5" />
                           </button>
                           <button
                             onClick={() => handleDelete(p)}
-                            className="p-2 rounded-lg hover:bg-red-500/20 text-gray-400 hover:text-red-400 transition-colors cursor-pointer"
+                            className="p-2 rounded-lg hover:bg-red-500/20 text-gray-400 hover:text-red-500 transition-colors cursor-pointer"
                             title="Supprimer"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -563,33 +563,33 @@ export default function AdminPromosPage() {
 
       {/* Create / Edit Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in font-sans select-none">
-          <div className={`relative w-full max-w-lg rounded-3xl border ${cls.border} ${cls.cardBg} p-6 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto`}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in font-sans select-none">
+          <div className="relative w-full max-w-lg rounded-3xl border border-gray-200 bg-white p-6 shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
             {/* Header */}
-            <div className="flex items-center justify-between border-b pb-4 border-white/10">
+            <div className="flex items-center justify-between border-b pb-4 border-gray-100">
               <div className="flex items-center gap-2.5">
                 <div className="p-2 rounded-xl bg-[#ff4f00]/10 border border-[#ff4f00]/20 text-[#ff4f00]">
                   <Tag className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="text-base font-black text-white">
+                  <h3 className="text-base font-black text-gray-900">
                     {editingPromo ? `Modifier ${editingPromo.code}` : "Créer un Code Promo"}
                   </h3>
-                  <span className={`text-xs ${cls.textMuted}`}>
+                  <span className="text-xs text-gray-500">
                     Définissez les paramètres de réduction et conditions d'accès.
                   </span>
                 </div>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className={`p-2 rounded-xl hover:bg-white/10 ${cls.textMuted} hover:text-white transition-colors cursor-pointer`}
+                className="p-2 rounded-xl hover:bg-gray-100 text-gray-400 hover:text-gray-700 transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {actionError && (
-              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-semibold flex items-center gap-2">
+              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 text-xs font-semibold flex items-center gap-2">
                 <AlertTriangle className="w-4 h-4 shrink-0" />
                 <span>{actionError}</span>
               </div>
@@ -598,7 +598,7 @@ export default function AdminPromosPage() {
             <form onSubmit={handleSavePromo} className="space-y-4">
               {/* Code */}
               <div>
-                <label className="text-xs font-bold text-gray-300 block mb-1.5">
+                <label className="text-xs font-bold text-gray-700 block mb-1.5">
                   Code Promo <span className="text-[#ff4f00]">*</span>
                 </label>
                 <div className="flex gap-2">
@@ -608,12 +608,12 @@ export default function AdminPromosPage() {
                     value={formCode}
                     onChange={(e) => setFormCode(e.target.value.toUpperCase())}
                     placeholder="Ex: SPOOLIO10"
-                    className={`flex-1 h-11 px-3.5 rounded-xl border ${cls.border} ${cls.inputBg} text-sm font-mono font-bold uppercase tracking-wider text-white focus:outline-none focus:border-[#ff4f00] transition-colors`}
+                    className="flex-1 h-11 px-3.5 rounded-xl border border-gray-200 bg-white text-sm font-mono font-bold uppercase tracking-wider text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#ff4f00] focus:ring-1 focus:ring-[#ff4f00] transition-colors"
                   />
                   <button
                     type="button"
                     onClick={generateRandomCode}
-                    className="px-3 h-11 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition-colors cursor-pointer shrink-0"
+                    className="px-3.5 h-11 rounded-xl bg-gray-100 hover:bg-gray-200 text-xs font-bold text-gray-800 border border-gray-200 transition-colors cursor-pointer shrink-0"
                     title="Générer un code aléatoire"
                   >
                     🎲 Aléatoire
@@ -623,7 +623,7 @@ export default function AdminPromosPage() {
 
               {/* Description */}
               <div>
-                <label className="text-xs font-bold text-gray-300 block mb-1.5">
+                <label className="text-xs font-bold text-gray-700 block mb-1.5">
                   Description / Note interne (optionnelle)
                 </label>
                 <input
@@ -631,13 +631,13 @@ export default function AdminPromosPage() {
                   value={formDescription}
                   onChange={(e) => setFormDescription(e.target.value)}
                   placeholder="Ex: Offre spéciale pour la rentrée"
-                  className={`w-full h-10 px-3 rounded-xl border ${cls.border} ${cls.inputBg} text-xs text-white focus:outline-none focus:border-[#ff4f00] transition-colors`}
+                  className="w-full h-10 px-3 rounded-xl border border-gray-200 bg-white text-xs text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#ff4f00] focus:ring-1 focus:ring-[#ff4f00] transition-colors"
                 />
               </div>
 
               {/* Discount Type */}
               <div>
-                <label className="text-xs font-bold text-gray-300 block mb-1.5">
+                <label className="text-xs font-bold text-gray-700 block mb-1.5">
                   Type de Réduction
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -654,8 +654,8 @@ export default function AdminPromosPage() {
                         onClick={() => setFormDiscountType(t.id as any)}
                         className={`p-3 rounded-xl border text-xs font-bold flex flex-col items-center gap-1 transition-all cursor-pointer ${
                           active
-                            ? "bg-[#ff4f00]/15 border-[#ff4f00] text-white"
-                            : `${cls.inputBg} ${cls.border} ${cls.textMuted} hover:text-white`
+                            ? "bg-[#ff4f00]/10 border-[#ff4f00] text-[#ff4f00]"
+                            : "bg-white border-gray-200 text-gray-600 hover:text-gray-900 hover:border-gray-300 hover:bg-gray-50"
                         }`}
                       >
                         <span className="text-base">{t.icon}</span>
@@ -670,7 +670,7 @@ export default function AdminPromosPage() {
               <div className="grid grid-cols-2 gap-3">
                 {formDiscountType !== "free_shipping" && (
                   <div>
-                    <label className="text-xs font-bold text-gray-300 block mb-1.5">
+                    <label className="text-xs font-bold text-gray-700 block mb-1.5">
                       Valeur ({formDiscountType === "percentage" ? "%" : "€"}) <span className="text-[#ff4f00]">*</span>
                     </label>
                     <input
@@ -680,13 +680,13 @@ export default function AdminPromosPage() {
                       required
                       value={formDiscountValue}
                       onChange={(e) => setFormDiscountValue(parseFloat(e.target.value) || 0)}
-                      className={`w-full h-10 px-3 rounded-xl border ${cls.border} ${cls.inputBg} text-xs font-bold text-white focus:outline-none focus:border-[#ff4f00] transition-colors`}
+                      className="w-full h-10 px-3 rounded-xl border border-gray-200 bg-white text-xs font-bold text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#ff4f00] focus:ring-1 focus:ring-[#ff4f00] transition-colors"
                     />
                   </div>
                 )}
 
                 <div className={formDiscountType === "free_shipping" ? "col-span-2" : ""}>
-                  <label className="text-xs font-bold text-gray-300 block mb-1.5">
+                  <label className="text-xs font-bold text-gray-700 block mb-1.5">
                     Panier Minimum Requis (€)
                   </label>
                   <input
@@ -696,14 +696,14 @@ export default function AdminPromosPage() {
                     value={formMinOrderAmount}
                     onChange={(e) => setFormMinOrderAmount(parseFloat(e.target.value) || 0)}
                     placeholder="0 = sans minimum"
-                    className={`w-full h-10 px-3 rounded-xl border ${cls.border} ${cls.inputBg} text-xs font-bold text-white focus:outline-none focus:border-[#ff4f00] transition-colors`}
+                    className="w-full h-10 px-3 rounded-xl border border-gray-200 bg-white text-xs font-bold text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#ff4f00] focus:ring-1 focus:ring-[#ff4f00] transition-colors"
                   />
                 </div>
               </div>
 
               {/* Max Uses */}
               <div>
-                <label className="text-xs font-bold text-gray-300 block mb-1.5">
+                <label className="text-xs font-bold text-gray-700 block mb-1.5">
                   Nombre max d'utilisations (optionnel)
                 </label>
                 <input
@@ -712,44 +712,44 @@ export default function AdminPromosPage() {
                   value={formMaxUses}
                   onChange={(e) => setFormMaxUses(e.target.value)}
                   placeholder="Laissez vide pour illimité"
-                  className={`w-full h-10 px-3 rounded-xl border ${cls.border} ${cls.inputBg} text-xs text-white focus:outline-none focus:border-[#ff4f00] transition-colors`}
+                  className="w-full h-10 px-3 rounded-xl border border-gray-200 bg-white text-xs text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#ff4f00] focus:ring-1 focus:ring-[#ff4f00] transition-colors"
                 />
               </div>
 
               {/* Dates */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-bold text-gray-300 block mb-1.5">
+                  <label className="text-xs font-bold text-gray-700 block mb-1.5">
                     Date de début
                   </label>
                   <input
                     type="date"
                     value={formStartDate}
                     onChange={(e) => setFormStartDate(e.target.value)}
-                    className={`w-full h-10 px-3 rounded-xl border ${cls.border} ${cls.inputBg} text-xs text-white focus:outline-none focus:border-[#ff4f00] transition-colors cursor-pointer`}
+                    className="w-full h-10 px-3 rounded-xl border border-gray-200 bg-white text-xs text-gray-900 focus:outline-none focus:border-[#ff4f00] focus:ring-1 focus:ring-[#ff4f00] transition-colors cursor-pointer"
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-gray-300 block mb-1.5">
+                  <label className="text-xs font-bold text-gray-700 block mb-1.5">
                     Date d'expiration
                   </label>
                   <input
                     type="date"
                     value={formEndDate}
                     onChange={(e) => setFormEndDate(e.target.value)}
-                    className={`w-full h-10 px-3 rounded-xl border ${cls.border} ${cls.inputBg} text-xs text-white focus:outline-none focus:border-[#ff4f00] transition-colors cursor-pointer`}
+                    className="w-full h-10 px-3 rounded-xl border border-gray-200 bg-white text-xs text-gray-900 focus:outline-none focus:border-[#ff4f00] focus:ring-1 focus:ring-[#ff4f00] transition-colors cursor-pointer"
                   />
                 </div>
               </div>
 
               {/* Active Toggle */}
-              <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
-                <span className="text-xs font-bold text-white">Activer ce code dès maintenant</span>
+              <div className="flex items-center justify-between p-3.5 rounded-xl bg-gray-50 border border-gray-200">
+                <span className="text-xs font-bold text-gray-900">Activer ce code dès maintenant</span>
                 <button
                   type="button"
                   onClick={() => setFormIsActive(!formIsActive)}
                   className={`w-12 h-6 flex items-center rounded-full p-1 transition-colors cursor-pointer ${
-                    formIsActive ? "bg-emerald-500 justify-end" : "bg-gray-700 justify-start"
+                    formIsActive ? "bg-emerald-500 justify-end" : "bg-gray-300 justify-start"
                   }`}
                 >
                   <span className="w-4 h-4 rounded-full bg-white shadow-md transform" />
@@ -757,11 +757,11 @@ export default function AdminPromosPage() {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-100">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className={`px-4 py-2.5 rounded-xl border ${cls.border} hover:bg-white/5 text-xs font-bold text-gray-300 transition-colors cursor-pointer`}
+                  className="px-4 py-2.5 rounded-xl border border-gray-200 hover:bg-gray-50 text-xs font-bold text-gray-700 transition-colors cursor-pointer"
                 >
                   Annuler
                 </button>
