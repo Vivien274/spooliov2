@@ -22,7 +22,7 @@ const DEFAULT_CONFIG: TombolaConfig = {
   id: "tombola-1",
   title: "Mega Pack Fidget & Impression 3D Spoolio",
   description:
-    "Tente ta chance de remporter un lot exclusif composé d'objets fidgets sensoriels TDAH, de figurines 3D et d'un porte-clés NFC Spoolio !",
+    "Tente ta chance de remporter un lot exclusif composé d'objets tactiles, de figurines et de créations 3D d'atelier Spoolio !",
   image: "/images/imported/Spoolio_Kit-Festival-16-scaled.webp",
   estimatedValue: 85.00,
   endDate: "2026-12-31T23:59",

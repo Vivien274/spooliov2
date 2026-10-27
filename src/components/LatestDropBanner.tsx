@@ -13,26 +13,48 @@ interface LatestDropBannerProps {
 
 export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
   const [mounted, setMounted] = useState(false);
-  const [isLive, setIsLive] = useState(false);
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    if (!drop?.startDate) return;
-
-    const checkLive = () => {
-      const now = new Date().getTime();
-      const target = new Date(drop.startDate).getTime();
-      setIsLive(drop.status === "live" || now >= target);
-    };
-
-    checkLive();
-    const interval = setInterval(checkLive, 1000);
-    return () => clearInterval(interval);
-  }, [drop]);
+  }, []);
 
   if (!drop) return null;
+
+  const now = Date.now();
+  const startTime = drop.startDate ? new Date(drop.startDate).getTime() : 0;
+  const endTime = drop.endDate ? new Date(drop.endDate).getTime() : 0;
+
+  // Données réelles des produits du drop
+  const products = drop.products || [];
+  const totalModels = products.length > 0 ? products.length : (drop.productIds?.length || 0);
+
+  // Un produit est commandable s'il est publié et en stock réel > 0
+  const availableProducts = products.filter(
+    (p) => p.status === "publish" && (p.stock ?? 0) > 0
+  );
+  const availableModelsCount = availableProducts.length;
+  const totalStockRemaining = products.reduce(
+    (sum, p) => sum + (p.status === "publish" && (p.stock ?? 0) > 0 ? (p.stock ?? 0) : 0),
+    0
+  );
+
+  const isPastStart = startTime > 0 && now >= startTime;
+  const isPastEnd = endTime > 0 && now >= endTime;
+  const hasLoadedProducts = products.length > 0;
+  const isSoldOut = hasLoadedProducts && availableModelsCount === 0;
+
+  let currentStatus: "upcoming" | "live" | "sold_out" | "ended" = "upcoming";
+  if (isPastEnd || drop.status === "ended") {
+    currentStatus = "ended";
+  } else if (isSoldOut) {
+    currentStatus = "sold_out";
+  } else if (isPastStart || drop.status === "live") {
+    currentStatus = "live";
+  } else {
+    currentStatus = "upcoming";
+  }
 
   const dTheme = drop.theme;
   const dBg = dTheme?.bgColor || "linear-gradient(135deg, #180b2b 0%, #0d0617 100%)";
@@ -83,35 +105,47 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
         </div>
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 items-stretch min-h-[440px]">
-          {/* Colonne gauche : Informations, Date & Compte à rebours */}
+          {/* Colonne gauche : Informations, Date & Disponibilité */}
           <div className="lg:col-span-7 p-6 sm:p-10 lg:p-12 flex flex-col justify-between space-y-6 sm:space-y-8 order-2 lg:order-1">
             <div className="space-y-4">
-              {/* Badge d'en-tête */}
+              {/* Badges d'état dynamique */}
               <div className="flex flex-wrap items-center gap-2.5">
                 <span
                   className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono font-black uppercase tracking-wider shadow-sm"
                   style={{ backgroundColor: dAccent, color: "#ffffff" }}
                 >
                   <Sparkles className="w-3.5 h-3.5" style={{ color: "#ffffff" }} />
-                  <span style={{ color: "#ffffff" }}>{drop.dropNumber || "DROP"}</span>
+                  <span style={{ color: "#ffffff" }}>{drop.dropNumber || "DROP 001"}</span>
                 </span>
 
-                {/* Badge Prochain Drop Exclusif : Couleurs vives et contrastées */}
-                <span
-                  className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[11px] font-mono font-black uppercase tracking-wider border shadow-sm backdrop-blur-xs"
-                  style={{
-                    backgroundColor: "rgba(251, 191, 36, 0.16)",
-                    borderColor: "rgba(251, 191, 36, 0.4)",
-                    color: "#fde047",
-                  }}
-                >
-                  <Clock className="w-3.5 h-3.5" style={{ color: "#fde047" }} />
-                  <span style={{ color: "#fde047" }}>
-                    {isLive ? "En direct maintenant" : "Prochain Drop Exclusif"}
+                {currentStatus === "live" && (
+                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[11px] font-mono font-black uppercase tracking-wider border shadow-sm backdrop-blur-xs bg-emerald-500/15 border-emerald-400/30 text-emerald-300">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>Disponible à l&apos;Atelier</span>
                   </span>
-                </span>
+                )}
 
-                {drop.editionSize && (
+                {currentStatus === "sold_out" && (
+                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[11px] font-mono font-black uppercase tracking-wider border shadow-sm backdrop-blur-xs bg-zinc-800/80 border-zinc-700 text-zinc-300">
+                    <span>Édition Épuisée (Sold Out)</span>
+                  </span>
+                )}
+
+                {currentStatus === "upcoming" && (
+                  <span
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[11px] font-mono font-black uppercase tracking-wider border shadow-sm backdrop-blur-xs"
+                    style={{
+                      backgroundColor: "rgba(251, 191, 36, 0.16)",
+                      borderColor: "rgba(251, 191, 36, 0.4)",
+                      color: "#fde047",
+                    }}
+                  >
+                    <Clock className="w-3.5 h-3.5" style={{ color: "#fde047" }} />
+                    <span style={{ color: "#fde047" }}>Prochain Drop d&apos;Atelier</span>
+                  </span>
+                )}
+
+                {totalModels > 0 && (
                   <span
                     className="hidden sm:inline-flex items-center px-3 py-1 rounded-full text-[11px] font-mono font-bold border"
                     style={{
@@ -120,7 +154,9 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
                       color: "#e4e4e7",
                     }}
                   >
-                    Série limitée : {drop.editionSize} pcs
+                    {hasLoadedProducts
+                      ? `${availableModelsCount} / ${totalModels} modèles dispo • ${totalStockRemaining} ${totalStockRemaining > 1 ? "pièces" : "pièce"}`
+                      : `Série de ${totalModels} modèles`}
                   </span>
                 )}
               </div>
@@ -144,50 +180,91 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
               </p>
             </div>
 
-            {/* Bloc Date & Compte à rebours */}
+            {/* Bloc Statut / Disponibilité / Date */}
             <div
               className="p-4 sm:p-6 rounded-2xl border space-y-3 backdrop-blur-md shadow-inner"
               style={{ backgroundColor: dCardBg, borderColor: dBorder }}
             >
-              <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider">
-                <span className="flex items-center gap-2" style={{ color: "#ffffff" }}>
-                  <Calendar className="w-4 h-4" style={{ color: dAccent }} />
-                  <span style={{ color: "#ffffff" }}>Lancement officiel de la collection :</span>
-                </span>
-                <span
-                  className="font-mono text-xs sm:text-sm font-black px-2.5 py-0.5 rounded-lg border"
-                  style={{
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
-                    borderColor: "rgba(255, 255, 255, 0.18)",
-                    color: "#ffffff",
-                  }}
-                >
-                  {formattedDate}
-                </span>
-              </div>
-
-              {/* Compte à rebours temps réel */}
-              <DropCountdown targetDate={drop.startDate} theme={dTheme} />
+              {currentStatus === "live" ? (
+                <div className="space-y-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider">
+                    <span className="flex items-center gap-2" style={{ color: "#ffffff" }}>
+                      <Sparkles className="w-4 h-4 text-emerald-400" />
+                      <span>Série lancée à l&apos;Atelier :</span>
+                    </span>
+                    <span
+                      className="font-mono text-xs font-bold px-2.5 py-0.5 rounded-lg border text-emerald-300 bg-emerald-950/40 border-emerald-500/30"
+                    >
+                      En direct
+                    </span>
+                  </div>
+                  <p className="text-xs text-zinc-300 leading-relaxed font-mono">
+                    {hasLoadedProducts ? (
+                      <>
+                        <strong className="text-white font-bold">{availableModelsCount}</strong> modèle{availableModelsCount > 1 ? "s" : ""} encore disponible{availableModelsCount > 1 ? "s" : ""} sur {totalModels} ({totalStockRemaining} pièce{totalStockRemaining > 1 ? "s" : ""} au total en stock atelier).
+                      </>
+                    ) : (
+                      "Pièces uniques façonnées et peintes à la main à Comines."
+                    )}
+                  </p>
+                </div>
+              ) : currentStatus === "sold_out" ? (
+                <div className="space-y-1.5">
+                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-zinc-400">
+                    <Lock className="w-4 h-4 text-zinc-500" />
+                    <span>Édition terminée</span>
+                  </div>
+                  <p className="text-xs text-zinc-400 font-mono">
+                    Toutes les pièces de ce drop ont été adoptées. Rendez-vous au prochain drop d&apos;atelier.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider">
+                    <span className="flex items-center gap-2" style={{ color: "#ffffff" }}>
+                      <Calendar className="w-4 h-4" style={{ color: dAccent }} />
+                      <span style={{ color: "#ffffff" }}>Lancement officiel de la collection :</span>
+                    </span>
+                    <span
+                      className="font-mono text-xs sm:text-sm font-black px-2.5 py-0.5 rounded-lg border"
+                      style={{
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        borderColor: "rgba(255, 255, 255, 0.18)",
+                        color: "#ffffff",
+                      }}
+                    >
+                      {formattedDate}
+                    </span>
+                  </div>
+                  <DropCountdown targetDate={drop.startDate} theme={dTheme} />
+                </>
+              )}
             </div>
 
-            {/* Statut d'accès : Live ou Inscription Mailchimp pour être notifié */}
+            {/* CTA ou Formulaire d'alerte */}
             <div className="pt-2">
-              {isLive ? (
-                // Une fois la date atteinte : CTA actif cliquable
+              {currentStatus === "live" ? (
                 <Link
                   href={`/drops/${drop.slug}`}
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                  className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                   style={{
                     backgroundColor: dAccent,
                     color: "#ffffff",
                     boxShadow: `0 12px 28px -6px ${dAccent}60`,
                   }}
                 >
-                  <span style={{ color: "#ffffff" }}>Accéder au Drop en Direct</span>
+                  <span style={{ color: "#ffffff" }}>Découvrir la Série en Direct</span>
                   <ArrowRight className="w-4 h-4" style={{ color: "#ffffff" }} />
                 </Link>
+              ) : currentStatus === "sold_out" ? (
+                <Link
+                  href={`/drops/${drop.slug}`}
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl text-xs sm:text-sm font-bold uppercase tracking-wider border border-white/20 bg-white/10 hover:bg-white/20 text-white transition-all cursor-pointer"
+                >
+                  <span>Voir la Galerie du Drop</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               ) : (
-                // Avant la date : Inscription Mailchimp pour être prévenu(e) à l'ouverture du drop
                 <div className="space-y-3 max-w-xl">
                   <div className="flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-amber-300">
                     <Bell className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
@@ -312,13 +389,20 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
 
             {/* Pastille de verrouillage / compte à rebours sur l'image */}
             <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
-              {isLive ? (
+              {currentStatus === "live" ? (
                 <span
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500 text-xs font-black uppercase tracking-wider shadow-lg"
                   style={{ color: "#ffffff" }}
                 >
                   <span className="w-2 h-2 rounded-full bg-white animate-ping" />
                   EN COURS
+                </span>
+              ) : currentStatus === "sold_out" ? (
+                <span
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-800 text-xs font-black uppercase tracking-wider shadow-lg border border-zinc-700"
+                  style={{ color: "#a1a1aa" }}
+                >
+                  SOLD OUT
                 </span>
               ) : (
                 <span

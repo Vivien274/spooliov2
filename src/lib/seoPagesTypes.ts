@@ -8,30 +8,30 @@ export interface PageSeoConfig {
 
 export const DEFAULT_PAGES_SEO: Record<string, PageSeoConfig> = {
   home: {
-    title: "Spoolio | Fidgets Sensoriels & Objets Fun Imprimés en 3D",
-    description: "Boutique française de fidgets sensoriels, accessoires et décoration imprimés en 3D à Comines. Conçus en PLA biodégradable 🌱",
-    keywords: "fidgets 3d, impression 3d france, fidgets tdah, spoolio, comines",
+    title: "Spoolio | Art Toys, Objets Tactiles & Curiosités en Impression 3D",
+    description: "Objets design, art toys et curiosités tactiles fabriqués en petites séries dans notre atelier de Comines. Matière biosourcée & finitions soignées.",
+    keywords: "art toys 3d, objets tactiles, impression 3d france, spoolio, comines, clickers mecaniques",
     ogImage: "/images/seo-default-spoolio.png",
     noIndex: false
   },
   boutique: {
-    title: "La Boutique Spoolio | Objets Fun & Utiles Imprimés en 3D",
-    description: "Parcourez notre collection d'objets uniques imprimés en 3D de haute qualité. Fidgets, décoration insolite et gadgets fun.",
-    keywords: "boutique 3d, fidget spinner, anti stress, deco originale",
+    title: "La Boutique Spoolio | Art Toys, Objets Tactiles & Tabletop",
+    description: "Explorez nos collections d'art toys, clickers mécaniques, curiosités de bureau et accessoires de jeux fabriqués dans notre atelier français.",
+    keywords: "boutique 3d, art toys france, clicker mecanique, deco bureau, tabletop 3d",
     ogImage: "/images/seo-default-spoolio.png",
     noIndex: false
   },
   tombola: {
     title: "Tombola Spoolio 🎟️ | Tente ta chance et gagne des lots 3D exclusifs",
-    description: "Participe à la Tombola Spoolio ! Choisis tes cases sur la grille et tente de remporter un pack complet de fidgets sensoriels.",
-    keywords: "tombola 3d, jeu concours spoolio, lot fidgets",
+    description: "Participe à la Tombola Spoolio ! Choisis tes cases sur la grille et tente de remporter des créations exclusives d'atelier.",
+    keywords: "tombola 3d, jeu concours spoolio, lot 3d atelier",
     ogImage: "/images/seo-default-spoolio.png",
     noIndex: false
   },
   "boussole-sensorielle": {
-    title: "Boussole Sensorielle TDAH & Autisme | Spoolio",
-    description: "Trouvez le fidget parfait selon vos besoins sensoriels (besoin de pression, de bruit, de mouvement ou de stimulation visuelle).",
-    keywords: "boussole sensorielle, fidget tdah, autisme, anti stress",
+    title: "Boussole Sensorielle | Explorez Vos Sensations Tactiles | Spoolio",
+    description: "Trouvez votre objet tactile idéal selon vos sensations recherchées : clic mécanique net, glisse fluide, relief texturé ou mouvement continu.",
+    keywords: "boussole sensorielle, objet tactile, clicker haptique, stimulation tactile, fidget adulte",
     ogImage: "/images/seo-default-spoolio.png",
     noIndex: false
   },

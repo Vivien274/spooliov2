@@ -272,8 +272,9 @@ async function searchResilient(q: string) {
   const staticRoutes = [
     { title: "Boutique d'objets 3D", slug: "boutique", isStatic: true },
     { title: "Créateur de Clicker 3D", slug: "createur-cliqueur", isStatic: true },
-    { title: "Boussole Sensorielle (Guide TDAH)", slug: "boussole-sensorielle", isStatic: true },
-    { title: "Pochette Surprise Mystère", slug: "pochette-surprise", isStatic: true },
+    { title: "Boussole Sensorielle (Guide Tactile)", slug: "boussole-sensorielle", isStatic: true },
+    { title: "Blind Bags Collectibles", slug: "blind-bags", isStatic: true },
+    { title: "Pochette Surprise Personnalisable", slug: "pochette-surprise", isStatic: true },
     { title: "Tombola Solidaire", slug: "tombola", isStatic: true },
     { title: "Programme de Fidélité", slug: "fidelite", isStatic: true },
     { title: "Faire un Don / Soutenir Spoolio", slug: "don", isStatic: true },

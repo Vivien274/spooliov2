@@ -41,18 +41,18 @@ export interface HeroSlide {
 const DEFAULT_SLIDES: HeroSlide[] = [
   {
     id: 1,
-    badge: "🌀 COLLECTION FIDGETS",
-    title: "LA FOLIE DES FIDGETS SENSORIELS ⚡",
-    subtitle: "Décompresser, toucher, cliquer : découvrez nos créations 3D originales faites main en France 🌱",
+    badge: "✨ FABRICATION LOCALE & MATIÈRE BIOSOURCÉE",
+    title: "DES OBJETS QU'ON A ENVIE DE TOUCHER.",
+    subtitle: "Art toys, objets tactiles et curiosités fabriqués en petites séries dans notre atelier de Comines.",
     buttonText: "DÉCOUVRIR LA BOUTIQUE",
     buttonLink: "/boutique",
     image: "/images/hero_background.jpg",
     accentColor: "#ff4f00",
-    cardTitle: "Pack Fidget Sensory TDAH",
-    cardDescription: "Assortiment anti-stress fabriqué en PLA biosourcé.",
-    cardPrice: "14.90€",
+    cardTitle: "Série Limitée Drop 001",
+    cardDescription: "Art toys & créations d'atelier en PLA biosourcé.",
+    cardPrice: "55.00€",
     cardImage: "/images/hero_background.jpg",
-    cardLink: "/boutique"
+    cardLink: "/art-toys"
   },
   {
     id: 2,
@@ -690,7 +690,7 @@ export default function HeroCustomizerPage() {
                         type="text"
                         value={currentActiveSlide.cardTitle || ""}
                         onChange={(e) => handleSlideChange(activeSlideIndex, "cardTitle", e.target.value)}
-                        placeholder="Ex: Pack Fidget Sensory TDAH"
+                        placeholder="Ex: Art Toy Drop 001 ou Clicker Haptique"
                         className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain}`}
                       />
                     </div>

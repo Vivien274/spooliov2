@@ -30,8 +30,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const DEFAULT_HERO = {
-  title: "Objets tactiles, accessoires de bureau et créations d'atelier.",
-  subtitle: "Conçus et imprimés à la demande dans notre atelier avec un polymère végétal biosourcé. Zéro surstock, du caractère et des finitions soignées.",
+  title: "DES OBJETS QU'ON A ENVIE DE TOUCHER.",
+  subtitle: "Art toys, objets tactiles et curiosités fabriqués en petites séries dans notre atelier de Comines.",
   buttonText: "DÉCOUVRIR LE CATALOGUE",
   buttonLink: "/boutique",
   imageUrl: "/images/clicker_gallery_2.jpg",
@@ -272,7 +272,7 @@ export default async function HomePage() {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-700 text-xs font-black uppercase tracking-wider mb-3">
             <Sprout className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Matière 100% Végétale</span>
+            <span>Matière biosourcée &amp; fabrication locale</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-normal uppercase tracking-wide text-zinc-900 font-righteous">
             {t("home.timeline.title")}

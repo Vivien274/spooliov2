@@ -16,9 +16,9 @@
     "vacation_banner": "Spoolio prend quelques jours de vacances, les imprimantes reprennent du service à partir du 29 Août !",
     "categories": {
       "fidgets": "Fidgets & Anti-Stress",
-      "boussole": "Boussole Sensorielle TDAH",
+      "boussole": "Boussole Sensorielle",
       "nfc": "Porte-clés & Médaillons NFC",
-      "gachapon": "Pochette Surprise & Gachapon",
+      "gachapon": "Blind Bags & Pochettes",
       "clicker": "Créateur de Clickers 3D",
       "tombola": "Tombola Spoolio",
       "palette": "Palette de Couleurs PLA"
@@ -27,27 +27,27 @@
   "nav_menu": {
     "see_all_shop": "Voir toute la boutique",
     "full_catalog_badge": "CATALOGUE COMPLET 🛍️",
-    "full_catalog_desc": "Explorez l'ensemble de nos créations 3D, fidgets sensoriels & nouveautés",
+    "full_catalog_desc": "Explorez l'ensemble de nos créations 3D, objets tactiles & nouveautés",
     "must_have_badge": "🔥 INCONTOURNABLE",
-    "fidgets_card_title": "Fidgets & Objets Anti-stress",
-    "fidgets_card_desc": "Manipulations apaisantes, clics satisfaisants et créations 3D conçues pour la concentration.",
-    "discover_fidgets": "Découvrir les fidgets",
-    "fidgets_sub": "Balles, clickers & spinners",
+    "fidgets_card_title": "Objets Tactiles & Fidgets",
+    "fidgets_card_desc": "Manipulations physiques, clics francs et créations 3D pensées pour occuper les mains.",
+    "discover_fidgets": "Découvrir les objets tactiles",
+    "fidgets_sub": "Clickers, sliders & mouvements infinis",
     "geek_gaming": "Geek & Gaming",
     "geek_sub": "Support manettes & accessoires setup",
     "keychain_title": "Porte-clés 3D",
     "keychain_sub": "Créations légères & personnalisables",
-    "animals_title": "Animaux & Figurines",
-    "animals_sub": "Créatures articulées & décorations",
+    "animals_title": "Art Toys & Créatures",
+    "animals_sub": "Figurines articulées & curiosités",
     "nfc_title": "Médaillons NFC Animaux",
     "nfc_sub": "Sécurité animaux & porte-clés SOS",
-    "surprise_pack": "Pochettes Surprises 3D",
-    "surprise_pack_sub": "Sélection mystère avec animation d'ouverture 3D et drops exclusifs.",
+    "surprise_pack": "Blind Bags 3D",
+    "surprise_pack_sub": "Pochettes surprises kraft d'atelier avec assortiment mystère ou configurable.",
     "surprise_sub": "Surprises & drops exclusifs",
     "open_pack": "Ouvrir ma pochette",
     "boussole_title": "Boussole Sensorielle",
-    "boussole_desc": "Trouve l'objet apaisant idéal selon tes besoins et tes sensibilités.",
-    "boussole_sub": "Guide apaisant sensoriel",
+    "boussole_desc": "Trouve l'objet qui correspond à ta façon de manipuler.",
+    "boussole_sub": "Guide haptique & sensoriel",
     "launch_test": "Lancer le test",
     "clicker_studio": "Créateur de Clicker 3D",
     "clicker_studio_title": "Créateur de Clicker 3D",
@@ -60,15 +60,15 @@
     "try_luck": "Tenter ma chance",
     "our_story": "Notre Histoire & Coulisses",
     "our_story_desc": "Découvre l'univers Spoolio, l'impression 3D locale et nos matières PLA biosourcées.",
-    "our_story_sub": "Fabriqué à Comines avec amour",
+    "our_story_sub": "Fabriqué à Comines avec passion",
     "discover_workshop": "Découvrir l'Atelier",
     "pro_space": "Espace Pro & B2B",
     "pro_space_desc": "Partenariats, goodies d'entreprise et impressions 3D sur-mesure pour professionnels.",
     "pro_space_sub": "Vente en gros & sur-mesure",
     "custom_projects": "Projets sur-mesure",
     "blog_title": "Le Blog Spoolio",
-    "blog_desc": "Articles concentration, conseils TDAH, tests sensoriels et coulisses du labo 3D.",
-    "blog_sub": "Conseils TDAH & coulisses 3D",
+    "blog_desc": "Coulisses de fabrication, sensorialité, guides d'atelier et créations 3D.",
+    "blog_sub": "Coulisses d'atelier & culture 3D",
     "read_articles": "Lire les articles",
     "faq_title": "FAQ & Centre d'aide",
     "faq_desc": "Questions fréquentes sur la livraison, les retours et les matières de nos objets.",
@@ -77,7 +77,7 @@
   },
   "footer": {
     "brand_by": "Par Vivien 🛠️",
-    "description": "Fabrication additive de précision à Comines (59). Objets et accessoires durables imprimés à la commande en PLA biosourcé issu d'amidon de maïs.",
+    "description": "Atelier indépendant de création et fabrication à Comines (59). Art toys, objets tactiles et curiosités contemporaines imprimés en petites séries en PLA biosourcé.",
     "rights": "Tous droits réservés.",
     "join_adventure": "Rejoins l'aventure 🚀",
     "club_spoolio": "Club Spoolio ✉️",
@@ -106,56 +106,56 @@
   },
   "home": {
     "hero": {
-      "badge": "ATELIER D'IMPRESSION 3D • COMINES (59)",
-      "title": "Objets tactiles, accessoires de bureau et créations d'atelier.",
-      "subtitle": "Conçus et imprimés à la demande dans notre atelier avec un polymère végétal biosourcé. Zéro surstock, du caractère et des finitions soignées.",
+      "badge": "ATELIER DE FABRICATION • COMINES (59)",
+      "title": "DES OBJETS QU'ON A ENVIE DE TOUCHER.",
+      "subtitle": "Art toys, objets tactiles et curiosités fabriqués en petites séries dans notre atelier de Comines.",
       "cta_shop": "DÉCOUVRIR LE CATALOGUE",
       "cta_sensory": "Boussole Sensorielle"
     },
     "bento": {
-      "eco_label": "Écoresponsable",
+      "eco_label": "Matière",
       "eco_val": "PLA Biosourcé",
       "artisan_label": "Artisanal",
-      "artisan_val": "Fait Main à Comines",
+      "artisan_val": "Atelier de Comines",
       "shipping_label": "Livraison",
       "shipping_val": "Offerte dès 60€ (24/48h)",
       "reviews_val": "4.9 / 5.0 (Avis)"
     },
     "collection": {
       "title": "La Collection Spoolio",
-      "subtitle": "Créations d'atelier, objets tactiles et accessoires durables imprimés en 3D en France.",
+      "subtitle": "Art toys, objets tactiles et curiosités d'atelier façonnés en France.",
       "latest": "Derniers Ajouts",
       "popular": "Les Plus Populaires"
     },
     "donation": {
       "badge": "PROJET LOCAL",
       "title": "Aider l'Atelier à s'équiper",
-      "description": "Spoolio est un projet artisanal et éco-responsable. Vous pouvez soutenir nos investissements matériels (buses neuves, plateaux d'impression, entretien des machines) en choisissant un palier d'aide.",
+      "description": "Spoolio est un projet artisanal et indépendant. Vous pouvez soutenir nos investissements matériels (buses neuves, plateaux d'impression, entretien des machines) en choisissant un palier d'aide.",
       "button": "Soutenir l'Atelier"
     },
     "timeline": {
       "badge": "Savoir-faire",
-      "title": "Le cycle vertueux du PLA",
-      "subtitle": "Comment le maïs local devient vos fidgets favoris",
+      "title": "La matière : de la plante à l'objet",
+      "subtitle": "Comment l'amidon végétal devient nos créations d'atelier",
       "step1": {
-        "title": "Culture & Récolte",
-        "description": "Le maïs non-alimentaire est cultivé localement, sans OGM, capturant du CO₂ pendant sa croissance naturelle."
+        "title": "Ressources Végétales",
+        "description": "Le PLA est issu de ressources végétales renouvelables (amidon de maïs ou canne à sucre)."
       },
       "step2": {
-        "title": "Amidon & Dextrose",
-        "description": "Les grains récoltés sont broyés pour en extraire l'amidon, qui est ensuite converti en dextrose (sucre simple)."
+        "title": "Extraction & Dextrose",
+        "description": "L'amidon extrait est transformé en dextrose puis fermenté pour obtenir de l'acide lactique."
       },
       "step3": {
         "title": "Polymérisation",
-        "description": "Le dextrose fermente en acide lactique, puis est polymérisé pour créer des granulés de plastique PLA biodégradables."
+        "description": "L'acide lactique est polymérisé pour former les granulés de PLA biosourcé prêts pour l'extrusion."
       },
       "step4": {
-        "title": "Extrusion du Fil",
-        "description": "Les granulés sont chauffés et étirés pour produire un fil calibré de 1.75 mm de diamètre, enroulé sur bobine."
+        "title": "Filament d'Atelier",
+        "description": "Les granulés sont étirés en fil calibré de 1.75 mm avec une tolérance stricte au dixième de millimètre."
       },
       "step5": {
-        "title": "Impression 3D",
-        "description": "Le filament est fondu à 215°C et déposé couche par couche par nos imprimantes à Comines pour former vos objets."
+        "title": "Fabrication 3D",
+        "description": "Le filament est fondu à 215°C et déposé couche par couche par nos machines à Comines, à la demande et en petites séries."
       }
     },
     "reassurance": {
@@ -164,8 +164,8 @@
         "description": "Imprimé en 3D à Comines (59)"
       },
       "eco": {
-        "title": "100% Biosourcé",
-        "description": "Plastique végétal à base d'amidon"
+        "title": "PLA Biosourcé",
+        "description": "Polymère issu de ressources végétales"
       },
       "shipping": {
         "title": "Envoi Rapide",
@@ -181,9 +181,9 @@
       "title": "Manifeste d'atelier : nos créations",
       "subtitle": "Passe la souris sur le bandeau pour explorer les engagements de notre atelier artisanal.",
       "h1": {
-        "title": "Impression 3D Biosourcée",
-        "desc": "Imprimé en PLA végétal d'amidon de maïs sans pétrole.",
-        "badge": "PLA GREEN"
+        "title": "Matière Biosourcée",
+        "desc": "Conçu en PLA issu de ressources végétales renouvelables.",
+        "badge": "PLA BIOSOURCÉ"
       },
       "h2": {
         "title": "Atelier Local Comines (59)",
@@ -191,13 +191,13 @@
         "badge": "MADE IN FRANCE"
       },
       "h3": {
-        "title": "Fidgets & Pochettes Surprises",
-        "desc": "Objets sensoriels, décompressifs et créations uniques 3D.",
-        "badge": "SUR-MESURE"
+        "title": "Art Toys & Objets Tactiles",
+        "desc": "Sensations haptiques, finitions soignées et curiosités d'atelier.",
+        "badge": "PETITES SÉRIES"
       },
       "h4": {
-        "title": "Expédition Soignée & Éco",
-        "desc": "Emballage carton recyclé et envoi rapide chez vous.",
+        "title": "Expédition Soignée",
+        "desc": "Emballage carton protecteur et envoi rapide chez vous.",
         "badge": "EXPRESS"
       }
     },
@@ -205,16 +205,16 @@
       "latest_title": "Les Dernières Créations",
       "latest_sub": "Tout chaud sortis de nos buses d'impression à Comines",
       "favorites_title": "Nos Coups de Cœur",
-      "favorites_sub": "Les créations 3D les plus vues et consultées par nos clients",
+      "favorites_sub": "Les créations d'atelier les plus vues et appréciées",
       "explore_title": "Explorer le Catalogue",
       "explore_sub": "Filtre par univers pour trouver ton bonheur"
     },
     "printers": {
       "title": "Nos Artisanes de l'Ombre 🤖",
-      "subtitle": "Voici les 5 imprimantes 3D de l'atelier qui façonnent vos fidgets et accessoires couche par couche avec une précision chirurgicale.",
+      "subtitle": "Voici les 5 imprimantes 3D de l'atelier qui façonnent vos pièces et créations couche par couche avec une précision chirurgicale.",
       "partners_label": "Filaments et machines de l'atelier",
       "live_ribbon": "{count} objets 3D imprimés ce mois-ci à l'atelier",
-      "zero_overstock": "Zéro surstock, 100% fait sur commande 🇫🇷",
+      "zero_overstock": "Fabrication à la demande et en petites séries à Comines 🇫🇷",
       "live_badge": "🟢 Atelier en direct",
       "printing": "Imprime : {name}",
       "standby_temp": "Température : 25°C",
@@ -233,11 +233,11 @@
       "google_modal_link": "Déposer un avis sur Google →"
     },
     "material": {
-      "title": "Matière première // PLA Biosourcé 🌱",
-      "p1": "Chez Spoolio, on imprime du fun, pas de la pollution. Nos objets ne sortent pas d'une usine pétrochimique à l'autre bout du monde : ils prennent vie à Comines, couche par couche, à partir de PLA biosourcé.",
-      "p2": "C'est un plastique d'origine végétale conçu à partir d'amidon de maïs. Zéro pétrole, zéro surstock, zéro salade. Juste de la tech locale et écoresponsable.",
-      "note_label": "Note de l'atelier :",
-      "note_text": "Comme tout bon maïs, il adore le confort de ton intérieur mais déteste être oublié en plein soleil sur le tableau de bord d'une voiture à 60°C."
+      "title": "Matière première // Le PLA biosourcé",
+      "p1": "Nos créations prennent forme couche par couche à Comines, à partir de PLA (acide polylactique). Ce polymère est élaboré à partir d'amidon végétal renouvelable.",
+      "p2": "Nous privilégions une fabrication raisonnée, à la demande et en petites séries d'atelier pour les marchés et la boutique, sans surproduction inutile.",
+      "note_label": "Conseil d'entretien :",
+      "note_text": "Le PLA conserve sa tenue en intérieur, mais peut se déformer sous l'effet d'une chaleur supérieure à 50°C (évite par exemple de le laisser en plein soleil sur le tableau de bord d'une voiture en été)."
     }
   }
 }

@@ -21,7 +21,7 @@ interface HeaderProps {
 
 const POPULAR_SEARCH_TAGS = [
   { label: "Dragons", emoji: "🐉", query: "dragon" },
-  { label: "Fidgets TDAH", emoji: "⚙️", query: "fidget" },
+  { label: "Objets tactiles", emoji: "⚙️", query: "fidget" },
   { label: "Pochettes surprises", emoji: "🎁", query: "surprise" },
   { label: "Porte-clés", emoji: "🔑", query: "porte-cle" },
   { label: "Boussole", emoji: "🧭", query: "boussole" },

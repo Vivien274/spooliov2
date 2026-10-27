@@ -672,7 +672,7 @@ export default function AboutPage() {
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
                   <span className="absolute top-3 left-3 font-mono text-[9px] uppercase font-bold text-white bg-black/60 backdrop-blur-md px-2 py-0.5 rounded">
-                    SENSORY &amp; TDAH
+                    TACTILE &amp; SENSORIEL
                   </span>
                 </div>
                 <div className="p-6 space-y-2">

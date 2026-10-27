@@ -18,7 +18,7 @@ const products: FidgetProduct[] = [
     id: 'porte-cle-clavier-mecanique',
     name: 'Porte-clé Clavier Mécanique',
     category: 'cliquer',
-    description: 'Le clic-clic franc et ultra tactile d\'un véritable switch mécanique de clavier de jeu. La référence ultime pour calmer le besoin de presser.',
+    description: 'Le clic franc et ultra tactile d\'un véritable switch mécanique. Un retour haptique net à chaque pression du pouce.',
     price: '5.00€',
     wooCommerceUrl: '/product/porte-cle-clavier-mecanique',
     imageUrl: 'https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/01/Spoolio_Porte-Cle-clavier-mecanique-7.jpg',
@@ -30,7 +30,7 @@ const products: FidgetProduct[] = [
     id: 'fidget-twist',
     name: 'Fidget "Twist"',
     category: 'manipuler',
-    description: 'Un mouvement hélicoïdal fascinant : fais monter et descendre la bague le long de sa spirale 3D. Idéal pour concentrer l\'attention et les yeux.',
+    description: 'Un mouvement hélicoïdal fluide : fais monter et descendre la bague le long de sa spirale 3D pour un geste continu et hypnotique.',
     price: '3.00€',
     wooCommerceUrl: '/product/fidget-twist',
     imageUrl: 'https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/12/Spoolio-fidget-twist-2-scaled.webp',
@@ -42,7 +42,7 @@ const products: FidgetProduct[] = [
     id: 'fidget-cube-articule',
     name: 'Fidget Cube Articulé',
     category: 'manipuler',
-    description: 'Plie, tourne et replie ce cube infini. Totalement silencieux, il s\'occupe de tes doigts pendant les réunions ou les cours sans faire de bruit.',
+    description: 'Plie, tourne et replie ce cube infini. Totalement silencieux, il occupe les doigts pendant les réunions ou les sessions d\'étude.',
     price: '4.00€',
     wooCommerceUrl: '/product/fidget-cube-articule',
     imageUrl: 'https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/12/Spoolio-fidget-cubes-2-scaled.webp',
@@ -54,7 +54,7 @@ const products: FidgetProduct[] = [
     id: 'fidget-bague-rotative',
     name: 'Fidget Bague Rotative',
     category: 'manipuler',
-    description: 'Porte-la au doigt et fais-la tourner discrètement à l\'infini. Le fidget le plus discret pour évacuer le stress n\'importe où.',
+    description: 'Porte-la au doigt et fais tourner son anneau extérieur à l\'infini. Un objet tactile discret et nomade à garder sous la main.',
     price: '3.00€',
     wooCommerceUrl: '/product/fidget-bague-rotative',
     imageUrl: 'https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/12/Spoolio-fidget-bague-rotative-5-scaled.webp',
@@ -66,7 +66,7 @@ const products: FidgetProduct[] = [
     id: 'fidget-engrenages-mecanique',
     name: 'Fidget Engrenage Mécanique',
     category: 'resoudre',
-    description: 'Le plaisir brut d\'engrenages imbriqués à manipuler. Fais tourner les engrenages pour ressentir le retour mécanique et canaliser ton attention.',
+    description: 'Le plaisir brut d\'engrenages imbriqués. Fais tourner les rouages pour ressentir le retour mécanique synchronisé sous la pulpe des doigts.',
     price: '4.00€',
     wooCommerceUrl: '/product/fidget-engrenages-mecanique',
     imageUrl: 'https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/12/Spoolio-fidget-mecanique-engrenage-2-scaled.webp',
@@ -78,7 +78,7 @@ const products: FidgetProduct[] = [
     id: 'fidget-boule-piquante',
     name: 'Fidget Boule Piquante',
     category: 'caresser',
-    description: 'Des dizaines de petits pics d\'acupression stimulants. Masse, roule et fais glisser tes doigts sur ses reliefs pour relâcher instantanément les tensions.',
+    description: 'Des dizaines de petits picots d\'acupression en relief. Roule et fais glisser la sphère entre tes paumes pour une stimulation tactile dense.',
     price: '3.00€',
     wooCommerceUrl: '/product/fidget-boule-piquante',
     imageUrl: 'https://i0.wp.com/spoolio.fr/wp-content/uploads/2025/12/Spoolio-fidget-sensoriel-boule-3-scaled.webp',
@@ -507,13 +507,13 @@ export default function BoussoleSensorielleClient() {
           <div className="text-center space-y-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-violet-200 bg-violet-50 text-xs font-semibold text-violet-700">
               <Brain className="w-3.5 h-3.5 text-violet-600" />
-              <span>Guide &amp; Stimulation Sensorielle</span>
+              <span>Guide Haptique &amp; Sensoriel</span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-zinc-950 tracking-tight font-righteous">
-              Tout savoir sur la Boussole Sensorielle &amp; les Fidgets TDAH
+              Tout savoir sur la Boussole Sensorielle &amp; les objets tactiles
             </h2>
             <p className="text-xs sm:text-sm text-zinc-600 max-w-2xl mx-auto leading-relaxed font-sans">
-              Découvrez comment la stimulation tactile et visuelle aide à canaliser l&apos;attention, apaiser le stress et répondre aux besoins d&apos;auto-stimulation (stimming).
+              Découvrez comment la stimulation physique et mécanique aide à occuper les mains, libérer les micro-tensions et soutenir l&apos;attention continue.
             </p>
           </div>
 
@@ -523,16 +523,16 @@ export default function BoussoleSensorielleClient() {
                 <span className="text-lg">🎯</span> Qu&apos;est-ce que la Boussole Sensorielle ?
               </h3>
               <p className="text-xs text-zinc-600 leading-relaxed font-sans">
-                La <strong>Boussole Sensorielle Spoolio</strong> est un outil interactif conçu pour vous aider à identifier précisément vos besoins d&apos;auto-stimulation au quotidien. Que vous recherchiez une sensation tactile forte (clic mécanique), un mouvement continu apaisant ou un moment de respiration guidée, notre boussole vous oriente vers les objets et exercices les plus adaptés.
+                La <strong>Boussole Sensorielle Spoolio</strong> est un guide d&apos;exploration conçu pour t&apos;aider à identifier précisément ta façon de manipuler : un clic mécanique franc, un mouvement hélicoïdal silencieux, une bague rotative ou une texture en relief d&apos;acupression.
               </p>
             </div>
 
             <div className="bg-white border border-zinc-200/90 p-6 rounded-3xl space-y-3 shadow-xs">
               <h3 className="text-base font-bold text-zinc-950 flex items-center gap-2 font-outfit">
-                <span className="text-lg">🧠</span> Fidgets 3D, TDAH, TSA &amp; Anxiété
+                <span className="text-lg">🎛️</span> Pourquoi occuper ses mains au quotidien ?
               </h3>
               <p className="text-xs text-zinc-600 leading-relaxed font-sans">
-                Les fidgets sensoriels ne sont pas de simples jouets : pour les personnes neuroatypiques (TDAH, spectre de l&apos;autisme, hypersensibilité) ou sujettes au stress, manipuler un objet physique permet d&apos;occuper le canal moteur secondaire. Cela libère de la charge mentale, améliore la concentration en cours ou en réunion et aide à réguler les surcharges sensorielles.
+                Occuper les doigts avec un objet tactile bien pensé permet de canaliser les automatismes moteurs sans parasiter la concentration. Un geste machinal sous le bureau ou au creux de la main apporte un ancrage physique précieux lors de réunions, d&apos;appels ou de phases d&apos;écriture.
               </p>
             </div>
 

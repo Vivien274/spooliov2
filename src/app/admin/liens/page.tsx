@@ -32,7 +32,7 @@ export default function AdminLinksPage() {
   // State
   const [profile, setProfile] = useState<HubProfile>({
     title: "Spoolio.fr",
-    subtitle: "Impression 3D & Objets Fidgets Sensoriels TDAH 🇫🇷",
+    subtitle: "Art toys, objets tactiles & curiosités 3D 🇫🇷",
     avatar: "/images/spoolio-avatar.png",
     verifiedBadge: true,
     socials: {

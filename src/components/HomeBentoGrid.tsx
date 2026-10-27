@@ -49,7 +49,7 @@ export default function HomeBentoGrid() {
 
       {/* Bento 3 Blocks Grid */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6">
-        {/* Block 1: Focus TDAH & Boussole Sensorielle (6 cols) */}
+        {/* Block 1: Objets Tactiles & Boussole Sensorielle (6 cols) */}
         <div className="md:col-span-6 relative p-5 sm:p-7 md:p-9 rounded-3xl bg-white border border-neutral-200 hover:border-neutral-300 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-xs hover:shadow-xl group">
           {/* Subtle Radar Background SVG Graphic */}
           <div className="absolute top-0 right-0 w-60 h-60 sm:w-80 sm:h-80 opacity-20 pointer-events-none -mr-12 -mt-12 sm:-mr-16 sm:-mt-16 group-hover:scale-105 group-hover:opacity-35 transition-all duration-700 ease-out">
@@ -68,7 +68,7 @@ export default function HomeBentoGrid() {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-neutral-100 border border-neutral-200">
               <Compass className="w-3.5 h-3.5 text-[#FF5500] animate-spin-slow" />
               <span className="font-mono text-[10px] font-bold text-neutral-800 uppercase tracking-widest">
-                DIAGNOSTIC SENSORIEL // 60 SEC
+                EXPLORATION TACTILE // 60 SEC
               </span>
             </div>
 
@@ -76,9 +76,8 @@ export default function HomeBentoGrid() {
               Besoin de focus ? Diagnostiquez votre stimulation en 1 min.
             </h3>
 
-            {/* Description masquée sur mobile pour compacter la hauteur */}
             <p className="hidden sm:block text-sm text-neutral-600 leading-relaxed font-normal max-w-lg">
-              Stress au bureau, TDAH ou simple besoin d'occupation kinesthésique ? Notre algorithme d'atelier identifie l'interaction tactile précise (clic franc, roulement silencieux, texture rugueuse) adaptée à votre profil.
+              Mains agitées, besoin de décompression ou recherche d&apos;ancrage tactile ? Notre boussole d&apos;atelier identifie l&apos;interaction haptique précise (clic franc, roulement silencieux, texture en relief) adaptée à votre geste.
             </p>
 
             {/* Micro diagnostic tags */}

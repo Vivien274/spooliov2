@@ -20,28 +20,28 @@ interface QuizAnswers {
 const profileOptions = [
   {
     id: 'tdah' as const,
-    title: '🧠 TDAH / Hyperactivité',
-    desc: 'Besoin de canaliser un surplus moteur et d\'occuper les mains pour maintenir la concentration.'
+    title: '⚡ Mouvement continu & agitation motrice',
+    desc: 'Besoin d\'un geste mécanique permanent pour occuper les mains et stabiliser le rythme.'
   },
   {
     id: 'anxiety' as const,
-    title: '🌿 Stress & Anxiété',
-    desc: 'Besoin d\'un réconfort tactile régulier pour apaiser le système nerveux et libérer les tensions.'
+    title: '🌿 Décompression & relâchement',
+    desc: 'Besoin d\'une manipulation tactile apaisante pour évacuer les micro-tensions du quotidien.'
   },
   {
     id: 'autism' as const,
-    title: '🌀 Autisme & Stimming',
-    desc: 'Autostimulation sensorielle répétitive et régulation rapide en cas de surcharge cognitive.'
+    title: '🌀 Répétition sensorielle (Stimming)',
+    desc: 'Mouvement répétitif régulier, sensations prévisibles et textures familières sous les doigts.'
   },
   {
     id: 'focus' as const,
-    title: '🎯 DYS & Concentration',
-    desc: 'Besoin d\'un ancrage physique automatique et discret lors d\'écoutes passives ou de cours.'
+    title: '🎯 Focus passif & écoute attentive',
+    desc: 'Ancrage physique automatique et discret pendant les réunions, les appels ou les phases d\'étude.'
   },
   {
     id: 'overload' as const,
-    title: '⚡ Surcharge Sensorielle',
-    desc: 'Besoin de recentrage tactile pour isoler le cerveau des stimuli environnementaux trop intenses.'
+    title: '🎛️ Recentrage tactile & canalisation',
+    desc: 'Sensation haptique nette pour faire abstraction de l\'environnement et se recentrer sur un geste simple.'
   }
 ];
 

@@ -175,18 +175,19 @@ export function getAllDropsSync(): Drop[] {
 
 /**
  * Récupère le drop phare du moment (live en priorité, puis upcoming, sinon le plus récent)
+ * et hydrate ses produits associés depuis la base de données.
  */
-export async function getFeaturedDrop(): Promise<Drop | null> {
+export async function getFeaturedDrop(): Promise<(Drop & { products: Product[] }) | null> {
   const drops = await getAllDrops();
   if (drops.length === 0) return null;
 
-  const live = drops.find((d) => d.status === "live");
-  if (live) return live;
+  const target =
+    drops.find((d) => d.status === "live") ||
+    drops.find((d) => d.status === "upcoming") ||
+    drops[0];
 
-  const upcoming = drops.find((d) => d.status === "upcoming");
-  if (upcoming) return upcoming;
-
-  return drops[0];
+  if (!target) return null;
+  return getDropBySlug(target.slug);
 }
 
 /**

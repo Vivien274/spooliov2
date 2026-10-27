@@ -1831,16 +1831,16 @@ export default function ProductDetailClient({
                   if (profilesList.length === 0) return null;
 
                   const profileLabels: Record<string, { label: string; icon: string }> = {
-                    tdah: { label: "TDAH & Besoins Moteurs", icon: "⚡" },
-                    anxiety: { label: "Anxiété & Anti-Stress", icon: "🧘" },
-                    focus: { label: "Focus & Concentration", icon: "🎯" },
-                    autism: { label: "Stimulation Sensorielle TSA", icon: "🧠" },
+                    tdah: { label: "Mouvement & Agilité des Doigts", icon: "⚡" },
+                    anxiety: { label: "Apaisement & Rythme Répétitif", icon: "🌊" },
+                    focus: { label: "Focus & Attention Continue", icon: "🎯" },
+                    autism: { label: "Stimulation Texturée & Haptique", icon: "🧩" },
                   };
 
                   return (
                     <div className="flex flex-col gap-2 pt-2 border-t border-purple-200/80">
                       <span className="text-[10px] font-bold text-purple-900 uppercase tracking-wider">
-                        Recommandé pour les profils :
+                        Sensations &amp; Usages associés :
                       </span>
                       <div className="flex flex-wrap gap-2">
                         {profilesList.map((prof: string) => {
@@ -1952,7 +1952,7 @@ export default function ProductDetailClient({
             </div>
             <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs">
               <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold">Matière &amp; Fabrication</span>
-              <span className="text-sm font-bold text-[#ff4f00]">PLA Bio 🇫🇷 Comines</span>
+              <span className="text-sm font-bold text-[#ff4f00]">PLA Biosourcé • Comines (59)</span>
             </div>
           </div>
 
@@ -2009,7 +2009,7 @@ export default function ProductDetailClient({
                 maxHeight: isDescriptionExpanded ? "1200px" : "160px",
               }}
               dangerouslySetInnerHTML={{
-                __html: displayFullDesc || "<p>Ce produit haut de gamme Spoolio est entièrement conçu et fabriqué localement à Comines. Grâce à la précision de nos imprimantes 3D (Berthe, Philomène, Ursule, Godelaine et Claudine), chaque couche est déposée de manière optimale pour un rendu esthétique et une solidité à toute épreuve.</p><p>Le PLA utilisé pour l'impression est d'origine biologique (amidon de maïs), biodégradable et respectueux de l'environnement.</p>"
+                __html: displayFullDesc || "<p>Création façonnée dans notre atelier à Comines. Chaque pièce est imprimée avec précision en PLA biosourcé, ébavurée et vérifiée à la main.</p><p>Matière issue de ressources végétales renouvelables. Conçu pour durer, résister aux manipulations du quotidien et apporter une présence singulière sur votre bureau.</p>"
               }}
             />
             {/* Fade overlay mask when collapsed */}
@@ -2097,7 +2097,7 @@ export default function ProductDetailClient({
                           {p.name}
                         </h3>
                         <p className="text-xs text-zinc-600 line-clamp-2 leading-relaxed">
-                          {p.short_description?.replace(/<[^>]*>/g, "").replace(/&rsquo;/g, "’") || "Un superbe accessoire Spoolio fabriqué en PLA écologique."}
+                          {p.short_description?.replace(/<[^>]*>/g, "").replace(/&rsquo;/g, "’") || "Création d'atelier Spoolio façonnée en PLA biosourcé."}
                         </p>
                       </div>
                       <div className="flex items-center justify-between mt-2 pt-2 border-t border-zinc-100">
