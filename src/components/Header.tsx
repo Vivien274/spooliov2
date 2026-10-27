@@ -21,18 +21,18 @@ interface HeaderProps {
 
 const POPULAR_SEARCH_TAGS = [
   { label: "Dragons", emoji: "🐉", query: "dragon" },
-  { label: "Objets tactiles", emoji: "⚙️", query: "fidget" },
-  { label: "Pochettes surprises", emoji: "🎁", query: "surprise" },
-  { label: "Porte-clés", emoji: "🔑", query: "porte-cle" },
+  { label: "Objets tactiles", emoji: "⚙️", query: "tactile" },
+  { label: "Blind Bags", emoji: "🎁", query: "blind-bag" },
+  { label: "Art toys", emoji: "👾", query: "art-toys" },
   { label: "Boussole", emoji: "🧭", query: "boussole" },
   { label: "Clickers", emoji: "🖱️", query: "clicker" },
 ];
 
 const QUICK_PAGE_SHORTCUTS = [
   { title: "Toute la Boutique", href: "/boutique", icon: "🛍️", desc: "Découvrir toutes les créations & pièces d'atelier" },
-  { title: "Boussole Sensorielle", href: "/boussole-sensorielle", icon: "🧭", desc: "Trouvez l'objet adapté à votre manipulation" },
+  { title: "Boussole Sensorielle", href: "/boussole-sensorielle", icon: "🧭", desc: "Guide interactif des sensations tactiles" },
   { title: "Créateur de Clicker", href: "/createur-cliqueur", icon: "🖱️", desc: "Personnalisez votre clicker tactile sur-mesure" },
-  { title: "Blind Bags", href: "/blind-bags", icon: "🎁", desc: "Le pack mystère kraft prêt à offrir" },
+  { title: "Blind Bags", href: "/blind-bags", icon: "🎁", desc: "Sachets collectibles scellés de l'Atelier" },
 ];
 
 export default function Header({
@@ -415,7 +415,7 @@ export default function Header({
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Rechercher un fidget, une création 3D, une couleur..."
+                    placeholder="Rechercher un art toy, un clicker, un univers, une couleur..."
                     className="w-full bg-transparent outline-none text-sm sm:text-base text-zinc-900 dark:text-white placeholder-zinc-400 font-sans"
                   />
                   {searching ? (

@@ -214,7 +214,7 @@ export const WORKSHOP_PAGES = [
   {
     label: "Boussole Sensorielle",
     href: "/boussole-sensorielle",
-    desc: "Diagnostic interactif & manipulation tactile",
+    desc: "Guide interactif des sensations tactiles",
     iconName: "Compass" as const,
   },
   {
@@ -226,7 +226,7 @@ export const WORKSHOP_PAGES = [
   {
     label: "Blog de l'Atelier",
     href: "/blog",
-    desc: "Guides 3D, coulisses & neuroergonomie",
+    desc: "Guides 3D, coulisses & conception haptique",
     iconName: "BookOpen" as const,
   },
   {
