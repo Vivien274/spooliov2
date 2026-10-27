@@ -171,10 +171,21 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   return null;
 }
 
+let cachedPublishedProducts: { data: Product[]; timestamp: number } | null = null;
+const PUBLISHED_PRODUCTS_TTL_MS = 5 * 60 * 1000; // 5 minutes
+
+export function invalidateServerProductsCache() {
+  cachedPublishedProducts = null;
+}
+
 /**
  * Fetch all published products on the server
  */
 export async function getPublishedProducts(): Promise<Product[]> {
+  if (cachedPublishedProducts && (Date.now() - cachedPublishedProducts.timestamp < PUBLISHED_PRODUCTS_TTL_MS)) {
+    return cachedPublishedProducts.data;
+  }
+
   try {
     const dbProducts = await Promise.race([
       prisma.product.findMany({
@@ -189,7 +200,9 @@ export async function getPublishedProducts(): Promise<Product[]> {
     ]);
 
     if (dbProducts && Array.isArray(dbProducts) && dbProducts.length > 0) {
-      return dbProducts.map(mapRawProduct);
+      const mapped = dbProducts.map(mapRawProduct);
+      cachedPublishedProducts = { data: mapped, timestamp: Date.now() };
+      return mapped;
     }
   } catch (err: any) {
     console.warn("Prisma query getPublishedProducts failed:", err.message);

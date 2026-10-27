@@ -862,6 +862,7 @@ export default function ProductDetailClient({
                       alt={rel.name}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform"
+                      unoptimized={rel.images?.[0]?.src?.startsWith("data:")}
                     />
                   </div>
                   <div className="text-xs font-bold text-zinc-900 truncate">{rel.name}</div>
@@ -1004,6 +1005,7 @@ export default function ProductDetailClient({
                           sizes="(max-width: 1024px) 100vw, 50vw"
                           className="object-cover no-invert"
                           priority
+                          unoptimized={activeSrc?.startsWith("data:")}
                         />
                       </div>
                     );
@@ -1182,6 +1184,7 @@ export default function ProductDetailClient({
                             fill
                             sizes="80px"
                             className="object-cover no-invert"
+                            unoptimized={img.src?.startsWith("data:")}
                           />
                         )}
                       </button>
@@ -2569,6 +2572,7 @@ export default function ProductDetailClient({
                       fill
                       sizes="(max-width: 1200px) 100vw, 1200px"
                       className="object-contain no-invert"
+                      unoptimized={lightboxSrc?.startsWith("data:")}
                     />
                   </div>
                 );
@@ -2618,7 +2622,7 @@ export default function ProductDetailClient({
                           : "border-white/20 opacity-50 hover:opacity-100"
                       }`}
                     >
-                      <Image src={img.src} alt={img.alt || product.name} fill sizes="48px" className="object-cover no-invert" />
+                      <Image src={img.src} alt={img.alt || product.name} fill sizes="48px" className="object-cover no-invert" unoptimized={img.src?.startsWith("data:")} />
                     </button>
                   ))}
                 </div>
@@ -2650,6 +2654,7 @@ export default function ProductDetailClient({
                   fill
                   className="object-cover"
                   sizes="44px"
+                  unoptimized={product.images[0]?.src?.startsWith("data:")}
                 />
               </div>
               <div className="flex flex-col min-w-0">

@@ -158,13 +158,20 @@ export default function ProductCard({ product, compact = false, priority = false
     setShineStyle((prev) => ({ ...prev, opacity: 0 }));
   };
 
-  const hasImage = !!product.images?.[0]?.src;
-  const imageUrl = product.images?.[0]?.src || "";
-  const imageAlt = product.images?.[0]?.alt || product.name;
+  // Filter only valid image URLs (excluding raw YouTube video URLs)
+  const validImages = (product.images || []).filter((img) => {
+    if (!img?.src) return false;
+    const isVideo = /youtube\.com\/(shorts|watch)|youtu\.be|\.mp4|\.webm/i.test(img.src);
+    return !isVideo;
+  });
 
-  const hasSecondImage = !!product.images?.[1]?.src;
-  const secondImageUrl = product.images?.[1]?.src || "";
-  const secondImageAlt = product.images?.[1]?.alt || `${product.name} - détail`;
+  const hasImage = !!validImages[0]?.src;
+  const imageUrl = validImages[0]?.src || "/images/figma_keychains.jpg";
+  const imageAlt = validImages[0]?.alt || product.name;
+
+  const hasSecondImage = !!validImages[1]?.src;
+  const secondImageUrl = validImages[1]?.src || "";
+  const secondImageAlt = validImages[1]?.alt || `${product.name} - détail`;
 
   // Get first category name if defined, fallback to first tag
   const categoryName = product.categories && product.categories.length > 0 
@@ -244,19 +251,21 @@ export default function ProductCard({ product, compact = false, priority = false
                 src={imageUrl}
                 alt={imageAlt}
                 fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className={`object-cover transition-all duration-700 ease-out ${
                   hasSecondImage ? "group-hover/img:opacity-0 group-hover/img:scale-105" : "group-hover/img:scale-105"
                 } no-invert`}
                 priority={priority}
+                unoptimized={imageUrl.startsWith("data:")}
               />
               {hasSecondImage && (
                 <Image
                   src={secondImageUrl}
                   alt={secondImageAlt}
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className="object-cover absolute inset-0 opacity-0 group-hover/img:opacity-100 scale-100 group-hover/img:scale-105 transition-all duration-700 ease-out no-invert"
+                  unoptimized={secondImageUrl.startsWith("data:")}
                 />
               )}
             </>
@@ -383,6 +392,7 @@ export default function ProductCard({ product, compact = false, priority = false
                   hasSecondImage ? "group-hover:opacity-0 group-hover:scale-105" : "group-hover:scale-105"
                 } no-invert`}
                 priority={priority}
+                unoptimized={imageUrl.startsWith("data:")}
               />
               {hasSecondImage && (
                 <Image
@@ -391,6 +401,7 @@ export default function ProductCard({ product, compact = false, priority = false
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className="object-cover absolute inset-0 opacity-0 group-hover:opacity-100 scale-100 group-hover:scale-105 transition-all duration-500 ease-out no-invert"
+                  unoptimized={secondImageUrl.startsWith("data:")}
                 />
               )}
             </>

@@ -36,9 +36,9 @@ function decodeHtml(str: string): string {
     .replace(/&nbsp;/g, " ");
 }
 
-function mapProduct(p: any, viewCountMap: Record<string, number> = {}) {
+function mapProduct(p: any, viewCountMap: Record<string, number> = {}, isCompact = false) {
   // Clean images structure to match what ProductCard expects
-  const rawImages = p.images || [];
+  const rawImages = isCompact ? (p.images || []).slice(0, 2) : (p.images || []);
   const images = rawImages.map((img: any, idx: number) => ({
     id: img.id || idx,
     src: img.src || img.sourceUrl || img.source_url || "/images/figma_keychains.jpg",
@@ -127,9 +127,9 @@ function mapProduct(p: any, viewCountMap: Record<string, number> = {}) {
     short_description: p.shortDescription || p.short_description || "",
     short_description_en: p.shortDescriptionEn || p.short_description_en || null,
     shortDescriptionEn: p.shortDescriptionEn || p.short_description_en || null,
-    description: p.description || "",
-    description_en: p.descriptionEn || p.description_en || null,
-    descriptionEn: p.descriptionEn || p.description_en || null,
+    description: isCompact ? "" : (p.description || ""),
+    description_en: isCompact ? null : (p.descriptionEn || p.description_en || null),
+    descriptionEn: isCompact ? null : (p.descriptionEn || p.description_en || null),
     name_en: p.nameEn || p.name_en || null,
     nameEn: p.nameEn || p.name_en || null,
     metaTitle: p.metaTitle || p.meta_title || "",
@@ -159,7 +159,7 @@ function mapProduct(p: any, viewCountMap: Record<string, number> = {}) {
 }
 
 // Resilient product fetcher
-async function fetchAllProducts(status: string) {
+async function fetchAllProducts(status: string, isCompact = false) {
   const wcUrl = process.env.NEXT_PUBLIC_WC_URL;
   const consumerKey = process.env.WC_CONSUMER_KEY;
   const consumerSecret = process.env.WC_CONSUMER_SECRET;
@@ -226,7 +226,7 @@ async function fetchAllProducts(status: string) {
 
     if (dbProducts && dbProducts.length > 0) {
       console.log("Successfully fetched products from Prisma Database.");
-      return dbProducts.map((p: any) => mapProduct(p, viewCountMap));
+      return dbProducts.map((p: any) => mapProduct(p, viewCountMap, isCompact));
     }
   } catch (e: any) {
     console.warn("Prisma query failed or timed out, trying local JSON...", e.message);
@@ -304,10 +304,11 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const isPreprod = isPreprodEnv();
     const requestedStatus = searchParams.get('status');
+    const isCompact = searchParams.get('compact') === '1' || searchParams.get('view') === 'grid';
 
     // Public catalog strictly queries 'publish' unless status='all' is explicitly requested (e.g. by admin).
     const effectiveStatus = requestedStatus === 'all' ? 'all' : (requestedStatus || 'publish');
-    const cacheKey = `${effectiveStatus}_${isPreprod ? 'preprod' : 'prod'}`;
+    const cacheKey = `${effectiveStatus}_${isCompact ? 'compact' : 'full'}_${isPreprod ? 'preprod' : 'prod'}`;
 
     // Serve from in-memory cache if available and fresh (for public catalog)
     if (effectiveStatus !== 'all' && catalogCache[cacheKey]) {
@@ -322,7 +323,7 @@ export async function GET(request: Request) {
       }
     }
 
-    const products = await fetchAllProducts(effectiveStatus);
+    const products = await fetchAllProducts(effectiveStatus, isCompact);
 
     // Save to in-memory cache
     if (effectiveStatus !== 'all') {

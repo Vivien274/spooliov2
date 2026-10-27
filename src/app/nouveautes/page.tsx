@@ -13,6 +13,16 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "Nouveautés & Drops Exclusifs 3D | Spoolio",
     description:
       "Découvrez les nouveautés et les drops exclusifs Spoolio : séries limitées de fidgets, figurines d'atelier et créations imprimées en 3D à Comines.",
+    alternates: {
+      canonical: "https://www.spoolio.fr/nouveautes",
+    },
+    openGraph: {
+      ...base.openGraph,
+      url: "https://www.spoolio.fr/nouveautes",
+      title: "Nouveautés & Drops Exclusifs 3D | Spoolio",
+      description:
+        "Découvrez les nouveautés et les drops exclusifs Spoolio : séries limitées de fidgets, figurines d'atelier et créations imprimées en 3D à Comines.",
+    },
   };
 }
 

@@ -15,17 +15,23 @@ type TabKey =
   | "bureau-deco"
   | "jeux-accessoires";
 
-export default function HomeTabbedProductGrid() {
+export default function HomeTabbedProductGrid({
+  initialProducts = [],
+}: {
+  initialProducts?: Product[];
+}) {
   const { t } = useTranslation();
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [loading, setLoading] = useState<boolean>(initialProducts.length === 0);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<TabKey>("all");
 
   useEffect(() => {
+    if (products.length > 0) return;
+
     async function fetchProducts() {
       try {
-        const res = await fetch("/api/products", { cache: "no-store" });
+        const res = await fetch("/api/products");
         if (!res.ok) {
           throw new Error("Impossible de récupérer les produits");
         }
@@ -39,7 +45,7 @@ export default function HomeTabbedProductGrid() {
     }
 
     fetchProducts();
-  }, []);
+  }, [products.length]);
 
   // Filter products by active tab (strictly published products only)
   const displayProducts = useMemo(() => {
@@ -231,8 +237,8 @@ export default function HomeTabbedProductGrid() {
               : "grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 px-1"
           }
         >
-          {displayProducts.map((product, index) => (
-            <ProductCard key={product.id} product={product} priority={index < 4} />
+          {displayProducts.map((product) => (
+            <ProductCard key={product.id} product={product} priority={false} />
           ))}
         </div>
       ) : (

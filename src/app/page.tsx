@@ -22,6 +22,7 @@ import { cookies } from "next/headers";
 import fr from "@/locales/fr.json";
 import en from "@/locales/en.json";
 import { getPageSeoMetadata } from "@/lib/seoPages";
+import { getPublishedProducts } from "@/lib/serverProducts";
 
 export const dynamic = "force-dynamic";
 
@@ -247,6 +248,38 @@ export default async function HomePage() {
     // Silent fallback
   }
 
+  let initialProducts: any[] = [];
+  try {
+    const rawProducts = await getPublishedProducts();
+    initialProducts = rawProducts.map((p) => ({
+      id: p.id,
+      name: p.name,
+      nameEn: p.nameEn || p.name_en || null,
+      slug: p.slug,
+      permalink: p.permalink,
+      price: p.price,
+      regular_price: p.regular_price,
+      sale_price: p.sale_price,
+      on_sale: p.on_sale,
+      productType: p.productType,
+      categories: p.categories,
+      images: (p.images || []).slice(0, 2),
+      badge: p.badge,
+      stock: p.stock,
+      status: p.status,
+      date_created: p.date_created,
+      tags: p.tags,
+      attributes: p.attributes
+        ? {
+            badge: (p.attributes as any)?.badge,
+            uniquePieceData: (p.attributes as any)?.uniquePieceData,
+          }
+        : undefined,
+    }));
+  } catch (e) {
+    // Silent fallback
+  }
+
   return (
     <div className="relative min-h-screen bg-white text-zinc-900 font-sans flex flex-col items-center selection:bg-[#ff4f00] selection:text-white overflow-x-hidden">
       {/* 1. Full-Width Animated Hero Section */}
@@ -261,7 +294,7 @@ export default async function HomePage() {
       {/* 3. Tabbed Product Showcase */}
       <section className="w-full max-w-[1200px] px-4 py-8 relative z-10 flex flex-col gap-10">
         {/* Tabbed Product Showcase (Nouveautés, Fidgets, Pochettes, Bureau, etc.) */}
-        <HomeTabbedProductGrid />
+        <HomeTabbedProductGrid initialProducts={initialProducts} />
       </section>
 
       {/* 4. Prochain Drop d'Atelier (date de disponibilité et accès sans clic avant lancement) */}

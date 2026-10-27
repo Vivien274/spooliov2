@@ -57,12 +57,12 @@ const DEFAULT_SLIDES_FR: HeroSlide[] = [
     buttonLink: "/boutique",
     secondaryButtonText: "BOUSSOLE SENSORIELLE",
     secondaryButtonLink: "/boussole-sensorielle",
-    image: "/images/clicker_gallery_2.jpg",
+    image: "/images/clicker_gallery_2.webp",
     accentColor: "#ff4f00",
     cardTitle: "Créations Spoolio",
     cardDescription: "Art toys et objets tactiles façonnés à l'atelier de Comines.",
     cardPrice: "À partir de 3.00€",
-    cardImage: "/images/clicker_gallery_2.jpg",
+    cardImage: "/images/clicker_gallery_2.webp",
     cardLink: "/boutique",
     cardBadge: "Atelier Français",
   },
@@ -76,12 +76,12 @@ const DEFAULT_SLIDES_FR: HeroSlide[] = [
     buttonLink: "/calendrier-avent",
     secondaryButtonText: "DÉCOUVRIR LE CALENDRIER",
     secondaryButtonLink: "/calendrier-avent",
-    image: "/images/calendrier-avent-hero.jpg",
+    image: "/images/calendrier-avent-hero.webp",
     accentColor: "#ff4f00",
     cardTitle: "Calendrier de l'Avent 3D",
     cardDescription: "24 surprises inédites d'atelier à découvrir chaque jour.",
     cardPrice: "50€ • Édition Limitée (50 ex.)",
-    cardImage: "/images/calendrier-avent-hero.jpg",
+    cardImage: "/images/calendrier-avent-hero.webp",
     cardLink: "/calendrier-avent",
     cardBadge: "Précommandes 2026",
   },
@@ -132,12 +132,12 @@ const DEFAULT_SLIDES_EN: HeroSlide[] = [
     buttonLink: "/calendrier-avent",
     secondaryButtonText: "DISCOVER THE CALENDAR",
     secondaryButtonLink: "/calendrier-avent",
-    image: "/images/calendrier-avent-hero.jpg",
+    image: "/images/calendrier-avent-hero.webp",
     accentColor: "#ff4f00",
     cardTitle: "3D Advent Calendar",
     cardDescription: "24 daily tactile workshop surprises to discover.",
     cardPrice: "€50 • Limited Edition (50 pcs)",
-    cardImage: "/images/calendrier-avent-hero.jpg",
+    cardImage: "/images/calendrier-avent-hero.webp",
     cardLink: "/calendrier-avent",
     cardBadge: "Pre-order 2026",
   },
@@ -148,12 +148,12 @@ const DEFAULT_SLIDES_EN: HeroSlide[] = [
     subtitle: "Art toys, tactile objects and curiosities crafted in small series in our workshop in Northern France.",
     buttonText: "DISCOVER THE CATALOG",
     buttonLink: "/boutique",
-    image: "/images/clicker_gallery_2.jpg",
+    image: "/images/clicker_gallery_2.webp",
     accentColor: "#ff4f00",
     cardTitle: "Spoolio Workshop Creations",
     cardDescription: "Art toys, tactile objects and curiosities.",
     cardPrice: "From €3.00",
-    cardImage: "/images/clicker_gallery_2.jpg",
+    cardImage: "/images/clicker_gallery_2.webp",
     cardLink: "/boutique"
   },
   {
@@ -251,7 +251,8 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                   src={activeSlide.image}
                   alt={activeSlide.title}
                   fill
-                  priority
+                  priority={activeIndex === 0}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1920px"
                   className="object-cover object-center filter brightness-[0.98] contrast-[1.02] saturate-[1.05]"
                 />
                 {/* Gradient for text legibility on the left, clear and transparent on the right */}
@@ -394,18 +395,23 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
 
             {/* Slider Pagination Dots (Rendered only when multiple slides exist) */}
             {heroSlides.length > 1 && (
-              <div className="flex items-center justify-center gap-2 pt-4">
+              <div className="flex items-center justify-center gap-1 pt-4">
                 {heroSlides.map((_, idx) => (
                   <button
                     key={idx}
+                    type="button"
                     onClick={() => setActiveIndex(idx)}
                     aria-label={`Aller à la slide ${idx + 1}`}
-                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                      idx === activeIndex
-                        ? "w-8 bg-[#ff4f00]"
-                        : "w-2 bg-white/40 hover:bg-white/70"
-                    }`}
-                  />
+                    className="p-2.5 flex items-center justify-center cursor-pointer -m-1"
+                  >
+                    <span
+                      className={`h-2 rounded-full transition-all duration-300 block ${
+                        idx === activeIndex
+                          ? "w-8 bg-[#ff4f00]"
+                          : "w-2 bg-white/40 hover:bg-white/70"
+                      }`}
+                    />
+                  </button>
                 ))}
               </div>
             )}
