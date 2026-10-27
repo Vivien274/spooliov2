@@ -34,6 +34,38 @@ export default function TaxonomyAdminClient() {
   const [actionLoading, setActionLoading] = useState(false);
   const [feedback, setFeedback] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
+  // Migration Google Sheet state
+  const [importLoading, setImportLoading] = useState(false);
+  const [importResult, setImportResult] = useState<any>(null);
+
+  const handleImportSheet = async (force: boolean) => {
+    setImportLoading(true);
+    setImportResult(null);
+    try {
+      const res = await fetch(`/api/admin/taxonomy/import-sheet${force ? "?force=true" : ""}`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setImportResult(data);
+        setFeedback({
+          type: "success",
+          text: data.message || "Opération réussie.",
+        });
+        fetchTaxonomies();
+      } else {
+        setFeedback({
+          type: "error",
+          text: data.error || data.details || "Erreur lors de l'import.",
+        });
+      }
+    } catch (err: any) {
+      setFeedback({ type: "error", text: `Erreur réseau : ${err.message}` });
+    } finally {
+      setImportLoading(false);
+    }
+  };
+
   // Filtre univers pour l'onglet catégories
   const [selectedUniverseFilter, setSelectedUniverseFilter] = useState<number | "all">("all");
 
@@ -338,6 +370,66 @@ export default function TaxonomyAdminClient() {
             </button>
           </div>
         )}
+
+        {/* BANNIÈRE MIGRATION GOOGLE SHEET */}
+        <div className="p-5 rounded-3xl bg-gradient-to-r from-orange-50/80 via-white to-amber-50/60 border border-orange-200/80 shadow-2xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="space-y-1.5 max-w-2xl">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#ff4f00] bg-white px-2 py-0.5 rounded-full border border-orange-200">
+                Migration Catalogue V2.1
+              </span>
+              <span className="text-xs text-zinc-500 font-medium">Source Google Sheet</span>
+            </div>
+            <h3 className="text-base font-black text-zinc-950 font-antonio tracking-wide uppercase">
+              199 PRODUITS ANALYSÉS &bull; 134 ACTIFS RÉSOLUS À 100%
+            </h3>
+            <p className="text-xs text-zinc-600 leading-relaxed">
+              La classification V2.1 issue de votre feuille d&apos;audit est prête : 14 Hero, 35 Keep, 85 Rework et 65 Archives. 
+              Chaque produit actif dispose de son Univers, sa Catégorie et ses Collections.
+            </p>
+            {importResult && (
+              <div className="pt-2 text-xs font-mono font-semibold text-[#ff4f00]">
+                {importResult.message}
+              </div>
+            )}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+            <a
+              href="https://docs.google.com/spreadsheets/d/1ZPq9G1L-9B4BAhvS4pTSe3vzgq8ySd0YSed1l72l5Dc/edit?gid=1100007310"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3.5 py-2 rounded-xl border border-zinc-200 bg-white hover:bg-zinc-50 text-zinc-700 text-xs font-semibold transition-all inline-flex items-center gap-1.5 shadow-2xs"
+            >
+              <Globe className="w-3.5 h-3.5 text-zinc-400" />
+              <span>Voir le Sheet</span>
+            </a>
+
+            <button
+              type="button"
+              onClick={() => handleImportSheet(false)}
+              disabled={importLoading}
+              className="px-4 py-2 rounded-xl border border-orange-200 bg-orange-100/70 hover:bg-orange-100 text-orange-950 text-xs font-bold transition-all inline-flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 text-[#ff4f00] ${importLoading ? "animate-spin" : ""}`} />
+              <span>Tester (Dry Run)</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                if (confirm("Confirmez-vous l'application de la classification V2.1 aux 134 produits du catalogue ?")) {
+                  handleImportSheet(true);
+                }
+              }}
+              disabled={importLoading}
+              className="px-4 py-2 rounded-xl bg-zinc-950 hover:bg-[#ff4f00] text-white text-xs font-black transition-all inline-flex items-center gap-1.5 cursor-pointer shadow-sm disabled:opacity-50"
+            >
+              <Check className="w-3.5 h-3.5" />
+              <span>Appliquer aux 134 produits</span>
+            </button>
+          </div>
+        </div>
 
         {/* STATS RAPIDES */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">

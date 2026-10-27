@@ -113,6 +113,7 @@ export const SHOP_UNIVERSES: NavUnivers[] = [
       { label: "Clickers", href: "/tactile/clickers" },
       { label: "Fidgets", href: "/tactile/fidgets" },
       { label: "Mécanismes", href: "/tactile/mecanismes" },
+      { label: "Boussole sensorielle", href: "/boussole-sensorielle", badge: "Quiz" },
     ],
   },
   {
@@ -210,6 +211,12 @@ export const COLLECTIONS_LIST: NavCollection[] = [
  * Dropdown L'Atelier : Pages institutionnelles & support
  */
 export const WORKSHOP_PAGES = [
+  {
+    label: "Boussole Sensorielle",
+    href: "/boussole-sensorielle",
+    desc: "Diagnostic interactif & manipulation tactile",
+    iconName: "Compass" as const,
+  },
   {
     label: "Histoire & Savoir-faire",
     href: "/a-propos",

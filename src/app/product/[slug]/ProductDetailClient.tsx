@@ -19,6 +19,7 @@ interface ProductDetailClientProps {
   initialProduct?: Product | null;
   initialRelatedProducts?: Product[];
   initialReviews?: any[];
+  breadcrumbItems?: { name: string; url: string }[];
 }
 
 import {
@@ -37,6 +38,7 @@ export default function ProductDetailClient({
   initialProduct = null,
   initialRelatedProducts = [],
   initialReviews = [],
+  breadcrumbItems = [],
 }: ProductDetailClientProps) {
   const { locale, t } = useTranslation();
   const { addToCart } = useCart();
@@ -895,31 +897,50 @@ export default function ProductDetailClient({
           </div>
         )}
 
-        {/* Breadcrumb Navigation (Fil d'Ariane) */}
-        <nav className="flex items-center gap-1.5 text-[11px] lg:text-xs font-semibold text-gray-400 mb-3 lg:mb-8 font-sans select-none overflow-hidden whitespace-nowrap">
-          <Link href="/" className="hover:text-white transition-colors shrink-0">
-            Accueil
-          </Link>
-          <span className="text-gray-600 font-bold shrink-0">/</span>
-          <Link href="/" className="hover:text-white transition-colors shrink-0">
-            Boutique
-          </Link>
-          {Array.isArray(product.categories) && product.categories.length > 0 && (
-            <>
-              <span className="text-gray-600 font-bold shrink-0">/</span>
-              <Link 
-                href={`/categorie/${encodeURIComponent(product.categories[0].name)}`} 
-                className="text-gray-400 hover:text-white transition-colors shrink-0 max-w-[100px] sm:max-w-none truncate"
-              >
-                {product.categories[0].name}
-              </Link>
-            </>
-          )}
-          <span className="text-gray-600 font-bold shrink-0">/</span>
-          <span className="text-zinc-900 font-bold truncate">
-            {product.name}
-          </span>
-        </nav>
+        {/* Breadcrumb Navigation (Fil d'Ariane) - Spoolio V2.1 */}
+        {(() => {
+          const items =
+            breadcrumbItems && breadcrumbItems.length > 0
+              ? breadcrumbItems
+              : [
+                  { name: "Accueil", url: "/" },
+                  { name: "Boutique", url: "/boutique" },
+                  ...(Array.isArray(product.categories) && product.categories.length > 0
+                    ? [{ name: product.categories[0].name, url: "/boutique" }]
+                    : []),
+                  { name: product.name, url: `/product/${slug}` },
+                ];
+
+          return (
+            <nav
+              aria-label="Fil d'Ariane"
+              className="flex items-center gap-1.5 text-[11px] lg:text-xs font-medium text-zinc-500 mb-4 lg:mb-8 font-sans select-none overflow-x-auto scrollbar-none whitespace-nowrap py-1"
+            >
+              {items.map((item, index) => {
+                const isLast = index === items.length - 1;
+                return (
+                  <span key={`${item.url}-${index}`} className="flex items-center gap-1.5 shrink-0">
+                    {index > 0 && (
+                      <span className="text-zinc-300 font-bold shrink-0 select-none">/</span>
+                    )}
+                    {isLast ? (
+                      <span className="text-zinc-900 font-bold max-w-[180px] sm:max-w-none truncate">
+                        {item.name}
+                      </span>
+                    ) : (
+                      <Link
+                        href={item.url}
+                        className="text-zinc-500 hover:text-[#ff4f00] transition-colors shrink-0"
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </span>
+                );
+              })}
+            </nav>
+          );
+        })()}
 
         {/* 2-Column Product Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-16">

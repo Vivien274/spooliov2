@@ -625,13 +625,13 @@ function AdminShell({ children }: { children: React.ReactNode }) {
             {/* Mobile Burger Toggle Button */}
             <button
               onClick={() => setIsMobileOpen(!isMobileOpen)}
-              className={`p-2 rounded-xl border md:hidden cursor-pointer ${
-                theme === "dark" ? "bg-white/5 border-white/10 text-white" : "bg-gray-100 border-gray-200 text-black"
+              className={`p-2 rounded-xl md:hidden cursor-pointer transition-colors ${
+                theme === "dark" ? "hover:bg-white/10 text-white" : "hover:bg-zinc-100 text-zinc-900"
               }`}
               aria-label="Toggle mobile menu"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 6h16M4 12h16M4 18h10" />
               </svg>
             </button>
 

@@ -12,6 +12,7 @@ import {
   BookOpen,
   HelpCircle,
   Building2,
+  Compass,
   ChevronDown,
   ArrowUpRight,
   ArrowRight,
@@ -56,6 +57,8 @@ function getUniversIcon(iconName?: string) {
 
 function getWorkshopIcon(iconName: string) {
   switch (iconName) {
+    case "Compass":
+      return <Compass className="w-4.5 h-4.5 text-[#ff4f00]" />;
     case "Palette":
       return <Palette className="w-4.5 h-4.5" />;
     case "BookOpen":
@@ -282,24 +285,24 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
 
                   {/* 4 UNIVERS ET CATÉGORIES (Col 4 to 12) */}
                   <div className="col-span-9 flex flex-col justify-between space-y-4">
-                    <div className="grid grid-cols-4 gap-3">
+                    <div className="grid grid-cols-4 gap-3.5">
                       {SHOP_UNIVERSES.map((univers) => (
                         <div key={univers.id} className="flex flex-col space-y-2">
                           {/* En-tête de l'univers : priorité graphique et titre complet */}
                           <Link
                             href={univers.href}
                             onClick={() => setActiveTab(null)}
-                            className="p-2.5 rounded-xl bg-zinc-50 border border-zinc-200/80 hover:bg-zinc-100 hover:border-zinc-300 transition-all group/u flex flex-col justify-between min-h-[64px]"
+                            className="p-3 rounded-xl bg-zinc-50 border border-zinc-200/80 hover:bg-zinc-100 hover:border-zinc-300 transition-all group/u flex flex-col justify-between min-h-[70px]"
                           >
-                            <div className="flex items-start gap-2 text-black group-hover/u:text-[#ff4f00] transition-colors">
+                            <div className="flex items-start gap-2 text-zinc-950 group-hover/u:text-[#ff4f00] transition-colors">
                               <div className="mt-0.5 shrink-0">
                                 {getUniversIcon(univers.iconName)}
                               </div>
-                              <span className="font-be-vietnam font-normal text-black group-hover/u:text-[#ff4f00] text-[13px] xl:text-[14px] uppercase tracking-normal leading-snug transition-colors">
+                              <span className="font-be-vietnam font-bold text-zinc-950 group-hover/u:text-[#ff4f00] text-[13.5px] xl:text-[14px] uppercase tracking-normal leading-snug transition-colors">
                                 {univers.label}
                               </span>
                             </div>
-                            <p className="text-[10px] text-zinc-400 font-medium leading-tight mt-1.5">
+                            <p className="text-xs text-zinc-500 font-medium leading-tight mt-1.5">
                               {univers.shortDesc}
                             </p>
                           </Link>
@@ -311,17 +314,17 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
                                 <Link
                                   href={cat.href}
                                   onClick={() => setActiveTab(null)}
-                                  className="px-2 py-1.5 rounded-lg text-[11px] font-semibold text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 transition-all flex items-center justify-between group/cat"
+                                  className="px-2.5 py-1.5 rounded-lg text-[13.5px] font-medium text-zinc-700 hover:text-zinc-950 hover:bg-zinc-100/80 transition-all flex items-center justify-between group/cat"
                                 >
                                   <span className="group-hover/cat:translate-x-0.5 transition-transform truncate">
                                     {cat.label}
                                   </span>
                                   {cat.badge ? (
-                                    <span className="text-[8px] font-black uppercase px-1.5 py-0.2 rounded bg-zinc-900 text-white shrink-0">
+                                    <span className="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 rounded bg-zinc-900 text-white shrink-0">
                                       {cat.badge}
                                     </span>
                                   ) : (
-                                    <ArrowUpRight className="w-3 h-3 text-zinc-400 opacity-0 group-hover/cat:opacity-100 transition-opacity shrink-0" />
+                                    <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover/cat:opacity-100 transition-opacity shrink-0" />
                                   )}
                                 </Link>
                               </li>
@@ -332,24 +335,35 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
                     </div>
 
                     {/* Bottom Action Bar */}
-                    <div className="p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200/90 flex items-center justify-between gap-4 mt-2">
+                    <div className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200/90 flex flex-wrap sm:flex-nowrap items-center justify-between gap-4 mt-2">
                       <div className="min-w-0">
-                        <h6 className="text-xs font-black text-zinc-900 font-antonio uppercase tracking-wide">
+                        <h6 className="text-[13px] sm:text-sm font-black text-zinc-950 font-antonio uppercase tracking-wide">
                           FABRIQUÉ À L&apos;ATELIER &bull; PETITES SÉRIES &bull; IMPRIMÉ À COMINES
                         </h6>
-                        <p className="text-[11px] text-zinc-500">
-                          Des objets conçus, imprimés et préparés dans notre atelier.
+                        <p className="text-xs text-zinc-600 font-normal mt-0.5">
+                          Des objets conçus, imprimés et préparés dans notre atelier (Nord &bull; 59).
                         </p>
                       </div>
 
-                      <Link
-                        href="/boutique"
-                        onClick={() => setActiveTab(null)}
-                        className="px-4 py-2 rounded-full bg-zinc-950 hover:bg-[#ff4f00] text-white text-xs font-black shrink-0 transition-all duration-200 border border-zinc-950 cursor-pointer no-invert shadow-sm flex items-center gap-1.5"
-                      >
-                        <span>Tout le catalogue</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
+                      <div className="flex items-center gap-2.5 shrink-0">
+                        <Link
+                          href="/boussole-sensorielle"
+                          onClick={() => setActiveTab(null)}
+                          className="px-3.5 py-2 rounded-full bg-white hover:bg-zinc-100 text-zinc-900 text-xs font-bold transition-all border border-zinc-200 hover:border-zinc-300 shadow-2xs flex items-center gap-1.5 group/compass"
+                        >
+                          <Compass className="w-3.5 h-3.5 text-[#ff4f00] group-hover:rotate-45 transition-transform" />
+                          <span>Boussole Sensorielle</span>
+                        </Link>
+
+                        <Link
+                          href="/boutique"
+                          onClick={() => setActiveTab(null)}
+                          className="px-4 py-2 rounded-full bg-zinc-950 hover:bg-[#ff4f00] text-white text-xs font-bold shrink-0 transition-all duration-200 border border-zinc-950 cursor-pointer no-invert shadow-sm flex items-center gap-1.5"
+                        >
+                          <span>Tout le catalogue</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -398,7 +412,7 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
                             <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover/col:opacity-100 group-hover/col:translate-x-0.5 transition-all shrink-0" />
                           )}
                         </div>
-                        <p className="text-[10px] text-zinc-500 font-medium truncate mt-1 pl-6">
+                        <p className="text-xs text-zinc-500 font-medium truncate mt-1 pl-6">
                           {col.tagline}
                         </p>
                       </Link>
@@ -489,7 +503,7 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
                               </h6>
                               <ArrowUpRight className="w-3.5 h-3.5 text-zinc-400 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-200" />
                             </div>
-                            <p className="text-[11px] text-zinc-500 truncate mt-0.5">
+                            <p className="text-xs text-zinc-500 truncate mt-0.5">
                               {page.desc}
                             </p>
                           </div>
@@ -503,7 +517,7 @@ export default function MotionNavigationMenu({ isDark = false }: MotionNavigatio
                         <h6 className="text-xs font-black text-zinc-900 font-antonio uppercase tracking-wide">
                           Une question ou un projet sur-mesure ?
                         </h6>
-                        <p className="text-[11px] text-zinc-500 truncate">
+                        <p className="text-xs text-zinc-500 truncate">
                           Notre équipe d&apos;artisanat 3D vous répond avec plaisir.
                         </p>
                       </div>

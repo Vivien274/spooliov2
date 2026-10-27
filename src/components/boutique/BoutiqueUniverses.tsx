@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
-import { Gamepad2, LayoutGrid, Gift, Sparkles, Check } from "lucide-react";
+import { Sparkles, Zap, Palette, Dices, Check, ArrowRight } from "lucide-react";
 
 export interface UniverseDef {
   id: string;
@@ -9,46 +10,90 @@ export interface UniverseDef {
   tagline: string;
   description: string;
   imageUrl: string;
+  href: string;
   icon: React.ReactNode;
   categoryKeywords: string[];
 }
 
 export const BOUTIQUE_UNIVERSES: UniverseDef[] = [
   {
-    id: "jouer",
-    title: "Pour jouer",
-    tagline: "Sensations & ASMR",
-    description: "Clickers & fidgets de focus",
-    imageUrl: "/images/clicker_gallery_2.jpg",
-    icon: <Gamepad2 className="w-3.5 h-3.5" />,
-    categoryKeywords: ["fidget", "jeu", "gaming", "geek", "clicker", "cliqueur", "dés", "cartes"],
-  },
-  {
-    id: "bureau",
-    title: "Pour le bureau",
-    tagline: "Deskware & Setup",
-    description: "Supports & vide-poches",
-    imageUrl: "/images/keyboard_support.jpg",
-    icon: <LayoutGrid className="w-3.5 h-3.5" />,
-    categoryKeywords: ["accessoire", "bureau", "déco", "deco", "support", "boite", "boîte"],
-  },
-  {
-    id: "cadeaux",
-    title: "Petits cadeaux",
-    tagline: "Plaisir d'Offrir",
-    description: "Pochettes surprises & coffrets",
-    imageUrl: "/images/pochette-kraft-studio-gen.png",
-    icon: <Gift className="w-3.5 h-3.5" />,
-    categoryKeywords: ["cadeau", "pochette", "surprise", "clé", "cle", "carte", "emballage"],
-  },
-  {
-    id: "curiosites",
-    title: "Nos curiosités",
-    tagline: "Pièces d'Atelier",
-    description: "Dragons, Marcel & créatures",
+    id: "art-toys",
+    title: "Art Toys & Collectibles",
+    tagline: "Personnages & Curiosités",
+    description: "Pièces à exposer et garder sous les yeux",
     imageUrl: "/images/marcel_octopus.jpg",
+    href: "/art-toys",
     icon: <Sparkles className="w-3.5 h-3.5" />,
-    categoryKeywords: ["animau", "figurine", "dragon", "sos", "nfc", "bijou", "curiosite", "créature"],
+    categoryKeywords: [
+      "art-toy",
+      "art toy",
+      "créature",
+      "creature",
+      "curiosit",
+      "figurine",
+      "dragon",
+      "monstre",
+      "animau",
+    ],
+  },
+  {
+    id: "tactile",
+    title: "Tactile & Focus",
+    tagline: "Objets tactiles & mécaniques",
+    description: "Clickers nets, fidgets & switchs",
+    imageUrl: "/images/clicker_gallery_0.jpg",
+    href: "/tactile",
+    icon: <Zap className="w-3.5 h-3.5" />,
+    categoryKeywords: [
+      "clicker",
+      "cliqueur",
+      "fidget",
+      "mecanisme",
+      "mécanisme",
+      "switch",
+      "gyro",
+      "tactile",
+    ],
+  },
+  {
+    id: "objets-deco",
+    title: "Objets & Déco",
+    tagline: "Design & Quotidien",
+    description: "Supports, bureau & rangements",
+    imageUrl: "/images/imported/Spoolio-crane-dragon-vide-poche-12-scaled.webp",
+    href: "/objets-deco",
+    icon: <Palette className="w-3.5 h-3.5" />,
+    categoryKeywords: [
+      "déco",
+      "deco",
+      "support",
+      "rangement",
+      "bureau",
+      "boite",
+      "boîte",
+      "setup",
+      "vase",
+    ],
+  },
+  {
+    id: "tabletop",
+    title: "Tabletop",
+    tagline: "Jeux & Accessoires",
+    description: "Tours à dés, cartes & jeux",
+    imageUrl: "/images/imported/Spoolio-tour-a-de-pont-levis-1-scaled.webp",
+    href: "/tabletop",
+    icon: <Dices className="w-3.5 h-3.5" />,
+    categoryKeywords: [
+      "tabletop",
+      "jeu",
+      "jeux",
+      "dés",
+      "des",
+      "tour",
+      "cartes",
+      "carte",
+      "plateau",
+    ],
   },
 ];
 
@@ -61,6 +106,8 @@ export default function BoutiqueUniverses({
   selectedUniverse,
   onSelectUniverse,
 }: BoutiqueUniversesProps) {
+  const activeUniverseObj = BOUTIQUE_UNIVERSES.find((u) => u.id === selectedUniverse);
+
   return (
     <section id="nos-univers" className="mb-6 font-sans select-none" aria-label="Filtrer par univers">
       {/* Desktop: single compact row. Mobile: smooth horizontal snap scroll */}
@@ -112,6 +159,22 @@ export default function BoutiqueUniverses({
           );
         })}
       </div>
+
+      {/* Active Universe Shortcut Banner */}
+      {activeUniverseObj && (
+        <div className="mt-2.5 px-3.5 py-2 rounded-xl bg-[#FFF7F2] border border-[#FF5500]/25 flex items-center justify-between text-xs animate-in fade-in duration-200">
+          <span className="text-zinc-800 font-medium">
+            Catalogue filtré sur <strong>{activeUniverseObj.title}</strong>
+          </span>
+          <Link
+            href={activeUniverseObj.href}
+            className="inline-flex items-center gap-1 font-bold text-[#FF5500] hover:underline shrink-0 ml-2 group"
+          >
+            <span>Explorer la page Univers</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        </div>
+      )}
     </section>
   );
 }

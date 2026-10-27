@@ -10,7 +10,7 @@ import {
   ChevronRight,
   ArrowLeft,
   ArrowRight,
-  Heart,
+  Compass,
   Layers,
   Moon,
   MousePointerClick,
@@ -342,8 +342,13 @@ export default function MobileMenuDrawer({
                     onClick={onClose}
                     className="w-full flex items-center justify-between py-3.5 border-b border-zinc-100 text-left group"
                   >
-                    <span className="font-be-vietnam font-normal text-sm text-zinc-800 group-hover:text-zinc-950 transition-colors">
-                      {cat.label}
+                    <span className="font-be-vietnam font-normal text-sm text-zinc-800 group-hover:text-zinc-950 transition-colors flex items-center gap-2">
+                      <span>{cat.label}</span>
+                      {cat.badge && (
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#ff4f00] bg-orange-50 px-1.5 py-0.5 rounded border border-orange-200/60">
+                          {cat.badge}
+                        </span>
+                      )}
                     </span>
                     <ArrowRight className="w-3.5 h-3.5 text-zinc-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all shrink-0" />
                   </Link>
@@ -461,14 +466,14 @@ export default function MobileMenuDrawer({
               <span>Recherche</span>
             </button>
 
-            {/* Bouton Nous soutenir */}
+            {/* Bouton Boussole Sensorielle */}
             <Link
-              href="/don"
+              href="/boussole-sensorielle"
               onClick={onClose}
-              className="flex-1 py-2.5 px-3 rounded-xl border border-zinc-200/80 bg-white hover:bg-zinc-100 text-zinc-700 hover:text-zinc-950 text-xs font-medium flex items-center justify-center gap-2 transition-all shadow-2xs group"
+              className="flex-1 py-2.5 px-3 rounded-xl border border-orange-200/80 bg-orange-50/50 hover:bg-orange-100/60 text-zinc-800 hover:text-zinc-950 text-xs font-medium flex items-center justify-center gap-2 transition-all shadow-2xs group"
             >
-              <Heart className="w-3.5 h-3.5 text-zinc-400 group-hover:text-[#ff4f00] transition-colors" />
-              <span>Soutenir</span>
+              <Compass className="w-3.5 h-3.5 text-[#ff4f00]" />
+              <span className="font-medium">Boussole</span>
             </Link>
           </div>
 

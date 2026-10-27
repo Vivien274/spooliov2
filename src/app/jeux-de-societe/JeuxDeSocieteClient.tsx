@@ -554,10 +554,10 @@ export default function JeuxDeSocieteClient({ initialProducts }: JeuxDeSocieteCl
             </h2>
           </div>
           <Link
-            href="/categorie/Jeux %26 activit%C3%A9s"
+            href="/tabletop"
             className="text-xs font-bold text-zinc-500 hover:text-[#ff4f00] transition-colors flex items-center gap-1 shrink-0"
           >
-            <span>Voir toute la catégorie Jeux</span>
+            <span>Explorer l&apos;univers Tabletop</span>
             <ChevronRight className="w-4 h-4" />
           </Link>
         </div>

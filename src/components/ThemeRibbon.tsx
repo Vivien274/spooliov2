@@ -23,14 +23,14 @@ export interface ThemePill {
 const THEMES: ThemePill[] = [
   {
     id: "anti-stress",
-    label: "Anti-Stress",
-    href: "/categorie/fidgets",
+    label: "Tactile & Fidgets",
+    href: "/tactile/fidgets",
     icon: Brain,
   },
   {
     id: "gaming",
-    label: "Gaming & Setup",
-    href: "/categorie/geek-gaming",
+    label: "Gaming & Supports",
+    href: "/objets-deco/supports",
     icon: Gamepad2,
   },
   {
@@ -41,14 +41,14 @@ const THEMES: ThemePill[] = [
   },
   {
     id: "pochettes",
-    label: "Pochettes Surprises",
-    href: "/pochette-surprise",
+    label: "Blind Bags",
+    href: "/blind-bags",
     icon: Gift,
   },
   {
     id: "app-enjeu",
-    label: "Jeux & App",
-    href: "/jeux-de-societe",
+    label: "Tabletop & Jeux",
+    href: "/tabletop",
     icon: Dices,
   },
   {

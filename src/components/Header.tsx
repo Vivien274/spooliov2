@@ -29,10 +29,10 @@ const POPULAR_SEARCH_TAGS = [
 ];
 
 const QUICK_PAGE_SHORTCUTS = [
-  { title: "Toute la Boutique", href: "/boutique", icon: "🛍️", desc: "Découvrir tous les fidgets & créations 3D" },
-  { title: "Boussole Sensorielle", href: "/boussole-sensorielle", icon: "🧭", desc: "Trouvez l'objet adapté à votre besoin TDAH" },
-  { title: "Créateur de Clicker", href: "/createur-cliqueur", icon: "🖱️", desc: "Personnalisez votre porte-clé tactile" },
-  { title: "Pochette Surprise", href: "/pochette-surprise", icon: "🎁", desc: "Le pack mystère prêt à offrir" },
+  { title: "Toute la Boutique", href: "/boutique", icon: "🛍️", desc: "Découvrir toutes les créations & pièces d'atelier" },
+  { title: "Boussole Sensorielle", href: "/boussole-sensorielle", icon: "🧭", desc: "Trouvez l'objet adapté à votre manipulation" },
+  { title: "Créateur de Clicker", href: "/createur-cliqueur", icon: "🖱️", desc: "Personnalisez votre clicker tactile sur-mesure" },
+  { title: "Blind Bags", href: "/blind-bags", icon: "🎁", desc: "Le pack mystère kraft prêt à offrir" },
 ];
 
 export default function Header({
@@ -250,21 +250,8 @@ export default function Header({
             <MotionNavigationMenu isDark={isDark} />
           </div>
 
-          {/* ZONE DROITE : Actions utilisateur (Nous soutenir · Recherche · Panier) */}
+          {/* ZONE DROITE : Actions utilisateur (Recherche · Panier) */}
           <div className="flex items-center justify-end gap-2 lg:gap-2.5 shrink-0">
-            {/* Action secondaire : Nous soutenir (bouton sobre avec bordure fine) */}
-            <Link
-              href="/don"
-              className={`h-9 px-3 rounded-full text-xs font-semibold flex items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 no-invert group ${
-                isDark
-                  ? "border border-white/20 bg-white/5 hover:bg-white/15 text-zinc-200 hover:text-white"
-                  : "border border-zinc-200/90 bg-white hover:bg-zinc-50 hover:border-zinc-300 text-zinc-600 hover:text-zinc-950 shadow-2xs"
-              }`}
-              title={t("footer.support_workshop")}
-            >
-              <Sparkles className="w-3.5 h-3.5 text-zinc-400 group-hover:text-[#ff4f00] transition-colors shrink-0" />
-              <span className="whitespace-nowrap">{t("footer.support_workshop")}</span>
-            </Link>
 
             {/* Action neutre : Recherche iconique */}
             <button
@@ -322,21 +309,21 @@ export default function Header({
           {/* Mobile Burger Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className={`w-10 h-10 flex items-center justify-center rounded-full transition-all cursor-pointer z-50 shadow-sm ${
+            className={`w-10 h-10 flex items-center justify-center rounded-full transition-all cursor-pointer z-50 ${
               isDark
-                ? "bg-white/10 hover:bg-white/20 text-white border border-white/20 no-invert"
-                : "bg-zinc-100 hover:bg-zinc-200 text-zinc-900 border border-zinc-200/80"
+                ? "bg-transparent hover:bg-white/10 text-white no-invert"
+                : "bg-transparent hover:bg-zinc-100 text-zinc-900"
             }`}
             title="Menu"
             aria-label={isMobileMenuOpen ? "Fermer le menu mobile" : "Ouvrir le menu mobile"}
           >
             {isMobileMenuOpen ? (
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             ) : (
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 6h16M4 12h16M4 18h10" />
               </svg>
             )}
           </button>

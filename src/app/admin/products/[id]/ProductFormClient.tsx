@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { Sparkles, FolderTree, Layers, Tag, Check } from "lucide-react";
 import { useAdminTheme } from "../../AdminThemeContext";
 import WysiwygEditor from "@/components/WysiwygEditor";
 import { parseNoiseLevel, formatNoiseLevelText } from "@/lib/sensoryUtils";
 import { isVideoMedia, isYouTubeUrl, getYouTubeThumbnail } from "@/lib/mediaUtils";
 import { computeSeoScore } from "@/lib/seoUtils";
-import ProductTaxonomyV2Card from "@/components/admin/ProductTaxonomyV2Card";
-import type { SaveProductTaxonomyPayload } from "@/types/taxonomy";
+import type { CatalogTaxonomyItem, SaveProductTaxonomyPayload } from "@/types/taxonomy";
 
 const CATEGORIES = [
   "Accessoires & Petits Objets",
@@ -164,6 +164,12 @@ export default function ProductFormClient({ productId, isNew }: Props) {
   const [dynamicCategories, setDynamicCategories] = useState<{ id: number; name: string }[]>([]);
   const [taxonomyV2Payload, setTaxonomyV2Payload] = useState<SaveProductTaxonomyPayload | null>(null);
 
+  // Spoolio V2.1 Architecture States
+  const [v2Taxonomies, setV2Taxonomies] = useState<CatalogTaxonomyItem[]>([]);
+  const [selectedUniverseId, setSelectedUniverseId] = useState<number | null>(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+  const [selectedCollectionIds, setSelectedCollectionIds] = useState<number[]>([]);
+
   useEffect(() => {
     const fetchPredefined = async () => {
       try {
@@ -289,10 +295,122 @@ export default function ProductFormClient({ productId, isNew }: Props) {
       }
     };
 
+    const fetchTaxonomies = async () => {
+      try {
+        const res = await fetch("/api/admin/taxonomy");
+        if (res.ok) {
+          const data = await res.json();
+          setV2Taxonomies(data.items || []);
+        }
+      } catch (e) {
+        console.error("Failed to load V2 taxonomies:", e);
+      }
+    };
+
     fetchPredefined();
     fetchCategories();
+    fetchTaxonomies();
     fetchProductDetails();
+
+    // Charger le mapping de taxonomie existant si produit existant
+    if (!isNew && productId && productId !== "new") {
+      const numId = typeof productId === "string" ? parseInt(productId, 10) : productId;
+      if (!isNaN(numId)) {
+        fetch(`/api/admin/taxonomy/product/${numId}`)
+          .then((res) => (res.ok ? res.json() : null))
+          .then((mapData) => {
+            if (mapData?.mapping) {
+              if (mapData.mapping.universeId) setSelectedUniverseId(mapData.mapping.universeId);
+              if (mapData.mapping.categoryId) setSelectedCategoryId(mapData.mapping.categoryId);
+              if (Array.isArray(mapData.mapping.collectionIds)) {
+                setSelectedCollectionIds(mapData.mapping.collectionIds);
+              }
+            }
+          })
+          .catch((err) => console.warn("Could not load taxonomy mapping:", err));
+      }
+    }
   }, [productId, isNew]);
+
+  // Dérivation des listes V2.1
+  const v2Universes = useMemo(
+    () => v2Taxonomies.filter((t) => t.type === "universe" && t.is_active),
+    [v2Taxonomies]
+  );
+
+  const v2CategoriesForUniverse = useMemo(() => {
+    if (!selectedUniverseId) return [];
+    return v2Taxonomies.filter(
+      (t) => t.type === "category" && t.parent_id === selectedUniverseId && t.is_active
+    );
+  }, [v2Taxonomies, selectedUniverseId]);
+
+  const v2Collections = useMemo(
+    () => v2Taxonomies.filter((t) => t.type === "collection" && t.is_active),
+    [v2Taxonomies]
+  );
+
+  // Synchronise le payload V2 pour la sauvegarde automatique
+  useEffect(() => {
+    setTaxonomyV2Payload({
+      universeId: selectedUniverseId,
+      categoryId: selectedCategoryId,
+      collectionIds: selectedCollectionIds,
+      tagIds: [],
+    });
+  }, [selectedUniverseId, selectedCategoryId, selectedCollectionIds]);
+
+  // Auto-inférence de l'univers et catégorie si non encore mappé dans la V2
+  useEffect(() => {
+    if (v2Taxonomies.length === 0 || selectedCategoryId || !form.category) return;
+    const catNameLower = form.category.toLowerCase().trim();
+    const match = v2Taxonomies.find(
+      (t) =>
+        t.type === "category" &&
+        (t.name.toLowerCase() === catNameLower ||
+          catNameLower.includes(t.name.toLowerCase()) ||
+          t.name.toLowerCase().includes(catNameLower))
+    );
+    if (match) {
+      setSelectedCategoryId(match.id);
+      if (match.parent_id) setSelectedUniverseId(match.parent_id);
+    } else {
+      if (catNameLower.includes("fidget") || catNameLower.includes("clicker")) {
+        const tactileUniv = v2Taxonomies.find((t) => t.type === "universe" && t.slug === "tactile");
+        if (tactileUniv) setSelectedUniverseId(tactileUniv.id);
+      } else if (catNameLower.includes("animal") || catNameLower.includes("figurine")) {
+        const artToysUniv = v2Taxonomies.find((t) => t.type === "universe" && t.slug === "art-toys");
+        if (artToysUniv) setSelectedUniverseId(artToysUniv.id);
+      }
+    }
+  }, [v2Taxonomies, form.category, selectedCategoryId]);
+
+  const handleUniverseSelect = (univId: number | null) => {
+    setSelectedUniverseId(univId);
+    if (selectedCategoryId) {
+      const cur = v2Taxonomies.find((t) => t.id === selectedCategoryId);
+      if (cur && cur.parent_id !== univId) {
+        setSelectedCategoryId(null);
+        set("category")("");
+      }
+    }
+  };
+
+  const handleCategorySelect = (catId: number | null) => {
+    setSelectedCategoryId(catId);
+    const found = v2Taxonomies.find((t) => t.id === catId);
+    if (found) {
+      set("category")(found.name);
+    } else {
+      set("category")("");
+    }
+  };
+
+  const toggleCollection = (colId: number) => {
+    setSelectedCollectionIds((prev) =>
+      prev.includes(colId) ? prev.filter((id) => id !== colId) : [...prev, colId]
+    );
+  };
 
   useEffect(() => {
     if (isNew) {
@@ -791,27 +909,111 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                   />
                 </div>
               </div>
-              <div className="flex flex-col gap-1.5">
-                <label className={`text-xs font-semibold ${cls.textMuted} uppercase tracking-wider`}>Catégorie</label>
-                <select
-                  value={form.category}
-                  onChange={(e) => set("category")(e.target.value)}
-                  className={`${cls.inputBg} border ${cls.border} rounded-xl px-4 py-2.5 text-sm ${cls.textMain} focus:outline-none focus:border-[#2F3CD9]/50 transition-colors cursor-pointer`}
-                >
-                  <option value="">— Choisir une catégorie —</option>
-                  {dynamicCategories.length > 0 ? (
-                    dynamicCategories.map((c) => (
-                      <option key={c.id} value={c.name}>{c.name}</option>
-                    ))
-                  ) : (
-                    CATEGORIES.map((c) => (
-                      <option key={c} value={c}>{c}</option>
-                    ))
-                  )}
-                </select>
-                {(() => {
-                  const isFidgetCat = (form.category || "").toLowerCase().includes("fidget");
-                  if (!isFidgetCat) return null;
+              {/* ========================================================= */}
+              {/* CLASSIFICATION & TAXONOMIE V2.1                           */}
+              {/* ========================================================= */}
+              <div className="flex flex-col gap-4 p-4.5 rounded-2xl bg-zinc-50/70 border border-zinc-200/90 shadow-2xs">
+                <div className="flex items-center justify-between pb-2.5 border-b border-zinc-200/70">
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-[#ff4f00]" />
+                    <span className={`text-xs font-bold ${cls.textMain} uppercase tracking-wider font-antonio`}>
+                      Classification V2.1 • Boutique Spoolio
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-mono font-bold text-[#ff4f00] bg-[#ff4f00]/10 px-2.5 py-0.5 rounded-full border border-[#ff4f00]/25">
+                    Univers &gt; Catégorie
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* 1. UNIVERS */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className={`text-[11px] font-semibold ${cls.textMuted} uppercase tracking-wider flex items-center gap-1.5`}>
+                      <FolderTree className="w-3.5 h-3.5 text-[#ff4f00]" />
+                      <span>1. Univers Spoolio</span>
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={selectedUniverseId || ""}
+                      onChange={(e) => handleUniverseSelect(e.target.value ? Number(e.target.value) : null)}
+                      className={`${cls.inputBg} border ${cls.border} rounded-xl px-3.5 py-2.5 text-sm font-medium ${cls.textMain} focus:outline-none focus:border-[#ff4f00] cursor-pointer`}
+                    >
+                      <option value="">— Choisir un Univers —</option>
+                      {v2Universes.map((u) => (
+                        <option key={u.id} value={u.id}>{u.name}</option>
+                      ))}
+                    </select>
+                    <p className={`text-[11px] ${cls.textMuted}`}>
+                      Définit le rayon principal (Art Toys, Tactile, Objets &amp; Déco, Tabletop).
+                    </p>
+                  </div>
+
+                  {/* 2. CATÉGORIE DÉCOULANTE */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className={`text-[11px] font-semibold ${cls.textMuted} uppercase tracking-wider flex items-center gap-1.5`}>
+                      <Layers className="w-3.5 h-3.5 text-[#ff4f00]" />
+                      <span>2. Catégorie de l&apos;Univers</span>
+                      <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      value={selectedCategoryId || ""}
+                      disabled={!selectedUniverseId}
+                      onChange={(e) => handleCategorySelect(e.target.value ? Number(e.target.value) : null)}
+                      className={`${cls.inputBg} border ${cls.border} rounded-xl px-3.5 py-2.5 text-sm font-medium ${cls.textMain} focus:outline-none focus:border-[#ff4f00] cursor-pointer disabled:opacity-50`}
+                    >
+                      <option value="">
+                        {selectedUniverseId ? "— Choisir la catégorie —" : "— Sélectionnez d'abord un Univers —"}
+                      </option>
+                      {v2CategoriesForUniverse.map((c) => (
+                        <option key={c.id} value={c.id}>{c.name}</option>
+                      ))}
+                    </select>
+                    <p className={`text-[11px] ${cls.textMuted}`}>
+                      Rattachement direct dans le menu et le fil d&apos;Ariane.
+                    </p>
+                  </div>
+                </div>
+
+                {/* 3. SÉRIES & COLLECTIONS THÉMATIQUES */}
+                <div className="flex flex-col gap-2 pt-2.5 border-t border-zinc-200/60">
+                  <div className="flex items-center justify-between">
+                    <label className={`text-[11px] font-semibold ${cls.textMuted} uppercase tracking-wider flex items-center gap-1.5`}>
+                      <Tag className="w-3.5 h-3.5 text-[#ff4f00]" />
+                      <span>3. Séries &amp; Collections Thématiques</span>
+                    </label>
+                    <span className="text-[10px] text-zinc-400 font-mono">Optionnel • Choix multiples</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {v2Collections.map((col) => {
+                      const isSelected = selectedCollectionIds.includes(col.id);
+                      return (
+                        <button
+                          key={col.id}
+                          type="button"
+                          onClick={() => toggleCollection(col.id)}
+                          className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer border ${
+                            isSelected
+                              ? "bg-zinc-950 text-white border-zinc-950 shadow-xs"
+                              : "bg-white text-zinc-700 hover:text-zinc-950 border-zinc-200 hover:border-zinc-300"
+                          }`}
+                        >
+                          <span>{col.name}</span>
+                          {isSelected && <Check className="w-3 h-3 text-[#ff4f00]" />}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {(() => {
+                const isSensory =
+                  selectedUniverseId === 2 ||
+                  (form.category || "").toLowerCase().includes("fidget") ||
+                  (form.category || "").toLowerCase().includes("clicker") ||
+                  (form.category || "").toLowerCase().includes("mecanisme") ||
+                  (form.category || "").toLowerCase().includes("tactile");
+                if (!isSensory) return null;
 
               return (
                 <SectionCard
@@ -963,17 +1165,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                 </SectionCard>
               );
             })()}
-              </div>
             </SectionCard>
-
-            {/* Taxonomie V2.1 contemporaine Spoolio */}
-            <ProductTaxonomyV2Card
-              productId={form.id || productId}
-              isNew={isNew}
-              productStatus={form.status}
-              cls={cls}
-              onTaxonomyChange={(payload) => setTaxonomyV2Payload(payload)}
-            />
 
             {/* 2. Descriptions */}
             <SectionCard
