@@ -1048,25 +1048,25 @@ export default function AdminOrdersPage() {
       {selectedOrder && (
         <div 
           onClick={() => setSelectedOrder(null)}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm transition-opacity duration-300"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
         >
           <div 
-            className={`relative w-full max-w-3xl ${cls.cardBg} border ${cls.border} rounded-3xl overflow-hidden shadow-2xl animate-fade-in`}
+            className="relative w-full max-w-3xl bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-2xl animate-fade-in text-gray-900"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 border-b border-white/10 bg-white/[0.02]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 border-b border-gray-200 bg-gray-50/90">
               <div className="space-y-1">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-[10px] uppercase font-black tracking-widest text-[#ff4f00] bg-[#ff4f00]/10 border border-[#ff4f00]/20 px-2 py-0.5 rounded-md">
+                  <span className="text-[10px] uppercase font-black tracking-widest text-[#ff4f00] bg-[#ff4f00]/10 border border-[#ff4f00]/30 px-2.5 py-0.5 rounded-md">
                     Détails Commande
                   </span>
                   <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${
-                    selectedOrder.status === "attente_impression" ? "bg-amber-500/10 text-amber-300 border-amber-500/30" :
-                    selectedOrder.status === "impression" ? "bg-blue-500/10 text-blue-300 border-blue-500/30" :
-                    selectedOrder.status === "emballe" ? "bg-purple-500/10 text-purple-300 border-purple-500/30" :
-                    selectedOrder.status === "expedie" ? "bg-emerald-500/10 text-emerald-300 border-emerald-500/30" :
-                    "bg-gray-500/10 text-gray-300 border-gray-500/30"
+                    selectedOrder.status === "attente_impression" ? "bg-amber-100 text-amber-900 border-amber-300" :
+                    selectedOrder.status === "impression" ? "bg-blue-100 text-blue-900 border-blue-300" :
+                    selectedOrder.status === "emballe" ? "bg-purple-100 text-purple-900 border-purple-300" :
+                    selectedOrder.status === "expedie" ? "bg-emerald-100 text-emerald-900 border-emerald-300" :
+                    "bg-gray-100 text-gray-800 border-gray-300"
                   }`}>
                     {selectedOrder.status === "attente_impression" ? "⏳ En attente" :
                      selectedOrder.status === "impression" ? "🛠️ Impression" :
@@ -1074,7 +1074,7 @@ export default function AdminOrdersPage() {
                      selectedOrder.status === "expedie" ? "🚚 Expédiée" : selectedOrder.status}
                   </span>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-black font-antonio text-white tracking-wide">
+                <h3 className="text-xl sm:text-2xl font-black font-antonio text-gray-950 tracking-wide">
                   COMMANDE {selectedOrder.id}
                 </h3>
               </div>
@@ -1082,7 +1082,7 @@ export default function AdminOrdersPage() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => printOrderPackingSlip(selectedOrder)}
-                  className="px-3.5 py-2 rounded-xl bg-[#ff4f00] hover:bg-[#ff4f00]/85 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md cursor-pointer shrink-0"
+                  className="px-3.5 py-2 rounded-xl bg-[#ff4f00] hover:bg-[#e04500] text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm cursor-pointer shrink-0"
                   title="Imprimer le bon de préparation de la commande"
                 >
                   <span>🖨️</span>
@@ -1090,7 +1090,7 @@ export default function AdminOrdersPage() {
                 </button>
                 <button
                   onClick={() => setSelectedOrder(null)}
-                  className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/15 text-gray-400 hover:text-white transition-colors cursor-pointer shrink-0"
+                  className="w-8 h-8 flex items-center justify-center rounded-xl bg-gray-200/80 hover:bg-gray-300 text-gray-600 hover:text-gray-950 transition-colors cursor-pointer shrink-0 font-bold"
                 >
                   ✕
                 </button>
@@ -1098,21 +1098,21 @@ export default function AdminOrdersPage() {
             </div>
 
             {/* Modal Content - Scrollable */}
-            <div className="p-5 sm:p-6 space-y-5 max-h-[75vh] overflow-y-auto">
+            <div className="p-5 sm:p-6 space-y-5 max-h-[75vh] overflow-y-auto bg-white">
               
               {/* Top Sub-banner Info */}
-              <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-gray-400 bg-white/[0.02] border border-white/5 rounded-2xl px-4 py-2.5">
+              <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-2.5">
                 <div>
-                  📅 Passée le <strong className="text-gray-200">{new Date(selectedOrder.createdAt).toLocaleString("fr-FR", { dateStyle: "long", timeStyle: "short" })}</strong>
+                  📅 Passée le <strong className="text-gray-950 font-bold">{new Date(selectedOrder.createdAt).toLocaleString("fr-FR", { dateStyle: "long", timeStyle: "short" })}</strong>
                 </div>
                 <div>
-                  📦 Mode : <strong className="text-gray-200">{selectedOrder.shippingMethod === "pickup" ? "Retrait Atelier" : (selectedOrder.shippingMethod === "relay" ? "Mondial Relay" : "Colissimo Domicile")}</strong>
+                  📦 Mode : <strong className="text-gray-950 font-bold">{selectedOrder.shippingMethod === "pickup" ? "Retrait Atelier" : (selectedOrder.shippingMethod === "relay" ? "Mondial Relay" : "Colissimo Domicile")}</strong>
                 </div>
               </div>
 
               {/* CARD 1: CLIENT & LIVRAISON (GROUPED) */}
-              <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-4.5 space-y-4">
-                <div className="text-[11px] font-black uppercase tracking-wider text-gray-400 flex items-center gap-2 border-b border-white/5 pb-2">
+              <div className="bg-white border border-gray-200 rounded-2xl p-4.5 space-y-4 shadow-xs">
+                <div className="text-[11px] font-black uppercase tracking-wider text-gray-700 flex items-center gap-2 border-b border-gray-100 pb-2">
                   <span>👤</span>
                   <span>Informations Client & Expédition</span>
                 </div>
@@ -1120,17 +1120,25 @@ export default function AdminOrdersPage() {
                 {/* Recommended Packaging Banner */}
                 {(() => {
                   const pkg = recommendPackaging(selectedOrder.items, selectedOrder.shippingMethod);
+                  const isKraft = pkg.type === "SAC_KRAFT";
+                  const isS = pkg.type === "CARTON_S";
+                  const isM = pkg.type === "CARTON_M";
+                  const bgClass = isKraft ? "bg-amber-50 border-amber-200 text-amber-950" : isS ? "bg-blue-50 border-blue-200 text-blue-950" : isM ? "bg-purple-50 border-purple-200 text-purple-950" : "bg-emerald-50 border-emerald-200 text-emerald-950";
+                  const labelClass = isKraft ? "text-amber-800" : isS ? "text-blue-700" : isM ? "text-purple-700" : "text-emerald-700";
+                  const descClass = isKraft ? "text-amber-900" : isS ? "text-blue-900" : isM ? "text-purple-900" : "text-emerald-900";
+                  const badgeClass = isKraft ? "border-amber-300 text-amber-900 bg-white" : isS ? "border-blue-300 text-blue-900 bg-white" : isM ? "border-purple-300 text-purple-900 bg-white" : "border-emerald-300 text-emerald-900 bg-white";
+
                   return (
-                    <div className={`p-3.5 rounded-2xl border ${pkg.bgClass} ${pkg.borderClass} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3`}>
+                    <div className={`p-3.5 rounded-2xl border ${bgClass} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs`}>
                       <div className="flex items-center gap-3">
                         <div className="text-2xl shrink-0">{pkg.icon}</div>
                         <div>
-                          <span className="text-[10px] uppercase font-mono font-bold text-gray-400 block">Recommandation Packaging Atelier</span>
-                          <div className={`text-xs font-black uppercase ${pkg.textClass}`}>{pkg.label}</div>
-                          <span className="text-[11px] text-gray-300 block leading-snug">{pkg.description}</span>
+                          <span className="text-[10px] uppercase font-mono font-bold text-gray-500 block">Recommandation Packaging Atelier</span>
+                          <div className={`text-xs font-black uppercase ${labelClass}`}>{pkg.label}</div>
+                          <span className={`text-[11px] ${descClass} block leading-snug font-medium`}>{pkg.description}</span>
                         </div>
                       </div>
-                      <div className={`text-xs font-mono font-extrabold px-3 py-1 rounded-xl border ${pkg.borderClass} ${pkg.textClass} bg-black/40 shrink-0`}>
+                      <div className={`text-xs font-mono font-extrabold px-3 py-1 rounded-xl border ${badgeClass} shadow-xs shrink-0`}>
                         {pkg.dimensions}
                       </div>
                     </div>
@@ -1139,15 +1147,15 @@ export default function AdminOrdersPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {/* Left: Customer Info */}
-                  <div className="space-y-1.5 bg-black/30 border border-white/5 rounded-xl p-3.5">
+                  <div className="space-y-1.5 bg-gray-50 border border-gray-200 rounded-xl p-3.5">
                     <span className="text-[10px] uppercase font-extrabold tracking-wider text-gray-500 block">Contact Client</span>
-                    <div className="text-sm font-extrabold text-white">{selectedOrder.customerName || "Client Inconnu"}</div>
-                    <div className="text-xs text-gray-300 font-mono select-all flex items-center gap-1.5">
+                    <div className="text-sm font-extrabold text-gray-900">{selectedOrder.customerName || "Client Inconnu"}</div>
+                    <div className="text-xs text-gray-700 font-mono select-all flex items-center gap-1.5 font-medium">
                       <span>✉️</span>
                       <span>{selectedOrder.email}</span>
                     </div>
                     {selectedOrder.customerPhone && (
-                      <div className="text-xs text-gray-300 font-mono select-all flex items-center gap-1.5 pt-0.5">
+                      <div className="text-xs text-gray-700 font-mono select-all flex items-center gap-1.5 pt-0.5 font-medium">
                         <span>📞</span>
                         <span>{selectedOrder.customerPhone}</span>
                       </div>
@@ -1155,7 +1163,7 @@ export default function AdminOrdersPage() {
                   </div>
 
                   {/* Right: Shipping Address / Pickup details */}
-                  <div className="space-y-1.5 bg-black/30 border border-white/5 rounded-xl p-3.5">
+                  <div className="space-y-1.5 bg-gray-50 border border-gray-200 rounded-xl p-3.5">
                     {selectedOrder.shippingMethod !== "pickup" ? (
                       <div>
                         <div className="flex items-center justify-between mb-1">
@@ -1166,7 +1174,7 @@ export default function AdminOrdersPage() {
                                 setEditingAddress(selectedOrder.id);
                                 setEditingAddressInput(selectedOrder.shippingAddress || "");
                               }}
-                              className="text-[10px] font-bold text-amber-400 hover:text-amber-300 transition-colors uppercase tracking-wider flex items-center gap-1 cursor-pointer select-none"
+                              className="text-[10px] font-bold text-amber-700 hover:text-amber-800 transition-colors uppercase tracking-wider flex items-center gap-1 cursor-pointer select-none"
                             >
                               ✏️ {selectedOrder.shippingAddress ? "Modifier" : "Saisir"}
                             </button>
@@ -1180,40 +1188,40 @@ export default function AdminOrdersPage() {
                               value={editingAddressInput}
                               onChange={(e) => setEditingAddressInput(e.target.value)}
                               placeholder="Ex: Laura De Poppe&#10;15 Rue de l'Aurore&#10;4520 Wanze&#10;Belgique"
-                              className="w-full bg-black border border-amber-500/50 rounded-xl p-2.5 text-xs text-white placeholder-gray-600 focus:outline-none focus:border-amber-400"
+                              className="w-full bg-white border border-gray-300 rounded-xl p-2.5 text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#ff4f00] focus:ring-1 focus:ring-[#ff4f00]"
                             />
                             <div className="flex items-center gap-2">
                               <button
                                 onClick={handleSaveAddress}
                                 disabled={savingAddressLoading}
-                                className="px-3 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-600 disabled:opacity-50 text-white font-bold text-xs transition-colors cursor-pointer"
+                                className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs transition-colors cursor-pointer"
                               >
                                 {savingAddressLoading ? "Enregistrement..." : "💾 Enregistrer"}
                               </button>
                               <button
                                 onClick={() => setEditingAddress(null)}
-                                className="px-3 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 font-bold text-xs transition-colors cursor-pointer"
+                                className="px-3 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold text-xs transition-colors cursor-pointer"
                               >
                                 Annuler
                               </button>
                             </div>
                           </div>
                         ) : selectedOrder.shippingAddress ? (
-                          <div className="text-xs text-gray-200 select-all whitespace-pre-line leading-relaxed font-sans">
+                          <div className="text-xs text-gray-800 select-all whitespace-pre-line leading-relaxed font-sans font-medium">
                             {selectedOrder.shippingAddress}
                           </div>
                         ) : (
-                          <div className="text-xs text-amber-400 font-semibold bg-amber-500/10 border border-amber-500/20 rounded-lg p-2 mt-1">
+                          <div className="text-xs text-amber-800 font-semibold bg-amber-50 border border-amber-200 rounded-lg p-2 mt-1">
                             ⚠️ Adresse non renseignée
                           </div>
                         )}
 
                         {/* Tracking Number badge */}
                         {selectedOrder.trackingNumber && (
-                          <div className="pt-2.5 mt-2.5 border-t border-white/5 flex items-center justify-between gap-2">
-                            <span className="text-[10px] uppercase font-bold text-gray-400">Suivi Colis :</span>
+                          <div className="pt-2.5 mt-2.5 border-t border-gray-200 flex items-center justify-between gap-2">
+                            <span className="text-[10px] uppercase font-bold text-gray-600">Suivi Colis :</span>
                             <div className="flex items-center gap-2">
-                              <span className="font-mono text-xs font-bold text-yellow-400 bg-white/5 px-2 py-0.5 rounded select-all">
+                              <span className="font-mono text-xs font-bold text-gray-900 bg-white border border-gray-200 px-2 py-0.5 rounded select-all shadow-xs">
                                 {selectedOrder.trackingNumber}
                               </span>
                               <a
@@ -1234,11 +1242,11 @@ export default function AdminOrdersPage() {
                     ) : (
                       <div className="space-y-2">
                         <span className="text-[10px] uppercase font-extrabold tracking-wider text-gray-500 block">Retrait Atelier (Click & Collect)</span>
-                        <div className="text-xs text-gray-300">
-                          Créneau souhaité : <strong className="text-white">{formatPickupSlot(selectedOrder.pickupSlotConfirmed || selectedOrder.pickupSlotRequested)}</strong>
+                        <div className="text-xs text-gray-600">
+                          Créneau souhaité : <strong className="text-gray-950 font-bold">{formatPickupSlot(selectedOrder.pickupSlotConfirmed || selectedOrder.pickupSlotRequested)}</strong>
                         </div>
-                        <div className="text-xs text-gray-400">
-                          Statut : <strong className="text-white">{
+                        <div className="text-xs text-gray-600">
+                          Statut : <strong className="text-gray-950 font-bold">{
                             selectedOrder.pickupStatus === "confirmed" ? "Validé ✓" :
                             selectedOrder.pickupStatus === "proposed" ? "Alternative proposée" :
                             "En attente"
@@ -1246,12 +1254,12 @@ export default function AdminOrdersPage() {
                         </div>
 
                         {selectedOrder.pickupStatus !== "confirmed" && (
-                          <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center pt-2 border-t border-white/5" onClick={(e) => e.stopPropagation()}>
+                          <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center pt-2 border-t border-gray-200" onClick={(e) => e.stopPropagation()}>
                             {selectedOrder.pickupSlotRequested && (
                               <button
                                 onClick={() => handleConfirmPickupSlot(selectedOrder.id, selectedOrder.pickupSlotRequested!)}
                                 disabled={pickupLoading === selectedOrder.id}
-                                className="px-3 py-1 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500 hover:text-white font-bold text-[10px] uppercase tracking-wider transition-colors cursor-pointer"
+                                className="px-3 py-1 rounded bg-emerald-100 text-emerald-800 border border-emerald-300 hover:bg-emerald-600 hover:text-white font-bold text-[10px] uppercase tracking-wider transition-colors cursor-pointer"
                               >
                                 {pickupLoading === selectedOrder.id ? "Validation..." : "Valider ✓"}
                               </button>
@@ -1261,12 +1269,12 @@ export default function AdminOrdersPage() {
                                 type="datetime-local"
                                 value={proposingSlots[selectedOrder.id] || ""}
                                 onChange={(e) => setProposingSlots(prev => ({ ...prev, [selectedOrder.id]: e.target.value }))}
-                                className="bg-black border border-[#222225] rounded px-2 py-1 text-xs text-white focus:outline-none focus:border-[#005cff] cursor-pointer"
+                                className="bg-white border border-gray-300 rounded px-2 py-1 text-xs text-gray-900 focus:outline-none focus:border-[#005cff] cursor-pointer"
                               />
                               <button
                                 onClick={() => handleProposeAlternativeSlot(selectedOrder.id)}
                                 disabled={pickupLoading === selectedOrder.id || !proposingSlots[selectedOrder.id]}
-                                className="px-2.5 py-1 rounded bg-blue-500 hover:bg-blue-600 disabled:bg-white/5 disabled:text-gray-600 font-bold text-xs text-white transition-colors cursor-pointer"
+                                className="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 disabled:text-gray-400 font-bold text-xs text-white transition-colors cursor-pointer"
                               >
                                 Proposer 📅
                               </button>
@@ -1280,9 +1288,9 @@ export default function AdminOrdersPage() {
               </div>
 
               {/* CARD 2: ARTICLES COMMANDÉS & OPTIONS 3D */}
-              <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-4.5 space-y-3.5">
-                <div className="flex items-center justify-between border-b border-white/5 pb-2">
-                  <div className="text-[11px] font-black uppercase tracking-wider text-gray-400 flex items-center gap-2">
+              <div className="bg-white border border-gray-200 rounded-2xl p-4.5 space-y-3.5 shadow-xs">
+                <div className="flex items-center justify-between border-b border-gray-100 pb-2">
+                  <div className="text-[11px] font-black uppercase tracking-wider text-gray-700 flex items-center gap-2">
                     <span>📦</span>
                     <span>Articles Commandés ({selectedOrder.items?.reduce((acc, i) => acc + (i.quantity || 1), 0) || 0})</span>
                   </div>
@@ -1297,17 +1305,17 @@ export default function AdminOrdersPage() {
 
                   if (modalTombolaInfo) {
                     return (
-                      <div className="bg-amber-500/10 border border-amber-500/25 rounded-xl p-4 flex flex-col gap-3">
+                      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex flex-col gap-3">
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2 font-bold text-amber-400 text-sm">
+                          <div className="flex items-center gap-2 font-bold text-amber-900 text-sm">
                             <span className="text-xl">🎟️</span>
                             <span>Ticket{modalTombolaInfo.totalTickets > 1 ? "s" : ""} Tombola Spoolio</span>
                           </div>
                         </div>
-                        <div className="flex flex-wrap items-center gap-1.5 pt-1 border-t border-amber-500/20">
-                          <span className="text-xs text-gray-300 font-bold mr-1">Cases choisies :</span>
+                        <div className="flex flex-wrap items-center gap-1.5 pt-1 border-t border-amber-200">
+                          <span className="text-xs text-amber-900 font-bold mr-1">Cases choisies :</span>
                           {modalTombolaInfo.cases.map((cNum, cIdx) => (
-                            <span key={cIdx} className="bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono font-bold text-xs px-2.5 py-1 rounded-lg">
+                            <span key={cIdx} className="bg-amber-100 border border-amber-300 text-amber-900 font-mono font-bold text-xs px-2.5 py-1 rounded-lg">
                               {cNum}
                             </span>
                           ))}
@@ -1328,21 +1336,21 @@ export default function AdminOrdersPage() {
                         return (
                           <div 
                             key={idx} 
-                            className="bg-black/30 border border-white/5 hover:border-white/15 transition-all rounded-xl p-3.5 flex flex-col sm:flex-row sm:items-start justify-between gap-3 shadow-sm w-full overflow-hidden"
+                            className="bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all rounded-xl p-3.5 flex flex-col sm:flex-row sm:items-start justify-between gap-3 shadow-xs w-full overflow-hidden"
                           >
                             <div className="flex items-start gap-3 min-w-0 flex-1 w-full">
                               <div className={`mt-0.5 inline-flex items-center justify-center font-mono font-black text-xs px-2.5 py-1 rounded-xl shrink-0 ${
                                 isDonation 
-                                  ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
+                                  ? "bg-rose-100 text-rose-800 border border-rose-300"
                                   : isTombola
-                                  ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-                                  : "bg-[#ff4f00]/20 text-[#ff4f00] border border-[#ff4f00]/30"
+                                  ? "bg-amber-100 text-amber-900 border border-amber-300"
+                                  : "bg-[#ff4f00]/10 text-[#ff4f00] border border-[#ff4f00]/30"
                               }`}>
                                 x{item.quantity}
                               </div>
 
                               <div className="space-y-1.5 min-w-0 flex-1 w-full">
-                                <div className="text-sm font-extrabold text-white flex items-center gap-1.5">
+                                <div className="text-sm font-extrabold text-gray-900 flex items-center gap-1.5">
                                   {isDonation && "❤️"}
                                   {isTombola && "🎟️"}
                                   {!isDonation && !isTombola && "📦"}
@@ -1351,7 +1359,7 @@ export default function AdminOrdersPage() {
                                       href={getItemProductUrl(item)!}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="hover:text-[#ff4f00] hover:underline transition-colors inline-flex items-center gap-1 group"
+                                      className="hover:text-[#ff4f00] hover:underline transition-colors inline-flex items-center gap-1 group text-gray-900"
                                       title="Ouvrir la fiche produit sur le site"
                                     >
                                       <span>{mainName}</span>
@@ -1363,20 +1371,20 @@ export default function AdminOrdersPage() {
                                 </div>
 
                                 {options.length > 0 ? (
-                                  <OrderItemOptionsViewer options={options} />
+                                  <OrderItemOptionsViewer options={options} isLight={true} />
                                 ) : (
-                                  <div className="text-[11px] text-gray-500 italic">Article standard</div>
+                                  <div className="text-[11px] text-gray-500 italic font-medium">Article standard</div>
                                 )}
                               </div>
                             </div>
 
                             {totalPrice !== null && (
-                              <div className="text-right shrink-0 border-t sm:border-t-0 border-white/5 pt-2 sm:pt-0">
-                                <div className="text-sm font-black font-mono text-white">
+                              <div className="text-right shrink-0 border-t sm:border-t-0 border-gray-200 pt-2 sm:pt-0">
+                                <div className="text-sm font-black font-mono text-gray-950">
                                   {totalPrice.toFixed(2)}€
                                 </div>
                                 {item.quantity > 1 && (
-                                  <div className="text-[10px] text-gray-500 font-mono">
+                                  <div className="text-[10px] text-gray-500 font-mono font-medium">
                                     ({unitPrice?.toFixed(2)}€ / un.)
                                   </div>
                                 )}
@@ -1401,20 +1409,20 @@ export default function AdminOrdersPage() {
                   const hasDiscount = diff > 0.05;
 
                   return (
-                    <div className="bg-black/40 border border-white/5 rounded-xl p-3.5 mt-2 space-y-2">
+                    <div className="bg-gray-100/80 border border-gray-200 rounded-xl p-3.5 mt-2 space-y-2">
                       {hasDiscount && (
-                        <div className="flex justify-between items-center text-xs text-emerald-400 font-semibold border-b border-white/5 pb-2">
+                        <div className="flex justify-between items-center text-xs text-emerald-800 font-bold border-b border-gray-200 pb-2">
                           <span>🎁 Réduction / Code promo / Fidélité appliqué :</span>
-                          <span className="font-mono font-bold">-{diff.toFixed(2)}€</span>
+                          <span className="font-mono font-black">-{diff.toFixed(2)}€</span>
                         </div>
                       )}
-                      <div className="flex flex-wrap justify-between items-center text-xs text-gray-400 gap-2">
+                      <div className="flex flex-wrap justify-between items-center text-xs text-gray-600 gap-2">
                         <div>
-                          Sous-total articles : <strong className="text-gray-200">{itemsSubtotal.toFixed(2)}€</strong> &nbsp;•&nbsp; Livraison : <strong className="text-gray-200">{selectedOrder.shippingCost === 0 ? "Offerte" : `${selectedOrder.shippingCost.toFixed(2)}€`}</strong>
+                          Sous-total articles : <strong className="text-gray-950 font-bold">{itemsSubtotal.toFixed(2)}€</strong> &nbsp;•&nbsp; Livraison : <strong className="text-gray-950 font-bold">{selectedOrder.shippingCost === 0 ? "Offerte" : `${selectedOrder.shippingCost.toFixed(2)}€`}</strong>
                         </div>
                         <div className="text-right flex items-center gap-2">
-                          <span className="text-xs uppercase font-bold text-gray-400">Total Net Payé :</span>
-                          <span className="text-lg font-black font-mono text-yellow-400">{selectedOrder.total.toFixed(2)}€</span>
+                          <span className="text-xs uppercase font-extrabold text-gray-700">Total Net Payé :</span>
+                          <span className="text-lg font-black font-mono text-[#ff4f00]">{selectedOrder.total.toFixed(2)}€</span>
                         </div>
                       </div>
                     </div>
@@ -1423,16 +1431,16 @@ export default function AdminOrdersPage() {
               </div>
 
               {/* CARD 3: ACTIONS & WORKFLOW CENTER */}
-              <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-4.5 space-y-3.5">
-                <div className="text-[11px] font-black uppercase tracking-wider text-gray-400 flex items-center gap-2 border-b border-white/5 pb-2">
+              <div className="bg-white border border-gray-200 rounded-2xl p-4.5 space-y-3.5 shadow-xs">
+                <div className="text-[11px] font-black uppercase tracking-wider text-gray-700 flex items-center gap-2 border-b border-gray-100 pb-2">
                   <span>⚡</span>
                   <span>Centre d'Actions & Communication Client</span>
                 </div>
 
                 {/* Row 1: Workflow status steps */}
-                <div className="flex flex-wrap items-center justify-between gap-3 bg-black/30 border border-white/5 rounded-xl p-3" onClick={(e) => e.stopPropagation()}>
+                <div className="flex flex-wrap items-center justify-between gap-3 bg-gray-50 border border-gray-200 rounded-xl p-3" onClick={(e) => e.stopPropagation()}>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-extrabold text-gray-300">Étape suivante :</span>
+                    <span className="text-xs font-extrabold text-gray-800">Étape suivante :</span>
                   </div>
 
                   <div className="flex items-center gap-2 flex-wrap">
@@ -1454,7 +1462,7 @@ export default function AdminOrdersPage() {
                         type="button"
                         onClick={() => handleUpdateStatus(selectedOrder.id, "impression")}
                         disabled={statusChangeLoading === selectedOrder.id}
-                        className="px-3.5 py-1.5 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-extrabold text-xs transition-colors cursor-pointer"
+                        className="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs transition-colors cursor-pointer shadow-sm"
                       >
                         Lancer Impression 🛠️
                       </button>
@@ -1464,7 +1472,7 @@ export default function AdminOrdersPage() {
                         type="button"
                         onClick={() => handleUpdateStatus(selectedOrder.id, "emballe")}
                         disabled={statusChangeLoading === selectedOrder.id}
-                        className="px-3.5 py-1.5 rounded-xl bg-purple-500 hover:bg-purple-600 text-white font-extrabold text-xs transition-colors cursor-pointer"
+                        className="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs transition-colors cursor-pointer shadow-sm"
                       >
                         Emballer 📦
                       </button>
@@ -1482,13 +1490,13 @@ export default function AdminOrdersPage() {
                           }
                         }}
                         disabled={statusChangeLoading === selectedOrder.id}
-                        className="px-3.5 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs transition-colors cursor-pointer"
+                        className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs transition-colors cursor-pointer shadow-sm"
                       >
                         {selectedOrder.shippingMethod === "pickup" ? "Prêt au Retrait ✓" : "Expédier Manuellement 🚚"}
                       </button>
                     )}
                     {selectedOrder.status === "expedie" && (
-                      <span className="px-3 py-1 rounded-xl bg-emerald-500/20 text-emerald-300 font-extrabold text-xs border border-emerald-500/30 select-none">
+                      <span className="px-3 py-1 rounded-xl bg-emerald-100 text-emerald-800 font-extrabold text-xs border border-emerald-300 select-none">
                         Clôturée ✓
                       </span>
                     )}
@@ -1498,8 +1506,8 @@ export default function AdminOrdersPage() {
                       onClick={() => handleToggleArchive(selectedOrder.id, Boolean(selectedOrder.archived))}
                       className={`px-3 py-1.5 rounded-xl font-bold text-xs transition-colors cursor-pointer border flex items-center gap-1.5 ${
                         selectedOrder.archived
-                          ? "bg-purple-500/20 text-purple-300 border-purple-500/30 hover:bg-purple-500/30"
-                          : "bg-white/10 text-gray-200 border-white/20 hover:bg-white/20 hover:text-white"
+                          ? "bg-purple-100 text-purple-800 border-purple-300 hover:bg-purple-200"
+                          : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100 hover:text-gray-900 shadow-xs"
                       }`}
                     >
                       <span>{selectedOrder.archived ? "📥" : "📦"}</span>
@@ -1517,24 +1525,24 @@ export default function AdminOrdersPage() {
       {showCreateModal && (
         <div
           onClick={() => setShowCreateModal(false)}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className={`relative w-full max-w-lg ${cls.cardBg} border ${cls.border} rounded-3xl overflow-hidden shadow-2xl space-y-6 p-6 sm:p-8`}
+            className="relative w-full max-w-lg bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-2xl space-y-6 p-6 sm:p-8 text-gray-900"
           >
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+            <div className="flex items-center justify-between border-b border-gray-100 pb-4">
               <div>
-                <span className="text-[10px] uppercase font-extrabold text-emerald-400 tracking-wider">
+                <span className="text-[10px] uppercase font-extrabold text-emerald-700 tracking-wider">
                   Saisie d&apos;une commande client
                 </span>
-                <h3 className="text-xl font-black font-antonio text-white mt-0.5 uppercase">
+                <h3 className="text-xl font-black font-antonio text-gray-950 mt-0.5 uppercase">
                   ➕ Nouvelle Commande Manuelle
                 </h3>
               </div>
               <button
                 onClick={() => setShowCreateModal(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors cursor-pointer"
+                className="w-8 h-8 flex items-center justify-center rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-900 transition-colors cursor-pointer font-bold"
               >
                 ✕
               </button>
@@ -1542,58 +1550,58 @@ export default function AdminOrdersPage() {
 
             <form onSubmit={handleCreateManualOrder} className="space-y-4">
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-300 uppercase">Nom du client</label>
+                <label className="text-xs font-bold text-gray-700 uppercase">Nom du client</label>
                 <input
                   type="text"
                   value={newCustomerName}
                   onChange={(e) => setNewCustomerName(e.target.value)}
                   placeholder="ex: Jean Dupont"
-                  className="w-full bg-black/50 border border-gray-700 rounded-xl px-4 py-2.5 text-sm font-semibold text-white focus:outline-none focus:border-[#ff4f00]"
+                  className="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-2.5 text-sm font-semibold text-gray-900 focus:outline-none focus:border-[#ff4f00] focus:bg-white"
                 />
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-300 uppercase">
-                  Adresse Email du client <span className="text-red-400">*</span>
+                <label className="text-xs font-bold text-gray-700 uppercase">
+                  Adresse Email du client <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="email"
                   value={newCustomerEmail}
                   onChange={(e) => setNewCustomerEmail(e.target.value)}
                   placeholder="ex: client@gmail.com"
-                  className="w-full bg-black/50 border border-gray-700 rounded-xl px-4 py-2.5 text-sm font-semibold text-white focus:outline-none focus:border-[#ff4f00]"
+                  className="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-2.5 text-sm font-semibold text-gray-900 focus:outline-none focus:border-[#ff4f00] focus:bg-white"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-gray-300 uppercase">Téléphone (optionnel)</label>
+                  <label className="text-xs font-bold text-gray-700 uppercase">Téléphone (optionnel)</label>
                   <input
                     type="text"
                     value={newCustomerPhone}
                     onChange={(e) => setNewCustomerPhone(e.target.value)}
                     placeholder="06 12 34 56 78"
-                    className="w-full bg-black/50 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#ff4f00]"
+                    className="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-[#ff4f00] focus:bg-white"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-gray-300 uppercase">Montant Total Payé (€)</label>
+                  <label className="text-xs font-bold text-gray-700 uppercase">Montant Total Payé (€)</label>
                   <input
                     type="number"
                     step="0.5"
                     value={newTotal}
                     onChange={(e) => setNewTotal(e.target.value)}
                     placeholder="6.00"
-                    className="w-full bg-black/50 border border-gray-700 rounded-xl px-4 py-2.5 text-sm font-mono font-bold text-emerald-400 focus:outline-none focus:border-[#ff4f00]"
+                    className="w-full bg-gray-50 border border-gray-300 rounded-xl px-4 py-2.5 text-sm font-mono font-bold text-emerald-700 focus:outline-none focus:border-[#ff4f00] focus:bg-white"
                     required
                   />
                 </div>
               </div>
 
-              <div className="space-y-1 bg-amber-500/10 border border-amber-500/20 rounded-2xl p-3.5">
-                <label className="text-xs font-bold text-amber-300 uppercase flex items-center gap-1">
+              <div className="space-y-1 bg-amber-50 border border-amber-200 rounded-2xl p-3.5">
+                <label className="text-xs font-bold text-amber-900 uppercase flex items-center gap-1">
                   <span>🎟️</span> Cases de Tombola (ex: 5, 12, 14)
                 </label>
                 <input
@@ -1601,9 +1609,9 @@ export default function AdminOrdersPage() {
                   value={newTombolaCases}
                   onChange={(e) => setNewTombolaCases(e.target.value)}
                   placeholder="5, 12, 14"
-                  className="w-full bg-black/60 border border-amber-500/30 rounded-xl px-3 py-2 text-xs font-mono font-bold text-white focus:outline-none focus:border-amber-400"
+                  className="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 text-xs font-mono font-bold text-amber-950 focus:outline-none focus:border-amber-500"
                 />
-                <p className="text-[10px] text-gray-400 mt-1">
+                <p className="text-[10px] text-amber-800/80 mt-1">
                   Si vous saisissez des numéros, ces cases seront réservées en grille et l&apos;article sera libellé automatiquement.
                 </p>
               </div>
@@ -1616,7 +1624,7 @@ export default function AdminOrdersPage() {
                   onChange={(e) => setNewSendEmail(e.target.checked)}
                   className="w-4 h-4 accent-[#ff4f00] rounded cursor-pointer"
                 />
-                <label htmlFor="sendEmailCheck" className="text-xs font-bold text-gray-300 cursor-pointer">
+                <label htmlFor="sendEmailCheck" className="text-xs font-bold text-gray-700 cursor-pointer">
                   Envoyer immédiatement un e-mail de confirmation au client 📧
                 </label>
               </div>
@@ -1625,7 +1633,7 @@ export default function AdminOrdersPage() {
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-gray-300 font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer"
+                  className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer"
                 >
                   Annuler
                 </button>
@@ -1645,24 +1653,24 @@ export default function AdminOrdersPage() {
       {showNoteModal && selectedOrder && (
         <div
           onClick={() => setShowNoteModal(false)}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className={`relative w-full max-w-lg ${cls.cardBg} border ${cls.border} rounded-3xl overflow-hidden shadow-2xl space-y-6 p-6 sm:p-8`}
+            className="relative w-full max-w-lg bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-2xl space-y-6 p-6 sm:p-8 text-gray-900"
           >
-            <div className="flex items-center justify-between border-b border-white/10 pb-4">
+            <div className="flex items-center justify-between border-b border-gray-100 pb-4">
               <div>
-                <span className="text-[10px] uppercase font-extrabold text-amber-400 tracking-wider">
+                <span className="text-[10px] uppercase font-extrabold text-amber-700 tracking-wider">
                   Commande {selectedOrder.id}
                 </span>
-                <h3 className="text-xl font-black font-antonio text-white mt-0.5 uppercase">
+                <h3 className="text-xl font-black font-antonio text-gray-950 mt-0.5 uppercase">
                   💬 Envoyer une note au client
                 </h3>
               </div>
               <button
                 onClick={() => setShowNoteModal(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors cursor-pointer"
+                className="w-8 h-8 flex items-center justify-center rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-900 transition-colors cursor-pointer font-bold"
               >
                 ✕
               </button>
@@ -1670,26 +1678,26 @@ export default function AdminOrdersPage() {
 
             <form onSubmit={handleSendOrderNote} className="space-y-4">
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-300 uppercase">Destinataire</label>
-                <div className="bg-black/50 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-gray-300">
-                  <div className="font-bold text-white">{selectedOrder.customerName || "Client"}</div>
-                  <div className="text-gray-400">{selectedOrder.email}</div>
-                  <div className="text-[10px] text-amber-400/90 mt-1 font-semibold">
+                <label className="text-xs font-bold text-gray-700 uppercase">Destinataire</label>
+                <div className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-xs text-gray-700">
+                  <div className="font-bold text-gray-950">{selectedOrder.customerName || "Client"}</div>
+                  <div className="text-gray-500">{selectedOrder.email}</div>
+                  <div className="text-[10px] text-amber-800 mt-1 font-semibold">
                     📩 Une copie de cet e-mail sera également envoyée à l&apos;administrateur.
                   </div>
                 </div>
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-bold text-gray-300 uppercase">
-                  Message / Note pour le client <span className="text-red-400">*</span>
+                <label className="text-xs font-bold text-gray-700 uppercase">
+                  Message / Note pour le client <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   rows={5}
                   value={noteText}
                   onChange={(e) => setNoteText(e.target.value)}
                   placeholder="Tapez ici le message à transmettre au client par e-mail (ex: Nous avons pris en compte votre précision pour la couleur, votre colis part cet après-midi !)..."
-                  className="w-full bg-black/60 border border-amber-500/40 rounded-xl p-3.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-400 leading-relaxed"
+                  className="w-full bg-gray-50 border border-gray-300 rounded-xl p-3.5 text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#ff4f00] focus:bg-white leading-relaxed"
                   required
                 />
               </div>
@@ -1698,14 +1706,14 @@ export default function AdminOrdersPage() {
                 <button
                   type="button"
                   onClick={() => setShowNoteModal(false)}
-                  className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-gray-300 font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer"
+                  className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
                   disabled={sendingNoteLoading || !noteText.trim()}
-                  className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-black font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-lg flex items-center justify-center gap-2"
+                  className="flex-1 py-3 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-amber-950 font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer shadow-lg flex items-center justify-center gap-2"
                 >
                   {sendingNoteLoading ? "Envoi en cours..." : "Envoyer l'e-mail 📧"}
                 </button>

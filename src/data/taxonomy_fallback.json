@@ -1,0 +1,5632 @@
+{
+  "taxonomy": [
+    {
+      "id": 1,
+      "type": "universe",
+      "name": "Art Toys & Collectibles",
+      "slug": "art-toys",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 10,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 2,
+      "type": "universe",
+      "name": "Tactile & Focus",
+      "slug": "tactile",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 20,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 3,
+      "type": "universe",
+      "name": "Objets & Déco",
+      "slug": "objets-deco",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 30,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 4,
+      "type": "universe",
+      "name": "Tabletop",
+      "slug": "tabletop",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 40,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 5,
+      "type": "category",
+      "name": "Art toys",
+      "slug": "art-toys",
+      "parent_id": 1,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 10,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 6,
+      "type": "category",
+      "name": "Créatures & curiosités",
+      "slug": "creatures-curiosites",
+      "parent_id": 1,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 20,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 7,
+      "type": "category",
+      "name": "Cabinet noir",
+      "slug": "cabinet-noir",
+      "parent_id": 1,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 30,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 8,
+      "type": "category",
+      "name": "Clickers",
+      "slug": "clickers",
+      "parent_id": 2,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 10,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 9,
+      "type": "category",
+      "name": "Fidgets",
+      "slug": "fidgets",
+      "parent_id": 2,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 20,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 10,
+      "type": "category",
+      "name": "Mécanismes",
+      "slug": "mecanismes",
+      "parent_id": 2,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 30,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 11,
+      "type": "category",
+      "name": "Décoration",
+      "slug": "decoration",
+      "parent_id": 3,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 10,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 12,
+      "type": "category",
+      "name": "Supports",
+      "slug": "supports",
+      "parent_id": 3,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 20,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 13,
+      "type": "category",
+      "name": "Rangement",
+      "slug": "rangement",
+      "parent_id": 3,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 30,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 14,
+      "type": "category",
+      "name": "Bureau",
+      "slug": "bureau",
+      "parent_id": 3,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 40,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 15,
+      "type": "category",
+      "name": "Objets décalés",
+      "slug": "objets-decales",
+      "parent_id": 3,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 50,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 16,
+      "type": "category",
+      "name": "NFC & SOS",
+      "slug": "nfc-sos",
+      "parent_id": 3,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 90,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 17,
+      "type": "category",
+      "name": "Festival",
+      "slug": "festival",
+      "parent_id": 3,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 91,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 18,
+      "type": "category",
+      "name": "Service",
+      "slug": "service",
+      "parent_id": 3,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 92,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 19,
+      "type": "category",
+      "name": "Seconde vie",
+      "slug": "seconde-vie",
+      "parent_id": 3,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 93,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 20,
+      "type": "category",
+      "name": "Tours à dés",
+      "slug": "tours-a-des",
+      "parent_id": 4,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 10,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 21,
+      "type": "category",
+      "name": "Cartes & accessoires",
+      "slug": "cartes-accessoires",
+      "parent_id": 4,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 20,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 22,
+      "type": "category",
+      "name": "Jeux",
+      "slug": "jeux",
+      "parent_id": 4,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 30,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 23,
+      "type": "collection",
+      "name": "Cabinet noir",
+      "slug": "cabinet-noir",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 10,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 24,
+      "type": "collection",
+      "name": "Tactile Lab",
+      "slug": "tactile-lab",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 20,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 25,
+      "type": "collection",
+      "name": "Gadgetoids",
+      "slug": "gadgetoids",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 30,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 26,
+      "type": "collection",
+      "name": "Fantasy Relics",
+      "slug": "fantasy-relics",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 40,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 27,
+      "type": "collection",
+      "name": "Soft Illusion",
+      "slug": "soft-illusion",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 50,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 28,
+      "type": "collection",
+      "name": "Kraft Illusion",
+      "slug": "kraft-illusion",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 60,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 29,
+      "type": "collection",
+      "name": "Atelier Monsters",
+      "slug": "atelier-monsters",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 70,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 30,
+      "type": "collection",
+      "name": "Crystal Setup",
+      "slug": "crystal-setup",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 80,
+      "is_active": true,
+      "is_indexable": true,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 31,
+      "type": "collection",
+      "name": "Festival",
+      "slug": "festival",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 90,
+      "is_active": false,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 32,
+      "type": "tag",
+      "name": "Animal",
+      "slug": "animal",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 33,
+      "type": "tag",
+      "name": "Articulé",
+      "slug": "articule",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 34,
+      "type": "tag",
+      "name": "Pop",
+      "slug": "pop",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 35,
+      "type": "tag",
+      "name": "Personnage",
+      "slug": "personnage",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 36,
+      "type": "tag",
+      "name": "Robot",
+      "slug": "robot",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 37,
+      "type": "tag",
+      "name": "Collectible",
+      "slug": "collectible",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 38,
+      "type": "tag",
+      "name": "Fantasy",
+      "slug": "fantasy",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 39,
+      "type": "tag",
+      "name": "Sombre",
+      "slug": "sombre",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 40,
+      "type": "tag",
+      "name": "Squelette",
+      "slug": "squelette",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 41,
+      "type": "tag",
+      "name": "Gore",
+      "slug": "gore",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 42,
+      "type": "tag",
+      "name": "Crâne",
+      "slug": "crane",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 43,
+      "type": "tag",
+      "name": "Curiosité",
+      "slug": "curiosite",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 44,
+      "type": "tag",
+      "name": "Trompe-l'œil",
+      "slug": "trompe-loeil",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 45,
+      "type": "tag",
+      "name": "Tactile",
+      "slug": "tactile",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 46,
+      "type": "tag",
+      "name": "Texture",
+      "slug": "texture",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 47,
+      "type": "tag",
+      "name": "Manipulation",
+      "slug": "manipulation",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 48,
+      "type": "tag",
+      "name": "Rotation",
+      "slug": "rotation",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 49,
+      "type": "tag",
+      "name": "Mécanique",
+      "slug": "mecanique",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 50,
+      "type": "tag",
+      "name": "Cinétique",
+      "slug": "cinetique",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 51,
+      "type": "tag",
+      "name": "Click",
+      "slug": "click",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 52,
+      "type": "tag",
+      "name": "Engrenages",
+      "slug": "engrenages",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 53,
+      "type": "tag",
+      "name": "Bague",
+      "slug": "bague",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 54,
+      "type": "tag",
+      "name": "Porte-clé",
+      "slug": "porte-cle",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 55,
+      "type": "tag",
+      "name": "Clavier",
+      "slug": "clavier",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 56,
+      "type": "tag",
+      "name": "Gaming",
+      "slug": "gaming",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 57,
+      "type": "tag",
+      "name": "Bureau",
+      "slug": "bureau",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 58,
+      "type": "tag",
+      "name": "Téléphone",
+      "slug": "telephone",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 59,
+      "type": "tag",
+      "name": "Manette",
+      "slug": "manette",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 60,
+      "type": "tag",
+      "name": "Vase",
+      "slug": "vase",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 61,
+      "type": "tag",
+      "name": "Sculptural",
+      "slug": "sculptural",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 62,
+      "type": "tag",
+      "name": "Maison",
+      "slug": "maison",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 63,
+      "type": "tag",
+      "name": "Décalé",
+      "slug": "decale",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 64,
+      "type": "tag",
+      "name": "Boîte",
+      "slug": "boite",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 65,
+      "type": "tag",
+      "name": "Vide-poche",
+      "slug": "vide-poche",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 66,
+      "type": "tag",
+      "name": "Kawaii",
+      "slug": "kawaii",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 67,
+      "type": "tag",
+      "name": "Food",
+      "slug": "food",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 68,
+      "type": "tag",
+      "name": "Luminaire",
+      "slug": "luminaire",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 69,
+      "type": "tag",
+      "name": "Saisonnier",
+      "slug": "saisonnier",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 70,
+      "type": "tag",
+      "name": "Été",
+      "slug": "ete",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 71,
+      "type": "tag",
+      "name": "Halloween",
+      "slug": "halloween",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 72,
+      "type": "tag",
+      "name": "Saint-Valentin",
+      "slug": "saint-valentin",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 73,
+      "type": "tag",
+      "name": "Cadeau",
+      "slug": "cadeau",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 74,
+      "type": "tag",
+      "name": "NFC",
+      "slug": "nfc",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 75,
+      "type": "tag",
+      "name": "Sécurité",
+      "slug": "securite",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 76,
+      "type": "tag",
+      "name": "Nomade",
+      "slug": "nomade",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 77,
+      "type": "tag",
+      "name": "Dés",
+      "slug": "des",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 78,
+      "type": "tag",
+      "name": "Tabletop",
+      "slug": "tabletop",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 79,
+      "type": "tag",
+      "name": "Pliable",
+      "slug": "pliable",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 80,
+      "type": "tag",
+      "name": "Compact",
+      "slug": "compact",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 81,
+      "type": "tag",
+      "name": "Médiéval",
+      "slug": "medieval",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 82,
+      "type": "tag",
+      "name": "Cartes",
+      "slug": "cartes",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 83,
+      "type": "tag",
+      "name": "TCG",
+      "slug": "tcg",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 84,
+      "type": "tag",
+      "name": "Deck Box",
+      "slug": "deck-box",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 85,
+      "type": "tag",
+      "name": "Accessibilité",
+      "slug": "accessibilite",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 86,
+      "type": "tag",
+      "name": "Magie",
+      "slug": "magie",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 87,
+      "type": "tag",
+      "name": "Poche",
+      "slug": "poche",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 88,
+      "type": "tag",
+      "name": "Équilibre",
+      "slug": "equilibre",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 89,
+      "type": "tag",
+      "name": "Adresse",
+      "slug": "adresse",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 90,
+      "type": "tag",
+      "name": "Famille",
+      "slug": "famille",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 91,
+      "type": "tag",
+      "name": "Magnétique",
+      "slug": "magnetique",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:16:29.450734+00:00",
+      "updated_at": "2026-10-10T14:16:29.450734+00:00"
+    },
+    {
+      "id": 92,
+      "type": "tag",
+      "name": "Accessoire",
+      "slug": "accessoire",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 93,
+      "type": "tag",
+      "name": "Ambiance",
+      "slug": "ambiance",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 94,
+      "type": "tag",
+      "name": "Arme décorative",
+      "slug": "arme-decorative",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 95,
+      "type": "tag",
+      "name": "Art",
+      "slug": "art",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 96,
+      "type": "tag",
+      "name": "Assemblage",
+      "slug": "assemblage",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 97,
+      "type": "tag",
+      "name": "Atelier",
+      "slug": "atelier",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 98,
+      "type": "tag",
+      "name": "Bijoux",
+      "slug": "bijoux",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 99,
+      "type": "tag",
+      "name": "Bloc-porte",
+      "slug": "bloc-porte",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 100,
+      "type": "tag",
+      "name": "Blocs",
+      "slug": "blocs",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 101,
+      "type": "tag",
+      "name": "Boisson",
+      "slug": "boisson",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 102,
+      "type": "tag",
+      "name": "Bougie",
+      "slug": "bougie",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 103,
+      "type": "tag",
+      "name": "Cachette",
+      "slug": "cachette",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 104,
+      "type": "tag",
+      "name": "Cactus",
+      "slug": "cactus",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 105,
+      "type": "tag",
+      "name": "Carte cadeau",
+      "slug": "carte-cadeau",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 106,
+      "type": "tag",
+      "name": "Casier",
+      "slug": "casier",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 107,
+      "type": "tag",
+      "name": "Casque",
+      "slug": "casque",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 108,
+      "type": "tag",
+      "name": "Classique",
+      "slug": "classique",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 109,
+      "type": "tag",
+      "name": "Cristal",
+      "slug": "cristal",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 110,
+      "type": "tag",
+      "name": "Cuisine",
+      "slug": "cuisine",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 111,
+      "type": "tag",
+      "name": "Démonstration",
+      "slug": "demonstration",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 112,
+      "type": "tag",
+      "name": "Discret",
+      "slug": "discret",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 113,
+      "type": "tag",
+      "name": "Dragon",
+      "slug": "dragon",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 114,
+      "type": "tag",
+      "name": "Encens",
+      "slug": "encens",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 115,
+      "type": "tag",
+      "name": "Enfant",
+      "slug": "enfant",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 116,
+      "type": "tag",
+      "name": "Féerique",
+      "slug": "feerique",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 117,
+      "type": "tag",
+      "name": "Festival",
+      "slug": "festival",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 118,
+      "type": "tag",
+      "name": "Industriel",
+      "slug": "industriel",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 119,
+      "type": "tag",
+      "name": "Iris",
+      "slug": "iris",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 120,
+      "type": "tag",
+      "name": "Kit",
+      "slug": "kit",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 121,
+      "type": "tag",
+      "name": "Marché",
+      "slug": "marche",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 122,
+      "type": "tag",
+      "name": "Miniature",
+      "slug": "miniature",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 123,
+      "type": "tag",
+      "name": "Minimal",
+      "slug": "minimal",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 124,
+      "type": "tag",
+      "name": "Morpion",
+      "slug": "morpion",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 125,
+      "type": "tag",
+      "name": "Nature",
+      "slug": "nature",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 126,
+      "type": "tag",
+      "name": "Offre spéciale",
+      "slug": "offre-speciale",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 127,
+      "type": "tag",
+      "name": "Personnalisable",
+      "slug": "personnalisable",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 128,
+      "type": "tag",
+      "name": "Pince",
+      "slug": "pince",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 129,
+      "type": "tag",
+      "name": "Pixel",
+      "slug": "pixel",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 130,
+      "type": "tag",
+      "name": "Plateau",
+      "slug": "plateau",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 131,
+      "type": "tag",
+      "name": "Pot à crayons",
+      "slug": "pot-a-crayons",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 132,
+      "type": "tag",
+      "name": "Pratique",
+      "slug": "pratique",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 133,
+      "type": "tag",
+      "name": "Rangement",
+      "slug": "rangement",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 134,
+      "type": "tag",
+      "name": "Réaliste",
+      "slug": "realiste",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 135,
+      "type": "tag",
+      "name": "Seconde vie",
+      "slug": "seconde-vie",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 136,
+      "type": "tag",
+      "name": "Série",
+      "slug": "serie",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 137,
+      "type": "tag",
+      "name": "Service",
+      "slug": "service",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 138,
+      "type": "tag",
+      "name": "Spinner",
+      "slug": "spinner",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 139,
+      "type": "tag",
+      "name": "Stylo",
+      "slug": "stylo",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 140,
+      "type": "tag",
+      "name": "Support",
+      "slug": "support",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 141,
+      "type": "tag",
+      "name": "Tentacule",
+      "slug": "tentacule",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 142,
+      "type": "tag",
+      "name": "Tirelire",
+      "slug": "tirelire",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 143,
+      "type": "tag",
+      "name": "Transformable",
+      "slug": "transformable",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 144,
+      "type": "tag",
+      "name": "Vaudou",
+      "slug": "vaudou",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 145,
+      "type": "tag",
+      "name": "XXL",
+      "slug": "xxl",
+      "parent_id": null,
+      "subtitle": null,
+      "description": null,
+      "seo_title": null,
+      "seo_description": null,
+      "sort_order": 0,
+      "is_active": true,
+      "is_indexable": false,
+      "created_at": "2026-10-10T14:18:06.006614+00:00",
+      "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    }
+  ],
+  "productTaxonomy": [
+    {
+      "product_id": 7217,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9337,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8010,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9313,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12377,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12422,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7214,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7696,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8638,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8779,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9563,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9663,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9672,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9685,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9692,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9704,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9711,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9730,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10787,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11860,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11898,
+      "taxonomy_id": 1,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11813,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9267,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10797,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11766,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12673,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12713,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 13146,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8514,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7196,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7985,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8628,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8661,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10083,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10086,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11361,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11781,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 13167,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7193,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7355,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7356,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8464,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8633,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8669,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8707,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8915,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8928,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8949,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9303,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9351,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9421,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9431,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9463,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9483,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9536,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9924,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10085,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10088,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10735,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10748,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10830,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11906,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11959,
+      "taxonomy_id": 3,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 2,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 6,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 3,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 4,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 5,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7213,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7314,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7315,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7351,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7769,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10094,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11026,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11035,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11051,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11057,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11074,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7933,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9678,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11738,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11765,
+      "taxonomy_id": 2,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10937,
+      "taxonomy_id": 4,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12029,
+      "taxonomy_id": 4,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10,
+      "taxonomy_id": 4,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11,
+      "taxonomy_id": 4,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11795,
+      "taxonomy_id": 4,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11801,
+      "taxonomy_id": 4,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12050,
+      "taxonomy_id": 4,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8482,
+      "taxonomy_id": 4,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8502,
+      "taxonomy_id": 4,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8611,
+      "taxonomy_id": 4,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7217,
+      "taxonomy_id": 6,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9337,
+      "taxonomy_id": 6,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12,
+      "taxonomy_id": 6,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8010,
+      "taxonomy_id": 6,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9313,
+      "taxonomy_id": 5,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12377,
+      "taxonomy_id": 5,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12422,
+      "taxonomy_id": 5,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7214,
+      "taxonomy_id": 5,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7696,
+      "taxonomy_id": 6,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8638,
+      "taxonomy_id": 6,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8779,
+      "taxonomy_id": 5,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9563,
+      "taxonomy_id": 7,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9663,
+      "taxonomy_id": 7,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9672,
+      "taxonomy_id": 7,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9685,
+      "taxonomy_id": 7,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9692,
+      "taxonomy_id": 7,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9704,
+      "taxonomy_id": 7,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9711,
+      "taxonomy_id": 7,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9730,
+      "taxonomy_id": 7,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10787,
+      "taxonomy_id": 6,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11860,
+      "taxonomy_id": 6,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11898,
+      "taxonomy_id": 6,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11813,
+      "taxonomy_id": 11,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9267,
+      "taxonomy_id": 11,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10797,
+      "taxonomy_id": 15,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11766,
+      "taxonomy_id": 11,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12673,
+      "taxonomy_id": 16,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12713,
+      "taxonomy_id": 16,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 13146,
+      "taxonomy_id": 17,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8514,
+      "taxonomy_id": 12,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7196,
+      "taxonomy_id": 13,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7985,
+      "taxonomy_id": 13,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8628,
+      "taxonomy_id": 12,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8661,
+      "taxonomy_id": 12,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10083,
+      "taxonomy_id": 12,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10086,
+      "taxonomy_id": 14,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11361,
+      "taxonomy_id": 13,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11781,
+      "taxonomy_id": 18,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 13167,
+      "taxonomy_id": 12,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7193,
+      "taxonomy_id": 13,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7355,
+      "taxonomy_id": 11,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7356,
+      "taxonomy_id": 14,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8464,
+      "taxonomy_id": 13,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8633,
+      "taxonomy_id": 11,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8669,
+      "taxonomy_id": 12,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8707,
+      "taxonomy_id": 12,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8915,
+      "taxonomy_id": 15,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8928,
+      "taxonomy_id": 12,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8949,
+      "taxonomy_id": 15,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9303,
+      "taxonomy_id": 15,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9351,
+      "taxonomy_id": 13,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9421,
+      "taxonomy_id": 11,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9431,
+      "taxonomy_id": 11,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9463,
+      "taxonomy_id": 15,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9483,
+      "taxonomy_id": 12,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9536,
+      "taxonomy_id": 15,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9924,
+      "taxonomy_id": 11,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10085,
+      "taxonomy_id": 14,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10088,
+      "taxonomy_id": 13,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10735,
+      "taxonomy_id": 14,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10748,
+      "taxonomy_id": 11,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10830,
+      "taxonomy_id": 19,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11906,
+      "taxonomy_id": 13,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11959,
+      "taxonomy_id": 13,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 2,
+      "taxonomy_id": 9,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 6,
+      "taxonomy_id": 10,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7,
+      "taxonomy_id": 10,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 3,
+      "taxonomy_id": 9,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 4,
+      "taxonomy_id": 10,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 5,
+      "taxonomy_id": 10,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8,
+      "taxonomy_id": 9,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9,
+      "taxonomy_id": 9,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7213,
+      "taxonomy_id": 8,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7314,
+      "taxonomy_id": 9,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7315,
+      "taxonomy_id": 10,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7351,
+      "taxonomy_id": 8,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7769,
+      "taxonomy_id": 8,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10094,
+      "taxonomy_id": 8,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11026,
+      "taxonomy_id": 9,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11035,
+      "taxonomy_id": 9,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11051,
+      "taxonomy_id": 10,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11057,
+      "taxonomy_id": 9,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11074,
+      "taxonomy_id": 9,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7933,
+      "taxonomy_id": 8,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9678,
+      "taxonomy_id": 8,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11738,
+      "taxonomy_id": 8,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11765,
+      "taxonomy_id": 9,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10937,
+      "taxonomy_id": 20,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12029,
+      "taxonomy_id": 20,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10,
+      "taxonomy_id": 20,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11,
+      "taxonomy_id": 20,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11795,
+      "taxonomy_id": 21,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11801,
+      "taxonomy_id": 21,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12050,
+      "taxonomy_id": 22,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8482,
+      "taxonomy_id": 22,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8502,
+      "taxonomy_id": 22,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8611,
+      "taxonomy_id": 21,
+      "is_primary": true,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12,
+      "taxonomy_id": 29,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12377,
+      "taxonomy_id": 25,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12422,
+      "taxonomy_id": 25,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7214,
+      "taxonomy_id": 29,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9563,
+      "taxonomy_id": 23,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9663,
+      "taxonomy_id": 23,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9672,
+      "taxonomy_id": 23,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9685,
+      "taxonomy_id": 23,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9692,
+      "taxonomy_id": 23,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9704,
+      "taxonomy_id": 23,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9711,
+      "taxonomy_id": 23,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9730,
+      "taxonomy_id": 23,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11860,
+      "taxonomy_id": 26,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11898,
+      "taxonomy_id": 26,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11813,
+      "taxonomy_id": 26,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 13146,
+      "taxonomy_id": 31,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8514,
+      "taxonomy_id": 30,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8661,
+      "taxonomy_id": 30,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8669,
+      "taxonomy_id": 27,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8928,
+      "taxonomy_id": 27,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10088,
+      "taxonomy_id": 27,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10735,
+      "taxonomy_id": 28,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10748,
+      "taxonomy_id": 28,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11906,
+      "taxonomy_id": 26,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 2,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 6,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 3,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 4,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 5,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7213,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7314,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7315,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7351,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7769,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10094,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11026,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11035,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11051,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11057,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11074,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7933,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9678,
+      "taxonomy_id": 23,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11738,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11765,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7217,
+      "taxonomy_id": 32,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7217,
+      "taxonomy_id": 91,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7217,
+      "taxonomy_id": 33,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9337,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9337,
+      "taxonomy_id": 122,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9337,
+      "taxonomy_id": 54,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12,
+      "taxonomy_id": 35,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12,
+      "taxonomy_id": 32,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8010,
+      "taxonomy_id": 33,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8010,
+      "taxonomy_id": 35,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8010,
+      "taxonomy_id": 36,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9313,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9313,
+      "taxonomy_id": 37,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9313,
+      "taxonomy_id": 96,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12377,
+      "taxonomy_id": 36,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12377,
+      "taxonomy_id": 143,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12377,
+      "taxonomy_id": 37,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12422,
+      "taxonomy_id": 36,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12422,
+      "taxonomy_id": 37,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12422,
+      "taxonomy_id": 136,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7214,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7214,
+      "taxonomy_id": 35,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7214,
+      "taxonomy_id": 63,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7696,
+      "taxonomy_id": 32,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7696,
+      "taxonomy_id": 33,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7696,
+      "taxonomy_id": 134,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8638,
+      "taxonomy_id": 32,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8638,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8638,
+      "taxonomy_id": 44,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8779,
+      "taxonomy_id": 125,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8779,
+      "taxonomy_id": 35,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8779,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9563,
+      "taxonomy_id": 39,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9563,
+      "taxonomy_id": 40,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9563,
+      "taxonomy_id": 33,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9663,
+      "taxonomy_id": 39,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9663,
+      "taxonomy_id": 41,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9663,
+      "taxonomy_id": 33,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9672,
+      "taxonomy_id": 39,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9672,
+      "taxonomy_id": 41,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9672,
+      "taxonomy_id": 63,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9685,
+      "taxonomy_id": 39,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9685,
+      "taxonomy_id": 40,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9685,
+      "taxonomy_id": 122,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9692,
+      "taxonomy_id": 39,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9692,
+      "taxonomy_id": 40,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9692,
+      "taxonomy_id": 33,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9692,
+      "taxonomy_id": 38,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9704,
+      "taxonomy_id": 39,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9704,
+      "taxonomy_id": 40,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9704,
+      "taxonomy_id": 33,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9711,
+      "taxonomy_id": 39,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9711,
+      "taxonomy_id": 144,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9711,
+      "taxonomy_id": 44,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9730,
+      "taxonomy_id": 39,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9730,
+      "taxonomy_id": 42,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9730,
+      "taxonomy_id": 43,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10787,
+      "taxonomy_id": 32,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10787,
+      "taxonomy_id": 33,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11860,
+      "taxonomy_id": 38,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11860,
+      "taxonomy_id": 43,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11860,
+      "taxonomy_id": 94,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11898,
+      "taxonomy_id": 38,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11898,
+      "taxonomy_id": 43,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11898,
+      "taxonomy_id": 42,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11813,
+      "taxonomy_id": 38,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11813,
+      "taxonomy_id": 113,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11813,
+      "taxonomy_id": 68,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11813,
+      "taxonomy_id": 61,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9267,
+      "taxonomy_id": 70,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9267,
+      "taxonomy_id": 130,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9267,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9267,
+      "taxonomy_id": 69,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10797,
+      "taxonomy_id": 127,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10797,
+      "taxonomy_id": 92,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10797,
+      "taxonomy_id": 121,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11766,
+      "taxonomy_id": 60,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11766,
+      "taxonomy_id": 72,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11766,
+      "taxonomy_id": 69,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12673,
+      "taxonomy_id": 74,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12673,
+      "taxonomy_id": 32,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12673,
+      "taxonomy_id": 75,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12673,
+      "taxonomy_id": 76,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12713,
+      "taxonomy_id": 74,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12713,
+      "taxonomy_id": 115,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12713,
+      "taxonomy_id": 75,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12713,
+      "taxonomy_id": 54,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 13146,
+      "taxonomy_id": 117,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 13146,
+      "taxonomy_id": 70,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 13146,
+      "taxonomy_id": 120,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 13146,
+      "taxonomy_id": 76,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8514,
+      "taxonomy_id": 107,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8514,
+      "taxonomy_id": 56,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8514,
+      "taxonomy_id": 57,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8514,
+      "taxonomy_id": 109,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7196,
+      "taxonomy_id": 57,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7196,
+      "taxonomy_id": 106,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7196,
+      "taxonomy_id": 133,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7985,
+      "taxonomy_id": 103,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7985,
+      "taxonomy_id": 64,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7985,
+      "taxonomy_id": 63,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8628,
+      "taxonomy_id": 139,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8628,
+      "taxonomy_id": 57,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8628,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8661,
+      "taxonomy_id": 59,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8661,
+      "taxonomy_id": 56,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8661,
+      "taxonomy_id": 109,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10083,
+      "taxonomy_id": 58,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10083,
+      "taxonomy_id": 57,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10083,
+      "taxonomy_id": 63,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10086,
+      "taxonomy_id": 131,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10086,
+      "taxonomy_id": 57,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10086,
+      "taxonomy_id": 44,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11361,
+      "taxonomy_id": 98,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11361,
+      "taxonomy_id": 32,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11361,
+      "taxonomy_id": 66,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11781,
+      "taxonomy_id": 105,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11781,
+      "taxonomy_id": 73,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11781,
+      "taxonomy_id": 137,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 13167,
+      "taxonomy_id": 58,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 13167,
+      "taxonomy_id": 57,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 13167,
+      "taxonomy_id": 118,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 13167,
+      "taxonomy_id": 49,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7193,
+      "taxonomy_id": 142,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7193,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7193,
+      "taxonomy_id": 63,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7355,
+      "taxonomy_id": 102,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7355,
+      "taxonomy_id": 93,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7355,
+      "taxonomy_id": 122,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7356,
+      "taxonomy_id": 131,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7356,
+      "taxonomy_id": 32,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7356,
+      "taxonomy_id": 57,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8464,
+      "taxonomy_id": 64,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8464,
+      "taxonomy_id": 32,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8464,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8633,
+      "taxonomy_id": 68,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8633,
+      "taxonomy_id": 129,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8633,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8669,
+      "taxonomy_id": 59,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8669,
+      "taxonomy_id": 56,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8669,
+      "taxonomy_id": 44,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8707,
+      "taxonomy_id": 59,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8707,
+      "taxonomy_id": 56,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8707,
+      "taxonomy_id": 141,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8915,
+      "taxonomy_id": 99,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8915,
+      "taxonomy_id": 95,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8915,
+      "taxonomy_id": 44,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8928,
+      "taxonomy_id": 58,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8928,
+      "taxonomy_id": 44,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8928,
+      "taxonomy_id": 57,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8949,
+      "taxonomy_id": 99,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8949,
+      "taxonomy_id": 67,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8949,
+      "taxonomy_id": 44,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9303,
+      "taxonomy_id": 110,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9303,
+      "taxonomy_id": 104,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9303,
+      "taxonomy_id": 63,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9351,
+      "taxonomy_id": 65,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9351,
+      "taxonomy_id": 70,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9351,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9351,
+      "taxonomy_id": 69,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9421,
+      "taxonomy_id": 114,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9421,
+      "taxonomy_id": 67,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9421,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9431,
+      "taxonomy_id": 130,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9431,
+      "taxonomy_id": 67,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9431,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9463,
+      "taxonomy_id": 62,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9463,
+      "taxonomy_id": 101,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9463,
+      "taxonomy_id": 132,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9483,
+      "taxonomy_id": 58,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9483,
+      "taxonomy_id": 57,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9483,
+      "taxonomy_id": 123,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9536,
+      "taxonomy_id": 101,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9536,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9536,
+      "taxonomy_id": 145,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9536,
+      "taxonomy_id": 63,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9924,
+      "taxonomy_id": 60,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9924,
+      "taxonomy_id": 61,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9924,
+      "taxonomy_id": 62,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10085,
+      "taxonomy_id": 127,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10085,
+      "taxonomy_id": 57,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10085,
+      "taxonomy_id": 73,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10088,
+      "taxonomy_id": 65,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10088,
+      "taxonomy_id": 44,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10088,
+      "taxonomy_id": 57,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10735,
+      "taxonomy_id": 131,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10735,
+      "taxonomy_id": 44,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10735,
+      "taxonomy_id": 57,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10748,
+      "taxonomy_id": 60,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10748,
+      "taxonomy_id": 44,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10748,
+      "taxonomy_id": 62,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10830,
+      "taxonomy_id": 135,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10830,
+      "taxonomy_id": 97,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10830,
+      "taxonomy_id": 126,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11906,
+      "taxonomy_id": 65,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11906,
+      "taxonomy_id": 113,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11906,
+      "taxonomy_id": 38,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11906,
+      "taxonomy_id": 61,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11959,
+      "taxonomy_id": 64,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11959,
+      "taxonomy_id": 32,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11959,
+      "taxonomy_id": 66,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11959,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 2,
+      "taxonomy_id": 45,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 2,
+      "taxonomy_id": 46,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 2,
+      "taxonomy_id": 47,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 6,
+      "taxonomy_id": 48,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 6,
+      "taxonomy_id": 49,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 6,
+      "taxonomy_id": 50,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7,
+      "taxonomy_id": 49,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7,
+      "taxonomy_id": 48,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7,
+      "taxonomy_id": 119,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 3,
+      "taxonomy_id": 45,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 3,
+      "taxonomy_id": 33,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 3,
+      "taxonomy_id": 47,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 4,
+      "taxonomy_id": 48,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 4,
+      "taxonomy_id": 49,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 4,
+      "taxonomy_id": 145,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 5,
+      "taxonomy_id": 48,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 5,
+      "taxonomy_id": 138,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 5,
+      "taxonomy_id": 49,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8,
+      "taxonomy_id": 45,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8,
+      "taxonomy_id": 51,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9,
+      "taxonomy_id": 53,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9,
+      "taxonomy_id": 52,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9,
+      "taxonomy_id": 48,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7213,
+      "taxonomy_id": 51,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7213,
+      "taxonomy_id": 45,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7213,
+      "taxonomy_id": 104,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7314,
+      "taxonomy_id": 48,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7314,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7314,
+      "taxonomy_id": 63,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7315,
+      "taxonomy_id": 52,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7315,
+      "taxonomy_id": 48,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7315,
+      "taxonomy_id": 49,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7351,
+      "taxonomy_id": 51,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7351,
+      "taxonomy_id": 45,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7351,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7769,
+      "taxonomy_id": 54,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7769,
+      "taxonomy_id": 51,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7769,
+      "taxonomy_id": 55,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10094,
+      "taxonomy_id": 51,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10094,
+      "taxonomy_id": 45,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10094,
+      "taxonomy_id": 63,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11026,
+      "taxonomy_id": 46,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11026,
+      "taxonomy_id": 45,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11026,
+      "taxonomy_id": 47,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11035,
+      "taxonomy_id": 53,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11035,
+      "taxonomy_id": 48,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11035,
+      "taxonomy_id": 112,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11051,
+      "taxonomy_id": 52,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11051,
+      "taxonomy_id": 49,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11051,
+      "taxonomy_id": 48,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11057,
+      "taxonomy_id": 33,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11057,
+      "taxonomy_id": 45,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11057,
+      "taxonomy_id": 47,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11074,
+      "taxonomy_id": 45,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11074,
+      "taxonomy_id": 47,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11074,
+      "taxonomy_id": 48,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7933,
+      "taxonomy_id": 54,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7933,
+      "taxonomy_id": 51,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 7933,
+      "taxonomy_id": 55,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9678,
+      "taxonomy_id": 51,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9678,
+      "taxonomy_id": 71,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 9678,
+      "taxonomy_id": 69,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11738,
+      "taxonomy_id": 51,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11738,
+      "taxonomy_id": 72,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11738,
+      "taxonomy_id": 73,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11765,
+      "taxonomy_id": 45,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11765,
+      "taxonomy_id": 72,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11765,
+      "taxonomy_id": 73,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10937,
+      "taxonomy_id": 77,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10937,
+      "taxonomy_id": 79,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10937,
+      "taxonomy_id": 80,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10937,
+      "taxonomy_id": 34,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12029,
+      "taxonomy_id": 77,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12029,
+      "taxonomy_id": 81,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12029,
+      "taxonomy_id": 38,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10,
+      "taxonomy_id": 77,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10,
+      "taxonomy_id": 108,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 10,
+      "taxonomy_id": 78,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11,
+      "taxonomy_id": 77,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11,
+      "taxonomy_id": 38,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11,
+      "taxonomy_id": 116,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11,
+      "taxonomy_id": 125,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11795,
+      "taxonomy_id": 82,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11795,
+      "taxonomy_id": 140,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11795,
+      "taxonomy_id": 85,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11795,
+      "taxonomy_id": 78,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11801,
+      "taxonomy_id": 82,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11801,
+      "taxonomy_id": 128,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11801,
+      "taxonomy_id": 85,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 11801,
+      "taxonomy_id": 78,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12050,
+      "taxonomy_id": 86,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12050,
+      "taxonomy_id": 87,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12050,
+      "taxonomy_id": 111,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 12050,
+      "taxonomy_id": 73,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8482,
+      "taxonomy_id": 88,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8482,
+      "taxonomy_id": 89,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8482,
+      "taxonomy_id": 100,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8482,
+      "taxonomy_id": 90,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8502,
+      "taxonomy_id": 124,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8502,
+      "taxonomy_id": 91,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8502,
+      "taxonomy_id": 63,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8502,
+      "taxonomy_id": 87,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8611,
+      "taxonomy_id": 83,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8611,
+      "taxonomy_id": 84,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8611,
+      "taxonomy_id": 133,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    },
+    {
+      "product_id": 8611,
+      "taxonomy_id": 82,
+      "is_primary": false,
+      "created_at": "2026-10-10T14:20:16.096646+00:00"
+    }
+  ]
+}

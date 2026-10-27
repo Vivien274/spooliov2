@@ -63,6 +63,87 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
+        source: "/art-toys/cabinet-noir",
+        destination: "/collections/cabinet-noir",
+        permanent: true,
+      },
+      // Redirections SEO de l'ancienne arborescence (/categorie/...) vers la V2.1
+      {
+        source: "/categorie/fidgets",
+        destination: "/tactile/fidgets",
+        permanent: true,
+      },
+      {
+        source: "/categorie/clickers",
+        destination: "/tactile/clickers",
+        permanent: true,
+      },
+      {
+        source: "/categorie/mecanismes",
+        destination: "/tactile/mecanismes",
+        permanent: true,
+      },
+      {
+        source: "/categorie/geek-gaming",
+        destination: "/objets-deco/supports",
+        permanent: true,
+      },
+      {
+        source: "/categorie/animaux-figurines",
+        destination: "/art-toys/creatures-curiosites",
+        permanent: true,
+      },
+      {
+        source: "/categorie/accessoires",
+        destination: "/objets-deco/bureau",
+        permanent: true,
+      },
+      {
+        source: "/categorie/porte-cles",
+        destination: "/tactile/fidgets",
+        permanent: true,
+      },
+      {
+        source: "/categorie/jeux-activites",
+        destination: "/tabletop/jeux",
+        permanent: true,
+      },
+      {
+        source: "/categorie/decoration",
+        destination: "/objets-deco/decoration",
+        permanent: true,
+      },
+      {
+        source: "/categorie/boite-sac-cadeau",
+        destination: "/objets-deco/rangement",
+        permanent: true,
+      },
+      {
+        source: "/categorie/pochettes-surprise",
+        destination: "/blind-bags",
+        permanent: true,
+      },
+      {
+        source: "/pochette-surprise",
+        destination: "/blind-bags",
+        permanent: true,
+      },
+      {
+        source: "/categorie/art-toys",
+        destination: "/art-toys/art-toys",
+        permanent: true,
+      },
+      {
+        source: "/categorie/cabinet-noir",
+        destination: "/collections/cabinet-noir",
+        permanent: true,
+      },
+      {
+        source: "/categorie/bijoux",
+        destination: "/objets-deco/decoration",
+        permanent: true,
+      },
+      {
         source: "/produit/:slug*",
         destination: "/product/:slug*",
         permanent: true,
@@ -84,12 +165,12 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/product/boucles-doreilles-feuilles-ete",
-        destination: "/categorie/bijoux",
+        destination: "/objets-deco/decoration",
         permanent: true,
       },
       {
         source: "/product/boucles-d'oreilles---feuilles-été",
-        destination: "/categorie/bijoux",
+        destination: "/objets-deco/decoration",
         permanent: true,
       },
     ];

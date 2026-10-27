@@ -11,6 +11,73 @@ import { getProductJsonLd, getBreadcrumbJsonLd } from "@/lib/jsonLd";
 import { BUSINESS_CONFIG } from "@/lib/businessConfig";
 import { prisma } from "@/lib/prisma";
 import { getAllDrops } from "@/lib/drops";
+import { getProductTaxonomy } from "@/services/taxonomyService";
+
+function resolveFallbackBreadcrumbTaxonomy(categoryName?: string) {
+  if (!categoryName) return null;
+  const lower = categoryName.toLowerCase();
+  if (lower.includes("clicker") || lower.includes("cliqueur")) {
+    return {
+      universe: { name: "Tactile & Focus", slug: "tactile" },
+      category: { name: "Clickers", slug: "clickers" },
+    };
+  }
+  if (lower.includes("fidget") || lower.includes("stress")) {
+    return {
+      universe: { name: "Tactile & Focus", slug: "tactile" },
+      category: { name: "Fidgets", slug: "fidgets" },
+    };
+  }
+  if (lower.includes("mecanisme") || lower.includes("mécanisme") || lower.includes("engrenage") || lower.includes("gyro")) {
+    return {
+      universe: { name: "Tactile & Focus", slug: "tactile" },
+      category: { name: "Mécanismes", slug: "mecanismes" },
+    };
+  }
+  if (lower.includes("geek") || lower.includes("gaming") || lower.includes("support")) {
+    return {
+      universe: { name: "Objets & Déco", slug: "objets-deco" },
+      category: { name: "Supports", slug: "supports" },
+    };
+  }
+  if (lower.includes("art-toy") || lower.includes("art toy") || lower.includes("figurine") || lower.includes("animal") || lower.includes("animaux") || lower.includes("creature") || lower.includes("créature")) {
+    return {
+      universe: { name: "Art Toys & Collectibles", slug: "art-toys" },
+      category: { name: "Créatures & curiosités", slug: "creatures-curiosites" },
+    };
+  }
+  if (lower.includes("tabletop") || lower.includes("tour") || lower.includes("dés") || lower.includes("des")) {
+    return {
+      universe: { name: "Tabletop", slug: "tabletop" },
+      category: { name: "Tours à dés", slug: "tours-a-des" },
+    };
+  }
+  if (lower.includes("jeu") || lower.includes("société") || lower.includes("societe")) {
+    return {
+      universe: { name: "Tabletop", slug: "tabletop" },
+      category: { name: "Jeux", slug: "jeux" },
+    };
+  }
+  if (lower.includes("boite") || lower.includes("boîte") || lower.includes("rangement") || lower.includes("sac")) {
+    return {
+      universe: { name: "Objets & Déco", slug: "objets-deco" },
+      category: { name: "Rangement", slug: "rangement" },
+    };
+  }
+  if (lower.includes("bureau") || lower.includes("accessoire")) {
+    return {
+      universe: { name: "Objets & Déco", slug: "objets-deco" },
+      category: { name: "Bureau", slug: "bureau" },
+    };
+  }
+  if (lower.includes("déco") || lower.includes("deco") || lower.includes("bijou")) {
+    return {
+      universe: { name: "Objets & Déco", slug: "objets-deco" },
+      category: { name: "Décoration", slug: "decoration" },
+    };
+  }
+  return null;
+}
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -170,16 +237,44 @@ export default async function ProductPage({ params }: PageProps) {
     reviewCount: realReviewCount,
   });
 
-  const breadcrumbItems = [
+  // 6. Build hierarchical breadcrumb V2.1 (Accueil > Boutique > Univers > Catégorie > Produit)
+  const taxonomy = await getProductTaxonomy(product.id).catch(() => null);
+  const universe = taxonomy?.universe;
+  const category = taxonomy?.category;
+
+  const breadcrumbItems: { name: string; url: string }[] = [
     { name: "Accueil", url: "/" },
     { name: "Boutique", url: "/boutique" },
   ];
 
-  if (primaryCategory) {
+  if (universe) {
     breadcrumbItems.push({
-      name: primaryCategory.name,
-      url: `/categorie/${primaryCategory.slug || primaryCategory.name.toLowerCase().replace(/\s+/g, "-")}`,
+      name: universe.name,
+      url: `/${universe.slug}`,
     });
+    if (category) {
+      breadcrumbItems.push({
+        name: category.name,
+        url: `/${universe.slug}/${category.slug}`,
+      });
+    }
+  } else {
+    const fallback = resolveFallbackBreadcrumbTaxonomy(primaryCategory?.name);
+    if (fallback) {
+      breadcrumbItems.push({
+        name: fallback.universe.name,
+        url: `/${fallback.universe.slug}`,
+      });
+      breadcrumbItems.push({
+        name: fallback.category.name,
+        url: `/${fallback.universe.slug}/${fallback.category.slug}`,
+      });
+    } else if (primaryCategory) {
+      breadcrumbItems.push({
+        name: primaryCategory.name,
+        url: "/boutique",
+      });
+    }
   }
 
   breadcrumbItems.push({
@@ -199,6 +294,7 @@ export default async function ProductPage({ params }: PageProps) {
         initialProduct={product}
         initialRelatedProducts={relatedProducts}
         initialReviews={initialReviews}
+        breadcrumbItems={breadcrumbItems}
       />
     </>
   );

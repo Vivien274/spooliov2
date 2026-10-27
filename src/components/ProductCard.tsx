@@ -8,7 +8,7 @@ import { useCart } from "@/context/CartContext";
 import UnicornIcon from "@/components/UnicornIcon";
 import cartIconData from "@/components/shopping bag.json";
 import { useTranslation } from "@/context/LanguageContext";
-import { Check, Sparkles, Flame, Sliders } from "lucide-react";
+import { Check, Sparkles, Flame, Sliders, Plus } from "lucide-react";
 
 export interface Product {
   id: number;
@@ -202,36 +202,37 @@ export default function ProductCard({ product, compact = false, priority = false
     ? decodeHtml(rawShortDesc.replace(/<[^>]*>/g, ""))
     : (locale === "en" ? "3D sensory object printed in bio-sourced PLA in France." : "Objet sensoriel 3D imprimé en PLA biosourcé à Comines.");
 
+  const isVariable = hasProductVariables(product);
+  const isAlreadyInCart = cartItems.some((ci) => ci.productId === product.id || ci.slug === product.slug);
+  const wasJustAdded = justAddedId === product.id;
+
+  const handleButtonClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isVariable) {
+      router.push(`/product/${product.slug}`);
+    } else {
+      addToCart(
+        {
+          productId: product.id,
+          name: displayName,
+          slug: product.slug,
+          price: product.price,
+          selectedOptions: {},
+          image: imageUrl,
+        },
+        1,
+        true
+      );
+      setJustAddedId(product.id);
+      setTimeout(() => setJustAddedId(null), 1800);
+    }
+  };
+
   // =========================================================================
   // 1. COMPACT CARD (Derniers Ajouts & Coups de Cœur avec Corner Scoop Notch)
   // =========================================================================
   if (compact) {
-    const isVariable = hasProductVariables(product);
-    const isAlreadyInCart = cartItems.some((ci) => ci.productId === product.id || ci.slug === product.slug);
-    const wasJustAdded = justAddedId === product.id;
-
-    const handleButtonClick = (e: React.MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (isVariable) {
-        router.push(`/product/${product.slug}`);
-      } else {
-        addToCart(
-          {
-            productId: product.id,
-            name: displayName,
-            slug: product.slug,
-            price: product.price,
-            selectedOptions: {},
-            image: imageUrl,
-          },
-          1,
-          true
-        );
-        setJustAddedId(product.id);
-        setTimeout(() => setJustAddedId(null), 1800);
-      }
-    };
 
     return (
       <div className="group relative aspect-square w-full rounded-[28px] bg-zinc-100 border border-zinc-200/80 overflow-hidden transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)]">
@@ -358,7 +359,7 @@ export default function ProductCard({ product, compact = false, priority = false
   }
 
   // =========================================================================
-  // 2. STANDARD FULL-SIZE CARD (Pour "Tout le Catalogue" & autres vues)
+  // 2. STANDARD FULL-SIZE CARD (V2.1 - Clean, Generous Photo, Discrete [ + ])
   // =========================================================================
   return (
     <Link
@@ -366,28 +367,19 @@ export default function ProductCard({ product, compact = false, priority = false
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={tiltStyle}
-      className="group relative flex flex-col justify-between h-full bg-white border border-zinc-200/90 rounded-[22px] sm:rounded-[28px] overflow-hidden transition-all duration-300 hover:border-zinc-400 shadow-sm hover:shadow-[0_16px_36px_rgba(0,0,0,0.06)]"
+      className="group relative flex flex-col justify-between h-full bg-white border border-[#E4E4E0] rounded-2xl overflow-hidden transition-all duration-300 hover:border-[#18181B]/40 shadow-xs hover:shadow-md"
     >
-      {/* Holographic Refractive Layer */}
-      <div
-        className="absolute inset-0 rounded-[inherit] pointer-events-none z-20 transition-opacity duration-300 mix-blend-overlay overflow-hidden"
-        style={{
-          opacity: shineStyle.opacity * 0.5,
-          background: shineStyle.background,
-        }}
-      />
-
       <div className="flex flex-col flex-1">
-        {/* Image Container with strict 1:1 square aspect ratio - flush with edges */}
-        <div className="relative w-full aspect-square bg-zinc-50 border-b border-zinc-100 overflow-hidden shrink-0">
+        {/* Image Container: generous square photo */}
+        <div className="relative w-full aspect-square bg-[#F7F7F5] border-b border-[#F0EFEA] overflow-hidden shrink-0">
           {hasImage ? (
             <>
               <Image
                 src={imageUrl}
                 alt={imageAlt}
                 fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                className={`object-cover transition-all duration-700 ease-out ${
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className={`object-cover transition-all duration-500 ease-out ${
                   hasSecondImage ? "group-hover:opacity-0 group-hover:scale-105" : "group-hover:scale-105"
                 } no-invert`}
                 priority={priority}
@@ -397,87 +389,86 @@ export default function ProductCard({ product, compact = false, priority = false
                   src={secondImageUrl}
                   alt={secondImageAlt}
                   fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                  className="object-cover absolute inset-0 opacity-0 group-hover:opacity-100 scale-100 group-hover:scale-105 transition-all duration-700 ease-out no-invert"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  className="object-cover absolute inset-0 opacity-0 group-hover:opacity-100 scale-100 group-hover:scale-105 transition-all duration-500 ease-out no-invert"
                 />
               )}
             </>
           ) : (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-50 text-zinc-400">
-              <svg className="w-10 h-10 mb-2 text-zinc-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <span className="text-[9px] uppercase font-bold tracking-widest text-zinc-400">Spoolio 3D</span>
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#F7F7F5] text-zinc-400">
+              <span className="text-[10px] uppercase font-mono font-bold tracking-widest text-zinc-400">Spoolio 3D</span>
             </div>
           )}
 
-          {/* Badges Overlays - Dynamic Rarity Badge */}
-          {rarityBadge && (
-            <span className={`absolute top-3 left-3 sm:top-3.5 sm:left-3.5 inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 text-[9px] sm:text-[10px] font-black uppercase tracking-wider rounded-full shadow-sm z-10 no-invert keep-white ${rarityBadge.className}`}>
+          {/* Useful Badges ONLY: Real promo or Verified custom badge */}
+          {product.on_sale && (
+            <span className="absolute top-2.5 left-2.5 inline-flex items-center px-2 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider rounded-md bg-[#FF5500] text-white shadow-xs z-10">
+              PROMO
+            </span>
+          )}
+
+          {!product.on_sale && rarityBadge && (
+            <span className={`absolute top-2.5 left-2.5 inline-flex items-center gap-1 px-2 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider rounded-md shadow-xs z-10 ${rarityBadge.className}`}>
               {rarityBadge.icon}
               <span>{decodeHtml(rarityBadge.label)}</span>
             </span>
           )}
-
           {/* Out of stock badge overlay */}
           {product.stock === 0 && (
-            <span className="absolute top-3 right-3 sm:top-3.5 sm:right-3.5 inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 text-[9px] sm:text-[10px] font-black uppercase tracking-wider rounded-full bg-zinc-900/90 text-white border border-white/20 shadow-sm z-10 no-invert keep-white">
+            <span className="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-md bg-zinc-900/90 text-white border border-white/20 shadow-xs z-10 no-invert keep-white">
               <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
               <span>Épuisé</span>
             </span>
           )}
-
         </div>
 
-        {/* Content Container (Title, Description) with fixed minimum heights for pixel-perfect alignment */}
-        <div className="flex flex-col flex-1 justify-between p-3.5 sm:p-5 lg:p-6 pb-2 sm:pb-3 font-[family-name:var(--font-plus-jakarta)]">
-          <div className="space-y-1 sm:space-y-1.5">
-            {/* Title with fixed minimum height for consistent 2-line baseline */}
-            <h3 className="text-xs sm:text-base lg:text-[17px] font-bold text-zinc-900 group-hover:text-[#ff4f00] transition-colors duration-200 line-clamp-2 leading-tight sm:leading-snug min-h-[2rem] sm:min-h-[2.75rem] flex items-start">
-              {displayName}
-            </h3>
+        {/* Content Container (Title strictly aligned) */}
+        <div className="p-3 sm:p-4 flex flex-col flex-1 justify-between font-sans">
+          <h3 className="text-xs sm:text-sm font-bold text-[#18181B] group-hover:text-[#FF5500] transition-colors duration-200 line-clamp-2 leading-snug min-h-[2.4rem] sm:min-h-[2.5rem]">
+            {displayName}
+          </h3>
 
-            {/* Description with fixed minimum height */}
-            <p
-              className="text-xs sm:text-[13px] text-zinc-500 leading-relaxed hidden sm:block overflow-hidden min-h-[2.25rem] sm:min-h-[2.75rem]"
-              style={{
-                display: "-webkit-box",
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: "vertical",
-                overflow: "hidden",
-              }}
-            >
-              {cleanDescription}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Action Row (Price & Cart button) - Strictly pinned to baseline */}
-      <div className="p-3.5 sm:p-5 lg:p-6 pt-0 mt-auto shrink-0">
-        {product.stock === 0 ? (
-          <div
-            className="w-full h-10 sm:h-[46px] lg:h-[48px] inline-flex items-center justify-between px-3.5 sm:px-4 text-xs font-bold bg-zinc-100 text-zinc-500 rounded-xl border border-zinc-200 select-none shadow-xs"
-          >
-            <span className="text-xs sm:text-sm font-extrabold font-mono text-zinc-400 line-through">
-              {formatPrice(product.price)}
-            </span>
-            <span className="text-[10px] sm:text-xs font-black uppercase tracking-wider text-zinc-700">
-              Rupture de stock
-            </span>
-          </div>
-        ) : (
-          <div
-            onMouseEnter={() => setIsButtonHovered(true)}
-            onMouseLeave={() => setIsButtonHovered(false)}
-            className="w-full h-10 sm:h-[46px] lg:h-[48px] inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 text-xs font-bold text-white bg-zinc-950 hover:bg-[#ff4f00] rounded-xl transition-colors shadow-sm select-none border-none cursor-pointer no-invert"
-          >
-            <div className="brightness-0 invert flex items-center">
-              <UnicornIcon animationData={cartIconData} className="w-6 h-6 sm:w-8 sm:h-8 scale-[1.6] sm:scale-[1.8]" isHovered={isButtonHovered} />
+          {/* Bottom Row: Price & Discreet Add-to-cart Button [ + ] */}
+          <div className="pt-3 mt-auto flex items-center justify-between border-t border-[#F0EFEA]">
+            <div className="flex items-baseline gap-1.5 font-mono">
+              {product.on_sale && product.regular_price && (
+                <span className="text-[11px] sm:text-xs text-[#A1A1AA] line-through">
+                  {formatPrice(product.regular_price)}
+                </span>
+              )}
+              <span className={`text-xs sm:text-sm font-bold ${product.stock === 0 ? "text-[#A1A1AA] line-through" : "text-[#18181B]"}`}>
+                {formatPrice(product.price)}
+              </span>
             </div>
-            <span className="text-xs sm:text-sm font-extrabold font-mono">{formatPrice(product.price)}</span>
+
+            {/* Discreet Tactile Button or Out of stock badge */}
+            {product.stock === 0 ? (
+              <span className="px-2 py-1 rounded-md bg-zinc-100 text-zinc-500 text-[10px] font-bold uppercase tracking-wider border border-zinc-200 select-none">
+                Épuisé
+              </span>
+            ) : (
+              <button
+                type="button"
+                onClick={handleButtonClick}
+                title={isVariable ? "Choisir les options" : "Ajouter au panier"}
+                aria-label={isVariable ? "Choisir les options" : "Ajouter au panier"}
+                className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer shadow-2xs shrink-0 ${
+                  !isVariable && (isAlreadyInCart || wasJustAdded)
+                    ? "bg-emerald-600 text-white"
+                    : "bg-[#18181B] hover:bg-[#FF5500] text-white hover:scale-105 active:scale-95"
+                }`}
+              >
+                {!isVariable && (isAlreadyInCart || wasJustAdded) ? (
+                  <Check className="w-3.5 h-3.5 text-white" />
+                ) : isVariable ? (
+                  <Sliders className="w-3 h-3 text-white" />
+                ) : (
+                  <Plus className="w-3.5 h-3.5 text-white" />
+                )}
+              </button>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </Link>
   );

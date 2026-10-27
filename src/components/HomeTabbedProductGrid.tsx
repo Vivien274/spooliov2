@@ -151,7 +151,7 @@ export default function HomeTabbedProductGrid() {
     },
     {
       id: "pochettes" as TabKey,
-      label: "Pochettes Surprises",
+      label: "Blind Bags",
       icon: Gift,
     },
     {

@@ -1,15 +1,23 @@
 import { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
 import { BUSINESS_CONFIG } from "@/lib/businessConfig";
+import { getTaxonomies } from "@/services/taxonomyService";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = BUSINESS_CONFIG.siteUrl;
 
   // 1. Pages statiques indexables
   // RÈGLE SEO : Ne pas inventer de date lastModified arbitraire sans source vérifiable (CMS/BDD)
-  const staticRoutes: Array<{ route: string; changeFrequency: "daily" | "weekly" | "monthly"; priority: number }> = [
+  const staticRoutes: Array<{
+    route: string;
+    changeFrequency: "daily" | "weekly" | "monthly";
+    priority: number;
+  }> = [
     { route: "", changeFrequency: "daily", priority: 1.0 },
     { route: "/boutique", changeFrequency: "daily", priority: 0.9 },
+    { route: "/nouveautes", changeFrequency: "daily", priority: 0.9 },
+    { route: "/blind-bags", changeFrequency: "weekly", priority: 0.85 },
+    { route: "/collections", changeFrequency: "weekly", priority: 0.85 },
     { route: "/boussole-sensorielle", changeFrequency: "weekly", priority: 0.8 },
     { route: "/pochette-surprise", changeFrequency: "weekly", priority: 0.8 },
     { route: "/createur-cliqueur", changeFrequency: "weekly", priority: 0.8 },
@@ -38,43 +46,65 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: item.priority,
   }));
 
-  // 2. Catégories commerciales actives et non vides
-  const categoryPages: MetadataRoute.Sitemap = [];
+  // 2. Taxonomie Spoolio V2.1 : Univers, Catégories & Collections
+  const taxonomyPages: MetadataRoute.Sitemap = [];
   try {
-    const categories = await prisma.category.findMany({
-      include: {
-        products: {
-          where: { status: "publish" },
-          select: { dateCreated: true },
-          orderBy: { dateCreated: "desc" },
-          take: 1,
-        },
-      },
-    });
+    const allTaxonomies = await getTaxonomies();
 
-    const excludedCategorySlugs = new Set(["action", "non-classe", "planche-bois", "figurines"]);
-    const processedSlugs = new Set<string>();
+    // 2.A. Les 4 univers actifs et indexables
+    const universes = allTaxonomies.filter(
+      (t) => t.type === "universe" && t.is_active && t.is_indexable
+    );
+    const universeById = new Map<number, (typeof universes)[0]>();
+    universes.forEach((u) => universeById.set(u.id, u));
 
-    const activeCategories = categories.filter(
-      (c) => c.products.length > 0 && !excludedCategorySlugs.has(c.slug)
+    for (const u of universes) {
+      taxonomyPages.push({
+        url: `${baseUrl}/${u.slug}`,
+        changeFrequency: "weekly",
+        priority: 0.85,
+      });
+    }
+
+    // 2.B. Les 13 catégories publiques actives et indexables
+    // Exclut "Cabinet noir" (qui vit sous /collections/cabinet-noir pour éviter la duplication)
+    // Exclut les catégories non-indexables (nfc-sos, festival, service, seconde-vie)
+    const categories = allTaxonomies.filter(
+      (t) =>
+        t.type === "category" &&
+        t.is_active &&
+        t.is_indexable &&
+        t.slug !== "cabinet-noir" &&
+        t.parent_id !== null &&
+        universeById.has(t.parent_id)
     );
 
-    for (const cat of activeCategories) {
-      if (processedSlugs.has(cat.slug)) continue;
-      processedSlugs.add(cat.slug);
-
-      const entry: MetadataRoute.Sitemap[number] = {
-        url: `${baseUrl}/categorie/${cat.slug}`,
-        changeFrequency: "weekly" as const,
-        priority: 0.75,
-      };
-      if (cat.products[0]?.dateCreated) {
-        entry.lastModified = new Date(cat.products[0].dateCreated);
+    for (const cat of categories) {
+      const parentUniverse = universeById.get(cat.parent_id!);
+      if (parentUniverse) {
+        taxonomyPages.push({
+          url: `${baseUrl}/${parentUniverse.slug}/${cat.slug}`,
+          changeFrequency: "weekly",
+          priority: 0.75,
+        });
       }
-      categoryPages.push(entry);
     }
-  } catch (e) {
-    console.warn("Failed loading categories for sitemap:", e);
+
+    // 2.C. Les 8 collections actives et indexables
+    // Inclut Cabinet noir, exclut Festival (inactif et non indexable)
+    const collections = allTaxonomies.filter(
+      (t) => t.type === "collection" && t.is_active && t.is_indexable
+    );
+
+    for (const col of collections) {
+      taxonomyPages.push({
+        url: `${baseUrl}/collections/${col.slug}`,
+        changeFrequency: "weekly",
+        priority: 0.8,
+      });
+    }
+  } catch (err) {
+    console.warn("Failed loading taxonomy for sitemap:", err);
   }
 
   // 3. Produits publiés avec slug valide et prix achetable réel
@@ -146,5 +176,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.warn("Failed loading blog posts for sitemap:", e);
   }
 
-  return [...staticPages, ...categoryPages, ...productPages, ...blogPages];
+  return [...staticPages, ...taxonomyPages, ...productPages, ...blogPages];
 }

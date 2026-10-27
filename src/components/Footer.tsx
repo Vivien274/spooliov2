@@ -105,41 +105,104 @@ export default function Footer({ className = "", isDark = false }: FooterProps) 
         </div>
 
         {/* Structured Columns Navigation */}
-        <div className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-8 border-b ${borderCls}`}>
+        <div className={`grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 pb-8 border-b ${borderCls}`}>
           
-          {/* Column 1: Expérience & Récompenses */}
+          {/* Column 1: Boutique (Univers V2.1) */}
           <div className="space-y-3">
             <h4 className={`text-xs font-black ${titleCls} uppercase tracking-widest font-antonio`}>
-              ⭐ Expériences & Club
+              🛍️ Shop
             </h4>
             <ul className="space-y-2 font-medium">
               <li>
-                <Link href="/fidelite" className={`${linkCls} transition-colors flex items-center gap-1.5`}>
-                  <span>👑 Points & Fidélité</span>
+                <Link href="/art-toys" className={`${linkCls} transition-colors`}>
+                  Art Toys &amp; Collectibles
                 </Link>
               </li>
               <li>
-                <Link href="/inscription-newsletter-spoolio" className={`${linkCls} transition-colors flex items-center gap-1.5`}>
-                  <span>🎁 Club Spoolio</span>
+                <Link href="/tactile" className={`${linkCls} transition-colors`}>
+                  Tactile &amp; Focus
                 </Link>
               </li>
               <li>
-                <Link href="/carte-cadeau" className={`${linkCls} transition-colors flex items-center gap-1.5`}>
-                  <span>🎁 Carte Cadeau 3D</span>
+                <Link href="/objets-deco" className={`${linkCls} transition-colors`}>
+                  Objets &amp; Déco
                 </Link>
               </li>
               <li>
-                <Link href="/don" className={`${linkCls} transition-colors flex items-center gap-1.5`}>
-                  <span>🚀 Soutenir l'Atelier</span>
+                <Link href="/tabletop" className={`${linkCls} transition-colors`}>
+                  Tabletop
+                </Link>
+              </li>
+              <li>
+                <Link href="/blind-bags" className={`${linkCls} transition-colors`}>
+                  Blind Bags
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 2: À Propos & Support */}
+          {/* Column 2: Découverte & Collections */}
           <div className="space-y-3">
             <h4 className={`text-xs font-black ${titleCls} uppercase tracking-widest font-antonio`}>
-              ℹ️ Spoolio & Aide
+              🪐 Explore
+            </h4>
+            <ul className="space-y-2 font-medium">
+              <li>
+                <Link href="/nouveautes" className={`${linkCls} transition-colors`}>
+                  Nouveautés
+                </Link>
+              </li>
+              <li>
+                <Link href="/collections" className={`${linkCls} transition-colors`}>
+                  Collections
+                </Link>
+              </li>
+              <li>
+                <Link href="/collections/cabinet-noir" className={`${linkCls} transition-colors`}>
+                  Cabinet noir
+                </Link>
+              </li>
+              <li>
+                <Link href="/collections/tactile-lab" className={`${linkCls} transition-colors`}>
+                  Tactile Lab
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 3: Expérience & Récompenses */}
+          <div className="space-y-3">
+            <h4 className={`text-xs font-black ${titleCls} uppercase tracking-widest font-antonio`}>
+              ⭐ Club &amp; Dons
+            </h4>
+            <ul className="space-y-2 font-medium">
+              <li>
+                <Link href="/fidelite" className={`${linkCls} transition-colors flex items-center gap-1.5`}>
+                  <span>Points &amp; Fidélité</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/inscription-newsletter-spoolio" className={`${linkCls} transition-colors flex items-center gap-1.5`}>
+                  <span>Club Spoolio</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/carte-cadeau" className={`${linkCls} transition-colors flex items-center gap-1.5`}>
+                  <span>Carte Cadeau 3D</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/don" className={`${linkCls} transition-colors flex items-center gap-1.5`}>
+                  <span>Soutenir l'Atelier</span>
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 4: À Propos & Support */}
+          <div className="space-y-3">
+            <h4 className={`text-xs font-black ${titleCls} uppercase tracking-widest font-antonio`}>
+              ℹ️ Spoolio &amp; Aide
             </h4>
             <ul className="space-y-2 font-medium">
               <li>
@@ -165,10 +228,10 @@ export default function Footer({ className = "", isDark = false }: FooterProps) 
             </ul>
           </div>
 
-          {/* Column 3: Informations Légales */}
+          {/* Column 5: Informations Légales */}
           <div className="space-y-3">
             <h4 className={`text-xs font-black ${titleCls} uppercase tracking-widest font-antonio`}>
-              ⚖️ Informations Légales
+              ⚖️ Légal
             </h4>
             <ul className={`space-y-2 font-medium ${isDark ? "text-zinc-400" : "text-zinc-500"}`}>
               <li>

@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
-import { Gamepad2, LayoutGrid, Gift, Sparkles, Check, ArrowRight } from "lucide-react";
+import { Sparkles, Zap, Palette, Dices, Check, ArrowRight } from "lucide-react";
 
 export interface UniverseDef {
   id: string;
@@ -9,46 +10,90 @@ export interface UniverseDef {
   tagline: string;
   description: string;
   imageUrl: string;
+  href: string;
   icon: React.ReactNode;
   categoryKeywords: string[];
 }
 
 export const BOUTIQUE_UNIVERSES: UniverseDef[] = [
   {
-    id: "jouer",
-    title: "Pour jouer",
-    tagline: "Sensations & ASMR",
-    description: "Clickers tactiles, fidgets de focus, jeux & dés",
-    imageUrl: "/images/clicker_gallery_2.jpg",
-    icon: <Gamepad2 className="w-4 h-4" />,
-    categoryKeywords: ["fidget", "jeu", "gaming", "geek", "clicker", "cliqueur", "dés", "cartes"],
-  },
-  {
-    id: "bureau",
-    title: "Pour le bureau",
-    tagline: "Desk Setup & Rangement",
-    description: "Supports smartphone, vide-poches & organisation",
-    imageUrl: "/images/imported/Spoolio-crane-dragon-vide-poche-12-scaled.webp",
-    icon: <LayoutGrid className="w-4 h-4" />,
-    categoryKeywords: ["accessoire", "bureau", "déco", "deco", "support", "boite", "boîte"],
-  },
-  {
-    id: "cadeaux",
-    title: "Petits cadeaux",
-    tagline: "Plaisir d'Offrir",
-    description: "Pochettes surprises kraft, boîtes magiques & porte-clés",
-    imageUrl: "/images/pochette-kraft-studio-gen.png",
-    icon: <Gift className="w-4 h-4" />,
-    categoryKeywords: ["cadeau", "pochette", "surprise", "clé", "cle", "carte", "emballage"],
-  },
-  {
-    id: "curiosites",
-    title: "Nos curiosités",
-    tagline: "Pièces d'Atelier",
-    description: "Dragons articulés flexi, animaux & créations insolites",
+    id: "art-toys",
+    title: "Art Toys & Collectibles",
+    tagline: "Personnages & Curiosités",
+    description: "Pièces à exposer et garder sous les yeux",
     imageUrl: "/images/marcel_octopus.jpg",
-    icon: <Sparkles className="w-4 h-4" />,
-    categoryKeywords: ["animau", "figurine", "dragon", "sos", "nfc", "bijou", "curiosite", "créature"],
+    href: "/art-toys",
+    icon: <Sparkles className="w-3.5 h-3.5" />,
+    categoryKeywords: [
+      "art-toy",
+      "art toy",
+      "créature",
+      "creature",
+      "curiosit",
+      "figurine",
+      "dragon",
+      "monstre",
+      "animau",
+    ],
+  },
+  {
+    id: "tactile",
+    title: "Tactile & Focus",
+    tagline: "Objets tactiles & mécaniques",
+    description: "Clickers nets, fidgets & switchs",
+    imageUrl: "/images/clicker_gallery_0.jpg",
+    href: "/tactile",
+    icon: <Zap className="w-3.5 h-3.5" />,
+    categoryKeywords: [
+      "clicker",
+      "cliqueur",
+      "fidget",
+      "mecanisme",
+      "mécanisme",
+      "switch",
+      "gyro",
+      "tactile",
+    ],
+  },
+  {
+    id: "objets-deco",
+    title: "Objets & Déco",
+    tagline: "Design & Quotidien",
+    description: "Supports, bureau & rangements",
+    imageUrl: "/images/imported/Spoolio-crane-dragon-vide-poche-12-scaled.webp",
+    href: "/objets-deco",
+    icon: <Palette className="w-3.5 h-3.5" />,
+    categoryKeywords: [
+      "déco",
+      "deco",
+      "support",
+      "rangement",
+      "bureau",
+      "boite",
+      "boîte",
+      "setup",
+      "vase",
+    ],
+  },
+  {
+    id: "tabletop",
+    title: "Tabletop",
+    tagline: "Jeux & Accessoires",
+    description: "Tours à dés, cartes & jeux",
+    imageUrl: "/images/imported/Spoolio-tour-a-de-pont-levis-1-scaled.webp",
+    href: "/tabletop",
+    icon: <Dices className="w-3.5 h-3.5" />,
+    categoryKeywords: [
+      "tabletop",
+      "jeu",
+      "jeux",
+      "dés",
+      "des",
+      "tour",
+      "cartes",
+      "carte",
+      "plateau",
+    ],
   },
 ];
 
@@ -61,97 +106,75 @@ export default function BoutiqueUniverses({
   selectedUniverse,
   onSelectUniverse,
 }: BoutiqueUniversesProps) {
-  return (
-    <section id="nos-univers" className="mb-10 font-sans select-none">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-4">
-        <div>
-          <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#ff4f00] uppercase tracking-wider mb-1">
-            <span>// Univers Spoolio</span>
-          </div>
-          <h2 className="text-xl sm:text-2xl font-black text-zinc-950 font-outfit tracking-tight">
-            Explorez la boutique par univers
-          </h2>
-        </div>
-        <p className="text-xs text-zinc-500 max-w-sm leading-relaxed">
-          Cliquez sur un univers pour filtrer instantanément toutes les créations correspondantes.
-        </p>
-      </div>
+  const activeUniverseObj = BOUTIQUE_UNIVERSES.find((u) => u.id === selectedUniverse);
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+  return (
+    <section id="nos-univers" className="mb-6 font-sans select-none" aria-label="Filtrer par univers">
+      {/* Desktop: single compact row. Mobile: smooth horizontal snap scroll */}
+      <div className="flex lg:grid lg:grid-cols-4 gap-2.5 sm:gap-3 overflow-x-auto pb-1 scrollbar-none snap-x">
         {BOUTIQUE_UNIVERSES.map((universe) => {
           const isSelected = selectedUniverse === universe.id;
 
           return (
-            <div
+            <button
               key={universe.id}
-              role="button"
-              tabIndex={0}
-              aria-pressed={isSelected}
+              type="button"
               onClick={() => onSelectUniverse(isSelected ? null : universe.id)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  onSelectUniverse(isSelected ? null : universe.id);
-                }
-              }}
-              className={`group relative aspect-[16/11] sm:aspect-[4/3] rounded-2xl overflow-hidden border cursor-pointer transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ff4f00] ${
+              className={`min-w-[210px] sm:min-w-0 flex-1 snap-start p-2 sm:p-2.5 rounded-xl border text-left transition-all duration-200 cursor-pointer flex items-center gap-3 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FF5500] ${
                 isSelected
-                  ? "border-[#ff4f00] ring-2 ring-[#ff4f00]/30 shadow-lg scale-[1.01]"
-                  : "border-zinc-200/90 hover:border-zinc-300 hover:shadow-md hover:-translate-y-0.5"
+                  ? "bg-[#FFF7F2] border-[#FF5500] ring-1 ring-[#FF5500]/50 shadow-2xs"
+                  : "bg-white border-[#E4E4E0] hover:border-[#18181B]/40 hover:bg-[#FAFAFA]"
               }`}
             >
-              {/* Product Background Image */}
-              <Image
-                src={universe.imageUrl}
-                alt={universe.title}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                className={`object-cover object-center transition-all duration-500 ease-out ${
-                  isSelected
-                    ? "scale-105 brightness-[0.75]"
-                    : "brightness-[0.7] group-hover:brightness-[0.8] group-hover:scale-105"
-                }`}
-              />
+              {/* Product Thumbnail */}
+              <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-lg overflow-hidden bg-[#F4F4F0] shrink-0 border border-black/5">
+                <Image
+                  src={universe.imageUrl}
+                  alt={universe.title}
+                  fill
+                  sizes="44px"
+                  className="object-cover"
+                />
+              </div>
 
-              {/* Gradient Dark Overlay */}
-              <div
-                className="absolute inset-0 bg-gradient-to-t from-zinc-950/95 via-zinc-950/50 to-zinc-950/20 pointer-events-none"
-                aria-hidden="true"
-              />
-
-              {/* Top Bar: Icon Tag & Active Status */}
-              <div className="absolute top-3 left-3 right-3 z-10 flex items-center justify-between pointer-events-none">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/60 backdrop-blur-md text-[10px] font-bold text-white border border-white/15">
-                  <span className="text-[#ff4f00]">{universe.icon}</span>
-                  <span>{universe.tagline}</span>
-                </span>
-
-                {isSelected && (
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#ff4f00] text-white text-[10px] font-black shadow-xs">
-                    <Check className="w-3 h-3" />
-                    <span>Actif</span>
+              {/* Title & Short Tagline */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-1">
+                  <span className={`text-xs font-bold leading-tight truncate ${
+                    isSelected ? "text-[#FF5500]" : "text-[#18181B]"
+                  }`}>
+                    {universe.title}
                   </span>
-                )}
-              </div>
-
-              {/* Bottom Content Area */}
-              <div className="absolute bottom-3 left-3 right-3 z-10 flex flex-col space-y-1">
-                <h3 className="text-base sm:text-lg font-black text-white font-outfit tracking-tight leading-tight group-hover:text-orange-200 transition-colors">
-                  {universe.title}
-                </h3>
-                <p className="text-[11px] text-zinc-300 line-clamp-1 leading-snug font-sans">
-                  {universe.description}
-                </p>
-
-                <div className="pt-1 flex items-center gap-1 text-[10px] font-bold text-[#ff4f00] uppercase tracking-wider group-hover:translate-x-1 transition-transform">
-                  <span>{isSelected ? "Désactiver le filtre" : "Filtrer cet univers"}</span>
-                  <ArrowRight className="w-3 h-3" />
+                  {isSelected && (
+                    <span className="w-4 h-4 rounded-full bg-[#FF5500] text-white flex items-center justify-center shrink-0">
+                      <Check className="w-2.5 h-2.5" />
+                    </span>
+                  )}
                 </div>
+                <span className="text-[10px] text-[#71717A] font-mono leading-none block truncate mt-0.5">
+                  {universe.description}
+                </span>
               </div>
-            </div>
+            </button>
           );
         })}
       </div>
+
+      {/* Active Universe Shortcut Banner */}
+      {activeUniverseObj && (
+        <div className="mt-2.5 px-3.5 py-2 rounded-xl bg-[#FFF7F2] border border-[#FF5500]/25 flex items-center justify-between text-xs animate-in fade-in duration-200">
+          <span className="text-zinc-800 font-medium">
+            Catalogue filtré sur <strong>{activeUniverseObj.title}</strong>
+          </span>
+          <Link
+            href={activeUniverseObj.href}
+            className="inline-flex items-center gap-1 font-bold text-[#FF5500] hover:underline shrink-0 ml-2 group"
+          >
+            <span>Explorer la page Univers</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+          </Link>
+        </div>
+      )}
     </section>
   );
 }

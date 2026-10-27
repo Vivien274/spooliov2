@@ -14,9 +14,91 @@ interface Props {
   params: Promise<{ name: string }>;
 }
 
+const LEGACY_CATEGORY_TARGETS: Record<string, string> = {
+  fidgets: "/tactile/fidgets",
+  fidget: "/tactile/fidgets",
+  "anti-stress": "/tactile/fidgets",
+  clickers: "/tactile/clickers",
+  clicker: "/tactile/clickers",
+  cliqueurs: "/tactile/clickers",
+  mecanismes: "/tactile/mecanismes",
+  "mécanismes": "/tactile/mecanismes",
+  "geek-gaming": "/objets-deco/supports",
+  geek: "/objets-deco/supports",
+  gaming: "/objets-deco/supports",
+  supports: "/objets-deco/supports",
+  "animaux-figurines": "/art-toys/creatures-curiosites",
+  "animaux-&-figurines": "/art-toys/creatures-curiosites",
+  animaux: "/art-toys/creatures-curiosites",
+  figurines: "/art-toys/creatures-curiosites",
+  "creatures-curiosites": "/art-toys/creatures-curiosites",
+  "créatures-&-curiosités": "/art-toys/creatures-curiosites",
+  "art-toys": "/art-toys/art-toys",
+  "cabinet-noir": "/collections/cabinet-noir",
+  decoration: "/objets-deco/decoration",
+  "décoration": "/objets-deco/decoration",
+  bijoux: "/objets-deco/decoration",
+  accessoires: "/objets-deco/bureau",
+  bureau: "/objets-deco/bureau",
+  "boite-sac-cadeau": "/objets-deco/rangement",
+  "boîtes,-sacs-&-emballage-cadeau": "/objets-deco/rangement",
+  rangement: "/objets-deco/rangement",
+  "objets-decales": "/objets-deco/objets-decales",
+  "objets-décalés": "/objets-deco/objets-decales",
+  "jeux-activites": "/tabletop/jeux",
+  "jeux-&-activités": "/tabletop/jeux",
+  jeux: "/tabletop/jeux",
+  "tours-a-des": "/tabletop/tours-a-des",
+  "tours-à-dés": "/tabletop/tours-a-des",
+  "cartes-accessoires": "/tabletop/cartes-accessoires",
+  "cartes-&-accessoires": "/tabletop/cartes-accessoires",
+  "pochettes-surprise": "/blind-bags",
+  "pochette-surprise": "/blind-bags",
+  "blind-bags": "/blind-bags",
+  "porte-cles": "/tactile/fidgets",
+  "porte-clés": "/tactile/fidgets",
+  tactile: "/tactile",
+  tabletop: "/tabletop",
+  "objets-deco": "/objets-deco",
+};
+
+export function resolveNewTaxonomyUrl(rawName: string): string | null {
+  const normalized = rawName
+    .toLowerCase()
+    .trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  if (LEGACY_CATEGORY_TARGETS[normalized]) {
+    return LEGACY_CATEGORY_TARGETS[normalized];
+  }
+  for (const [key, dest] of Object.entries(LEGACY_CATEGORY_TARGETS)) {
+    if (normalized.includes(key) || key.includes(normalized)) {
+      return dest;
+    }
+  }
+  return null;
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { name } = await params;
   const decodedName = decodeURIComponent(name).trim();
+  const newTarget = resolveNewTaxonomyUrl(decodedName);
+
+  if (newTarget) {
+    const canonicalUrl = `${BUSINESS_CONFIG.siteUrl}${newTarget}`;
+    return {
+      metadataBase: new URL(BUSINESS_CONFIG.siteUrl),
+      title: `${decodedName} — Spoolio V2`,
+      description: `Découvrez nos créations 3D Spoolio dans la nouvelle arborescence.`,
+      alternates: {
+        canonical: canonicalUrl,
+      },
+    };
+  }
+
   const config = findCategoryConfig(decodedName);
 
   const title = config?.metaTitle || `${decodedName} — Créations 3D | Spoolio`;
@@ -60,6 +142,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CategoryPage({ params }: Props) {
   const { name } = await params;
   const decodedName = decodeURIComponent(name).trim();
+
+  // 1. Redirection permanente 301/308 vers la nouvelle taxonomie V2.1
+  const newTaxonomyDestination = resolveNewTaxonomyUrl(decodedName);
+  if (newTaxonomyDestination) {
+    permanentRedirect(newTaxonomyDestination);
+  }
+
   const config = findCategoryConfig(decodedName);
 
   // If canonical clean slug differs from param, redirect 301 to avoid duplicate content

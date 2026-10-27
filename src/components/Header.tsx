@@ -29,10 +29,10 @@ const POPULAR_SEARCH_TAGS = [
 ];
 
 const QUICK_PAGE_SHORTCUTS = [
-  { title: "Toute la Boutique", href: "/boutique", icon: "🛍️", desc: "Découvrir tous les fidgets & créations 3D" },
-  { title: "Boussole Sensorielle", href: "/boussole-sensorielle", icon: "🧭", desc: "Trouvez l'objet adapté à votre besoin TDAH" },
-  { title: "Créateur de Clicker", href: "/createur-cliqueur", icon: "🖱️", desc: "Personnalisez votre porte-clé tactile" },
-  { title: "Pochette Surprise", href: "/pochette-surprise", icon: "🎁", desc: "Le pack mystère prêt à offrir" },
+  { title: "Toute la Boutique", href: "/boutique", icon: "🛍️", desc: "Découvrir toutes les créations & pièces d'atelier" },
+  { title: "Boussole Sensorielle", href: "/boussole-sensorielle", icon: "🧭", desc: "Trouvez l'objet adapté à votre manipulation" },
+  { title: "Créateur de Clicker", href: "/createur-cliqueur", icon: "🖱️", desc: "Personnalisez votre clicker tactile sur-mesure" },
+  { title: "Blind Bags", href: "/blind-bags", icon: "🎁", desc: "Le pack mystère kraft prêt à offrir" },
 ];
 
 export default function Header({
@@ -71,6 +71,21 @@ export default function Header({
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleLogoClick = () => {
+    if (typeof window !== "undefined") {
+      const clicks = ((window as any)._spoolioLogoClicks =
+        ((window as any)._spoolioLogoClicks || 0) + 1);
+      if (clicks >= 3) {
+        window.dispatchEvent(new CustomEvent("unlock-spooly"));
+        (window as any)._spoolioLogoClicks = 0;
+      } else {
+        setTimeout(() => {
+          (window as any)._spoolioLogoClicks = 0;
+        }, 1500);
+      }
+    }
+  };
 
   // Live search state
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
@@ -202,163 +217,181 @@ export default function Header({
         }
       >
       <VacationBanner />
-      <div className={`w-full flex items-center justify-between transition-all duration-300 relative z-10 ${isSticky
-          ? "h-16 md:h-20 px-4 sm:px-6 md:px-8 lg:px-12"
-          : "h-20 md:h-24 px-4 sm:px-6 md:px-8 lg:px-12"
+      <div className={`w-full max-w-[1440px] mx-auto transition-all duration-300 relative z-10 ${isSticky
+          ? "h-16 md:h-20 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12"
+          : "h-20 md:h-24 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12"
         }`}>
-        {/* LEFT COLUMN: Menu à gauche (Navigation desktop / Burger mobile) */}
-        <div className="flex items-center justify-start flex-1 basis-0 min-w-0">
-          {/* Mobile Burger Button (visible on mobile only) */}
-          <div className="flex md:hidden mr-2">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className={`w-10 h-10 flex items-center justify-center rounded-full transition-all cursor-pointer z-50 shadow-sm ${
-                isDark
-                  ? "bg-white/10 hover:bg-white/20 text-white border border-white/20 no-invert"
-                  : "bg-zinc-100 hover:bg-zinc-200 text-zinc-900 border border-zinc-200/80"
-              }`}
-              style={
-                isDark
-                  ? { backgroundColor: "rgba(255, 255, 255, 0.12)", borderColor: "rgba(255, 255, 255, 0.25)", color: "#ffffff" }
-                  : undefined
-              }
-              title="Menu"
-              aria-label={isMobileMenuOpen ? "Fermer le menu mobile" : "Ouvrir le menu mobile"}
+        {/* ========================================================================= */}
+        {/* DESKTOP 3-ZONE HEADER (md and up)                                         */}
+        {/* [ ZONE GAUCHE: Logo ] [ ZONE CENTRALE: Nav ] [ ZONE DROITE: Actions ]     */}
+        {/* ========================================================================= */}
+        <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] items-center w-full h-full">
+          {/* ZONE GAUCHE : Logo Spoolio (largeur naturelle, centré verticalement) */}
+          <div className="flex items-center justify-start min-w-0">
+            <Link
+              href="/"
+              onClick={handleLogoClick}
+              className="flex items-center cursor-pointer no-invert group shrink-0"
+              title="Spoolio - Accueil"
             >
-              {isMobileMenuOpen ? (
-                <svg className={`w-5 h-5 ${isDark ? "text-white" : "text-zinc-900"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+              <Image
+                src={isDark ? "/images/logo-spoolio-eyes-white.png" : "/images/logo-spoolio-eyes.png"}
+                alt="Spoolio Logo"
+                width={136}
+                height={40}
+                priority
+                className="h-8 lg:h-9 w-auto object-contain transition-all duration-300 header-logo group-hover:opacity-90"
+              />
+            </Link>
+          </div>
+
+          {/* ZONE CENTRALE : Navigation principale (réellement centrée visuellement) */}
+          <div className="flex items-center justify-center px-1 lg:px-3">
+            <MotionNavigationMenu isDark={isDark} />
+          </div>
+
+          {/* ZONE DROITE : Actions utilisateur (Recherche · Panier) */}
+          <div className="flex items-center justify-end gap-2 lg:gap-2.5 shrink-0">
+
+            {/* Action neutre : Recherche iconique */}
+            <button
+              onClick={() => setIsSearchOpen((prev) => !prev)}
+              className={`w-9.5 h-9.5 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-2xs shrink-0 header-search-btn ${
+                isSearchOpen
+                  ? "bg-zinc-900 text-white border border-zinc-900 scale-105 search-active"
+                  : isDark
+                    ? "bg-white/10 hover:bg-white/20 text-white border border-white/20 no-invert"
+                    : "bg-zinc-100 hover:bg-zinc-200 text-zinc-700 hover:text-zinc-950 border border-zinc-200/70"
+              }`}
+              title={isSearchOpen ? "Fermer la recherche (ESC)" : "Rechercher (Cmd+K)"}
+              aria-label={isSearchOpen ? "Fermer la recherche" : "Rechercher"}
+            >
+              {isSearchOpen ? (
+                <X className="w-4 h-4 text-white" />
               ) : (
-                <svg className={`w-5 h-5 ${isDark ? "text-white" : "text-zinc-900"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" />
+                <svg
+                  className={`w-4 h-4 ${isDark ? "text-white" : "text-black"}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               )}
             </button>
-          </div>
 
-          {/* Desktop Navigation Menu (Menu à gauche) */}
-          <div className="hidden md:flex items-center">
-            <MotionNavigationMenu isDark={isDark} />
+            {/* Action forte : Panier orange Spoolio */}
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className={`relative w-9.5 h-9.5 lg:w-10 lg:h-10 flex items-center justify-center bg-[#ff4f00] hover:bg-[#e04500] text-white rounded-full transition-all shadow-md shadow-[#ff4f00]/25 cursor-pointer shrink-0 ${
+                isBouncing ? "animate-bouncy-cart" : ""
+              }`}
+              title="Ouvrir le panier"
+              aria-label="Ouvrir le panier"
+            >
+              <svg className="w-4 h-4 md:w-4.5 md:h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-none no-invert">
+                  {cartCount}
+                </span>
+              )}
+            </button>
           </div>
         </div>
 
-        {/* CENTER COLUMN: Logo au centre absolu (parfaitement centré sur tous les breakpoints) */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-auto flex items-center justify-center">
-          <Link
-            href="/"
-            onClick={(e) => {
-              if (typeof window !== "undefined") {
-                const clicks = (window as any)._spoolioLogoClicks = ((window as any)._spoolioLogoClicks || 0) + 1;
-                if (clicks >= 3) {
-                  window.dispatchEvent(new CustomEvent("unlock-spooly"));
-                  (window as any)._spoolioLogoClicks = 0;
-                } else {
-                  setTimeout(() => {
-                    (window as any)._spoolioLogoClicks = 0;
-                  }, 1500);
-                }
-              }
-            }}
-            className="flex items-center justify-center cursor-pointer no-invert"
-          >
-            <Image
-              src={isDark ? "/images/logo-spoolio-eyes-white.png" : "/images/logo-spoolio-eyes.png"}
-              alt="Spoolio Logo"
-              width={140}
-              height={42}
-              priority
-              className="h-8 sm:h-9 md:h-10 w-auto object-contain transition-all duration-300 header-logo"
-            />
-          </Link>
-        </div>
-
-        {/* RIGHT COLUMN: Actions à droite (Bouton Soutenir sobre + Recherche + Bouton Panier prioritaire) */}
-        <div className="flex items-center justify-end flex-1 basis-0 min-w-0 gap-2 sm:gap-3">
-          {/* Soutenir Button (Visible sur desktop/tablette uniquement pour libérer l'espace logo sur mobile) */}
-          <Link
-            href="/don"
-            className={`hidden sm:flex h-9 px-2.5 sm:px-3 rounded-full text-xs font-medium items-center justify-center gap-1.5 transition-all duration-200 cursor-pointer shrink-0 no-invert ${
-              isDark
-                ? "border border-white/20 bg-white/10 hover:bg-white/20 hover:border-white/30 text-zinc-100 hover:text-white"
-                : "border border-zinc-200/80 bg-zinc-50/50 hover:bg-zinc-100 hover:border-zinc-300 text-zinc-500 hover:text-zinc-800"
-            }`}
-            style={
-              isDark
-                ? {
-                    backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    borderColor: "rgba(255, 255, 255, 0.2)",
-                    color: "#f4f4f5",
-                  }
-                : undefined
-            }
-            title={t("footer.support_workshop")}
-          >
-            <Sparkles className={`w-3.5 h-3.5 shrink-0 ${isDark ? "text-zinc-200" : "text-zinc-400"}`} />
-            <span className="whitespace-nowrap">{t("footer.support_workshop")}</span>
-          </Link>
-
-          {/* Search Button (Desktop & Mobile) */}
+        {/* ========================================================================= */}
+        {/* MOBILE / TABLET HEADER (below md)                                         */}
+        {/* Burger à gauche, Logo centré, Recherche + Panier à droite                 */}
+        {/* ========================================================================= */}
+        <div className="flex md:hidden items-center justify-between w-full h-full relative">
+          {/* Mobile Burger Button */}
           <button
-            onClick={() => setIsSearchOpen((prev) => !prev)}
-            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-sm shrink-0 header-search-btn ${
-              isSearchOpen
-                ? "bg-zinc-900 text-white border border-zinc-900 scale-105 search-active"
-                : isDark
-                  ? "bg-white/10 hover:bg-white/20 text-white border border-white/20 no-invert"
-                  : "bg-zinc-100 hover:bg-zinc-200 text-black border border-zinc-200/80"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className={`w-10 h-10 flex items-center justify-center rounded-full transition-all cursor-pointer z-50 ${
+              isDark
+                ? "bg-transparent hover:bg-white/10 text-white no-invert"
+                : "bg-transparent hover:bg-zinc-100 text-zinc-900"
             }`}
-            style={
-              isSearchOpen
-                ? {
-                    backgroundColor: "#18181b",
-                    borderColor: "#18181b",
-                    color: "#ffffff",
-                  }
-                : isDark
-                  ? {
-                      backgroundColor: "rgba(255, 255, 255, 0.12)",
-                      borderColor: "rgba(255, 255, 255, 0.2)",
-                      color: "#ffffff",
-                    }
-                  : {
-                      color: "#000000",
-                    }
-            }
-            title={isSearchOpen ? "Fermer la recherche (ESC)" : "Rechercher (Cmd+K)"}
-            aria-label={isSearchOpen ? "Fermer la recherche" : "Rechercher"}
+            title="Menu"
+            aria-label={isMobileMenuOpen ? "Fermer le menu mobile" : "Ouvrir le menu mobile"}
           >
-            {isSearchOpen ? (
-              <X className="w-4 h-4 text-white" />
+            {isMobileMenuOpen ? (
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
             ) : (
-              <svg
-                className={`w-4 h-4 ${isDark ? "text-white" : "text-black"}`}
-                style={{ color: isDark ? "#ffffff" : "#000000", stroke: isDark ? "currentColor" : "#000000" }}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 6h16M4 12h16M4 18h10" />
               </svg>
             )}
           </button>
 
-          {/* Cart Button */}
-          <button
-            onClick={() => setIsCartOpen(true)}
-            className={`relative w-10 h-10 md:w-11 md:h-11 flex items-center justify-center bg-[#ff4f00] hover:bg-[#e04500] text-white rounded-full transition-colors shadow-lg shadow-[#ff4f00]/20 cursor-pointer shrink-0 ${isBouncing ? "animate-bouncy-cart" : ""}`}
-            title="Ouvrir le panier"
-            aria-label="Ouvrir le panier"
-          >
-            <svg className="w-4 h-4 md:w-4.5 md:h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-            {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-none no-invert">
-                {cartCount}
-              </span>
-            )}
-          </button>
+          {/* Logo centré sur mobile */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-auto flex items-center justify-center">
+            <Link
+              href="/"
+              onClick={handleLogoClick}
+              className="flex items-center justify-center cursor-pointer no-invert"
+            >
+              <Image
+                src={isDark ? "/images/logo-spoolio-eyes-white.png" : "/images/logo-spoolio-eyes.png"}
+                alt="Spoolio Logo"
+                width={130}
+                height={38}
+                priority
+                className="h-8 sm:h-9 w-auto object-contain header-logo"
+              />
+            </Link>
+          </div>
+
+          {/* Actions Droite Mobile (Recherche + Panier) */}
+          <div className="flex items-center gap-2 z-30">
+            <button
+              onClick={() => setIsSearchOpen((prev) => !prev)}
+              className={`w-9.5 h-9.5 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-sm header-search-btn ${
+                isSearchOpen
+                  ? "bg-zinc-900 text-white border border-zinc-900 scale-105 search-active"
+                  : isDark
+                    ? "bg-white/10 hover:bg-white/20 text-white border border-white/20 no-invert"
+                    : "bg-zinc-100 hover:bg-zinc-200 text-black border border-zinc-200/80"
+              }`}
+              title={isSearchOpen ? "Fermer la recherche (ESC)" : "Rechercher"}
+              aria-label={isSearchOpen ? "Fermer la recherche" : "Rechercher"}
+            >
+              {isSearchOpen ? (
+                <X className="w-4 h-4 text-white" />
+              ) : (
+                <svg
+                  className={`w-4 h-4 ${isDark ? "text-white" : "text-black"}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              )}
+            </button>
+
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className={`relative w-9.5 h-9.5 flex items-center justify-center bg-[#ff4f00] hover:bg-[#e04500] text-white rounded-full transition-colors shadow-lg shadow-[#ff4f00]/20 cursor-pointer ${
+                isBouncing ? "animate-bouncy-cart" : ""
+              }`}
+              title="Ouvrir le panier"
+              aria-label="Ouvrir le panier"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-none no-invert">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
