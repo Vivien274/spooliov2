@@ -63,9 +63,9 @@ export const CATEGORIES_CONFIG: Record<string, CategorySEOConfig> = {
         description: "Personnalisez votre switch mécanique et vos couleurs en 3D sur mesure.",
       },
       {
-        label: "Pourquoi l'impression 3D chez Spoolio ?",
-        href: "/blog/pourquoi-l-impression-3d-magie-envers-du-decor-chez-spoolio",
-        description: "Découvrez les coulisses de notre atelier et nos engagements éco-responsables.",
+        label: "Le PLA biosourcé en atelier",
+        href: "/blog/pla-biosource-impression-3d-eco-responsable",
+        description: "Découvrez les coulisses de notre atelier et nos choix de matière.",
       },
     ],
   },

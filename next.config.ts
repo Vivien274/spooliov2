@@ -124,11 +124,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/pochette-surprise",
-        destination: "/blind-bags",
-        permanent: true,
-      },
-      {
         source: "/categorie/art-toys",
         destination: "/art-toys/art-toys",
         permanent: true,
