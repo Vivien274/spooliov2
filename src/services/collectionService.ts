@@ -49,9 +49,7 @@ async function getCollectionProductIds(collectionId: number): Promise<number[]> 
       .eq("taxonomy_id", collectionId);
 
     if (error || !rows) {
-      if (isProduction) {
-        throw new Error(`[Supabase Error] getCollectionProductIds: ${error?.message}`);
-      }
+      console.warn(`[Taxonomy Service] getCollectionProductIds repli fallback:`, error?.message);
       return (fallbackData.productTaxonomy as any[])
         .filter((pt) => pt.taxonomy_id === collectionId)
         .map((pt) => pt.product_id);
@@ -59,7 +57,7 @@ async function getCollectionProductIds(collectionId: number): Promise<number[]> 
 
     return rows.map((r: any) => r.product_id);
   } catch (err: any) {
-    if (isProduction) throw err;
+    console.warn(`[Taxonomy Service] getCollectionProductIds exception, repli fallback:`, err.message);
     return (fallbackData.productTaxonomy as any[])
       .filter((pt) => pt.taxonomy_id === collectionId)
       .map((pt) => pt.product_id);
@@ -85,9 +83,7 @@ async function getCollectionProductCounts(collectionIds: number[]): Promise<Reco
       .in("taxonomy_id", collectionIds);
 
     if (error || !rows) {
-      if (isProduction) {
-        throw new Error(`[Supabase Error] getCollectionProductCounts: ${error?.message}`);
-      }
+      console.warn(`[Taxonomy Service] getCollectionProductCounts repli fallback:`, error?.message);
       (fallbackData.productTaxonomy as any[])
         .filter((pt) => collectionIds.includes(pt.taxonomy_id))
         .forEach((pt) => {
@@ -101,7 +97,7 @@ async function getCollectionProductCounts(collectionIds: number[]): Promise<Reco
     });
     return counts;
   } catch (err: any) {
-    if (isProduction) throw err;
+    console.warn(`[Taxonomy Service] getCollectionProductCounts exception, repli fallback:`, err.message);
     (fallbackData.productTaxonomy as any[])
       .filter((pt) => collectionIds.includes(pt.taxonomy_id))
       .forEach((pt) => {

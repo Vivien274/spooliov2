@@ -46,9 +46,7 @@ async function getUniverseProductIds(universeId: number): Promise<number[]> {
       .eq("taxonomy_id", universeId);
 
     if (error || !rows) {
-      if (isProduction) {
-        throw new Error(`[Supabase Error] getUniverseProductIds: ${error?.message}`);
-      }
+      console.warn(`[Taxonomy Service] getUniverseProductIds repli fallback:`, error?.message);
       return (fallbackData.productTaxonomy as any[])
         .filter((pt) => pt.taxonomy_id === universeId)
         .map((pt) => pt.product_id);
@@ -56,7 +54,7 @@ async function getUniverseProductIds(universeId: number): Promise<number[]> {
 
     return rows.map((r: any) => r.product_id);
   } catch (err: any) {
-    if (isProduction) throw err;
+    console.warn(`[Taxonomy Service] getUniverseProductIds exception, repli fallback:`, err.message);
     return (fallbackData.productTaxonomy as any[])
       .filter((pt) => pt.taxonomy_id === universeId)
       .map((pt) => pt.product_id);
@@ -82,9 +80,7 @@ async function getCategoryProductMap(categoryIds: number[]): Promise<Record<numb
       .in("taxonomy_id", categoryIds);
 
     if (error || !rows) {
-      if (isProduction) {
-        throw new Error(`[Supabase Error] getCategoryProductMap: ${error?.message}`);
-      }
+      console.warn(`[Taxonomy Service] getCategoryProductMap repli fallback:`, error?.message);
       (fallbackData.productTaxonomy as any[])
         .filter((pt) => categoryIds.includes(pt.taxonomy_id))
         .forEach((pt) => {
@@ -100,7 +96,7 @@ async function getCategoryProductMap(categoryIds: number[]): Promise<Record<numb
     });
     return map;
   } catch (err: any) {
-    if (isProduction) throw err;
+    console.warn(`[Taxonomy Service] getCategoryProductMap exception, repli fallback:`, err.message);
     (fallbackData.productTaxonomy as any[])
       .filter((pt) => categoryIds.includes(pt.taxonomy_id))
       .forEach((pt) => {

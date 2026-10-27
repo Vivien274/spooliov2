@@ -65,11 +65,7 @@ export async function getTaxonomies(): Promise<CatalogTaxonomyItem[]> {
     let items: CatalogTaxonomyItem[] = [];
 
     if (taxError || !taxData) {
-      if (isProduction) {
-        // En production : Supabase est la seule source de vérité, interdiction de masquer l'erreur
-        throw new Error(`[Supabase Production Error] Échec de lecture catalog_taxonomy: ${taxError?.message || "Données indisponibles"}`);
-      }
-      console.warn("[Taxonomy Local Dev] Utilisation du snapshot de secours:", taxError?.message);
+      console.warn("[Taxonomy Service] Impossible de charger catalog_taxonomy depuis Supabase, utilisation du fallback éditorial:", taxError?.message);
       items = (fallbackData.taxonomy as any[]) || [];
     } else {
       items = taxData as CatalogTaxonomyItem[];
@@ -93,7 +89,7 @@ export async function getTaxonomies(): Promise<CatalogTaxonomyItem[]> {
     const counts: Record<number, number> = {};
     const prods = (!prodErr && prodTaxData)
       ? prodTaxData
-      : (!isProduction ? (fallbackData.productTaxonomy as any[]) || [] : []);
+      : ((fallbackData.productTaxonomy as any[]) || []);
 
     prods.forEach((pt: any) => {
       counts[pt.taxonomy_id] = (counts[pt.taxonomy_id] || 0) + 1;
@@ -111,10 +107,7 @@ export async function getTaxonomies(): Promise<CatalogTaxonomyItem[]> {
       parent_name: item.parent_id ? universeMap.get(item.parent_id) || "—" : undefined,
     }));
   } catch (error: any) {
-    if (isProduction) {
-      throw error;
-    }
-    console.warn("[Taxonomy Local Dev Fallback on Exception]:", error.message);
+    console.warn("[Taxonomy Service Exception] Repli sur le fallback éditorial:", error.message);
     return (fallbackData.taxonomy as any[]) || [];
   }
 }
@@ -160,9 +153,7 @@ export async function getProductTaxonomy(productId: number): Promise<ProductTaxo
 
     let mappingRows = rows;
     if (error || !rows) {
-      if (isProduction) {
-        throw new Error(`[Supabase Production Error] Échec de lecture product_taxonomy: ${error?.message}`);
-      }
+      console.warn("[Taxonomy Service] Impossible de charger product_taxonomy depuis Supabase, repli sur le fallback:", error?.message);
       mappingRows = (fallbackData.productTaxonomy as any[]).filter(
         (pt) => pt.product_id === productId
       );
@@ -202,14 +193,34 @@ export async function getProductTaxonomy(productId: number): Promise<ProductTaxo
       tags: tagIds.map((id) => taxById.get(id)).filter(Boolean) as CatalogTaxonomyItem[],
     };
   } catch (err: any) {
-    if (isProduction) throw err;
-    console.warn("[Taxonomy Local Dev] Erreur getProductTaxonomy:", err.message);
+    console.warn("[Taxonomy Service] Erreur getProductTaxonomy, repli fallback:", err.message);
+    const fallbackRows = (fallbackData.productTaxonomy as any[]).filter(
+      (pt) => pt.product_id === productId
+    );
+    let universeId: number | null = null;
+    let categoryId: number | null = null;
+    const collectionIds: number[] = [];
+    const tagIds: number[] = [];
+
+    fallbackRows.forEach((row: any) => {
+      const taxItem = taxById.get(row.taxonomy_id);
+      if (!taxItem) return;
+      if (taxItem.type === "universe") universeId = taxItem.id;
+      else if (taxItem.type === "category" && !categoryId) categoryId = taxItem.id;
+      else if (taxItem.type === "collection") collectionIds.push(taxItem.id);
+      else if (taxItem.type === "tag") tagIds.push(taxItem.id);
+    });
+
     return {
       productId,
-      universeId: null,
-      categoryId: null,
-      collectionIds: [],
-      tagIds: [],
+      universeId,
+      universe: universeId ? taxById.get(universeId) || null : null,
+      categoryId,
+      category: categoryId ? taxById.get(categoryId) || null : null,
+      collectionIds,
+      collections: collectionIds.map((id) => taxById.get(id)).filter(Boolean) as CatalogTaxonomyItem[],
+      tagIds,
+      tags: tagIds.map((id) => taxById.get(id)).filter(Boolean) as CatalogTaxonomyItem[],
     };
   }
 }
