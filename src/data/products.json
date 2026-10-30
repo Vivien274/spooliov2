@@ -10,9 +10,9 @@
     "on_sale": false,
     "categories": [
       {
-        "id": 77,
-        "name": "Décoration",
-        "slug": "decoration"
+        "id": 2,
+        "name": "Vases",
+        "slug": "vases"
       }
     ],
     "short_description": "<p data-pm-slice=\"1 1 []\">Un vase tout en courbes et en mouvement.</p><p>Avec ses lignes verticales et sa silhouette ondulée, <strong>Ressort</strong> joue avec la lumière et donne presque l’impression de changer de forme selon l’angle de vue. Une pièce graphique pensée autant pour accueillir un bouquet que pour vivre seule comme objet déco.</p>",

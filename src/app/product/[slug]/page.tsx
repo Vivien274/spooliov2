@@ -70,7 +70,13 @@ function resolveFallbackBreadcrumbTaxonomy(categoryName?: string) {
       category: { name: "Bureau", slug: "bureau" },
     };
   }
-  if (lower.includes("déco") || lower.includes("deco") || lower.includes("bijou") || lower.includes("vase")) {
+  if (lower.includes("vase")) {
+    return {
+      universe: { name: "Objets & Déco", slug: "objets-deco" },
+      category: { name: "Vases", slug: "vases" },
+    };
+  }
+  if (lower.includes("déco") || lower.includes("deco") || lower.includes("bijou")) {
     return {
       universe: { name: "Objets & Déco", slug: "objets-deco" },
       category: { name: "Décoration", slug: "decoration" },

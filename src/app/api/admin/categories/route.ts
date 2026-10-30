@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getSupabaseServerClient } from "@/lib/supabaseClient";
 
 // Helper to slugify string
 function slugify(text: string): string {
@@ -80,6 +81,37 @@ export async function POST(req: Request) {
         slug: slug
       }
     });
+
+    // Synchronisation automatique dans la taxonomie V2.1 (catalog_taxonomy)
+    try {
+      const supabase = getSupabaseServerClient();
+      const { data: taxExisting } = await supabase
+        .from("catalog_taxonomy")
+        .select("id")
+        .eq("slug", slug)
+        .maybeSingle();
+
+      if (!taxExisting) {
+        const { data: all } = await supabase
+          .from("catalog_taxonomy")
+          .select("id")
+          .order("id", { ascending: false })
+          .limit(1);
+        const nextId = (all?.[0]?.id || 150) + 1;
+        const parentId = body.universeId ? Number(body.universeId) : 3; // Objets & Déco par défaut si non spécifié
+        await supabase.from("catalog_taxonomy").insert({
+          id: nextId,
+          type: "category",
+          name: name.trim(),
+          slug,
+          parent_id: parentId,
+          is_active: true,
+          is_indexable: true,
+        });
+      }
+    } catch (supaErr) {
+      console.warn("[Admin Categories] Notice de synchronisation Supabase:", supaErr);
+    }
 
     return NextResponse.json({ category }, { status: 201 });
   } catch (err: any) {

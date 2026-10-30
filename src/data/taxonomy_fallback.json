@@ -2319,6 +2319,20 @@
       "is_indexable": false,
       "created_at": "2026-10-10T14:18:06.006614+00:00",
       "updated_at": "2026-10-10T14:18:06.006614+00:00"
+    },
+    {
+      "id": 146,
+      "type": "category",
+      "name": "Vases",
+      "slug": "vases",
+      "parent_id": 3,
+      "subtitle": "Des vases graphiques et ondulés pensés comme de véritables objets de design.",
+      "description": "Découvrez les vases design Spoolio imprimés en 3D à Comines : silhouettes ondulées, textures et jeux de lumière.",
+      "seo_title": "Vases design imprimés en 3D — Spoolio",
+      "seo_description": "Vases design, sculptures et objets déco imprimés en 3D en France en PLA biosourcé.",
+      "sort_order": 15,
+      "is_active": true,
+      "is_indexable": true
     }
   ],
   "productTaxonomy": [
@@ -5635,7 +5649,7 @@
     },
     {
       "product_id": 19,
-      "taxonomy_id": 11,
+      "taxonomy_id": 146,
       "is_primary": true
     },
     {

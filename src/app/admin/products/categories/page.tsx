@@ -18,6 +18,7 @@ export default function AdminCategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [newName, setNewName] = useState<string>("");
+  const [selectedUniverse, setSelectedUniverse] = useState<number>(3); // 3 = Objets & Déco
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -56,7 +57,7 @@ export default function AdminCategoriesPage() {
       const res = await fetch("/api/admin/categories", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: newName.trim() }),
+        body: JSON.stringify({ name: newName.trim(), universeId: selectedUniverse }),
       });
       const data = await res.json();
 
@@ -138,9 +139,28 @@ export default function AdminCategoriesPage() {
                 required
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
-                placeholder="Ex: Porte-clés, Supports Bureau"
-                className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#2F3CD9]`}
+                placeholder="Ex: Vases, Supports Bureau"
+                className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#ff4f00]`}
               />
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label className={`text-[10px] font-black uppercase tracking-wider ${cls.textFaint}`}>
+                Univers Spoolio V2.1 associé *
+              </label>
+              <select
+                value={selectedUniverse}
+                onChange={(e) => setSelectedUniverse(Number(e.target.value))}
+                className={`h-10 border rounded-xl px-3 outline-none transition-colors ${cls.inputBg} ${cls.border} ${cls.textMain} focus:border-[#ff4f00] cursor-pointer`}
+              >
+                <option value={3}>Objets & Déco</option>
+                <option value={2}>Tactile & Focus</option>
+                <option value={1}>Art Toys & Collectibles</option>
+                <option value={4}>Tabletop</option>
+              </select>
+              <p className={`text-[11px] ${cls.textMuted}`}>
+                Permet à la catégorie d&apos;apparaître directement dans la liste déroulante lors de l&apos;ajout d&apos;un produit.
+              </p>
             </div>
 
             {successMsg && (
