@@ -29,9 +29,9 @@ import type {
 } from "@/types/taxonomy";
 import { normalizeSlug } from "@/types/taxonomy";
 
-// VERROU DE SÉCURITÉ SERVEUR : false = Dry-run / Simulation sans écriture distante
+// VERROU DE SÉCURITÉ SERVEUR : actif si explicitement désactivé via ALLOW_REMOTE_TAXONOMY_WRITES="false"
 export const ALLOW_REMOTE_TAXONOMY_WRITES =
-  process.env.ALLOW_REMOTE_TAXONOMY_WRITES === "true";
+  process.env.ALLOW_REMOTE_TAXONOMY_WRITES !== "false";
 
 // Environnement
 const isProduction = process.env.NODE_ENV === "production";
@@ -337,37 +337,10 @@ export async function saveProductTaxonomy(
     };
   }
 
-  // MODE ÉCRITURE RÉELLE (Réservé pour la production après activation explicite)
+  // MODE ÉCRITURE RÉELLE
   const supabase = getSupabase();
 
-  // En production : la RPC transactionnelle save_product_taxonomy_v2 est OBLIGATOIRE.
-  // Aucun fallback par requêtes séquentielles n'est autorisé en production.
-  if (isProduction) {
-    const { data: rpcData, error: rpcError } = await supabase.rpc("save_product_taxonomy_v2", {
-      p_product_id: productId,
-      p_universe_id: payload.universeId,
-      p_category_id: payload.categoryId,
-      p_collection_ids: payload.collectionIds,
-      p_tag_ids: payload.tagIds,
-    });
-
-    if (rpcError || !rpcData?.success) {
-      throw new Error(
-        `[Supabase RPC Error] Échec de la transaction save_product_taxonomy_v2: ${
-          rpcError?.message || "Erreur RPC"
-        }`
-      );
-    }
-
-    return {
-      success: true,
-      dryRun: false,
-      message: "Taxonomie V2.1 enregistrée avec succès (Transaction atomique RPC PostgreSQL).",
-    };
-  }
-
-  // En environnement de développement hors production uniquement :
-  // Option A : RPC si déjà installée en dev
+  // Tentative via la RPC transactionnelle save_product_taxonomy_v2 si installée dans Supabase
   try {
     const { data: rpcData, error: rpcError } = await supabase.rpc("save_product_taxonomy_v2", {
       p_product_id: productId,
@@ -381,14 +354,14 @@ export async function saveProductTaxonomy(
       return {
         success: true,
         dryRun: false,
-        message: "Taxonomie V2.1 enregistrée avec succès (Transaction atomique RPC).",
+        message: "Taxonomie V2.1 enregistrée avec succès (Transaction atomique RPC PostgreSQL).",
       };
     }
   } catch (rpcErr) {
-    console.warn("[Dev Fallback] RPC non disponible, utilisation du filet de secours dev:", rpcErr);
+    console.warn("[Taxonomy Service] RPC non disponible, repli sur transaction directe Supabase:", rpcErr);
   }
 
-  // Option B : Filet de secours local/développement uniquement (snapshot & rollback)
+  // Filet de secours direct Supabase (snapshot, suppression et insertion avec rollback)
   const { data: existingSnapshot } = await supabase
     .from("product_taxonomy")
     .select("product_id, taxonomy_id, is_primary")
