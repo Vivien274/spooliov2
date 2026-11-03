@@ -20,7 +20,7 @@ export const CATEGORY_PORTALS: CategoryPortal[] = [
     code: "01 //",
     title: "ART TOYS & CURIOSITÉS",
     subtitle: "Créatures articulées, personnages pop et pièces de collection.",
-    imageUrl: "/images/blind-bag-home.webp",
+    imageUrl: "/images/kurb-art-toy.jpg",
     count: "ART TOYS",
     href: "/art-toys",
   },
