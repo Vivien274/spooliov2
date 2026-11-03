@@ -6,6 +6,7 @@ import HomeTabbedProductGrid from "@/components/HomeTabbedProductGrid";
 import AnimatedHero from "@/components/AnimatedHero";
 import HeroMarqueeBanner from "@/components/HeroMarqueeBanner";
 import HomeCategoryPortals from "@/components/HomeCategoryPortals";
+import ChristmasGiftFinderBanner from "@/components/ChristmasGiftFinderBanner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReviewsSection from "@/components/ReviewsSection";
@@ -290,6 +291,9 @@ export default async function HomePage() {
 
       {/* 2.b Portes d'Entrée vers les 4 Catégories */}
       <HomeCategoryPortals />
+
+      {/* 2.c Bloc Dédié Noël — Trouveur de Cadeau Spoolio */}
+      <ChristmasGiftFinderBanner />
 
       {/* 3. Tabbed Product Showcase */}
       <section className="w-full max-w-[1200px] px-4 py-8 relative z-10 flex flex-col gap-10">

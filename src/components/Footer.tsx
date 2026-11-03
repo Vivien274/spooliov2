@@ -138,6 +138,11 @@ export default function Footer({ className = "", isDark = false }: FooterProps) 
                   Blind Bags
                 </Link>
               </li>
+              <li>
+                <Link href="/trouveur-de-cadeau" className={`${linkCls} transition-colors`}>
+                  Trouveur de Cadeau 🎅
+                </Link>
+              </li>
             </ul>
           </div>
 

@@ -29,6 +29,7 @@ const POPULAR_SEARCH_TAGS = [
 ];
 
 const QUICK_PAGE_SHORTCUTS = [
+  { title: "Trouveur de Cadeau", href: "/trouveur-de-cadeau", icon: "🎅", desc: "Guide interactif de Noël pour trouver le cadeau 3D idéal" },
   { title: "Toute la Boutique", href: "/boutique", icon: "🛍️", desc: "Découvrir toutes les créations & pièces d'atelier" },
   { title: "Boussole Sensorielle", href: "/boussole-sensorielle", icon: "🧭", desc: "Guide interactif des sensations tactiles" },
   { title: "Créateur de Clicker", href: "/createur-cliqueur", icon: "🖱️", desc: "Personnalisez votre clicker tactile sur-mesure" },
