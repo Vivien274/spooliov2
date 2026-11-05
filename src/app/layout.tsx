@@ -14,6 +14,7 @@ const CookieBanner = dynamic(() => import("@/components/CookieBanner"));
 const NewsletterPopup = dynamic(() => import("@/components/NewsletterPopup"));
 const TombolaFloatingBanner = dynamic(() => import("@/components/TombolaFloatingBanner"));
 import AdminToolbarLoader from "@/components/AdminToolbarLoader";
+import NavigationProgressBar from "@/components/NavigationProgressBar";
 
 const beVietnamPro = Be_Vietnam_Pro({
   variable: "--font-be-vietnam-pro",
@@ -142,6 +143,7 @@ export default function RootLayout({
           }}
         />
         {gaId && <GoogleAnalytics gaId={gaId} />}
+        <NavigationProgressBar />
         <LanguageProvider>
           <CartProvider>
             <VisitorTracker />
