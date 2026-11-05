@@ -1,24 +1,51 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 export default function ContactClient() {
+  const searchParams = useSearchParams();
+  const paramSubject = searchParams.get("subject");
+  const paramMessage = searchParams.get("message");
+  const paramProduct = searchParams.get("product");
+
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [subject, setSubject] = useState<string>("general");
-  const [message, setMessage] = useState<string>("");
+  const [subject, setSubject] = useState<string>(() => {
+    if (paramSubject === "specs") return "specs";
+    if (paramSubject) return paramSubject;
+    return "general";
+  });
+  const [message, setMessage] = useState<string>(() => paramMessage || "");
+  const [productName, setProductName] = useState<string>(() => paramProduct || "");
   const [loading, setLoading] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (paramSubject === "specs") setSubject("specs");
+    else if (paramSubject) setSubject(paramSubject);
+    if (paramMessage) setMessage(paramMessage);
+    if (paramProduct) setProductName(paramProduct);
+  }, [paramSubject, paramMessage, paramProduct]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     setSuccessMessage(null);
+
+    const subjectLabel =
+      subject === "order"
+        ? "Ma commande"
+        : subject === "custom"
+        ? "Projet personnalisé"
+        : subject === "specs"
+        ? `Caractéristiques produit (${productName || "demande"})`
+        : "Question générale";
 
     try {
       const res = await fetch("/api/contact", {
@@ -27,7 +54,7 @@ export default function ContactClient() {
         body: JSON.stringify({
           name,
           email,
-          subject: subject === "order" ? "Ma commande" : subject === "custom" ? "Projet personnalisé" : "Question générale",
+          subject: subjectLabel,
           message
         }),
       });
@@ -133,6 +160,18 @@ export default function ContactClient() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-4 font-sans text-xs">
+                {productName && (
+                  <div className="p-3.5 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-between gap-3 text-xs text-orange-950 font-bold">
+                    <div className="flex items-center gap-2">
+                      <span className="text-base select-none">📦</span>
+                      <span>Demande de caractéristiques pour : <strong className="text-[#ff4f00] font-black">{productName}</strong></span>
+                    </div>
+                    <span className="text-[10px] font-mono uppercase font-bold text-orange-700 bg-orange-100/80 px-2 py-0.5 rounded-full shrink-0">
+                      Prérempli
+                    </span>
+                  </div>
+                )}
+
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-bold text-zinc-700">
                     Votre nom *
@@ -171,6 +210,7 @@ export default function ContactClient() {
                     className="h-11 border border-zinc-200 bg-zinc-50 rounded-xl px-3 outline-none transition-colors appearance-none cursor-pointer text-zinc-900 focus:bg-white focus:border-[#ff4f00] focus:ring-2 focus:ring-[#ff4f00]/10"
                   >
                     <option value="general">Question générale / Renseignement</option>
+                    <option value="specs">Caractéristiques produit (taille, poids, matière...)</option>
                     <option value="order">Ma commande / Suivi de colis</option>
                     <option value="custom">Demande d&apos;impression 3D personnalisée</option>
                     <option value="bug">Signaler un bug sur le site</option>

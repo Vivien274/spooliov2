@@ -42,8 +42,9 @@ export async function GET(req: Request) {
 
       if (p) {
         let tagsList: string[] = [];
-        let attributesObj = { attributes: [] as any[], variationPrices: [] as any[] };
+        let attributesObj: any = { attributes: [] as any[], variationPrices: [] as any[] };
         let badgeValue = "";
+        let technicalSpecs = undefined;
         if (p.attributes) {
           try {
             const parsed = typeof p.attributes === 'string' ? JSON.parse(p.attributes) : p.attributes;
@@ -53,9 +54,11 @@ export async function GET(req: Request) {
               attributesObj = {
                 attributes: parsed.attributes || [],
                 variationPrices: parsed.variationPrices || [],
+                technicalSpecs: parsed.technicalSpecs || undefined,
               };
               tagsList = parsed.tags || [];
               badgeValue = parsed.badge || "";
+              technicalSpecs = parsed.technicalSpecs || undefined;
             }
           } catch (e) {
             console.warn("Could not parse product attributes:", e);
@@ -71,6 +74,7 @@ export async function GET(req: Request) {
           category: p.categories[0]?.name || "",
           tags: tagsList,
           badge: badgeValue,
+          technicalSpecs: technicalSpecs || { dimensions: "", weight: "", material: "", other: "" },
           price: p.price,
           salePrice: p.salePrice || "",
           productType: p.productType || "simple",
@@ -108,8 +112,9 @@ export async function GET(req: Request) {
           const match = parsed.find(p => p.id === numericId);
           if (match) {
             let tagsList: string[] = [];
-            let attributesObj = { attributes: [] as any[], variationPrices: [] as any[] };
+            let attributesObj: any = { attributes: [] as any[], variationPrices: [] as any[] };
             let badgeValue = "";
+            let technicalSpecs = undefined;
             if (match.attributes) {
               try {
                 const parsed = typeof match.attributes === 'string' ? JSON.parse(match.attributes) : match.attributes;
@@ -119,9 +124,11 @@ export async function GET(req: Request) {
                   attributesObj = {
                     attributes: parsed.attributes || [],
                     variationPrices: parsed.variationPrices || [],
+                    technicalSpecs: parsed.technicalSpecs || undefined,
                   };
                   tagsList = parsed.tags || [];
                   badgeValue = parsed.badge || "";
+                  technicalSpecs = parsed.technicalSpecs || undefined;
                 }
               } catch (e) {
                 console.warn("Could not parse JSON product attributes:", e);
@@ -137,6 +144,7 @@ export async function GET(req: Request) {
               category: match.categories?.[0]?.name || "",
               tags: tagsList,
               badge: badgeValue,
+              technicalSpecs: technicalSpecs || { dimensions: "", weight: "", material: "", other: "" },
               price: match.price || "0",
               salePrice: match.sale_price || "",
               productType: match.type || "simple",

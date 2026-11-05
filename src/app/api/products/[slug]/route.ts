@@ -311,6 +311,8 @@ export async function PUT(
     }
     if (body.tags) attributesObj.tags = body.tags;
     if (body.badge !== undefined) attributesObj.badge = body.badge ? String(body.badge).trim() : null;
+    if (body.technicalSpecs) attributesObj.technicalSpecs = body.technicalSpecs;
+    else if (body.attributes?.technicalSpecs) attributesObj.technicalSpecs = body.attributes.technicalSpecs;
 
     let effectivePrice = String(body.price || "").trim();
     if (!effectivePrice || effectivePrice === "0" || effectivePrice === "0.00" || effectivePrice === "0,00" || parseFloat(effectivePrice) === 0) {

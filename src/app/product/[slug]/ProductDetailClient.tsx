@@ -12,7 +12,7 @@ import { useCart } from "@/context/CartContext";
 import { parseNoiseLevel, formatNoiseLevelText } from "@/lib/sensoryUtils";
 import cartIconData from "@/components/shopping bag.json";
 import HandmadeProductView from "@/components/HandmadeProductView";
-import { Camera } from "lucide-react";
+import { Camera, Ruler, Mail, HelpCircle } from "lucide-react";
 
 interface ProductDetailClientProps {
   slug: string;
@@ -638,10 +638,6 @@ export default function ProductDetailClient({
   const activePriceInfo = getActivePriceInfo();
   const currentPrice = activePriceInfo.price;
 
-  // Extract sizes dynamically from attributes
-  const sizeAttr = attributesList.find((a: any) => a.name.toLowerCase().includes("taille") || a.name.toLowerCase().includes("longueur"));
-  const sizesText = sizeAttr?.options ? sizeAttr.options.join(", ") : "Taille unique";
-
   // Extract colors dynamically from attributes
   const colorAttr = attributesList.find((a: any) => 
     a.name.toLowerCase().includes("couleur") || 
@@ -653,11 +649,17 @@ export default function ProductDetailClient({
   );
   const colorsCount = colorAttr?.options ? `${colorAttr.options.length} coloris` : "Coloris unique";
 
-  // Estimate weight based on price
-  const priceNum = parseFloat(currentPrice);
-  const estimatedWeight = priceNum < 10 ? "~20g à 40g" : priceNum < 20 ? "~40g à 80g" : "~80g à 150g";
+  // Technical specifications defined in administration
+  const rawAttributes = product.attributes as any;
+  const technicalSpecs = (product as any)?.technicalSpecs || rawAttributes?.technicalSpecs || null;
+  const hasDimensions = Boolean(technicalSpecs?.dimensions && technicalSpecs.dimensions.trim());
+  const hasWeight = Boolean(technicalSpecs?.weight && technicalSpecs.weight.trim());
+  const hasMaterial = Boolean(technicalSpecs?.material && technicalSpecs.material.trim());
+  const hasOther = Boolean(technicalSpecs?.other && technicalSpecs.other.trim());
+  const hasAnyTechnicalSpecs = hasDimensions || hasWeight || hasMaterial || hasOther;
 
   // Plausible print time based on price (approx. 12 mins per Euro, min 45 mins)
+  const priceNum = parseFloat(currentPrice) || 0;
   const printTimeMin = Math.max(45, Math.round(priceNum * 12));
   const printHours = Math.floor(printTimeMin / 60);
   const printMins = printTimeMin % 60;
@@ -1979,25 +1981,106 @@ export default function ProductDetailClient({
 
         {/* Product Technical Specs Grid */}
         <section className="border-t border-spoolio-border pt-12">
-          <h2 className="text-xl font-bold text-zinc-900 mb-6 font-sans">Spécifications du produit</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-sans">
-            <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs">
-              <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold">Dimensions / Tailles</span>
-              <span className="text-sm font-bold text-zinc-900 truncate block" title={sizesText}>{sizesText}</span>
+          <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-orange-50 border border-orange-200/80 flex items-center justify-center text-[#ff4f00]">
+                <Ruler className="w-4 h-4" />
+              </div>
+              <h2 className="text-xl font-bold text-zinc-900 font-sans">Spécifications du produit</h2>
             </div>
-            <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs">
-              <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold">Couleurs</span>
-              <span className="text-sm font-bold text-zinc-900">{colorsCount}</span>
-            </div>
-            <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs">
-              <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold">Poids estimé</span>
-              <span className="text-sm font-bold text-zinc-900">{estimatedWeight}</span>
-            </div>
-            <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs">
-              <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold">Matière &amp; Fabrication</span>
-              <span className="text-sm font-bold text-[#ff4f00]">PLA Biosourcé • Comines (59)</span>
-            </div>
+            {hasAnyTechnicalSpecs && (
+              <Link
+                href={`/contact?subject=specs&product=${encodeURIComponent(displayName)}&message=${encodeURIComponent(
+                  `Bonjour, j'ai une question concernant les spécifications du produit "${displayName}".`
+                )}`}
+                className="text-xs font-semibold text-[#ff4f00] hover:underline flex items-center gap-1 font-sans"
+              >
+                <span>Une question ? Contacter l&apos;atelier</span>
+                <span>→</span>
+              </Link>
+            )}
           </div>
+
+          {!hasAnyTechnicalSpecs ? (
+            /* Bloc quand les caractéristiques ne sont pas encore renseignées */
+            <div className="p-6 sm:p-8 rounded-2xl bg-white border border-zinc-200/90 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 font-sans">
+              <div className="space-y-2 max-w-xl">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold uppercase tracking-wider">
+                  <span>📏</span>
+                  <span>Caractéristiques à la demande</span>
+                </div>
+                <h3 className="text-base font-bold text-zinc-950">
+                  Besoin de la taille, du poids ou d&apos;un détail précis sur ce modèle ?
+                </h3>
+                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+                  Les caractéristiques techniques détaillées (dimensions, grammage exact, étanchéité) n&apos;ont pas encore été complétées sur cette fiche. Cliquez ci-dessous pour nous demander les infos en un clic, nous vous répondons rapidement !
+                </p>
+              </div>
+
+              <Link
+                href={`/contact?subject=specs&product=${encodeURIComponent(displayName)}&message=${encodeURIComponent(
+                  `Bonjour, je souhaiterais connaître les caractéristiques techniques détaillées (taille, poids, matière, étanchéité...) du produit "${displayName}". Merci !`
+                )}`}
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-zinc-950 hover:bg-[#ff4f00] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-200 shadow-md hover:scale-[1.02] active:scale-95 shrink-0 select-none font-sans"
+              >
+                <Mail className="w-4 h-4 text-white" />
+                <span>Demander les caractéristiques</span>
+              </Link>
+            </div>
+          ) : (
+            /* Bloc quand au moins une caractéristique est renseignée */
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-sans">
+              {hasDimensions && (
+                <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs flex flex-col justify-between">
+                  <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold flex items-center gap-1.5">
+                    <span>📐</span>
+                    <span>Taille / Dimensions</span>
+                  </span>
+                  <span className="text-sm font-bold text-zinc-900 break-words">{technicalSpecs.dimensions}</span>
+                </div>
+              )}
+
+              {hasWeight && (
+                <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs flex flex-col justify-between">
+                  <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold flex items-center gap-1.5">
+                    <span>⚖️</span>
+                    <span>Poids</span>
+                  </span>
+                  <span className="text-sm font-bold text-zinc-900">{technicalSpecs.weight}</span>
+                </div>
+              )}
+
+              {hasMaterial && (
+                <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs flex flex-col justify-between">
+                  <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold flex items-center gap-1.5">
+                    <span>🌱</span>
+                    <span>Matière &amp; Fabrication</span>
+                  </span>
+                  <span className="text-sm font-bold text-[#ff4f00] break-words">{technicalSpecs.material}</span>
+                </div>
+              )}
+
+              {colorAttr?.options && colorAttr.options.length > 0 && (
+                <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs flex flex-col justify-between">
+                  <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold flex items-center gap-1.5">
+                    <span>🎨</span>
+                    <span>Coloris disponibles</span>
+                  </span>
+                  <span className="text-sm font-bold text-zinc-900">{colorAttr.options.length} options</span>
+                </div>
+              )}
+
+              {hasOther && (
+                <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs col-span-2 md:col-span-4 flex flex-col gap-1">
+                  <span className="block text-xs text-zinc-500 uppercase tracking-wider font-semibold flex items-center gap-1.5">
+                    <span>ℹ️</span>
+                    <span>Spécificités &amp; Conseils d&apos;usage</span>
+                  </span>
+                  <span className="text-sm font-semibold text-zinc-800 leading-relaxed whitespace-pre-line">{technicalSpecs.other}</span>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Dedicated Tags Zone inside Specifications */}
           {product.tags && product.tags.length > 0 && (

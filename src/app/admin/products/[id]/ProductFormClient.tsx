@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Sparkles, FolderTree, Layers, Tag, Check, Camera } from "lucide-react";
+import { Sparkles, FolderTree, Layers, Tag, Check, Camera, Ruler } from "lucide-react";
 import { useAdminTheme } from "../../AdminThemeContext";
 import WysiwygEditor from "@/components/WysiwygEditor";
 import { parseNoiseLevel, formatNoiseLevelText } from "@/lib/sensoryUtils";
@@ -52,6 +52,18 @@ interface ProductData {
   attributes?: {
     attributes: { name: string; options: string[]; controlType?: string; defaultOption?: string }[];
     variationPrices: { combination: Record<string, string>; price: string; imageSrc?: string }[];
+    technicalSpecs?: {
+      dimensions?: string;
+      weight?: string;
+      material?: string;
+      other?: string;
+    };
+  };
+  technicalSpecs?: {
+    dimensions?: string;
+    weight?: string;
+    material?: string;
+    other?: string;
   };
 }
 
@@ -141,6 +153,12 @@ export default function ProductFormClient({ productId, isNew }: Props) {
     images: [],
     variations: [],
     attributes: { attributes: [], variationPrices: [] },
+    technicalSpecs: {
+      dimensions: "",
+      weight: "",
+      material: "",
+      other: "",
+    },
   });
   const [newTag, setNewTag] = useState("");
   const [saved, setSaved] = useState(false);
@@ -254,6 +272,12 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                 }
 
                 normalizedProduct.attributes = attrData;
+                normalizedProduct.technicalSpecs = {
+                  dimensions: attrData?.technicalSpecs?.dimensions || normalizedProduct.technicalSpecs?.dimensions || "",
+                  weight: attrData?.technicalSpecs?.weight || normalizedProduct.technicalSpecs?.weight || "",
+                  material: attrData?.technicalSpecs?.material || normalizedProduct.technicalSpecs?.material || "",
+                  other: attrData?.technicalSpecs?.other || normalizedProduct.technicalSpecs?.other || "",
+                };
               } catch (e) {
                 console.error("Error parsing/normalizing product attributes in admin:", e);
               }
@@ -746,12 +770,19 @@ export default function ProductFormClient({ productId, isNew }: Props) {
 
     setIsSaving(true);
     try {
+      const payloadToSave = {
+        ...form,
+        attributes: {
+          ...(form.attributes || { attributes: [], variationPrices: [] }),
+          technicalSpecs: form.technicalSpecs
+        }
+      };
       const res = await fetch(`/api/products/${targetId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payloadToSave),
       });
 
       if (res.ok) {
@@ -2014,6 +2045,120 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                     </label>
                   </div>
                 )}
+              </div>
+            </SectionCard>
+
+            {/* Caractéristiques Techniques (Taille, Poids, Matière, Autre) */}
+            <SectionCard
+              title="Caractéristiques Techniques (Fiche Produit)"
+              icon={<Ruler className="w-5 h-5 text-[#ff4f00]" />}
+              cardBg={cls.cardBg}
+              border={cls.border}
+              textMain={cls.textMain}
+            >
+              <div className="flex flex-col gap-4">
+                <div className={`p-3.5 rounded-xl border ${cls.border} ${cls.inputBg} flex flex-col gap-1 text-xs`}>
+                  <p className={`font-semibold ${cls.textMain}`}>
+                    ℹ️ Renseignez ici les dimensions et spécifications réelles de ce modèle.
+                  </p>
+                  <p className={`text-[11px] ${cls.textMuted}`}>
+                    Si vous ne renseignez pas ces caractéristiques, la fiche produit affichera un bloc invitant le client à <strong>« Demander les caractéristiques »</strong>, le redirigeant vers la page contact avec un message prérempli.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Taille / Dimensions */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className={`text-xs font-bold ${cls.textMain} flex items-center gap-1.5`}>
+                      <span>📐</span>
+                      <span>Taille / Dimensions :</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={form.technicalSpecs?.dimensions || ""}
+                      onChange={(e) =>
+                        setForm((prev) => ({
+                          ...prev,
+                          technicalSpecs: {
+                            ...(prev.technicalSpecs || {}),
+                            dimensions: e.target.value,
+                          },
+                        }))
+                      }
+                      placeholder="Ex: 12 × 8 × 5 cm ou 60 mm"
+                      className={`h-11 px-3.5 text-xs font-medium border rounded-xl ${cls.inputBg} ${cls.border} ${cls.textMain} focus:outline-none focus:border-[#ff4f00]`}
+                    />
+                  </div>
+
+                  {/* Poids */}
+                  <div className="flex flex-col gap-1.5">
+                    <label className={`text-xs font-bold ${cls.textMain} flex items-center gap-1.5`}>
+                      <span>⚖️</span>
+                      <span>Poids :</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={form.technicalSpecs?.weight || ""}
+                      onChange={(e) =>
+                        setForm((prev) => ({
+                          ...prev,
+                          technicalSpecs: {
+                            ...(prev.technicalSpecs || {}),
+                            weight: e.target.value,
+                          },
+                        }))
+                      }
+                      placeholder="Ex: 45 g ou 120 g"
+                      className={`h-11 px-3.5 text-xs font-medium border rounded-xl ${cls.inputBg} ${cls.border} ${cls.textMain} focus:outline-none focus:border-[#ff4f00]`}
+                    />
+                  </div>
+
+                  {/* Matière */}
+                  <div className="flex flex-col gap-1.5 sm:col-span-2">
+                    <label className={`text-xs font-bold ${cls.textMain} flex items-center gap-1.5`}>
+                      <span>🌱</span>
+                      <span>Matière &amp; Fabrication :</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={form.technicalSpecs?.material || ""}
+                      onChange={(e) =>
+                        setForm((prev) => ({
+                          ...prev,
+                          technicalSpecs: {
+                            ...(prev.technicalSpecs || {}),
+                            material: e.target.value,
+                          },
+                        }))
+                      }
+                      placeholder="Ex: PLA Biosourcé (amidon de maïs) • Imprimé à Comines (59)"
+                      className={`h-11 px-3.5 text-xs font-medium border rounded-xl ${cls.inputBg} ${cls.border} ${cls.textMain} focus:outline-none focus:border-[#ff4f00]`}
+                    />
+                  </div>
+
+                  {/* Autre / Spécificités */}
+                  <div className="flex flex-col gap-1.5 sm:col-span-2">
+                    <label className={`text-xs font-bold ${cls.textMain} flex items-center gap-1.5`}>
+                      <span>ℹ️</span>
+                      <span>Autre (Étanchéité, entretien, spécificités d&apos;usage...) :</span>
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={form.technicalSpecs?.other || ""}
+                      onChange={(e) =>
+                        setForm((prev) => ({
+                          ...prev,
+                          technicalSpecs: {
+                            ...(prev.technicalSpecs || {}),
+                            other: e.target.value,
+                          },
+                        }))
+                      }
+                      placeholder="Ex: Non étanche, ne pas exposer à plus de 50°C, ne pas passer au lave-vaisselle."
+                      className={`p-3 text-xs font-medium border rounded-xl ${cls.inputBg} ${cls.border} ${cls.textMain} focus:outline-none focus:border-[#ff4f00] resize-y`}
+                    />
+                  </div>
+                </div>
               </div>
             </SectionCard>
 
