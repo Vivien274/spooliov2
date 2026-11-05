@@ -5661,6 +5661,54 @@
       "product_id": 19,
       "taxonomy_id": 61,
       "is_primary": false
+    },
+    {
+      "product_id": 24,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-11-05T15:54:45.749Z"
+    },
+    {
+      "product_id": 25,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-11-05T15:54:45.751Z"
+    },
+    {
+      "product_id": 26,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-11-05T15:54:45.751Z"
+    },
+    {
+      "product_id": 27,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-11-05T15:54:45.751Z"
+    },
+    {
+      "product_id": 28,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-11-05T15:54:45.751Z"
+    },
+    {
+      "product_id": 29,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-11-05T15:54:45.751Z"
+    },
+    {
+      "product_id": 30,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-11-05T15:54:45.751Z"
+    },
+    {
+      "product_id": 31,
+      "taxonomy_id": 24,
+      "is_primary": false,
+      "created_at": "2026-11-05T15:54:45.751Z"
     }
   ]
 }
