@@ -1640,7 +1640,7 @@ export default function ProductDetailClient({
                             type="date"
                             value={selectedVal || ""}
                             onChange={(e) => handleSelect(e.target.value)}
-                            className="w-full h-11 px-4 text-xs font-bold bg-spoolio-card border border-spoolio-border rounded-xl text-white outline-none cursor-pointer focus:border-white transition-all font-sans"
+                            className="w-full h-11 px-4 text-xs font-bold bg-spoolio-card border border-spoolio-border rounded-xl text-zinc-900 outline-none cursor-pointer focus:border-zinc-400 transition-all font-sans"
                           />
                         </div>
                       </div>
@@ -1657,10 +1657,10 @@ export default function ProductDetailClient({
                         <select
                           value={selectedVal || ""}
                           onChange={(e) => handleSelect(e.target.value)}
-                          className="w-full h-11 px-4 text-xs font-bold bg-spoolio-card border border-spoolio-border rounded-xl text-white outline-none cursor-pointer appearance-none focus:border-white transition-all"
+                          className="w-full h-11 px-4 text-xs font-bold bg-spoolio-card border border-spoolio-border rounded-xl text-zinc-900 outline-none cursor-pointer appearance-none focus:border-zinc-400 transition-all"
                         >
                           {options.map((opt: string) => (
-                            <option key={opt} value={opt} className="bg-[#131316]">
+                            <option key={opt} value={opt} className="bg-white text-zinc-900">
                               {opt}
                             </option>
                           ))}
@@ -1685,19 +1685,23 @@ export default function ProductDetailClient({
               {/* Quantity Selector */}
               <div className={`flex items-center bg-spoolio-card border border-spoolio-border rounded-xl h-14 px-3 select-none ${isNotAvailableToBuy ? "opacity-40" : ""}`}>
                 <button
+                  type="button"
                   disabled={isNotAvailableToBuy}
                   onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
-                  className={`w-8 h-8 flex items-center justify-center text-gray-400 ${!isNotAvailableToBuy ? "hover:text-white hover:bg-white/5 active:scale-95 cursor-pointer" : "cursor-not-allowed"} rounded-lg transition-all text-lg font-bold`}
+                  className={`w-8 h-8 flex items-center justify-center text-zinc-600 ${!isNotAvailableToBuy ? "hover:text-zinc-950 hover:bg-zinc-100 active:scale-95 cursor-pointer" : "cursor-not-allowed"} rounded-lg transition-all text-lg font-bold`}
+                  aria-label="Diminuer la quantité"
                 >
                   -
                 </button>
-                <span className="w-10 text-center font-bold text-sm text-white font-sans">
+                <span className="w-10 text-center font-extrabold text-base text-zinc-950 font-sans">
                   {isNotAvailableToBuy ? 0 : quantity}
                 </span>
                 <button
+                  type="button"
                   disabled={isNotAvailableToBuy}
                   onClick={() => setQuantity(prev => prev + 1)}
-                  className={`w-8 h-8 flex items-center justify-center text-gray-400 ${!isNotAvailableToBuy ? "hover:text-white hover:bg-white/5 active:scale-95 cursor-pointer" : "cursor-not-allowed"} rounded-lg transition-all text-lg font-bold`}
+                  className={`w-8 h-8 flex items-center justify-center text-zinc-600 ${!isNotAvailableToBuy ? "hover:text-zinc-950 hover:bg-zinc-100 active:scale-95 cursor-pointer" : "cursor-not-allowed"} rounded-lg transition-all text-lg font-bold`}
+                  aria-label="Augmenter la quantité"
                 >
                   +
                 </button>
