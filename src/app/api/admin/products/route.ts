@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { verifySession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { invalidateProductsCache } from "@/app/api/products/route";
+import { invalidateServerProductsCache } from "@/lib/serverProducts";
 import fs from "fs";
 import path from "path";
 
@@ -89,6 +90,8 @@ export async function GET(req: Request) {
           })),
           attributes: attributesObj,
           variations: [],
+          dateCreated: p.dateCreated ? p.dateCreated.toISOString() : null,
+          lastModified: (attributesObj && (attributesObj.lastModified || attributesObj.updatedAt)) || (p.dateCreated ? p.dateCreated.toISOString() : null),
           showInSensoryCompass: !!p.showInSensoryCompass,
           sensoryNoiseLevel: p.sensoryNoiseLevel || "1",
           sensorySize: p.sensorySize || "pocket",
@@ -159,6 +162,8 @@ export async function GET(req: Request) {
               })),
               attributes: attributesObj,
               variations: [],
+              dateCreated: match.date_created || null,
+              lastModified: match.date_modified || (attributesObj && (attributesObj.lastModified || attributesObj.updatedAt)) || match.date_created || null,
               showInSensoryCompass: !!(match.showInSensoryCompass || match.show_in_sensory_compass),
               sensoryNoiseLevel: match.sensoryNoiseLevel || match.sensory_noise_level || "1",
               sensorySize: match.sensorySize || match.sensory_size || "pocket",
@@ -339,6 +344,7 @@ export async function POST(req: Request) {
       await syncJsonFile(numericIds, "price", { type: priceType, direction: priceDirection, value: priceValue });
     } 
     invalidateProductsCache();
+    invalidateServerProductsCache();
 
     // Revalidate paths for all affected products
     try {

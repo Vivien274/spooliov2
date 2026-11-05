@@ -65,6 +65,8 @@ interface ProductData {
     material?: string;
     other?: string;
   };
+  lastModified?: string;
+  dateCreated?: string;
 }
 
 interface Props {
@@ -163,7 +165,25 @@ export default function ProductFormClient({ productId, isNew }: Props) {
   const [newTag, setNewTag] = useState("");
   const [saved, setSaved] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [lastModifiedDate, setLastModifiedDate] = useState<string | null>(null);
   const [activeImageDropdownIdx, setActiveImageDropdownIdx] = useState<number | null>(null);
+
+  const formatLastModified = (dateVal: string | Date | null | undefined): string => {
+    if (!dateVal) return "";
+    try {
+      const d = new Date(dateVal);
+      if (isNaN(d.getTime())) return "";
+      return d.toLocaleDateString("fr-FR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      }).replace(",", " à");
+    } catch {
+      return "";
+    }
+  };
 
   const slugify = (str: string): string => {
     if (!str) return "";
@@ -308,6 +328,16 @@ export default function ProductFormClient({ productId, isNew }: Props) {
               ? productAttrs.badge
               : "";
             normalizedProduct.badge = normalizedProduct.badge || attrBadge || "";
+
+            const modDate = normalizedProduct.lastModified || 
+                            normalizedProduct.attributes?.lastModified || 
+                            normalizedProduct.attributes?.updatedAt || 
+                            normalizedProduct.dateCreated || 
+                            normalizedProduct.date_created || 
+                            null;
+            if (modDate) {
+              setLastModifiedDate(modDate);
+            }
 
             setForm(normalizedProduct);
           }
@@ -803,6 +833,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
         }
 
         setSaved(true);
+        setLastModifiedDate(new Date().toISOString());
         if (isNew && data.product) {
           router.push(`/admin/products/${data.product.id || data.product.slug}`);
         } else {
@@ -861,52 +892,68 @@ export default function ProductFormClient({ productId, isNew }: Props) {
         </div>
 
         {/* Action buttons */}
-        <div className="flex items-center gap-3 shrink-0">
-          <select
-            value={form.status}
-            onChange={(e) => set("status")(e.target.value)}
-            className={`${cls.cardBg} border ${cls.border} text-sm ${cls.textMuted} rounded-xl px-3 py-2 focus:outline-none cursor-pointer`}
-          >
-            <option value="draft">Brouillon</option>
-            <option value="publish">Publier</option>
-          </select>
+        <div className="flex flex-col items-end gap-1.5 shrink-0">
+          <div className="flex items-center gap-3">
+            <select
+              value={form.status}
+              onChange={(e) => set("status")(e.target.value)}
+              className={`${cls.cardBg} border ${cls.border} text-sm ${cls.textMuted} rounded-xl px-3 py-2 focus:outline-none cursor-pointer`}
+            >
+              <option value="draft">Brouillon</option>
+              <option value="publish">Publier</option>
+            </select>
 
-          <button
-            type="button"
-            disabled={isSaving}
-            onClick={handleSave}
-            className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition-all cursor-pointer ${
-              isSaving
-                ? "bg-[#2F3CD9] text-white opacity-90 cursor-wait shadow-md"
-                : saved
-                ? "bg-emerald-500 text-white"
-                : "bg-white text-black hover:bg-white/90 shadow-lg shadow-white/5"
-            }`}
-          >
-            {isSaving ? (
-              <>
-                <svg className="w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                </svg>
-                <span>Sauvegarde en cours...</span>
-              </>
-            ) : saved ? (
-              <>
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                </svg>
-                <span>Sauvegardé</span>
-              </>
-            ) : (
-              <>
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-                </svg>
-                <span>Sauvegarder</span>
-              </>
-            )}
-          </button>
+            <button
+              type="button"
+              disabled={isSaving}
+              onClick={handleSave}
+              className={`flex items-center gap-2 text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition-all cursor-pointer ${
+                isSaving
+                  ? "bg-[#2F3CD9] text-white opacity-90 cursor-wait shadow-md"
+                  : saved
+                  ? "bg-emerald-500 text-white"
+                  : "bg-white text-black hover:bg-white/90 shadow-lg shadow-white/5"
+              }`}
+            >
+              {isSaving ? (
+                <>
+                  <svg className="w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  <span>Sauvegarde en cours...</span>
+                </>
+              ) : saved ? (
+                <>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>Sauvegardé</span>
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                  </svg>
+                  <span>Sauvegarder</span>
+                </>
+              )}
+            </button>
+          </div>
+
+          {/* Info dernière modif sous le bouton sauvegarder */}
+          <div className={`text-[11px] ${cls.textMuted} flex items-center gap-1.5 font-medium`}>
+            <svg className="w-3.5 h-3.5 opacity-60 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>
+              {lastModifiedDate
+                ? `Dernière modif : ${formatLastModified(lastModifiedDate)}`
+                : isNew
+                ? "Nouveau produit (non enregistré)"
+                : "Dernière modif : —"}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -2471,8 +2518,24 @@ export default function ProductFormClient({ productId, isNew }: Props) {
           {/* Right column - sticky sidebar */}
           <div className="lg:col-span-1 space-y-4">
             {/* Product summary card */}
-            <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-5 sticky top-6 space-y-4 transition-colors`}>
-              <h3 className={`text-xs font-bold ${cls.textMuted} uppercase tracking-widest`}>Récapitulatif</h3>
+            <div className={`${cls.cardBg} rounded-3xl p-5 sticky top-6 space-y-4 transition-all duration-300 ${
+              form.status === "publish"
+                ? "border-2 border-emerald-500 ring-4 ring-emerald-500/10 shadow-lg shadow-emerald-500/5"
+                : `border ${cls.border}`
+            }`}>
+              <div className="flex items-center justify-between">
+                <h3 className={`text-xs font-bold ${cls.textMuted} uppercase tracking-widest`}>Récapitulatif</h3>
+                {form.status === "publish" ? (
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Publié
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gray-100 text-gray-500 border border-gray-200">
+                    Brouillon
+                  </span>
+                )}
+              </div>
 
               {form.images[0] && (
                 <div className={`relative aspect-square rounded-2xl overflow-hidden ${cls.inputBg} border ${cls.border}`}>
@@ -2529,6 +2592,16 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                 <div className="flex justify-between">
                   <span className={`${cls.textMuted}`}>Tags</span>
                   <span className={`${cls.textMain}`}>{form.tags.length} tag{form.tags.length !== 1 ? "s" : ""}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className={`${cls.textMuted}`}>Statut</span>
+                  <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                    form.status === "publish"
+                      ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                      : "bg-gray-100 text-gray-600 border border-gray-200"
+                  }`}>
+                    {form.status === "publish" ? "● Publié" : "○ Brouillon"}
+                  </span>
                 </div>
               </div>
 

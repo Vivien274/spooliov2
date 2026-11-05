@@ -119534,5 +119534,923 @@
       }
     ],
     "date_created": "2026-09-19T14:19:00.159Z"
+  },
+  {
+    "id": 24,
+    "name": "Bao Buddies — Clicker Fidget Kawaii Vapeur",
+    "slug": "bao-buddies-clicker",
+    "price": "4.00",
+    "regular_price": "4.00",
+    "sale_price": "",
+    "on_sale": false,
+    "categories": [
+      {
+        "id": 64,
+        "name": "Fidgets",
+        "slug": "fidgets"
+      },
+      {
+        "id": 3,
+        "name": "Clickers",
+        "slug": "clickers"
+      }
+    ],
+    "short_description": "<p>Craque pour les Bao Buddies, deux adorables petites bouchées vapeur prêtes à égayer ton bureau ! Avec leur panier beige et leurs bouilles pastel pleines de malice, ce clicker tactile transforme tes moments de pause en pure gourmandise. Un concentré de bonne humeur à manipuler sans modération.</p>",
+    "description": "<h3>Envie d'une pause réconfortante et pleine de tendresse ?</h3>\n<p>Inspiré des célèbres paniers vapeur de la cuisine asiatique, le duo Bao Buddies met en scène deux petits personnages espiègles aux teintes vert pastel et orange doré, délicatement installés dans leur panier beige clair. Chaque détail a été pensé pour faire sourire dès le premier coup d'œil.</p>\n<h3>Une expérience tactile gourmande</h3>\n<p>Sous les doigts, ce fidget compact offre une sensation de clic franche et stimulante. Idéal pour garder les mains occupées au travail, canaliser ton énergie en réunion ou simplement te détendre après une longue journée.</p>\n<ul>\n  <li><strong>Design kawaii original :</strong> deux petites bouilles attachantes aux couleurs douces.</li>\n  <li><strong>Format compact :</strong> idéal à poser sur un bureau ou à glisser dans un sac.</li>\n  <li><strong>Plaisir tactile :</strong> un geste de clic immédiat pour rythmer tes journées.</li>\n  <li><strong>Fabrication artisanale :</strong> imprimé en 3D avec soin dans notre atelier à Comines (Nord).</li>\n</ul>",
+    "stock_quantity": -1,
+    "type": "simple",
+    "status": "publish",
+    "attributes": {
+      "attributes": [],
+      "variationPrices": [],
+      "technicalSpecs": {
+        "dimensions": "6 x 6 x 5cm",
+        "weight": "40 grammes",
+        "material": "PLA biosourcé, switchs de clavier mécanique.",
+        "other": ""
+      },
+      "tags": [
+        "fidget",
+        "clicker",
+        "kawaii",
+        "bureau",
+        "antistress"
+      ],
+      "badge": "Nouveau"
+    },
+    "images": [
+      {
+        "id": 3663,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892640102.webp",
+        "alt": "Bao Buddies — Clicker Fidget Kawaii Vapeur"
+      },
+      {
+        "id": 3664,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892640062.webp",
+        "alt": "Bao Buddies — Clicker Fidget Kawaii Vapeur"
+      },
+      {
+        "id": 3665,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892640142.webp",
+        "alt": "Bao Buddies — Clicker Fidget Kawaii Vapeur"
+      },
+      {
+        "id": 3666,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892640204.webp",
+        "alt": "Bao Buddies — Clicker Fidget Kawaii Vapeur"
+      },
+      {
+        "id": 3667,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892640225.webp",
+        "alt": "Bao Buddies — Clicker Fidget Kawaii Vapeur"
+      },
+      {
+        "id": 3668,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892640158.webp",
+        "alt": "Bao Buddies — Clicker Fidget Kawaii Vapeur"
+      },
+      {
+        "id": 3669,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892640193.webp",
+        "alt": "Bao Buddies — Clicker Fidget Kawaii Vapeur"
+      }
+    ],
+    "tags": [
+      {
+        "id": 1000,
+        "name": "fidget",
+        "slug": "fidget"
+      },
+      {
+        "id": 1001,
+        "name": "clicker",
+        "slug": "clicker"
+      },
+      {
+        "id": 1002,
+        "name": "kawaii",
+        "slug": "kawaii"
+      },
+      {
+        "id": 1003,
+        "name": "bureau",
+        "slug": "bureau"
+      },
+      {
+        "id": 1004,
+        "name": "antistress",
+        "slug": "antistress"
+      }
+    ],
+    "metaTitle": "Clicker Bao Buddies : Fidget Kawaii Vapeur | Spoolio",
+    "metaDescription": "Craquez pour le clicker Bao Buddies Spoolio : deux bouchées kawaii en impression 3D artisanale à Comines. Un fidget tactile irrésistible pour le bureau !",
+    "seoScore": 100,
+    "show_in_sensory_compass": true,
+    "sensory_noise_level": "4",
+    "sensory_size": "pocket",
+    "sensory_category": "cliquer",
+    "sensory_profiles": [
+      "tdah",
+      "focus",
+      "anxiety",
+      "autism"
+    ]
+  },
+  {
+    "id": 25,
+    "name": "Butter Click — Le Clicker Plaquette de Beurre Rétro",
+    "slug": "butter-click",
+    "price": "4",
+    "regular_price": "4",
+    "sale_price": "",
+    "on_sale": false,
+    "categories": [
+      {
+        "id": 64,
+        "name": "Fidgets",
+        "slug": "fidgets"
+      },
+      {
+        "id": 3,
+        "name": "Clickers",
+        "slug": "clickers"
+      }
+    ],
+    "short_description": "<p>Ajoute une bonne dose de beurre à ton quotidien avec Butter Click ! Ce clicker décalé reprend avec humour les codes d'une plaquette traditionnelle avec son corps jaune vif et ses inscriptions rétro. L'accessoire tactile parfait pour faire glisser les tensions et cliquer en toute légèreté.</p>",
+    "description": "<h3>Le beurre, c'est la vie… et désormais, ça se clique !</h3>\n<p>Avec son format rectangulaire jaune franc et sa typographie sombre façon emballage vintage d'épicerie fine, Butter Click détourne un basique de nos frigos en véritable star du bureau. Un clin d'œil culinaire assumé qui attire immédiatement la curiosité et déclenche les sourires.</p>\n<h3>La détente la plus fondante de la journée</h3>\n<p>Chaque pression procure un retour tactile net et régulier, parfait pour décompresser entre deux réunions ou trouver l'inspiration devant l'écran. C'est l'anti-stress le plus fondant de la collection, sans aucune matière grasse.</p>\n<ul>\n  <li><strong>Silhouette rétro unique :</strong> inspirée des plaquettes de beurre traditionnelles.</li>\n  <li><strong>Prise en main ergonomique :</strong> lignes nettes et texture agréable au toucher.</li>\n  <li><strong>Touche d'humour gourmand :</strong> pour dédramatiser les journées chargées.</li>\n  <li><strong>Artisanat local :</strong> fabriqué en impression 3D dans notre atelier à Comines dans les Hauts-de-France.</li>\n</ul>",
+    "stock_quantity": -1,
+    "type": "variable",
+    "status": "publish",
+    "attributes": {
+      "attributes": [
+        {
+          "name": "Couleur",
+          "options": [
+            "Jaune",
+            "Rose"
+          ],
+          "controlType": "segmented_control",
+          "defaultOption": "Jaune"
+        }
+      ],
+      "variationPrices": [
+        {
+          "combination": {
+            "Couleur": ""
+          },
+          "price": "4"
+        }
+      ],
+      "technicalSpecs": {
+        "dimensions": "8 x 4 x 4cm",
+        "weight": "20 grammes",
+        "material": "PLA biosourcé, switchs de clavier mécanique.",
+        "other": ""
+      },
+      "tags": [
+        "fidget",
+        "clicker",
+        "humour",
+        "bureau",
+        "beurre"
+      ],
+      "badge": "Nouveau"
+    },
+    "images": [
+      {
+        "id": 3659,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892564194.webp",
+        "alt": "Butter Click — Le Clicker Plaquette de Beurre Rétro"
+      },
+      {
+        "id": 3660,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892564226.webp",
+        "alt": "Butter Click — Le Clicker Plaquette de Beurre Rétro"
+      },
+      {
+        "id": 3661,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892564263.webp",
+        "alt": "Butter Click — Le Clicker Plaquette de Beurre Rétro"
+      },
+      {
+        "id": 3662,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892564231.webp",
+        "alt": "Butter Click — Le Clicker Plaquette de Beurre Rétro"
+      }
+    ],
+    "tags": [
+      {
+        "id": 1000,
+        "name": "fidget",
+        "slug": "fidget"
+      },
+      {
+        "id": 1001,
+        "name": "clicker",
+        "slug": "clicker"
+      },
+      {
+        "id": 1002,
+        "name": "humour",
+        "slug": "humour"
+      },
+      {
+        "id": 1003,
+        "name": "bureau",
+        "slug": "bureau"
+      },
+      {
+        "id": 1004,
+        "name": "beurre",
+        "slug": "beurre"
+      }
+    ],
+    "metaTitle": "Clicker Butter Click : Plaquette de Beurre | Spoolio",
+    "metaDescription": "Découvrez le clicker Butter Click : une plaquette de beurre rétro et rigolote imprimée en 3D à Comines. Fidget tactile décalé pour occuper vos doigts !",
+    "seoScore": 100,
+    "show_in_sensory_compass": true,
+    "sensory_noise_level": "4",
+    "sensory_size": "pocket",
+    "sensory_category": "cliquer",
+    "sensory_profiles": [
+      "tdah",
+      "anxiety",
+      "autism",
+      "focus"
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Panic Button — Le Clicker Bouton d'Urgence Décalé",
+    "slug": "panic-button-clicker",
+    "price": "4.00",
+    "regular_price": "4.00",
+    "sale_price": "",
+    "on_sale": false,
+    "categories": [
+      {
+        "id": 64,
+        "name": "Fidgets",
+        "slug": "fidgets"
+      },
+      {
+        "id": 3,
+        "name": "Clickers",
+        "slug": "clickers"
+      }
+    ],
+    "short_description": "<p>Bug informatique, réunion interminable ou café renversé ? Enclenche le Panic Button ! Ce clicker ludique s'inspire avec autodérision des boutons industriels pour désamorcer les petites contrariétés de ta journée. Un geste franc et réjouissant pour reprendre le contrôle de ton humeur en un clic.</p>",
+    "description": "<h3>La seule vraie solution face aux imprévus de la vie de bureau !</h3>\n<p>Le Panic Button arbore un boîtier noir robuste contrasté par un bouton circulaire aux teintes rouge et jaune vifs. Conçu comme une parodie amusante des commandes d'atelier, il apporte une touche pop et subversive à ton espace de travail sans jamais se prendre au sérieux.</p>\n<h3>Défoule-toi avec le sourire</h3>\n<p>Offre à tes doigts le plaisir d'un clic affirmé et engageant. Idéal pour ponctuer une tâche accomplie, évacuer un trop-plein d'énergie ou simplement rythmer tes réflexions, ce fidget apporte une présence rassurante à portée de main.</p>\n<ul>\n  <li><strong>Clin d'œil plein d'esprit :</strong> aux vrais-faux coups de pression du quotidien (objet décoratif et ludique).</li>\n  <li><strong>Contraste visuel puissant :</strong> alliance dynamique du noir, du jaune et du rouge.</li>\n  <li><strong>Mécanisme de clic plaisant :</strong> pensé pour canaliser l'agitation mentale.</li>\n  <li><strong>Atelier Spoolio :</strong> fabriqué avec précision en impression 3D au sein de notre atelier à Comines.</li>\n</ul>",
+    "stock_quantity": -1,
+    "type": "simple",
+    "status": "publish",
+    "attributes": {
+      "attributes": [],
+      "variationPrices": [],
+      "technicalSpecs": {
+        "dimensions": "5 x 5 x 4cm",
+        "weight": "30 grammes",
+        "material": "PLA biosourcé, switchs de clavier mécanique.",
+        "other": ""
+      },
+      "tags": [
+        "fidget",
+        "clicker",
+        "bureau",
+        "humour",
+        "pop"
+      ],
+      "badge": "Nouveau"
+    },
+    "images": [
+      {
+        "id": 3654,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892448571.webp",
+        "alt": "Panic Button — Le Clicker Bouton d'Urgence Décalé"
+      },
+      {
+        "id": 3655,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892448554.webp",
+        "alt": "Panic Button — Le Clicker Bouton d'Urgence Décalé"
+      },
+      {
+        "id": 3656,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892448563.webp",
+        "alt": "Panic Button — Le Clicker Bouton d'Urgence Décalé"
+      },
+      {
+        "id": 3657,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892448557.webp",
+        "alt": "Panic Button — Le Clicker Bouton d'Urgence Décalé"
+      },
+      {
+        "id": 3658,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892448613.webp",
+        "alt": "Panic Button — Le Clicker Bouton d'Urgence Décalé"
+      }
+    ],
+    "tags": [
+      {
+        "id": 1000,
+        "name": "fidget",
+        "slug": "fidget"
+      },
+      {
+        "id": 1001,
+        "name": "clicker",
+        "slug": "clicker"
+      },
+      {
+        "id": 1002,
+        "name": "bureau",
+        "slug": "bureau"
+      },
+      {
+        "id": 1003,
+        "name": "humour",
+        "slug": "humour"
+      },
+      {
+        "id": 1004,
+        "name": "pop",
+        "slug": "pop"
+      }
+    ],
+    "metaTitle": "Clicker Panic Button : Bouton Fidget Ludique | Spoolio",
+    "metaDescription": "Découvrez le clicker Panic Button : le bouton d'urgence humoristique imprimé en 3D à Comines. Le fidget parfait pour décompresser avec le sourire !",
+    "seoScore": 100,
+    "show_in_sensory_compass": true,
+    "sensory_noise_level": "4",
+    "sensory_size": "pocket",
+    "sensory_category": "cliquer",
+    "sensory_profiles": [
+      "tdah",
+      "anxiety",
+      "focus"
+    ]
+  },
+  {
+    "id": 27,
+    "name": "Bubble Pop — Le Clicker Chewing-Gum Rétro",
+    "slug": "bubble-pop-clicker",
+    "price": "6.00",
+    "regular_price": "6.00",
+    "sale_price": "",
+    "on_sale": false,
+    "categories": [
+      {
+        "id": 64,
+        "name": "Fidgets",
+        "slug": "fidgets"
+      },
+      {
+        "id": 3,
+        "name": "Clickers",
+        "slug": "clickers"
+      }
+    ],
+    "short_description": "<p>Fais un saut dans les années 90 avec Bubble Pop ! Ce clicker pétillant reprend les traits d'un étui de chewing-gum rétro avec sa jolie coque rose corail et ses reliefs soignés. Un petit bonbon tactile plein de fraîcheur à faire claquer sous le pouce toute la journée.</p>",
+    "description": "<h3>Un concentré d'énergie pop qui réveille tes souvenirs d'enfance !</h3>\n<p>Avec sa teinte rose corail gourmande, son étiquette graphique aux couleurs vives et ses crans stylisés sur la tranche, Bubble Pop célèbre l'âge d'or des confiseries vintage. Compact et joyeux, il illumine immédiatement une table de travail ou une étagère déco.</p>\n<h3>Une bulle de détente mécanique</h3>\n<p>Sous la pulpe des doigts, le retour mécanique invite à des manipulations infinies. Rien de tel qu'une série de clics pour retrouver sa concentration lors d'une session d'étude ou relâcher la pression après un appel téléphonique.</p>\n<ul>\n  <li><strong>Esthétique rétro pop :</strong> inspirée des emballages de bonbons d'antan.</li>\n  <li><strong>Reliefs travaillés :</strong> crans stylisés sur le pourtour pour une excellente accroche en main.</li>\n  <li><strong>Format pocket nomade :</strong> prêt à t'accompagner partout.</li>\n  <li><strong>Production locale :</strong> entièrement fabriqué en impression 3D dans notre atelier artisanal à Comines.</li>\n</ul>",
+    "stock_quantity": -1,
+    "type": "simple",
+    "status": "publish",
+    "attributes": {
+      "attributes": [],
+      "variationPrices": [],
+      "technicalSpecs": {
+        "dimensions": "",
+        "weight": "",
+        "material": "",
+        "other": ""
+      },
+      "tags": [
+        "fidget",
+        "clicker",
+        "retro",
+        "vintage",
+        "pop"
+      ],
+      "badge": "Nouveau"
+    },
+    "images": [
+      {
+        "id": 3648,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892230502.webp",
+        "alt": "Bubble Pop — Le Clicker Chewing-Gum Rétro"
+      },
+      {
+        "id": 3649,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892230467.webp",
+        "alt": "Bubble Pop — Le Clicker Chewing-Gum Rétro"
+      },
+      {
+        "id": 3650,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892230427.webp",
+        "alt": "Bubble Pop — Le Clicker Chewing-Gum Rétro"
+      },
+      {
+        "id": 3651,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892230413.webp",
+        "alt": "Bubble Pop — Le Clicker Chewing-Gum Rétro"
+      },
+      {
+        "id": 3652,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892230444.webp",
+        "alt": "Bubble Pop — Le Clicker Chewing-Gum Rétro"
+      },
+      {
+        "id": 3653,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892230494.webp",
+        "alt": "Bubble Pop — Le Clicker Chewing-Gum Rétro"
+      }
+    ],
+    "tags": [
+      {
+        "id": 1000,
+        "name": "fidget",
+        "slug": "fidget"
+      },
+      {
+        "id": 1001,
+        "name": "clicker",
+        "slug": "clicker"
+      },
+      {
+        "id": 1002,
+        "name": "retro",
+        "slug": "retro"
+      },
+      {
+        "id": 1003,
+        "name": "vintage",
+        "slug": "vintage"
+      },
+      {
+        "id": 1004,
+        "name": "pop",
+        "slug": "pop"
+      }
+    ],
+    "metaTitle": "Clicker Bubble Pop : Fidget Chewing-Gum Rétro | Spoolio",
+    "metaDescription": "Voyagez dans le temps avec le clicker Bubble Pop : design chewing-gum rétro rose corail en impression 3D à Comines. Un fidget tactile pop et coloré !",
+    "seoScore": 100,
+    "show_in_sensory_compass": true,
+    "sensory_noise_level": "4",
+    "sensory_size": "medium",
+    "sensory_category": "cliquer",
+    "sensory_profiles": []
+  },
+  {
+    "id": 28,
+    "name": "Mini Crate — Le Clicker Caisse de Bouteilles",
+    "slug": "mini-crate-clicker",
+    "price": "4.00",
+    "regular_price": "4.00",
+    "sale_price": "",
+    "on_sale": false,
+    "categories": [
+      {
+        "id": 64,
+        "name": "Fidgets",
+        "slug": "fidgets"
+      },
+      {
+        "id": 3,
+        "name": "Clickers",
+        "slug": "clickers"
+      }
+    ],
+    "short_description": "<p>Admire le charme fou des objets du quotidien miniaturisés avec Mini Crate ! Ce clicker original reproduit une caisse à bouteilles vintage d'un rouge intense, garnie de ses fioles miniatures aux nuances contrastées. Un petit monde miniature ultra satisfaisant à admirer et à manipuler.</p>",
+    "description": "<h3>La magie du miniature au service de tes mains !</h3>\n<p>Inspiré des caisses de livraison traditionnelles, Mini Crate séduit par son niveau de détail minutieux : un casier rouge écarlate abritant de petites bouteilles soigneusement sculptées en rouge, noir et blanc. C'est l'objet de curiosité par excellence qui donne envie d'être observé sous tous les angles.</p>\n<h3>Un plaisir tactile tout en précision</h3>\n<p>Derrière ce décor miniature se cache un mécanisme de clic réactif qui offre une réponse franche sous la pression. Idéal pour les collectionneurs d'objets pop et les passionnés de manipulations tactiles qui aiment allier esthétique et sensation.</p>\n<ul>\n  <li><strong>Détails miniatures soignés :</strong> hommage ludique aux caisses à bouteilles d'époque.</li>\n  <li><strong>Palette tricolore vive :</strong> équilibre graphique entre le rouge, le noir et le blanc.</li>\n  <li><strong>Prise en main naturelle :</strong> clic tactile franc et répétitif.</li>\n  <li><strong>Fait dans le Nord :</strong> modèle artisanal conçu et imprimé en 3D à Comines.</li>\n</ul>",
+    "stock_quantity": -1,
+    "type": "simple",
+    "status": "publish",
+    "attributes": {
+      "attributes": [],
+      "variationPrices": [],
+      "technicalSpecs": {
+        "dimensions": "",
+        "weight": "",
+        "material": "",
+        "other": ""
+      },
+      "tags": [
+        "fidget",
+        "clicker",
+        "miniature",
+        "collector",
+        "bureau"
+      ],
+      "badge": "Nouveau"
+    },
+    "images": [
+      {
+        "id": 3643,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892162528.webp",
+        "alt": "Mini Crate — Le Clicker Caisse de Bouteilles"
+      },
+      {
+        "id": 3644,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892162480.webp",
+        "alt": "Mini Crate — Le Clicker Caisse de Bouteilles"
+      },
+      {
+        "id": 3645,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892162480.webp",
+        "alt": "Mini Crate — Le Clicker Caisse de Bouteilles"
+      },
+      {
+        "id": 3646,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892162525.webp",
+        "alt": "Mini Crate — Le Clicker Caisse de Bouteilles"
+      },
+      {
+        "id": 3647,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892162497.webp",
+        "alt": "Mini Crate — Le Clicker Caisse de Bouteilles"
+      }
+    ],
+    "tags": [
+      {
+        "id": 1000,
+        "name": "fidget",
+        "slug": "fidget"
+      },
+      {
+        "id": 1001,
+        "name": "clicker",
+        "slug": "clicker"
+      },
+      {
+        "id": 1002,
+        "name": "miniature",
+        "slug": "miniature"
+      },
+      {
+        "id": 1003,
+        "name": "collector",
+        "slug": "collector"
+      },
+      {
+        "id": 1004,
+        "name": "bureau",
+        "slug": "bureau"
+      }
+    ],
+    "metaTitle": "Clicker Mini Crate : Caisse de Bouteilles Fidget | Spoolio",
+    "metaDescription": "Craquez pour le clicker Mini Crate Spoolio : une caisse de bouteilles miniature imprimée en 3D à Comines. Un fidget collector étonnant et tactile !",
+    "seoScore": 100,
+    "show_in_sensory_compass": true,
+    "sensory_noise_level": "4",
+    "sensory_size": "pocket",
+    "sensory_category": "cliquer",
+    "sensory_profiles": [
+      "tdah",
+      "anxiety",
+      "autism",
+      "focus"
+    ]
+  },
+  {
+    "id": 29,
+    "name": "Crunchy Click — Le Clicker Boîte de Chips Miniature",
+    "slug": "crunchy-click",
+    "price": "4.00",
+    "regular_price": "4.00",
+    "sale_price": "",
+    "on_sale": false,
+    "categories": [
+      {
+        "id": 64,
+        "name": "Fidgets",
+        "slug": "fidgets"
+      },
+      {
+        "id": 3,
+        "name": "Clickers",
+        "slug": "clickers"
+      }
+    ],
+    "short_description": "<p>Craque pour Crunchy Click, l'en-cas tactile qui ne prend pas une miette ! Avec son tube cylindrique rouge éclatant et ses petites chips dorées superposées avec soin, ce clicker croustillant transforme ton envie de grignotage en pure satisfaction mécanique. À savourer sans modération !</p>",
+    "description": "<h3>Le plaisir croustillant du clic, sans calories ni miettes sur le clavier !</h3>\n<p>Crunchy Click réinterprète les boîtes de chips cylindriques emblématiques de l'apéritif dans un format compact irrésistible. Sa silhouette rouge vive laisse entrevoir une pile de chips jaunes aux galbes réalistes, apportant une note joyeuse et gourmande à ton bureau.</p>\n<h3>Grignote du clic à volonté</h3>\n<p>Actionne le mécanisme sous tes doigts pour ressentir un clic ferme et stimulant. Que tu sois en pleine session de brainstorming ou en train de regarder une vidéo, ce petit compagnon tactile garde tes doigts occupés avec malice.</p>\n<ul>\n  <li><strong>Clin d'œil gourmand :</strong> inspiré des snacks apéritifs préférés des pauses détente.</li>\n  <li><strong>Détails texturés :</strong> sculpture soignée des chips ondulées jaunes.</li>\n  <li><strong>Fidget déstressant :</strong> sensation de clic addictive pour calmer l'impatience.</li>\n  <li><strong>Fabrication Spoolio :</strong> façonné en impression 3D dans notre atelier indépendant à Comines.</li>\n</ul>",
+    "stock_quantity": -1,
+    "type": "simple",
+    "status": "publish",
+    "attributes": {
+      "attributes": [],
+      "variationPrices": [],
+      "technicalSpecs": {
+        "dimensions": "5 x 5 x 3cm",
+        "weight": "20 grammes",
+        "material": "",
+        "other": ""
+      },
+      "tags": [
+        "fidget",
+        "clicker",
+        "humour",
+        "chips",
+        "gourmand"
+      ],
+      "badge": "Nouveau"
+    },
+    "images": [
+      {
+        "id": 3636,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892086536.webp",
+        "alt": "Crunchy Click — Le Clicker Boîte de Chips Miniature"
+      },
+      {
+        "id": 3637,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892086591.webp",
+        "alt": "Crunchy Click — Le Clicker Boîte de Chips Miniature"
+      },
+      {
+        "id": 3638,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892086586.webp",
+        "alt": "Crunchy Click — Le Clicker Boîte de Chips Miniature"
+      },
+      {
+        "id": 3639,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892086569.webp",
+        "alt": "Crunchy Click — Le Clicker Boîte de Chips Miniature"
+      },
+      {
+        "id": 3640,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892086610.webp",
+        "alt": "Crunchy Click — Le Clicker Boîte de Chips Miniature"
+      },
+      {
+        "id": 3641,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892086572.webp",
+        "alt": "Crunchy Click — Le Clicker Boîte de Chips Miniature"
+      },
+      {
+        "id": 3642,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892086535.webp",
+        "alt": "Crunchy Click — Le Clicker Boîte de Chips Miniature"
+      }
+    ],
+    "tags": [
+      {
+        "id": 1000,
+        "name": "fidget",
+        "slug": "fidget"
+      },
+      {
+        "id": 1001,
+        "name": "clicker",
+        "slug": "clicker"
+      },
+      {
+        "id": 1002,
+        "name": "humour",
+        "slug": "humour"
+      },
+      {
+        "id": 1003,
+        "name": "chips",
+        "slug": "chips"
+      },
+      {
+        "id": 1004,
+        "name": "gourmand",
+        "slug": "gourmand"
+      }
+    ],
+    "metaTitle": "Clicker Crunchy Click : Boîte de Chips Fidget | Spoolio",
+    "metaDescription": "Découvrez le clicker Crunchy Click : une boîte de chips miniature et croustillante imprimée en 3D à Comines. Le fidget parfait pour les gourmands !",
+    "seoScore": 100,
+    "show_in_sensory_compass": true,
+    "sensory_noise_level": "4",
+    "sensory_size": "pocket",
+    "sensory_category": "manipuler",
+    "sensory_profiles": []
+  },
+  {
+    "id": 30,
+    "name": "Sardine Club — Le Clicker Boîte de Sardines Décalé",
+    "slug": "sardine-club-clicker",
+    "price": "8.00",
+    "regular_price": "8.00",
+    "sale_price": "",
+    "on_sale": false,
+    "categories": [
+      {
+        "id": 64,
+        "name": "Fidgets",
+        "slug": "fidgets"
+      },
+      {
+        "id": 3,
+        "name": "Clickers",
+        "slug": "clickers"
+      }
+    ],
+    "short_description": "<p>Plonge dans l'univers insolite du Sardine Club ! Inspiré des boîtes de conserve de notre enfance, ce clicker décalé dévoile un trio de petits poissons argentés bien serrés dans leur boîte bleue. Un objet de curiosité marin aussi irrésistible à regarder qu'à cliquer.</p>",
+    "description": "<h3>Un vent de fraîcheur océanique souffle sur ton espace de travail !</h3>\n<p>Avec sa boîte d'un bleu profond, son couvercle sombre aux détails graphiques rétro et ses trois silhouettes argentées sagement alignées, Sardine Club transforme un grand classique de la conserverie en pièce design miniature. C'est l'accessoire conversationnel par excellence qui intrigue tous ceux qui passent devant ton bureau.</p>\n<h3>La pêche au clic satisfaisant</h3>\n<p>À chaque appui, le mécanisme produit une impulsion mécanique franche et agréable. Parfait pour les moments où l'esprit a besoin de vagabonder ou quand les mains cherchent un repère tactile réconfortant pour rester focalisé.</p>\n<ul>\n  <li><strong>Détournement pop plein d'autodérision :</strong> autour des boîtes de sardines d'époque.</li>\n  <li><strong>Finitions contrastées :</strong> trois poissons argentés aux reflets soignés dans leur écrin bleu.</li>\n  <li><strong>Stimulation tactile :</strong> effet clicker dynamique pour occuper les mains sans effort.</li>\n  <li><strong>Atelier local :</strong> confectionné avec passion en impression 3D dans notre atelier à Comines.</li>\n</ul>",
+    "stock_quantity": -1,
+    "type": "simple",
+    "status": "publish",
+    "attributes": {
+      "attributes": [],
+      "variationPrices": [],
+      "technicalSpecs": {
+        "dimensions": "12 x 8 x 3cm",
+        "weight": "120 grammes",
+        "material": "PLA biosourcé, switchs de clavier mécanique.",
+        "other": "Resistant, imprimé en couleur, sans peinture ajoutée. Ne craint pas l'eau."
+      },
+      "tags": [
+        "fidget",
+        "clicker",
+        "vintage",
+        "humour",
+        "mer"
+      ],
+      "badge": "Nouveau"
+    },
+    "images": [
+      {
+        "id": 3630,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793891736579.webp",
+        "alt": "Sardine Club — Le Clicker Boîte de Sardines Décalé"
+      },
+      {
+        "id": 3631,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793891736627.webp",
+        "alt": "Sardine Club — Le Clicker Boîte de Sardines Décalé"
+      },
+      {
+        "id": 3632,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793891736542.webp",
+        "alt": "Sardine Club — Le Clicker Boîte de Sardines Décalé"
+      },
+      {
+        "id": 3633,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793891736684.webp",
+        "alt": "Sardine Club — Le Clicker Boîte de Sardines Décalé"
+      },
+      {
+        "id": 3634,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793891736901.webp",
+        "alt": "Sardine Club — Le Clicker Boîte de Sardines Décalé"
+      },
+      {
+        "id": 3635,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793891736979.webp",
+        "alt": "Sardine Club — Le Clicker Boîte de Sardines Décalé"
+      }
+    ],
+    "tags": [
+      {
+        "id": 1000,
+        "name": "fidget",
+        "slug": "fidget"
+      },
+      {
+        "id": 1001,
+        "name": "clicker",
+        "slug": "clicker"
+      },
+      {
+        "id": 1002,
+        "name": "vintage",
+        "slug": "vintage"
+      },
+      {
+        "id": 1003,
+        "name": "humour",
+        "slug": "humour"
+      },
+      {
+        "id": 1004,
+        "name": "mer",
+        "slug": "mer"
+      }
+    ],
+    "metaTitle": "Clicker Sardine Club : Boîte de Sardines Fidget | Spoolio",
+    "metaDescription": "Adoptez le clicker Sardine Club Spoolio : une boîte de sardines décalée avec ses poissons argentés en impression 3D à Comines. Un fidget marin culte !",
+    "seoScore": 100,
+    "show_in_sensory_compass": true,
+    "sensory_noise_level": "4",
+    "sensory_size": "medium",
+    "sensory_category": "cliquer",
+    "sensory_profiles": [
+      "tdah",
+      "anxiety",
+      "focus",
+      "autism"
+    ]
+  },
+  {
+    "id": 31,
+    "name": "Clickie Pen — Le Clicker Marqueur Tactile",
+    "slug": "clickie-pen",
+    "price": "4.00",
+    "regular_price": "4.00",
+    "sale_price": "",
+    "on_sale": false,
+    "categories": [
+      {
+        "id": 64,
+        "name": "Fidgets",
+        "slug": "fidgets"
+      },
+      {
+        "id": 3,
+        "name": "Clickers",
+        "slug": "clickers"
+      }
+    ],
+    "short_description": "<p>Reprends le contrôle du tic-tac de réunion avec Clickie Pen ! Ce clicker ingénieux reprend la silhouette légendaire d'un marqueur avec son corps argenté et son capuchon noir. L'objet idéal pour les adeptes du clic de stylo compulsif, revisité en version tactile ultra élégante.</p>",
+    "description": "<h3>L'art du clic de stylo, sublimé dans un véritable objet design !</h3>\n<p>Inspiré de l'icône indémodable des feutres permanents, Clickie Pen arbore une silhouette racée avec son corps au ton argenté satiné, son inscription calligraphiée « Clickie » et son capuchon noir contrasté. Il s'intègre avec une discrétion parfaite parmi tes stylos et carnets.</p>\n<h3>Un clic net pour les esprits créatifs</h3>\n<p>Conçu pour combler le réflexe universel de pianoter sur un stylo, son mécanisme délivre un clic franc, net et infiniment satisfaisant. C'est le partenaire rêvé pour accompagner tes brainstormings, tes lectures attentives ou tes moments de réflexion profonde.</p>\n<ul>\n  <li><strong>Look de bureau épuré :</strong> inspiré des fournitures de bureau iconiques.</li>\n  <li><strong>Contraste sobre :</strong> finition argentée et accents noirs élégants.</li>\n  <li><strong>Réflexe de stylo sublimé :</strong> réponse mécanique immédiate pensée pour le plaisir des doigts.</li>\n  <li><strong>Création locale :</strong> façonné artisanalement en impression 3D au sein de l'atelier Spoolio à Comines.</li>\n</ul>",
+    "stock_quantity": -1,
+    "type": "simple",
+    "status": "publish",
+    "attributes": {
+      "attributes": [],
+      "variationPrices": [],
+      "technicalSpecs": {
+        "dimensions": "10 x 3 x 3cm",
+        "weight": "20 grammes",
+        "material": "",
+        "other": ""
+      },
+      "tags": [
+        "fidget",
+        "clicker",
+        "bureau",
+        "stylo",
+        "design"
+      ],
+      "badge": "Nouveau"
+    },
+    "images": [
+      {
+        "id": 3625,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793891470057.webp",
+        "alt": "Clickie Pen — Le Clicker Marqueur Tactile"
+      },
+      {
+        "id": 3626,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793891470084.webp",
+        "alt": "Clickie Pen — Le Clicker Marqueur Tactile"
+      },
+      {
+        "id": 3627,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793891470143.webp",
+        "alt": "Clickie Pen — Le Clicker Marqueur Tactile"
+      },
+      {
+        "id": 3628,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793891470096.webp",
+        "alt": "Clickie Pen — Le Clicker Marqueur Tactile"
+      },
+      {
+        "id": 3629,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793891470216.webp",
+        "alt": "Clickie Pen — Le Clicker Marqueur Tactile"
+      }
+    ],
+    "tags": [
+      {
+        "id": 1000,
+        "name": "fidget",
+        "slug": "fidget"
+      },
+      {
+        "id": 1001,
+        "name": "clicker",
+        "slug": "clicker"
+      },
+      {
+        "id": 1002,
+        "name": "bureau",
+        "slug": "bureau"
+      },
+      {
+        "id": 1003,
+        "name": "stylo",
+        "slug": "stylo"
+      },
+      {
+        "id": 1004,
+        "name": "design",
+        "slug": "design"
+      }
+    ],
+    "metaTitle": "Clicker Clickie Pen : Marqueur Fidget Tactile | Spoolio",
+    "metaDescription": "Découvrez le clicker Clickie Pen : le marqueur tactile argenté et noir imprimé en 3D à Comines. Le fidget parfait pour les passionnés du clic de stylo !",
+    "seoScore": 100,
+    "show_in_sensory_compass": true,
+    "sensory_noise_level": "4",
+    "sensory_size": "pocket",
+    "sensory_category": "cliquer",
+    "sensory_profiles": [
+      "anxiety",
+      "autism",
+      "tdah"
+    ]
   }
 ]

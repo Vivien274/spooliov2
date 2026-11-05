@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import fs from 'fs';
 import path from 'path';
 import { invalidateProductsCache } from '../route';
+import { invalidateServerProductsCache } from '@/lib/serverProducts';
 import { isPreprodEnv } from '@/lib/env';
 
 import { revalidatePath } from 'next/cache';
@@ -313,6 +314,7 @@ export async function PUT(
     if (body.badge !== undefined) attributesObj.badge = body.badge ? String(body.badge).trim() : null;
     if (body.technicalSpecs) attributesObj.technicalSpecs = body.technicalSpecs;
     else if (body.attributes?.technicalSpecs) attributesObj.technicalSpecs = body.attributes.technicalSpecs;
+    attributesObj.lastModified = new Date().toISOString();
 
     let effectivePrice = String(body.price || "").trim();
     if (!effectivePrice || effectivePrice === "0" || effectivePrice === "0.00" || effectivePrice === "0,00" || parseFloat(effectivePrice) === 0) {
@@ -370,6 +372,7 @@ export async function PUT(
       ]) as any;
 
       let categoryObj: any = null;
+      let extraCategoryObj: any = null;
       if (body.category) {
         try {
           categoryObj = await prisma.category.findFirst({
@@ -380,17 +383,28 @@ export async function PUT(
               ]
             }
           });
+          // Si la catégorie est Clickers ou liée aux fidgets, lier également Fidgets
+          if (body.category.toLowerCase().includes("clicker")) {
+            extraCategoryObj = await prisma.category.findFirst({
+              where: { slug: "fidgets" }
+            });
+          }
         } catch (catErr: any) {
           console.warn("Could not find matching category in DB:", catErr.message);
         }
       }
 
-      const categoryUpdate = categoryObj
-        ? { set: [{ id: categoryObj.id }] }
-        : { set: [] };
+      const categoryIdsToConnect = [
+        categoryObj ? categoryObj.id : null,
+        extraCategoryObj ? extraCategoryObj.id : null,
+      ].filter((id): id is number => typeof id === "number");
 
-      const categoryCreate = categoryObj
-        ? { connect: [{ id: categoryObj.id }] }
+      const categoryUpdate = categoryIdsToConnect.length > 0
+        ? { set: categoryIdsToConnect.map(id => ({ id })) }
+        : undefined;
+
+      const categoryCreate = categoryIdsToConnect.length > 0
+        ? { connect: categoryIdsToConnect.map(id => ({ id })) }
         : undefined;
 
       const imagesPayload = (body.images || []).map((img: any) => ({
@@ -483,6 +497,7 @@ export async function PUT(
             stock_quantity: body.stock,
             type: body.productType || "simple",
             status: body.status || "publish",
+            date_modified: new Date().toISOString(),
             attributes: attributesObj,
             images: body.images || []
           };
@@ -511,11 +526,16 @@ export async function PUT(
     }
 
     invalidateProductsCache();
+    invalidateServerProductsCache();
     try {
       revalidatePath(`/product/${slug}`);
       revalidatePath(`/produit/${slug}`);
       revalidatePath(`/api/products/${slug}`);
       revalidatePath('/boutique');
+      revalidatePath('/tactile');
+      revalidatePath('/tactile/clickers');
+      revalidatePath('/tactile/fidgets');
+      revalidatePath('/nouveautes');
       revalidatePath('/');
     } catch {}
 
@@ -547,11 +567,16 @@ export async function DELETE(
     }
 
     invalidateProductsCache();
+    invalidateServerProductsCache();
     try {
       revalidatePath(`/product/${slug}`);
       revalidatePath(`/produit/${slug}`);
       revalidatePath(`/api/products/${slug}`);
       revalidatePath('/boutique');
+      revalidatePath('/tactile');
+      revalidatePath('/tactile/clickers');
+      revalidatePath('/tactile/fidgets');
+      revalidatePath('/nouveautes');
       revalidatePath('/');
     } catch {}
 
