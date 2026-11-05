@@ -53,6 +53,15 @@ export default function AdminProductsPage() {
   const [bulkPriceDirection, setBulkPriceDirection] = useState<"increase" | "decrease">("increase");
   const [bulkPriceValue, setBulkPriceValue] = useState<string>("");
 
+  // Collection Assignment States
+  const [collectionsList, setCollectionsList] = useState<{ id: number; name: string }[]>([]);
+  const [showCollectionPopover, setShowCollectionPopover] = useState<boolean>(false);
+  const [selectedBulkCollectionId, setSelectedBulkCollectionId] = useState<number | null>(null);
+  const [bulkCollectionMode, setBulkCollectionMode] = useState<"add" | "remove">("add");
+
+  // Duplication State
+  const [duplicatingId, setDuplicatingId] = useState<number | null>(null);
+
   // List of main categories
   const categoriesList = [
     "Tous",
@@ -82,7 +91,50 @@ export default function AdminProductsPage() {
 
   useEffect(() => {
     fetchProducts();
+    const fetchCollections = async () => {
+      try {
+        const res = await fetch("/api/admin/taxonomy?type=collection");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.items) {
+            setCollectionsList(data.items.map((it: any) => ({ id: it.id, name: it.name })));
+          }
+        }
+      } catch (e) {
+        console.warn("Could not load collections list:", e);
+      }
+    };
+    fetchCollections();
   }, []);
+
+  const handleDuplicateProduct = async (id: number, name: string) => {
+    if (!confirm(`Voulez-vous dupliquer le produit « ${name} » ? Une copie sera créée en brouillon.`)) return;
+
+    setDuplicatingId(id);
+    try {
+      const res = await fetch("/api/admin/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ids: [id],
+          action: "duplicate",
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data.success && data.product) {
+        setProducts((prev) => [data.product, ...prev]);
+        alert(`Produit dupliqué avec succès : « ${data.product.name} » (enregistré en brouillon).`);
+      } else {
+        alert(data.error || "Impossible de dupliquer le produit.");
+      }
+    } catch (err: any) {
+      console.error("Duplicate error:", err);
+      alert("Erreur réseau lors de la duplication.");
+    } finally {
+      setDuplicatingId(null);
+    }
+  };
 
   const handleDeleteProduct = async (id: number, name: string) => {
     if (!confirm(`Voulez-vous vraiment supprimer le produit « ${name} » ?`)) return;
@@ -692,6 +744,24 @@ export default function AdminProductsPage() {
                           Modifier
                         </Link>
                         <button
+                          onClick={() => handleDuplicateProduct(p.id, p.name)}
+                          disabled={duplicatingId === p.id}
+                          className={`flex items-center gap-1 text-[11px] font-bold ${cls.textMain} ${theme === "dark" ? "bg-white/10 hover:bg-white/20" : "bg-gray-100 hover:bg-gray-200"} px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer disabled:opacity-50`}
+                          title="Dupliquer ce produit en brouillon"
+                        >
+                          {duplicatingId === p.id ? (
+                            <svg className="w-3 h-3 animate-spin text-[#FF5500]" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                            </svg>
+                          ) : (
+                            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                          )}
+                          <span>Dupliquer</span>
+                        </button>
+                        <button
                           onClick={() => handleDeleteProduct(p.id, p.name)}
                           disabled={deletingId === p.id}
                           className="text-[11px] font-bold text-red-400 hover:text-red-300 bg-red-500/10 hover:bg-red-500/20 px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer disabled:opacity-50"
@@ -817,6 +887,74 @@ export default function AdminProductsPage() {
                       OK
                     </button>
                   </div>
+                </div>
+              )}
+            </div>
+
+            {/* Collection assignment action */}
+            <div className="relative">
+              <button
+                onClick={() => {
+                  setShowCollectionPopover(!showCollectionPopover);
+                  setShowPricePopover(false);
+                }}
+                disabled={isBulkUpdating}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold border ${theme === "dark" ? "border-purple-500/30 text-purple-400 bg-purple-500/5 hover:bg-purple-500/10" : "border-purple-200 text-purple-600 bg-purple-50 hover:bg-purple-100"} transition-all cursor-pointer flex items-center gap-1.5 disabled:opacity-50`}
+              >
+                <svg className="w-3.5 h-3.5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                </svg>
+                <span>Collections</span>
+                <svg className={`w-3 h-3 transition-transform ${showCollectionPopover ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {/* Collection assignment popover */}
+              {showCollectionPopover && (
+                <div className={`absolute bottom-full mb-3 right-0 ${theme === "dark" ? "bg-[#181824] border-white/10 text-white" : "bg-white border-gray-200 text-black"} border rounded-2xl p-4 w-72 shadow-xl z-50 flex flex-col gap-3`}>
+                  <div className="text-xs font-bold uppercase tracking-wider text-gray-400">Assigner à une collection</div>
+                  
+                  <div className="flex gap-1 bg-white/5 p-1 rounded-lg">
+                    <button
+                      onClick={() => setBulkCollectionMode("add")}
+                      className={`flex-1 text-[10px] font-bold py-1 rounded-md transition-all cursor-pointer ${bulkCollectionMode === "add" ? "bg-[#2F3CD9] text-white" : `${cls.textMuted} hover:text-white`}`}
+                    >
+                      Ajouter
+                    </button>
+                    <button
+                      onClick={() => setBulkCollectionMode("remove")}
+                      className={`flex-1 text-[10px] font-bold py-1 rounded-md transition-all cursor-pointer ${bulkCollectionMode === "remove" ? "bg-red-500 text-white" : `${cls.textMuted} hover:text-white`}`}
+                    >
+                      Retirer
+                    </button>
+                  </div>
+
+                  <select
+                    value={selectedBulkCollectionId || ""}
+                    onChange={(e) => setSelectedBulkCollectionId(e.target.value ? Number(e.target.value) : null)}
+                    className={`w-full text-xs px-2.5 py-2 rounded-lg border ${cls.border} ${cls.inputBg} ${cls.textMain} focus:outline-none focus:border-[#2F3CD9] cursor-pointer`}
+                  >
+                    <option value="">— Choisir la collection —</option>
+                    {collectionsList.map((col) => (
+                      <option key={col.id} value={col.id}>{col.name}</option>
+                    ))}
+                  </select>
+
+                  <button
+                    disabled={!selectedBulkCollectionId}
+                    onClick={() => {
+                      if (!selectedBulkCollectionId) return;
+                      handleBulkAction("assign_collection", {
+                        collectionId: selectedBulkCollectionId,
+                        collectionMode: bulkCollectionMode,
+                      });
+                      setShowCollectionPopover(false);
+                    }}
+                    className="w-full py-2 bg-[#2F3CD9] hover:bg-[#202bb8] text-white text-xs font-bold rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+                  >
+                    {bulkCollectionMode === "add" ? "Ajouter aux sélectionnés" : "Retirer des sélectionnés"}
+                  </button>
                 </div>
               )}
             </div>

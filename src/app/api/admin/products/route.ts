@@ -258,7 +258,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Accès refusé. Veuillez vous connecter." }, { status: 401 });
     }
 
-    const { ids, action, status, priceType, priceDirection, priceValue } = await req.json();
+    const { ids, action, status, priceType, priceDirection, priceValue, collectionId, collectionMode } = await req.json();
 
     if (!Array.isArray(ids) || ids.length === 0) {
       return NextResponse.json({ error: "Aucun produit sélectionné" }, { status: 400 });
@@ -342,6 +342,162 @@ export async function POST(req: Request) {
 
       // Sync fallback JSON
       await syncJsonFile(numericIds, "price", { type: priceType, direction: priceDirection, value: priceValue });
+    } 
+    else if (action === "assign_collection") {
+      const colId = parseInt(collectionId, 10);
+      if (isNaN(colId) || colId <= 0) {
+        return NextResponse.json({ error: "Identifiant de collection invalide" }, { status: 400 });
+      }
+      const mode = collectionMode === "remove" ? "remove" : "add";
+
+      for (const id of numericIds) {
+        if (mode === "add") {
+          await prisma.$executeRaw`
+            INSERT INTO public.product_taxonomy (product_id, taxonomy_id, is_primary, created_at)
+            VALUES (${id}, ${colId}, false, NOW())
+            ON CONFLICT DO NOTHING;
+          `;
+        } else {
+          await prisma.$executeRaw`
+            DELETE FROM public.product_taxonomy
+            WHERE product_id = ${id} AND taxonomy_id = ${colId};
+          `;
+        }
+      }
+
+      // Revalidation de la collection
+      try {
+        const colItem = (await prisma.$queryRaw`SELECT slug FROM public.catalog_taxonomy WHERE id = ${colId}`) as any[];
+        if (colItem && colItem[0]?.slug) {
+          revalidatePath(`/collections/${colItem[0].slug}`);
+        }
+      } catch (colRevalErr) {
+        console.warn("Collection revalidation warning:", colRevalErr);
+      }
+    }
+    else if (action === "duplicate") {
+      const targetId = numericIds[0];
+      const source = await prisma.product.findUnique({
+        where: { id: targetId },
+        include: {
+          images: true,
+          categories: true,
+        }
+      });
+
+      if (!source) {
+        return NextResponse.json({ error: "Produit source introuvable pour la duplication" }, { status: 404 });
+      }
+
+      const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+      const newSlug = `${source.slug}-copie-${randomSuffix}`;
+      const newName = `${source.name} (Copie)`;
+
+      const newProduct = await prisma.product.create({
+        data: {
+          name: newName,
+          nameEn: source.nameEn ? `${source.nameEn} (Copy)` : null,
+          slug: newSlug,
+          price: source.price,
+          regularPrice: source.regularPrice,
+          salePrice: source.salePrice,
+          onSale: source.onSale,
+          shortDescription: source.shortDescription,
+          shortDescriptionEn: source.shortDescriptionEn,
+          description: source.description,
+          descriptionEn: source.descriptionEn,
+          stock: source.stock,
+          productType: source.productType,
+          status: "draft", // Toujours créer la copie en brouillon
+          seoScore: source.seoScore,
+          metaTitle: source.metaTitle ? `${source.metaTitle} (Copie)` : null,
+          metaDescription: source.metaDescription,
+          showInSensoryCompass: source.showInSensoryCompass,
+          sensoryNoiseLevel: source.sensoryNoiseLevel,
+          sensorySize: source.sensorySize,
+          sensoryCategory: source.sensoryCategory,
+          sensoryProfiles: source.sensoryProfiles,
+          attributes: source.attributes,
+          categories: {
+            connect: source.categories.map((c) => ({ id: c.id }))
+          },
+          images: {
+            create: source.images.map((img) => ({
+              src: img.src,
+              alt: img.alt || newName
+            }))
+          }
+        },
+        include: {
+          images: true,
+          categories: true,
+        }
+      });
+
+      // Dupliquer également les associations dans product_taxonomy
+      try {
+        const sourceTax = (await prisma.$queryRaw`
+          SELECT taxonomy_id, is_primary FROM public.product_taxonomy WHERE product_id = ${source.id}
+        `) as any[];
+
+        for (const t of sourceTax) {
+          await prisma.$executeRaw`
+            INSERT INTO public.product_taxonomy (product_id, taxonomy_id, is_primary, created_at)
+            VALUES (${newProduct.id}, ${t.taxonomy_id}, ${t.is_primary}, NOW())
+            ON CONFLICT DO NOTHING;
+          `;
+        }
+      } catch (taxDupErr) {
+        console.warn("Taxonomy duplication notice:", taxDupErr);
+      }
+
+      // Synchroniser fallback JSON
+      try {
+        const jsonPath = path.join(process.cwd(), "src/data/products.json");
+        if (fs.existsSync(jsonPath)) {
+          const fileData = fs.readFileSync(jsonPath, "utf8");
+          const parsed = JSON.parse(fileData);
+          if (Array.isArray(parsed)) {
+            let parsedAttrs: any = {};
+            try {
+              parsedAttrs = source.attributes ? JSON.parse(source.attributes) : {};
+            } catch {}
+            parsed.unshift({
+              id: newProduct.id,
+              name: newProduct.name,
+              slug: newProduct.slug,
+              price: newProduct.price,
+              regular_price: newProduct.regularPrice,
+              sale_price: newProduct.salePrice || "",
+              on_sale: newProduct.onSale,
+              categories: newProduct.categories.map((c: any) => ({ id: c.id, name: c.name, slug: c.slug })),
+              short_description: newProduct.shortDescription || "",
+              description: newProduct.description || "",
+              stock_quantity: newProduct.stock,
+              type: newProduct.productType,
+              status: "draft",
+              attributes: parsedAttrs,
+              images: newProduct.images.map((img: any) => ({ id: img.id, src: img.src, alt: img.alt })),
+              tags: [],
+              metaTitle: newProduct.metaTitle,
+              metaDescription: newProduct.metaDescription,
+              seoScore: newProduct.seoScore
+            });
+            fs.writeFileSync(jsonPath, JSON.stringify(parsed, null, 2), "utf8");
+          }
+        }
+      } catch (jsonDupErr) {
+        console.warn("JSON duplication fallback notice:", jsonDupErr);
+      }
+
+      invalidateProductsCache();
+      invalidateServerProductsCache();
+
+      return NextResponse.json({
+        success: true,
+        message: "Produit dupliqué avec succès",
+        product: newProduct
+      });
     } 
     invalidateProductsCache();
     invalidateServerProductsCache();
