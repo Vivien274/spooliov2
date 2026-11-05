@@ -12,6 +12,7 @@ import { useCart } from "@/context/CartContext";
 import { parseNoiseLevel, formatNoiseLevelText } from "@/lib/sensoryUtils";
 import cartIconData from "@/components/shopping bag.json";
 import HandmadeProductView from "@/components/HandmadeProductView";
+import { Camera } from "lucide-react";
 
 interface ProductDetailClientProps {
   slug: string;
@@ -278,7 +279,14 @@ export default function ProductDetailClient({
           const validOpts = attr.options
             .map((o: string) => o.replace(/\u00a0/g, ' ').trim())
             .filter((o: string) => !isUnavailableColor(o));
-          initialOptions[attr.name] = validOpts.length > 0 ? validOpts[0] : attr.options[0].replace(/\u00a0/g, ' ').trim();
+
+          const photoOpt = (attr.defaultOption || attr.photoOption || "").replace(/\u00a0/g, ' ').trim();
+          if (photoOpt && validOpts.some((o: string) => o.toLowerCase() === photoOpt.toLowerCase())) {
+            const match = validOpts.find((o: string) => o.toLowerCase() === photoOpt.toLowerCase());
+            initialOptions[attr.name] = match || photoOpt;
+          } else {
+            initialOptions[attr.name] = validOpts.length > 0 ? validOpts[0] : attr.options[0].replace(/\u00a0/g, ' ').trim();
+          }
         }
       });
       setSelectedOptions(initialOptions);
@@ -362,7 +370,8 @@ export default function ProductDetailClient({
                 attributes: attrData.map((a: any) => ({
                   name: decodeHtml(a.name || ""),
                   options: a.options || (a.values ? a.values.split(",").map((v: string) => v.trim()) : []),
-                  controlType: a.controlType || "default"
+                  controlType: a.controlType || "default",
+                  defaultOption: a.defaultOption || a.photoOption || ""
                 })),
                 variationPrices: []
               };
@@ -371,7 +380,8 @@ export default function ProductDetailClient({
               if (attrData && Array.isArray(attrData.attributes)) {
                 attrData.attributes = attrData.attributes.map((a: any) => ({
                   ...a,
-                  name: decodeHtml(a.name)
+                  name: decodeHtml(a.name),
+                  defaultOption: a.defaultOption || a.photoOption || ""
                 }));
               }
 
@@ -1474,9 +1484,15 @@ export default function ProductDetailClient({
                                 style={{ background: getCssColor(selectedVal) }} 
                                 className="w-8 h-8 rounded-full border border-black/15 relative shrink-0 shadow-xs ring-1 ring-black/5"
                               />
-                              <span className={`text-sm font-bold truncate max-w-[220px] md:max-w-xs ${selectedVal ? "text-zinc-900" : "text-zinc-400 font-normal"}`}>
+                              <span className={`text-sm font-bold truncate max-w-[180px] md:max-w-xs ${selectedVal ? "text-zinc-900" : "text-zinc-400 font-normal"}`}>
                                 {selectedVal || "Choisir une couleur..."}
                               </span>
+                              {selectedVal && (attr.defaultOption || attr.photoOption) && (attr.defaultOption || attr.photoOption).toLowerCase().trim() === selectedVal.toLowerCase().trim() && (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-900 border border-amber-200/80 shrink-0">
+                                  <Camera className="w-2.5 h-2.5 text-amber-600" />
+                                  En photo
+                                </span>
+                              )}
                             </div>
                             <svg 
                               className={`w-4 h-4 text-zinc-400 transition-transform duration-300 ${activeDropdown === name ? "rotate-180 text-zinc-900" : ""}`} 
@@ -1497,6 +1513,7 @@ export default function ProductDetailClient({
                               <div className="absolute left-0 right-0 mt-2 max-h-60 overflow-y-auto bg-white border border-zinc-200 rounded-xl shadow-2xl z-50 divide-y divide-zinc-100/90 no-scrollbar">
                                 {options.map((opt: string) => {
                                   const isOptionSelected = selectedVal === opt;
+                                  const isPhotoOption = (attr.defaultOption || attr.photoOption || "").toLowerCase().trim() === opt.toLowerCase().trim();
                                   const optionBg = getCssColor(opt);
                                   return (
                                     <button
@@ -1506,20 +1523,28 @@ export default function ProductDetailClient({
                                         setActiveDropdown(null);
                                       }}
                                       type="button"
-                                      className={`w-full px-4 py-3 flex items-center gap-3 transition-colors hover:bg-zinc-50 cursor-pointer text-left ${
+                                      className={`w-full px-4 py-3 flex items-center justify-between gap-3 transition-colors hover:bg-zinc-50 cursor-pointer text-left ${
                                         isOptionSelected ? "bg-orange-50/50" : ""
                                       }`}
                                     >
-                                      {/* Pastille de l'option (+30% plus grande, sans point noir) */}
-                                      <div 
-                                        style={{ background: optionBg }} 
-                                        className="w-7 h-7 rounded-full border border-black/15 relative shrink-0 shadow-2xs ring-1 ring-black/5"
-                                      />
-                                      <span className={`text-xs flex-1 truncate ${isOptionSelected ? "text-[#ff4f00] font-black" : "text-zinc-700 font-medium"}`}>
-                                        {opt}
-                                      </span>
+                                      <div className="flex items-center gap-3 min-w-0 flex-1">
+                                        {/* Pastille de l'option (+30% plus grande, sans point noir) */}
+                                        <div 
+                                          style={{ background: optionBg }} 
+                                          className="w-7 h-7 rounded-full border border-black/15 relative shrink-0 shadow-2xs ring-1 ring-black/5"
+                                        />
+                                        <span className={`text-xs truncate ${isOptionSelected ? "text-[#ff4f00] font-black" : "text-zinc-700 font-medium"}`}>
+                                          {opt}
+                                        </span>
+                                        {isPhotoOption && (
+                                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300/60 shrink-0">
+                                            <Camera className="w-2.5 h-2.5 text-amber-700" />
+                                            En photo
+                                          </span>
+                                        )}
+                                      </div>
                                       {isOptionSelected && (
-                                        <span className="text-xs text-[#ff4f00] font-black select-none">✓</span>
+                                        <span className="text-xs text-[#ff4f00] font-black select-none shrink-0">✓</span>
                                       )}
                                     </button>
                                   );
@@ -1578,18 +1603,22 @@ export default function ProductDetailClient({
                         <div className="segmented-control-container inline-flex bg-spoolio-card border border-spoolio-border rounded-xl p-0.5 max-w-fit select-none">
                           {options.map((opt: string) => {
                             const isSelected = selectedVal === opt;
+                            const isPhotoOption = (attr.defaultOption || attr.photoOption || "").toLowerCase().trim() === opt.toLowerCase().trim();
                             return (
                               <button
                                 key={opt}
                                 onClick={() => handleSelect(opt)}
-                                className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${
+                                className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
                                   isSelected
                                     ? "bg-white text-black shadow-lg shadow-white/5 variant-btn-selected"
                                     : "text-gray-400 hover:text-white"
                                 }`}
                                 type="button"
                               >
-                                {opt}
+                                <span>{opt}</span>
+                                {isPhotoOption && (
+                                  <span className="text-[9px] font-black text-amber-500 uppercase tracking-tight">★ Photo</span>
+                                )}
                               </button>
                             );
                           })}
@@ -1608,18 +1637,22 @@ export default function ProductDetailClient({
                         <div className="flex flex-wrap gap-2">
                           {options.map((opt: string) => {
                             const isSelected = selectedVal === opt;
+                            const isPhotoOption = (attr.defaultOption || attr.photoOption || "").toLowerCase().trim() === opt.toLowerCase().trim();
                             return (
                               <button
                                 key={opt}
                                 onClick={() => handleSelect(opt)}
-                                className={`h-10 px-4 flex items-center justify-center text-xs font-bold rounded-lg border transition-all cursor-pointer ${
+                                className={`h-10 px-4 flex items-center justify-center gap-1.5 text-xs font-bold rounded-lg border transition-all cursor-pointer ${
                                   isSelected
                                     ? "bg-white border-white text-black shadow-lg shadow-white/5 variant-btn-selected"
                                     : "bg-spoolio-card border-spoolio-border text-gray-300 hover:text-white"
                                 }`}
                                 type="button"
                               >
-                                {opt}
+                                <span>{opt}</span>
+                                {isPhotoOption && (
+                                  <span className="text-[9px] font-black text-amber-500 uppercase tracking-tight">★ Photo</span>
+                                )}
                               </button>
                             );
                           })}
@@ -1659,11 +1692,14 @@ export default function ProductDetailClient({
                           onChange={(e) => handleSelect(e.target.value)}
                           className="w-full h-11 px-4 text-xs font-bold bg-spoolio-card border border-spoolio-border rounded-xl text-zinc-900 outline-none cursor-pointer appearance-none focus:border-zinc-400 transition-all"
                         >
-                          {options.map((opt: string) => (
-                            <option key={opt} value={opt} className="bg-white text-zinc-900">
-                              {opt}
-                            </option>
-                          ))}
+                          {options.map((opt: string) => {
+                            const isPhotoOption = (attr.defaultOption || attr.photoOption || "").toLowerCase().trim() === opt.toLowerCase().trim();
+                            return (
+                              <option key={opt} value={opt} className="bg-white text-zinc-900">
+                                {opt} {isPhotoOption ? "(En photo)" : ""}
+                              </option>
+                            );
+                          })}
                         </select>
                         <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
                           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

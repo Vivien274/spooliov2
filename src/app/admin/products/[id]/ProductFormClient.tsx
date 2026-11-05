@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Sparkles, FolderTree, Layers, Tag, Check } from "lucide-react";
+import { Sparkles, FolderTree, Layers, Tag, Check, Camera } from "lucide-react";
 import { useAdminTheme } from "../../AdminThemeContext";
 import WysiwygEditor from "@/components/WysiwygEditor";
 import { parseNoiseLevel, formatNoiseLevelText } from "@/lib/sensoryUtils";
@@ -50,7 +50,7 @@ interface ProductData {
   images: { id: number; src: string; alt: string }[];
   variations: { attribute: string; values: string; price: string }[];
   attributes?: {
-    attributes: { name: string; options: string[]; controlType?: string }[];
+    attributes: { name: string; options: string[]; controlType?: string; defaultOption?: string }[];
     variationPrices: { combination: Record<string, string>; price: string; imageSrc?: string }[];
   };
 }
@@ -227,7 +227,8 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                     attributes: attrData.map((a: any) => ({
                       name: decodeHtml(a.name || ""),
                       options: a.options || (a.values ? a.values.split(",").map((v: string) => v.trim()) : []),
-                      controlType: a.controlType || "default"
+                      controlType: a.controlType || "default",
+                      defaultOption: a.defaultOption || a.photoOption || ""
                     })),
                     variationPrices: []
                   };
@@ -236,7 +237,8 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                   if (attrData && Array.isArray(attrData.attributes)) {
                     attrData.attributes = attrData.attributes.map((a: any) => ({
                       ...a,
-                      name: decodeHtml(a.name)
+                      name: decodeHtml(a.name),
+                      defaultOption: a.defaultOption || a.photoOption || ""
                     }));
                   }
 
@@ -1565,7 +1567,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                                 }
 
                                 set("attributes")({
-                                  attributes: [...attrs, { name, options, controlType }],
+                                  attributes: [...attrs, { name, options, controlType, defaultOption: options[0] || "" }],
                                   variationPrices: form.attributes?.variationPrices || []
                                 });
                               }
@@ -1592,7 +1594,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                               const options = optionsStr ? optionsStr.split(",").map(o => o.trim()).filter(Boolean) : [];
                               const attrs = form.attributes?.attributes || [];
                               set("attributes")({
-                                attributes: [...attrs, { name, options, controlType: "default" }],
+                                attributes: [...attrs, { name, options, controlType: "default", defaultOption: options[0] || "" }],
                                 variationPrices: form.attributes?.variationPrices || []
                               });
                             }
@@ -1670,7 +1672,9 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                                   const optionsStr = e.target.value;
                                   const newOptions = optionsStr.split(",").map(s => s.trim());
                                   const newAttrs = [...(form.attributes?.attributes || [])];
-                                  newAttrs[aIdx] = { ...newAttrs[aIdx], options: newOptions };
+                                  const currentDefault = newAttrs[aIdx]?.defaultOption;
+                                  const validDefault = newOptions.includes(currentDefault || "") ? currentDefault : "";
+                                  newAttrs[aIdx] = { ...newAttrs[aIdx], options: newOptions, defaultOption: validDefault };
 
                                   set("attributes")({
                                     attributes: newAttrs,
@@ -1682,28 +1686,56 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                               />
                             </div>
 
-                            {/* Control Type Selector */}
-                            <div className="flex items-center gap-2 pt-1">
-                              <span className={`text-[10px] font-semibold ${cls.textMuted}`}>Affichage :</span>
-                              <select
-                                value={attr.controlType || "default"}
-                                onChange={(e) => {
-                                  const newAttrs = [...(form.attributes?.attributes || [])];
-                                  newAttrs[aIdx] = { ...newAttrs[aIdx], controlType: e.target.value };
-                                  set("attributes")({
-                                    attributes: newAttrs,
-                                    variationPrices: form.attributes?.variationPrices || []
-                                  });
-                                }}
-                                className={`h-8 text-[11px] border rounded-lg px-2 bg-spoolio-card ${cls.border} ${cls.textMain} outline-none focus:border-[#2F3CD9]/50 cursor-pointer`}
-                              >
-                                <option value="default">Défaut (automatique)</option>
-                                <option value="color_swatch">Color Swatch (Bobine de couleur)</option>
-                                <option value="segmented_control">Segmented Control (Onglets)</option>
-                                <option value="chips">Chips (Pastilles simples)</option>
-                                <option value="dropdown">Dropdown (Liste déroulante)</option>
-                                <option value="date_picker">Date Picker (Sélecteur de date)</option>
-                              </select>
+                            {/* Control Type & Photo Option Selector */}
+                            <div className="flex flex-wrap items-center gap-3 pt-2">
+                              <div className="flex items-center gap-2">
+                                <span className={`text-[10px] font-semibold ${cls.textMuted}`}>Affichage :</span>
+                                <select
+                                  value={attr.controlType || "default"}
+                                  onChange={(e) => {
+                                    const newAttrs = [...(form.attributes?.attributes || [])];
+                                    newAttrs[aIdx] = { ...newAttrs[aIdx], controlType: e.target.value };
+                                    set("attributes")({
+                                      attributes: newAttrs,
+                                      variationPrices: form.attributes?.variationPrices || []
+                                    });
+                                  }}
+                                  className={`h-8 text-[11px] border rounded-lg px-2 bg-spoolio-card ${cls.border} ${cls.textMain} outline-none focus:border-[#2F3CD9]/50 cursor-pointer`}
+                                >
+                                  <option value="default">Défaut (automatique)</option>
+                                  <option value="color_swatch">Color Swatch (Bobine de couleur)</option>
+                                  <option value="segmented_control">Segmented Control (Onglets)</option>
+                                  <option value="chips">Chips (Pastilles simples)</option>
+                                  <option value="dropdown">Dropdown (Liste déroulante)</option>
+                                  <option value="date_picker">Date Picker (Sélecteur de date)</option>
+                                </select>
+                              </div>
+
+                              <div className="flex items-center gap-2">
+                                <span className={`text-[10px] font-semibold ${cls.textMuted} flex items-center gap-1`}>
+                                  <Camera className="w-3.5 h-3.5 text-[#ff4f00]" />
+                                  Couleur / Option en photo :
+                                </span>
+                                <select
+                                  value={attr.defaultOption || ""}
+                                  onChange={(e) => {
+                                    const newAttrs = [...(form.attributes?.attributes || [])];
+                                    newAttrs[aIdx] = { ...newAttrs[aIdx], defaultOption: e.target.value };
+                                    set("attributes")({
+                                      attributes: newAttrs,
+                                      variationPrices: form.attributes?.variationPrices || []
+                                    });
+                                  }}
+                                  className={`h-8 text-[11px] border rounded-lg px-2.5 bg-spoolio-card ${cls.border} ${cls.textMain} font-bold outline-none focus:border-[#ff4f00] cursor-pointer`}
+                                >
+                                  <option value="">-- Par défaut (1ère option) --</option>
+                                  {attr.options.map((opt) => opt.trim()).filter(Boolean).map((opt) => (
+                                    <option key={opt} value={opt}>
+                                      {opt} {attr.name.toLowerCase().includes("couleur") ? "(Couleur photo)" : "(En photo)"}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
                             </div>
                           </div>
                         ))}

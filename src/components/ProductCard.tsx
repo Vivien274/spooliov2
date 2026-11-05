@@ -110,6 +110,7 @@ export default function ProductCard({ product, compact = false, priority = false
   });
   const [isButtonHovered, setIsButtonHovered] = useState(false);
   const [justAddedId, setJustAddedId] = useState<number | null>(null);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const displayName = (locale === "en" && (product.nameEn || product.name_en))
     ? (product.nameEn || product.name_en)!
@@ -217,6 +218,7 @@ export default function ProductCard({ product, compact = false, priority = false
     e.preventDefault();
     e.stopPropagation();
     if (isVariable) {
+      setIsNavigating(true);
       router.push(`/product/${product.slug}`);
     } else {
       addToCart(
@@ -244,7 +246,11 @@ export default function ProductCard({ product, compact = false, priority = false
     return (
       <div className="group relative aspect-square w-full rounded-[28px] bg-zinc-100 border border-zinc-200/80 overflow-hidden transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)]">
         {/* Full-bleed Product Image with 2nd Image hover transition */}
-        <Link href={`/product/${product.slug}`} className="block w-full h-full relative group/img bg-zinc-50 overflow-hidden">
+        <Link
+          href={`/product/${product.slug}`}
+          onClick={() => setIsNavigating(true)}
+          className="block w-full h-full relative group/img bg-zinc-50 overflow-hidden"
+        >
           {hasImage ? (
             <>
               <Image
@@ -299,11 +305,22 @@ export default function ProductCard({ product, compact = false, priority = false
         <div className="absolute bottom-3 left-4 right-[160px] z-10 flex items-center min-h-[44px] pointer-events-auto">
           <Link
             href={`/product/${product.slug}`}
+            onClick={() => setIsNavigating(true)}
             className="text-xs sm:text-sm font-black text-white hover:text-[#ff4f00] drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)] line-clamp-2 leading-tight transition-colors font-sans"
           >
             {displayName}
           </Link>
         </div>
+
+        {/* Immediate navigation loading skeleton overlay for compact card */}
+        {isNavigating && (
+          <div className="absolute inset-0 bg-white/75 backdrop-blur-[2px] z-30 flex flex-col items-center justify-center gap-2 pointer-events-none transition-all duration-200">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white shadow-md border border-zinc-200">
+              <div className="w-3.5 h-3.5 border-2 border-[#ff4f00] border-t-transparent rounded-full animate-spin" />
+              <span className="text-[11px] font-bold text-zinc-900 font-mono tracking-tight">Chargement...</span>
+            </div>
+          </div>
+        )}
 
         {/* Bottom-Right Inverted Corner Scoop & Action Button */}
         <div className="absolute bottom-0 right-0 bg-white p-2 rounded-tl-[24px] z-20 flex items-center justify-center">
@@ -373,11 +390,17 @@ export default function ProductCard({ product, compact = false, priority = false
   return (
     <Link
       href={`/product/${product.slug}`}
+      onClick={() => setIsNavigating(true)}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={tiltStyle}
       className="group relative flex flex-col justify-between h-full bg-white border border-[#E4E4E0] rounded-2xl overflow-hidden transition-all duration-300 hover:border-[#18181B]/40 shadow-xs hover:shadow-md"
     >
+      {/* Top subtle active loading stripe when clicked */}
+      {isNavigating && (
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-400 via-[#FF5500] to-orange-500 animate-pulse z-40" />
+      )}
+
       <div className="flex flex-col flex-1">
         {/* Image Container: generous square photo */}
         <div className="relative w-full aspect-square bg-[#F7F7F5] border-b border-[#F0EFEA] overflow-hidden shrink-0">
@@ -390,7 +413,7 @@ export default function ProductCard({ product, compact = false, priority = false
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className={`object-cover transition-all duration-500 ease-out ${
                   hasSecondImage ? "group-hover:opacity-0 group-hover:scale-105" : "group-hover:scale-105"
-                } no-invert`}
+                } ${isNavigating ? "opacity-60 scale-98" : ""} no-invert`}
                 priority={priority}
                 unoptimized={imageUrl.startsWith("data:")}
               />
@@ -408,6 +431,16 @@ export default function ProductCard({ product, compact = false, priority = false
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#F7F7F5] text-zinc-400">
               <span className="text-[10px] uppercase font-mono font-bold tracking-widest text-zinc-400">Spoolio 3D</span>
+            </div>
+          )}
+
+          {/* Instant loading feedback overlay on card click */}
+          {isNavigating && (
+            <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px] z-30 flex flex-col items-center justify-center gap-2 pointer-events-none transition-all duration-150">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white shadow-md border border-zinc-200">
+                <div className="w-3.5 h-3.5 border-2 border-[#FF5500] border-t-transparent rounded-full animate-spin" />
+                <span className="text-[11px] font-bold text-zinc-900 font-mono tracking-tight">Chargement...</span>
+              </div>
             </div>
           )}
 
