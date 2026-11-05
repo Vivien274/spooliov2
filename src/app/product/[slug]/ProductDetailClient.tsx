@@ -901,11 +901,15 @@ export default function ProductDetailClient({
       {/* Main Content */}
       <main className="flex-1 max-w-[1200px] w-full mx-auto px-6 pt-28 lg:pt-32 pb-12 lg:pb-16">
         {isDraftPreview && (
-          <div className="mb-6 bg-amber-500/20 border border-amber-500/50 rounded-2xl p-4 text-amber-200 text-xs sm:text-sm font-medium flex items-center gap-3 shadow-lg">
-            <span className="text-xl shrink-0">⚠️</span>
-            <div>
-              <strong className="text-amber-300 font-bold block sm:inline mr-1">Aperçu Administrateur :</strong>
-              Ce produit est actuellement en <strong>Brouillon</strong>. Il est strictement invisible pour les visiteurs du site et les moteurs de recherche (renvoie une erreur 404).
+          <div className="mb-6 bg-amber-50 border border-amber-300 rounded-2xl p-4 text-xs sm:text-sm flex items-center gap-3 shadow-xs">
+            <span className="text-xl shrink-0 select-none">⚠️</span>
+            <div className="leading-relaxed text-zinc-900">
+              <span className="inline-block px-2 py-0.5 rounded-md bg-amber-200/90 text-amber-950 font-black text-[11px] uppercase tracking-wider mr-2 align-middle">
+                Aperçu Administrateur
+              </span>
+              <span>
+                Ce produit est actuellement en <strong className="text-amber-950 font-black underline decoration-amber-400">Brouillon</strong>. Il est strictement invisible pour les visiteurs du site et les moteurs de recherche (renvoie une erreur 404).
+              </span>
             </div>
           </div>
         )}
