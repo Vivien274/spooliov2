@@ -49,7 +49,9 @@ interface ProductData {
   sensoryProfiles?: string[];
   images: { id: number; src: string; alt: string }[];
   variations: { attribute: string; values: string; price: string }[];
+  template?: "standard" | "hero";
   attributes?: {
+    template?: "standard" | "hero";
     attributes: { name: string; options: string[]; controlType?: string; defaultOption?: string }[];
     variationPrices: { combination: Record<string, string>; price: string; imageSrc?: string }[];
     technicalSpecs?: {
@@ -162,6 +164,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
       other: "",
     },
   });
+  const [template, setTemplate] = useState<"standard" | "hero">("standard");
   const [newTag, setNewTag] = useState("");
   const [saved, setSaved] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -328,6 +331,14 @@ export default function ProductFormClient({ productId, isNew }: Props) {
               ? productAttrs.badge
               : "";
             normalizedProduct.badge = normalizedProduct.badge || attrBadge || "";
+
+            // Hydrate product template (standard vs hero / grand format)
+            const loadedTemplate = (productAttrs && typeof productAttrs === "object" && !Array.isArray(productAttrs) && (productAttrs as any).template) || (normalizedProduct as any).template;
+            if (loadedTemplate === "hero" || loadedTemplate === "immersive" || loadedTemplate === "grand_format" || loadedTemplate === "grand-format") {
+              setTemplate("hero");
+            } else {
+              setTemplate("standard");
+            }
 
             const modDate = normalizedProduct.lastModified || 
                             normalizedProduct.attributes?.lastModified || 
@@ -802,8 +813,10 @@ export default function ProductFormClient({ productId, isNew }: Props) {
     try {
       const payloadToSave = {
         ...form,
+        template,
         attributes: {
           ...(form.attributes || { attributes: [], variationPrices: [] }),
+          template,
           technicalSpecs: form.technicalSpecs
         }
       };
@@ -960,6 +973,96 @@ export default function ProductFormClient({ productId, isNew }: Props) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left column - main form */}
           <div className="lg:col-span-2 space-y-6">
+
+            {/* SÉLECTEUR DE GABARIT / TEMPLATE */}
+            <div className={`${cls.cardBg} border ${cls.border} rounded-3xl p-6 flex flex-col gap-5 shadow-xs transition-colors`}>
+              <div className="flex items-center justify-between pb-3.5 border-b border-zinc-200/80">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-[#ff4f00]">
+                    <Sparkles className="w-5 h-5" />
+                  </span>
+                  <div>
+                    <h2 className={`text-sm font-bold ${cls.textMain} uppercase tracking-widest font-antonio`}>
+                      Modèle de fiche produit
+                    </h2>
+                    <p className={`text-xs ${cls.textMuted} mt-0.5`}>
+                      Choisissez la mise en page publique pour ce produit sur le site.
+                    </p>
+                  </div>
+                </div>
+                <span className={`text-[11px] font-mono font-bold px-3 py-1 rounded-full border ${
+                  template === "hero"
+                    ? "bg-[#ff4f00]/10 text-[#ff4f00] border-[#ff4f00]/30"
+                    : "bg-zinc-100 text-zinc-700 border-zinc-200"
+                }`}>
+                  {template === "hero" ? "🖼️ Grand Format (Hero XXL)" : "📦 Standard (2 colonnes)"}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* 1. Standard */}
+                <button
+                  type="button"
+                  onClick={() => setTemplate("standard")}
+                  className={`p-4.5 rounded-2xl border text-left transition-all cursor-pointer relative flex flex-col gap-2.5 ${
+                    template === "standard"
+                      ? "border-[#ff4f00] bg-[#ff4f00]/5 ring-2 ring-[#ff4f00]/25 shadow-xs"
+                      : `${cls.cardBg} ${cls.border} hover:border-zinc-400/80 hover:bg-zinc-50/50`
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl">📦</span>
+                    {template === "standard" ? (
+                      <span className="w-5 h-5 rounded-full bg-[#ff4f00] text-white flex items-center justify-center text-xs font-bold shadow-xs">
+                        <Check className="w-3.5 h-3.5 stroke-[3]" />
+                      </span>
+                    ) : (
+                      <span className="w-4 h-4 rounded-full border border-zinc-300" />
+                    )}
+                  </div>
+                  <div>
+                    <div className={`text-sm font-bold ${cls.textMain} flex items-center gap-2`}>
+                      <span>Fiche Standard</span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-200/60 text-zinc-700">2 colonnes</span>
+                    </div>
+                    <p className={`text-xs ${cls.textMuted} mt-1 leading-relaxed`}>
+                      Disposition classique : photo carrée à gauche, options, boussole sensorielle et bouton d&apos;achat à droite.
+                    </p>
+                  </div>
+                </button>
+
+                {/* 2. Grand Format / Hero XXL */}
+                <button
+                  type="button"
+                  onClick={() => setTemplate("hero")}
+                  className={`p-4.5 rounded-2xl border text-left transition-all cursor-pointer relative flex flex-col gap-2.5 ${
+                    template === "hero"
+                      ? "border-[#ff4f00] bg-[#ff4f00]/5 ring-2 ring-[#ff4f00]/25 shadow-xs"
+                      : `${cls.cardBg} ${cls.border} hover:border-zinc-400/80 hover:bg-zinc-50/50`
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl">🖼️</span>
+                    {template === "hero" ? (
+                      <span className="w-5 h-5 rounded-full bg-[#ff4f00] text-white flex items-center justify-center text-xs font-bold shadow-xs">
+                        <Check className="w-3.5 h-3.5 stroke-[3]" />
+                      </span>
+                    ) : (
+                      <span className="w-4 h-4 rounded-full border border-zinc-300" />
+                    )}
+                  </div>
+                  <div>
+                    <div className={`text-sm font-bold ${cls.textMain} flex items-center gap-2`}>
+                      <span>Fiche Grand Format</span>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#ff4f00]/15 text-[#ff4f00] font-semibold">Hero XXL</span>
+                    </div>
+                    <p className={`text-xs ${cls.textMuted} mt-1 leading-relaxed`}>
+                      Photo immersive en très grand en haut sous le menu, avec toutes les propriétés, options et descriptions standard en-dessous.
+                    </p>
+                  </div>
+                </button>
+              </div>
+            </div>
 
             {/* 1. Informations de base */}
             <SectionCard

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/components/ProductCard";
@@ -12,7 +12,7 @@ import { useCart } from "@/context/CartContext";
 import { parseNoiseLevel, formatNoiseLevelText } from "@/lib/sensoryUtils";
 import cartIconData from "@/components/shopping bag.json";
 import HandmadeProductView from "@/components/HandmadeProductView";
-import { Camera, Ruler, Mail, HelpCircle } from "lucide-react";
+import { Camera, Ruler, Mail, HelpCircle, X, ArrowLeft, ArrowRight, Minus, Plus, MapPin, Leaf, Gift, Truck, ShieldCheck } from "lucide-react";
 
 interface ProductDetailClientProps {
   slug: string;
@@ -177,6 +177,21 @@ export default function ProductDetailClient({
   const [zoomPos, setZoomPos] = useState<{ x: number; y: number }>({ x: 50, y: 50 });
   const [isZooming, setIsZooming] = useState<boolean>(false);
 
+  // Collapsible accordions state for mobile & hero presentation
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
+    description: true,
+    specs: false,
+    compass: false,
+    shipping: false,
+  });
+
+  const toggleAccordion = (id: string) => {
+    setOpenAccordions(prev => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - left) / width) * 100;
@@ -200,7 +215,7 @@ export default function ProductDetailClient({
   const onTouchStart = (e: React.TouchEvent) => {
     const now = Date.now();
     const DOUBLE_TAP_DELAY = 300;
-    if (now - lastTapRef.current < DOUBLE_TAP_DELAY) {
+    if (!isHeroLayout && now - lastTapRef.current < DOUBLE_TAP_DELAY) {
       // Double tap detected on mobile touch screen -> Toggle Zoom
       setIsZooming((prev) => !prev);
     }
@@ -784,21 +799,101 @@ export default function ProductDetailClient({
     setTimeout(() => setIsAdded(false), 2000);
   };
 
-  const isHandmadeProduct = Boolean(
-    slug.includes("fait-main") ||
-    Boolean((product as any)?.attributes?.uniquePieceData) ||
-    (Array.isArray(product?.categories) && product.categories.some((c: any) => 
-      (c.name || "").toLowerCase().includes("fait main") || 
-      (c.name || "").toLowerCase().includes("artisan") || 
-      (c.name || "").toLowerCase().includes("peint") || 
-      (c.slug || "").includes("fait-main")
-    )) ||
-    (Array.isArray(product?.tags) && product.tags.some((t: any) => 
-      (typeof t === "string" ? t : t.name || "").toLowerCase().includes("fait-main") || 
-      (typeof t === "string" ? t : t.name || "").toLowerCase().includes("art-toy") ||
-      (typeof t === "string" ? t : t.name || "").toLowerCase().includes("peint-a-la-main")
-    ))
+  const rawProductAttrs = useMemo(() => {
+    if (!product?.attributes) return null;
+    if (typeof product.attributes === "string") {
+      try {
+        return JSON.parse(product.attributes);
+      } catch {
+        return null;
+      }
+    }
+    return product.attributes as any;
+  }, [product?.attributes]);
+
+  const isHandmadeProduct = rawProductAttrs?.template === "standard" || rawProductAttrs?.template === "hero"
+    ? false
+    : Boolean(
+        (rawProductAttrs?.template === "handmade" && Boolean(rawProductAttrs?.uniquePieceData)) ||
+        Boolean((product as any)?.attributes?.uniquePieceData) ||
+        (Array.isArray(product?.categories) && product.categories.some((c: any) => 
+          (c.name || "").toLowerCase().includes("fait main") || 
+          (c.slug || "").includes("fait-main")
+        ))
+      );
+
+  const isHeroLayout = Boolean(
+    rawProductAttrs?.template === "hero" ||
+    rawProductAttrs?.template === "immersive" ||
+    rawProductAttrs?.template === "grand_format" ||
+    rawProductAttrs?.template === "grand-format"
   );
+
+  const isGeekOrBoardGameProduct = useMemo(() => {
+    // 1. Check categories
+    const categoriesList = Array.isArray(product?.categories) ? product.categories : [];
+    const hasCategoryMatch = categoriesList.some((c: any) => {
+      const name = (typeof c === "string" ? c : c?.name || c?.slug || "").toLowerCase().trim();
+      return (
+        name.includes("geek") ||
+        name.includes("gaming") ||
+        name.includes("jeu") ||
+        name.includes("boardgame") ||
+        name.includes("tabletop")
+      );
+    });
+    if (hasCategoryMatch) return true;
+
+    // 2. Check tags
+    const tagsList = Array.isArray(product?.tags) ? product.tags : [];
+    const hasTagMatch = tagsList.some((t: any) => {
+      const name = (typeof t === "string" ? t : t?.name || t?.slug || "").toLowerCase().trim();
+      return (
+        name.includes("geek") ||
+        name.includes("gaming") ||
+        name.includes("jeu") ||
+        name.includes("enjeu") ||
+        name.includes("tabletop") ||
+        name.includes("board game")
+      );
+    });
+    if (hasTagMatch) return true;
+
+    // 3. Check collections
+    const collectionsList = Array.isArray((product as any)?.collections) ? (product as any).collections : [];
+    const hasCollectionMatch = collectionsList.some((col: any) => {
+      const name = (typeof col === "string" ? col : col?.name || col?.slug || "").toLowerCase().trim();
+      return (
+        name.includes("geek") ||
+        name.includes("gaming") ||
+        name.includes("jeu") ||
+        name.includes("tabletop")
+      );
+    });
+    if (hasCollectionMatch) return true;
+
+    // 4. Targeted keyword match on name / slug (strictly targeted, avoid substring false positives like "des")
+    const nameLower = (displayName || product?.name || "").toLowerCase();
+    const slugLower = (slug || "").toLowerCase();
+    const hasKeywordMatch =
+      nameLower.includes("tour à dés") ||
+      nameLower.includes("tour a des") ||
+      nameLower.includes("piste de dés") ||
+      nameLower.includes("piste de des") ||
+      nameLower.includes("jeu de société") ||
+      nameLower.includes("jeux de société") ||
+      nameLower.includes("porte-cartes") ||
+      nameLower.includes("porte cartes") ||
+      nameLower.includes("lanceur de dés") ||
+      nameLower.includes("lanceur de des") ||
+      nameLower.includes("compteur de points") ||
+      slugLower.includes("tour-a-des") ||
+      slugLower.includes("piste-de-des") ||
+      slugLower.includes("jeux-de-societe") ||
+      slugLower.includes("geek");
+
+    return hasKeywordMatch;
+  }, [product, displayName, slug]);
 
   const activeLayout = layoutMode === "auto" ? (isHandmadeProduct ? "handmade" : "standard") : layoutMode;
 
@@ -885,412 +980,392 @@ export default function ProductDetailClient({
           </section>
         )}
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-          <EnjeuBanner />
-        </div>
+        {isGeekOrBoardGameProduct && (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+            <EnjeuBanner productName={displayName || product?.name} />
+          </div>
+        )}
         <Footer />
       </div>
     );
   }
 
-  return (
-    <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col justify-between selection:bg-spoolio-orange selection:text-black">
-      {/* Sticky Header */}
-      <Header />
+  const renderGalleryBlock = (isHero: boolean) => (
+    <div className="flex flex-col w-full">
+      <div className={`relative w-screen lg:w-full left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 overflow-hidden bg-zinc-100/70 border-b sm:border border-zinc-200/80 shadow-xs ${
+        isHero
+          ? "aspect-square max-h-[380px] sm:aspect-[16/10] sm:max-h-[460px] lg:aspect-auto lg:h-[68vh] lg:min-h-[460px] lg:max-h-[720px] rounded-none lg:rounded-3xl mb-3 sm:mb-4"
+          : "aspect-square rounded-none lg:rounded-2xl"
+      }`}>
+        <div
+          onClick={() => setIsLightboxOpen(true)}
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+          onMouseMove={!isHero ? handleMouseMove : undefined}
+          onMouseEnter={!isHero ? () => setIsZooming(true) : undefined}
+          onMouseLeave={!isHero ? () => setIsZooming(false) : undefined}
+          className={`relative w-full h-full ${isHero ? "rounded-none lg:rounded-3xl cursor-default" : "rounded-none lg:rounded-2xl cursor-zoom-in"} overflow-hidden bg-transparent select-none touch-pan-y group/gallery`}
+        >
+          {hasImage ? (
+            (() => {
+              const activeSrc = product.images[activeImageIndex]?.src || imageUrl;
+              const activeAlt = product.images[activeImageIndex]?.alt || imageAlt;
+              const isVid = isVideoMedia(activeSrc);
 
-      {/* Main Content */}
-      <main className="flex-1 max-w-[1200px] w-full mx-auto px-6 pt-28 lg:pt-32 pb-12 lg:pb-16">
-        {isDraftPreview && (
-          <div className="mb-6 bg-amber-50 border border-amber-300 rounded-2xl p-4 text-xs sm:text-sm flex items-center gap-3 shadow-xs">
-            <span className="text-xl shrink-0 select-none">⚠️</span>
-            <div className="leading-relaxed text-zinc-900">
-              <span className="inline-block px-2 py-0.5 rounded-md bg-amber-200/90 text-amber-950 font-black text-[11px] uppercase tracking-wider mr-2 align-middle">
-                Aperçu Administrateur
-              </span>
-              <span>
-                Ce produit est actuellement en <strong className="text-amber-950 font-black underline decoration-amber-400">Brouillon</strong>. Il est strictement invisible pour les visiteurs du site et les moteurs de recherche (renvoie une erreur 404).
-              </span>
-            </div>
-          </div>
-        )}
-
-        {/* Breadcrumb Navigation (Fil d'Ariane) - Spoolio V2.1 */}
-        {(() => {
-          const items =
-            breadcrumbItems && breadcrumbItems.length > 0
-              ? breadcrumbItems
-              : [
-                  { name: "Accueil", url: "/" },
-                  { name: "Boutique", url: "/boutique" },
-                  ...(Array.isArray(product.categories) && product.categories.length > 0
-                    ? [{ name: product.categories[0].name, url: "/boutique" }]
-                    : []),
-                  { name: product.name, url: `/product/${slug}` },
-                ];
-
-          return (
-            <nav
-              aria-label="Fil d'Ariane"
-              className="flex items-center gap-1.5 text-[11px] lg:text-xs font-medium text-zinc-500 mb-4 lg:mb-8 font-sans select-none overflow-x-auto scrollbar-none whitespace-nowrap py-1"
-            >
-              {items.map((item, index) => {
-                const isLast = index === items.length - 1;
+              if (isVid) {
+                const ytEmbedUrl = isYouTubeUrl(activeSrc) ? getYouTubeEmbedUrl(activeSrc) : null;
                 return (
-                  <span key={`${item.url}-${index}`} className="flex items-center gap-1.5 shrink-0">
-                    {index > 0 && (
-                      <span className="text-zinc-300 font-bold shrink-0 select-none">/</span>
-                    )}
-                    {isLast ? (
-                      <span className="text-zinc-900 font-bold max-w-[180px] sm:max-w-none truncate">
-                        {item.name}
-                      </span>
+                  <div className="w-full h-full relative flex items-center justify-center bg-black">
+                    {ytEmbedUrl ? (
+                      <iframe
+                        src={ytEmbedUrl}
+                        className={`w-full h-full border-0 pointer-events-auto ${isHero ? "rounded-none lg:rounded-3xl" : "rounded-none lg:rounded-2xl"}`}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
                     ) : (
-                      <Link
-                        href={item.url}
-                        className="text-zinc-500 hover:text-[#ff4f00] transition-colors shrink-0"
-                      >
-                        {item.name}
-                      </Link>
+                      <video
+                        src={activeSrc}
+                        controls
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className={`w-full h-full object-cover no-invert ${isHero ? "rounded-none lg:rounded-3xl" : "rounded-none lg:rounded-2xl"}`}
+                      />
                     )}
-                  </span>
-                );
-              })}
-            </nav>
-          );
-        })()}
-
-        {/* 2-Column Product Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-16">
-          {/* Left Column: Image Container with zoom aspect-ratio & thumbnails */}
-          <div className="flex flex-col">
-            <div className="relative w-screen lg:w-full left-1/2 lg:left-0 -translate-x-1/2 lg:translate-x-0 aspect-square rounded-none lg:rounded-2xl overflow-hidden bg-zinc-100/60">
-              <div
-                onClick={() => setIsLightboxOpen(true)}
-                onTouchStart={onTouchStart}
-                onTouchMove={onTouchMove}
-                onTouchEnd={onTouchEnd}
-                onMouseMove={handleMouseMove}
-                onMouseEnter={() => setIsZooming(true)}
-                onMouseLeave={() => setIsZooming(false)}
-                className="relative w-full h-full rounded-none lg:rounded-2xl overflow-hidden bg-transparent cursor-zoom-in select-none touch-pan-y group/gallery"
-              >
-                {hasImage ? (
-                  (() => {
-                    const activeSrc = product.images[activeImageIndex]?.src || imageUrl;
-                    const activeAlt = product.images[activeImageIndex]?.alt || imageAlt;
-                    const isVid = isVideoMedia(activeSrc);
-
-                    if (isVid) {
-                      const ytEmbedUrl = isYouTubeUrl(activeSrc) ? getYouTubeEmbedUrl(activeSrc) : null;
-                      return (
-                        <div className="w-full h-full relative flex items-center justify-center bg-black">
-                          {ytEmbedUrl ? (
-                            <iframe
-                              src={ytEmbedUrl}
-                              className="w-full h-full border-0 rounded-none lg:rounded-2xl pointer-events-auto"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen
-                            />
-                          ) : (
-                            <video
-                              src={activeSrc}
-                              controls
-                              autoPlay
-                              loop
-                              muted
-                              playsInline
-                              className="w-full h-full object-cover rounded-none lg:rounded-2xl no-invert"
-                            />
-                          )}
-                        </div>
-                      );
-                    }
-
-                    return (
-                      <div
-                        className="w-full h-full relative transition-transform duration-300 ease-out"
-                        style={{
-                          transformOrigin: isZooming ? `${zoomPos.x}% ${zoomPos.y}%` : "center center",
-                          transform: isZooming ? "scale(2.2)" : "scale(1)",
-                        }}
-                      >
-                        <Image
-                          src={activeSrc}
-                          alt={activeAlt}
-                          fill
-                          sizes="(max-width: 1024px) 100vw, 50vw"
-                          className="object-cover no-invert"
-                          priority
-                          unoptimized={activeSrc?.startsWith("data:")}
-                        />
-                      </div>
-                    );
-                  })()
-                ) : (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-600">
-                    <svg className="w-16 h-16 mb-2 text-spoolio-border" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <span className="text-xs uppercase font-bold tracking-widest text-gray-500">Spoolio 3D</span>
                   </div>
-                )}
+                );
+              }
 
-                {/* Direct image navigation arrows */}
-                {hasImage && product.images.length > 1 && (
-                  <>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setActiveImageIndex(prev => (prev === 0 ? product.images.length - 1 : prev - 1));
-                      }}
-                      className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/70 border border-white/10 hover:border-white/20 text-white flex items-center justify-center transition-all opacity-0 group-hover/gallery:opacity-100 hidden md:flex z-20 active:scale-95"
-                      title="Média précédent"
-                      aria-label="Média précédent"
-                    >
-                      <svg className="w-5 h-5 -translate-x-px" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-                      </svg>
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setActiveImageIndex(prev => (prev === product.images.length - 1 ? 0 : prev + 1));
-                      }}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/70 border border-white/10 hover:border-white/20 text-white flex items-center justify-center transition-all opacity-0 group-hover/gallery:opacity-100 hidden md:flex z-20 active:scale-95"
-                      title="Média suivant"
-                      aria-label="Média suivant"
-                    >
-                      <svg className="w-5 h-5 translate-x-px" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </button>
-                  </>
-                )}
+              return (
+                <div
+                  className={`w-full h-full relative ${!isHero ? "transition-transform duration-300 ease-out" : ""}`}
+                  style={!isHero && isZooming ? {
+                    transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
+                    transform: "scale(2.2)",
+                  } : {
+                    transformOrigin: "center center",
+                    transform: "none",
+                  }}
+                >
+                  <Image
+                    src={activeSrc}
+                    alt={activeAlt}
+                    fill
+                    sizes={isHero ? "(max-width: 1024px) 100vw, 85vw" : "(max-width: 1024px) 100vw, 50vw"}
+                    className="object-cover no-invert"
+                    priority
+                    unoptimized={activeSrc?.startsWith("data:")}
+                  />
+                </div>
+              );
+            })()
+          ) : (
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-600">
+              <svg className="w-16 h-16 mb-2 text-spoolio-border" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span className="text-xs uppercase font-bold tracking-widest text-gray-500">Spoolio 3D</span>
+            </div>
+          )}
 
-                {/* Top-Right Fullscreen / Zoom Button */}
+          {/* Direct image navigation arrows */}
+          {hasImage && product.images.length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveImageIndex(prev => (prev === 0 ? product.images.length - 1 : prev - 1));
+                }}
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/70 border border-white/10 hover:border-white/20 text-white flex items-center justify-center transition-all opacity-0 group-hover/gallery:opacity-100 hidden md:flex z-20 active:scale-95 cursor-pointer"
+                title="Média précédent"
+                aria-label="Média précédent"
+              >
+                <svg className="w-5 h-5 -translate-x-px" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveImageIndex(prev => (prev === product.images.length - 1 ? 0 : prev + 1));
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/70 border border-white/10 hover:border-white/20 text-white flex items-center justify-center transition-all opacity-0 group-hover/gallery:opacity-100 hidden md:flex z-20 active:scale-95 cursor-pointer"
+                title="Média suivant"
+                aria-label="Média suivant"
+              >
+                <svg className="w-5 h-5 translate-x-px" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </>
+          )}
+
+          {/* Top-Right Fullscreen / Zoom Button */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsLightboxOpen(true);
+            }}
+            className="absolute top-4 right-4 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/70 hover:bg-[#ff4f00] text-white text-xs font-bold border border-white/20 backdrop-blur-md shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-90 hover:opacity-100"
+            title="Agrandir en plein écran"
+          >
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+            </svg>
+            <span>Agrandir</span>
+          </button>
+
+          {/* Bottom-Right Image Count Badge */}
+          {hasImage && product.images.length > 1 && (
+            <div className="absolute bottom-4 right-4 z-20 px-3 py-1 rounded-full bg-black/75 text-white text-[11px] font-extrabold tracking-wider border border-white/15 backdrop-blur-md select-none hidden sm:block">
+              {activeImageIndex + 1} / {product.images.length}
+            </div>
+          )}
+
+          {/* Bottom Center Dynamic Pagination Dots */}
+          {hasImage && product.images.length > 1 && (
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/65 border border-white/15 backdrop-blur-md select-none">
+              {product.images.map((_, idx) => (
                 <button
+                  key={`dot-main-${idx}`}
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setIsLightboxOpen(true);
+                    setActiveImageIndex(idx);
                   }}
-                  className="absolute top-4 right-4 z-20 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/70 hover:bg-[#ff4f00] text-white text-xs font-bold border border-white/20 backdrop-blur-md shadow-xl transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-90 hover:opacity-100"
-                  title="Agrandir en plein écran"
-                >
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                  </svg>
-                  <span>Agrandir</span>
-                </button>
-
-                {/* Bottom-Right Image Count Badge */}
-                {hasImage && product.images.length > 1 && (
-                  <div className="absolute bottom-4 right-4 z-20 px-3 py-1 rounded-full bg-black/75 text-white text-[11px] font-extrabold tracking-wider border border-white/15 backdrop-blur-md select-none hidden sm:block">
-                    {activeImageIndex + 1} / {product.images.length}
-                  </div>
-                )}
-
-                {/* Bottom Center Dynamic Pagination Dots (Point 1 UX) */}
-                {hasImage && product.images.length > 1 && (
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/65 border border-white/15 backdrop-blur-md select-none">
-                    {product.images.map((_, idx) => (
-                      <button
-                        key={`dot-main-${idx}`}
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setActiveImageIndex(idx);
-                        }}
-                        className={`transition-all duration-300 cursor-pointer ${
-                          activeImageIndex === idx
-                            ? "w-5 h-1.5 rounded-full bg-[#ff4f00] shadow-sm shadow-[#ff4f00]/50"
-                            : "w-1.5 h-1.5 rounded-full bg-white/40 hover:bg-white/80"
-                        }`}
-                        title={`Photo ${idx + 1}`}
-                        aria-label={`Photo ${idx + 1}`}
-                      />
-                    ))}
-                  </div>
-                )}
-
-                {/* Badges Overlay */}
-                <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
-                  {product.on_sale && (
-                    <span className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-bold bg-[#ff4f00] text-white rounded-md shadow-lg shadow-[#ff4f00]/20 uppercase tracking-wide">
-                      {discount ? `-${discount}%` : "PROMO"}
-                    </span>
-                  )}
-                  {keywordBadge && (
-                    <span className="inline-flex items-center justify-center px-3 py-1.5 text-[10px] font-extrabold bg-[#2a2a32]/95 text-gray-200 border border-spoolio-border rounded-md backdrop-blur-md shadow-md uppercase tracking-widest no-invert">
-                      {keywordBadge}
-                    </span>
-                  )}
-                </div>
-
-                {/* Floating "Voir en mouvement" Video Action Button */}
-                {hasVideoMedia && activeImageIndex !== videoMediaIndex && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setActiveImageIndex(videoMediaIndex);
-                    }}
-                    type="button"
-                    className="absolute bottom-4 left-4 z-20 inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/85 hover:bg-[#ff4f00] text-white text-xs font-black uppercase tracking-wider border border-white/20 hover:border-[#ff4f00] backdrop-blur-md shadow-2xl transition-all hover:scale-105 active:scale-95 group/vbtn cursor-pointer"
-                  >
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#ff4f00] group-hover/vbtn:bg-white animate-ping" />
-                    <span>🎬 VOIR EN MOUVEMENT</span>
-                  </button>
-                )}
-              </div>
-            </div>
-
-            {/* Thumbnail Grid & Scroll Controls */}
-            {product.images.length > 1 && (
-              <div className="relative mt-4 group/thumbs">
-                {/* Scroll Left Button */}
-                {product.images.length >= 5 && (
-                  <button
-                    type="button"
-                    onClick={() => scrollThumbnails("left")}
-                    className="absolute -left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/85 hover:bg-[#ff4f00] text-white flex items-center justify-center border border-white/20 shadow-xl opacity-0 group-hover/thumbs:opacity-100 transition-all duration-200 hover:scale-110 cursor-pointer font-bold text-lg"
-                    title="Photos précédentes"
-                  >
-                    ‹
-                  </button>
-                )}
-
-                {/* Thumbnail Strip (Point 4 UX: Centered when < 5 images) */}
-                <div
-                  ref={thumbnailsRef}
-                  onWheel={handleThumbnailWheel}
-                  className={`flex gap-3 overflow-x-auto pb-2 pt-1 px-1 select-none scroll-smooth touch-pan-x no-scrollbar ${
-                    product.images.length < 5 ? "justify-center" : "justify-start"
+                  className={`transition-all duration-300 cursor-pointer ${
+                    activeImageIndex === idx
+                      ? "w-5 h-1.5 rounded-full bg-[#ff4f00] shadow-sm shadow-[#ff4f00]/50"
+                      : "w-1.5 h-1.5 rounded-full bg-white/40 hover:bg-white/80"
                   }`}
-                >
-                  {product.images.map((img, idx) => {
-                    const isVid = isVideoMedia(img.src);
-                    const ytThumb = isYouTubeUrl(img.src) ? getYouTubeThumbnail(img.src) : null;
-                    return (
-                      <button
-                        key={`${img.id}-${idx}`}
-                        onClick={() => setActiveImageIndex(idx)}
-                        className={`relative w-20 h-20 rounded-xl overflow-hidden bg-zinc-100 transition-all shrink-0 cursor-pointer ${
-                          activeImageIndex === idx
-                            ? "border-2 border-[#ff4f00] scale-105 shadow-md shadow-[#ff4f00]/20 z-10"
-                            : "border border-zinc-200/80 hover:border-zinc-400 opacity-75 hover:opacity-100"
-                        }`}
-                      >
-                        {isVid ? (
-                          <div className="w-full h-full relative flex items-center justify-center bg-black/70">
-                            {ytThumb ? (
-                              <Image src={ytThumb} alt={img.alt || img.name} fill sizes="80px" unoptimized className="object-cover opacity-80 no-invert" />
-                            ) : (
-                              <video src={img.src} muted preload="metadata" className="w-full h-full object-cover opacity-60" />
-                            )}
-                            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                              <svg className="w-7 h-7 text-white drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z" />
-                              </svg>
-                            </div>
-                          </div>
-                        ) : (
-                          <Image
-                            src={img.src}
-                            alt={img.alt || img.name}
-                            fill
-                            sizes="80px"
-                            className="object-cover no-invert"
-                            unoptimized={img.src?.startsWith("data:")}
-                          />
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
+                  title={`Photo ${idx + 1}`}
+                  aria-label={`Photo ${idx + 1}`}
+                />
+              ))}
+            </div>
+          )}
 
-                {/* Scroll Right Button */}
-                <button
-                  type="button"
-                  onClick={() => scrollThumbnails("right")}
-                  className="absolute -right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/85 hover:bg-[#ff4f00] text-white flex items-center justify-center border border-white/20 shadow-xl opacity-0 group-hover/thumbs:opacity-100 transition-all duration-200 hover:scale-110 cursor-pointer font-bold text-lg"
-                  title="Photos suivantes"
-                >
-                  ›
-                </button>
-              </div>
+          {/* Badges Overlay */}
+          <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
+            {product.on_sale && (
+              <span className="inline-flex items-center justify-center px-3 py-1.5 text-xs font-bold bg-[#ff4f00] text-white rounded-md shadow-lg shadow-[#ff4f00]/20 uppercase tracking-wide">
+                {discount ? `-${discount}%` : "PROMO"}
+              </span>
+            )}
+            {keywordBadge && (
+              <span className="inline-flex items-center justify-center px-3 py-1.5 text-[10px] font-extrabold bg-[#2a2a32]/95 text-gray-200 border border-spoolio-border rounded-md backdrop-blur-md shadow-md uppercase tracking-widest no-invert">
+                {keywordBadge}
+              </span>
             )}
           </div>
 
-          {/* Right Column: Content and Options */}
-          <div className="flex flex-col">
-            {/* Category tag */}
-            {Array.isArray(product.categories) && product.categories.length > 0 && (
-              <span className="inline-flex items-center self-start text-[10px] font-black text-white bg-[#2F3CD9] px-2.5 py-1.5 rounded-lg uppercase tracking-widest mb-3.5 no-invert shadow-md shadow-[#2F3CD9]/10">
-                {product.categories.map(c => c.name).join(" / ")}
+          {/* Floating "Voir en mouvement" Video Action Button */}
+          {hasVideoMedia && activeImageIndex !== videoMediaIndex && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setActiveImageIndex(videoMediaIndex);
+              }}
+              type="button"
+              className="absolute bottom-4 left-4 z-20 inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-black/85 hover:bg-[#ff4f00] text-white text-xs font-black uppercase tracking-wider border border-white/20 hover:border-[#ff4f00] backdrop-blur-md shadow-2xl transition-all hover:scale-105 active:scale-95 group/vbtn cursor-pointer"
+            >
+              <span className="w-2.5 h-2.5 rounded-full bg-[#ff4f00] group-hover/vbtn:bg-white animate-ping" />
+              <span>🎬 VOIR EN MOUVEMENT</span>
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Thumbnail Grid & Scroll Controls */}
+      {product.images.length > 1 && (
+        <div className="relative mt-3 group/thumbs">
+          {product.images.length >= 5 && (
+            <button
+              type="button"
+              onClick={() => scrollThumbnails("left")}
+              className="absolute -left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/85 hover:bg-[#ff4f00] text-white flex items-center justify-center border border-white/20 shadow-xl opacity-0 group-hover/thumbs:opacity-100 transition-all duration-200 hover:scale-110 cursor-pointer font-bold text-lg"
+              title="Photos précédentes"
+            >
+              ‹
+            </button>
+          )}
+
+          <div
+            ref={thumbnailsRef}
+            onWheel={handleThumbnailWheel}
+            className={`flex gap-3 overflow-x-auto pb-2 pt-1 px-1 select-none scroll-smooth touch-pan-x no-scrollbar ${
+              product.images.length < 5 ? "justify-center" : "justify-start"
+            }`}
+          >
+            {product.images.map((img, idx) => {
+              const isVid = isVideoMedia(img.src);
+              const ytThumb = isYouTubeUrl(img.src) ? getYouTubeThumbnail(img.src) : null;
+              return (
+                <button
+                  key={`${img.id}-${idx}`}
+                  onClick={() => setActiveImageIndex(idx)}
+                  className={`relative ${isHero ? "w-14 h-14 sm:w-18 sm:h-18 lg:w-24 lg:h-24" : "w-16 h-16 sm:w-20 sm:h-20"} rounded-xl overflow-hidden bg-zinc-100 transition-all shrink-0 cursor-pointer ${
+                    activeImageIndex === idx
+                      ? "border-2 border-[#ff4f00] scale-105 shadow-md shadow-[#ff4f00]/20 z-10"
+                      : "border border-zinc-200/80 hover:border-zinc-400 opacity-75 hover:opacity-100"
+                  }`}
+                >
+                  {isVid ? (
+                    <div className="w-full h-full relative flex items-center justify-center bg-black/70">
+                      {ytThumb ? (
+                        <Image src={ytThumb} alt={img.alt || img.name} fill sizes="100px" unoptimized className="object-cover opacity-80 no-invert" />
+                      ) : (
+                        <video src={img.src} muted preload="metadata" className="w-full h-full object-cover opacity-60" />
+                      )}
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                        <svg className="w-7 h-7 text-white drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                    </div>
+                  ) : (
+                    <Image
+                      src={img.src}
+                      alt={img.alt || img.name}
+                      fill
+                      sizes="100px"
+                      className="object-cover no-invert"
+                      unoptimized={img.src?.startsWith("data:")}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => scrollThumbnails("right")}
+            className="absolute -right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/85 hover:bg-[#ff4f00] text-white flex items-center justify-center border border-white/20 shadow-xl opacity-0 group-hover/thumbs:opacity-100 transition-all duration-200 hover:scale-110 cursor-pointer font-bold text-lg"
+            title="Photos suivantes"
+          >
+            ›
+          </button>
+        </div>
+      )}
+    </div>
+  );
+
+  const renderTitleAndPrice = (isHero: boolean) => (
+    <div className="flex flex-col gap-3 pb-3 sm:pb-6 border-b border-zinc-100/90">
+      <div className={`flex flex-col ${isHero ? "sm:flex-row sm:items-start justify-between gap-2.5 sm:gap-4" : "gap-3"}`}>
+        <div className="flex flex-col gap-1.5 sm:gap-2">
+          {Array.isArray(product.categories) && product.categories.length > 0 && (
+            <span className="inline-flex items-center self-start text-[10px] font-black text-white bg-[#2F3CD9] px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg uppercase tracking-widest no-invert shadow-sm shadow-[#2F3CD9]/10">
+              {product.categories.map(c => c.name).join(" / ")}
+            </span>
+          )}
+
+          <h1 className={`${isHero ? "text-xl sm:text-3xl lg:text-4xl" : "text-2xl sm:text-3xl"} font-black tracking-tight text-zinc-900 font-sans leading-tight`}>
+            {displayName}
+          </h1>
+        </div>
+
+        {/* Price section */}
+        <div className={`flex items-baseline gap-2.5 shrink-0 ${isHero ? "sm:pt-1" : "mb-1"}`}>
+          {product.on_sale && !activePriceInfo.isVariation ? (
+            <>
+              <span className={`${isHero ? "text-2xl sm:text-3xl lg:text-4xl" : "text-2xl"} font-black text-[#ff4f00]`}>
+                {formatPrice(product.sale_price || product.price)}€
               </span>
-            )}
+              <span className="text-sm sm:text-base text-gray-500 line-through">
+                {formatPrice(product.regular_price)}€
+              </span>
+            </>
+          ) : (
+            <span className={`${isHero ? "text-2xl sm:text-3xl lg:text-4xl" : "text-2xl"} font-black text-zinc-900`}>
+              {formatPrice(currentPrice)}€
+            </span>
+          )}
+        </div>
+      </div>
 
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-zinc-900 mb-4">
-              {displayName}
-            </h1>
+      {/* Preuve sociale / Effet de troupeau (Neuromarketing) */}
+      <div className="flex flex-wrap items-center gap-2 pt-1 font-sans">
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-50/90 border border-amber-200/80 text-amber-950 text-xs font-bold shadow-2xs">
+          <span className="text-amber-500 font-black">★</span>
+          <span>4.9/5</span>
+          <span className="text-amber-700/40 select-none">•</span>
+          <span className="text-amber-900 font-semibold">+1 200 adeptes conquis</span>
+        </div>
+        <span className="text-[11px] text-zinc-500 font-medium hidden sm:inline">
+          Fabriqué &amp; vérifié à la main à l&apos;Atelier de Comines
+        </span>
+      </div>
+    </div>
+  );
 
-            {/* Price section */}
-            <div className="flex items-baseline gap-4 mb-4">
-              {product.on_sale && !activePriceInfo.isVariation ? (
-                <>
-                  <span className="text-2xl font-black text-[#ff4f00]">
-                    {formatPrice(product.sale_price || product.price)}€
-                  </span>
-                  <span className="text-base text-gray-500 line-through">
-                    {formatPrice(product.regular_price)}€
-                  </span>
-                </>
-              ) : (
-                <span className="text-2xl font-black text-zinc-900">
-                  {formatPrice(currentPrice)}€
-                </span>
-              )}
-            </div>
+  const renderNoiseGauge = () => {
+    if (!noiseInfo) return null;
+    return (
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-zinc-100/70 border border-zinc-200 mb-6 font-sans">
+        <div className="flex items-center gap-2 text-xs font-bold text-zinc-800">
+          <span className="text-base">{noiseInfo.level === 3 ? "🔊" : noiseInfo.level === 2 ? "🔕" : "🔇"}</span>
+          <span className="uppercase tracking-wider">Niveau Sonore :</span>
+          <span className="text-[#ff4f00] font-black">{noiseInfo.label}</span>
+        </div>
+        
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <div className="flex items-center gap-1 w-24">
+            {[1, 2, 3].map((bar) => (
+              <div
+                key={bar}
+                className={`h-2 flex-1 rounded-full transition-all ${
+                  bar <= noiseInfo.level
+                    ? noiseInfo.level === 3
+                      ? "bg-[#ff4f00] shadow-[0_0_8px_rgba(255,79,0,0.6)]"
+                      : noiseInfo.level === 2
+                      ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]"
+                      : "bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]"
+                    : "bg-white/10"
+                }`}
+              />
+            ))}
+          </div>
+          <span className="text-[10px] text-neutral-400 font-medium">({noiseInfo.description})</span>
+        </div>
+      </div>
+    );
+  };
 
-            {/* Sensory Noise Level Gauge (Fidgets Only) */}
-            {noiseInfo && (
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-zinc-100/70 border border-zinc-200 mb-6 font-sans">
-                <div className="flex items-center gap-2 text-xs font-bold text-zinc-800">
-                  <span className="text-base">{noiseInfo.level === 3 ? "🔊" : noiseInfo.level === 2 ? "🔕" : "🔇"}</span>
-                  <span className="uppercase tracking-wider">Niveau Sonore :</span>
-                  <span className="text-[#ff4f00] font-black">{noiseInfo.label}</span>
-                </div>
-                
-                <div className="flex items-center gap-2 w-full sm:w-auto">
-                  <div className="flex items-center gap-1 w-24">
-                    {[1, 2, 3].map((bar) => (
-                      <div
-                        key={bar}
-                        className={`h-2 flex-1 rounded-full transition-all ${
-                          bar <= noiseInfo.level
-                            ? noiseInfo.level === 3
-                              ? "bg-[#ff4f00] shadow-[0_0_8px_rgba(255,79,0,0.6)]"
-                              : noiseInfo.level === 2
-                              ? "bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.6)]"
-                              : "bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]"
-                            : "bg-white/10"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <span className="text-[10px] text-neutral-400 font-medium">({noiseInfo.description})</span>
-                </div>
-              </div>
-            )}
+  const renderShortDescription = () => {
+    if (!displayShortDesc) return null;
+    return (
+      <div
+        className="text-zinc-700 text-sm sm:text-base leading-relaxed p-5 sm:p-6 rounded-2xl bg-zinc-50/90 border border-zinc-200/80 font-sans shadow-2xs"
+        dangerouslySetInnerHTML={{ __html: displayShortDesc }}
+      />
+    );
+  };
 
-            {/* Short Description */}
-            <div
-              className="text-gray-400 text-sm leading-relaxed mb-8 border-b border-spoolio-border/40 pb-6 font-sans"
-              dangerouslySetInnerHTML={{ __html: displayShortDesc || "<p>Aucune description disponible pour ce produit.</p>" }}
-            />
+  const renderDetailedDescription = () => (
+    <div className="p-6 sm:p-8 rounded-3xl bg-white border border-zinc-200/90 shadow-2xs">
+      <div className="flex items-center gap-2 pb-3 mb-4 border-b border-zinc-100">
+        <span className="text-xl">✨</span>
+        <h2 className="text-base sm:text-lg font-black text-zinc-900 tracking-wide uppercase font-sans">
+          Présentation de l'objet
+        </h2>
+      </div>
+      <div
+        className="prose text-zinc-700 max-w-none text-sm leading-relaxed font-sans flex flex-col gap-4"
+        dangerouslySetInnerHTML={{
+          __html: displayFullDesc || "<p>Création façonnée dans notre atelier à Comines. Chaque pièce est imprimée avec précision en PLA biosourcé, ébavurée et vérifiée à la main.</p><p>Matière issue de ressources végétales renouvelables. Conçu pour durer, résister aux manipulations du quotidien et apporter une présence singulière sur votre bureau.</p>"
+        }}
+      />
+    </div>
+  );
 
-            {/* Print Settings Options (Dynamic attributes) */}
-            {(() => {
+  const renderDynamicOptions = () => {
+
               const selectableAttributes = attributesList.filter((attr: any) => {
                 const n = (attr.name || "").toLowerCase().trim();
                 if (n === "personnalisable" || n.includes("personnalisable")) return false;
@@ -1312,6 +1387,10 @@ export default function ProductDetailClient({
                       .sort((a, b) => a.localeCompare(b, 'fr', { sensitivity: 'base', numeric: true }));
                     const selectedVal = selectedOptions[name];
                     const decodedName = decodeHtml(name);
+
+                    // Neuro-marketing : Réduction de la paralysie du choix si plus de 4 options
+                    const isManyOptions = options.length > 4;
+                    const favoriteOption = attr.favoriteOption || attr.popularOption || attr.defaultOption || attr.photoOption || options[0];
 
                   // Helper function to update state
                   const handleSelect = (val: string) => {
@@ -1462,9 +1541,16 @@ export default function ProductDetailClient({
                     return (
                       <div key={name} className="relative flex flex-col gap-2 w-full">
                         <div className="flex items-center justify-between">
-                          <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 font-sans">
-                            {decodedName}
-                          </label>
+                          <div className="flex items-center gap-2">
+                            <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700 font-sans">
+                              {decodedName}
+                            </label>
+                            {isManyOptions && (
+                              <span className="text-[10px] text-zinc-400 font-normal lowercase font-sans">
+                                (coup de cœur en ❤️)
+                              </span>
+                            )}
+                          </div>
                           {showPaletteLink && (
                             <Link 
                               href="/palette-couleurs" 
@@ -1493,6 +1579,11 @@ export default function ProductDetailClient({
                               <span className={`text-sm font-bold truncate max-w-[180px] md:max-w-xs ${selectedVal ? "text-zinc-900" : "text-zinc-400 font-normal"}`}>
                                 {selectedVal || "Choisir une couleur..."}
                               </span>
+                              {selectedVal && isManyOptions && selectedVal.toLowerCase().trim() === favoriteOption.toLowerCase().trim() && (
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-rose-50 text-rose-700 border border-rose-200 shrink-0">
+                                  ❤️ Coup de cœur
+                                </span>
+                              )}
                               {selectedVal && (attr.defaultOption || attr.photoOption) && (attr.defaultOption || attr.photoOption).toLowerCase().trim() === selectedVal.toLowerCase().trim() && (
                                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-900 border border-amber-200/80 shrink-0">
                                   <Camera className="w-2.5 h-2.5 text-amber-600" />
@@ -1520,6 +1611,7 @@ export default function ProductDetailClient({
                                 {options.map((opt: string) => {
                                   const isOptionSelected = selectedVal === opt;
                                   const isPhotoOption = (attr.defaultOption || attr.photoOption || "").toLowerCase().trim() === opt.toLowerCase().trim();
+                                  const isFavorite = isManyOptions && opt.toLowerCase().trim() === favoriteOption.toLowerCase().trim();
                                   const optionBg = getCssColor(opt);
                                   return (
                                     <button
@@ -1542,7 +1634,12 @@ export default function ProductDetailClient({
                                         <span className={`text-xs truncate ${isOptionSelected ? "text-[#ff4f00] font-black" : "text-zinc-700 font-medium"}`}>
                                           {opt}
                                         </span>
-                                        {isPhotoOption && (
+                                        {isFavorite && (
+                                          <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-rose-50 text-rose-700 border border-rose-200 shrink-0 shadow-2xs">
+                                            ❤️ Coup de cœur
+                                          </span>
+                                        )}
+                                        {isPhotoOption && !isFavorite && (
                                           <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[9px] font-bold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300/60 shrink-0">
                                             <Camera className="w-2.5 h-2.5 text-amber-700" />
                                             En photo
@@ -1576,7 +1673,7 @@ export default function ProductDetailClient({
                         <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
                           {decodedName}
                         </label>
-                        <div className="segmented-control-container inline-flex bg-spoolio-card border border-spoolio-border rounded-xl p-0.5 max-w-fit select-none">
+                        <div className="segmented-control-container self-start inline-flex bg-spoolio-card border border-spoolio-border rounded-xl p-0.5 w-fit max-w-full overflow-x-auto select-none">
                           {sortedOptions.map((opt: string) => {
                             const isSelected = selectedVal === opt;
                             return (
@@ -1603,18 +1700,26 @@ export default function ProductDetailClient({
                   if (isSegmented) {
                     return (
                       <div key={name} className="flex flex-col gap-2">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
-                          {decodedName}
-                        </label>
-                        <div className="segmented-control-container inline-flex bg-spoolio-card border border-spoolio-border rounded-xl p-0.5 max-w-fit select-none">
+                        <div className="flex items-center gap-2">
+                          <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
+                            {decodedName}
+                          </label>
+                          {isManyOptions && (
+                            <span className="text-[10px] text-zinc-400 font-normal lowercase font-sans">
+                              (coup de cœur en ❤️)
+                            </span>
+                          )}
+                        </div>
+                        <div className="segmented-control-container self-start inline-flex bg-spoolio-card border border-spoolio-border rounded-xl p-0.5 w-fit max-w-full overflow-x-auto select-none">
                           {options.map((opt: string) => {
                             const isSelected = selectedVal === opt;
                             const isPhotoOption = (attr.defaultOption || attr.photoOption || "").toLowerCase().trim() === opt.toLowerCase().trim();
+                            const isFavorite = isManyOptions && opt.toLowerCase().trim() === favoriteOption.toLowerCase().trim();
                             return (
                               <button
                                 key={opt}
                                 onClick={() => handleSelect(opt)}
-                                className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
+                                className={`px-4 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 shrink-0 ${
                                   isSelected
                                     ? "bg-white text-black shadow-lg shadow-white/5 variant-btn-selected"
                                     : "text-gray-400 hover:text-white"
@@ -1622,7 +1727,12 @@ export default function ProductDetailClient({
                                 type="button"
                               >
                                 <span>{opt}</span>
-                                {isPhotoOption && (
+                                {isFavorite && (
+                                  <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-tight bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs">
+                                    ❤️ Coup de cœur
+                                  </span>
+                                )}
+                                {isPhotoOption && !isFavorite && (
                                   <span className="text-[9px] font-black text-amber-500 uppercase tracking-tight">★ Photo</span>
                                 )}
                               </button>
@@ -1637,13 +1747,21 @@ export default function ProductDetailClient({
                   if (isChips) {
                     return (
                       <div key={name} className="flex flex-col gap-2">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
-                          {decodedName}
-                        </label>
+                        <div className="flex items-center gap-2">
+                          <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
+                            {decodedName}
+                          </label>
+                          {isManyOptions && (
+                            <span className="text-[10px] text-zinc-400 font-normal lowercase font-sans">
+                              (coup de cœur en ❤️)
+                            </span>
+                          )}
+                        </div>
                         <div className="flex flex-wrap gap-2">
                           {options.map((opt: string) => {
                             const isSelected = selectedVal === opt;
                             const isPhotoOption = (attr.defaultOption || attr.photoOption || "").toLowerCase().trim() === opt.toLowerCase().trim();
+                            const isFavorite = isManyOptions && opt.toLowerCase().trim() === favoriteOption.toLowerCase().trim();
                             return (
                               <button
                                 key={opt}
@@ -1656,7 +1774,12 @@ export default function ProductDetailClient({
                                 type="button"
                               >
                                 <span>{opt}</span>
-                                {isPhotoOption && (
+                                {isFavorite && (
+                                  <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[9px] font-black uppercase tracking-tight bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs">
+                                    ❤️ Coup de cœur
+                                  </span>
+                                )}
+                                {isPhotoOption && !isFavorite && (
                                   <span className="text-[9px] font-black text-amber-500 uppercase tracking-tight">★ Photo</span>
                                 )}
                               </button>
@@ -1689,9 +1812,16 @@ export default function ProductDetailClient({
                   // 6. DEFAULT SELECT DROPDOWN
                   return (
                     <div key={name} className="flex flex-col gap-2">
-                      <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
-                        {decodedName}
-                      </label>
+                      <div className="flex items-center gap-2">
+                        <label className="block text-xs font-bold uppercase tracking-wider text-gray-400 font-sans">
+                          {decodedName}
+                        </label>
+                        {isManyOptions && (
+                          <span className="text-[10px] text-zinc-400 font-normal lowercase font-sans">
+                            (coup de cœur en ❤️)
+                          </span>
+                        )}
+                      </div>
                       <div className="relative max-w-xs">
                         <select
                           value={selectedVal || ""}
@@ -1700,9 +1830,10 @@ export default function ProductDetailClient({
                         >
                           {options.map((opt: string) => {
                             const isPhotoOption = (attr.defaultOption || attr.photoOption || "").toLowerCase().trim() === opt.toLowerCase().trim();
+                            const isFavorite = isManyOptions && opt.toLowerCase().trim() === favoriteOption.toLowerCase().trim();
                             return (
                               <option key={opt} value={opt} className="bg-white text-zinc-900">
-                                {opt} {isPhotoOption ? "(En photo)" : ""}
+                                {opt} {isFavorite ? "❤️ (Coup de cœur de l'Atelier)" : isPhotoOption ? "(En photo)" : ""}
                               </option>
                             );
                           })}
@@ -1718,477 +1849,839 @@ export default function ProductDetailClient({
                 })}
               </div>
             );
-          })()}
+          
+  };
 
+  const renderAddToCartCta = () => (
+    <div ref={mainCtaRef} className="flex items-center gap-4 max-w-2xl">
+      {/* Quantity Selector */}
+      <div className={`flex items-center bg-spoolio-card border border-spoolio-border rounded-xl h-14 px-3 select-none ${isNotAvailableToBuy ? "opacity-40" : ""}`}>
+        <button
+          type="button"
+          disabled={isNotAvailableToBuy}
+          onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
+          className={`w-8 h-8 flex items-center justify-center text-zinc-600 ${!isNotAvailableToBuy ? "hover:text-zinc-950 hover:bg-zinc-100 active:scale-95 cursor-pointer" : "cursor-not-allowed"} rounded-lg transition-all text-lg font-bold`}
+          aria-label="Diminuer la quantité"
+        >
+          -
+        </button>
+        <span className="w-10 text-center font-extrabold text-base text-zinc-950 font-sans">
+          {isNotAvailableToBuy ? 0 : quantity}
+        </span>
+        <button
+          type="button"
+          disabled={isNotAvailableToBuy}
+          onClick={() => setQuantity(prev => prev + 1)}
+          className={`w-8 h-8 flex items-center justify-center text-zinc-600 ${!isNotAvailableToBuy ? "hover:text-zinc-950 hover:bg-zinc-100 active:scale-95 cursor-pointer" : "cursor-not-allowed"} rounded-lg transition-all text-lg font-bold`}
+          aria-label="Augmenter la quantité"
+        >
+          +
+        </button>
+      </div>
 
+      {/* Add to Cart button */}
+      {isNotAvailableToBuy ? (
+        <button
+          disabled
+          className="flex-1 h-14 flex items-center justify-center gap-2 text-sm font-bold text-gray-400 bg-white/5 border border-white/10 rounded-xl cursor-not-allowed text-center no-invert"
+        >
+          {isOutOfStock ? "Rupture de stock" : "Indisponible"}
+        </button>
+      ) : (
+        <button
+          onClick={() => {
+            if (!product) return;
+            addToCart({
+              productId: product.id,
+              name: product.name,
+              slug: product.slug,
+              price: currentPrice.toString(),
+              selectedOptions,
+              image: product.images?.[0]?.src || "/images/hero_background.jpg",
+            }, quantity);
 
-            {/* Call to action with Quantity Selector */}
-            <div ref={mainCtaRef} className="flex items-center gap-4">
-              {/* Quantity Selector */}
-              <div className={`flex items-center bg-spoolio-card border border-spoolio-border rounded-xl h-14 px-3 select-none ${isNotAvailableToBuy ? "opacity-40" : ""}`}>
-                <button
-                  type="button"
-                  disabled={isNotAvailableToBuy}
-                  onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
-                  className={`w-8 h-8 flex items-center justify-center text-zinc-600 ${!isNotAvailableToBuy ? "hover:text-zinc-950 hover:bg-zinc-100 active:scale-95 cursor-pointer" : "cursor-not-allowed"} rounded-lg transition-all text-lg font-bold`}
-                  aria-label="Diminuer la quantité"
-                >
-                  -
-                </button>
-                <span className="w-10 text-center font-extrabold text-base text-zinc-950 font-sans">
-                  {isNotAvailableToBuy ? 0 : quantity}
-                </span>
-                <button
-                  type="button"
-                  disabled={isNotAvailableToBuy}
-                  onClick={() => setQuantity(prev => prev + 1)}
-                  className={`w-8 h-8 flex items-center justify-center text-zinc-600 ${!isNotAvailableToBuy ? "hover:text-zinc-950 hover:bg-zinc-100 active:scale-95 cursor-pointer" : "cursor-not-allowed"} rounded-lg transition-all text-lg font-bold`}
-                  aria-label="Augmenter la quantité"
-                >
-                  +
-                </button>
-              </div>
+            setIsAdded(true);
+            setTimeout(() => setIsAdded(false), 2000);
+          }}
+          onMouseEnter={() => setIsButtonHovered(true)}
+          onMouseLeave={() => setIsButtonHovered(false)}
+          className={`flex-1 h-14 flex items-center justify-center gap-2 text-sm font-bold text-white rounded-xl transition-all duration-300 shadow-xl cursor-pointer text-center no-invert group ${
+            isAdded 
+              ? "bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/25 scale-[0.98]" 
+              : "bg-[#ff4f00] hover:bg-[#e04500] shadow-[#ff4f00]/25 hover:scale-[1.02]"
+          }`}
+        >
+          {isAdded ? (
+            <>
+              <span className="text-base select-none animate-bounce">✓</span>
+              Ajouté au panier !
+            </>
+          ) : (
+            <>
+              <UnicornIcon animationData={cartIconData} className="w-10 h-10 scale-[1.8]" isHovered={isButtonHovered} />
+              Ajouter au panier
+            </>
+          )}
+        </button>
+      )}
+    </div>
+  );
 
-              {/* Add to Cart button */}
-              {isNotAvailableToBuy ? (
-                <button
-                  disabled
-                  className="flex-1 h-14 flex items-center justify-center gap-2 text-sm font-bold text-gray-400 bg-white/5 border border-white/10 rounded-xl cursor-not-allowed text-center no-invert"
-                >
-                  {isOutOfStock ? "Rupture de stock" : "Indisponible"}
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    if (!product) return;
-                    addToCart({
-                      productId: product.id,
-                      name: product.name,
-                      slug: product.slug,
-                      price: currentPrice.toString(),
-                      selectedOptions,
-                      image: product.images?.[0]?.src || "/images/hero_background.jpg",
-                    }, quantity);
+  const renderSensoryCompassCard = (isEmbeddedInAccordion = false) => {
+    if (!Boolean((product as any).show_in_sensory_compass || (product as any).showInSensoryCompass)) return null;
 
-                    setIsAdded(true);
-                    setTimeout(() => setIsAdded(false), 2000);
-                  }}
-                  onMouseEnter={() => setIsButtonHovered(true)}
-                  onMouseLeave={() => setIsButtonHovered(false)}
-                  className={`flex-1 h-14 flex items-center justify-center gap-2 text-sm font-bold text-white rounded-xl transition-all duration-300 shadow-xl cursor-pointer text-center no-invert group ${
-                    isAdded 
-                      ? "bg-emerald-500 hover:bg-emerald-600 shadow-emerald-500/25 scale-[0.98]" 
-                      : "bg-[#ff4f00] hover:bg-[#e04500] shadow-[#ff4f00]/25 hover:scale-[1.02]"
-                  }`}
-                >
-                  {isAdded ? (
-                    <>
-                      <span className="text-base select-none animate-bounce">✓</span>
-                      Ajouté au panier !
-                    </>
-                  ) : (
-                    <>
-                      <UnicornIcon animationData={cartIconData} className="w-10 h-10 scale-[1.8]" isHovered={isButtonHovered} />
-                      Ajouter au panier
-                    </>
-                  )}
-                </button>
-              )}
-            </div>
-
-
-
-            {/* Encart Fidget Sensoriel (Boussole Info - Style Moderne Haute Lisibilité) */}
-            {Boolean((product as any).show_in_sensory_compass || (product as any).showInSensoryCompass) && (
-              <div className="mt-5 p-6 rounded-3xl bg-purple-50/70 border border-purple-200 shadow-xs font-sans">
-                <div className="flex items-center justify-between border-b border-purple-200/80 pb-4 mb-4">
-                  <div className="flex items-center gap-2.5">
-                    <span className="text-2xl select-none">🧭</span>
-                    <div>
-                      <h3 className="text-base font-black text-zinc-900 tracking-wide uppercase">
-                        Fidget Sensoriel Spoolio
-                      </h3>
-                      <p className="text-xs text-purple-900/80 font-medium">
-                        Évaluation sensorielle &amp; ergonomique
-                      </p>
-                    </div>
-                  </div>
-                  <Link
-                    href="/boussole-sensorielle"
-                    className="text-[11px] font-bold text-purple-800 hover:text-purple-950 bg-purple-100/90 hover:bg-purple-200 border border-purple-300 px-3 py-1.5 rounded-full transition-all flex items-center gap-1 shadow-xs"
-                  >
-                    <span>Boussole</span>
-                    <span>→</span>
-                  </Link>
-                </div>
-
-                {/* Sensory Attributes Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-                  {/* Bruit */}
-                  <div className="p-3.5 rounded-2xl bg-white border border-purple-100 flex flex-col gap-1.5 shadow-xs">
-                    <span className="text-[10px] font-black text-purple-900 uppercase tracking-widest">
-                      Bruit :
-                    </span>
-                    <span className="text-xs font-black text-zinc-900">
-                      {formatNoiseLevelText(parseNoiseLevel((product as any).sensory_noise_level || (product as any).sensoryNoiseLevel))}
-                    </span>
-                  </div>
-
-                  {/* Compacité */}
-                  <div className="p-3.5 rounded-2xl bg-white border border-purple-100 flex flex-col gap-1.5 shadow-xs">
-                    <span className="text-[10px] font-black text-purple-900 uppercase tracking-widest">
-                      Format :
-                    </span>
-                    <span className="text-xs font-black text-zinc-900">
-                      {((product as any).sensory_size || (product as any).sensorySize) === "pocket"
-                        ? "Format Poche (1 main)"
-                        : ((product as any).sensory_size || (product as any).sensorySize) === "medium"
-                        ? "Moyen / Bureau"
-                        : "Grand Format"}
-                    </span>
-                  </div>
-
-                  {/* Manipulation */}
-                  <div className="p-3.5 rounded-2xl bg-white border border-purple-100 flex flex-col gap-1.5 shadow-xs">
-                    <span className="text-[10px] font-black text-purple-900 uppercase tracking-widest">
-                      Action :
-                    </span>
-                    <span className="text-xs font-black text-[#ff4f00] capitalize">
-                      {(() => {
-                        const cat = (product as any).sensory_category || (product as any).sensoryCategory || "manipuler";
-                        const map: Record<string, string> = {
-                          cliquer: "Cliquer",
-                          manipuler: "Manipuler",
-                          resoudre: "Résoudre",
-                          caresser: "Caresser",
-                          tourner: "Tourner",
-                          presser: "Presser",
-                        };
-                        return map[cat] || cat;
-                      })()}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Profils ciblés Badges */}
-                {(() => {
-                  const rawProfiles = (product as any).sensory_profiles || (product as any).sensoryProfiles;
-                  const profilesList = Array.isArray(rawProfiles)
-                    ? rawProfiles
-                    : (typeof rawProfiles === 'string' ? rawProfiles.split(',').map((s: string) => s.trim()) : []);
-
-                  if (profilesList.length === 0) return null;
-
-                  const profileLabels: Record<string, { label: string; icon: string }> = {
-                    tdah: { label: "Mouvement & Agilité des Doigts", icon: "⚡" },
-                    anxiety: { label: "Apaisement & Rythme Répétitif", icon: "🌊" },
-                    focus: { label: "Focus & Attention Continue", icon: "🎯" },
-                    autism: { label: "Stimulation Texturée & Haptique", icon: "🧩" },
-                  };
-
-                  return (
-                    <div className="flex flex-col gap-2 pt-2 border-t border-purple-200/80">
-                      <span className="text-[10px] font-bold text-purple-900 uppercase tracking-wider">
-                        Sensations &amp; Usages associés :
-                      </span>
-                      <div className="flex flex-wrap gap-2">
-                        {profilesList.map((prof: string) => {
-                          const info = profileLabels[prof] || { label: prof, icon: "✨" };
-                          return (
-                            <span
-                              key={prof}
-                              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white text-purple-900 border border-purple-200 shadow-xs"
-                            >
-                              <span>{info.icon}</span>
-                              <span>{info.label}</span>
-                            </span>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })()}
-              </div>
-            )}
-
-            {/* Delivery Estimation & Trust Badges */}
-            <div className="mt-6 space-y-4 border-t border-zinc-200 pt-6">
-              {/* Delivery Estimation */}
-              <div className="flex items-start gap-3.5 text-xs font-sans leading-relaxed bg-white p-4 rounded-2xl border border-zinc-200/90 shadow-xs">
-                <div className="w-9 h-9 rounded-xl bg-orange-50 border border-orange-200/80 flex items-center justify-center shrink-0 text-base">
-                  📦
-                </div>
-                <div>
-                  <p className="text-zinc-900 font-bold">
-                    Livraison estimée : <span className="text-[#ff4f00] font-black">{getDeliveryDateRange().minStr}</span> au <span className="text-[#ff4f00] font-black">{getDeliveryDateRange().maxStr}</span>
-                  </p>
-                  <p className="text-[11px] text-zinc-500 mt-0.5 font-medium">
-                    Expédié sous 24/48h depuis notre atelier de Comines (Mondial Relay &amp; Colissimo).
-                  </p>
-                </div>
-              </div>
-
-              {/* Loyalty Points Credit Estimation */}
-              {parseFloat(currentPrice) >= 2 && (
-                <div className="flex items-start gap-3.5 text-xs font-sans leading-relaxed bg-orange-50/60 p-4 rounded-2xl border border-[#ff4f00]/25 relative overflow-hidden group select-none transition-all duration-300 hover:border-[#ff4f00]/40">
-                  <div className="w-9 h-9 rounded-xl bg-orange-100 border border-orange-200 flex items-center justify-center shrink-0 text-base text-[#ff4f00]">
-                    ⚡
-                  </div>
-                  <div>
-                    <p className="text-zinc-900 font-bold">
-                      Carte de fidélité : <span className="text-[#ff4f00] font-black">+{Math.floor(parseFloat(currentPrice) / 2)} points</span> sur cette commande !
-                    </p>
-                    <p className="text-[11px] text-zinc-500 mt-0.5 font-medium">
-                      Cumule 2€ = 1 point (hors dons/livraison) et débloque tes cadeaux exclusifs à l'atelier.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              {/* Trust Badges Grid */}
-              <div className="grid grid-cols-2 gap-3 text-[11px] font-bold tracking-tight text-zinc-700 font-sans">
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white border border-zinc-200/80 shadow-xs">
-                  <span className="text-base select-none">🇫🇷</span>
-                  <div>
-                    <span className="block text-zinc-900 font-bold">Made in France</span>
-                    <span className="block text-[9px] text-zinc-500 font-normal">Hauts-de-France</span>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white border border-zinc-200/80 shadow-xs">
-                  <span className="text-base select-none">🌱</span>
-                  <div>
-                    <span className="block text-zinc-900 font-bold">PLA Biosourcé</span>
-                    <span className="block text-[9px] text-zinc-500 font-normal">Amidon de maïs</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white border border-zinc-200/80 shadow-xs">
-                  <span className="text-base select-none">🚚</span>
-                  <div>
-                    <span className="block text-zinc-900 font-bold">Livraison Suivie</span>
-                    <span className="block text-[9px] text-zinc-500 font-normal">Relais &amp; Domicile</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2.5 p-3 rounded-2xl bg-white border border-zinc-200/80 shadow-xs">
-                  <span className="text-base select-none">💳</span>
-                  <div>
-                    <span className="block text-zinc-900 font-bold">Paiement 3D Secure</span>
-                    <span className="block text-[9px] text-zinc-500 font-normal">Stripe 100% protégé</span>
-                  </div>
-                </div>
+    return (
+      <div className={`${isEmbeddedInAccordion ? "p-4 sm:p-6" : "p-6 sm:p-8 rounded-3xl bg-purple-50/70 border border-purple-200 shadow-xs"} font-sans`}>
+        {!isEmbeddedInAccordion && (
+          <div className="flex items-center justify-between border-b border-purple-200/80 pb-4 mb-4">
+            <div className="flex items-center gap-2.5">
+              <span className="text-2xl select-none">🧭</span>
+              <div>
+                <h3 className="text-base font-black text-zinc-900 tracking-wide uppercase">
+                  Fidget Sensoriel Spoolio
+                </h3>
+                <p className="text-xs text-purple-900/80 font-medium">
+                  Évaluation sensorielle &amp; ergonomique
+                </p>
               </div>
             </div>
+            <Link
+              href="/boussole-sensorielle"
+              className="text-[11px] font-bold text-purple-800 hover:text-purple-950 bg-purple-100/90 hover:bg-purple-200 border border-purple-300 px-3 py-1.5 rounded-full transition-all flex items-center gap-1 shadow-xs"
+            >
+              <span>Boussole</span>
+              <span>→</span>
+            </Link>
+          </div>
+        )}
+
+        {/* Sensory Attributes Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+          {/* Bruit */}
+          <div className="p-3.5 rounded-2xl bg-white border border-purple-100 flex flex-col gap-1.5 shadow-xs">
+            <span className="text-[10px] font-black text-purple-900 uppercase tracking-widest">
+              Bruit :
+            </span>
+            <span className="text-xs font-black text-zinc-900">
+              {formatNoiseLevelText(parseNoiseLevel((product as any).sensory_noise_level || (product as any).sensoryNoiseLevel))}
+            </span>
+          </div>
+
+          {/* Compacité */}
+          <div className="p-3.5 rounded-2xl bg-white border border-purple-100 flex flex-col gap-1.5 shadow-xs">
+            <span className="text-[10px] font-black text-purple-900 uppercase tracking-widest">
+              Format :
+            </span>
+            <span className="text-xs font-black text-zinc-900">
+              {((product as any).sensory_size || (product as any).sensorySize) === "pocket"
+                ? "Format Poche (1 main)"
+                : ((product as any).sensory_size || (product as any).sensorySize) === "medium"
+                ? "Moyen / Bureau"
+                : "Grand Format"}
+            </span>
+          </div>
+
+          {/* Manipulation */}
+          <div className="p-3.5 rounded-2xl bg-white border border-purple-100 flex flex-col gap-1.5 shadow-xs">
+            <span className="text-[10px] font-black text-purple-900 uppercase tracking-widest">
+              Action :
+            </span>
+            <span className="text-xs font-black text-[#ff4f00] capitalize">
+              {(() => {
+                const cat = (product as any).sensory_category || (product as any).sensoryCategory || "manipuler";
+                const map: Record<string, string> = {
+                  cliquer: "Cliquer",
+                  manipuler: "Manipuler",
+                  resoudre: "Résoudre",
+                  caresser: "Caresser",
+                  tourner: "Tourner",
+                  presser: "Presser",
+                };
+                return map[cat] || cat;
+              })()}
+            </span>
           </div>
         </div>
 
-        {/* Product Technical Specs Grid */}
-        <section className="border-t border-spoolio-border pt-12">
-          <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-orange-50 border border-orange-200/80 flex items-center justify-center text-[#ff4f00]">
-                <Ruler className="w-4 h-4" />
-              </div>
-              <h2 className="text-xl font-bold text-zinc-900 font-sans">Spécifications du produit</h2>
-            </div>
-            {hasAnyTechnicalSpecs && (
-              <Link
-                href={`/contact?subject=specs&product=${encodeURIComponent(displayName)}&message=${encodeURIComponent(
-                  `Bonjour, j'ai une question concernant les spécifications du produit "${displayName}".`
-                )}`}
-                className="text-xs font-semibold text-[#ff4f00] hover:underline flex items-center gap-1 font-sans"
-              >
-                <span>Une question ? Contacter l&apos;atelier</span>
-                <span>→</span>
-              </Link>
-            )}
-          </div>
+        {/* Profils ciblés Badges */}
+        {(() => {
+          const rawProfiles = (product as any).sensory_profiles || (product as any).sensoryProfiles;
+          const profilesList = Array.isArray(rawProfiles)
+            ? rawProfiles
+            : (typeof rawProfiles === 'string' ? rawProfiles.split(',').map((s: string) => s.trim()) : []);
 
-          {!hasAnyTechnicalSpecs ? (
-            /* Bloc quand les caractéristiques ne sont pas encore renseignées */
-            <div className="p-6 sm:p-8 rounded-2xl bg-white border border-zinc-200/90 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 font-sans">
-              <div className="space-y-2 max-w-xl">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold uppercase tracking-wider">
-                  <span>📏</span>
-                  <span>Caractéristiques à la demande</span>
-                </div>
-                <h3 className="text-base font-bold text-zinc-950">
-                  Besoin de la taille, du poids ou d&apos;un détail précis sur ce modèle ?
-                </h3>
-                <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
-                  Les caractéristiques techniques détaillées (dimensions, grammage exact, étanchéité) n&apos;ont pas encore été complétées sur cette fiche. Cliquez ci-dessous pour nous demander les infos en un clic, nous vous répondons rapidement !
-                </p>
-              </div>
+          if (profilesList.length === 0) return null;
 
-              <Link
-                href={`/contact?subject=specs&product=${encodeURIComponent(displayName)}&message=${encodeURIComponent(
-                  `Bonjour, je souhaiterais connaître les caractéristiques techniques détaillées (taille, poids, matière, étanchéité...) du produit "${displayName}". Merci !`
-                )}`}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-zinc-950 hover:bg-[#ff4f00] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-200 shadow-md hover:scale-[1.02] active:scale-95 shrink-0 select-none font-sans"
-              >
-                <Mail className="w-4 h-4 text-white" />
-                <span>Demander les caractéristiques</span>
-              </Link>
-            </div>
-          ) : (
-            /* Bloc quand au moins une caractéristique est renseignée */
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-sans">
-              {hasDimensions && (
-                <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs flex flex-col justify-between">
-                  <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold flex items-center gap-1.5">
-                    <span>📐</span>
-                    <span>Taille / Dimensions</span>
-                  </span>
-                  <span className="text-sm font-bold text-zinc-900 break-words">{technicalSpecs.dimensions}</span>
-                </div>
-              )}
+          const profileLabels: Record<string, { label: string; icon: string }> = {
+            tdah: { label: "Mouvement & Agilité des Doigts", icon: "⚡" },
+            anxiety: { label: "Apaisement & Rythme Répétitif", icon: "🌊" },
+            focus: { label: "Focus & Attention Continue", icon: "🎯" },
+            autism: { label: "Stimulation Texturée & Haptique", icon: "🧩" },
+          };
 
-              {hasWeight && (
-                <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs flex flex-col justify-between">
-                  <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold flex items-center gap-1.5">
-                    <span>⚖️</span>
-                    <span>Poids</span>
-                  </span>
-                  <span className="text-sm font-bold text-zinc-900">{technicalSpecs.weight}</span>
-                </div>
-              )}
-
-              {hasMaterial && (
-                <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs flex flex-col justify-between">
-                  <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold flex items-center gap-1.5">
-                    <span>🌱</span>
-                    <span>Matière &amp; Fabrication</span>
-                  </span>
-                  <span className="text-sm font-bold text-[#ff4f00] break-words">{technicalSpecs.material}</span>
-                </div>
-              )}
-
-              {colorAttr?.options && colorAttr.options.length > 0 && (
-                <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs flex flex-col justify-between">
-                  <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold flex items-center gap-1.5">
-                    <span>🎨</span>
-                    <span>Coloris disponibles</span>
-                  </span>
-                  <span className="text-sm font-bold text-zinc-900">{colorAttr.options.length} options</span>
-                </div>
-              )}
-
-              {hasOther && (
-                <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs col-span-2 md:col-span-4 flex flex-col gap-1">
-                  <span className="block text-xs text-zinc-500 uppercase tracking-wider font-semibold flex items-center gap-1.5">
-                    <span>ℹ️</span>
-                    <span>Spécificités &amp; Conseils d&apos;usage</span>
-                  </span>
-                  <span className="text-sm font-semibold text-zinc-800 leading-relaxed whitespace-pre-line">{technicalSpecs.other}</span>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Dedicated Tags Zone inside Specifications */}
-          {product.tags && product.tags.length > 0 && (
-            <div className="mt-6 p-5 rounded-2xl bg-white border border-zinc-200/80 shadow-xs flex flex-col gap-3 font-sans">
-              <span className="text-xs font-bold text-zinc-600 uppercase tracking-wider flex items-center gap-2">
-                <span>🏷️</span>
-                <span>Tags &amp; Mots-clés associés :</span>
+          return (
+            <div className="flex flex-col gap-2 pt-2 border-t border-purple-200/80">
+              <span className="text-[10px] font-bold text-purple-900 uppercase tracking-wider">
+                Sensations &amp; Usages associés :
               </span>
               <div className="flex flex-wrap gap-2">
-                {product.tags.map((tag: any, idx: number) => {
-                  const tagName = typeof tag === 'object' ? tag.name : tag;
-                  if (!tagName) return null;
+                {profilesList.map((prof: string) => {
+                  const info = profileLabels[prof] || { label: prof, icon: "✨" };
                   return (
                     <span
-                      key={idx}
-                      className="text-xs font-bold px-3 py-1.5 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700 hover:text-zinc-900 hover:bg-zinc-200 transition-colors uppercase tracking-wider select-none"
+                      key={prof}
+                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white text-purple-900 border border-purple-200 shadow-xs"
                     >
-                      #{tagName}
+                      <span>{info.icon}</span>
+                      <span>{info.label}</span>
                     </span>
                   );
                 })}
               </div>
             </div>
-          )}
-        </section>
+          );
+        })()}
+      </div>
+    );
+  };
 
-        {/* Blue Gift Promo Banner */}
-        <section className="mt-12 bg-[#2F3CD9] rounded-3xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-white shadow-xl shadow-[#2F3CD9]/15 border border-white/5 no-invert keep-white">
-          <div className="flex items-center gap-4">
-            <span className="text-3xl animate-bounce shrink-0 select-none">🎁</span>
-            <div className="flex flex-col">
-              <h4 className="text-base font-extrabold tracking-tight uppercase font-sans text-white keep-white">
-                Cadeau offert dans votre colis !
-              </h4>
-              <p className="text-xs text-white/95 font-sans mt-0.5 leading-relaxed keep-white">
-                À partir de 20€ d'achat, on glisse une surprise exclusive imprimée en 3D dans votre commande.
+  const renderTechnicalSpecsContent = () => (
+    <div className="flex flex-col gap-4 font-sans text-xs sm:text-sm">
+      {!hasAnyTechnicalSpecs ? (
+        <div className="p-3.5 sm:p-5 rounded-xl bg-amber-50/60 border border-amber-200/80 text-xs sm:text-sm text-zinc-700 flex flex-col gap-2.5">
+          <div className="flex items-center gap-2 text-amber-900 font-bold">
+            <span>📏</span>
+            <span>Caractéristiques à la demande</span>
+          </div>
+          <p className="text-xs text-zinc-600 leading-relaxed">
+            Les dimensions exactes n&apos;ont pas encore été complétées sur cette fiche. Demandez-les nous en un clic :
+          </p>
+          <Link
+            href={`/contact?subject=specs&product=${encodeURIComponent(displayName)}&message=${encodeURIComponent(
+              `Bonjour, je souhaiterais connaître les caractéristiques techniques détaillées du produit "${displayName}". Merci !`
+            )}`}
+            className="inline-flex items-center gap-2 self-start px-3.5 py-2 rounded-xl bg-zinc-950 hover:bg-[#ff4f00] text-white text-xs font-bold transition-all shadow-xs"
+          >
+            <Mail className="w-3.5 h-3.5 text-white" />
+            <span>Demander les infos</span>
+          </Link>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+          {hasDimensions && (
+            <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200/70 shadow-2xs flex flex-col">
+              <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-bold">📐 Dimensions</span>
+              <span className="text-xs sm:text-sm font-bold text-zinc-900 mt-1">{technicalSpecs.dimensions}</span>
+            </div>
+          )}
+          {hasWeight && (
+            <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200/70 shadow-2xs flex flex-col">
+              <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-bold">⚖️ Poids</span>
+              <span className="text-xs sm:text-sm font-bold text-zinc-900 mt-1">{technicalSpecs.weight}</span>
+            </div>
+          )}
+          {hasMaterial && (
+            <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200/70 shadow-2xs flex flex-col">
+              <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-bold">🌱 Matière</span>
+              <span className="text-xs sm:text-sm font-bold text-[#ff4f00] mt-1">{technicalSpecs.material}</span>
+            </div>
+          )}
+          {colorAttr?.options && colorAttr.options.length > 0 && (
+            <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200/70 shadow-2xs flex flex-col">
+              <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-bold">🎨 Coloris</span>
+              <span className="text-xs sm:text-sm font-bold text-zinc-900 mt-1">{colorAttr.options.length} options</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {hasOther && (
+        <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200/70 shadow-2xs flex flex-col gap-1 text-xs">
+          <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-bold">ℹ️ Conseils d&apos;usage</span>
+          <span className="text-xs text-zinc-800 leading-relaxed whitespace-pre-line">{technicalSpecs.other}</span>
+        </div>
+      )}
+
+      {product.tags && product.tags.length > 0 && (
+        <div className="flex flex-wrap items-center gap-1.5 pt-1">
+          {product.tags.map((tag: any, idx: number) => {
+            const tagName = typeof tag === 'object' ? tag.name : tag;
+            if (!tagName) return null;
+            return (
+              <span
+                key={idx}
+                className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-zinc-100 border border-zinc-200/80 text-zinc-700 uppercase tracking-wider"
+              >
+                #{tagName}
+              </span>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+
+  const renderReassuranceBadges = (isHero: boolean) => (
+    <div className={`border-t border-zinc-200/80 pt-4 sm:pt-6 ${isHero ? "space-y-4 sm:space-y-5" : "mt-6 space-y-4"}`}>
+      {/* Mobile Ultra-Compact Reassurance Bar (< sm) */}
+      <div className="flex sm:hidden flex-col gap-2 font-sans">
+        <div className="flex items-center gap-2 p-2.5 rounded-xl bg-orange-50/80 border border-orange-200/80 text-xs text-zinc-900">
+          <Truck className="w-4 h-4 text-[#ff4f00] shrink-0" strokeWidth={2.2} />
+          <div className="flex flex-wrap items-center gap-x-1.5 leading-tight">
+            <span className="font-bold">Livraison estimée :</span>
+            <span className="text-[#ff4f00] font-black">{getDeliveryDateRange().minStr} au {getDeliveryDateRange().maxStr}</span>
+            <span className="text-[10px] text-zinc-500">(24/48h)</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-4 gap-1.5 text-[10px] font-bold text-zinc-800 text-center">
+          <div className="flex items-center justify-center gap-1.5 py-1.5 px-1 rounded-lg bg-white border border-zinc-200/70 shadow-2xs">
+            <MapPin className="w-3.5 h-3.5 text-blue-600 shrink-0" strokeWidth={2.2} />
+            <span>France</span>
+          </div>
+          <div className="flex items-center justify-center gap-1.5 py-1.5 px-1 rounded-lg bg-white border border-zinc-200/70 shadow-2xs">
+            <Leaf className="w-3.5 h-3.5 text-emerald-600 shrink-0" strokeWidth={2.2} />
+            <span>Biosourcé</span>
+          </div>
+          <div className="flex items-center justify-center gap-1.5 py-1.5 px-1 rounded-lg bg-white border border-zinc-200/70 shadow-2xs">
+            <Gift className="w-3.5 h-3.5 text-amber-600 shrink-0" strokeWidth={2.2} />
+            <span>Prêt à offrir</span>
+          </div>
+          <div className="flex items-center justify-center gap-1.5 py-1.5 px-1 rounded-lg bg-white border border-zinc-200/70 shadow-2xs">
+            <ShieldCheck className="w-3.5 h-3.5 text-teal-600 shrink-0" strokeWidth={2.2} />
+            <span>3D Secure</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop/Tablet Full Reassurance Grid (>= sm) */}
+      <div className="hidden sm:block space-y-4">
+        {/* Delivery & Loyalty Row/Grid */}
+        <div className={`grid grid-cols-1 ${isHero ? "md:grid-cols-2" : ""} gap-4`}>
+          {/* Delivery Estimation */}
+          <div className="flex items-start gap-3.5 text-xs font-sans leading-relaxed bg-white p-4 rounded-2xl border border-zinc-200/90 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/80 flex items-center justify-center shrink-0 text-[#ff4f00]">
+              <Truck className="w-5 h-5" strokeWidth={2.2} />
+            </div>
+            <div>
+              <p className="text-zinc-900 font-bold text-sm">
+                Livraison estimée : <span className="text-[#ff4f00] font-black">{getDeliveryDateRange().minStr}</span> au <span className="text-[#ff4f00] font-black">{getDeliveryDateRange().maxStr}</span>
+              </p>
+              <p className="text-xs text-zinc-500 mt-1 font-medium leading-relaxed">
+                Expédié sous 24/48h depuis notre atelier de Comines dans un emballage kraft protecteur.
               </p>
             </div>
           </div>
-          <div className="text-xs font-black tracking-widest bg-black/20 text-white uppercase px-4 py-2 rounded-full font-sans select-none shrink-0 border border-white/10 keep-white">
-            Dès 20€ d'achat
-          </div>
-        </section>
 
-        {/* Detailed Long Description */}
-        <section className="border-t border-spoolio-border pt-12 mt-12">
-          <h2 className="text-xl font-bold text-zinc-900 mb-6 font-sans">Description</h2>
-          <div className="relative">
-            <div
-              className="prose text-zinc-700 max-w-none text-sm leading-relaxed font-sans flex flex-col gap-4 overflow-hidden transition-all duration-500 ease-in-out"
-              style={{
-                maxHeight: isDescriptionExpanded ? "1200px" : "160px",
-              }}
-              dangerouslySetInnerHTML={{
-                __html: displayFullDesc || "<p>Création façonnée dans notre atelier à Comines. Chaque pièce est imprimée avec précision en PLA biosourcé, ébavurée et vérifiée à la main.</p><p>Matière issue de ressources végétales renouvelables. Conçu pour durer, résister aux manipulations du quotidien et apporter une présence singulière sur votre bureau.</p>"
-              }}
-            />
-            {/* Fade overlay mask when collapsed */}
-            {!isDescriptionExpanded && (
-              <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#f9f9fb] via-[#f9f9fb]/90 to-transparent pointer-events-none" />
-            )}
-          </div>
-          <div className="mt-4 flex justify-start">
-            <button
-              onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
-              className="text-xs font-bold text-zinc-900 hover:text-[#ff4f00] transition-colors flex items-center gap-1.5 cursor-pointer uppercase tracking-wider font-sans"
-            >
-              <span>{isDescriptionExpanded ? "Voir moins" : "Voir plus"}</span>
-              <svg
-                className={`w-3.5 h-3.5 text-zinc-900 transition-transform duration-300 ${isDescriptionExpanded ? "rotate-180" : ""}`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-          </div>
-        </section>
+          {/* Loyalty Points Credit Estimation */}
+          {parseFloat(currentPrice) >= 2 && (
+            <div className="flex items-start gap-3.5 text-xs font-sans leading-relaxed bg-orange-50/60 p-4 rounded-2xl border border-[#ff4f00]/25 relative overflow-hidden group select-none transition-all duration-300 hover:border-[#ff4f00]/40">
+              <div className="w-10 h-10 rounded-xl bg-orange-100 border border-orange-200 flex items-center justify-center shrink-0 text-base text-[#ff4f00]">
+                ⚡
+              </div>
+              <div>
+                <p className="text-zinc-900 font-bold text-sm">
+                  Carte de fidélité : <span className="text-[#ff4f00] font-black">+{Math.floor(parseFloat(currentPrice) / 2)} points</span> sur cette commande !
+                </p>
+                <p className="text-xs text-zinc-500 mt-1 font-medium leading-relaxed">
+                  Cumule 2€ = 1 point (hors dons/livraison) et débloque tes cadeaux exclusifs à l'atelier.
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
 
-        {/* Enjeu App Companion Banner (shown for board game products / accessories) */}
+        {/* Trust Badges Grid (2 lignes aérées et sous-textes confortables) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 text-zinc-700 font-sans">
+          <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-white border border-zinc-200/80 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200/70 flex items-center justify-center shrink-0 text-blue-600">
+              <MapPin className="w-5 h-5" strokeWidth={2.2} />
+            </div>
+            <div>
+              <span className="block text-xs sm:text-sm font-bold text-zinc-900">Made in France</span>
+              <span className="block text-[11px] sm:text-xs text-zinc-500 font-medium">Atelier à Comines (Hauts-de-France)</span>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-white border border-zinc-200/80 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/70 flex items-center justify-center shrink-0 text-emerald-600">
+              <Leaf className="w-5 h-5" strokeWidth={2.2} />
+            </div>
+            <div>
+              <span className="block text-xs sm:text-sm font-bold text-zinc-900">PLA Biosourcé</span>
+              <span className="block text-[11px] sm:text-xs text-zinc-500 font-medium">Matière végétale (amidon de maïs)</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-white border border-zinc-200/80 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200/70 flex items-center justify-center shrink-0 text-amber-600">
+              <Gift className="w-5 h-5" strokeWidth={2.2} />
+            </div>
+            <div>
+              <span className="block text-xs sm:text-sm font-bold text-zinc-900">Emballage d&apos;Atelier</span>
+              <span className="block text-[11px] sm:text-xs text-zinc-500 font-medium">Papier kraft protecteur &amp; soigné</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-white border border-zinc-200/80 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200/70 flex items-center justify-center shrink-0 text-indigo-600">
+              <Truck className="w-5 h-5" strokeWidth={2.2} />
+            </div>
+            <div>
+              <span className="block text-xs sm:text-sm font-bold text-zinc-900">Livraison Suivie</span>
+              <span className="block text-[11px] sm:text-xs text-zinc-500 font-medium">Mondial Relay &amp; Colissimo</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 p-3.5 sm:p-4 rounded-2xl bg-white border border-zinc-200/80 shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-200/70 flex items-center justify-center shrink-0 text-teal-600">
+              <ShieldCheck className="w-5 h-5" strokeWidth={2.2} />
+            </div>
+            <div>
+              <span className="block text-xs sm:text-sm font-bold text-zinc-900">Paiement 3D Secure</span>
+              <span className="block text-[11px] sm:text-xs text-zinc-500 font-medium">Stripe 100% protégé &amp; chiffré</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-spoolio-bg text-white font-sans flex flex-col justify-between selection:bg-spoolio-orange selection:text-black">
+      {/* Sticky Header */}
+      <Header />
+
+      {/* Main Content */}
+      <main className="flex-1 max-w-[1200px] w-full mx-auto px-4 sm:px-6 pt-[78px] sm:pt-24 lg:pt-32 pb-12 lg:pb-16">
+        {isDraftPreview && (
+          <div className="mb-4 sm:mb-6 bg-amber-50 border border-amber-300 rounded-2xl p-4 text-xs sm:text-sm flex items-center gap-3 shadow-xs">
+            <span className="text-xl shrink-0 select-none">⚠️</span>
+            <div className="leading-relaxed text-zinc-900">
+              <span className="inline-block px-2 py-0.5 rounded-md bg-amber-200/90 text-amber-950 font-black text-[11px] uppercase tracking-wider mr-2 align-middle">
+                Aperçu Administrateur
+              </span>
+              <span>
+                Ce produit est actuellement en <strong className="text-amber-950 font-black underline decoration-amber-400">Brouillon</strong>. Il est strictement invisible pour les visiteurs du site et les moteurs de recherche (renvoie une erreur 404).
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Breadcrumb Navigation (Fil d'Ariane) - Spoolio V2.1 */}
         {(() => {
-          const slugLower = (slug || "").toLowerCase();
-          const nameLower = (displayName || product?.name || "").toLowerCase();
-          const descLower = (displayFullDesc || "").toLowerCase();
-          const isGameProduct =
-            slugLower.includes("carte") ||
-            slugLower.includes("jeu") ||
-            slugLower.includes("des") ||
-            slugLower.includes("pince") ||
-            nameLower.includes("carte") ||
-            nameLower.includes("jeu") ||
-            nameLower.includes("tour") ||
-            descLower.includes("jeu de société") ||
-            descLower.includes("cartes de jeu");
-
-          if (!isGameProduct) return null;
+          const items =
+            breadcrumbItems && breadcrumbItems.length > 0
+              ? breadcrumbItems
+              : [
+                  { name: "Accueil", url: "/" },
+                  { name: "Boutique", url: "/boutique" },
+                  ...(Array.isArray(product.categories) && product.categories.length > 0
+                    ? [{ name: product.categories[0].name, url: "/boutique" }]
+                    : []),
+                  { name: product.name, url: `/product/${slug}` },
+                ];
 
           return (
-            <div className="mt-12">
-              <EnjeuBanner productName={displayName || product?.name} />
-            </div>
+            <nav
+              aria-label="Fil d'Ariane"
+              className="flex items-center gap-1.5 text-[11px] lg:text-xs font-medium text-zinc-500 mb-2.5 sm:mb-4 lg:mb-8 font-sans select-none overflow-x-auto scrollbar-none whitespace-nowrap py-0.5 sm:py-1"
+            >
+              {items.map((item, index) => {
+                const isLast = index === items.length - 1;
+                return (
+                  <span key={`${item.url}-${index}`} className="flex items-center gap-1.5 shrink-0">
+                    {index > 0 && (
+                      <span className="text-zinc-300 font-bold shrink-0 select-none">/</span>
+                    )}
+                    {isLast ? (
+                      <span className="text-zinc-900 font-bold max-w-[180px] sm:max-w-none truncate">
+                        {item.name}
+                      </span>
+                    ) : (
+                      <Link
+                        href={item.url}
+                        className="text-zinc-500 hover:text-[#ff4f00] transition-colors shrink-0"
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </span>
+                );
+              })}
+            </nav>
           );
         })()}
+
+        {/* HERO XXL GRAND FORMAT (si activé sur ce produit) */}
+        {isHeroLayout && (
+          <div className="mb-8 lg:mb-10">
+            {renderGalleryBlock(true)}
+          </div>
+        )}
+
+        {isHeroLayout ? (
+          /* --- LAYOUT HERO XXL : Colonne Pleine Largeur pour Titre + Variantes + Achat, puis accordéons dessous --- */
+          <div className="flex flex-col w-full gap-6 sm:gap-10 mb-12 sm:mb-16">
+            {/* Colonne Full Largeur : Titre + Prix + Variantes + Bouton Achat (épuré sans cadre lourd sur mobile) */}
+            <div className="w-full bg-transparent sm:bg-white border-0 sm:border sm:border-zinc-200/90 rounded-none sm:rounded-3xl p-0 sm:p-8 lg:p-10 shadow-none sm:shadow-xs space-y-5 sm:space-y-8">
+              {renderTitleAndPrice(true)}
+              {renderNoiseGauge()}
+              {renderDynamicOptions()}
+              {renderAddToCartCta()}
+              {renderReassuranceBadges(true)}
+            </div>
+
+            {/* Accordéons Élégants : Descriptions, Spécifications, Boussole & Fabrication */}
+            <div className="flex flex-col gap-3 sm:gap-4 w-full">
+              {/* Accordéon 1 : Présentation de l'objet */}
+              <div className="rounded-2xl border border-zinc-200/90 bg-white overflow-hidden shadow-2xs">
+                <button
+                  type="button"
+                  onClick={() => toggleAccordion("description")}
+                  className="w-full flex items-center justify-between p-4 sm:p-5 text-left font-sans select-none hover:bg-zinc-50/70 transition-colors cursor-pointer"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-lg">✨</span>
+                    <span className="text-sm sm:text-base font-black text-zinc-900 uppercase tracking-wide">
+                      Présentation de l'objet
+                    </span>
+                  </div>
+                  <svg
+                    className={`w-4 h-4 text-zinc-400 transition-transform duration-300 ${openAccordions.description ? "rotate-180 text-zinc-900" : ""}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {openAccordions.description && (
+                  <div className="p-4 sm:p-6 pt-2 border-t border-zinc-100 flex flex-col gap-4 font-sans text-sm leading-relaxed text-zinc-700">
+                    {displayShortDesc && (
+                      <div
+                        className="p-3.5 sm:p-4 rounded-xl bg-zinc-50/90 border border-zinc-200/70 text-zinc-800 font-medium"
+                        dangerouslySetInnerHTML={{ __html: displayShortDesc }}
+                      />
+                    )}
+                    <div
+                      className="prose text-zinc-700 max-w-none text-sm leading-relaxed font-sans flex flex-col gap-3"
+                      dangerouslySetInnerHTML={{
+                        __html: displayFullDesc || "<p>Création façonnée dans notre atelier à Comines. Chaque pièce est imprimée avec précision en PLA biosourcé, ébavurée et vérifiée à la main.</p><p>Matière issue de ressources végétales renouvelables. Conçu pour durer, résister aux manipulations du quotidien et apporter une présence singulière sur votre bureau.</p>"
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Accordéon 2 : Spécifications techniques & Dimensions */}
+              <div className="rounded-2xl border border-zinc-200/90 bg-white overflow-hidden shadow-2xs">
+                <button
+                  type="button"
+                  onClick={() => toggleAccordion("specs")}
+                  className="w-full flex items-center justify-between p-4 sm:p-5 text-left font-sans select-none hover:bg-zinc-50/70 transition-colors cursor-pointer"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-lg">📐</span>
+                    <span className="text-sm sm:text-base font-black text-zinc-900 uppercase tracking-wide">
+                      Caractéristiques &amp; Dimensions
+                    </span>
+                  </div>
+                  <svg
+                    className={`w-4 h-4 text-zinc-400 transition-transform duration-300 ${openAccordions.specs ? "rotate-180 text-zinc-900" : ""}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {openAccordions.specs && (
+                  <div className="p-4 sm:p-6 pt-2 border-t border-zinc-100">
+                    {renderTechnicalSpecsContent()}
+                  </div>
+                )}
+              </div>
+
+              {/* Accordéon 3 : Boussole sensorielle (si fidget) */}
+              {Boolean((product as any).show_in_sensory_compass || (product as any).showInSensoryCompass) && (
+                <div className="rounded-2xl border border-purple-200 bg-purple-50/40 overflow-hidden shadow-2xs">
+                  <button
+                    type="button"
+                    onClick={() => toggleAccordion("compass")}
+                    className="w-full flex items-center justify-between p-4 sm:p-5 text-left font-sans select-none hover:bg-purple-100/50 transition-colors cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-lg">🧭</span>
+                      <span className="text-sm sm:text-base font-black text-purple-950 uppercase tracking-wide">
+                        Évaluation Sensorielle Spoolio
+                      </span>
+                    </div>
+                    <svg
+                      className={`w-4 h-4 text-purple-600 transition-transform duration-300 ${openAccordions.compass ? "rotate-180 text-purple-900" : ""}`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+
+                  {openAccordions.compass && (
+                    <div className="p-4 sm:p-6 pt-2 border-t border-purple-200/70">
+                      {renderSensoryCompassCard(true)}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Accordéon 4 : Fabrication, Livraison & Retours */}
+              <div className="rounded-2xl border border-zinc-200/90 bg-white overflow-hidden shadow-2xs">
+                <button
+                  type="button"
+                  onClick={() => toggleAccordion("shipping")}
+                  className="w-full flex items-center justify-between p-4 sm:p-5 text-left font-sans select-none hover:bg-zinc-50/70 transition-colors cursor-pointer"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-lg">🚚</span>
+                    <span className="text-sm sm:text-base font-black text-zinc-900 uppercase tracking-wide">
+                      Fabrication, Livraison &amp; Retours
+                    </span>
+                  </div>
+                  <svg
+                    className={`w-4 h-4 text-zinc-400 transition-transform duration-300 ${openAccordions.shipping ? "rotate-180 text-zinc-900" : ""}`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {openAccordions.shipping && (
+                  <div className="p-4 sm:p-6 pt-2 border-t border-zinc-100 font-sans text-xs sm:text-sm text-zinc-700 space-y-3 leading-relaxed">
+                    <p>
+                      🏭 <strong>Atelier de fabrication :</strong> Toutes nos pièces sont imprimées avec soin en 3D dans notre atelier à <strong>Comines (Hauts-de-France)</strong>.
+                    </p>
+                    <p>
+                      🌱 <strong>Matière végétale :</strong> Nous utilisons exclusivement du filament PLA certifié issu de ressources renouvelables (amidon de maïs, sans dérivés pétroliers toxiques).
+                    </p>
+                    <p>
+                      🎁 <strong>Emballage &amp; Déballage :</strong> Chaque création est calée et emballée avec soin à l&apos;Atelier dans du papier kraft recyclable et protecteur, prête à s&apos;offrir ou à se faire plaisir au déballage.
+                    </p>
+                    <p>
+                      📦 <strong>Délais d'expédition :</strong> Commande expédiée sous 24h à 48h ouvrées avec numéro de suivi (Colissimo ou Mondial Relay selon votre choix au paiement).
+                    </p>
+                    <p>
+                      🔄 <strong>Retours simples :</strong> Vous disposez de 14 jours après réception pour nous renvoyer l'objet s'il ne vous convient pas.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* --- LAYOUT STANDARD : 2 Colonnes classiques --- */
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start mb-16">
+            {/* Colonne Gauche : Galerie standard */}
+            <div className="flex flex-col">
+              {renderGalleryBlock(false)}
+            </div>
+
+            {/* Colonne Droite : Titre, Prix, Options, Panier */}
+            <div className="flex flex-col">
+              {renderTitleAndPrice(false)}
+              {renderNoiseGauge()}
+              <div
+                className="text-gray-400 text-sm leading-relaxed mb-8 border-b border-spoolio-border/40 pb-6 font-sans"
+                dangerouslySetInnerHTML={{ __html: displayShortDesc || "<p>Aucune description disponible pour ce produit.</p>" }}
+              />
+              {renderDynamicOptions()}
+              <div className="mb-6">
+                {renderAddToCartCta()}
+              </div>
+              {renderSensoryCompassCard()}
+              {renderReassuranceBadges(false)}
+            </div>
+          </div>
+        )}
+
+        {/* Product Technical Specs Grid (uniquement en vue standard, déjà intégré dans l'accordéon en Hero) */}
+        {!isHeroLayout && (
+          <section className="border-t border-spoolio-border pt-12">
+            <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-orange-50 border border-orange-200/80 flex items-center justify-center text-[#ff4f00]">
+                  <Ruler className="w-4 h-4" />
+                </div>
+                <h2 className="text-xl font-bold text-zinc-900 font-sans">Spécifications du produit</h2>
+              </div>
+              {hasAnyTechnicalSpecs && (
+                <Link
+                  href={`/contact?subject=specs&product=${encodeURIComponent(displayName)}&message=${encodeURIComponent(
+                    `Bonjour, j'ai une question concernant les spécifications du produit "${displayName}".`
+                  )}`}
+                  className="text-xs font-semibold text-[#ff4f00] hover:underline flex items-center gap-1 font-sans"
+                >
+                  <span>Une question ? Contacter l&apos;atelier</span>
+                  <span>→</span>
+                </Link>
+              )}
+            </div>
+
+            {!hasAnyTechnicalSpecs ? (
+              /* Bloc quand les caractéristiques ne sont pas encore renseignées */
+              <div className="p-6 sm:p-8 rounded-2xl bg-white border border-zinc-200/90 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6 font-sans">
+                <div className="space-y-2 max-w-xl">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold uppercase tracking-wider">
+                    <span>📏</span>
+                    <span>Caractéristiques à la demande</span>
+                  </div>
+                  <h3 className="text-base font-bold text-zinc-950">
+                    Besoin de la taille, du poids ou d&apos;un détail précis sur ce modèle ?
+                  </h3>
+                  <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
+                    Les caractéristiques techniques détaillées (dimensions, grammage exact, étanchéité) n&apos;ont pas encore été complétées sur cette fiche. Cliquez ci-dessous pour nous demander les infos en un clic, nous vous répondons rapidement !
+                  </p>
+                </div>
+
+                <Link
+                  href={`/contact?subject=specs&product=${encodeURIComponent(displayName)}&message=${encodeURIComponent(
+                    `Bonjour, je souhaiterais connaître les caractéristiques techniques détaillées (taille, poids, matière, étanchéité...) du produit "${displayName}". Merci !`
+                  )}`}
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-zinc-950 hover:bg-[#ff4f00] text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-200 shadow-md hover:scale-[1.02] active:scale-95 shrink-0 select-none font-sans"
+                >
+                  <Mail className="w-4 h-4 text-white" />
+                  <span>Demander les caractéristiques</span>
+                </Link>
+              </div>
+            ) : (
+              /* Bloc quand au moins une caractéristique est renseignée */
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-sans">
+                {hasDimensions && (
+                  <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs flex flex-col justify-between">
+                    <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold flex items-center gap-1.5">
+                      <span>📐</span>
+                      <span>Taille / Dimensions</span>
+                    </span>
+                    <span className="text-sm font-bold text-zinc-900 break-words">{technicalSpecs.dimensions}</span>
+                  </div>
+                )}
+
+                {hasWeight && (
+                  <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs flex flex-col justify-between">
+                    <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold flex items-center gap-1.5">
+                      <span>⚖️</span>
+                      <span>Poids</span>
+                    </span>
+                    <span className="text-sm font-bold text-zinc-900">{technicalSpecs.weight}</span>
+                  </div>
+                )}
+
+                {hasMaterial && (
+                  <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs flex flex-col justify-between">
+                    <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold flex items-center gap-1.5">
+                      <span>🌱</span>
+                      <span>Matière &amp; Fabrication</span>
+                    </span>
+                    <span className="text-sm font-bold text-[#ff4f00] break-words">{technicalSpecs.material}</span>
+                  </div>
+                )}
+
+                {colorAttr?.options && colorAttr.options.length > 0 && (
+                  <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs flex flex-col justify-between">
+                    <span className="block text-xs text-zinc-500 uppercase tracking-wider mb-1 font-semibold flex items-center gap-1.5">
+                      <span>🎨</span>
+                      <span>Coloris disponibles</span>
+                    </span>
+                    <span className="text-sm font-bold text-zinc-900">{colorAttr.options.length} options</span>
+                  </div>
+                )}
+
+                {hasOther && (
+                  <div className="p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs col-span-2 md:col-span-4 flex flex-col gap-1">
+                    <span className="block text-xs text-zinc-500 uppercase tracking-wider font-semibold flex items-center gap-1.5">
+                      <span>ℹ️</span>
+                      <span>Spécificités &amp; Conseils d&apos;usage</span>
+                    </span>
+                    <span className="text-sm font-semibold text-zinc-800 leading-relaxed whitespace-pre-line">{technicalSpecs.other}</span>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Dedicated Tags Zone inside Specifications */}
+            {product.tags && product.tags.length > 0 && (
+              <div className="mt-6 p-5 rounded-2xl bg-white border border-zinc-200/80 shadow-xs flex flex-col gap-3 font-sans">
+                <span className="text-xs font-bold text-zinc-600 uppercase tracking-wider flex items-center gap-2">
+                  <span>🏷️</span>
+                  <span>Tags &amp; Mots-clés associés :</span>
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {product.tags.map((tag: any, idx: number) => {
+                    const tagName = typeof tag === 'object' ? tag.name : tag;
+                    if (!tagName) return null;
+                    return (
+                      <span
+                        key={idx}
+                        className="text-xs font-bold px-3 py-1.5 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700 hover:text-zinc-900 hover:bg-zinc-200 transition-colors uppercase tracking-wider select-none"
+                      >
+                        #{tagName}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* Detailed Long Description (uniquement en mise en page standard 2 colonnes) */}
+        {!isHeroLayout && (
+          <section className="border-t border-spoolio-border pt-12 mt-12">
+            <h2 className="text-xl font-bold text-zinc-900 mb-6 font-sans">Description</h2>
+            <div className="relative">
+              <div
+                className="prose text-zinc-700 max-w-none text-sm leading-relaxed font-sans flex flex-col gap-4 overflow-hidden transition-all duration-500 ease-in-out"
+                style={{
+                  maxHeight: isDescriptionExpanded ? "1200px" : "160px",
+                }}
+                dangerouslySetInnerHTML={{
+                  __html: displayFullDesc || "<p>Création façonnée dans notre atelier à Comines. Chaque pièce est imprimée avec précision en PLA biosourcé, ébavurée et vérifiée à la main.</p><p>Matière issue de ressources végétales renouvelables. Conçu pour durer, résister aux manipulations du quotidien et apporter une présence singulière sur votre bureau.</p>"
+                }}
+              />
+              {/* Fade overlay mask when collapsed */}
+              {!isDescriptionExpanded && (
+                <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#f9f9fb] via-[#f9f9fb]/90 to-transparent pointer-events-none" />
+              )}
+            </div>
+            <div className="mt-4 flex justify-start">
+              <button
+                onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                className="text-xs font-bold text-zinc-900 hover:text-[#ff4f00] transition-colors flex items-center gap-1.5 cursor-pointer uppercase tracking-wider font-sans"
+              >
+                <span>{isDescriptionExpanded ? "Voir moins" : "Voir plus"}</span>
+                <svg
+                  className={`w-3.5 h-3.5 text-zinc-900 transition-transform duration-300 ${isDescriptionExpanded ? "rotate-180" : ""}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+          </section>
+        )}
+
+        {/* Enjeu App Companion Banner (affiché uniquement sur les produits geek & jeux de société) */}
+        {isGeekOrBoardGameProduct && (
+          <div className="mt-12">
+            <EnjeuBanner productName={displayName || product?.name} />
+          </div>
+        )}
 
         {/* Frequently Bought Together */}
         {relatedProducts.length > 0 && (
@@ -2618,19 +3111,20 @@ export default function ProductDetailClient({
         {isLightboxOpen && hasImage && (
           <div
             onClick={() => setIsLightboxOpen(false)}
-            className="fixed inset-0 bg-black/95 z-[999999] flex flex-col items-center justify-between p-4 pt-16 sm:pt-6 pb-6 backdrop-blur-md cursor-zoom-out select-none"
+            className="fixed inset-0 bg-black/95 z-[999999] flex flex-col items-center justify-between p-0 pt-3 sm:pt-4 pb-3 sm:pb-5 backdrop-blur-md cursor-zoom-out select-none"
           >
             {/* Top Toolbar: Zoom Controls & Close Button */}
-            <div className="absolute top-4 left-4 right-4 z-50 flex items-center justify-between pointer-events-none">
+            <div className="w-full px-4 sm:px-6 z-50 flex items-center justify-between pointer-events-none shrink-0">
               {/* Zoom Controls */}
               <div onClick={(e) => e.stopPropagation()} className="pointer-events-auto flex items-center gap-2 bg-black/85 border border-white/20 rounded-full px-3 py-1.5 backdrop-blur-md shadow-2xl text-xs text-white">
                 <button
                   type="button"
                   onClick={() => setLightboxZoom(prev => Math.max(1, +(prev - 0.5).toFixed(1)))}
-                  className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#ff4f00] flex items-center justify-center font-black text-sm transition-colors cursor-pointer"
+                  className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#ff4f00] flex items-center justify-center transition-colors cursor-pointer"
                   title="Dézoomer"
+                  aria-label="Dézoomer"
                 >
-                  −
+                  <Minus className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
                 </button>
                 <span className="font-mono text-xs font-bold text-gray-200 w-10 text-center select-none">
                   {Math.round(lightboxZoom * 100)}%
@@ -2638,10 +3132,11 @@ export default function ProductDetailClient({
                 <button
                   type="button"
                   onClick={() => setLightboxZoom(prev => Math.min(3.5, +(prev + 0.5).toFixed(1)))}
-                  className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#ff4f00] flex items-center justify-center font-black text-sm transition-colors cursor-pointer"
+                  className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#ff4f00] flex items-center justify-center transition-colors cursor-pointer"
                   title="Zoomer"
+                  aria-label="Zoomer"
                 >
-                  +
+                  <Plus className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
                 </button>
                 {lightboxZoom > 1 && (
                   <button
@@ -2658,17 +3153,18 @@ export default function ProductDetailClient({
               <button
                 type="button"
                 onClick={() => setIsLightboxOpen(false)}
-                className="pointer-events-auto w-11 h-11 rounded-full bg-black/85 hover:bg-[#ff4f00] text-white flex items-center justify-center transition-colors cursor-pointer text-2xl font-bold border border-white/20 backdrop-blur-md shadow-2xl"
+                className="pointer-events-auto w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-black/85 hover:bg-[#ff4f00] text-white flex items-center justify-center transition-colors cursor-pointer border border-white/20 backdrop-blur-md shadow-2xl"
                 title="Fermer"
+                aria-label="Fermer"
               >
-                &times;
+                <X className="w-5 h-5 text-white" strokeWidth={2.5} />
               </button>
             </div>
 
-            {/* Main Lightbox Image / Video Display Container */}
+            {/* Main Lightbox Image / Video Display Container (Plein écran 100% largeur) */}
             <div
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-4xl max-h-[75vh] aspect-square md:aspect-[4/3] rounded-2xl overflow-hidden bg-black/80 border border-white/10 flex items-center justify-center cursor-default shadow-2xl my-auto"
+              className="relative w-full flex-1 min-h-0 flex items-center justify-center cursor-default overflow-hidden my-auto px-0"
             >
               {(() => {
                 const lightboxSrc = product.images[activeImageIndex]?.src;
@@ -2683,23 +3179,24 @@ export default function ProductDetailClient({
                       loop
                       muted
                       playsInline
-                      className="max-w-full max-h-full object-contain"
+                      className="w-full h-full max-h-[85vh] object-contain"
                     />
                   );
                 }
 
                 return (
                   <div
-                    className="w-full h-full relative transition-transform duration-200 ease-out"
+                    className="w-full h-full relative transition-transform duration-200 ease-out flex items-center justify-center"
                     style={{ transform: `scale(${lightboxZoom})` }}
                   >
                     <Image
                       src={lightboxSrc}
                       alt={product.images[activeImageIndex]?.alt || "Product image"}
                       fill
-                      sizes="(max-width: 1200px) 100vw, 1200px"
-                      className="object-contain no-invert"
+                      sizes="100vw"
+                      className="w-full h-full object-contain no-invert"
                       unoptimized={lightboxSrc?.startsWith("data:")}
+                      priority
                     />
                   </div>
                 );
@@ -2713,9 +3210,11 @@ export default function ProductDetailClient({
                     e.stopPropagation();
                     setActiveImageIndex(prev => (prev === 0 ? product.images.length - 1 : prev - 1));
                   }}
-                  className="absolute left-4 w-12 h-12 rounded-full bg-black/65 hover:bg-[#ff4f00] border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer text-xl font-bold select-none shadow-xl hover:scale-105 active:scale-95"
+                  className="absolute left-3 sm:left-6 md:left-8 z-30 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-black/75 hover:bg-[#ff4f00] border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer select-none shadow-2xl hover:scale-105 active:scale-95"
+                  title="Image précédente"
+                  aria-label="Image précédente"
                 >
-                  &#8592;
+                  <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5} />
                 </button>
               )}
 
@@ -2727,17 +3226,19 @@ export default function ProductDetailClient({
                     e.stopPropagation();
                     setActiveImageIndex(prev => (prev === product.images.length - 1 ? 0 : prev + 1));
                   }}
-                  className="absolute right-4 w-12 h-12 rounded-full bg-black/65 hover:bg-[#ff4f00] border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer text-xl font-bold select-none shadow-xl hover:scale-105 active:scale-95"
+                  className="absolute right-3 sm:right-6 md:right-8 z-30 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-black/75 hover:bg-[#ff4f00] border border-white/20 text-white flex items-center justify-center transition-all cursor-pointer select-none shadow-2xl hover:scale-105 active:scale-95"
+                  title="Image suivante"
+                  aria-label="Image suivante"
                 >
-                  &#8594;
+                  <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 text-white" strokeWidth={2.5} />
                 </button>
               )}
             </div>
 
             {/* Fullscreen Lightbox Bottom Bar with Thumbnails & Shortcuts */}
-            <div onClick={(e) => e.stopPropagation()} className="mt-4 flex flex-col items-center gap-3 select-none z-10">
+            <div onClick={(e) => e.stopPropagation()} className="w-full px-4 pt-2 pb-1 sm:pb-2 flex flex-col items-center gap-2 sm:gap-3 select-none z-10 shrink-0">
               {product.images.length > 1 && (
-                <div className="flex gap-2 max-w-xl overflow-x-auto pb-1 px-2 no-scrollbar justify-center">
+                <div className="flex gap-2 max-w-2xl overflow-x-auto pb-1 px-2 no-scrollbar justify-center">
                   {product.images.map((img, idx) => (
                     <button
                       key={`lightbox-thumb-${idx}`}
@@ -2754,10 +3255,17 @@ export default function ProductDetailClient({
                   ))}
                 </div>
               )}
-              <div className="flex items-center gap-3 text-xs text-gray-400 font-sans">
-                <span className="font-bold text-white">{activeImageIndex + 1} / {product.images.length}</span>
-                <span className="text-gray-600">|</span>
-                <span className="hidden sm:inline-block text-[11px] text-gray-400 font-medium">Utilisez les flèches <kbd className="px-1.5 py-0.5 bg-white/10 rounded border border-white/10 text-gray-200 font-mono">←</kbd> <kbd className="px-1.5 py-0.5 bg-white/10 rounded border border-white/10 text-gray-200 font-mono">→</kbd> pour naviguer ou <kbd className="px-1.5 py-0.5 bg-white/10 rounded border border-white/10 text-gray-200 font-mono">Échap</kbd> pour fermer</span>
+              <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-zinc-900/95 border border-white/25 backdrop-blur-md shadow-2xl text-xs font-sans text-zinc-200">
+                <span className="font-black text-white">{activeImageIndex + 1} / {product.images.length}</span>
+                <span className="text-zinc-600 font-bold select-none">•</span>
+                <span className="hidden sm:inline-flex items-center gap-1.5 text-[11px] text-zinc-200 font-medium">
+                  <span>Utilisez les flèches</span>
+                  <kbd className="px-2 py-0.5 rounded-md bg-white/20 border border-white/30 text-white font-mono font-bold text-[10px] shadow-xs">←</kbd>
+                  <kbd className="px-2 py-0.5 rounded-md bg-white/20 border border-white/30 text-white font-mono font-bold text-[10px] shadow-xs">→</kbd>
+                  <span>ou</span>
+                  <kbd className="px-2 py-0.5 rounded-md bg-white/20 border border-white/30 text-white font-mono font-bold text-[10px] shadow-xs">Échap</kbd>
+                  <span>pour fermer</span>
+                </span>
               </div>
             </div>
           </div>

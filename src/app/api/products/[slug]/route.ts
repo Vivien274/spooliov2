@@ -312,6 +312,10 @@ export async function PUT(
     }
     if (body.tags) attributesObj.tags = body.tags;
     if (body.badge !== undefined) attributesObj.badge = body.badge ? String(body.badge).trim() : null;
+    if (body.template !== undefined) attributesObj.template = body.template;
+    else if (body.attributes?.template !== undefined) attributesObj.template = body.attributes.template;
+    if (body.uniquePieceData !== undefined) attributesObj.uniquePieceData = body.uniquePieceData;
+    else if (body.attributes?.uniquePieceData !== undefined) attributesObj.uniquePieceData = body.attributes.uniquePieceData;
     if (body.technicalSpecs) attributesObj.technicalSpecs = body.technicalSpecs;
     else if (body.attributes?.technicalSpecs) attributesObj.technicalSpecs = body.attributes.technicalSpecs;
     attributesObj.lastModified = new Date().toISOString();

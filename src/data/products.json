@@ -120452,5 +120452,90 @@
       "autism",
       "tdah"
     ]
+  },
+  {
+    "id": 32,
+    "name": "Blob Plants XL — Grandes plantes kawaii décoratives",
+    "slug": "blob-plants-xl-grandes-plantes-kawaii-decoratives",
+    "price": "16",
+    "regular_price": "16",
+    "sale_price": "",
+    "on_sale": false,
+    "categories": [],
+    "short_description": "<p>Pas besoin d'avoir la main verte pour adopter ces petites bouilles ! 🌵 Avec leurs grands yeux expressifs, leurs formes généreuses et leurs 14 cm de hauteur, les <strong>Blob Plants XL</strong> apportent une touche de verdure, de fantaisie et de bonne humeur à ta décoration. Trois personnages à adopter, zéro arrosage !</p>",
+    "description": "<p><strong>Des plantes qui ont du caractère… et des yeux ! 🌵</strong></p><p>Tu adores les plantes, mais tu préfères celles qui ne risquent pas de finir oubliées sur le rebord d'une fenêtre ? Les <strong>Blob Plants XL</strong> sont faits pour toi !</p><p>Avec leurs grands yeux expressifs, leurs petites bouilles attachantes et leurs 14 cm de hauteur, ces plantes décoratives transforment un simple pot en véritable personnage.</p><p>À mi-chemin entre figurine kawaii et objet de décoration pop, elles trouvent naturellement leur place sur un bureau, une bibliothèque ou une étagère.</p><p><strong>Trois personnalités à découvrir :</strong></p><ul class=\"list-disc pl-5 space-y-1\"><li>🌿 <strong>Monstera</strong> : une jolie bouille cachée sous de grandes feuilles tropicales.</li><li>🌸 <strong>Cactus fleuri</strong> : une petite plante couronnée d'une fleur orange éclatante.</li><li>🌵 <strong>Cactus à raquettes</strong> : un personnage plein de caractère avec ses raquettes hérissées de petites épines décoratives.</li></ul><p><strong>Pourquoi on les adore :</strong></p><ul class=\"list-disc pl-5 space-y-1\"><li>14 cm de hauteur, pot compris.</li><li>Un design kawaii aux couleurs vives et aux détails expressifs.</li><li>Une décoration originale qui ne demande aucun entretien.</li><li>Trois modèles à collectionner ou à offrir.</li><li>Une fabrication en impression 3D dans notre atelier Spoolio, à Comines.</li></ul><p><strong>Les Blob Plants XL</strong>, c'est un petit coin de verdure qui ne fanera jamais… et qui te regarde avec de grands yeux !</p>",
+    "stock_quantity": -1,
+    "type": "variable",
+    "status": "publish",
+    "date_modified": "2026-11-06T09:06:23.715Z",
+    "attributes": {
+      "attributes": [
+        {
+          "name": "Personnalités",
+          "options": [
+            "🌿 Monstera",
+            "🌸 Cactus fleuri",
+            "🌵 Cactus à raquettes"
+          ],
+          "controlType": "segmented_control",
+          "defaultOption": ""
+        }
+      ],
+      "variationPrices": [
+        {
+          "combination": {
+            "Personnalités": ""
+          },
+          "price": "16"
+        }
+      ],
+      "technicalSpecs": {
+        "dimensions": "Hauteur : 14cm, largeur : ~15cm",
+        "weight": "200 grammes",
+        "material": "PLA biosourcé coloré",
+        "other": ""
+      },
+      "template": "hero",
+      "tags": [
+        "plante",
+        "décoration",
+        "kawai",
+        "blob"
+      ],
+      "badge": null,
+      "lastModified": "2026-11-06T09:06:22.845Z"
+    },
+    "images": [
+      {
+        "id": 3689,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793954070346.webp",
+        "alt": "Blob Plants XL — Grandes plantes kawaii décoratives"
+      },
+      {
+        "id": 3690,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793954070444.webp",
+        "alt": "Blob Plants XL — Grandes plantes kawaii décoratives"
+      },
+      {
+        "id": 3691,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793954070414.webp",
+        "alt": "Blob Plants XL — Grandes plantes kawaii décoratives"
+      },
+      {
+        "id": 3692,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793954070456.webp",
+        "alt": "Blob Plants XL — Grandes plantes kawaii décoratives"
+      },
+      {
+        "id": 3693,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793954070462.webp",
+        "alt": "Blob Plants XL — Grandes plantes kawaii décoratives"
+      },
+      {
+        "id": 3694,
+        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793954070476.webp",
+        "alt": "Blob Plants XL — Grandes plantes kawaii décoratives"
+      }
+    ]
   }
 ]
