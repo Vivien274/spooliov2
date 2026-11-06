@@ -10,7 +10,7 @@ import JsonLdScript from "@/components/JsonLdScript";
 import { getProductJsonLd, getBreadcrumbJsonLd } from "@/lib/jsonLd";
 import { BUSINESS_CONFIG } from "@/lib/businessConfig";
 import { prisma } from "@/lib/prisma";
-import { getAllDrops } from "@/lib/drops";
+import { getAllDrops } from "@/lib/serverDrops";
 import { getProductTaxonomy } from "@/services/taxonomyService";
 
 function resolveFallbackBreadcrumbTaxonomy(categoryName?: string) {

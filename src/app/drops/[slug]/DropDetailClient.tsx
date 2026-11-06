@@ -8,21 +8,16 @@ import Footer from "@/components/Footer";
 import ProductCard, { Product } from "@/components/ProductCard";
 import DropCountdown from "@/components/drops/DropCountdown";
 import DropGallery from "@/components/drops/DropGallery";
-import { Drop, DropGalleryItem } from "@/lib/drops";
+import { Drop, DropGalleryItem, getDropTitleScale } from "@/lib/drops";
 import { useRouter } from "next/navigation";
 import {
   Sparkles,
-  Calendar,
   Clock,
   ArrowLeft,
   ArrowDown,
   Package,
   Quote,
   ShieldCheck,
-  Truck,
-  MapPin,
-  Flame,
-  CheckCircle2,
   Lock,
   Camera,
   Palette,
@@ -53,21 +48,7 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
   });
 
   const dTheme = drop.theme;
-  const dBg = dTheme?.bgColor || "#0b0b0e";
-  const dText = dTheme?.textColor || "#ffffff";
-  const dSubtitle = dTheme?.subtitleColor || "#d8b4fe";
-  const dAccent = dTheme?.accentColor || "#ff4f00";
-  const dBorder = dTheme?.borderColor || "rgba(255, 255, 255, 0.15)";
-  const dCardBg = dTheme?.cardBgColor || "rgba(255, 255, 255, 0.05)";
   const dTitleFont = dTheme?.titleFont || "var(--font-antonio)";
-  const dBadgeBg = dTheme?.badgeBgColor || "rgba(255, 79, 0, 0.2)";
-  const dBadgeText = dTheme?.badgeTextColor || dAccent;
-  const dBtnBg = dTheme?.buttonBgColor || dAccent;
-  const dBtnText = dTheme?.buttonTextColor || "#ffffff";
-
-  // Check if dark theme
-  const isDark = dText.toLowerCase() === "#ffffff" || dBg.includes("#18") || dBg.includes("#0") || dBg.includes("black");
-  const blendColor = isDark ? "#0d0617" : "#fafaf9";
 
   // Extract gallery photos: either from drop.gallery or fallback to drop.products
   const galleryItems = useMemo<DropGalleryItem[]>(() => {
@@ -80,7 +61,6 @@ export default function DropDetailClient({ drop }: DropDetailClientProps) {
       });
     }
 
-    // Fallback: extract from drop.products
     const extracted: DropGalleryItem[] = [];
     drop.products?.forEach((product) => {
       const upGallery = (product as any).attributes?.uniquePieceData?.gallery?.items;
@@ -142,19 +122,16 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
       : drop.tagline;
 
   return (
-    <div
-      className="drop-detail-page no-invert relative min-h-screen font-sans selection:bg-[#ff4f00] selection:text-white overflow-x-hidden flex flex-col items-center"
-      style={{ background: dBg, color: dText }}
-    >
-      <Header isDark={isDark} />
+    <div className="drop-detail-page relative min-h-screen font-sans selection:bg-[#ff4f00] selection:text-white overflow-x-hidden flex flex-col items-center bg-[#FAF9F6] text-zinc-900">
+      <Header />
 
       {/* ============================================================ */}
       {/* 1. HERO PLEIN ÉCRAN CINÉMATOGRAPHIQUE (82vh à 88vh)          */}
       {/* ============================================================ */}
       <section className="relative w-full min-h-[580px] h-[82vh] lg:h-[88vh] max-h-[950px] overflow-hidden select-none flex flex-col justify-between">
         
-        {/* Background Visual Media (Video loop or High-Res Image) */}
-        <div className="absolute inset-0 bg-neutral-950 pointer-events-none">
+        {/* Background Visual Media */}
+        <div className="absolute inset-0 bg-neutral-900 pointer-events-none">
           {drop.bannerVideo ? (
             <video
               src={drop.bannerVideo}
@@ -176,91 +153,68 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
           )}
 
           {/* Top Vignette for navigation bar contrast */}
-          <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-black/90 via-black/50 to-transparent pointer-events-none" />
+          <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-black/75 via-black/35 to-transparent pointer-events-none" />
 
-          {/* Bottom Immersive Gradient: blends seamlessly into drop theme background */}
-          <div
-            className="absolute inset-x-0 bottom-0 h-3/4 pointer-events-none"
-            style={{
-              background: `linear-gradient(to top, ${blendColor} 0%, ${blendColor}ee 25%, ${blendColor}99 55%, transparent 100%)`,
-            }}
-          />
+          {/* Bottom Soft Light Gradient: blends cleanly into Spoolio #FAF9F6 */}
+          <div className="absolute inset-x-0 bottom-0 h-[82%] pointer-events-none bg-gradient-to-t from-[#FAF9F6] via-[#FAF9F6]/92 via-55% to-transparent" />
         </div>
 
         {/* Top Floating Glass Controls Bar */}
         <div className="pt-24 sm:pt-28 px-4 sm:px-8 max-w-[1300px] w-full mx-auto relative z-20 flex flex-wrap items-center justify-between gap-3 pointer-events-auto">
           {/* Glass Breadcrumb Pill */}
-          <nav className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 hover:bg-white/15 backdrop-blur-xl border border-white/20 text-xs font-mono font-bold text-white keep-white no-invert shadow-xl transition-all duration-200">
+          <nav className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/95 backdrop-blur-md border border-zinc-200/90 text-xs font-mono font-bold text-zinc-800 shadow-sm transition-all duration-200">
             <Link
               href="/drops"
-              className="text-white hover:text-[#ff4f00] transition-colors flex items-center gap-1.5"
-              style={{ color: "#ffffff" }}
+              className="text-zinc-700 hover:text-[#ff4f00] transition-colors flex items-center gap-1.5"
             >
-              <ArrowLeft className="w-3.5 h-3.5 text-white" />
-              <span className="text-white" style={{ color: "#ffffff" }}>Tous les Drops</span>
+              <ArrowLeft className="w-3.5 h-3.5 text-zinc-500" />
+              <span>Tous les Drops</span>
             </Link>
-            <span className="text-white/40">/</span>
-            <span className="text-white font-black" style={{ color: "#ffffff" }}>{drop.dropNumber || "DROP"}</span>
+            <span className="text-zinc-300">/</span>
+            <span className="text-zinc-950 font-black">{drop.dropNumber || "DROP"}</span>
           </nav>
 
           {/* Status Badge */}
           <div className="flex items-center gap-2">
             {isLive ? (
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500 text-white text-xs font-black uppercase tracking-wider shadow-lg">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500 text-white text-xs font-black uppercase tracking-wider shadow-sm">
                 <span className="w-2 h-2 rounded-full bg-white animate-ping" />
                 Vente en Direct
               </span>
             ) : isUpcoming ? (
-              <span
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-white text-xs font-black uppercase tracking-wider shadow-lg"
-                style={{ backgroundColor: dAccent, color: "#ffffff" }}
-              >
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#ff4f00] text-white text-xs font-black uppercase tracking-wider shadow-sm">
                 <Clock className="w-3.5 h-3.5" />
                 Prochain Drop
               </span>
             ) : (
-              <span
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-xl text-white keep-white no-invert text-xs font-mono font-bold uppercase tracking-wider border border-white/20 shadow-xl"
-                style={{ color: "#ffffff" }}
-              >
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-zinc-700 text-xs font-mono font-bold uppercase tracking-wider border border-zinc-200/90 shadow-sm">
                 Édition Clôturée
               </span>
             )}
 
-            <span
-              className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-xl text-white keep-white no-invert text-xs font-mono font-black uppercase tracking-wider border border-white/20 shadow-xl"
-              style={{ color: "#ffffff" }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff5500]" />
-              <span>3 PIÈCES UNIQUES</span>
-            </span>
+            {drop.editionSize && (
+              <span className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-zinc-900 text-xs font-mono font-black uppercase tracking-wider border border-zinc-200/90 shadow-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#ff4f00]" />
+                <span>{drop.editionSize} PIÈCES ÉDITÉES</span>
+              </span>
+            )}
           </div>
         </div>
 
         {/* Centerpiece Hero Bottom Content */}
-        <div className="max-w-[1300px] w-full mx-auto px-4 sm:px-8 pb-10 sm:pb-14 relative z-20 flex flex-col justify-end space-y-5 pointer-events-auto">
+        <div className="max-w-[1300px] w-full mx-auto px-4 sm:px-8 pb-10 sm:pb-14 relative z-20 flex flex-col justify-end space-y-4 pointer-events-auto">
           
           {/* Prefix Badge Row */}
           <div className="flex flex-wrap items-center gap-2.5">
             {drop.dropNumber && (
-              <span
-                className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-white keep-white no-invert font-mono font-black text-xs uppercase tracking-widest shadow-xl"
-                style={{
-                  backgroundColor: dAccent,
-                  color: "#ffffff",
-                  boxShadow: `0 0 20px -2px ${dAccent}80`,
-                }}
-              >
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#ff4f00] text-white font-mono font-black text-xs uppercase tracking-widest shadow-sm">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span style={{ color: "#ffffff" }}>{drop.dropNumber}</span>
+                <span>{drop.dropNumber}</span>
               </span>
             )}
 
             {drop.badge && (
-              <span
-                className="text-xs font-mono font-bold uppercase tracking-wider text-white keep-white no-invert bg-white/10 backdrop-blur-xl px-3.5 py-1 rounded-full border border-white/20 shadow-lg"
-                style={{ color: "#ffffff" }}
-              >
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-800 bg-white/95 backdrop-blur-md px-3.5 py-1 rounded-full border border-zinc-200/90 shadow-2xs">
                 {drop.badge}
               </span>
             )}
@@ -268,11 +222,10 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
 
           {/* Monumental Drop Title */}
           <h1
-            className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tight leading-[0.95] drop-shadow-2xl text-white keep-white no-invert"
+            className="font-black uppercase tracking-tight leading-[0.95] text-zinc-950"
             style={{
               fontFamily: dTitleFont,
-              color: "#ffffff",
-              textShadow: "0 6px 30px rgba(0,0,0,0.8)",
+              fontSize: `calc(clamp(2.5rem, 7.5vw, 6.5rem) * ${getDropTitleScale(dTheme?.titleSize)})`,
             }}
           >
             {drop.dropName || drop.title}
@@ -280,40 +233,26 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
 
           {/* Tagline / Punchline */}
           <div className="space-y-1.5 max-w-3xl">
-            <p
-              className="text-lg sm:text-2xl lg:text-3xl font-extrabold tracking-tight leading-snug drop-shadow-md"
-              style={{ color: dSubtitle }}
-            >
+            <p className="text-lg sm:text-2xl lg:text-3xl font-extrabold tracking-tight leading-snug text-zinc-800">
               {taglineText}
             </p>
-            <p className="text-xs sm:text-sm font-mono tracking-wider uppercase text-white/80 font-bold">
-              Trois pièces uniques. Pas une de plus.
+            <p className="text-xs sm:text-sm font-mono tracking-wider uppercase text-zinc-500 font-bold">
+              {drop.editionSize ? `Édition Limitée d'Atelier • ${drop.editionSize} Pièces Uniques` : "Édition Limitée d'Atelier • Pièces Uniques"}
             </p>
           </div>
 
           {/* Quick Action & Countdown Row */}
           <div className="flex flex-wrap items-center gap-4 pt-2">
             
-            {/* If Upcoming: Sleek Countdown Card */}
+            {/* If Upcoming: Clean Light Countdown Card */}
             {isUpcoming && (
-              <div
-                className="inline-flex flex-col sm:flex-row sm:items-center gap-3 p-3.5 sm:p-4 rounded-2xl border backdrop-blur-md"
-                style={{
-                  backgroundColor: "rgba(0, 0, 0, 0.65)",
-                  borderColor: "rgba(255, 255, 255, 0.2)",
-                  boxShadow: `0 10px 25px -5px ${dAccent}30`,
-                }}
-              >
-                <span
-                  className="text-xs font-mono font-bold uppercase tracking-wider text-white keep-white no-invert flex items-center gap-1.5"
-                  style={{ color: "#ffffff" }}
-                >
-                  <Clock className="w-4 h-4" style={{ color: dAccent }} />
+              <div className="inline-flex flex-col sm:flex-row sm:items-center gap-3 p-3 sm:p-3.5 rounded-2xl border border-zinc-200/90 bg-white/95 backdrop-blur-md shadow-md">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-800 flex items-center gap-1.5">
+                  <Clock className="w-4 h-4 text-[#ff4f00]" />
                   <span>Lancement dans :</span>
                 </span>
                 <DropCountdown
                   targetDate={drop.startDate}
-                  theme={dTheme}
                   onExpire={() => {
                     setTimeout(() => {
                       router.refresh();
@@ -326,12 +265,7 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
             {/* Smooth Scroll to Products CTA */}
             <a
               href="#catalogue-drop"
-              className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl text-xs font-black uppercase tracking-wider shadow-2xl transition-all hover:scale-105 active:scale-95 cursor-pointer"
-              style={{
-                backgroundColor: dBtnBg,
-                color: dBtnText,
-                boxShadow: `0 12px 30px -5px ${dAccent}70`,
-              }}
+              className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl text-xs font-black uppercase tracking-wider bg-[#ff4f00] text-white hover:bg-[#e04500] shadow-md shadow-orange-500/20 transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >
               <span>Explorer les Créations ({drop.products.length})</span>
               <ArrowDown className="w-4 h-4 animate-bounce" />
@@ -341,9 +275,9 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
             {galleryItems.length > 0 && (
               <a
                 href="#galerie-drop"
-                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider bg-white/10 hover:bg-white/15 backdrop-blur-xl border border-white/20 text-white transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-xl"
+                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-800 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-xs"
               >
-                <Camera className="w-4 h-4 text-white" />
+                <Camera className="w-4 h-4 text-[#ff4f00]" />
                 <span>Galerie Photo ({galleryItems.length})</span>
               </a>
             )}
@@ -360,36 +294,17 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
       <section className="w-full max-w-[1240px] px-4 sm:px-8 py-12 sm:py-16 relative z-10 space-y-12">
         
         {/* Grand Pull Quote / Citation d'Atelier */}
-        <div
-          className="relative rounded-3xl p-8 sm:p-12 border overflow-hidden backdrop-blur-md shadow-2xl text-center"
-          style={{
-            backgroundColor: dCardBg,
-            borderColor: dBorder,
-          }}
-        >
-          {/* Subtle Accent Glow */}
-          <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full pointer-events-none opacity-20 blur-3xl"
-            style={{ backgroundColor: dAccent }}
-          />
+        <div className="relative rounded-3xl p-8 sm:p-12 border border-zinc-200/80 bg-white shadow-xs text-center overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full pointer-events-none bg-orange-500/5 blur-3xl" />
 
           <div className="relative z-10 max-w-3xl mx-auto space-y-4">
-            <Quote
-              className="w-12 h-12 mx-auto opacity-35"
-              style={{ color: dAccent }}
-            />
+            <Quote className="w-10 h-10 mx-auto text-[#ff4f00] opacity-80" />
 
-            <blockquote
-              className="text-lg sm:text-2xl md:text-3xl font-extrabold italic leading-relaxed tracking-tight"
-              style={{ color: dText }}
-            >
+            <blockquote className="text-lg sm:text-2xl md:text-3xl font-extrabold italic leading-relaxed tracking-tight text-zinc-900">
               “{quoteText}”
             </blockquote>
 
-            <p
-              className="text-xs sm:text-sm font-mono uppercase tracking-widest font-bold pt-2"
-              style={{ color: dSubtitle }}
-            >
+            <p className="text-xs sm:text-sm font-mono uppercase tracking-widest font-bold pt-2 text-zinc-500">
               — L'Atelier Spoolio, Comines (Nord, 59)
             </p>
           </div>
@@ -399,34 +314,22 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Left Column: Story narrative */}
-          <div
-            className="lg:col-span-7 rounded-3xl p-7 sm:p-9 border backdrop-blur-md space-y-4 shadow-xl"
-            style={{ backgroundColor: dCardBg, borderColor: dBorder }}
-          >
+          <div className="lg:col-span-7 rounded-3xl p-7 sm:p-9 border border-zinc-200/80 bg-white shadow-xs space-y-4">
             <div className="flex items-center gap-2">
-              <span
-                className="w-2.5 h-2.5 rounded-full"
-                style={{ backgroundColor: dAccent }}
-              />
-              <h2
-                className="text-xs font-mono font-bold uppercase tracking-wider"
-                style={{ color: dAccent }}
-              >
+              <span className="w-2.5 h-2.5 rounded-full bg-[#ff4f00]" />
+              <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-[#ff4f00]">
                 L'Histoire &amp; la Genèse de ce Drop
               </h2>
             </div>
 
             <h3
-              className="text-2xl sm:text-3xl font-black uppercase tracking-tight leading-tight"
-              style={{ fontFamily: dTitleFont, color: dText }}
+              className="text-2xl sm:text-3xl font-black uppercase tracking-tight leading-tight text-zinc-900"
+              style={{ fontFamily: dTitleFont }}
             >
               Conception d'Atelier &amp; Secrets de Fabrication
             </h3>
 
-            <p
-              className="text-sm sm:text-base leading-relaxed font-medium whitespace-pre-line"
-              style={{ color: dSubtitle }}
-            >
+            <p className="text-sm sm:text-base leading-relaxed font-normal text-zinc-700 whitespace-pre-line">
               {storyText}
             </p>
           </div>
@@ -434,82 +337,58 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
           {/* Right Column: 4 Workshop Craft Pillars */}
           <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4">
             
-            <div
-              className="p-5 rounded-2xl border backdrop-blur-xs flex items-start gap-3.5 shadow-md"
-              style={{ backgroundColor: dCardBg, borderColor: dBorder }}
-            >
-              <div
-                className="p-2.5 rounded-xl shrink-0"
-                style={{ backgroundColor: dBadgeBg, color: dBadgeText }}
-              >
+            <div className="p-5 rounded-2xl border border-zinc-200/80 bg-white shadow-xs flex items-start gap-3.5">
+              <div className="p-2.5 rounded-xl shrink-0 bg-orange-50 text-[#ff4f00]">
                 <Sparkles className="w-5 h-5" />
               </div>
               <div className="space-y-0.5 min-w-0">
-                <span className="block text-xs font-bold uppercase tracking-wide" style={{ color: dText }}>
-                  PIÈCE 01/01
+                <span className="block text-xs font-bold uppercase tracking-wide text-zinc-900">
+                  {drop.editionSize ? `SÉRIE LIMITÉE ${drop.editionSize} PIÈCES` : "SÉRIE LIMITÉE ATELIER"}
                 </span>
-                <p className="text-xs" style={{ color: dSubtitle }}>
-                  Un seul exemplaire Atelier de chaque personnage pour ce drop.
+                <p className="text-xs text-zinc-600">
+                  Créations exclusives produites en édition limitée pour ce drop.
                 </p>
               </div>
             </div>
 
-            <div
-              className="p-5 rounded-2xl border backdrop-blur-xs flex items-start gap-3.5 shadow-md"
-              style={{ backgroundColor: dCardBg, borderColor: dBorder }}
-            >
-              <div
-                className="p-2.5 rounded-xl shrink-0"
-                style={{ backgroundColor: dBadgeBg, color: dBadgeText }}
-              >
+            <div className="p-5 rounded-2xl border border-zinc-200/80 bg-white shadow-xs flex items-start gap-3.5">
+              <div className="p-2.5 rounded-xl shrink-0 bg-orange-50 text-[#ff4f00]">
                 <Palette className="w-5 h-5" />
               </div>
               <div className="space-y-0.5 min-w-0">
-                <span className="block text-xs font-bold uppercase tracking-wide" style={{ color: dText }}>
-                  PEINT À LA MAIN À COMINES
+                <span className="block text-xs font-bold uppercase tracking-wide text-zinc-900">
+                  FABRIQUÉ À LA MAIN À COMINES
                 </span>
-                <p className="text-xs" style={{ color: dSubtitle }}>
-                  Préparé, peint, assemblé et fini individuellement dans notre atelier.
+                <p className="text-xs text-zinc-600">
+                  Préparé, imprimé, assemblé et fini avec soin dans notre atelier des Hauts-de-France.
                 </p>
               </div>
             </div>
 
-            <div
-              className="p-5 rounded-2xl border backdrop-blur-xs flex items-start gap-3.5 shadow-md"
-              style={{ backgroundColor: dCardBg, borderColor: dBorder }}
-            >
-              <div
-                className="p-2.5 rounded-xl shrink-0"
-                style={{ backgroundColor: dBadgeBg, color: dBadgeText }}
-              >
+            <div className="p-5 rounded-2xl border border-zinc-200/80 bg-white shadow-xs flex items-start gap-3.5">
+              <div className="p-2.5 rounded-xl shrink-0 bg-orange-50 text-[#ff4f00]">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div className="space-y-0.5 min-w-0">
-                <span className="block text-xs font-bold uppercase tracking-wide" style={{ color: dText }}>
-                  CARTE COLLECTOR INCLUSE
+                <span className="block text-xs font-bold uppercase tracking-wide text-zinc-900">
+                  AUTHENTICITÉ ATELIER
                 </span>
-                <p className="text-xs" style={{ color: dSubtitle }}>
-                  Chaque Kurb est accompagné de sa carte DROP 001 dédiée et numérotée.
+                <p className="text-xs text-zinc-600">
+                  Chaque pièce est vérifiée manuellement avant son expédition soignée.
                 </p>
               </div>
             </div>
 
-            <div
-              className="p-5 rounded-2xl border backdrop-blur-xs flex items-start gap-3.5 shadow-md"
-              style={{ backgroundColor: dCardBg, borderColor: dBorder }}
-            >
-              <div
-                className="p-2.5 rounded-xl shrink-0"
-                style={{ backgroundColor: dBadgeBg, color: dBadgeText }}
-              >
+            <div className="p-5 rounded-2xl border border-zinc-200/80 bg-white shadow-xs flex items-start gap-3.5">
+              <div className="p-2.5 rounded-xl shrink-0 bg-orange-50 text-[#ff4f00]">
                 <Camera className="w-5 h-5" />
               </div>
               <div className="space-y-0.5 min-w-0">
-                <span className="block text-xs font-bold uppercase tracking-wide" style={{ color: dText }}>
-                  CELUI DES PHOTOS
+                <span className="block text-xs font-bold uppercase tracking-wide text-zinc-900">
+                  PHOTOS RÉELLES
                 </span>
-                <p className="text-xs" style={{ color: dSubtitle }}>
-                  La pièce que vous voyez sur les photos est exactement celle que vous recevrez.
+                <p className="text-xs text-zinc-600">
+                  Les photos et vidéos montrent fidèlement le rendu réel sorti de l'atelier.
                 </p>
               </div>
             </div>
@@ -526,9 +405,8 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
       {galleryItems.length > 0 && (
         <DropGallery
           items={galleryItems}
-          theme={dTheme}
           title="L'Atelier en Détails"
-          subtitle="Clichés authentiques, textures brutes et finitions peintes à la main sous la lumière de l'atelier de Comines."
+          subtitle="Clichés authentiques, textures brutes et finitions soignées sous la lumière de l'atelier de Comines."
           badge="Galerie d'Atelier"
         />
       )}
@@ -542,39 +420,33 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
       >
         
         {/* Products Section Header */}
-        <div
-          className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b"
-          style={{ borderColor: dBorder }}
-        >
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-zinc-200">
           <div>
-            <div
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider mb-2.5"
-              style={{ backgroundColor: dBadgeBg, color: dBadgeText }}
-            >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider mb-2.5 bg-orange-50 text-[#ff4f00] border border-orange-200/60">
               <Package className="w-3.5 h-3.5" />
-              <span>SÉRIE LIMITÉE EXCLUSIVE • 3 PIÈCES UNIQUES</span>
+              <span>SÉRIE LIMITÉE EXCLUSIVE • {drop.products.length} CRÉATION(S)</span>
             </div>
 
             <h2
-              className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight"
-              style={{ fontFamily: dTitleFont, color: dText }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-zinc-900"
+              style={{ fontFamily: dTitleFont }}
             >
               Les Créations du {drop.dropName || drop.title}
             </h2>
 
-            <p className="text-xs sm:text-sm mt-1" style={{ color: dSubtitle }}>
-              3 personnages. 3 pièces uniques. Une fois parties, elles ne reviendront pas.
+            <p className="text-xs sm:text-sm mt-1 text-zinc-600">
+              Tirage limité d'atelier. Une fois parties, elles ne reviendront pas.
             </p>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
             {isUpcoming && (
-              <span className="text-xs font-mono font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-xl bg-black/60 backdrop-blur border border-white/20 text-white shadow-lg">
-                🔒 VENTE ACTIVE DÈS LE 10 OCTOBRE 2026 À 20:00
+              <span className="text-xs font-mono font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-xl bg-orange-50 border border-orange-200 text-[#ff4f00]">
+                🔒 VENTE ACTIVE DÈS LE {formattedDate.toUpperCase()}
               </span>
             )}
             {isEnded && (
-              <span className="text-xs font-mono font-bold px-3 py-1.5 rounded-xl bg-black/60 backdrop-blur border border-white/20 text-zinc-300">
+              <span className="text-xs font-mono font-bold px-3 py-1.5 rounded-xl bg-zinc-100 border border-zinc-200 text-zinc-600">
                 📦 Tirage clôturé
               </span>
             )}
@@ -588,9 +460,6 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
               <div
                 key={product.id}
                 className="relative group/dropcard rounded-3xl p-1 transition-all duration-300 hover:-translate-y-1.5"
-                style={{
-                  background: `radial-gradient(circle at 50% 0%, ${dAccent}25, transparent 75%)`,
-                }}
               >
                 {/* Standard robust Spoolio Product Card */}
                 {isUpcoming ? (
@@ -604,7 +473,7 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
                         <Lock className="w-6 h-6" />
                       </div>
                       <span className="text-xs font-mono font-black text-white uppercase tracking-wider">
-                        Dévoilé le 10 octobre 2026 à 20:00
+                        Dévoilé le {formattedDate}
                       </span>
                       <p className="text-[11px] text-zinc-300 font-medium mt-1.5 max-w-[200px]">
                         Fiche et commande disponibles dès le lancement
@@ -618,15 +487,12 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
             ))}
           </div>
         ) : (
-          <div
-            className="p-12 text-center rounded-3xl border backdrop-blur-md space-y-3"
-            style={{ backgroundColor: dCardBg, borderColor: dBorder }}
-          >
-            <Package className="w-8 h-8 mx-auto opacity-40" style={{ color: dAccent }} />
-            <p className="text-sm font-bold" style={{ color: dText }}>
+          <div className="p-12 text-center rounded-3xl border border-zinc-200/80 bg-white shadow-xs space-y-3">
+            <Package className="w-8 h-8 mx-auto text-[#ff4f00] opacity-80" />
+            <p className="text-sm font-bold text-zinc-900">
               Créations en cours d'inspection
             </p>
-            <p className="text-xs" style={{ color: dSubtitle }}>
+            <p className="text-xs text-zinc-600">
               Les pièces de ce drop sont en phase de préparation finale en atelier. Revenez très bientôt !
             </p>
           </div>
@@ -636,12 +502,7 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
         <div className="pt-12 flex justify-center">
           <Link
             href="/drops"
-            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl border text-xs font-bold uppercase tracking-wider transition-all hover:scale-105 active:scale-95 shadow-xl backdrop-blur-md cursor-pointer"
-            style={{
-              backgroundColor: dCardBg,
-              borderColor: dBorder,
-              color: dText,
-            }}
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl border border-zinc-200 bg-white text-zinc-900 text-xs font-bold uppercase tracking-wider hover:bg-zinc-50 transition-all shadow-xs cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Découvrir les autres Drops Spoolio</span>
@@ -650,7 +511,7 @@ Une fois ces trois pièces parties, cette édition du drop sera terminée.`;
 
       </section>
 
-      <Footer isDark={isDark} />
+      <Footer />
     </div>
   );
 }

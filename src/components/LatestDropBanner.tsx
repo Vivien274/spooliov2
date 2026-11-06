@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Sparkles, Calendar, Clock, Lock, ArrowRight, EyeOff, Bell, Mail, CheckCircle2 } from "lucide-react";
 import DropCountdown from "@/components/drops/DropCountdown";
-import { Drop } from "@/lib/drops";
+import { Drop, getDropTitleScale } from "@/lib/drops";
 
 interface LatestDropBannerProps {
   drop?: Drop | null;
@@ -164,8 +164,12 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
               {/* Titre du Drop */}
               <div className="space-y-1">
                 <h3
-                  className="text-3xl sm:text-4xl lg:text-5xl font-normal leading-[1.1] tracking-tight select-none"
-                  style={{ fontFamily: dTitleFont, color: "#ffffff" }}
+                  className="font-normal leading-[1.1] tracking-tight select-none"
+                  style={{
+                    fontFamily: dTitleFont,
+                    color: "#ffffff",
+                    fontSize: `calc(clamp(1.875rem, 4vw, 3rem) * ${getDropTitleScale(dTheme?.titleSize)})`,
+                  }}
                 >
                   {drop.dropName || drop.title}
                 </h3>

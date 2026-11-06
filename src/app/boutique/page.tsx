@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import BoutiqueClient from "./BoutiqueClient";
 import { getPageSeoMetadata } from "@/lib/seoPages";
 import { getPublishedProducts } from "@/lib/serverProducts";
-import { getFeaturedDrop } from "@/lib/drops";
+import { getFeaturedDrop } from "@/lib/serverDrops";
 
 export async function generateMetadata(): Promise<Metadata> {
   return getPageSeoMetadata("boutique");

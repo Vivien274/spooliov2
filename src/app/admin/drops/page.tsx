@@ -27,7 +27,7 @@ import {
   ImageIcon,
   FileVideo,
 } from "lucide-react";
-import { Drop, DropTheme } from "@/lib/drops";
+import { Drop, DropTheme, getDropTitleScale, getDropBodyScale } from "@/lib/drops";
 
 // Convert client-side any image (PNG, JPG, HEIC, etc.) to optimized WebP format
 async function processImageToWebP(file: File): Promise<{ blob: Blob; filename: string }> {
@@ -179,11 +179,34 @@ const THEME_PRESETS: { name: string; icon: string; theme: DropTheme }[] = [
 
 const FONT_OPTIONS = [
   { label: "Antonio (Athletic / Condensé)", value: "var(--font-antonio)" },
+  { label: "Bebas Neue (Impact / Condensé / Streetwear)", value: "var(--font-bebas-neue)" },
+  { label: "Archivo Black (Massif / Ultra Bold / Poster)", value: "var(--font-archivo-black)" },
   { label: "Permanent Marker (Grunge / Street / Graffiti)", value: "var(--font-permanent-marker)" },
-  { label: "Righteous (Rétro Cyber / Futuriste)", value: "var(--font-righteous)" },
-  { label: "DynaPuff (Bulle / Playful / 3D Toy)", value: "var(--font-dynapuff)" },
+  { label: "Righteous (Rétro Cyber / Synthwave)", value: "var(--font-righteous)" },
+  { label: "Space Grotesk (Tech / Cyber / Brutaliste)", value: "var(--font-space-grotesk)" },
+  { label: "DynaPuff (Bulle / Rondouillard / 3D Toy)", value: "var(--font-dynapuff)" },
+  { label: "Fredoka (Rond / Playful / Amical)", value: "var(--font-fredoka)" },
+  { label: "Bungee (Block / Comic / Pop Urban)", value: "var(--font-bungee)" },
+  { label: "Press Start 2P (Pixel Art / Rétro Gaming 8-Bit)", value: "var(--font-press-start)" },
+  { label: "Syne (Design / Art Toy / Avant-Garde)", value: "var(--font-syne)" },
+  { label: "Pacifico (Script / Vintage / Manuscrit)", value: "var(--font-pacifico)" },
+  { label: "Cinzel (Épique / Fantaisie / Mystique)", value: "var(--font-cinzel)" },
   { label: "Outfit (Moderne & Épuré)", value: "var(--font-outfit)" },
   { label: "Plus Jakarta Sans (Lisible & Neutre)", value: "var(--font-plus-jakarta)" },
+];
+
+const TITLE_SIZE_OPTIONS: { value: "sm" | "md" | "lg" | "xl" | "2xl"; label: string; badge: string; scaleText: string }[] = [
+  { value: "sm", label: "Compact", badge: "S", scaleText: "80%" },
+  { value: "md", label: "Standard", badge: "M", scaleText: "100%" },
+  { value: "lg", label: "Grand", badge: "L", scaleText: "125%" },
+  { value: "xl", label: "Très Grand", badge: "XL", scaleText: "150%" },
+  { value: "2xl", label: "Monumental XXL", badge: "XXL", scaleText: "180%" },
+];
+
+const BODY_SIZE_OPTIONS: { value: "sm" | "md" | "lg"; label: string; badge: string; scaleText: string }[] = [
+  { value: "sm", label: "Compact", badge: "S", scaleText: "90%" },
+  { value: "md", label: "Standard", badge: "M", scaleText: "100%" },
+  { value: "lg", label: "Grand", badge: "L", scaleText: "115%" },
 ];
 
 export default function AdminDropsPage() {
@@ -1012,10 +1035,10 @@ export default function AdminDropsPage() {
                 <div>
                   <h3 className="text-sm font-bold text-zinc-950 uppercase tracking-tight font-[family-name:var(--font-antonio)] flex items-center gap-2">
                     <Palette className="w-4 h-4 text-[#ff4f00]" />
-                    <span>4. Identité Visuelle &amp; Thème du Drop</span>
+                    <span>4. Identité Visuelle (Titre &amp; Carte Nouveautés)</span>
                   </h3>
                   <p className="text-xs text-zinc-500">
-                    Appliquez un preset en 1 clic ou personnalisez finement les couleurs et polices.
+                    Personnalisez la police et taille du titre (appliquées sur tout le site) et les couleurs de la carte de présentation sur la page Nouveautés.
                   </p>
                 </div>
 
@@ -1045,12 +1068,12 @@ export default function AdminDropsPage() {
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-bold text-zinc-700 mb-1 flex items-center justify-between">
                     <span>Police du « Nom du Drop » (Identity Typography)</span>
-                    <span className="text-[10px] text-[#ff4f00] font-mono">Le préfixe reste fixe</span>
+                    <span className="text-[10px] text-[#ff4f00] font-mono">15 styles disponibles</span>
                   </label>
                   <select
                     value={theme.titleFont || "var(--font-antonio)"}
                     onChange={(e) => setTheme({ ...theme, titleFont: e.target.value })}
-                    className="w-full px-3 py-2 rounded-xl border border-zinc-200 text-sm font-bold bg-white focus:outline-none focus:border-[#ff4f00]"
+                    className="w-full px-3 py-2 rounded-xl border border-zinc-200 text-sm font-bold bg-white focus:outline-none focus:border-[#ff4f00] shadow-2xs"
                   >
                     {FONT_OPTIONS.map((f) => (
                       <option key={f.value} value={f.value}>
@@ -1058,6 +1081,66 @@ export default function AdminDropsPage() {
                       </option>
                     ))}
                   </select>
+                </div>
+
+                {/* Title Size */}
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-bold text-zinc-700 mb-1 flex items-center justify-between">
+                    <span>Taille du titre du Drop</span>
+                    <span className="text-[10px] text-[#ff4f00] font-mono">
+                      {TITLE_SIZE_OPTIONS.find((s) => s.value === (theme.titleSize || "md"))?.label || "Standard"} • {TITLE_SIZE_OPTIONS.find((s) => s.value === (theme.titleSize || "md"))?.scaleText || "100%"}
+                    </span>
+                  </label>
+                  <div className="grid grid-cols-5 gap-1.5 p-1 bg-zinc-100 rounded-xl border border-zinc-200">
+                    {TITLE_SIZE_OPTIONS.map((opt) => {
+                      const isSelected = (theme.titleSize || "md") === opt.value;
+                      return (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => setTheme({ ...theme, titleSize: opt.value })}
+                          className={`py-1.5 px-1 rounded-lg text-xs transition-all flex flex-col items-center justify-center cursor-pointer ${
+                            isSelected
+                              ? "bg-white text-zinc-950 shadow-2xs border border-zinc-300/80 font-black"
+                              : "text-zinc-600 hover:text-zinc-950 hover:bg-white/60 font-semibold"
+                          }`}
+                        >
+                          <span className="text-xs">{opt.badge}</span>
+                          <span className="text-[9px] text-zinc-400 font-mono">{opt.scaleText}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Body / Description Size */}
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-bold text-zinc-700 mb-1 flex items-center justify-between">
+                    <span>Taille des sous-titres &amp; descriptifs</span>
+                    <span className="text-[10px] text-[#ff4f00] font-mono">
+                      {BODY_SIZE_OPTIONS.find((s) => s.value === (theme.bodySize || "md"))?.scaleText || "100%"}
+                    </span>
+                  </label>
+                  <div className="grid grid-cols-3 gap-1.5 p-1 bg-zinc-100 rounded-xl border border-zinc-200">
+                    {BODY_SIZE_OPTIONS.map((opt) => {
+                      const isSelected = (theme.bodySize || "md") === opt.value;
+                      return (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => setTheme({ ...theme, bodySize: opt.value })}
+                          className={`py-1.5 px-2 rounded-lg text-xs transition-all flex items-center justify-center gap-1 cursor-pointer ${
+                            isSelected
+                              ? "bg-white text-zinc-950 shadow-2xs border border-zinc-300/80 font-black"
+                              : "text-zinc-600 hover:text-zinc-950 hover:bg-white/60 font-semibold"
+                          }`}
+                        >
+                          <span>{opt.label}</span>
+                          <span className="text-[10px] text-zinc-400 font-mono">({opt.scaleText})</span>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 {/* Background color / gradient */}
@@ -1070,7 +1153,7 @@ export default function AdminDropsPage() {
                     value={theme.bgColor || "#ffffff"}
                     onChange={(e) => setTheme({ ...theme, bgColor: e.target.value })}
                     placeholder="linear-gradient(...) ou #180b2b"
-                    className="w-full px-3 py-2 rounded-xl border border-zinc-200 text-xs font-mono focus:outline-none focus:border-[#ff4f00]"
+                    className="w-full px-3 py-2 rounded-xl border border-zinc-200 text-xs font-mono focus:outline-none focus:border-[#ff4f00] bg-white shadow-2xs"
                   />
                 </div>
 
@@ -1090,7 +1173,7 @@ export default function AdminDropsPage() {
                       type="text"
                       value={theme.textColor || "#ffffff"}
                       onChange={(e) => setTheme({ ...theme, textColor: e.target.value })}
-                      className="w-full px-2.5 py-1.5 rounded-lg border border-zinc-200 text-xs font-mono"
+                      className="w-full px-2.5 py-1.5 rounded-lg border border-zinc-200 text-xs font-mono bg-white"
                     />
                   </div>
                 </div>
@@ -1111,7 +1194,7 @@ export default function AdminDropsPage() {
                       type="text"
                       value={theme.subtitleColor || "#d8b4fe"}
                       onChange={(e) => setTheme({ ...theme, subtitleColor: e.target.value })}
-                      className="w-full px-2.5 py-1.5 rounded-lg border border-zinc-200 text-xs font-mono"
+                      className="w-full px-2.5 py-1.5 rounded-lg border border-zinc-200 text-xs font-mono bg-white"
                     />
                   </div>
                 </div>
@@ -1138,7 +1221,7 @@ export default function AdminDropsPage() {
                       type="text"
                       value={theme.accentColor || "#ff4f00"}
                       onChange={(e) => setTheme({ ...theme, accentColor: e.target.value })}
-                      className="w-full px-2.5 py-1.5 rounded-lg border border-zinc-200 text-xs font-mono"
+                      className="w-full px-2.5 py-1.5 rounded-lg border border-zinc-200 text-xs font-mono bg-white"
                     />
                   </div>
                 </div>
@@ -1152,7 +1235,7 @@ export default function AdminDropsPage() {
                     type="text"
                     value={theme.borderColor || "rgba(228, 228, 231, 0.9)"}
                     onChange={(e) => setTheme({ ...theme, borderColor: e.target.value })}
-                    className="w-full px-2.5 py-1.5 rounded-lg border border-zinc-200 text-xs font-mono"
+                    className="w-full px-2.5 py-1.5 rounded-lg border border-zinc-200 text-xs font-mono bg-white"
                   />
                 </div>
 
@@ -1162,7 +1245,7 @@ export default function AdminDropsPage() {
               <div className="space-y-2">
                 <span className="text-xs font-mono font-bold uppercase text-zinc-400 tracking-wider flex items-center gap-1.5">
                   <Eye className="w-3.5 h-3.5" />
-                  <span>Aperçu en Direct (Disposition Inversée : Contenus à gauche, Image à droite)</span>
+                  <span>Aperçu en Direct (Carte sur la page Nouveautés &amp; Drops)</span>
                 </span>
 
                 <div
@@ -1190,10 +1273,11 @@ export default function AdminDropsPage() {
                           {dropNumber || "DROP 1"}
                         </span>
                         <h3
-                          className="text-xl sm:text-2xl font-black uppercase leading-tight"
+                          className="font-black uppercase leading-tight"
                           style={{
                             fontFamily: theme.titleFont || "var(--font-antonio)",
                             color: theme.textColor || "#09090b",
+                            fontSize: `calc(1.5rem * ${getDropTitleScale(theme.titleSize)})`,
                           }}
                         >
                           {dropName || "Nom du Drop d'Atelier"}
@@ -1201,8 +1285,11 @@ export default function AdminDropsPage() {
                       </div>
 
                       <p
-                        className="text-xs font-medium leading-relaxed"
-                        style={{ color: theme.subtitleColor || "#52525b" }}
+                        className="font-medium leading-relaxed"
+                        style={{
+                          color: theme.subtitleColor || "#52525b",
+                          fontSize: `calc(0.75rem * ${getDropBodyScale(theme.bodySize)})`,
+                        }}
                       >
                         {tagline || "Sous-titre et descriptif du drop en quelques mots."}
                       </p>

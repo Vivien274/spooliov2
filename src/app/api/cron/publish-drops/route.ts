@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAllDrops } from "@/lib/drops";
+import { getAllDrops } from "@/lib/serverDrops";
 import { revalidatePath } from "next/cache";
 
 export const dynamic = "force-dynamic";

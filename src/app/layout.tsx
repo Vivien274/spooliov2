@@ -1,6 +1,23 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Antonio, Plus_Jakarta_Sans, DynaPuff, Righteous, Outfit, Permanent_Marker, Be_Vietnam_Pro } from "next/font/google";
+import {
+  Antonio,
+  Plus_Jakarta_Sans,
+  DynaPuff,
+  Righteous,
+  Outfit,
+  Permanent_Marker,
+  Be_Vietnam_Pro,
+  Bebas_Neue,
+  Space_Grotesk,
+  Fredoka,
+  Cinzel,
+  Syne,
+  Bungee,
+  Pacifico,
+  Archivo_Black,
+  Press_Start_2P,
+} from "next/font/google";
 import dynamic from "next/dynamic";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
@@ -51,6 +68,58 @@ const outfit = Outfit({
 
 const permanentMarker = Permanent_Marker({
   variable: "--font-permanent-marker",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+const bebasNeue = Bebas_Neue({
+  variable: "--font-bebas-neue",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+});
+
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
+  subsets: ["latin"],
+});
+
+const cinzel = Cinzel({
+  variable: "--font-cinzel",
+  subsets: ["latin"],
+  weight: ["400", "700", "900"],
+});
+
+const syne = Syne({
+  variable: "--font-syne",
+  subsets: ["latin"],
+  weight: ["700", "800"],
+});
+
+const bungee = Bungee({
+  variable: "--font-bungee",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+const pacifico = Pacifico({
+  variable: "--font-pacifico",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+const archivoBlack = Archivo_Black({
+  variable: "--font-archivo-black",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+const pressStart = Press_Start_2P({
+  variable: "--font-press-start",
   subsets: ["latin"],
   weight: ["400"],
 });
@@ -118,7 +187,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${antonio.variable} ${plusJakarta.variable} ${dynapuff.variable} ${righteous.variable} ${outfit.variable} ${permanentMarker.variable} ${beVietnamPro.variable} light h-full antialiased bg-white text-zinc-900`}
+      className={`${antonio.variable} ${plusJakarta.variable} ${dynapuff.variable} ${righteous.variable} ${outfit.variable} ${permanentMarker.variable} ${beVietnamPro.variable} ${bebasNeue.variable} ${spaceGrotesk.variable} ${fredoka.variable} ${cinzel.variable} ${syne.variable} ${bungee.variable} ${pacifico.variable} ${archivoBlack.variable} ${pressStart.variable} light h-full antialiased bg-white text-zinc-900`}
       suppressHydrationWarning
     >
       <head>

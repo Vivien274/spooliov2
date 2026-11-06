@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getAllDrops } from "@/lib/drops";
+import { getAllDrops } from "@/lib/serverDrops";
 import DropsHubClient from "../drops/DropsHubClient";
 import { getPageSeoMetadata } from "@/lib/seoPages";
 

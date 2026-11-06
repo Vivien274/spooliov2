@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { buildPageMetadata } from "@/lib/seoMetadata";
 import { notFound } from "next/navigation";
-import { getAllDrops, getDropBySlug } from "@/lib/drops";
+import { getAllDrops, getDropBySlug } from "@/lib/serverDrops";
 import DropDetailClient from "./DropDetailClient";
 
 export const dynamic = "force-dynamic";

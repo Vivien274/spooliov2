@@ -6,7 +6,7 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import DropCountdown from "@/components/drops/DropCountdown";
-import { Drop } from "@/lib/drops";
+import { Drop, getDropTitleScale } from "@/lib/drops";
 import { Sparkles, Calendar, PackageCheck, Flame, ArrowRight, Clock, ShieldCheck, Box } from "lucide-react";
 
 interface DropsHubClientProps {
@@ -99,8 +99,12 @@ export default function DropsHubClient({ drops }: DropsHubClientProps) {
                         </span>
                       )}
                       <h2
-                        className="text-2xl sm:text-3xl lg:text-4xl font-extrabold uppercase leading-tight"
-                        style={{ fontFamily: fTitleFont, color: fText }}
+                        className="font-extrabold uppercase leading-tight"
+                        style={{
+                          fontFamily: fTitleFont,
+                          color: fText,
+                          fontSize: `calc(clamp(1.5rem, 3.5vw, 2.5rem) * ${getDropTitleScale(fTheme?.titleSize)})`,
+                        }}
                       >
                         {featuredDrop.dropName || featuredDrop.title}
                       </h2>
@@ -278,8 +282,12 @@ export default function DropsHubClient({ drops }: DropsHubClientProps) {
                           </span>
                         )}
                         <h3
-                          className="text-xl sm:text-2xl lg:text-3xl font-extrabold uppercase leading-tight group-hover:opacity-90 transition-opacity"
-                          style={{ fontFamily: dTitleFont, color: dText }}
+                          className="font-extrabold uppercase leading-tight group-hover:opacity-90 transition-opacity"
+                          style={{
+                            fontFamily: dTitleFont,
+                            color: dText,
+                            fontSize: `calc(clamp(1.25rem, 2.5vw, 1.875rem) * ${getDropTitleScale(dTheme?.titleSize)})`,
+                          }}
                         >
                           {drop.dropName || drop.title}
                         </h3>

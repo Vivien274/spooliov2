@@ -11,7 +11,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ReviewsSection from "@/components/ReviewsSection";
 import LatestDropBanner from "@/components/LatestDropBanner";
-import { getFeaturedDrop } from "@/lib/drops";
+import { getFeaturedDrop } from "@/lib/serverDrops";
 import SpotlightMarqueeBanner from "@/components/SpotlightMarqueeBanner";
 import BoutiqueCTAButton from "@/components/BoutiqueCTAButton";
 import ThemeRibbon from "@/components/ThemeRibbon";

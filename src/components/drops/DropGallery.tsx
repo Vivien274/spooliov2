@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
-import { DropTheme, DropGalleryItem } from "@/lib/drops";
+import { DropTheme, DropGalleryItem, getDropTitleScale } from "@/lib/drops";
 import { Camera, Maximize2, X, ChevronLeft, ChevronRight, ChevronDown, Sparkles } from "lucide-react";
 
 interface DropGalleryProps {
@@ -25,13 +25,13 @@ export default function DropGallery({
   const INITIAL_LIMIT = 8;
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
-  const dAccent = theme?.accentColor || "#ff4f00";
-  const dText = theme?.textColor || "#ffffff";
-  const dSubtitle = theme?.subtitleColor || "#d8b4fe";
-  const dBorder = theme?.borderColor || "rgba(255, 255, 255, 0.15)";
-  const dCardBg = theme?.cardBgColor || "rgba(255, 255, 255, 0.05)";
-  const dBadgeBg = theme?.badgeBgColor || "rgba(255, 79, 0, 0.2)";
-  const dBadgeText = theme?.badgeTextColor || dAccent;
+  const dAccent = "#ff4f00";
+  const dText = "#09090b";
+  const dSubtitle = "#52525b";
+  const dBorder = "rgba(228, 228, 231, 0.9)";
+  const dCardBg = "#ffffff";
+  const dBadgeBg = "rgba(255, 79, 0, 0.1)";
+  const dBadgeText = "#ff4f00";
   const dTitleFont = theme?.titleFont || "var(--font-antonio)";
 
   // Discover distinct categories
@@ -124,8 +124,12 @@ export default function DropGallery({
           </div>
 
           <h2
-            className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight"
-            style={{ fontFamily: dTitleFont, color: dText }}
+            className="font-black uppercase tracking-tight"
+            style={{
+              fontFamily: dTitleFont,
+              color: dText,
+              fontSize: `calc(clamp(1.875rem, 3.5vw, 3rem) * ${getDropTitleScale(theme?.titleSize)})`,
+            }}
           >
             {title}
           </h2>
@@ -143,14 +147,9 @@ export default function DropGallery({
               onClick={() => setSelectedCategory("all")}
               className={`px-3.5 py-1.5 rounded-full text-xs font-mono font-bold transition-all cursor-pointer ${
                 selectedCategory === "all"
-                  ? "shadow-lg scale-105"
-                  : "bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10"
+                  ? "bg-zinc-950 text-white shadow-sm"
+                  : "bg-white text-zinc-700 hover:bg-zinc-50 border border-zinc-200"
               }`}
-              style={
-                selectedCategory === "all"
-                  ? { backgroundColor: dAccent, color: "#ffffff" }
-                  : {}
-              }
             >
               Tous ({items.length})
             </button>
@@ -165,14 +164,9 @@ export default function DropGallery({
                   onClick={() => setSelectedCategory(cat)}
                   className={`px-3.5 py-1.5 rounded-full text-xs font-mono font-bold transition-all cursor-pointer ${
                     isActive
-                      ? "shadow-lg scale-105"
-                      : "bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10"
+                      ? "bg-zinc-950 text-white shadow-sm"
+                      : "bg-white text-zinc-700 hover:bg-zinc-50 border border-zinc-200"
                   }`}
-                  style={
-                    isActive
-                      ? { backgroundColor: dAccent, color: "#ffffff" }
-                      : {}
-                  }
                 >
                   {cat} ({count})
                 </button>
@@ -245,12 +239,7 @@ export default function DropGallery({
           <button
             type="button"
             onClick={() => setIsExpanded(true)}
-            className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider backdrop-blur-xl border border-white/20 text-white hover:bg-white/10 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-xl group"
-            style={{
-              backgroundColor: dCardBg,
-              borderColor: dBorder,
-              color: dText,
-            }}
+            className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-2xl text-xs font-mono font-bold uppercase tracking-wider bg-white border border-zinc-200 text-zinc-800 hover:bg-zinc-50 transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-xs group"
           >
             <span>Charger la suite (+{filteredItems.length - INITIAL_LIMIT} photos)</span>
             <ChevronDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
@@ -263,7 +252,7 @@ export default function DropGallery({
           <button
             type="button"
             onClick={() => setIsExpanded(false)}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-mono font-semibold uppercase tracking-wider bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 hover:text-white transition-all cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-mono font-semibold uppercase tracking-wider bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-600 transition-all cursor-pointer shadow-2xs"
           >
             <span>Afficher moins</span>
             <ChevronDown className="w-3.5 h-3.5 rotate-180" />

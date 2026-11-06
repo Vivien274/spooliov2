@@ -1,17 +1,48 @@
 [
   {
+    "id": "drop-1793981179509",
+    "slug": "oversized",
+    "dropNumber": "DROP 2",
+    "dropName": "OVERSIZED",
+    "title": "DROP 2 — OVERSIZED",
+    "tagline": "Même objet. Mauvaise échelle. Bonne idée.",
+    "quote": "On a pris des objets qu’on connaît tous. Puis on a clairement abusé sur l’échelle.",
+    "description": "Après les Kurb Monsters, on avait envie de changer complètement d’échelle.\n\nLittéralement.\n\nOVERSIZED part d’une idée très simple : prendre des objets du quotidien qu’on reconnaît immédiatement, les rendre beaucoup trop grands, puis leur donner une nouvelle place dans la maison.\n\nUn bouchon de stylo devient pot à crayons.\nUn Stabilo devient lampe.\nUn sapin désodorisant quitte le rétroviseur pour devenir porte-encens.\nUne pilule se retrouve accrochée au mur.\nDes fleurs prennent des proportions franchement déraisonnables.\n\nLe résultat est une collection d’objets familiers, mais suffisamment transformés pour qu’on les regarde autrement.\n\nCertains sont utiles. D’autres sont purement décoratifs. Plusieurs sont un peu absurdes.\n\nEt c’est justement le but.\n\nPour ce deuxième drop, nous voulions montrer une autre facette de Spoolio : moins personnage, davantage objet, mais toujours avec la même règle en tête — faire des choses qu’on a envie de regarder, de toucher et de montrer aux autres.\n\nChaque pièce est fabriquée en impression 3D dans notre atelier à Comines, en petite série ou à la demande selon le modèle.\n\nOVERSIZED, c’est le quotidien passé à l’échelle Spoolio.",
+    "status": "upcoming",
+    "startDate": "2026-11-20T15:00:00.000Z",
+    "bannerImage": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793981063897.webp",
+    "badge": "OBJETS BEAUCOUP TROP GRANDS",
+    "themeColor": "#2457D6",
+    "editionSize": 6,
+    "productIds": [],
+    "theme": {
+      "bgColor": "#F3EFE7",
+      "textColor": "#171717",
+      "subtitleColor": "#171717",
+      "accentColor": "#2457D6",
+      "badgeBgColor": "rgba(255, 85, 0, 0.2)",
+      "badgeTextColor": "#ff9a62",
+      "cardBgColor": "rgba(255, 255, 255, 0.08)",
+      "borderColor": "#F4C542",
+      "titleFont": "var(--font-space-grotesk)",
+      "buttonBgColor": "#ff5500",
+      "buttonTextColor": "#ffffff",
+      "titleSize": "2xl"
+    }
+  },
+  {
     "id": "drop-01",
     "slug": "drop-kurb-monsters",
-    "dropNumber": "DROP 001",
+    "dropNumber": "DROP 1",
     "dropName": "Kurb Monsters",
-    "title": "DROP 001 — Kurb Monsters",
+    "title": "DROP 1 — Kurb Monsters",
     "tagline": "Trois gueules. Zéro règle.",
     "quote": "Chaque Kurb de cette série est préparé, peint et fini à la main dans notre atelier de Comines. Trois personnages. Trois exemplaires uniques.",
     "description": "Kratch, Crank et Dozy sont les trois premiers Kurb Monsters à sortir de l’atelier.\n\nChacun a été imaginé comme un véritable petit personnage : une silhouette, une attitude et suffisamment de caractère pour squatter une étagère comme s’il était chez lui.\n\nPour cette première série, nous avons choisi de ne produire qu’un seul exemplaire Atelier de chaque modèle. Chaque pièce est préparée, peinte, assemblée et finie à la main à Comines.\n\nUne fois ces trois pièces parties, cette édition du drop sera terminée.",
-    "status": "live",
-    "startDate": "2026-10-10T18:00:00.000Z",
+    "status": "ended",
+    "startDate": "2026-10-10T16:00:00.000Z",
     "bannerImage": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1791105280021.webp",
-    "badge": "Drop d'Atelier en cours",
+    "badge": "Prochain Drop d'Atelier",
     "themeColor": "#ff5500",
     "editionSize": 3,
     "productIds": [
@@ -31,80 +62,6 @@
       "titleFont": "var(--font-permanent-marker)",
       "buttonBgColor": "#ff5500",
       "buttonTextColor": "#ffffff"
-    },
-    "gallery": [
-      {
-        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865930834.webp",
-        "alt": "Kratch Le Skateur — Gros plan casquette & finitions",
-        "caption": "Kratch Le Skateur — Peint à la main à l'atelier de Comines",
-        "category": "Kratch"
-      },
-      {
-        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790949695250.webp",
-        "alt": "Crank Le Cyclope — Posture brute sur parpaing",
-        "caption": "Crank Le Cyclope — Posture brute et textures de peau travaillées",
-        "category": "Crank"
-      },
-      {
-        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790950799317.webp",
-        "alt": "Dozy Le Rêveur — Bob jaune et texture vert d'eau",
-        "caption": "Dozy Le Rêveur — Bob jaune signature et expression songeuse",
-        "category": "Dozy"
-      },
-      {
-        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865931764.webp",
-        "alt": "Kratch Le Skateur — Détail planche et baskets",
-        "caption": "Kratch — Détail de la planche de skate et du grip texturé",
-        "category": "Kratch"
-      },
-      {
-        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790949697294.webp",
-        "alt": "Crank Le Cyclope — Gros plan regard",
-        "caption": "Crank — Finitions aérographe et regard intimidant",
-        "category": "Crank"
-      },
-      {
-        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790950801662.webp",
-        "alt": "Dozy Le Rêveur — Vue d'ensemble surchemise",
-        "caption": "Dozy — Surchemise bleu glacier et silhouette décontractée",
-        "category": "Dozy"
-      },
-      {
-        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865925818.webp",
-        "alt": "Kratch Le Skateur — Pose face sur l'établi",
-        "caption": "Kratch — Face avant et attitude street",
-        "category": "Kratch"
-      },
-      {
-        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790949701114.webp",
-        "alt": "Crank Le Cyclope — Détails de sculpture FDM",
-        "caption": "Crank — Volumes de sculpture 3D et robustesse",
-        "category": "Crank"
-      },
-      {
-        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790950807473.webp",
-        "alt": "Dozy Le Rêveur — Baskets orange et semelles",
-        "caption": "Dozy — Précision des baskets orange et travail au pinceau fin",
-        "category": "Dozy"
-      },
-      {
-        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790865927671.webp",
-        "alt": "Kratch Le Skateur — Profil droit sous projecteur",
-        "caption": "Kratch — Détails d'assemblage et nuances sous la lampe",
-        "category": "Kratch"
-      },
-      {
-        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790949699119.webp",
-        "alt": "Crank Le Cyclope — Éclairage d'atelier",
-        "caption": "Crank — Pose d'autorité sur son parpaing d'atelier",
-        "category": "Crank"
-      },
-      {
-        "src": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1790950803862.webp",
-        "alt": "Dozy Le Rêveur — Vue plongeante 3/4",
-        "caption": "Dozy — Les trois-quarts et l'harmonie des teintes pastel",
-        "category": "Dozy"
-      }
-    ]
+    }
   }
 ]
