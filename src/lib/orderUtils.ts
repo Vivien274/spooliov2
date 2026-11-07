@@ -358,13 +358,32 @@ export function slugify(text: string): string {
     .replace(/-+$/, "");
 }
 
-export function getItemProductUrl(item: { name: string; slug?: string }): string | null {
+export function getItemProductUrl(item: { name: string; slug?: string; _configUrl?: string; configUrl?: string }): string | null {
+  if (!item || !item.name) return null;
+
+  // 1. Direct 3D Config URL for custom clickers
+  if (item._configUrl) return item._configUrl;
+  if (item.configUrl) return item.configUrl;
+  const configMatch = item.name.match(/_configUrl:\s*([^\s),]+)/);
+  if (configMatch) return configMatch[1];
+
+  // 2. Direct DB slug if provided
   if (item.slug) {
     return `/product/${item.slug}`;
   }
-  const { mainName } = parseItemName(item.name || "");
-  const lowerName = mainName.toLowerCase();
 
+  const rawName = item.name;
+  const lowerName = rawName.toLowerCase();
+
+  // 3. Shipping lines are not products
+  if (lowerName.includes("frais de livraison") || lowerName.includes("livraison")) {
+    return null;
+  }
+
+  // 4. Standalone custom routes
+  if (lowerName.includes("calendrier de l'avent") || lowerName.includes("calendrier")) {
+    return "/calendrier-avent";
+  }
   if (lowerName.includes("don de soutien") || lowerName.includes("arrondi solidaire") || lowerName.startsWith("don-")) {
     return "/don";
   }
@@ -374,7 +393,38 @@ export function getItemProductUrl(item: { name: string; slug?: string }): string
   if (lowerName.includes("pochette surprise")) {
     return "/pochette-surprise";
   }
+  if (lowerName.includes("clicker mécanique sur-mesure") || lowerName.includes("clicker mecanique sur-mesure")) {
+    return "/createur-cliqueur";
+  }
 
-  const slug = slugify(mainName);
+  // 5. Canonical slug alias map for products whose order item name differs from the DB slug
+  if (lowerName.includes("goofy")) return "/product/animal-goofy-figurine-yeux-articules";
+  if (lowerName.includes("cacatapulte") || lowerName.includes("catapulte")) return "/product/cacatapulte-caca-imprimante";
+  if (lowerName.includes("pancarte personnalisable")) return "/product/pancarte-personnalisable-de-bureau";
+  if (lowerName.includes("nfc sos") || lowerName.includes("nfc enfant")) return "/product/porte-cle-nfc-enfant";
+  if (lowerName.includes("support de cartes") || lowerName.includes("support cartes")) return "/product/support-cartes-de-jeu";
+  if (lowerName.includes("engrenages planétaires") || lowerName.includes("engrenages planetaires")) return "/product/fidget-spinner-a-engrenages-planetaires";
+  if (lowerName.includes("mécanique à engrenages") || lowerName.includes("mecanique a engrenages")) return "/product/fidget-engrenages-mecanique";
+  if (lowerName.includes("fidget cube") || lowerName.includes("cube articulé")) return "/product/fidget-cube-articule";
+  if (lowerName.includes("bague rotative")) return "/product/fidget-bague-rotative";
+  if (lowerName.includes("grenouille")) return "/product/grenouille-articulee-aimantee";
+  if (lowerName.includes("pop-it") || lowerName.includes("pop it")) return "/product/fidget-pop-it-infini";
+  if (lowerName.includes("spinner engrenages")) return "/product/fidget-spinner-engrenages";
+  if (lowerName.includes("boule piquante")) return "/product/fidget-boule-piquante";
+  if (lowerName.includes("pistolet à disques") || lowerName.includes("pistolet a disques")) return "/product/pistolet-a-disques";
+  if (lowerName.includes("mini trône") || lowerName.includes("mini trone") || lowerName.includes("toilettes")) return "/product/clicker-toilettes-bureau";
+  if (lowerName.includes("serpent rotatif") || lowerName.includes("tangle")) return "/product/fidget-type-serpent-rotatif";
+  if (lowerName.includes("rotatif xxl")) return "/product/fidget-rotatif-xxl";
+  if (lowerName.includes("faux tissus") || lowerName.includes("faux tissu")) return "/product/fidget-faux-tissus";
+  if (lowerName.includes("dragon")) return "/product/squelette-de-dragon-articule";
+  if (lowerName.includes("axolotl")) return "/product/petit-axolotl-articule";
+  if (lowerName.includes("tour à dé") || lowerName.includes("tour a de")) return "/product/tour-a-de-medievale";
+  if (lowerName.includes("vide poche")) return "/product/vide-poche-coussin";
+  if (lowerName.includes("support de téléphone") || lowerName.includes("support de telephone")) return "/product/support-de-telephone-coussin";
+  if (lowerName.includes("serpent articulé") || lowerName.includes("serpent articule")) return "/product/serpent-articule";
+
+  // 6. Generic cleaned slug fallback
+  const cleanName = rawName.replace(/\|.*$/g, "").replace(/\(.*?\)/g, "").trim();
+  const slug = slugify(cleanName);
   return slug ? `/product/${slug}` : null;
 }

@@ -6,19 +6,19 @@
     "customerName": "Ille",
     "customerPhone": "+33671860325",
     "shippingAddress": "Ille\nSPAR SIX FOURS\nRUE SEVERIN SAURIN LE PATIO VER, 83140 SIX FOURS LES PLAGES",
-    "trackingNumber": null,
+    "trackingNumber": "MR-98558792",
     "items": "[{\"name\":\"Fidget mécanique à engrenages (Couleur: Bicolore bleu-vert)\",\"quantity\":1,\"price\":\"4.00\",\"production_status\":\"done\",\"done_at\":\"2026-11-06T15:43:48.084Z\"},{\"name\":\"Fidget Bague à engrenages planétaires (Couleur: Bicolore Bleu-Vert)\",\"quantity\":1,\"price\":\"4.00\",\"production_status\":\"done\",\"done_at\":\"2026-11-06T15:43:47.595Z\"},{\"name\":\"Fidget cube articulé (Couleur: Bicolore bleu-vert)\",\"quantity\":1,\"price\":\"4.00\",\"production_status\":\"done\",\"done_at\":\"2026-11-06T15:43:47.013Z\"},{\"name\":\"Fidget boule piquante (Couleur: Bicolore bleu-vert, Taille: Grande (diamètre 5,5cm))\",\"quantity\":1,\"price\":\"4.00\",\"production_status\":\"done\",\"done_at\":\"2026-11-06T15:43:46.172Z\"},{\"name\":\"Frais de livraison - Point Relais Mondial Relay (Boxtal)\",\"quantity\":1,\"price\":\"6.00\",\"production_status\":\"done\",\"done_at\":\"2026-10-31T10:46:54.246Z\"}]",
     "total": 22,
     "shippingCost": 3.9,
     "shippingMethod": "relay",
-    "status": "emballe",
-    "archived": false,
+    "status": "expedie",
+    "archived": true,
     "relayDetails": "{\"id\":\"MR-035080\",\"name\":\"SPAR SIX FOURS\",\"address\":\"RUE SEVERIN SAURIN LE PATIO VER, 83140 SIX FOURS LES PLAGES\"}",
     "pickupSlotRequested": null,
     "pickupSlotConfirmed": null,
     "pickupStatus": null,
     "createdAt": "2026-10-28T15:22:04.792Z",
-    "updatedAt": "2026-10-30T20:53:28.233Z"
+    "updatedAt": "2026-11-06T17:13:05.554Z"
   },
   {
     "id": "SP-88420",
@@ -159,13 +159,13 @@
     "shippingCost": 0,
     "shippingMethod": "pickup",
     "status": "expedie",
-    "archived": false,
+    "archived": true,
     "relayDetails": null,
     "pickupSlotRequested": "Dimanche : 8h - 20h",
     "pickupSlotConfirmed": null,
     "pickupStatus": "pending",
     "createdAt": "2026-09-14T18:17:59.208Z",
-    "updatedAt": "2026-09-14T18:17:59.208Z"
+    "updatedAt": "2026-11-06T17:31:21.458Z"
   },
   {
     "id": "SP-68333",

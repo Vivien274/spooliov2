@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Copy, Check, ExternalLink } from "lucide-react";
 import { useAdminTheme } from "../AdminThemeContext";
 import { getItemProductUrl, parseItemName, printOrderPackingSlip } from "@/lib/orderUtils";
 import { recommendPackaging } from "@/lib/packagingUtils";
@@ -9,6 +10,103 @@ import OrderItemOptionsViewer from "@/components/OrderItemOptionsViewer";
 import ProductionColorBatcher from "@/components/ProductionColorBatcher";
 
 const ADMIN_BLUE = "#2F3CD9";
+
+interface ParsedShippingAddress {
+  name: string;
+  street: string;
+  zip: string;
+  city: string;
+  country: string;
+}
+
+function parseShippingAddress(
+  rawAddress?: string | null,
+  fallbackName?: string | null
+): ParsedShippingAddress {
+  const result: ParsedShippingAddress = {
+    name: fallbackName || "",
+    street: "",
+    zip: "",
+    city: "",
+    country: "France",
+  };
+
+  if (!rawAddress) return result;
+
+  let lines = rawAddress
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean);
+
+  if (lines.length === 0) return result;
+
+  // Split any line containing "Street, Zip City"
+  const expandedLines: string[] = [];
+  lines.forEach((l) => {
+    const commaZipMatch = l.match(/^(.+?),\s*(\d{4,5}\s+.+)$/);
+    if (commaZipMatch) {
+      expandedLines.push(commaZipMatch[1].trim());
+      expandedLines.push(commaZipMatch[2].trim());
+    } else {
+      expandedLines.push(l);
+    }
+  });
+  lines = expandedLines;
+
+  // 1. Detect Country on last line if matching known countries
+  const countryRegex =
+    /^(FR|BE|CH|LU|FRANCE|BELGIQUE|BELGIUM|SUISSE|SWITZERLAND|LUXEMBOURG|ESPAGNE|SPAIN|ITALIE|ITALY|ALLEMAGNE|GERMANY|ROYAUME-UNI|UK)$/i;
+  const remainingLines = [...lines];
+  if (remainingLines.length > 1 && countryRegex.test(remainingLines[remainingLines.length - 1])) {
+    const cLine = remainingLines.pop()!;
+    result.country = /^(BE|BELGIQUE|BELGIUM)$/i.test(cLine) ? "Belgique" : cLine;
+  }
+
+  // 2. Detect Postal code + City line
+  let zipCityIndex = -1;
+  for (let i = remainingLines.length - 1; i >= 0; i--) {
+    const line = remainingLines[i];
+    const match = line.match(/(?:^|[^\d])(\d{4,5})(?:$|[^\d])/);
+    if (match) {
+      zipCityIndex = i;
+      result.zip = match[1];
+      const cleanedCity = line
+        .replace(/(?:^|[^\d])\d{4,5}(?:$|[^\d])/, " ")
+        .replace(/^[,\s-]+|[,\s-]+$/g, "")
+        .trim();
+      result.city = cleanedCity;
+      break;
+    }
+  }
+
+  if (zipCityIndex >= 0) {
+    remainingLines.splice(zipCityIndex, 1);
+  }
+
+  // 3. Detect Name vs Street
+  if (remainingLines.length > 0) {
+    const firstLine = remainingLines[0];
+    const streetKeywords =
+      /\b(rue|avenue|av\.|bd|boulevard|chemin|allée|allee|impasse|route|place|square|quai|voie|clos|résidence|residence|bâtiment|batiment|apt|appartement)\b/i;
+    const startsWithNumber = /^\d+[\s,a-z]/i.test(firstLine);
+
+    if (
+      (fallbackName && firstLine.toLowerCase().includes(fallbackName.toLowerCase())) ||
+      (!streetKeywords.test(firstLine) && !startsWithNumber && remainingLines.length > 1)
+    ) {
+      result.name = firstLine;
+      remainingLines.shift();
+      result.street = remainingLines.join(", ");
+    } else {
+      if (fallbackName) result.name = fallbackName;
+      result.street = remainingLines.join(", ");
+    }
+  }
+
+  result.street = result.street.replace(/\s+/g, " ").trim();
+
+  return result;
+}
 
 interface OrderItem {
   name: string;
@@ -102,36 +200,15 @@ export default function AdminOrdersPage() {
   const [showNoteModal, setShowNoteModal] = useState<boolean>(false);
   const [noteText, setNoteText] = useState<string>("");
   const [sendingNoteLoading, setSendingNoteLoading] = useState<boolean>(false);
-  const [boxtalLoading, setBoxtalLoading] = useState<string | null>(null);
+  const [copiedFieldKey, setCopiedFieldKey] = useState<string | null>(null);
 
-  const handleGenerateBoxtalShipment = async (orderId: string) => {
-    setBoxtalLoading(orderId);
-    try {
-      const res = await fetch("/api/admin/boxtal/shipment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderId, weightKg: 0.3 })
-      });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        alert(`✅ ${data.message}`);
-        fetchOrders();
-        if (selectedOrder && selectedOrder.id === orderId) {
-          setSelectedOrder(prev => prev ? {
-            ...prev,
-            trackingNumber: data.trackingNumber,
-            status: "expedie",
-            archived: true
-          } : null);
-        }
-      } else {
-        alert(`⚠️ ${data.error || "Erreur lors de la génération Boxtal."}`);
-      }
-    } catch (err) {
-      alert("Erreur réseau lors de la génération Boxtal.");
-    } finally {
-      setBoxtalLoading(null);
-    }
+  const handleCopyField = (key: string, text: string) => {
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    setCopiedFieldKey(key);
+    setTimeout(() => {
+      setCopiedFieldKey((prev) => (prev === key ? null : prev));
+    }, 1800);
   };
 
   const handleToggleArchive = async (orderId: string, currentArchived: boolean) => {
@@ -643,7 +720,7 @@ export default function AdminOrdersPage() {
           </button>
           <button
             onClick={fetchOrders}
-            className={`text-xs px-4 py-2 border ${cls.border} ${cls.inputBg} rounded-xl hover:text-white cursor-pointer transition-colors`}
+            className={`text-xs font-bold px-4 py-2 border ${cls.border} ${cls.inputBg} rounded-xl text-gray-800 hover:text-black hover:bg-gray-100 hover:border-gray-400 cursor-pointer transition-all`}
           >
             Rafraîchir 🔄
           </button>
@@ -653,89 +730,89 @@ export default function AdminOrdersPage() {
       {/* Financial Overview Cards Banner */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3.5">
         {/* KPI 1: CA Total */}
-        <div className={`${cls.cardBg} border border-emerald-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-emerald-500/50 transition-all`}>
+        <div className="bg-white border border-emerald-200/80 rounded-2xl p-4 flex flex-col justify-between shadow-xs hover:border-emerald-300 hover:shadow-sm transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase font-extrabold tracking-wider text-emerald-400">CA Total Cumulé</span>
+            <span className="text-[10px] uppercase font-extrabold tracking-wider text-emerald-800">CA Total Cumulé</span>
             <span className="text-base">💰</span>
           </div>
           <div className="mt-2">
-            <div className="text-2xl font-black font-antonio text-white tracking-tight">
+            <div className="text-2xl font-black font-antonio text-gray-950 tracking-tight">
               {totalRevenue.toFixed(2)}€
             </div>
-            <span className="text-[10px] text-gray-400 font-medium">Toutes commandes ({orders.length})</span>
+            <span className="text-[10px] text-gray-500 font-semibold">Toutes commandes ({orders.length})</span>
           </div>
         </div>
 
         {/* KPI 2: CA Ce Mois-ci */}
-        <div className={`${cls.cardBg} border border-[#ff4f00]/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-[#ff4f00]/50 transition-all`}>
+        <div className="bg-white border border-orange-200/80 rounded-2xl p-4 flex flex-col justify-between shadow-xs hover:border-orange-300 hover:shadow-sm transition-all">
           <div className="flex items-center justify-between">
             <span className="text-[10px] uppercase font-extrabold tracking-wider text-[#ff4f00]">CA Ce Mois-ci</span>
             <span className="text-base">📅</span>
           </div>
           <div className="mt-2">
-            <div className="text-2xl font-black font-antonio text-white tracking-tight">
+            <div className="text-2xl font-black font-antonio text-gray-950 tracking-tight">
               {currentMonthRevenue.toFixed(2)}€
             </div>
-            <span className="text-[10px] text-gray-400 font-medium">{currentMonthOrders.length} commande(s) ce mois</span>
+            <span className="text-[10px] text-gray-500 font-semibold">{currentMonthOrders.length} commande(s) ce mois</span>
           </div>
         </div>
 
         {/* KPI 3: Panier Moyen */}
-        <div className={`${cls.cardBg} border border-blue-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-blue-500/50 transition-all`}>
+        <div className="bg-white border border-blue-200/80 rounded-2xl p-4 flex flex-col justify-between shadow-xs hover:border-blue-300 hover:shadow-sm transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase font-extrabold tracking-wider text-blue-400">Panier Moyen</span>
+            <span className="text-[10px] uppercase font-extrabold tracking-wider text-blue-800">Panier Moyen</span>
             <span className="text-base">📈</span>
           </div>
           <div className="mt-2">
-            <div className="text-2xl font-black font-antonio text-white tracking-tight">
+            <div className="text-2xl font-black font-antonio text-gray-950 tracking-tight">
               {avgOrderValue.toFixed(2)}€
             </div>
-            <span className="text-[10px] text-gray-400 font-medium">Par commande client</span>
+            <span className="text-[10px] text-gray-500 font-semibold">Par commande client</span>
           </div>
         </div>
 
         {/* KPI 4: Frais d'Envoi Encaissés */}
-        <div className={`${cls.cardBg} border border-purple-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-purple-500/50 transition-all`}>
+        <div className="bg-white border border-purple-200/80 rounded-2xl p-4 flex flex-col justify-between shadow-xs hover:border-purple-300 hover:shadow-sm transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase font-extrabold tracking-wider text-purple-400">Port Encaissé</span>
+            <span className="text-[10px] uppercase font-extrabold tracking-wider text-purple-800">Port Encaissé</span>
             <span className="text-base">🚚</span>
           </div>
           <div className="mt-2">
-            <div className="text-2xl font-black font-antonio text-white tracking-tight">
+            <div className="text-2xl font-black font-antonio text-gray-950 tracking-tight">
               {totalShipping.toFixed(2)}€
             </div>
-            <span className="text-[10px] text-gray-400 font-medium">Livraisons & Relais</span>
+            <span className="text-[10px] text-gray-500 font-semibold">Livraisons & Relais</span>
           </div>
         </div>
 
         {/* KPI 5: Total Articles Vendus */}
-        <div className={`${cls.cardBg} border border-amber-500/30 rounded-2xl p-4 flex flex-col justify-between shadow-sm relative overflow-hidden group hover:border-amber-500/50 transition-all`}>
+        <div className="bg-white border border-amber-200/80 rounded-2xl p-4 flex flex-col justify-between shadow-xs hover:border-amber-300 hover:shadow-sm transition-all">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] uppercase font-extrabold tracking-wider text-amber-400">Articles Vendus</span>
+            <span className="text-[10px] uppercase font-extrabold tracking-wider text-amber-800">Articles Vendus</span>
             <span className="text-base">📦</span>
           </div>
           <div className="mt-2">
-            <div className="text-2xl font-black font-antonio text-white tracking-tight">
+            <div className="text-2xl font-black font-antonio text-gray-950 tracking-tight">
               {totalItemsCount}
             </div>
-            <span className="text-[10px] text-gray-400 font-medium">Créations & Fidgets</span>
+            <span className="text-[10px] text-gray-500 font-semibold">Créations & Fidgets</span>
           </div>
         </div>
       </div>
 
       {/* Main Mode Tabs: En cours vs Archivées */}
-      <div className="flex items-center gap-3 border-b border-white/10 pb-3">
+      <div className="flex items-center gap-3 border-b border-gray-200 pb-3">
         <button
           onClick={() => setActiveTab("active")}
           className={`px-4 py-2.5 rounded-2xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2.5 cursor-pointer ${
             activeTab === "active"
-              ? "bg-[#ff4f00] text-black shadow-lg shadow-[#ff4f00]/20"
-              : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10"
+              ? "bg-[#ff4f00] text-white shadow-md shadow-[#ff4f00]/25"
+              : "bg-white text-gray-700 hover:text-black hover:bg-gray-100 border border-gray-200"
           }`}
         >
           <span>📦 Commandes En Cours</span>
           <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-            activeTab === "active" ? "bg-black/20 text-black" : "bg-white/10 text-gray-300"
+            activeTab === "active" ? "bg-white/25 text-white" : "bg-gray-100 text-gray-700"
           }`}>
             {activeOrdersCount}
           </span>
@@ -745,13 +822,13 @@ export default function AdminOrdersPage() {
           onClick={() => setActiveTab("archived")}
           className={`px-4 py-2.5 rounded-2xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2.5 cursor-pointer ${
             activeTab === "archived"
-              ? "bg-purple-600 text-white shadow-lg shadow-purple-600/20"
-              : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10"
+              ? "bg-purple-600 text-white shadow-md shadow-purple-600/25"
+              : "bg-white text-gray-700 hover:text-black hover:bg-gray-100 border border-gray-200"
           }`}
         >
           <span>🗄️ Commandes Archivées</span>
           <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-            activeTab === "archived" ? "bg-white/20 text-white" : "bg-white/10 text-gray-300"
+            activeTab === "archived" ? "bg-white/25 text-white" : "bg-gray-100 text-gray-700"
           }`}>
             {archivedOrdersCount}
           </span>
@@ -761,8 +838,8 @@ export default function AdminOrdersPage() {
           onClick={() => setActiveTab("production")}
           className={`px-4 py-2.5 rounded-2xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-2.5 cursor-pointer ${
             activeTab === "production"
-              ? "bg-[#ff4f00] text-white shadow-lg shadow-[#ff4f00]/20"
-              : "bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10"
+              ? "bg-gray-900 text-white shadow-md shadow-gray-900/20"
+              : "bg-white text-gray-700 hover:text-black hover:bg-gray-100 border border-gray-200"
           }`}
         >
           <span>🏭 Vue Production (Par Couleur)</span>
@@ -776,272 +853,275 @@ export default function AdminOrdersPage() {
           {/* Search & Status Tabs Filters */}
           <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
             <div className="relative flex-1 w-full max-w-md">
-          <svg className={`w-4 h-4 ${cls.textMuted} absolute left-3 top-1/2 -translate-y-1/2`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Rechercher par client, email ou numéro..."
-            className={`w-full ${cls.cardBg} border ${cls.border} rounded-xl pl-9 pr-4 py-2.5 text-sm ${cls.textMain} placeholder-gray-500 focus:outline-none transition-colors`}
-          />
-        </div>
-        <div className="flex gap-1.5 flex-wrap items-center">
-          {[
-            { id: "all", label: "Toutes" },
-            { id: "attente_impression", label: "À imprimer 🛠️" },
-            { id: "impression", label: "En impression ⏳" },
-            { id: "emballe", label: "Emballées 📦" },
-            { id: "expedie", label: "Clôturées ✓" }
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setFilterStatus(tab.id)}
-              className={`px-3 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
-                filterStatus === tab.id
-                  ? "bg-white text-black border-white"
-                  : `${cls.cardBg} ${cls.border} ${cls.textMuted} hover:text-white`
-              }`}
-            >
-              <span>{tab.label}</span>
-            </button>
-          ))}
-        </div>
-      </div>
+              <svg className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Rechercher par client, email ou numéro..."
+                className="w-full bg-white border border-gray-300 rounded-xl pl-9 pr-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-[#ff4f00] focus:ring-1 focus:ring-[#ff4f00] transition-colors"
+              />
+            </div>
+            <div className="flex gap-1.5 flex-wrap items-center">
+              {[
+                { id: "all", label: "Toutes" },
+                { id: "attente_impression", label: "À imprimer 🛠️" },
+                { id: "impression", label: "En impression ⏳" },
+                { id: "emballe", label: "Emballées 📦" },
+                { id: "expedie", label: "Clôturées ✓" }
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setFilterStatus(tab.id)}
+                  className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
+                    filterStatus === tab.id
+                      ? "bg-gray-900 text-white border-gray-900 shadow-xs"
+                      : "bg-white border-gray-200 text-gray-700 hover:border-gray-400 hover:text-black"
+                  }`}
+                >
+                  <span>{tab.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
 
-      {/* Orders Table */}
-      <div className={`${cls.cardBg} border ${cls.border} rounded-3xl overflow-hidden transition-colors`}>
-        {loading ? (
-          <div className="py-12 text-center text-xs text-gray-500 font-bold uppercase tracking-widest font-sans animate-pulse">
-            Chargement de l'historique des commandes...
-          </div>
-        ) : error ? (
-          <div className="py-12 text-center text-xs text-red-400 font-sans">
-            ⚠️ {error}
-          </div>
-        ) : filteredOrders.length === 0 ? (
-          <div className="py-12 text-center text-xs text-gray-500 font-sans">
-            Aucune commande ne correspond aux critères sélectionnés.
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm table-auto border-collapse">
-              <thead>
-                <tr className={`border-b ${cls.border}`}>
-                  <th className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 pl-6 w-[110px]`}>ID</th>
-                  <th className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 w-[110px]`}>Date</th>
-                  <th className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 w-[180px]`}>Client</th>
-                  <th className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 min-w-[280px]`}>Articles</th>
-                  <th className={`text-left text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 w-[200px]`}>Livraison / Relais</th>
-                  <th className={`text-right text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 w-[110px]`}>Total</th>
-                  <th className={`text-center text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 w-[140px]`}>Statut</th>
-                  <th className={`text-right text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 pr-6 w-[220px]`}>Action</th>
-                </tr>
-              </thead>
-              <tbody className={`divide-y ${cls.divider}`}>
-                {filteredOrders.map((o) => {
-                  const tombolaInfo = getTombolaOrderDetails(o);
+          {/* Orders Table */}
+          <div className="bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-xs">
+            {loading ? (
+              <div className="py-12 text-center text-xs text-gray-500 font-bold uppercase tracking-widest font-sans animate-pulse">
+                Chargement de l'historique des commandes...
+              </div>
+            ) : error ? (
+              <div className="py-12 text-center text-xs text-red-600 font-bold font-sans">
+                ⚠️ {error}
+              </div>
+            ) : filteredOrders.length === 0 ? (
+              <div className="py-12 text-center text-xs text-gray-500 font-medium font-sans">
+                Aucune commande ne correspond aux critères sélectionnés.
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm table-auto border-collapse">
+                  <thead>
+                    <tr className="border-b border-gray-200 bg-gray-50/80">
+                      <th className="text-left text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 pl-6 w-[110px]">ID</th>
+                      <th className="text-left text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 w-[110px]">Date</th>
+                      <th className="text-left text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 w-[180px]">Client</th>
+                      <th className="text-left text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 min-w-[280px]">Articles</th>
+                      <th className="text-left text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 w-[200px]">Livraison / Relais</th>
+                      <th className="text-right text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 w-[110px]">Total</th>
+                      <th className="text-center text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 w-[140px]">Statut</th>
+                      <th className="text-right text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 pr-6 w-[220px]">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {filteredOrders.map((o) => {
+                      const tombolaInfo = getTombolaOrderDetails(o);
 
-                  return (
-                    <tr 
-                      key={o.id} 
-                      onClick={() => setSelectedOrder(o)}
-                      className={`group ${cls.hoverRow} transition-colors text-[13px] cursor-pointer`}
-                    >
-                      <td className="px-5 pl-6 py-5 font-mono font-bold text-gray-300 select-all shrink-0">
-                        {o.id}
-                      </td>
-                      <td className="px-5 py-5 text-gray-400">
-                        {new Date(o.createdAt).toLocaleDateString("fr-FR", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric"
-                        })}
-                      </td>
-                      <td className="px-5 py-5 min-w-[150px]">
-                        <span className={`block font-bold ${cls.textMain}`}>{o.customerName || "—"}</span>
-                        <span className={`block text-[10px] ${cls.textFaint}`}>{o.email}</span>
-                      </td>
-                      <td className="px-5 py-5 min-w-[240px]">
-                        {tombolaInfo ? (
-                          <div className="flex flex-col gap-1 py-0.5">
-                            <div className="flex items-center gap-1.5 font-bold text-amber-400 text-xs">
-                              <span>🎟️</span>
-                              <span>{tombolaInfo.totalTickets} ticket{tombolaInfo.totalTickets > 1 ? "s" : ""} Tombola</span>
-                              <span className="text-[10px] text-gray-400 font-mono font-normal">
-                                ({tombolaInfo.cases.length} case{tombolaInfo.cases.length > 1 ? "s" : ""})
-                              </span>
-                            </div>
-                            {tombolaInfo.cases.length > 0 && (
-                              <div className="flex flex-wrap items-center gap-1 text-[10px] pt-0.5">
-                                <span className="text-gray-400 font-semibold mr-0.5">Cases :</span>
-                                {tombolaInfo.cases.map((cNum, cIdx) => (
-                                  <span key={cIdx} className="bg-amber-500/15 border border-amber-500/30 text-amber-300 font-mono font-bold text-[10px] px-1.5 py-0.2 rounded-md">
-                                    {cNum}
-                                  </span>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        ) : (
-                          <div className="space-y-1.5">
-                            {(o.items || []).slice(0, 3).map((item, idx) => {
-                              const { mainName, options } = parseItemName(item.name);
-                              const isDonation = mainName.toLowerCase().includes("don de soutien");
-                              const isTombola = mainName.toLowerCase().includes("tombola") || mainName.toLowerCase().includes("ticket");
-                              
-                              return (
-                                <div key={idx} className="flex flex-col gap-0.5">
-                                  <div className="flex items-center gap-1.5">
-                                    <span className={`inline-flex items-center justify-center font-mono font-black text-[10px] px-1.5 py-0.5 rounded-md shrink-0 ${
-                                      isDonation 
-                                        ? "bg-rose-500/20 text-rose-300 border border-rose-500/30"
-                                        : isTombola
-                                        ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-                                        : "bg-[#ff4f00]/15 text-[#ff4f00] border border-[#ff4f00]/25"
-                                    }`}>
-                                      x{item.quantity}
-                                    </span>
-                                    {getItemProductUrl(item) ? (
-                                      <Link
-                                        href={getItemProductUrl(item)!}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        onClick={(e) => e.stopPropagation()}
-                                        className="font-bold text-gray-100 hover:text-[#ff4f00] hover:underline text-xs truncate max-w-[220px] inline-flex items-center gap-1 group"
-                                        title={`Ouvrir la fiche produit pour ${mainName}`}
-                                      >
-                                        <span>
-                                          {isDonation && "❤️ "}
-                                          {isTombola && "🎟️ "}
-                                          {mainName}
-                                        </span>
-                                        <span className="text-[9px] text-gray-400 group-hover:text-[#ff4f00]">↗</span>
-                                      </Link>
-                                    ) : (
-                                      <span className="font-bold text-gray-100 text-xs truncate max-w-[220px]" title={mainName}>
-                                        {isDonation && "❤️ "}
-                                        {isTombola && "🎟️ "}
-                                        {mainName}
-                                      </span>
-                                    )}
-                                  </div>
-                                </div>
-                              );
+                      return (
+                        <tr 
+                          key={o.id} 
+                          onClick={() => setSelectedOrder(o)}
+                          className="hover:bg-gray-50/80 transition-colors text-[13px] cursor-pointer"
+                        >
+                          <td className="px-5 pl-6 py-4 font-mono font-bold select-all shrink-0">
+                            <span className="bg-gray-100 border border-gray-200 text-gray-800 px-2 py-0.5 rounded-md text-xs">
+                              {o.id}
+                            </span>
+                          </td>
+                          <td className="px-5 py-4 text-gray-600 font-medium text-xs">
+                            {new Date(o.createdAt).toLocaleDateString("fr-FR", {
+                              day: "numeric",
+                              month: "short",
+                              year: "numeric"
                             })}
-                            {o.items && o.items.length > 3 && (
-                              <div className="text-[#ff4f00] font-bold text-[10px] mt-1 pl-1">
-                                + {o.items.length - 3} autre(s) article(s)...
+                          </td>
+                          <td className="px-5 py-4 min-w-[150px]">
+                            <span className="block font-bold text-gray-950">{o.customerName || "—"}</span>
+                            <span className="block text-[11px] text-gray-500 font-mono truncate">{o.email}</span>
+                          </td>
+                          <td className="px-5 py-4 min-w-[240px]">
+                            {tombolaInfo ? (
+                              <div className="flex flex-col gap-1 py-0.5">
+                                <div className="flex items-center gap-1.5 font-bold text-amber-900 text-xs">
+                                  <span>🎟️</span>
+                                  <span>{tombolaInfo.totalTickets} ticket{tombolaInfo.totalTickets > 1 ? "s" : ""} Tombola</span>
+                                  <span className="text-[10px] text-amber-700 font-mono font-normal">
+                                    ({tombolaInfo.cases.length} case{tombolaInfo.cases.length > 1 ? "s" : ""})
+                                  </span>
+                                </div>
+                                {tombolaInfo.cases.length > 0 && (
+                                  <div className="flex flex-wrap items-center gap-1 text-[10px] pt-0.5">
+                                    <span className="text-gray-600 font-semibold mr-0.5">Cases :</span>
+                                    {tombolaInfo.cases.map((cNum, cIdx) => (
+                                      <span key={cIdx} className="bg-amber-100 border border-amber-300 text-amber-900 font-mono font-bold text-[10px] px-1.5 py-0.5 rounded-md">
+                                        {cNum}
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            ) : (
+                              <div className="space-y-1.5">
+                                {(o.items || []).slice(0, 3).map((item, idx) => {
+                                  const { mainName } = parseItemName(item.name);
+                                  const isDonation = mainName.toLowerCase().includes("don de soutien");
+                                  const isTombola = mainName.toLowerCase().includes("tombola") || mainName.toLowerCase().includes("ticket");
+                                  const productUrl = getItemProductUrl(item);
+
+                                  return (
+                                    <div key={idx} className="flex flex-col gap-0.5">
+                                      <div className="flex items-center gap-1.5">
+                                        <span className={`inline-flex items-center justify-center font-mono font-black text-[10px] px-1.5 py-0.5 rounded-md shrink-0 ${
+                                          isDonation 
+                                            ? "bg-rose-100 text-rose-800 border border-rose-300"
+                                            : isTombola
+                                            ? "bg-amber-100 text-amber-900 border border-amber-300"
+                                            : "bg-[#ff4f00]/10 text-[#ff4f00] border border-[#ff4f00]/30"
+                                        }`}>
+                                          x{item.quantity}
+                                        </span>
+                                        {productUrl ? (
+                                          <Link
+                                            href={productUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={(e) => e.stopPropagation()}
+                                            className="font-bold text-gray-900 hover:text-[#ff4f00] hover:underline text-xs truncate max-w-[220px] inline-flex items-center gap-1 group"
+                                            title={`Ouvrir la fiche produit pour ${mainName}`}
+                                          >
+                                            <span>
+                                              {isDonation && "❤️ "}
+                                              {isTombola && "🎟️ "}
+                                              {mainName}
+                                            </span>
+                                            <span className="text-[10px] text-gray-400 group-hover:text-[#ff4f00]">↗</span>
+                                          </Link>
+                                        ) : (
+                                          <span className="font-bold text-gray-900 text-xs truncate max-w-[220px]" title={mainName}>
+                                            {isDonation && "❤️ "}
+                                            {isTombola && "🎟️ "}
+                                            {mainName}
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                                {o.items && o.items.length > 3 && (
+                                  <div className="text-[#ff4f00] font-bold text-[10px] mt-1 pl-1">
+                                    + {o.items.length - 3} autre(s) article(s)...
+                                  </div>
+                                )}
                               </div>
                             )}
-                          </div>
-                        )}
-                      </td>
-                      <td className="px-5 py-5 min-w-[180px] no-invert">
-                        {tombolaInfo ? (
-                          <span className="block font-semibold text-amber-300/80 text-xs">
-                            Billet virtuel 🎟️
-                          </span>
-                        ) : (
-                          <>
-                            {(() => {
-                              const pkg = recommendPackaging(o.items, o.shippingMethod);
-                              return (
-                                <div className="space-y-1">
-                                  <span className={`block font-semibold ${cls.textMain}`}>
-                                    {o.shippingMethod === "pickup" ? "Retrait Atelier 📅" : (o.shippingMethod === "relay" ? "Mondial Relay 📦" : "Colissimo Domicile 🚚")}
-                                  </span>
-                                  {o.relayDetails && (
-                                    <span className={`block text-[10px] ${cls.textFaint}`}>
-                                      {o.relayDetails.name} ({o.relayDetails.zip})
-                                    </span>
-                                  )}
-                                  {/* Recommended Packaging Badge */}
-                                  <div className="pt-0.5">
-                                    <span
-                                      className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border ${pkg.bgClass} ${pkg.borderClass} ${pkg.textClass}`}
-                                      title={pkg.description}
-                                    >
-                                      <span>{pkg.badgeTitle}</span>
-                                    </span>
-                                  </div>
-                                  {o.shippingMethod === "pickup" && (
-                                    <div className="mt-0.5">
-                                      <span className={`block text-[10px] font-bold ${
-                                        o.pickupStatus === "confirmed" ? "text-emerald-400" :
-                                        o.pickupStatus === "proposed" ? "text-yellow-400" :
-                                        "text-orange-400"
-                                      }`}>
-                                        Créneau : {formatPickupSlot(o.pickupSlotConfirmed || o.pickupSlotRequested)}
+                          </td>
+                          <td className="px-5 py-4 min-w-[180px]">
+                            {tombolaInfo ? (
+                              <span className="block font-semibold text-amber-800 text-xs">
+                                Billet virtuel 🎟️
+                              </span>
+                            ) : (
+                              <>
+                                {(() => {
+                                  const pkg = recommendPackaging(o.items, o.shippingMethod);
+                                  return (
+                                    <div className="space-y-1">
+                                      <span className="block font-semibold text-gray-900 text-xs">
+                                        {o.shippingMethod === "pickup" ? "Retrait Atelier 📅" : (o.shippingMethod === "relay" ? "Mondial Relay 📦" : "Colissimo Domicile 🚚")}
                                       </span>
+                                      {o.relayDetails && (
+                                        <span className="block text-[10px] text-gray-500 font-medium">
+                                          {o.relayDetails.name} ({o.relayDetails.zip})
+                                        </span>
+                                      )}
+                                      {/* Recommended Packaging Badge */}
+                                      <div className="pt-0.5">
+                                        <span
+                                          className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full border ${pkg.bgClass} ${pkg.borderClass} ${pkg.textClass}`}
+                                          title={pkg.description}
+                                        >
+                                          <span>{pkg.badgeTitle}</span>
+                                        </span>
+                                      </div>
+                                      {o.shippingMethod === "pickup" && (
+                                        <div className="mt-0.5">
+                                          <span className={`block text-[10px] font-bold ${
+                                            o.pickupStatus === "confirmed" ? "text-emerald-700" :
+                                            o.pickupStatus === "proposed" ? "text-yellow-700" :
+                                            "text-orange-700"
+                                          }`}>
+                                            Créneau : {formatPickupSlot(o.pickupSlotConfirmed || o.pickupSlotRequested)}
+                                          </span>
+                                        </div>
+                                      )}
                                     </div>
-                                  )}
-                                </div>
-                              );
-                            })()}
-                          </>
-                        )}
-                      </td>
-                    <td className={`px-4 py-5 font-bold ${cls.textMain} whitespace-nowrap text-right font-mono`}>
-                      {o.total.toFixed(2)}€
-                    </td>
-                    <td className="px-4 py-5 text-center">
-                      <span className={`inline-flex px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider ${
-                        o.status === "attente_impression" ? "bg-orange-500/10 text-orange-400" :
-                        o.status === "impression" ? "bg-blue-500/10 text-blue-400 animate-pulse" :
-                        o.status === "emballe" ? "bg-purple-500/10 text-purple-400" :
-                        "bg-emerald-500/10 text-emerald-400"
-                      }`}>
-                        {getStatusLabel(o.status)}
-                      </span>
-                    </td>
-                    <td className="px-4 py-5 pr-6 text-right" onClick={(e) => e.stopPropagation()}>
-                      <div className="flex items-center justify-end gap-1.5 whitespace-nowrap">
-                        <button
-                          type="button"
-                          onClick={() => handleRequestReview(o)}
-                          disabled={requestReviewLoading === o.id}
-                          className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
-                            (o as any).reviewRequestedAt
-                              ? "bg-purple-500/20 text-purple-300 border-purple-500/40"
-                              : "bg-amber-500/10 text-amber-300 border-amber-500/30 hover:bg-amber-500/20"
-                          }`}
-                          title={(o as any).reviewRequestedAt ? "Relance avis déjà envoyée le " + new Date((o as any).reviewRequestedAt).toLocaleDateString("fr-FR") : "Envoyer un e-mail de relance d'avis client"}
-                        >
-                          <span>⭐️</span>
-                          <span>
-                            {requestReviewLoading === o.id
-                              ? "Envoi..."
-                              : (o as any).reviewRequestedAt
-                              ? "Relancé ✓"
-                              : "Relancer Avis"}
-                          </span>
-                        </button>
+                                  );
+                                })()}
+                              </>
+                            )}
+                          </td>
+                          <td className="px-4 py-4 font-black text-gray-950 whitespace-nowrap text-right font-mono text-sm">
+                            {o.total.toFixed(2)}€
+                          </td>
+                          <td className="px-4 py-4 text-center">
+                            <span className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border ${
+                              o.status === "attente_impression" ? "bg-amber-100 text-amber-900 border-amber-300" :
+                              o.status === "impression" ? "bg-blue-100 text-blue-900 border-blue-300 animate-pulse" :
+                              o.status === "emballe" ? "bg-purple-100 text-purple-900 border-purple-300" :
+                              "bg-emerald-100 text-emerald-900 border-emerald-300"
+                            }`}>
+                              {getStatusLabel(o.status)}
+                            </span>
+                          </td>
+                          <td className="px-4 py-4 pr-6 text-right" onClick={(e) => e.stopPropagation()}>
+                            <div className="flex items-center justify-end gap-1.5 whitespace-nowrap">
+                              <button
+                                type="button"
+                                onClick={() => handleRequestReview(o)}
+                                disabled={requestReviewLoading === o.id}
+                                className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
+                                  (o as any).reviewRequestedAt
+                                    ? "bg-purple-100 text-purple-900 border-purple-300"
+                                    : "bg-amber-50 text-amber-900 border-amber-300 hover:bg-amber-100"
+                                }`}
+                                title={(o as any).reviewRequestedAt ? "Relance avis déjà envoyée le " + new Date((o as any).reviewRequestedAt).toLocaleDateString("fr-FR") : "Envoyer un e-mail de relance d'avis client"}
+                              >
+                                <span>⭐️</span>
+                                <span>
+                                  {requestReviewLoading === o.id
+                                    ? "Envoi..."
+                                    : (o as any).reviewRequestedAt
+                                    ? "Relancé ✓"
+                                    : "Relancer Avis"}
+                                </span>
+                              </button>
 
-                        <button
-                          type="button"
-                          onClick={() => handleToggleArchive(o.id, Boolean(o.archived))}
-                          className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
-                            o.archived
-                              ? "bg-purple-500/10 text-purple-300 border-purple-500/30 hover:bg-purple-500/20"
-                              : "bg-white/5 text-gray-300 border-white/10 hover:bg-white/10 hover:text-white"
-                          }`}
-                          title={o.archived ? "Désarchiver la commande" : "Archiver la commande"}
-                        >
-                          {o.archived ? "📥 Désarchiver" : "📦 Archiver"}
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-              </tbody>
-            </table>
+                              <button
+                                type="button"
+                                onClick={() => handleToggleArchive(o.id, Boolean(o.archived))}
+                                className={`px-2.5 py-1.5 rounded-xl text-[11px] font-bold border transition-all cursor-pointer flex items-center gap-1.5 ${
+                                  o.archived
+                                    ? "bg-purple-100 text-purple-900 border-purple-300 hover:bg-purple-200"
+                                    : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200 hover:text-black"
+                                }`}
+                                title={o.archived ? "Désarchiver la commande" : "Archiver la commande"}
+                              >
+                                {o.archived ? "📥 Désarchiver" : "📦 Archiver"}
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
-        )}
-      </div>
-      </>
+        </>
       )}
 
 {/* Order Details Modal Popup */}
@@ -1147,38 +1227,171 @@ export default function AdminOrdersPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {/* Left: Customer Info */}
-                  <div className="space-y-1.5 bg-gray-50 border border-gray-200 rounded-xl p-3.5">
-                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-gray-500 block">Contact Client</span>
-                    <div className="text-sm font-extrabold text-gray-900">{selectedOrder.customerName || "Client Inconnu"}</div>
-                    <div className="text-xs text-gray-700 font-mono select-all flex items-center gap-1.5 font-medium">
-                      <span>✉️</span>
-                      <span>{selectedOrder.email}</span>
+                  <div className="space-y-2 bg-gray-50 border border-gray-200 rounded-xl p-3.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] uppercase font-extrabold tracking-wider text-gray-500 block">
+                        Contact Client
+                      </span>
                     </div>
-                    {selectedOrder.customerPhone && (
-                      <div className="text-xs text-gray-700 font-mono select-all flex items-center gap-1.5 pt-0.5 font-medium">
-                        <span>📞</span>
-                        <span>{selectedOrder.customerPhone}</span>
+
+                    <div className="space-y-1.5">
+                      {/* Customer Name */}
+                      <div className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs">
+                        <div className="min-w-0 flex-1">
+                          <span className="text-[9px] uppercase font-extrabold tracking-wider text-gray-500 block">
+                            Nom du client
+                          </span>
+                          <span className="text-xs font-extrabold text-gray-900 truncate block select-all">
+                            {selectedOrder.customerName || "Non renseigné"}
+                          </span>
+                        </div>
+                        {selectedOrder.customerName && (
+                          <button
+                            type="button"
+                            onClick={() => handleCopyField("contact_name", selectedOrder.customerName!)}
+                            className={`px-2 py-1 rounded-md text-[11px] font-bold flex items-center gap-1 transition-all shrink-0 cursor-pointer ${
+                              copiedFieldKey === "contact_name"
+                                ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                                : "bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-black"
+                            }`}
+                            title="Copier le nom"
+                          >
+                            {copiedFieldKey === "contact_name" ? (
+                              <>
+                                <Check className="w-3 h-3 text-emerald-600" />
+                                <span>Copié !</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3 h-3 text-gray-400" />
+                                <span>Copier</span>
+                              </>
+                            )}
+                          </button>
+                        )}
                       </div>
-                    )}
+
+                      {/* Customer Email */}
+                      <div className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs">
+                        <div className="min-w-0 flex-1">
+                          <span className="text-[9px] uppercase font-extrabold tracking-wider text-gray-500 block">
+                            Email
+                          </span>
+                          <span className="text-xs font-mono font-medium text-gray-900 truncate block select-all">
+                            {selectedOrder.email}
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleCopyField("contact_email", selectedOrder.email)}
+                          className={`px-2 py-1 rounded-md text-[11px] font-bold flex items-center gap-1 transition-all shrink-0 cursor-pointer ${
+                            copiedFieldKey === "contact_email"
+                              ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                              : "bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-black"
+                          }`}
+                          title="Copier l'email"
+                        >
+                          {copiedFieldKey === "contact_email" ? (
+                            <>
+                              <Check className="w-3 h-3 text-emerald-600" />
+                              <span>Copié !</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3 h-3 text-gray-400" />
+                              <span>Copier</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+
+                      {/* Customer Phone */}
+                      {selectedOrder.customerPhone ? (
+                        <div className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs">
+                          <div className="min-w-0 flex-1">
+                            <span className="text-[9px] uppercase font-extrabold tracking-wider text-gray-500 block">
+                              Téléphone
+                            </span>
+                            <span className="text-xs font-mono font-medium text-gray-900 truncate block select-all">
+                              {selectedOrder.customerPhone}
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => handleCopyField("contact_phone", selectedOrder.customerPhone!)}
+                            className={`px-2 py-1 rounded-md text-[11px] font-bold flex items-center gap-1 transition-all shrink-0 cursor-pointer ${
+                              copiedFieldKey === "contact_phone"
+                                ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                                : "bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-black"
+                            }`}
+                            title="Copier le téléphone"
+                          >
+                            {copiedFieldKey === "contact_phone" ? (
+                              <>
+                                <Check className="w-3 h-3 text-emerald-600" />
+                                <span>Copié !</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3 h-3 text-gray-400" />
+                                <span>Copier</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="text-[11px] text-gray-400 italic px-2 py-1">
+                          Pas de numéro de téléphone renseigné
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   {/* Right: Shipping Address / Pickup details */}
-                  <div className="space-y-1.5 bg-gray-50 border border-gray-200 rounded-xl p-3.5">
+                  <div className="space-y-2 bg-gray-50 border border-gray-200 rounded-xl p-3.5">
                     {selectedOrder.shippingMethod !== "pickup" ? (
                       <div>
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-[10px] uppercase font-extrabold tracking-wider text-gray-500 block">Adresse de Livraison</span>
-                          {editingAddress !== selectedOrder.id && (
-                            <button
-                              onClick={() => {
-                                setEditingAddress(selectedOrder.id);
-                                setEditingAddressInput(selectedOrder.shippingAddress || "");
-                              }}
-                              className="text-[10px] font-bold text-amber-700 hover:text-amber-800 transition-colors uppercase tracking-wider flex items-center gap-1 cursor-pointer select-none"
-                            >
-                              ✏️ {selectedOrder.shippingAddress ? "Modifier" : "Saisir"}
-                            </button>
-                          )}
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-[10px] uppercase font-extrabold tracking-wider text-gray-500 block">
+                            Adresse de Livraison
+                          </span>
+                          <div className="flex items-center gap-2">
+                            {selectedOrder.shippingAddress && (
+                              <button
+                                type="button"
+                                onClick={() => handleCopyField("addr_full", selectedOrder.shippingAddress!)}
+                                className={`text-[10px] font-bold px-2 py-0.5 rounded transition-all flex items-center gap-1 cursor-pointer select-none ${
+                                  copiedFieldKey === "addr_full"
+                                    ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                                    : "bg-white border border-gray-200 text-gray-700 hover:border-gray-400 shadow-2xs"
+                                }`}
+                                title="Copier l'adresse complète"
+                              >
+                                {copiedFieldKey === "addr_full" ? (
+                                  <>
+                                    <Check className="w-3 h-3 text-emerald-600" />
+                                    <span>Adresse copiée !</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="w-3 h-3 text-gray-400" />
+                                    <span>Copier tout</span>
+                                  </>
+                                )}
+                              </button>
+                            )}
+                            {editingAddress !== selectedOrder.id && (
+                              <button
+                                onClick={() => {
+                                  setEditingAddress(selectedOrder.id);
+                                  setEditingAddressInput(selectedOrder.shippingAddress || "");
+                                }}
+                                className="text-[10px] font-bold text-amber-700 hover:text-amber-800 transition-colors uppercase tracking-wider flex items-center gap-1 cursor-pointer select-none"
+                              >
+                                ✏️ {selectedOrder.shippingAddress ? "Modifier" : "Saisir"}
+                              </button>
+                            )}
+                          </div>
                         </div>
 
                         {editingAddress === selectedOrder.id ? (
@@ -1207,9 +1420,190 @@ export default function AdminOrdersPage() {
                             </div>
                           </div>
                         ) : selectedOrder.shippingAddress ? (
-                          <div className="text-xs text-gray-800 select-all whitespace-pre-line leading-relaxed font-sans font-medium">
-                            {selectedOrder.shippingAddress}
-                          </div>
+                          (() => {
+                            let parsed = parseShippingAddress(selectedOrder.shippingAddress, selectedOrder.customerName);
+                            if (selectedOrder.shippingMethod === "relay" && selectedOrder.relayDetails) {
+                              parsed = {
+                                name: selectedOrder.customerName || parsed.name,
+                                street: [selectedOrder.relayDetails.name, selectedOrder.relayDetails.address].filter(Boolean).join(" - "),
+                                zip: selectedOrder.relayDetails.zip || parsed.zip,
+                                city: selectedOrder.relayDetails.city || parsed.city,
+                                country: "France",
+                              };
+                            }
+
+                            return (
+                              <div className="space-y-1.5">
+                                {/* Nom Destinataire */}
+                                <div className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs">
+                                  <div className="min-w-0 flex-1">
+                                    <span className="text-[9px] uppercase font-extrabold tracking-wider text-gray-500 block">
+                                      Nom / Destinataire
+                                    </span>
+                                    <span className="text-xs font-extrabold text-gray-900 truncate block select-all">
+                                      {parsed.name || selectedOrder.customerName || "—"}
+                                    </span>
+                                  </div>
+                                  <button
+                                    type="button"
+                                    onClick={() => handleCopyField("addr_name", parsed.name || selectedOrder.customerName || "")}
+                                    className={`px-2 py-1 rounded-md text-[11px] font-bold flex items-center gap-1 transition-all shrink-0 cursor-pointer ${
+                                      copiedFieldKey === "addr_name"
+                                        ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                                        : "bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-black"
+                                    }`}
+                                    title="Copier le nom"
+                                  >
+                                    {copiedFieldKey === "addr_name" ? (
+                                      <>
+                                        <Check className="w-3 h-3 text-emerald-600" />
+                                        <span>Copié !</span>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <Copy className="w-3 h-3 text-gray-400" />
+                                        <span>Copier</span>
+                                      </>
+                                    )}
+                                  </button>
+                                </div>
+
+                                {/* Adresse / Rue */}
+                                <div className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs">
+                                  <div className="min-w-0 flex-1">
+                                    <span className="text-[9px] uppercase font-extrabold tracking-wider text-gray-500 block">
+                                      Adresse
+                                    </span>
+                                    <span className="text-xs font-semibold text-gray-900 truncate block select-all">
+                                      {parsed.street || "—"}
+                                    </span>
+                                  </div>
+                                  {parsed.street && (
+                                    <button
+                                      type="button"
+                                      onClick={() => handleCopyField("addr_street", parsed.street)}
+                                      className={`px-2 py-1 rounded-md text-[11px] font-bold flex items-center gap-1 transition-all shrink-0 cursor-pointer ${
+                                        copiedFieldKey === "addr_street"
+                                          ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                                          : "bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-black"
+                                      }`}
+                                      title="Copier l'adresse"
+                                    >
+                                      {copiedFieldKey === "addr_street" ? (
+                                        <>
+                                          <Check className="w-3 h-3 text-emerald-600" />
+                                          <span>Copié !</span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <Copy className="w-3 h-3 text-gray-400" />
+                                          <span>Copier</span>
+                                        </>
+                                      )}
+                                    </button>
+                                  )}
+                                </div>
+
+                                {/* Code Postal & Ville (two columns with copy on each!) */}
+                                <div className="grid grid-cols-2 gap-1.5">
+                                  {/* Code Postal */}
+                                  <div className="flex items-center justify-between gap-1 p-1.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs">
+                                    <div className="min-w-0 flex-1">
+                                      <span className="text-[9px] uppercase font-extrabold tracking-wider text-gray-500 block">
+                                        Code Postal
+                                      </span>
+                                      <span className="text-xs font-mono font-bold text-gray-900 truncate block select-all">
+                                        {parsed.zip || "—"}
+                                      </span>
+                                    </div>
+                                    {parsed.zip && (
+                                      <button
+                                        type="button"
+                                        onClick={() => handleCopyField("addr_zip", parsed.zip)}
+                                        className={`px-1.5 py-1 rounded-md text-[11px] font-bold flex items-center gap-1 transition-all shrink-0 cursor-pointer ${
+                                          copiedFieldKey === "addr_zip"
+                                            ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                                            : "bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-black"
+                                        }`}
+                                        title="Copier le code postal"
+                                      >
+                                        {copiedFieldKey === "addr_zip" ? (
+                                          <Check className="w-3 h-3 text-emerald-600" />
+                                        ) : (
+                                          <Copy className="w-3 h-3 text-gray-400" />
+                                        )}
+                                      </button>
+                                    )}
+                                  </div>
+
+                                  {/* Ville */}
+                                  <div className="flex items-center justify-between gap-1 p-1.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs">
+                                    <div className="min-w-0 flex-1">
+                                      <span className="text-[9px] uppercase font-extrabold tracking-wider text-gray-500 block">
+                                        Ville
+                                      </span>
+                                      <span className="text-xs font-bold text-gray-900 truncate block select-all">
+                                        {parsed.city || "—"}
+                                      </span>
+                                    </div>
+                                    {parsed.city && (
+                                      <button
+                                        type="button"
+                                        onClick={() => handleCopyField("addr_city", parsed.city)}
+                                        className={`px-1.5 py-1 rounded-md text-[11px] font-bold flex items-center gap-1 transition-all shrink-0 cursor-pointer ${
+                                          copiedFieldKey === "addr_city"
+                                            ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                                            : "bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-black"
+                                        }`}
+                                        title="Copier la ville"
+                                      >
+                                        {copiedFieldKey === "addr_city" ? (
+                                          <Check className="w-3 h-3 text-emerald-600" />
+                                        ) : (
+                                          <Copy className="w-3 h-3 text-gray-400" />
+                                        )}
+                                      </button>
+                                    )}
+                                  </div>
+                                </div>
+
+                                {parsed.country && (
+                                  <div className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs">
+                                    <div className="min-w-0 flex-1">
+                                      <span className="text-[9px] uppercase font-extrabold tracking-wider text-gray-500 block">
+                                        Pays
+                                      </span>
+                                      <span className="text-xs font-medium text-gray-800 truncate block select-all">
+                                        {parsed.country}
+                                      </span>
+                                    </div>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleCopyField("addr_country", parsed.country)}
+                                      className={`px-2 py-1 rounded-md text-[11px] font-bold flex items-center gap-1 transition-all shrink-0 cursor-pointer ${
+                                        copiedFieldKey === "addr_country"
+                                          ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                                          : "bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 hover:text-black"
+                                      }`}
+                                      title="Copier le pays"
+                                    >
+                                      {copiedFieldKey === "addr_country" ? (
+                                        <>
+                                          <Check className="w-3 h-3 text-emerald-600" />
+                                          <span>Copié !</span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <Copy className="w-3 h-3 text-gray-400" />
+                                          <span>Copier</span>
+                                        </>
+                                      )}
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })()
                         ) : (
                           <div className="text-xs text-amber-800 font-semibold bg-amber-50 border border-amber-200 rounded-lg p-2 mt-1">
                             ⚠️ Adresse non renseignée
@@ -1224,6 +1618,18 @@ export default function AdminOrdersPage() {
                               <span className="font-mono text-xs font-bold text-gray-900 bg-white border border-gray-200 px-2 py-0.5 rounded select-all shadow-xs">
                                 {selectedOrder.trackingNumber}
                               </span>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyField("tracking_num", selectedOrder.trackingNumber!)}
+                                className={`px-1.5 py-0.5 rounded text-[10px] font-bold transition-all cursor-pointer ${
+                                  copiedFieldKey === "tracking_num"
+                                    ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                                    : "bg-white border border-gray-200 text-gray-700 hover:border-gray-400"
+                                }`}
+                                title="Copier le numéro de suivi"
+                              >
+                                {copiedFieldKey === "tracking_num" ? "Copié !" : "Copier"}
+                              </button>
                               <a
                                 href={selectedOrder.shippingMethod === "relay" 
                                   ? `https://www.mondialrelay.fr/suivi-de-colis?numeroColis=${selectedOrder.trackingNumber}`
@@ -1332,6 +1738,13 @@ export default function AdminOrdersPage() {
                         const isTombola = mainName.toLowerCase().includes("tombola") || mainName.toLowerCase().includes("ticket");
                         const unitPrice = item.price ? parseFloat(String(item.price)) : null;
                         const totalPrice = unitPrice ? unitPrice * item.quantity : null;
+                        const productUrl = getItemProductUrl(item);
+                        const isCustomClicker = Boolean(
+                          (item as any)._configUrl ||
+                          (item as any).configUrl ||
+                          item.name.includes("_configUrl:") ||
+                          mainName.toLowerCase().includes("clicker mécanique sur-mesure")
+                        );
 
                         return (
                           <div 
@@ -1350,23 +1763,35 @@ export default function AdminOrdersPage() {
                               </div>
 
                               <div className="space-y-1.5 min-w-0 flex-1 w-full">
-                                <div className="text-sm font-extrabold text-gray-900 flex items-center gap-1.5">
+                                <div className="text-sm font-extrabold text-gray-900 flex items-center gap-1.5 flex-wrap">
                                   {isDonation && "❤️"}
                                   {isTombola && "🎟️"}
                                   {!isDonation && !isTombola && "📦"}
-                                  {getItemProductUrl(item) ? (
+                                  {productUrl ? (
                                     <Link
-                                      href={getItemProductUrl(item)!}
+                                      href={productUrl}
                                       target="_blank"
                                       rel="noopener noreferrer"
-                                      className="hover:text-[#ff4f00] hover:underline transition-colors inline-flex items-center gap-1 group text-gray-900"
+                                      className="hover:text-[#ff4f00] hover:underline transition-colors inline-flex items-center gap-1.5 group text-gray-950 font-bold"
                                       title="Ouvrir la fiche produit sur le site"
                                     >
                                       <span>{mainName}</span>
-                                      <span className="text-xs text-gray-400 group-hover:text-[#ff4f00]">↗</span>
+                                      <ExternalLink className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#ff4f00] transition-colors" />
                                     </Link>
                                   ) : (
-                                    <span>{mainName}</span>
+                                    <span className="text-gray-950 font-bold">{mainName}</span>
+                                  )}
+
+                                  {isCustomClicker && productUrl && (
+                                    <a
+                                      href={productUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-[#ff4f00] hover:bg-[#e04500] text-white shadow-2xs transition-all cursor-pointer ml-1"
+                                      title="Ouvrir la configuration 3D interactive conçue par le client"
+                                    >
+                                      <span>🎮 3D Config ↗</span>
+                                    </a>
                                   )}
                                 </div>
 
@@ -1444,19 +1869,6 @@ export default function AdminOrdersPage() {
                   </div>
 
                   <div className="flex items-center gap-2 flex-wrap">
-                    {selectedOrder.shippingMethod !== "pickup" && selectedOrder.status !== "expedie" && (
-                      <button
-                        type="button"
-                        onClick={() => handleGenerateBoxtalShipment(selectedOrder.id)}
-                        disabled={boxtalLoading === selectedOrder.id}
-                        className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs transition-all cursor-pointer shadow-md flex items-center gap-1.5"
-                        title="Générer l'expédition et le numéro de suivi automatique via l'API Boxtal"
-                      >
-                        <span>📦</span>
-                        <span>{boxtalLoading === selectedOrder.id ? "Génération..." : "Expédier via Boxtal API"}</span>
-                      </button>
-                    )}
-
                     {selectedOrder.status === "attente_impression" && (
                       <button
                         type="button"
