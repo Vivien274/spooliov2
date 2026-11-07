@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import localFont from "next/font/local";
 import {
-  Antonio,
   Plus_Jakarta_Sans,
   DynaPuff,
   Righteous,
@@ -39,10 +39,11 @@ const beVietnamPro = Be_Vietnam_Pro({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-const antonio = Antonio({
+const antonio = localFont({
+  src: "../fonts/Antonio-VariableFont_wght.woff2",
   variable: "--font-antonio",
-  subsets: ["latin"],
-  weight: ["400", "700"],
+  display: "swap",
+  weight: "100 900",
 });
 
 const plusJakarta = Plus_Jakarta_Sans({
