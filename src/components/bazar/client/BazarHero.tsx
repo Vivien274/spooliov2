@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { Sparkles, ShoppingBag, Eye, Store, ShieldCheck } from "lucide-react";
+import { Sparkles, ShoppingBag, Eye, ShieldCheck } from "lucide-react";
 import { useBazarCart } from "@/context/BazarCartContext";
 
 interface BazarHeroProps {
@@ -28,14 +27,6 @@ export const BazarHero: React.FC<BazarHeroProps> = ({
           </div>
 
           <div className="flex items-center gap-2">
-            <Link
-              href="/admin/bazar"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-neutral-50 text-neutral-600 hover:text-[#121212] border border-[#E4E4E0] text-xs font-medium transition-colors shadow-2xs"
-            >
-              <Store className="w-3.5 h-3.5 text-[#FF5500]" />
-              <span>Éditeur Vendeur</span>
-            </Link>
-
             <button
               onClick={() => setIsCartOpen(true)}
               className="relative inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#121212] text-white hover:bg-neutral-800 text-xs font-semibold shadow-2xs transition-transform active:scale-95 cursor-pointer"
