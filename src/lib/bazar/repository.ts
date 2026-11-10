@@ -51,6 +51,9 @@ export interface BazarRepository {
   importDataset(dataset: BazarDataset): Promise<boolean>;
   resetToDemoData(): Promise<void>;
 
+  syncFromServer(): Promise<void>;
+  saveToServer(): Promise<{ success: boolean; message: string }>;
+
   subscribe(listener: () => void): () => void;
 }
 
@@ -60,6 +63,7 @@ class LocalMockBazarRepository implements BazarRepository {
   private zones: BazarZone[] = [];
   private listeners: Set<() => void> = new Set();
   private initialized: boolean = false;
+  private syncing: boolean = false;
 
   constructor() {
     this.init();
@@ -79,10 +83,13 @@ class LocalMockBazarRepository implements BazarRepository {
           this.items = JSON.parse(storedItems);
           this.zones = JSON.parse(storedZones);
           this.initialized = true;
+
+          // Background sync from server to ensure fresh state
+          this.syncFromServer();
           return;
         }
       } catch (err) {
-        console.warn("Could not load from localStorage, falling back to mock initial seed", err);
+        console.warn("Could not load from localStorage, falling back to server seed", err);
       }
     }
 
@@ -92,6 +99,10 @@ class LocalMockBazarRepository implements BazarRepository {
     this.zones = [...INITIAL_BAZAR_ZONES];
     this.initialized = true;
     this.persist();
+
+    if (typeof window !== "undefined") {
+      this.syncFromServer();
+    }
   }
 
   private persist() {
@@ -105,7 +116,7 @@ class LocalMockBazarRepository implements BazarRepository {
     }
   }
 
-  private notify() {
+  private notify(autoSaveToServer: boolean = false) {
     this.persist();
     this.listeners.forEach((fn) => {
       try {
@@ -114,6 +125,12 @@ class LocalMockBazarRepository implements BazarRepository {
         console.error("Listener error", e);
       }
     });
+
+    if (autoSaveToServer && typeof window !== "undefined") {
+      this.saveToServer().catch((err) => {
+        console.warn("Auto save to server failed:", err);
+      });
+    }
   }
 
   public subscribe(listener: () => void): () => void {
@@ -121,6 +138,66 @@ class LocalMockBazarRepository implements BazarRepository {
     return () => {
       this.listeners.delete(listener);
     };
+  }
+
+  async syncFromServer(): Promise<void> {
+    if (typeof window === "undefined" || this.syncing) return;
+    this.syncing = true;
+    try {
+      const res = await fetch("/api/bazar", { cache: "no-store" });
+      if (res.ok) {
+        const data: BazarDataset = await res.json();
+        if (data && Array.isArray(data.scenes) && data.scenes.length > 0) {
+          this.scenes = data.scenes;
+          this.items = data.items;
+          this.zones = data.zones;
+          this.persist();
+          // Notify without triggering autoSaveToServer loop
+          this.listeners.forEach((fn) => {
+            try {
+              fn();
+            } catch (e) {}
+          });
+        }
+      }
+    } catch (err) {
+      console.warn("Could not sync from server:", err);
+    } finally {
+      this.syncing = false;
+    }
+  }
+
+  async saveToServer(): Promise<{ success: boolean; message: string }> {
+    this.init();
+    try {
+      const dataset: BazarDataset = {
+        version: "2.1",
+        exportedAt: new Date().toISOString(),
+        scenes: this.scenes,
+        items: this.items,
+        zones: this.zones,
+      };
+
+      const res = await fetch("/api/admin/bazar", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataset),
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "Erreur de sauvegarde serveur.");
+      }
+
+      return {
+        success: true,
+        message: "Données du Bazar synchronisées avec succès en base de données !",
+      };
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Erreur de connexion";
+      console.error("Save to server error:", err);
+      return { success: false, message };
+    }
   }
 
   async getScenes(): Promise<BazarScene[]> {
@@ -173,69 +250,92 @@ class LocalMockBazarRepository implements BazarRepository {
   ): Promise<BazarScene> {
     this.init();
     const now = new Date().toISOString();
+    const id = `scene-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
     const newScene: BazarScene = {
       ...input,
-      id: `scene-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-      sortOrder: input.sortOrder ?? this.scenes.length + 1,
+      id,
       createdAt: now,
       updatedAt: now,
     };
     this.scenes.push(newScene);
-    this.notify();
+    this.notify(true);
     return newScene;
   }
 
   async updateScene(id: string, input: Partial<BazarScene>): Promise<BazarScene> {
     this.init();
-    const idx = this.scenes.findIndex((s) => s.id === id);
-    if (idx === -1) throw new Error(`Scene not found: ${id}`);
+    const index = this.scenes.findIndex((s) => s.id === id);
+    if (index === -1) throw new Error(`Scène non trouvée: ${id}`);
+
     const updated: BazarScene = {
-      ...this.scenes[idx],
+      ...this.scenes[index],
       ...input,
       updatedAt: new Date().toISOString(),
     };
-    this.scenes[idx] = updated;
-    this.notify();
+    this.scenes[index] = updated;
+    this.notify(true);
     return updated;
   }
 
   async deleteScene(id: string): Promise<void> {
     this.init();
+    // Delete scene
     this.scenes = this.scenes.filter((s) => s.id !== id);
-    // Also remove associated zones
+    // Delete corresponding zones
+    const zonesToDelete = this.zones.filter((z) => z.sceneId === id);
+    const itemIdsToCheck = new Set(zonesToDelete.map((z) => z.itemId));
     this.zones = this.zones.filter((z) => z.sceneId !== id);
-    this.notify();
+
+    // If items are no longer linked to any zone, optionally clean them
+    const remainingZoneItemIds = new Set(this.zones.map((z) => z.itemId));
+    this.items = this.items.filter(
+      (item) => !itemIdsToCheck.has(item.id) || remainingZoneItemIds.has(item.id)
+    );
+
+    this.notify(true);
   }
 
   async duplicateScene(id: string): Promise<BazarScene> {
     this.init();
-    const original = this.scenes.find((s) => s.id === id);
-    if (!original) throw new Error("Scene not found");
+    const source = this.scenes.find((s) => s.id === id);
+    if (!source) throw new Error("Scène source introuvable");
 
     const now = new Date().toISOString();
-    const newSceneId = `scene-${Date.now()}`;
-    const duplicated: BazarScene = {
-      ...original,
+    const newSceneId = `scene-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+    const newScene: BazarScene = {
+      ...source,
       id: newSceneId,
-      title: `${original.title} (Copie)`,
+      title: `${source.title} (Copie)`,
       status: "draft",
-      sortOrder: this.scenes.length + 1,
       createdAt: now,
       updatedAt: now,
     };
-    this.scenes.push(duplicated);
+    this.scenes.push(newScene);
 
-    // Duplicate zones for this scene
-    const originalZones = this.zones.filter((z) => z.sceneId === id);
-    const duplicatedZones = originalZones.map((z) => ({
-      ...z,
-      id: `zone-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-      sceneId: newSceneId,
-    }));
-    this.zones.push(...duplicatedZones);
+    // Duplicate zones and items
+    const sourceZones = this.zones.filter((z) => z.sceneId === id);
+    for (const sz of sourceZones) {
+      const srcItem = this.items.find((i) => i.id === sz.itemId);
+      if (srcItem) {
+        const newItemId = `item-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+        this.items.push({
+          ...srcItem,
+          id: newItemId,
+          createdAt: now,
+          updatedAt: now,
+        });
 
-    this.notify();
-    return duplicated;
+        this.zones.push({
+          ...sz,
+          id: `zone-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+          sceneId: newSceneId,
+          itemId: newItemId,
+        });
+      }
+    }
+
+    this.notify(true);
+    return newScene;
   }
 
   async createItem(
@@ -243,113 +343,114 @@ class LocalMockBazarRepository implements BazarRepository {
   ): Promise<BazarItem> {
     this.init();
     const now = new Date().toISOString();
-    const derivedStatus = input.quantity <= 0 ? "sold" : input.status;
+    const id = `item-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
     const newItem: BazarItem = {
       ...input,
-      status: derivedStatus,
-      id: `item-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      id,
       createdAt: now,
       updatedAt: now,
     };
     this.items.push(newItem);
-    this.notify();
+    this.notify(true);
     return newItem;
   }
 
   async updateItem(id: string, input: Partial<BazarItem>): Promise<BazarItem> {
     this.init();
-    const idx = this.items.findIndex((item) => item.id === id);
-    if (idx === -1) throw new Error(`Item not found: ${id}`);
-
-    const existing = this.items[idx];
-    const newQty = input.quantity !== undefined ? input.quantity : existing.quantity;
-    let newStatus = input.status !== undefined ? input.status : existing.status;
-
-    if (newQty <= 0) {
-      newStatus = "sold";
-    } else if (newStatus === "sold" && newQty > 0) {
-      newStatus = "available";
-    }
+    const index = this.items.findIndex((i) => i.id === id);
+    if (index === -1) throw new Error(`Objet non trouvé: ${id}`);
 
     const updated: BazarItem = {
-      ...existing,
+      ...this.items[index],
       ...input,
-      quantity: Math.max(0, newQty),
-      status: newStatus,
       updatedAt: new Date().toISOString(),
     };
-    this.items[idx] = updated;
-    this.notify();
+    this.items[index] = updated;
+    this.notify(true);
     return updated;
   }
 
   async deleteItem(id: string): Promise<void> {
     this.init();
-    this.items = this.items.filter((item) => item.id !== id);
-    // Remove references to this item in zones
+    this.items = this.items.filter((i) => i.id !== id);
     this.zones = this.zones.filter((z) => z.itemId !== id);
-    this.notify();
+    this.notify(true);
   }
 
   async createZone(input: Omit<BazarZone, "id">): Promise<BazarZone> {
     this.init();
+    const id = `zone-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
     const newZone: BazarZone = {
       ...input,
-      id: `zone-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      id,
     };
     this.zones.push(newZone);
-    this.notify();
+    this.notify(true);
     return newZone;
   }
 
   async updateZone(id: string, input: Partial<BazarZone>): Promise<BazarZone> {
     this.init();
-    const idx = this.zones.findIndex((z) => z.id === id);
-    if (idx === -1) throw new Error(`Zone not found: ${id}`);
+    const index = this.zones.findIndex((z) => z.id === id);
+    if (index === -1) throw new Error(`Zone non trouvée: ${id}`);
+
     const updated: BazarZone = {
-      ...this.zones[idx],
+      ...this.zones[index],
       ...input,
     };
-    this.zones[idx] = updated;
-    this.notify();
+    this.zones[index] = updated;
+    this.notify(true);
     return updated;
   }
 
   async deleteZone(id: string): Promise<void> {
     this.init();
+    const zone = this.zones.find((z) => z.id === id);
     this.zones = this.zones.filter((z) => z.id !== id);
-    this.notify();
+
+    // If the item is not referenced by any other zone, delete it
+    if (zone && !this.zones.some((z) => z.itemId === zone.itemId)) {
+      this.items = this.items.filter((i) => i.id !== zone.itemId);
+    }
+    this.notify(true);
   }
 
-  /**
-   * Quick inventory adjustment for markets/braderies
-   */
   async quickStockAdjustment(itemId: string, delta: number): Promise<BazarItem> {
     this.init();
-    const item = this.items.find((i) => i.id === itemId);
-    if (!item) throw new Error("Item not found");
+    const index = this.items.findIndex((i) => i.id === itemId);
+    if (index === -1) throw new Error("Objet introuvable");
+
+    const item = this.items[index];
     const newQty = Math.max(0, item.quantity + delta);
-    return this.updateItem(itemId, { quantity: newQty });
+    const updated: BazarItem = {
+      ...item,
+      quantity: newQty,
+      status: newQty === 0 ? "sold" : item.status === "sold" ? "available" : item.status,
+      updatedAt: new Date().toISOString(),
+    };
+    this.items[index] = updated;
+    this.notify(true);
+    return updated;
   }
 
-  /**
-   * Toggles sold status on an item
-   */
   async toggleItemSold(itemId: string): Promise<BazarItem> {
     this.init();
-    const item = this.items.find((i) => i.id === itemId);
-    if (!item) throw new Error("Item not found");
+    const index = this.items.findIndex((i) => i.id === itemId);
+    if (index === -1) throw new Error("Objet introuvable");
 
-    if (item.status === "sold" || item.quantity <= 0) {
-      return this.updateItem(itemId, { quantity: 1, status: "available" });
-    } else {
-      return this.updateItem(itemId, { quantity: 0, status: "sold" });
-    }
+    const item = this.items[index];
+    const isSold = item.status === "sold";
+    const updated: BazarItem = {
+      ...item,
+      status: isSold ? "available" : "sold",
+      quantity: isSold ? Math.max(1, item.quantity) : 0,
+      updatedAt: new Date().toISOString(),
+    };
+    this.items[index] = updated;
+    this.notify(true);
+    return updated;
   }
 
-  /**
-   * Simulates order checkout: decrements stock and sets sold status if stock reaches 0
-   */
   async simulateOrder(
     purchases: { itemId: string; quantity: number }[]
   ): Promise<{ success: boolean; orderId: string }> {
@@ -370,7 +471,21 @@ class LocalMockBazarRepository implements BazarRepository {
       }
     }
 
-    this.notify();
+    this.notify(true);
+
+    // Call server API for live stock decrement
+    if (typeof window !== "undefined") {
+      try {
+        await fetch("/api/bazar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "order", purchases }),
+        });
+      } catch (e) {
+        console.warn("Could not sync order stock decrement to server:", e);
+      }
+    }
+
     return { success: true, orderId };
   }
 
@@ -398,7 +513,7 @@ class LocalMockBazarRepository implements BazarRepository {
     this.scenes = dataset.scenes;
     this.items = dataset.items;
     this.zones = dataset.zones;
-    this.notify();
+    this.notify(true);
     return true;
   }
 
@@ -406,10 +521,9 @@ class LocalMockBazarRepository implements BazarRepository {
     this.scenes = JSON.parse(JSON.stringify(INITIAL_BAZAR_SCENES));
     this.items = JSON.parse(JSON.stringify(INITIAL_BAZAR_ITEMS));
     this.zones = JSON.parse(JSON.stringify(INITIAL_BAZAR_ZONES));
-    this.notify();
+    this.notify(true);
   }
 }
 
 // Global singleton instance for local browser runtime
 export const bazarRepository: BazarRepository = new LocalMockBazarRepository();
-

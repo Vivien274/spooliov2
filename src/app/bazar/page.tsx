@@ -34,7 +34,7 @@ export default function StandaloneBazarAdminPage() {
         <div className="flex items-center gap-3">
           <div className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-semibold">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Mode Local Isolé (Mock Repository)</span>
+            <span>Persistance Serveur & Base de Données</span>
           </div>
 
           <Link

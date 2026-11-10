@@ -55,10 +55,32 @@ export const ImageUploadModal: React.FC<ImageUploadModalProps> = ({
       URL.revokeObjectURL(objectUrl);
       try {
         const id = `scene-img-${Date.now()}`;
-        // Store directly in local IndexedDB (100% local, no remote call)
-        const storedDataUrl = await saveLocalImageBlob(id, file);
+        let finalImageUrl = "";
 
-        setPreviewUrl(storedDataUrl);
+        // 1. Try uploading to server (Supabase Storage / public/uploads)
+        try {
+          const formData = new FormData();
+          formData.append("file", file);
+          const uploadRes = await fetch("/api/admin/upload", {
+            method: "POST",
+            body: formData,
+          });
+          if (uploadRes.ok) {
+            const uploadJson = await uploadRes.json();
+            if (uploadJson.url || uploadJson.imageUrl) {
+              finalImageUrl = uploadJson.url || uploadJson.imageUrl;
+            }
+          }
+        } catch (uploadErr) {
+          console.warn("Upload to server failed, falling back to local storage:", uploadErr);
+        }
+
+        // 2. Fallback to local IndexedDB if server upload was not possible
+        if (!finalImageUrl) {
+          finalImageUrl = await saveLocalImageBlob(id, file);
+        }
+
+        setPreviewUrl(finalImageUrl);
         setImageDimensions({
           width: img.naturalWidth,
           height: img.naturalHeight,
@@ -68,7 +90,7 @@ export const ImageUploadModal: React.FC<ImageUploadModalProps> = ({
         }
       } catch (err) {
         console.error("Storage error", err);
-        setError("Erreur lors de l'enregistrement local de l'image.");
+        setError("Erreur lors de l'enregistrement de l'image.");
       } finally {
         setIsProcessing(false);
       }

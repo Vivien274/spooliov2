@@ -23,6 +23,7 @@ import {
   CheckCircle2,
   Sparkles,
   Store,
+  Database,
 } from "lucide-react";
 import Link from "next/link";
 import { ImageUploadModal } from "./ImageUploadModal";
@@ -40,7 +41,19 @@ const BazarAdminDashboardContent: React.FC = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [previewingSceneId, setPreviewingSceneId] = useState<string | null>(null);
   const [notification, setNotification] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSaveToDatabase = async () => {
+    setIsSaving(true);
+    const result = await bazarRepository.saveToServer();
+    setIsSaving(false);
+    if (result.success) {
+      showNotification(result.message);
+    } else {
+      alert(`Erreur d'enregistrement : ${result.message}`);
+    }
+  };
 
   const showNotification = (msg: string) => {
     setNotification(msg);
@@ -133,7 +146,8 @@ const BazarAdminDashboardContent: React.FC = () => {
       try {
         const dataset = JSON.parse(evt.target?.result as string) as BazarDataset;
         await bazarRepository.importDataset(dataset);
-        showNotification("Données importées avec succès !");
+        await bazarRepository.saveToServer();
+        showNotification("Données importées et enregistrées en base avec succès !");
       } catch (err) {
         alert("Fichier JSON invalide pour Le Bazar.");
       }
@@ -226,6 +240,15 @@ const BazarAdminDashboardContent: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
+          <button
+            onClick={handleSaveToDatabase}
+            disabled={isSaving}
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs font-bold shadow-xs transition-all active:scale-95 cursor-pointer"
+          >
+            <Database className="w-3.5 h-3.5" />
+            <span>{isSaving ? "Sauvegarde..." : "Enregistrer en base"}</span>
+          </button>
+
           <Link
             href="/le-bazar"
             target="_blank"
