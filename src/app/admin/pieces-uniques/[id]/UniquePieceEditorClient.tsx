@@ -1509,7 +1509,7 @@ export default function UniquePieceEditorClient({
                                         hero: { ...prev.hero, video: photo.src },
                                       }))
                                     }
-                                    className="text-[10px] font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 cursor-pointer"
+                                    className="text-[10px] font-bold text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 flex items-center gap-1 cursor-pointer"
                                     title="Définir cette vidéo comme vidéo de fond du Hero"
                                   >
                                     <Film className="w-3 h-3" />
@@ -1540,7 +1540,7 @@ export default function UniquePieceEditorClient({
                                 <button
                                   type="button"
                                   onClick={() => setImage(photo.src)}
-                                  className="text-[10px] font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 cursor-pointer"
+                                  className="text-[10px] font-bold text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 flex items-center gap-1 cursor-pointer"
                                   title="Définir cette photo comme image principale du Hero"
                                 >
                                   <Star className="w-3 h-3" />

@@ -544,7 +544,7 @@ export default function AdminLoteriePage() {
                         {spin.userName || <span className="text-neutral-500 italic">-</span>}
                       </td>
                       <td className="py-3.5 px-4">
-                        <span className="font-bold text-amber-300 bg-amber-400/10 px-2.5 py-1 rounded-lg border border-amber-400/20">
+                        <span className="font-bold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-400/10 px-2.5 py-1 rounded-lg border border-amber-300 dark:border-amber-400/20">
                           {spin.prizeTitle}
                         </span>
                       </td>

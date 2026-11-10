@@ -5,79 +5,94 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   Calendar,
-  Box,
   Gift,
-  CheckCircle2,
-  Clock,
-  Euro,
   Printer,
   Edit,
-  Plus,
-  Trash2,
-  ExternalLink,
-  Sparkles,
   Eye,
   Save,
   X,
   PackageCheck,
-  Layers,
-  HelpCircle,
-  FileCode,
-  Tag,
+  Sparkles,
   RefreshCw,
   GripVertical,
   ArrowUp,
   ArrowDown,
+  ShoppingBag,
+  Globe,
 } from "lucide-react";
 import { useAdminTheme } from "../AdminThemeContext";
 import {
   AdventData,
   AdventObjectItem,
-  PackagingItem,
   ObjectProductionStatus,
-  PackagingStatus,
   ObjectVisibilityStatus,
 } from "@/types/avent";
 import {
   getAdventDataAction,
   updateAdventObjectAction,
   reorderAdventObjectsAction,
-  savePackagingItemAction,
-  deletePackagingItemAction,
   updateAdventConfigAction,
 } from "@/app/actions/aventActions";
 
-const STATUS_LABELS: Record<ObjectProductionStatus, { label: string; bg: string; text: string; icon: string }> = {
-  idee: { label: "Idée 💡", bg: "bg-slate-500/10 border-slate-500/20", text: "text-slate-400", icon: "💡" },
-  decide: { label: "Décidé 🎯", bg: "bg-purple-500/10 border-purple-500/20", text: "text-purple-400", icon: "🎯" },
-  stl_pret: { label: "STL Prêt 📐", bg: "bg-indigo-500/10 border-indigo-500/20", text: "text-indigo-400", icon: "📐" },
-  prototype: { label: "Prototype 🧪", bg: "bg-amber-500/10 border-amber-500/20", text: "text-amber-400", icon: "🧪" },
-  impression: { label: "En Impression 🖨️", bg: "bg-blue-500/10 border-blue-500/20", text: "text-blue-400 animate-pulse", icon: "🖨️" },
-  imprime: { label: "Imprimé 📦", bg: "bg-teal-500/10 border-teal-500/20", text: "text-teal-400", icon: "📦" },
-  emballe: { label: "Emballé 🎁", bg: "bg-emerald-500/10 border-emerald-500/20", text: "text-emerald-400 font-bold", icon: "🎁" },
-};
-
-const PACKAGING_STATUS_LABELS: Record<PackagingStatus, { label: string; bg: string; text: string }> = {
-  a_commander: { label: "À Commander 🛒", bg: "bg-rose-500/10 border-rose-500/20", text: "text-rose-400" },
-  commande: { label: "Commandé 🚚", bg: "bg-amber-500/10 border-amber-500/20", text: "text-amber-400" },
-  recu: { label: "Reçu 📦", bg: "bg-blue-500/10 border-blue-500/20", text: "text-blue-400" },
-  en_stock: { label: "En Stock ✅", bg: "bg-emerald-500/10 border-emerald-500/20", text: "text-emerald-400" },
+const STATUS_LABELS: Record<
+  ObjectProductionStatus,
+  { label: string; bg: string; text: string; icon: string }
+> = {
+  idee: {
+    label: "Idée 💡",
+    bg: "bg-slate-100 border-slate-300",
+    text: "text-slate-800",
+    icon: "💡",
+  },
+  decide: {
+    label: "Décidé 🎯",
+    bg: "bg-purple-50 border-purple-200",
+    text: "text-purple-800",
+    icon: "🎯",
+  },
+  stl_pret: {
+    label: "STL Prêt 📐",
+    bg: "bg-indigo-50 border-indigo-200",
+    text: "text-indigo-800",
+    icon: "📐",
+  },
+  prototype: {
+    label: "Prototype 🧪",
+    bg: "bg-amber-50 border-amber-300",
+    text: "text-amber-900",
+    icon: "🧪",
+  },
+  impression: {
+    label: "En Impression 🖨️",
+    bg: "bg-blue-50 border-blue-200",
+    text: "text-blue-800 font-semibold",
+    icon: "🖨️",
+  },
+  imprime: {
+    label: "Imprimé 📦",
+    bg: "bg-teal-50 border-teal-200",
+    text: "text-teal-800",
+    icon: "📦",
+  },
+  emballe: {
+    label: "Emballé 🎁",
+    bg: "bg-emerald-50 border-emerald-300",
+    text: "text-emerald-800 font-bold",
+    icon: "🎁",
+  },
 };
 
 export default function AdminCalendrierAventPage() {
   const { cls } = useAdminTheme();
   const [data, setData] = useState<AdventData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"objects" | "packaging" | "config">("objects");
+  const [activeTab, setActiveTab] = useState<"objects" | "config">("objects");
   const [statusFilter, setStatusFilter] = useState<string>("tous");
   const [isPending, startTransition] = useTransition();
 
   // Edit Object Modal State
   const [editingObject, setEditingObject] = useState<AdventObjectItem | null>(null);
   const [isUploadingImage, setIsUploadingImage] = useState<boolean>(false);
-
-  // Edit Packaging Modal State
-  const [editingPackaging, setEditingPackaging] = useState<PackagingItem | null>(null);
 
   // Drag and drop state for objects
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
@@ -126,8 +141,10 @@ export default function AdminCalendrierAventPage() {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="flex flex-col items-center gap-3">
-          <RefreshCw className="w-8 h-8 text-amber-400 animate-spin" />
-          <span className={`text-sm ${cls.textMuted} font-mono`}>Chargement du Calendrier de l'Avent...</span>
+          <RefreshCw className="w-8 h-8 text-[#FF5500] animate-spin" />
+          <span className="text-sm text-neutral-600 font-mono">
+            Chargement du Calendrier de l'Avent...
+          </span>
         </div>
       </div>
     );
@@ -137,17 +154,10 @@ export default function AdminCalendrierAventPage() {
   const totalObjects = data.objects.length;
   const packagedCount = data.objects.filter((o) => o.status === "emballe").length;
   const printedCount = data.objects.filter((o) => ["imprime", "emballe"].includes(o.status)).length;
-  const totalPrintTimeMinutes = data.objects.reduce((acc, o) => acc + (o.printTimeMinutes || 0), 0);
-  const totalFilamentWeight = data.objects.reduce((acc, o) => acc + (o.weightGrams || 0), 0);
-  const totalFilamentCost = data.objects.reduce((acc, o) => acc + (o.estimatedCost || 0), 0);
+  const readyStlCount = data.objects.filter((o) =>
+    ["stl_pret", "prototype", "impression", "imprime", "emballe"].includes(o.status)
+  ).length;
 
-  const packagingCostPerCalendar = data.packaging.reduce(
-    (acc, p) => acc + p.unitPrice * p.quantityNeededPerCalendar,
-    0
-  );
-  const totalEstimatedCostPerCalendar = packagingCostPerCalendar + totalFilamentCost;
-
-  // Handlers
   const handleQuickStatusChange = (obj: AdventObjectItem, newStatus: ObjectProductionStatus) => {
     const updated = { ...obj, status: newStatus };
     startTransition(async () => {
@@ -171,33 +181,6 @@ export default function AdminCalendrierAventPage() {
       } catch (err: any) {
         console.error("Save object error:", err);
         alert("Erreur lors de la sauvegarde : " + (err?.message || "Erreur serveur"));
-      }
-    });
-  };
-
-  const handleSavePackaging = () => {
-    if (!editingPackaging) return;
-    startTransition(async () => {
-      try {
-        const res = await savePackagingItemAction(editingPackaging);
-        setData(res);
-        setEditingPackaging(null);
-      } catch (err: any) {
-        console.error("Save packaging error:", err);
-        alert("Erreur lors de la sauvegarde packaging : " + (err?.message || "Erreur serveur"));
-      }
-    });
-  };
-
-  const handleDeletePackaging = (id: string) => {
-    if (!confirm("Voulez-vous vraiment supprimer cet article de packaging ?")) return;
-    startTransition(async () => {
-      try {
-        const res = await deletePackagingItemAction(id);
-        setData(res);
-      } catch (err: any) {
-        console.error("Delete packaging error:", err);
-        alert("Erreur lors de la suppression : " + (err?.message || "Erreur serveur"));
       }
     });
   };
@@ -289,182 +272,178 @@ export default function AdminCalendrierAventPage() {
   });
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-6 pb-12">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#E4E4E0] pb-6">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5 flex-wrap">
             <span className="text-2xl">🎄</span>
-            <h1 className={`text-2xl font-black ${cls.textMain} font-antonio uppercase tracking-wide`}>
+            <h1 className="text-2xl font-black text-[#121212] font-antonio uppercase tracking-wide">
               Gestion Calendrier de l'Avent
             </h1>
-            <span className="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-mono px-2 py-0.5 rounded-full font-bold">
+            <span className="bg-orange-50 text-[#FF5500] border border-orange-200 text-[10px] font-mono px-2.5 py-0.5 rounded-full font-bold">
               Local Dev Mode
             </span>
           </div>
-          <p className={`text-xs ${cls.textMuted} mt-1`}>
-            Préparez vos 24 créations 3D, gérez votre stock packaging et contrôlez la vue client.
+          <p className="text-xs text-neutral-600 mt-1">
+            Gérez vos {totalObjects} créations, l'ordre des jours et les indices visibles par les clients.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           <Link
-            href="/calendrier-avent"
+            href="/calendrier-avent?dev=true"
             target="_blank"
-            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold transition-all shadow-md"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white hover:bg-neutral-50 text-[#121212] border border-[#E4E4E0] text-xs font-bold transition-all shadow-xs"
           >
-            <Eye className="w-4 h-4" />
+            <Eye className="w-4 h-4 text-[#FF5500]" />
             <span>Tester la Vue Client ↗</span>
           </Link>
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* KPI Cards (Synthèse sans coûts/logistique) */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Card 1: Production Progress */}
-        <div className={`${cls.cardBg} border border-white/10 rounded-3xl p-5 shadow-sm space-y-2`}>
-          <div className="flex items-center justify-between text-xs text-emerald-400 font-bold uppercase tracking-wider font-mono">
-            <span>Avancement Prod</span>
-            <PackageCheck className="w-4 h-4" />
+        <div className="bg-white border border-[#E4E4E0] rounded-2xl p-5 shadow-xs space-y-2">
+          <div className="flex items-center justify-between text-xs text-emerald-800 font-bold uppercase tracking-wider font-mono">
+            <span>Avancement Objets</span>
+            <PackageCheck className="w-4 h-4 text-emerald-600" />
           </div>
-          <div className={`text-2xl font-black ${cls.textMain} font-mono`}>
-            {packagedCount} / {totalObjects}
+          <div className="text-2xl font-black text-[#121212] font-mono">
+            {printedCount} / {totalObjects}
           </div>
-          <div className="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+          <div className="w-full bg-neutral-100 rounded-full h-2 overflow-hidden border border-[#E4E4E0]">
             <div
-              className="bg-gradient-to-r from-emerald-500 to-teal-400 h-2 rounded-full transition-all duration-500"
-              style={{ width: `${(packagedCount / totalObjects) * 100}%` }}
+              className="bg-emerald-500 h-2 rounded-full transition-all duration-500"
+              style={{ width: `${(printedCount / Math.max(1, totalObjects)) * 100}%` }}
             />
           </div>
-          <p className={`text-[10px] ${cls.textMuted} font-mono`}>
-            {printedCount} objets imprimés sur {totalObjects} ({Math.round((printedCount / totalObjects) * 100)}%)
+          <p className="text-[11px] text-neutral-500 font-mono">
+            {packagedCount} emballés • {readyStlCount} STL prêts
           </p>
         </div>
 
-        {/* Card 2: Total Print Time */}
-        <div className={`${cls.cardBg} border border-white/10 rounded-3xl p-5 shadow-sm space-y-2`}>
-          <div className="flex items-center justify-between text-xs text-blue-400 font-bold uppercase tracking-wider font-mono">
-            <span>Temps d'Impression</span>
-            <Printer className="w-4 h-4" />
+        {/* Card 2: Preorders */}
+        <div className="bg-white border border-[#E4E4E0] rounded-2xl p-5 shadow-xs space-y-2">
+          <div className="flex items-center justify-between text-xs text-[#FF5500] font-bold uppercase tracking-wider font-mono">
+            <span>Précommandes</span>
+            <ShoppingBag className="w-4 h-4 text-[#FF5500]" />
           </div>
-          <div className={`text-2xl font-black ${cls.textMain} font-mono`}>
-            {Math.floor(totalPrintTimeMinutes / 60)}h {totalPrintTimeMinutes % 60}m
+          <div className="text-2xl font-black text-[#121212] font-mono">
+            {data.config.preorder?.totalSold ?? 0} / {data.config.preorder?.totalLimit || 50}
           </div>
-          <p className={`text-[10px] ${cls.textMuted} font-mono`}>
-            Poids filament total : <strong className="text-white">{totalFilamentWeight}g</strong>
+          <div className="w-full bg-neutral-100 rounded-full h-2 overflow-hidden border border-[#E4E4E0]">
+            <div
+              className="bg-[#FF5500] h-2 rounded-full transition-all duration-500"
+              style={{
+                width: `${
+                  ((data.config.preorder?.totalSold ?? 0) /
+                    Math.max(1, data.config.preorder?.totalLimit || 50)) *
+                  100
+                }%`,
+              }}
+            />
+          </div>
+          <p className="text-[11px] text-neutral-500 font-mono">
+            Tarif standard : {data.config.preorder?.tier2Price || 50} €
           </p>
         </div>
 
-        {/* Card 3: Cost per Calendar */}
-        <div className={`${cls.cardBg} border border-white/10 rounded-3xl p-5 shadow-sm space-y-2`}>
-          <div className="flex items-center justify-between text-xs text-purple-400 font-bold uppercase tracking-wider font-mono">
-            <span>Coût Fab / Unité</span>
-            <Euro className="w-4 h-4" />
+        {/* Card 3: Public Page Status */}
+        <div className="bg-white border border-[#E4E4E0] rounded-2xl p-5 shadow-xs space-y-2">
+          <div className="flex items-center justify-between text-xs text-neutral-700 font-bold uppercase tracking-wider font-mono">
+            <span>Visibilité Publique</span>
+            <Globe className="w-4 h-4 text-neutral-500" />
           </div>
-          <div className={`text-2xl font-black ${cls.textMain} font-mono`}>
-            {totalEstimatedCostPerCalendar.toFixed(2)}€
+          <div className="text-xl font-bold flex items-center gap-2">
+            {data.config.isPublicActive ? (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-300">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                Page en ligne
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-neutral-100 text-neutral-700 border border-neutral-300">
+                <span className="w-2 h-2 rounded-full bg-neutral-400" />
+                Page privée
+              </span>
+            )}
           </div>
-          <p className={`text-[10px] ${cls.textMuted} font-mono`}>
-            Pkg: {packagingCostPerCalendar.toFixed(2)}€ | Filament: {totalFilamentCost.toFixed(2)}€
-          </p>
-        </div>
-
-        {/* Card 4: Estimated Margin */}
-        <div className={`${cls.cardBg} border border-white/10 rounded-3xl p-5 shadow-sm space-y-2`}>
-          <div className="flex items-center justify-between text-xs text-amber-400 font-bold uppercase tracking-wider font-mono">
-            <span>Prix Public Vente</span>
-            <Tag className="w-4 h-4" />
-          </div>
-          <div className={`text-2xl font-black ${cls.textMain} font-mono`}>
-            {data.config.estimatedPublicPrice.toFixed(2)}€
-          </div>
-          <p className={`text-[10px] ${cls.textMuted} font-mono`}>
-            Marge brute estimée : <strong className="text-emerald-400">{(data.config.estimatedPublicPrice - totalEstimatedCostPerCalendar).toFixed(2)}€</strong>
+          <p className="text-[11px] text-neutral-500 font-mono">
+            Route : /calendrier-avent
           </p>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex items-center gap-2 border-b border-white/10 pb-3">
+      <div className="flex items-center gap-2 border-b border-[#E4E4E0] pb-3">
         <button
           onClick={() => setActiveTab("objects")}
-          className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
             activeTab === "objects"
-              ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-              : `${cls.cardBg} ${cls.textMuted} hover:text-white border border-white/5`
+              ? "bg-[#121212] text-white shadow-xs"
+              : "bg-white text-neutral-600 hover:text-[#121212] border border-[#E4E4E0]"
           }`}
         >
-          <Gift className="w-4 h-4" />
-          <span>Pipeline des 24 Objets ({totalObjects})</span>
-        </button>
-
-        <button
-          onClick={() => setActiveTab("packaging")}
-          className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 ${
-            activeTab === "packaging"
-              ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-              : `${cls.cardBg} ${cls.textMuted} hover:text-white border border-white/5`
-          }`}
-        >
-          <Box className="w-4 h-4" />
-          <span>Packaging & Fournitures ({data.packaging.length})</span>
+          <Gift className="w-4 h-4 text-[#FF5500]" />
+          <span>Pipeline des Objets ({totalObjects})</span>
         </button>
 
         <button
           onClick={() => setActiveTab("config")}
-          className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 ${
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
             activeTab === "config"
-              ? "bg-amber-500/20 text-amber-300 border border-amber-500/30"
-              : `${cls.cardBg} ${cls.textMuted} hover:text-white border border-white/5`
+              ? "bg-[#121212] text-white shadow-xs"
+              : "bg-white text-neutral-600 hover:text-[#121212] border border-[#E4E4E0]"
           }`}
         >
-          <Sparkles className="w-4 h-4" />
-          <span>Configuration & Tarifs</span>
+          <Sparkles className="w-4 h-4 text-[#FF5500]" />
+          <span>Configuration & Précommandes</span>
         </button>
       </div>
 
       {/* TAB 1: OBJECTS PIPELINE */}
       {activeTab === "objects" && (
-        <div className="space-y-6">
+        <div className="space-y-4">
           {/* Status Filter Bar */}
-          <div className="flex items-center justify-between flex-wrap gap-3">
+          <div className="flex items-center justify-between flex-wrap gap-2.5">
             <div className="flex items-center gap-1.5 flex-wrap">
-              <span className={`text-xs ${cls.textMuted} font-mono mr-1`}>Filtrer par statut :</span>
+              <span className="text-xs text-neutral-600 font-semibold mr-1">Filtrer par statut :</span>
               {["tous", "idee", "decide", "stl_pret", "prototype", "impression", "imprime", "emballe"].map((st) => (
                 <button
                   key={st}
                   onClick={() => setStatusFilter(st)}
-                  className={`px-3 py-1.5 rounded-xl text-[11px] font-bold transition-all ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                     statusFilter === st
-                      ? "bg-white text-black font-extrabold"
-                      : "bg-white/5 text-white/70 hover:bg-white/10"
+                      ? "bg-[#121212] text-white shadow-xs"
+                      : "bg-white text-neutral-700 border border-[#E4E4E0] hover:bg-neutral-50"
                   }`}
                 >
-                  {st === "tous" ? "Tous (24)" : STATUS_LABELS[st as ObjectProductionStatus]?.label}
+                  {st === "tous" ? `Tous (${totalObjects})` : STATUS_LABELS[st as ObjectProductionStatus]?.label}
                 </button>
               ))}
             </div>
           </div>
 
           {/* Drag & Drop Hint Banner */}
-          <div className="flex items-center justify-between text-xs text-amber-300/90 bg-amber-500/10 border border-amber-500/20 rounded-xl px-4 py-2.5">
+          <div className="flex items-center justify-between text-xs text-orange-950 bg-orange-50 border border-orange-200 rounded-xl px-4 py-2.5">
             <div className="flex items-center gap-2">
-              <GripVertical className="w-4 h-4 text-amber-400 shrink-0" />
+              <GripVertical className="w-4 h-4 text-[#FF5500] shrink-0" />
               <span>
                 {statusFilter === "tous"
-                  ? "Glissez-déposez les cartes (poignée ⋮⋮) ou utilisez les boutons ▲ / ▼ pour réorganiser les 24 jours."
-                  : "Sélectionnez \"Tous (24)\" ci-dessus pour réorganiser les jours en glissé-déposé."}
+                  ? "Glissez-déposez les cartes (poignée ⋮⋮) ou utilisez les boutons ▲ / ▼ pour réorganiser l'ordre des jours."
+                  : `Filtre actif : sélectionnez "Tous (${totalObjects})" pour réorganiser les jours en glissé-déposé.`}
               </span>
             </div>
             {isPending && (
-              <span className="flex items-center gap-1.5 text-[11px] font-mono text-amber-300 animate-pulse shrink-0">
+              <span className="flex items-center gap-1.5 text-[11px] font-mono text-[#FF5500] font-bold shrink-0">
                 <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Enregistrement...
               </span>
             )}
           </div>
 
-          {/* Objects List (Vertical List with Drag & Drop) */}
-          <div className="flex flex-col gap-3">
+          {/* Objects List */}
+          <div className="flex flex-col gap-2.5">
             {filteredObjects.map((obj) => {
               const realIndex = data.objects.findIndex((o) => o.day === obj.day);
               const statusCfg = STATUS_LABELS[obj.status] || STATUS_LABELS.idee;
@@ -479,20 +458,20 @@ export default function AdminCalendrierAventPage() {
                   onDragOver={(e) => handleDragOver(e, realIndex)}
                   onDrop={(e) => handleDrop(e, realIndex)}
                   onDragEnd={handleDragEnd}
-                  className={`${cls.cardBg} border ${
+                  className={`bg-white border ${
                     isDragTarget
-                      ? "border-amber-400 bg-amber-500/15 ring-2 ring-amber-400/50 shadow-lg"
+                      ? "border-[#FF5500] ring-2 ring-[#FF5500]/20 shadow-md bg-orange-50/30"
                       : isBeingDragged
-                      ? "opacity-30 border-dashed border-amber-400/60 scale-[0.99]"
-                      : "border-white/10 hover:border-white/20"
-                  } rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all shadow-sm`}
+                      ? "opacity-40 border-dashed border-[#FF5500] scale-[0.99]"
+                      : "border-[#E4E4E0] hover:border-neutral-300"
+                  } rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all shadow-xs`}
                 >
-                  {/* Left: Drag Handle + Day + Image + Title + Category */}
+                  {/* Left: Drag Handle + Day Badge + Image + Title + Category */}
                   <div className="flex items-center gap-3.5 flex-1 min-w-[260px]">
                     {statusFilter === "tous" && (
                       <div className="flex items-center gap-0.5 shrink-0 select-none">
                         <div
-                          className="p-1 text-white/30 hover:text-amber-400 cursor-grab active:cursor-grabbing rounded-lg hover:bg-white/5 transition-colors"
+                          className="p-1 text-neutral-400 hover:text-neutral-700 cursor-grab active:cursor-grabbing rounded-lg hover:bg-neutral-100 transition-colors"
                           title="Glisser pour réorganiser"
                         >
                           <GripVertical className="w-4 h-4" />
@@ -502,7 +481,7 @@ export default function AdminCalendrierAventPage() {
                             type="button"
                             disabled={realIndex === 0}
                             onClick={() => handleMoveStep(realIndex, "up")}
-                            className="p-0.5 text-white/30 hover:text-amber-400 disabled:opacity-10 disabled:hover:text-white/30 transition-colors"
+                            className="p-0.5 text-neutral-400 hover:text-[#FF5500] disabled:opacity-20 disabled:hover:text-neutral-400 transition-colors cursor-pointer"
                             title="Monter d'un cran"
                           >
                             <ArrowUp className="w-3 h-3" />
@@ -511,7 +490,7 @@ export default function AdminCalendrierAventPage() {
                             type="button"
                             disabled={realIndex === data.objects.length - 1}
                             onClick={() => handleMoveStep(realIndex, "down")}
-                            className="p-0.5 text-white/30 hover:text-amber-400 disabled:opacity-10 disabled:hover:text-white/30 transition-colors"
+                            className="p-0.5 text-neutral-400 hover:text-[#FF5500] disabled:opacity-20 disabled:hover:text-neutral-400 transition-colors cursor-pointer"
                             title="Descendre d'un cran"
                           >
                             <ArrowDown className="w-3 h-3" />
@@ -520,47 +499,49 @@ export default function AdminCalendrierAventPage() {
                       </div>
                     )}
 
-                    <span className="w-10 h-10 rounded-2xl bg-amber-500/20 border border-amber-500/30 text-amber-300 font-black text-sm flex items-center justify-center font-mono shrink-0 shadow-inner">
+                    <span className="w-11 h-11 rounded-2xl bg-orange-50 border border-orange-200 text-[#FF5500] font-black text-sm flex items-center justify-center font-mono shrink-0 shadow-2xs">
                       J{obj.day}
                     </span>
 
-                    <div className="w-12 h-12 rounded-xl overflow-hidden bg-black/50 border border-white/10 relative shrink-0">
+                    <div className="w-12 h-12 rounded-xl overflow-hidden bg-neutral-100 border border-[#E4E4E0] relative shrink-0 flex items-center justify-center">
                       {obj.imageUrl ? (
                         <Image src={obj.imageUrl} alt={obj.title} fill className="object-cover" />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center text-xs">🎁</div>
+                        <div className="text-xl">🎁</div>
                       )}
                     </div>
 
-                    <div className="space-y-0.5">
+                    <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-700 font-bold bg-neutral-100 px-2 py-0.5 rounded-md border border-neutral-200">
                           {obj.category}
                         </span>
                       </div>
-                      <h3 className={`text-sm font-bold ${cls.textMain} leading-tight`}>
+                      <h3 className="text-sm font-bold text-[#121212] leading-tight">
                         {obj.title}
                       </h3>
                     </div>
                   </div>
 
-                  {/* Middle Left: Filament (Infos techniques masquées selon demande) */}
+                  {/* Middle Left: Filament Color */}
                   {obj.filamentColor ? (
-                    <div className="hidden lg:flex items-center gap-1.5 min-w-[160px] text-xs text-white/70 font-mono">
-                      <Printer className="w-3.5 h-3.5 text-amber-400/80 shrink-0" />
-                      <span className="truncate max-w-[160px]" title={obj.filamentColor}>{obj.filamentColor}</span>
+                    <div className="hidden lg:flex items-center gap-1.5 min-w-[160px] text-xs text-neutral-600 font-mono">
+                      <Printer className="w-3.5 h-3.5 text-[#FF5500] shrink-0" />
+                      <span className="truncate max-w-[160px]" title={obj.filamentColor}>
+                        {obj.filamentColor}
+                      </span>
                     </div>
                   ) : null}
 
                   {/* Middle Right: Teaser */}
                   <div className="flex-1 min-w-[200px] hidden sm:block">
-                    <div className="bg-black/30 px-3 py-1.5 rounded-xl border border-white/5 text-[11px] italic text-amber-200/80 line-clamp-2">
+                    <div className="bg-[#FAF9F6] px-3 py-1.5 rounded-xl border border-[#E4E4E0] text-[11px] italic text-neutral-600 line-clamp-2">
                       "{obj.teaser}"
                     </div>
                   </div>
 
                   {/* Right: Status Dropdown & Actions */}
-                  <div className="flex items-center justify-between md:justify-end gap-3 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-white/10">
+                  <div className="flex items-center justify-between md:justify-end gap-2.5 shrink-0 pt-2 md:pt-0 border-t md:border-t-0 border-[#E4E4E0]">
                     <span
                       className={`inline-flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-xl border ${statusCfg.bg} ${statusCfg.text}`}
                     >
@@ -572,7 +553,7 @@ export default function AdminCalendrierAventPage() {
                       onChange={(e) =>
                         handleQuickStatusChange(obj, e.target.value as ObjectProductionStatus)
                       }
-                      className="bg-black/60 border border-white/20 text-white text-[11px] rounded-xl px-2.5 py-1.5 focus:outline-none cursor-pointer font-mono"
+                      className="bg-white border border-[#E4E4E0] text-[#121212] text-xs rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-[#FF5500] cursor-pointer font-medium"
                     >
                       <option value="idee">💡 Idée</option>
                       <option value="decide">🎯 Décidé</option>
@@ -585,7 +566,7 @@ export default function AdminCalendrierAventPage() {
 
                     <button
                       onClick={() => setEditingObject(obj)}
-                      className="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white/80 hover:text-white transition-colors border border-white/10"
+                      className="p-2 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-700 hover:text-[#121212] transition-colors border border-[#E4E4E0] cursor-pointer"
                       title="Modifier cet objet"
                     >
                       <Edit className="w-4 h-4" />
@@ -598,122 +579,16 @@ export default function AdminCalendrierAventPage() {
         </div>
       )}
 
-      {/* TAB 2: PACKAGING */}
-      {activeTab === "packaging" && (
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className={`text-base font-bold ${cls.textMain} font-antonio uppercase tracking-wide`}>
-              Matériel & Packaging ({data.packaging.length} références)
-            </h2>
-
-            <button
-              onClick={() =>
-                setEditingPackaging({
-                  id: `pack-${Date.now()}`,
-                  name: "",
-                  category: "boite",
-                  supplier: "",
-                  supplierUrl: "",
-                  unitPrice: 0,
-                  quantityNeededPerCalendar: 1,
-                  quantityInStock: 0,
-                  status: "a_commander",
-                })
-              }
-              className="px-4 py-2 rounded-2xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs transition-all flex items-center gap-2 shadow"
-            >
-              <Plus className="w-4 h-4" />
-              <span>Ajouter un Article Packaging</span>
-            </button>
-          </div>
-
-          <div className={`${cls.cardBg} border border-white/10 rounded-3xl overflow-hidden shadow-md`}>
-            <table className="w-full text-left text-xs">
-              <thead className="bg-white/5 text-white/60 font-mono uppercase tracking-wider text-[10px] border-b border-white/10">
-                <tr>
-                  <th className="py-3 px-4">Article</th>
-                  <th className="py-3 px-4">Fournisseur</th>
-                  <th className="py-3 px-4">Prix Unit.</th>
-                  <th className="py-3 px-4">Qté / Cal.</th>
-                  <th className="py-3 px-4">Coût / Cal.</th>
-                  <th className="py-3 px-4">Stock</th>
-                  <th className="py-3 px-4">Statut</th>
-                  <th className="py-3 px-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/5">
-                {data.packaging.map((pack) => {
-                  const statusCfg = PACKAGING_STATUS_LABELS[pack.status] || PACKAGING_STATUS_LABELS.a_commander;
-                  const totalCostItem = pack.unitPrice * pack.quantityNeededPerCalendar;
-                  return (
-                    <tr key={pack.id} className="hover:bg-white/5 transition-colors">
-                      <td className="py-3.5 px-4">
-                        <div className="font-bold text-white">{pack.name}</div>
-                        <div className="text-[10px] text-white/50">{pack.category}</div>
-                      </td>
-                      <td className="py-3.5 px-4 text-white/80">
-                        {pack.supplierUrl ? (
-                          <a
-                            href={pack.supplierUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="underline hover:text-amber-300 flex items-center gap-1"
-                          >
-                            <span>{pack.supplier}</span>
-                            <ExternalLink className="w-3 h-3" />
-                          </a>
-                        ) : (
-                          pack.supplier || "-"
-                        )}
-                      </td>
-                      <td className="py-3.5 px-4 font-mono font-bold">{pack.unitPrice.toFixed(2)}€</td>
-                      <td className="py-3.5 px-4 font-mono">{pack.quantityNeededPerCalendar}</td>
-                      <td className="py-3.5 px-4 font-mono font-bold text-amber-300">
-                        {totalCostItem.toFixed(2)}€
-                      </td>
-                      <td className="py-3.5 px-4 font-mono">{pack.quantityInStock}</td>
-                      <td className="py-3.5 px-4">
-                        <span
-                          className={`inline-flex px-2 py-0.5 rounded-lg text-[10px] font-bold border ${statusCfg.bg} ${statusCfg.text}`}
-                        >
-                          {statusCfg.label}
-                        </span>
-                      </td>
-                      <td className="py-3.5 px-4 text-right">
-                        <div className="flex justify-end gap-2">
-                          <button
-                            onClick={() => setEditingPackaging(pack)}
-                            className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white/80"
-                          >
-                            <Edit className="w-3.5 h-3.5" />
-                          </button>
-                          <button
-                            onClick={() => handleDeletePackaging(pack.id)}
-                            className="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-
-      {/* TAB 3: CONFIGURATION */}
+      {/* TAB 2: CONFIGURATION */}
       {activeTab === "config" && (
-        <div className={`${cls.cardBg} border border-white/10 rounded-3xl p-6 space-y-6 max-w-2xl`}>
-          <h2 className={`text-lg font-bold ${cls.textMain} font-antonio uppercase tracking-wide`}>
-            Paramètres du Calendrier de l'Avent
+        <div className="bg-white border border-[#E4E4E0] rounded-3xl p-6 space-y-6 max-w-2xl shadow-xs">
+          <h2 className="text-lg font-bold text-[#121212] font-antonio uppercase tracking-wide">
+            Paramètres du Calendrier & Précommandes
           </h2>
 
           <div className="space-y-4 text-xs">
             <div>
-              <label className="block text-white/70 mb-1 font-bold">Titre Public</label>
+              <label className="block text-neutral-700 mb-1 font-bold">Titre Public</label>
               <input
                 type="text"
                 value={data.config.title}
@@ -723,12 +598,12 @@ export default function AdminCalendrierAventPage() {
                     config: { ...data.config, title: e.target.value },
                   })
                 }
-                className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                className="w-full bg-[#FAF9F6] border border-[#E4E4E0] rounded-xl px-3 py-2 text-[#121212] focus:outline-none focus:border-[#FF5500] focus:bg-white"
               />
             </div>
 
             <div>
-              <label className="block text-white/70 mb-1 font-bold">Sous-titre / Description</label>
+              <label className="block text-neutral-700 mb-1 font-bold">Sous-titre / Description</label>
               <textarea
                 rows={3}
                 value={data.config.subtitle}
@@ -738,32 +613,13 @@ export default function AdminCalendrierAventPage() {
                     config: { ...data.config, subtitle: e.target.value },
                   })
                 }
-                className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                className="w-full bg-[#FAF9F6] border border-[#E4E4E0] rounded-xl px-3 py-2 text-[#121212] focus:outline-none focus:border-[#FF5500] focus:bg-white"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-white/70 mb-1 font-bold">Prix Vente Estime (€)</label>
-                <input
-                  type="number"
-                  step="0.10"
-                  value={data.config.estimatedPublicPrice}
-                  onChange={(e) =>
-                    setData({
-                      ...data,
-                      config: {
-                        ...data.config,
-                        estimatedPublicPrice: parseFloat(e.target.value) || 0,
-                      },
-                    })
-                  }
-                  className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-400"
-                />
-              </div>
-
-              <div>
-                <label className="block text-white/70 mb-1 font-bold">Date de Début</label>
+                <label className="block text-neutral-700 mb-1 font-bold">Date de Début</label>
                 <input
                   type="date"
                   value={data.config.startDate}
@@ -773,23 +629,38 @@ export default function AdminCalendrierAventPage() {
                       config: { ...data.config, startDate: e.target.value },
                     })
                   }
-                  className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-400"
+                  className="w-full bg-[#FAF9F6] border border-[#E4E4E0] rounded-xl px-3 py-2 text-[#121212] font-mono focus:outline-none focus:border-[#FF5500] focus:bg-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-neutral-700 mb-1 font-bold">Date de Fin</label>
+                <input
+                  type="date"
+                  value={data.config.endDate}
+                  onChange={(e) =>
+                    setData({
+                      ...data,
+                      config: { ...data.config, endDate: e.target.value },
+                    })
+                  }
+                  className="w-full bg-[#FAF9F6] border border-[#E4E4E0] rounded-xl px-3 py-2 text-[#121212] font-mono focus:outline-none focus:border-[#FF5500] focus:bg-white"
                 />
               </div>
             </div>
 
             {/* Public Page Visibility Control */}
-            <div className="bg-white/5 border border-amber-500/30 rounded-2xl p-4 space-y-3">
+            <div className="bg-[#FAF9F6] border border-[#E4E4E0] rounded-2xl p-4 space-y-3">
               <div className="flex items-center justify-between flex-wrap gap-3">
                 <div>
-                  <h3 className="text-sm font-bold text-amber-300 flex items-center gap-2">
-                    <span>🌐 Visibilité de la Page Publique (/calendrier-avent)</span>
+                  <h3 className="text-sm font-bold text-[#121212] flex items-center gap-2">
+                    <Globe className="w-4 h-4 text-[#FF5500]" />
+                    <span>Visibilité de la Page Publique (/calendrier-avent)</span>
                   </h3>
-                  <p className="text-xs text-white/60 mt-0.5">
+                  <p className="text-xs text-neutral-600 mt-0.5">
                     {data.config.isPublicActive
-                      ? "✅ La page est active et accessible sur le web."
-                      : "🔒 La page est privée. Tout visiteur externe est automatiquement redirigé vers l'accueil."
-                    }
+                      ? "La page est active et accessible aux visiteurs."
+                      : "La page est privée. Les visiteurs sont automatiquement redirigés vers l'accueil."}
                   </p>
                 </div>
 
@@ -806,8 +677,8 @@ export default function AdminCalendrierAventPage() {
                   }
                   className={`px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 cursor-pointer ${
                     data.config.isPublicActive
-                      ? "bg-emerald-500 text-black shadow-lg shadow-emerald-500/20"
-                      : "bg-rose-500/20 text-rose-300 border border-rose-500/40 hover:bg-rose-500/30"
+                      ? "bg-emerald-600 text-white shadow-xs"
+                      : "bg-neutral-200 text-neutral-700 hover:bg-neutral-300"
                   }`}
                 >
                   <span>{data.config.isPublicActive ? "🟢 PAGE PUBLIQUE ACTIVE" : "🔴 PAGE PRIVÉE (Redirection /)"}</span>
@@ -816,20 +687,15 @@ export default function AdminCalendrierAventPage() {
             </div>
 
             {/* Preorder Batches Control */}
-            <div className="bg-white/5 border border-amber-500/30 rounded-2xl p-4 space-y-3">
-              <h3 className="text-sm font-bold text-amber-300 flex items-center gap-2">
-                <span>⚡ Conditions des Précommandes (50 Exemplaires au total)</span>
+            <div className="bg-[#FAF9F6] border border-[#E4E4E0] rounded-2xl p-4 space-y-3">
+              <h3 className="text-sm font-bold text-[#121212] flex items-center gap-2">
+                <ShoppingBag className="w-4 h-4 text-[#FF5500]" />
+                <span>Conditions des Précommandes ({data.config.preorder?.totalLimit || 50} Exemplaires)</span>
               </h3>
 
-              <div className="p-3 bg-black/40 border border-white/10 rounded-xl space-y-1.5 text-xs text-white/80">
-                <div className="text-amber-300 font-bold">Rappel des phases automatiques par date :</div>
-                <div>• <strong>Jusqu'au 30 Septembre :</strong> 45 € (remisé) + 25ème cadeau exclusif offert 🎁 <em>(Clôturé)</em></div>
-                <div>• <strong>Depuis le 1er Octobre :</strong> 50 € (tarif standard) sans 25ème cadeau <em>(En cours)</em></div>
-              </div>
-              
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div className="bg-black/40 border border-emerald-500/30 rounded-xl p-3 space-y-1">
-                  <span className="text-emerald-400 font-bold text-[11px] block">Prix Remisé (€)</span>
+                <div className="bg-white border border-[#E4E4E0] rounded-xl p-3 space-y-1">
+                  <span className="text-emerald-800 font-bold text-[11px] block">Prix Remisé (€)</span>
                   <input
                     type="number"
                     value={data.config.preorder?.tier1Price || 45}
@@ -845,12 +711,12 @@ export default function AdminCalendrierAventPage() {
                         },
                       })
                     }
-                    className="w-full bg-black border border-white/20 rounded px-2 py-1 text-right font-mono text-white text-xs"
+                    className="w-full bg-[#FAF9F6] border border-[#E4E4E0] rounded px-2 py-1 text-right font-mono text-[#121212] text-xs font-bold"
                   />
                 </div>
 
-                <div className="bg-black/40 border border-purple-500/30 rounded-xl p-3 space-y-1">
-                  <span className="text-purple-400 font-bold text-[11px] block">Prix Normal (€)</span>
+                <div className="bg-white border border-[#E4E4E0] rounded-xl p-3 space-y-1">
+                  <span className="text-neutral-700 font-bold text-[11px] block">Prix Normal (€)</span>
                   <input
                     type="number"
                     value={data.config.preorder?.tier2Price || 50}
@@ -866,12 +732,12 @@ export default function AdminCalendrierAventPage() {
                         },
                       })
                     }
-                    className="w-full bg-black border border-white/20 rounded px-2 py-1 text-right font-mono text-white text-xs"
+                    className="w-full bg-[#FAF9F6] border border-[#E4E4E0] rounded px-2 py-1 text-right font-mono text-[#121212] text-xs font-bold"
                   />
                 </div>
 
-                <div className="bg-black/40 border border-white/20 rounded-xl p-3 space-y-1">
-                  <span className="text-white/80 font-bold text-[11px] block">Total Capacité</span>
+                <div className="bg-white border border-[#E4E4E0] rounded-xl p-3 space-y-1">
+                  <span className="text-neutral-700 font-bold text-[11px] block">Capacité Totale</span>
                   <input
                     type="number"
                     value={data.config.preorder?.totalLimit || 50}
@@ -887,15 +753,15 @@ export default function AdminCalendrierAventPage() {
                         },
                       })
                     }
-                    className="w-full bg-black border border-white/20 rounded px-2 py-1 text-right font-mono text-white text-xs"
+                    className="w-full bg-[#FAF9F6] border border-[#E4E4E0] rounded px-2 py-1 text-right font-mono text-[#121212] text-xs font-bold"
                   />
                 </div>
 
-                <div className="bg-black/40 border border-amber-500/30 rounded-xl p-3 space-y-1">
-                  <span className="text-amber-400 font-bold text-[11px] block">Réservés (Sur 50)</span>
+                <div className="bg-white border border-orange-200 rounded-xl p-3 space-y-1">
+                  <span className="text-[#FF5500] font-bold text-[11px] block">Réservés</span>
                   <input
                     type="number"
-                    value={data.config.preorder?.totalSold ?? (data.config.preorder?.tier1Sold || 0)}
+                    value={data.config.preorder?.totalSold ?? 0}
                     onChange={(e) =>
                       setData({
                         ...data,
@@ -908,7 +774,7 @@ export default function AdminCalendrierAventPage() {
                         },
                       })
                     }
-                    className="w-full bg-black border border-white/20 rounded px-2 py-1 text-right font-mono text-amber-300 font-bold text-xs"
+                    className="w-full bg-[#FAF9F6] border border-orange-300 rounded px-2 py-1 text-right font-mono text-[#FF5500] font-bold text-xs"
                   />
                 </div>
               </div>
@@ -920,17 +786,17 @@ export default function AdminCalendrierAventPage() {
                   try {
                     const res = await updateAdventConfigAction(data.config);
                     setData(res);
-                    alert("Configuration et précommandes sauvegardées !");
+                    alert("Configuration sauvegardée !");
                   } catch (err: any) {
                     console.error("Config save error:", err);
                     alert("Erreur lors de la sauvegarde : " + (err?.message || "Erreur serveur"));
                   }
                 })
               }
-              className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold flex items-center gap-2 transition-all shadow"
+              className="px-6 py-2.5 rounded-xl bg-[#FF5500] hover:bg-[#e04b00] text-white font-bold flex items-center gap-2 transition-all shadow-md cursor-pointer"
             >
               <Save className="w-4 h-4" />
-              <span>Enregistrer la Configuration & Précommandes</span>
+              <span>Enregistrer la Configuration</span>
             </button>
           </div>
         </div>
@@ -938,15 +804,15 @@ export default function AdminCalendrierAventPage() {
 
       {/* EDIT OBJECT MODAL */}
       {editingObject && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className={`${cls.cardBg} border border-white/20 rounded-3xl p-6 max-w-xl w-full space-y-4 max-h-[90vh] overflow-y-auto relative shadow-2xl`}>
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <h3 className="text-base font-bold text-white flex items-center gap-2 font-mono">
+        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-white border border-[#E4E4E0] rounded-3xl p-6 max-w-xl w-full space-y-4 max-h-[90vh] overflow-y-auto relative shadow-2xl">
+            <div className="flex items-center justify-between border-b border-[#E4E4E0] pb-3">
+              <h3 className="text-base font-bold text-[#121212] flex items-center gap-2 font-mono">
                 <span>🎁 Éditer le Jour {editingObject.day}</span>
               </h3>
               <button
                 onClick={() => setEditingObject(null)}
-                className="p-1 rounded-lg bg-white/10 text-white hover:bg-white/20"
+                className="p-1 rounded-lg bg-neutral-100 text-neutral-600 hover:bg-neutral-200 cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -954,28 +820,28 @@ export default function AdminCalendrierAventPage() {
 
             <div className="space-y-4 text-xs">
               <div>
-                <label className="block text-white/70 mb-1 font-bold">Titre de l'Objet</label>
+                <label className="block text-neutral-700 mb-1 font-bold">Titre de l'Objet</label>
                 <input
                   type="text"
                   value={editingObject.title}
                   onChange={(e) => setEditingObject({ ...editingObject, title: e.target.value })}
-                  className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  className="w-full bg-[#FAF9F6] border border-[#E4E4E0] rounded-xl px-3 py-2 text-[#121212] focus:outline-none focus:border-[#FF5500] focus:bg-white"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-white/70 mb-1 font-bold">Catégorie</label>
+                  <label className="block text-neutral-700 mb-1 font-bold">Catégorie</label>
                   <input
                     type="text"
                     value={editingObject.category}
                     onChange={(e) => setEditingObject({ ...editingObject, category: e.target.value })}
-                    className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                    className="w-full bg-[#FAF9F6] border border-[#E4E4E0] rounded-xl px-3 py-2 text-[#121212] focus:outline-none focus:border-[#FF5500] focus:bg-white"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-white/70 mb-1 font-bold">Statut Fabrication</label>
+                  <label className="block text-neutral-700 mb-1 font-bold">Statut Fabrication</label>
                   <select
                     value={editingObject.status}
                     onChange={(e) =>
@@ -984,7 +850,7 @@ export default function AdminCalendrierAventPage() {
                         status: e.target.value as ObjectProductionStatus,
                       })
                     }
-                    className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                    className="w-full bg-[#FAF9F6] border border-[#E4E4E0] rounded-xl px-3 py-2 text-[#121212] focus:outline-none focus:border-[#FF5500] focus:bg-white font-medium"
                   >
                     <option value="idee">💡 Idée</option>
                     <option value="decide">🎯 Décidé</option>
@@ -997,89 +863,41 @@ export default function AdminCalendrierAventPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <label className="block text-white/70 mb-1 font-bold">Temps (min)</label>
-                  <input
-                    type="number"
-                    value={editingObject.printTimeMinutes}
-                    onChange={(e) =>
-                      setEditingObject({
-                        ...editingObject,
-                        printTimeMinutes: parseInt(e.target.value) || 0,
-                      })
-                    }
-                    className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-400"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-white/70 mb-1 font-bold">Poids (g)</label>
-                  <input
-                    type="number"
-                    value={editingObject.weightGrams}
-                    onChange={(e) =>
-                      setEditingObject({
-                        ...editingObject,
-                        weightGrams: parseInt(e.target.value) || 0,
-                      })
-                    }
-                    className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-400"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-white/70 mb-1 font-bold">Coût Est. (€)</label>
-                  <input
-                    type="number"
-                    step="0.05"
-                    value={editingObject.estimatedCost}
-                    onChange={(e) =>
-                      setEditingObject({
-                        ...editingObject,
-                        estimatedCost: parseFloat(e.target.value) || 0,
-                      })
-                    }
-                    className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-400"
-                  />
-                </div>
-              </div>
-
               <div>
-                <label className="block text-white/70 mb-1 font-bold">Couleur & Type Filament</label>
+                <label className="block text-neutral-700 mb-1 font-bold">Couleur & Type Filament</label>
                 <input
                   type="text"
                   value={editingObject.filamentColor}
                   onChange={(e) => setEditingObject({ ...editingObject, filamentColor: e.target.value })}
-                  className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  className="w-full bg-[#FAF9F6] border border-[#E4E4E0] rounded-xl px-3 py-2 text-[#121212] focus:outline-none focus:border-[#FF5500] focus:bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-amber-300 mb-1 font-bold">Indice / Teaser Avant Ouverture</label>
+                <label className="block text-orange-950 mb-1 font-bold">Indice / Teaser Avant Ouverture</label>
                 <input
                   type="text"
                   value={editingObject.teaser}
                   onChange={(e) => setEditingObject({ ...editingObject, teaser: e.target.value })}
-                  className="w-full bg-black/60 border border-amber-500/30 rounded-xl px-3 py-2 text-amber-200 focus:outline-none focus:border-amber-400"
+                  className="w-full bg-orange-50/60 border border-orange-200 rounded-xl px-3 py-2 text-[#121212] focus:outline-none focus:border-[#FF5500]"
                 />
               </div>
 
               <div>
-                <label className="block text-white/70 mb-1 font-bold">Description Détaillée</label>
+                <label className="block text-neutral-700 mb-1 font-bold">Description Détaillée</label>
                 <textarea
                   rows={3}
                   value={editingObject.description}
                   onChange={(e) => setEditingObject({ ...editingObject, description: e.target.value })}
-                  className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  className="w-full bg-[#FAF9F6] border border-[#E4E4E0] rounded-xl px-3 py-2 text-[#121212] focus:outline-none focus:border-[#FF5500] focus:bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-amber-300 mb-1 font-bold">Photo de l'Objet (Uploader ou URL)</label>
+                <label className="block text-neutral-700 mb-1 font-bold">Photo de l'Objet (Uploader ou URL)</label>
                 <div className="flex items-center gap-3">
                   {editingObject.imageUrl && (
-                    <div className="w-16 h-16 rounded-2xl overflow-hidden relative border border-amber-500/40 shrink-0 bg-black/60">
+                    <div className="w-16 h-16 rounded-2xl overflow-hidden relative border border-[#E4E4E0] shrink-0 bg-neutral-100">
                       <Image src={editingObject.imageUrl} alt="Preview" fill className="object-cover" />
                     </div>
                   )}
@@ -1094,10 +912,10 @@ export default function AdminCalendrierAventPage() {
                           handleImageUpload(file);
                         }
                       }}
-                      className="block w-full text-xs text-white/70 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-amber-500/20 file:text-amber-300 hover:file:bg-amber-500/30 cursor-pointer disabled:opacity-50"
+                      className="block w-full text-xs text-neutral-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-orange-50 file:text-[#FF5500] hover:file:bg-orange-100 cursor-pointer disabled:opacity-50"
                     />
                     {isUploadingImage && (
-                      <div className="flex items-center gap-2 text-xs text-amber-400 font-mono">
+                      <div className="flex items-center gap-2 text-xs text-[#FF5500] font-mono">
                         <RefreshCw className="w-3.5 h-3.5 animate-spin" />
                         <span>Téléversement vers le serveur en cours...</span>
                       </div>
@@ -1107,169 +925,27 @@ export default function AdminCalendrierAventPage() {
                       placeholder="Ou URL directe (ex: /images/produit.jpg)"
                       value={editingObject.imageUrl}
                       onChange={(e) => setEditingObject({ ...editingObject, imageUrl: e.target.value })}
-                      className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-1.5 text-white font-mono text-[11px] focus:outline-none focus:border-amber-400"
+                      className="w-full bg-[#FAF9F6] border border-[#E4E4E0] rounded-xl px-3 py-1.5 text-[#121212] font-mono text-[11px] focus:outline-none focus:border-[#FF5500]"
                     />
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="pt-3 border-t border-white/10 flex items-center justify-end gap-3">
+            <div className="pt-3 border-t border-[#E4E4E0] flex items-center justify-end gap-3">
               <button
                 onClick={() => setEditingObject(null)}
-                className="px-4 py-2 rounded-xl bg-white/10 text-white hover:bg-white/20 font-bold"
+                className="px-4 py-2 rounded-xl bg-neutral-100 text-neutral-700 hover:bg-neutral-200 font-bold cursor-pointer"
               >
                 Annuler
               </button>
               <button
                 onClick={handleSaveObject}
                 disabled={isUploadingImage || isPending}
-                className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 disabled:opacity-50 text-black font-bold flex items-center gap-2"
+                className="px-5 py-2 rounded-xl bg-[#FF5500] hover:bg-[#e04b00] disabled:opacity-50 text-white font-bold flex items-center gap-2 shadow-md cursor-pointer"
               >
                 {isPending ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 <span>{isPending ? "Enregistrement..." : "Enregistrer"}</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* EDIT PACKAGING MODAL */}
-      {editingPackaging && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className={`${cls.cardBg} border border-white/20 rounded-3xl p-6 max-w-lg w-full space-y-4 relative shadow-2xl`}>
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <h3 className="text-base font-bold text-white flex items-center gap-2 font-mono">
-                <span>📦 Article Packaging</span>
-              </h3>
-              <button
-                onClick={() => setEditingPackaging(null)}
-                className="p-1 rounded-lg bg-white/10 text-white hover:bg-white/20"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="space-y-3 text-xs">
-              <div>
-                <label className="block text-white/70 mb-1 font-bold">Nom de l'article</label>
-                <input
-                  type="text"
-                  value={editingPackaging.name}
-                  onChange={(e) =>
-                    setEditingPackaging({ ...editingPackaging, name: e.target.value })
-                  }
-                  className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-white/70 mb-1 font-bold">Fournisseur</label>
-                  <input
-                    type="text"
-                    value={editingPackaging.supplier}
-                    onChange={(e) =>
-                      setEditingPackaging({ ...editingPackaging, supplier: e.target.value })
-                    }
-                    className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-white/70 mb-1 font-bold">Statut Stock</label>
-                  <select
-                    value={editingPackaging.status}
-                    onChange={(e) =>
-                      setEditingPackaging({
-                        ...editingPackaging,
-                        status: e.target.value as PackagingStatus,
-                      })
-                    }
-                    className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
-                  >
-                    <option value="a_commander">🛒 À Commander</option>
-                    <option value="commande">🚚 Commandé</option>
-                    <option value="recu">📦 Reçu</option>
-                    <option value="en_stock">✅ En Stock</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <label className="block text-white/70 mb-1 font-bold">Prix Unit. (€)</label>
-                  <input
-                    type="number"
-                    step="0.05"
-                    value={editingPackaging.unitPrice}
-                    onChange={(e) =>
-                      setEditingPackaging({
-                        ...editingPackaging,
-                        unitPrice: parseFloat(e.target.value) || 0,
-                      })
-                    }
-                    className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-400"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-white/70 mb-1 font-bold">Qté / Cal.</label>
-                  <input
-                    type="number"
-                    value={editingPackaging.quantityNeededPerCalendar}
-                    onChange={(e) =>
-                      setEditingPackaging({
-                        ...editingPackaging,
-                        quantityNeededPerCalendar: parseInt(e.target.value) || 1,
-                      })
-                    }
-                    className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-400"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-white/70 mb-1 font-bold">Stock dispo</label>
-                  <input
-                    type="number"
-                    value={editingPackaging.quantityInStock}
-                    onChange={(e) =>
-                      setEditingPackaging({
-                        ...editingPackaging,
-                        quantityInStock: parseInt(e.target.value) || 0,
-                      })
-                    }
-                    className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-400"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-white/70 mb-1 font-bold">URL Fournisseur</label>
-                <input
-                  type="text"
-                  value={editingPackaging.supplierUrl || ""}
-                  onChange={(e) =>
-                    setEditingPackaging({ ...editingPackaging, supplierUrl: e.target.value })
-                  }
-                  className="w-full bg-black/60 border border-white/10 rounded-xl px-3 py-2 text-white font-mono focus:outline-none focus:border-amber-400"
-                />
-              </div>
-            </div>
-
-            <div className="pt-3 border-t border-white/10 flex items-center justify-end gap-3">
-              <button
-                onClick={() => setEditingPackaging(null)}
-                className="px-4 py-2 rounded-xl bg-white/10 text-white hover:bg-white/20 font-bold"
-              >
-                Annuler
-              </button>
-              <button
-                onClick={handleSavePackaging}
-                className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold flex items-center gap-2"
-              >
-                <Save className="w-4 h-4" />
-                <span>Enregistrer</span>
               </button>
             </div>
           </div>

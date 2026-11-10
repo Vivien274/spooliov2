@@ -265,7 +265,7 @@ export default function AdminPromosPage() {
           <button
             onClick={handleSyncTombola}
             disabled={syncingTombola}
-            className={`flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-bold transition-all cursor-pointer ${
               syncingTombola ? "opacity-75 cursor-not-allowed" : ""
             }`}
             title="Importer et synchroniser automatiquement les codes créés dans la Tombola & Roue de la chance"

@@ -98,7 +98,7 @@ const cinzel = Cinzel({
 const syne = Syne({
   variable: "--font-syne",
   subsets: ["latin"],
-  weight: ["700", "800"],
+  display: "swap",
 });
 
 const bungee = Bungee({

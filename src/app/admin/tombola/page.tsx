@@ -516,12 +516,12 @@ export default function AdminTombolaPage() {
           </div>
           <div className="space-y-1">
             <div className="flex flex-wrap items-center gap-2.5">
-              <h3 className="text-base font-bold text-white">Statut de la Tombola Spoolio</h3>
+              <h3 className={`text-base font-bold ${cls.textMain}`}>Statut de la Tombola Spoolio</h3>
               <span
                 className={`px-3 py-1 rounded-full text-xs font-bold font-mono uppercase tracking-wider flex items-center gap-1.5 ${
                   isTombolaActive
-                    ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
-                    : "bg-amber-500/15 text-amber-300 border border-amber-500/30"
+                    ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 border border-emerald-500/40"
+                    : "bg-amber-50 dark:bg-amber-500/15 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-500/30"
                 }`}
               >
                 <span
@@ -869,28 +869,28 @@ export default function AdminTombolaPage() {
                     onClick={() => handleOpenTicketModal(t)}
                     className={`relative aspect-square rounded-2xl flex flex-col items-center justify-center font-bold transition-all duration-300 group overflow-hidden border cursor-pointer ${
                       isPaid
-                        ? "bg-[#FF5500]/20 border-[#FF5500] text-white shadow-lg shadow-[#FF5500]/20 hover:scale-105"
+                        ? "bg-orange-50 dark:bg-[#FF5500]/20 border-[#FF5500] text-[#121212] dark:text-white shadow-xs hover:scale-105"
                         : isReserved
-                        ? "bg-amber-950/40 border-amber-500/50 text-amber-300 hover:scale-105"
-                        : "bg-[#181818] border-white/10 text-neutral-300 hover:border-white/30 hover:bg-white/5 hover:scale-105"
+                        ? "bg-amber-50 dark:bg-amber-950/40 border-amber-300 dark:border-amber-500/50 text-amber-900 dark:text-amber-300 hover:scale-105"
+                        : "bg-neutral-50 dark:bg-[#181818] border-neutral-200 dark:border-white/10 text-neutral-800 dark:text-neutral-300 hover:border-neutral-400 hover:scale-105"
                     }`}
                   >
                     <span className="text-base font-black">{t.ticket_number}</span>
 
                     {isPaid && (
-                      <span className="text-[10px] font-mono text-white font-bold truncate max-w-[85%] px-1 rounded bg-[#FF5500]/60">
+                      <span className="text-[10px] font-mono text-white font-bold truncate max-w-[85%] px-1 rounded bg-[#FF5500]">
                         {getInitials(t.buyer_name) || "PAYÉ"}
                       </span>
                     )}
 
                     {isReserved && (
-                      <span className="text-[9px] font-mono text-amber-300 truncate max-w-[85%] px-1">
+                      <span className="text-[9px] font-mono text-amber-900 dark:text-amber-300 truncate max-w-[85%] px-1">
                         {getInitials(t.buyer_name) || "RÉSERVÉ"}
                       </span>
                     )}
 
                     {isAvailable && (
-                      <span className="text-[10px] text-neutral-500 group-hover:text-white">Libre</span>
+                      <span className="text-[10px] text-neutral-500 group-hover:text-neutral-800 dark:group-hover:text-white">Libre</span>
                     )}
                   </button>
                 );

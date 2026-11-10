@@ -54,16 +54,30 @@ export async function countAdventCalendarsFromDB(): Promise<number> {
 export async function getAdventDataAction(): Promise<AdventData> {
   let data: AdventData | null = null;
 
-  // 1. Primary: Fetch from Postgres via Prisma
-  try {
-    const page = await prisma.page.findUnique({
-      where: { slug: ADVENT_PAGE_SLUG },
-    });
-    if (page?.content) {
-      data = JSON.parse(page.content) as AdventData;
+  // In local development, prioritize local JSON file to avoid reading from or writing to remote DB
+  if (process.env.NODE_ENV === "development") {
+    try {
+      const fileContent = await fs.readFile(DATA_FILE_PATH, "utf-8");
+      if (fileContent) {
+        data = JSON.parse(fileContent) as AdventData;
+      }
+    } catch (fsError) {
+      console.warn("Could not read local adventData.json, attempting DB fallback:", fsError);
     }
-  } catch (dbError) {
-    console.warn("Could not read advent data from DB, attempting file fallback:", dbError);
+  }
+
+  // 1. Primary on production: Fetch from Postgres via Prisma
+  if (!data) {
+    try {
+      const page = await prisma.page.findUnique({
+        where: { slug: ADVENT_PAGE_SLUG },
+      });
+      if (page?.content) {
+        data = JSON.parse(page.content) as AdventData;
+      }
+    } catch (dbError) {
+      console.warn("Could not read advent data from DB, attempting file fallback:", dbError);
+    }
   }
 
   // 2. Fallback: Read local JSON file if DB has nothing yet
@@ -101,13 +115,26 @@ export async function getAdventDataAction(): Promise<AdventData> {
 
 /**
  * Helper to write updated advent data:
- * - Upserts into PostgreSQL database (always works on Vercel serverless)
- * - Tries to update local JSON file if filesystem is writable (local dev)
+ * - In local dev: updates local JSON file only (strictly isolates development from remote DB)
+ * - In production: upserts into PostgreSQL database
  */
 async function saveAdventData(data: AdventData): Promise<void> {
   const jsonContent = JSON.stringify(data, null, 2);
 
-  // 1. Primary: Save to PostgreSQL
+  // Always update local file when possible
+  try {
+    await fs.mkdir(path.dirname(DATA_FILE_PATH), { recursive: true });
+    await fs.writeFile(DATA_FILE_PATH, jsonContent, "utf-8");
+  } catch (fsError) {
+    // Expected on read-only serverless filesystems
+  }
+
+  // In local development, never write to remote Supabase DB
+  if (process.env.NODE_ENV === "development") {
+    return;
+  }
+
+  // On production: Save to PostgreSQL
   try {
     await prisma.page.upsert({
       where: { slug: ADVENT_PAGE_SLUG },
@@ -122,14 +149,6 @@ async function saveAdventData(data: AdventData): Promise<void> {
   } catch (dbError) {
     console.error("Error writing adventData to DB:", dbError);
     throw new Error("Impossible d'enregistrer les données du calendrier en base.");
-  }
-
-  // 2. Secondary: Update local file if writable (local dev)
-  try {
-    await fs.mkdir(path.dirname(DATA_FILE_PATH), { recursive: true });
-    await fs.writeFile(DATA_FILE_PATH, jsonContent, "utf-8");
-  } catch (fsError) {
-    // Expected on Vercel serverless (read-only filesystem). Silently ignore.
   }
 }
 

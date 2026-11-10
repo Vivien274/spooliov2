@@ -24,6 +24,7 @@ export default function AdminBadgesPage() {
     textFaint: isDark ? "text-gray-500" : "text-gray-400",
     inputBg: isDark ? "bg-black/50 border-white/10 text-white" : "bg-gray-50 border-gray-200 text-gray-900",
     hoverRow: isDark ? "hover:bg-white/[0.02]" : "hover:bg-gray-50",
+    divider: isDark ? "divide-white/10" : "divide-gray-100",
   };
 
   useEffect(() => {
@@ -146,16 +147,16 @@ export default function AdminBadgesPage() {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className={`${cls.cardBg} border border-blue-500/30 rounded-2xl p-4 flex flex-col justify-between`}>
-          <span className="text-[10px] uppercase font-black tracking-wider text-blue-400">Total Badges Générés</span>
-          <span className="text-3xl font-black font-antonio text-white mt-2">{badges.length}</span>
+          <span className="text-[10px] uppercase font-black tracking-wider text-blue-600 dark:text-blue-400">Total Badges Générés</span>
+          <span className={`text-3xl font-black font-antonio ${cls.textMain} mt-2`}>{badges.length}</span>
         </div>
         <div className={`${cls.cardBg} border border-emerald-500/30 rounded-2xl p-4 flex flex-col justify-between`}>
-          <span className="text-[10px] uppercase font-black tracking-wider text-emerald-400">Badges Activés Clients</span>
-          <span className="text-3xl font-black font-antonio text-white mt-2">{claimedCount}</span>
+          <span className="text-[10px] uppercase font-black tracking-wider text-emerald-600 dark:text-emerald-400">Badges Activés Clients</span>
+          <span className={`text-3xl font-black font-antonio ${cls.textMain} mt-2`}>{claimedCount}</span>
         </div>
         <div className={`${cls.cardBg} border border-purple-500/30 rounded-2xl p-4 flex flex-col justify-between`}>
-          <span className="text-[10px] uppercase font-black tracking-wider text-purple-400">Encodés NFC Atelier</span>
-          <span className="text-3xl font-black font-antonio text-white mt-2">{nfcEncodedCount}</span>
+          <span className="text-[10px] uppercase font-black tracking-wider text-purple-600 dark:text-purple-400">Encodés NFC Atelier</span>
+          <span className={`text-3xl font-black font-antonio ${cls.textMain} mt-2`}>{nfcEncodedCount}</span>
         </div>
       </div>
 
@@ -166,7 +167,7 @@ export default function AdminBadgesPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Rechercher un badge (token, code activation, nom, prénom)..."
-          className={`w-full max-w-md ${cls.inputBg} border ${cls.border} rounded-2xl px-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none`}
+          className={`w-full max-w-md ${cls.inputBg} border ${cls.border} rounded-2xl px-4 py-2.5 text-xs ${cls.textMain} placeholder-gray-400 focus:outline-none`}
         />
       </div>
 
@@ -194,41 +195,41 @@ export default function AdminBadgesPage() {
                   <th className={`text-right text-[10px] font-bold ${cls.textFaint} uppercase tracking-widest px-4 py-3.5 pr-6`}>Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5">
+              <tbody className={`divide-y ${cls.divider}`}>
                 {filteredBadges.map((b) => {
                   const displayName = b.data?.prenom || b.data?.nom || "Non configuré";
 
                   return (
                     <tr key={b.id} className={`${cls.hoverRow} transition-colors text-xs`}>
-                      <td className="px-4 py-4 pl-6 font-mono font-bold text-amber-400 select-all">
+                      <td className="px-4 py-4 pl-6 font-mono font-bold text-[#FF5500] select-all">
                         {b.token}
                       </td>
-                      <td className="px-4 py-4 font-mono text-gray-300">
+                      <td className={`px-4 py-4 font-mono ${cls.textMuted}`}>
                         {b.claim_code || "—"}
                       </td>
-                      <td className="px-4 py-4 font-bold capitalize">
+                      <td className={`px-4 py-4 font-bold capitalize ${cls.textMain}`}>
                         {b.type === "festivalier" ? "🎟️ Pass" : b.type === "enfant" ? "👶 Enfant" : "🐾 Animal"}
                       </td>
                       <td className="px-4 py-4">
                         <span className={`inline-flex px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
-                          b.is_claimed ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30" : "bg-amber-500/10 text-amber-300 border border-amber-500/20"
+                          b.is_claimed ? "bg-emerald-50 text-emerald-800 border border-emerald-300" : "bg-amber-50 text-amber-900 border border-amber-300"
                         }`}>
                           {b.is_claimed ? "Activé ✓" : "En attente"}
                         </span>
                       </td>
                       <td className="px-4 py-4">
-                        <div className="font-bold text-white">{displayName}</div>
-                        <div className="text-[10px] text-gray-400">{b.data?.contact1_tel || b.data?.tel_parent_1 || b.data?.tel_proprio_1 || "Pas de numéro"}</div>
+                        <div className={`font-bold ${cls.textMain}`}>{displayName}</div>
+                        <div className={`text-[10px] ${cls.textMuted}`}>{b.data?.contact1_tel || b.data?.tel_parent_1 || b.data?.tel_proprio_1 || "Pas de numéro"}</div>
                       </td>
                       <td className="px-4 py-4">
                         {b.nfc_encoded_at ? (
-                          <span className="text-[10px] text-purple-400 font-bold">
+                          <span className="text-[10px] text-purple-700 dark:text-purple-400 font-bold">
                             Encodé le {new Date(b.nfc_encoded_at).toLocaleDateString("fr-FR")}
                           </span>
                         ) : (
                           <button
                             onClick={() => handleMarkNfcEncoded(b.id)}
-                            className="px-2.5 py-1 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[10px] font-bold cursor-pointer transition-colors"
+                            className="px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 text-[10px] font-bold cursor-pointer transition-colors"
                           >
                             Marquer Encodé NFC ⚡️
                           </button>

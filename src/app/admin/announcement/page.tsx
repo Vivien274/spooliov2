@@ -144,17 +144,17 @@ export default function AdminAnnouncementPage() {
           <button
             type="button"
             onClick={applyPresetVacation}
-            className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-semibold text-gray-300 hover:text-white border border-white/10 transition-colors flex items-center gap-1.5 cursor-pointer"
+            className="px-3 py-1.5 rounded-lg bg-neutral-100 dark:bg-white/5 hover:bg-neutral-200 dark:hover:bg-white/10 text-xs font-semibold text-neutral-800 dark:text-gray-300 border border-[#E4E4E0] dark:border-white/10 transition-colors flex items-center gap-1.5 cursor-pointer"
           >
-            <Palmtree className="w-3.5 h-3.5 text-amber-300" />
+            <Palmtree className="w-3.5 h-3.5 text-amber-600 dark:text-amber-300" />
             <span>Preset Vacances</span>
           </button>
           <button
             type="button"
             onClick={applyPresetPromo}
-            className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-xs font-semibold text-gray-300 hover:text-white border border-white/10 transition-colors flex items-center gap-1.5 cursor-pointer"
+            className="px-3 py-1.5 rounded-lg bg-neutral-100 dark:bg-white/5 hover:bg-neutral-200 dark:hover:bg-white/10 text-xs font-semibold text-neutral-800 dark:text-gray-300 border border-[#E4E4E0] dark:border-white/10 transition-colors flex items-center gap-1.5 cursor-pointer"
           >
-            <Sparkles className="w-3.5 h-3.5 text-purple-300" />
+            <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-300" />
             <span>Preset Promo</span>
           </button>
         </div>
