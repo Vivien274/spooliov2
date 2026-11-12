@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Sparkles, Clock, CheckCircle2 } from "lucide-react";
-import { Drop } from "@/lib/drops";
+import { Drop, isTeaserDrop } from "@/lib/drops";
 
 interface BoutiqueDropBannerProps {
   drop?: Drop | null;
@@ -19,6 +19,10 @@ export default function BoutiqueDropBanner({ drop }: BoutiqueDropBannerProps) {
     if (!drop) return;
 
     const checkLiveState = () => {
+      if (isTeaserDrop(drop)) {
+        setIsLive(false);
+        return;
+      }
       if (drop.status === "live") {
         setIsLive(true);
         return;
@@ -139,20 +143,25 @@ export default function BoutiqueDropBanner({ drop }: BoutiqueDropBannerProps) {
                   <span className="font-bold text-xs sm:text-sm text-white">55,00 €</span>
                 </div>
 
-                {!isLive && drop.startDate && (
+                {isTeaserDrop(drop) ? (
+                  <div className="flex items-center gap-1.5 text-amber-300 text-[11px] sm:text-xs font-mono">
+                    <Clock className="w-3.5 h-3.5 text-amber-400" />
+                    <span>LANCEMENT : DATE À VENIR</span>
+                  </div>
+                ) : !isLive && drop.startDate ? (
                   <div className="flex items-center gap-1.5 text-[#A1A1AA] text-[11px] sm:text-xs">
                     <Clock className="w-3.5 h-3.5 text-[#FF5500]" />
                     <span>LANCEMENT : {formattedDate}</span>
                   </div>
-                )}
+                ) : null}
               </div>
 
               {/* Action CTA Button */}
               <Link
-                href={`/drops/${drop.slug}`}
+                href={isTeaserDrop(drop) ? "/drops" : `/drops/${drop.slug}`}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#FF5500] hover:bg-[#E04500] text-white font-mono text-xs font-bold uppercase tracking-wider transition-all duration-200 shadow-sm hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
-                <span>{isLive ? "ACCÉDER AU DROP" : "VOIR LE TEASER"}</span>
+                <span>{isTeaserDrop(drop) ? "VOIR LE PROGRAMME DES DROPS" : isLive ? "ACCÉDER AU DROP" : "VOIR LE TEASER"}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -166,7 +175,9 @@ export default function BoutiqueDropBanner({ drop }: BoutiqueDropBannerProps) {
               alt={drop.title}
               fill
               sizes="(max-width: 1024px) 100vw, 40vw"
-              className="object-cover object-center hover:scale-105 transition-transform duration-700 ease-out"
+              className={`object-cover object-center hover:scale-105 transition-transform duration-700 ease-out ${
+                isTeaserDrop(drop) ? "filter blur-md scale-105" : ""
+              }`}
             />
 
             {/* Subtle Gradient overlay */}
@@ -175,8 +186,19 @@ export default function BoutiqueDropBanner({ drop }: BoutiqueDropBannerProps) {
               aria-hidden="true" 
             />
 
+            {isTeaserDrop(drop) && (
+              <div className="absolute inset-0 bg-neutral-950/40 backdrop-blur-[2px] flex flex-col items-center justify-center p-4 text-center z-10 pointer-events-none">
+                <div className="w-10 h-10 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white text-xl shadow-lg mb-2">
+                  🔮
+                </div>
+                <span className="text-[10px] font-mono font-black text-white uppercase tracking-wider bg-black/60 px-2.5 py-0.5 rounded-full border border-white/20">
+                  Projet secret en préparation
+                </span>
+              </div>
+            )}
+
             {/* Atelier Calibration Annotation */}
-            <div className="absolute bottom-3 right-3 font-mono text-[9px] text-white/90 bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded border border-white/15 uppercase">
+            <div className="absolute bottom-3 right-3 font-mono text-[9px] text-white/90 bg-black/60 backdrop-blur-xs px-2 py-0.5 rounded border border-white/15 uppercase z-20">
               COMINES // ÉDITION LIMITÉE
             </div>
           </div>

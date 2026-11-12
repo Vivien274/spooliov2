@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Sparkles, Calendar, Clock, Lock, ArrowRight, EyeOff, Bell, Mail, CheckCircle2 } from "lucide-react";
 import DropCountdown from "@/components/drops/DropCountdown";
-import { Drop, getDropTitleScale } from "@/lib/drops";
+import DropAlertForm from "@/components/drops/DropAlertForm";
+import { Drop, getDropTitleScale, isTeaserDrop } from "@/lib/drops";
 
 interface LatestDropBannerProps {
   drop?: Drop | null;
@@ -45,8 +46,10 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
   const hasLoadedProducts = products.length > 0;
   const isSoldOut = hasLoadedProducts && availableModelsCount === 0;
 
-  let currentStatus: "upcoming" | "live" | "sold_out" | "ended" = "upcoming";
-  if (isPastEnd || drop.status === "ended") {
+  let currentStatus: "upcoming" | "live" | "sold_out" | "ended" | "teaser" = "upcoming";
+  if (isTeaserDrop(drop)) {
+    currentStatus = "teaser";
+  } else if (isPastEnd || drop.status === "ended") {
     currentStatus = "ended";
   } else if (isSoldOut) {
     currentStatus = "sold_out";
@@ -222,6 +225,11 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
                     Toutes les pièces de ce drop ont été adoptées. Rendez-vous au prochain drop d&apos;atelier.
                   </p>
                 </div>
+              ) : currentStatus === "teaser" ? (
+                <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wide">
+                  <Clock className="w-4 h-4 text-amber-400" />
+                  <span style={{ color: "#ffffff" }}>Projet secret en cours · Lancement à venir</span>
+                </div>
               ) : (
                 <>
                   <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider">
@@ -247,7 +255,15 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
 
             {/* CTA ou Formulaire d'alerte */}
             <div className="pt-2">
-              {currentStatus === "live" ? (
+              {currentStatus === "teaser" ? (
+                <div className="max-w-xl">
+                  <DropAlertForm
+                    dropSlug={drop.slug}
+                    dropTitle={drop.title}
+                    variant="dark"
+                  />
+                </div>
+              ) : currentStatus === "live" ? (
                 <Link
                   href={`/drops/${drop.slug}`}
                   className="inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
@@ -368,7 +384,7 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
 
           {/* Colonne droite : Médias (Vidéo ou Image du Drop) */}
           <div className="lg:col-span-5 relative aspect-square sm:aspect-16/10 lg:aspect-auto min-h-[300px] lg:min-h-[480px] bg-neutral-950 overflow-hidden order-1 lg:order-2 border-b lg:border-b-0 lg:border-l border-white/10">
-            {drop.bannerVideo ? (
+            {drop.bannerVideo && currentStatus !== "teaser" ? (
               <video
                 src={drop.bannerVideo}
                 poster={drop.bannerImage}
@@ -384,15 +400,29 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
                 alt={drop.title}
                 fill
                 sizes="(max-width: 1024px) 100vw, 500px"
-                className="w-full h-full object-cover transition-transform duration-700 ease-out select-none"
+                className={`w-full h-full object-cover transition-transform duration-700 ease-out select-none ${
+                  currentStatus === "teaser" ? "filter blur-md scale-105" : ""
+                }`}
               />
             )}
 
             {/* Gradient d'ombrage pour la lisibilité */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
 
+            {/* Teaser Overlay */}
+            {currentStatus === "teaser" && (
+              <div className="absolute inset-0 bg-neutral-950/40 backdrop-blur-[2px] flex flex-col items-center justify-center p-6 text-center z-10 pointer-events-none">
+                <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white text-2xl shadow-xl mb-2">
+                  🔮
+                </div>
+                <span className="text-xs font-mono font-black text-white uppercase tracking-widest bg-black/60 px-3 py-1 rounded-full border border-white/20 shadow-sm">
+                  Projet secret d'atelier
+                </span>
+              </div>
+            )}
+
             {/* Pastille de verrouillage / compte à rebours sur l'image */}
-            <div className="absolute top-4 right-4 z-10 flex items-center gap-2">
+            <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
               {currentStatus === "live" ? (
                 <span
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500 text-xs font-black uppercase tracking-wider shadow-lg"
@@ -407,6 +437,18 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
                   style={{ color: "#a1a1aa" }}
                 >
                   SOLD OUT
+                </span>
+              ) : currentStatus === "teaser" ? (
+                <span
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border shadow-lg backdrop-blur-md text-xs font-mono font-bold uppercase tracking-wider"
+                  style={{
+                    backgroundColor: "rgba(0, 0, 0, 0.8)",
+                    borderColor: "rgba(251, 191, 36, 0.4)",
+                    color: "#fde047",
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                  <span style={{ color: "#fde047" }}>À VENIR</span>
                 </span>
               ) : (
                 <span

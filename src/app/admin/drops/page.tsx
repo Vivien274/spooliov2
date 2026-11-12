@@ -26,6 +26,7 @@ import {
   Film,
   ImageIcon,
   FileVideo,
+  Lock,
 } from "lucide-react";
 import { Drop, DropTheme, getDropTitleScale, getDropBodyScale } from "@/lib/drops";
 
@@ -213,7 +214,7 @@ export default function AdminDropsPage() {
   const [drops, setDrops] = useState<Drop[]>([]);
   const [products, setProducts] = useState<ProductSummary[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<"all" | "upcoming" | "live" | "ended">("all");
+  const [filter, setFilter] = useState<"all" | "upcoming" | "live" | "ended" | "teaser">("all");
   const [statusMessage, setStatusMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   // Edit / Create Form state
@@ -229,7 +230,7 @@ export default function AdminDropsPage() {
   const [tagline, setTagline] = useState("");
   const [quote, setQuote] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState<"upcoming" | "live" | "ended">("upcoming");
+  const [status, setStatus] = useState<"upcoming" | "live" | "ended" | "teaser" | "coming_soon">("upcoming");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [badge, setBadge] = useState("Drop • Série Limitée");
@@ -404,7 +405,7 @@ export default function AdminDropsPage() {
     setTagline(drop.tagline || "");
     setQuote(drop.quote || "");
     setDescription(drop.description || "");
-    setStatus(drop.status);
+    setStatus(drop.status === "coming_soon" ? "teaser" : drop.status);
     setStartDate(drop.startDate ? new Date(drop.startDate).toISOString().slice(0, 16) : "");
     setEndDate(drop.endDate ? new Date(drop.endDate).toISOString().slice(0, 16) : "");
     setBadge(drop.badge || "Drop • Série Limitée");
@@ -471,7 +472,14 @@ export default function AdminDropsPage() {
   };
 
   const handleToggleStatus = async (drop: Drop) => {
-    const nextStatus = drop.status === "upcoming" ? "live" : drop.status === "live" ? "ended" : "upcoming";
+    const nextStatus =
+      drop.status === "teaser"
+        ? "upcoming"
+        : drop.status === "upcoming"
+        ? "live"
+        : drop.status === "live"
+        ? "ended"
+        : "teaser";
     try {
       const res = await fetch("/api/admin/drops", {
         method: "PUT",
@@ -516,6 +524,7 @@ export default function AdminDropsPage() {
 
   const filteredDrops = drops.filter((d) => {
     if (filter === "all") return true;
+    if (filter === "teaser") return d.status === "teaser" || (d as any).status === "coming_soon";
     return d.status === filter;
   });
 
@@ -904,10 +913,19 @@ export default function AdminDropsPage() {
                     onChange={(e) => setStatus(e.target.value as any)}
                     className="w-full px-3.5 py-2.5 rounded-xl border border-zinc-200 text-sm font-bold bg-white focus:outline-none focus:border-[#ff4f00]"
                   >
-                    <option value="upcoming">⏳ À Venir (Compte à rebours actif)</option>
+                    <option value="teaser">🔮 À Venir (Sans date précise · Teaser flou non ouvrable)</option>
+                    <option value="upcoming">⏳ Date annoncée (Compte à rebours actif)</option>
                     <option value="live">🟢 En Direct (Vente ouverte maintenant)</option>
                     <option value="ended">📦 Archivé / Sold Out</option>
                   </select>
+                  {status === "teaser" && (
+                    <div className="mt-2 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-start gap-2">
+                      <span className="text-base shrink-0">🔮</span>
+                      <div>
+                        <strong>Mode Teaser Flou :</strong> La tuile publique affiche le titre, le sujet et la mention &quot;À venir&quot; avec un visuel flouté. Les visiteurs ne peuvent pas ouvrir la page du drop et aucun compte à rebours n&apos;est affiché.
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -1333,7 +1351,7 @@ export default function AdminDropsPage() {
                     )}
                     <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur text-[10px] font-bold text-white uppercase flex items-center gap-1">
                       {bannerVideo && <span>🎥</span>}
-                      <span>{status === "live" ? "En Direct" : status === "upcoming" ? "À Venir" : "Archivé"}</span>
+                      <span>{status === "live" ? "En Direct" : status === "upcoming" ? "Daté" : status === "teaser" ? "À Venir (Flou)" : "Archivé"}</span>
                     </div>
                     {editionSize && (
                       <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-lg bg-black/70 backdrop-blur text-[10px] font-mono font-bold text-white">
@@ -1386,12 +1404,21 @@ export default function AdminDropsPage() {
             </button>
             <button
               type="button"
+              onClick={() => setFilter("teaser")}
+              className={`px-3 py-1.5 rounded-lg transition-all ${
+                filter === "teaser" ? "bg-white text-zinc-950 shadow-2xs font-extrabold" : "text-zinc-600 hover:text-zinc-950"
+              }`}
+            >
+              À Venir ({drops.filter((d) => d.status === "teaser" || (d as any).status === "coming_soon").length})
+            </button>
+            <button
+              type="button"
               onClick={() => setFilter("upcoming")}
               className={`px-3 py-1.5 rounded-lg transition-all ${
                 filter === "upcoming" ? "bg-white text-zinc-950 shadow-2xs font-extrabold" : "text-zinc-600 hover:text-zinc-950"
               }`}
             >
-              À Venir ({drops.filter((d) => d.status === "upcoming").length})
+              Datés ({drops.filter((d) => d.status === "upcoming").length})
             </button>
             <button
               type="button"
@@ -1421,6 +1448,7 @@ export default function AdminDropsPage() {
         {/* Drops Cards List */}
         <div className="grid grid-cols-1 gap-4">
           {filteredDrops.map((drop) => {
+            const isTeaser = drop.status === "teaser" || (drop as any).status === "coming_soon";
             const isUpcoming = drop.status === "upcoming";
             const isLive = drop.status === "live";
 
@@ -1440,13 +1468,13 @@ export default function AdminDropsPage() {
                         loop
                         autoPlay
                         playsInline
-                        className="w-full h-full object-cover"
+                        className={`w-full h-full object-cover ${isTeaser ? "filter blur-xs" : ""}`}
                       />
                     ) : (
                       <img
                         src={drop.bannerImage}
                         alt={drop.title}
-                        className="w-full h-full object-cover"
+                        className={`w-full h-full object-cover ${isTeaser ? "filter blur-xs" : ""}`}
                       />
                     )}
                     {drop.bannerVideo && (
@@ -1488,16 +1516,22 @@ export default function AdminDropsPage() {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-3 text-xs text-zinc-500">
-                      <span className="flex items-center gap-1 font-mono text-[11px]">
-                        <Calendar className="w-3.5 h-3.5 text-zinc-400" />
-                        {new Date(drop.startDate).toLocaleDateString("fr-FR", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </span>
+                      {isTeaser ? (
+                        <span className="font-mono text-[11px] text-amber-600 font-bold flex items-center gap-1">
+                          🔮 Teaser sans date précise (Non ouvrable)
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-1 font-mono text-[11px]">
+                          <Calendar className="w-3.5 h-3.5 text-zinc-400" />
+                          {new Date(drop.startDate).toLocaleDateString("fr-FR", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </span>
+                      )}
                       <span>•</span>
                       <span className="flex items-center gap-1">
                         <Package className="w-3.5 h-3.5 text-zinc-400" />
@@ -1514,28 +1548,39 @@ export default function AdminDropsPage() {
                   <button
                     type="button"
                     onClick={() => handleToggleStatus(drop)}
-                    title="Cliquer pour faire défiler le statut (À venir -> En direct -> Archivé)"
+                    title="Cliquer pour faire défiler le statut (À venir flou -> Daté -> En direct -> Archivé)"
                     className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-black uppercase tracking-wider cursor-pointer transition-transform hover:scale-105 active:scale-95 shadow-2xs ${
                       isLive
                         ? "bg-emerald-500 text-white"
                         : isUpcoming
                         ? "bg-[#ff4f00] text-white"
+                        : isTeaser
+                        ? "bg-amber-500 text-white"
                         : "bg-zinc-100 text-zinc-600 border border-zinc-200"
                     }`}
                   >
                     {isLive && <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />}
-                    <span>{isLive ? "En Direct" : isUpcoming ? "À Venir" : "Archivé"}</span>
+                    <span>{isLive ? "En Direct" : isUpcoming ? "Daté" : isTeaser ? "À Venir (Flou)" : "Archivé"}</span>
                   </button>
 
-                  {/* Public link */}
-                  <Link
-                    href={`/drops/${drop.slug}`}
-                    target="_blank"
-                    className="p-2 rounded-xl border border-zinc-200 text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50 transition-colors"
-                    title="Voir la page publique du drop"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                  </Link>
+                  {/* Public link or Disabled Indicator */}
+                  {!isTeaser ? (
+                    <Link
+                      href={`/drops/${drop.slug}`}
+                      target="_blank"
+                      className="p-2 rounded-xl border border-zinc-200 text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50 transition-colors"
+                      title="Voir la page publique du drop"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                    </Link>
+                  ) : (
+                    <span
+                      className="p-2 rounded-xl border border-dashed border-zinc-200 text-zinc-400 cursor-not-allowed"
+                      title="Fiche protégée : non ouvrable par les visiteurs (mode teaser flou)"
+                    >
+                      <Lock className="w-4 h-4" />
+                    </span>
+                  )}
 
                   {/* Edit button */}
                   <button

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { buildPageMetadata } from "@/lib/seoMetadata";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getAllDrops, getDropBySlug } from "@/lib/serverDrops";
+import { isTeaserDrop } from "@/lib/drops";
 import DropDetailClient from "./DropDetailClient";
 
 export const dynamic = "force-dynamic";
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const drop = await getDropBySlug(slug);
 
-  if (!drop) {
+  if (!drop || isTeaserDrop(drop)) {
     return {
       title: "Drop Introuvable | Spoolio 3D",
       robots: { index: false, follow: false },
@@ -39,6 +40,11 @@ export default async function DropDetailPage({ params }: PageProps) {
 
   if (!drop) {
     notFound();
+  }
+
+  // Les drops avec le statut "à venir" (teaser flou) ne sont pas ouvrables par les visiteurs
+  if (isTeaserDrop(drop)) {
+    redirect("/drops");
   }
 
   return <DropDetailClient drop={drop} />;

@@ -7,7 +7,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ProductCard, { Product } from "@/components/ProductCard";
 import DropCountdown from "@/components/drops/DropCountdown";
-import { Drop } from "@/lib/drops";
+import DropAlertForm from "@/components/drops/DropAlertForm";
+import { Drop, isTeaserDrop } from "@/lib/drops";
 import {
   Sparkles,
   Flame,
@@ -18,6 +19,7 @@ import {
   Layers,
   SlidersHorizontal,
   Zap,
+  Lock,
 } from "lucide-react";
 
 interface NouveautesClientProps {
@@ -36,11 +38,12 @@ export default function NouveautesClient({ drops, products }: NouveautesClientPr
   const [sortBy, setSortBy] = useState<"recent" | "price-asc" | "price-desc">("recent");
   const [visibleCount, setVisibleCount] = useState<number>(24);
 
-  // Active / featured drop for the compact section
+  // Active / featured drop for the showcase section
   const featuredDrop = useMemo(() => {
     return (
       drops.find((d) => d.status === "live") ||
       drops.find((d) => d.status === "upcoming") ||
+      drops.find((d) => isTeaserDrop(d)) ||
       drops[0] ||
       null
     );
@@ -135,156 +138,198 @@ export default function NouveautesClient({ drops, products }: NouveautesClientPr
         {/* ================================================================= */}
         {/* 2. SECTION DROP EN VEDETTE (MISE EN VALEUR SHOWCASE)              */}
         {/* ================================================================= */}
-        {featuredDrop && (
-          <section className="w-full mb-14 sm:mb-20">
-            <div className="relative rounded-3xl bg-white border border-[#E4E4E0] overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300">
-              
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch">
-                {/* Visual / Media Showcase (5 cols on lg) */}
-                <div className="lg:col-span-5 relative min-h-[280px] sm:min-h-[360px] lg:min-h-[440px] bg-neutral-100 overflow-hidden group">
-                  <Image
-                    src={featuredDrop.bannerImage || "/images/marcel_octopus.jpg"}
-                    alt={featuredDrop.title}
-                    fill
-                    priority
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    sizes="(max-width: 1024px) 100vw, 42vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent lg:hidden pointer-events-none" />
+        {featuredDrop && (() => {
+          const isTeaser = isTeaserDrop(featuredDrop);
 
-                  {/* Badges on image */}
-                  <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
-                    <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-neutral-200 shadow-sm text-[#FF5500] text-xs font-mono font-black uppercase tracking-wider">
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF5500] opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF5500]"></span>
-                      </span>
-                      <span>{featuredDrop.status === "live" ? "Drop en cours" : "Prochain Drop"}</span>
-                    </span>
+          return (
+            <section className="w-full mb-14 sm:mb-20">
+              <div className="relative rounded-3xl bg-white border border-[#E4E4E0] overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300">
+                
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch">
+                  {/* Visual / Media Showcase (5 cols on lg) */}
+                  <div className="lg:col-span-5 relative min-h-[280px] sm:min-h-[360px] lg:min-h-[440px] bg-neutral-100 overflow-hidden group">
+                    <Image
+                      src={featuredDrop.bannerImage || "/images/marcel_octopus.jpg"}
+                      alt={featuredDrop.title}
+                      fill
+                      priority
+                      className={`object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${
+                        isTeaser ? "filter blur-md scale-105" : ""
+                      }`}
+                      sizes="(max-width: 1024px) 100vw, 42vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent lg:hidden pointer-events-none" />
 
-                    {featuredDrop.badge && (
-                      <span className="inline-flex items-center px-3 py-1 rounded-full bg-neutral-900/90 text-white text-[11px] font-mono font-bold uppercase tracking-wider backdrop-blur-sm self-start shadow-xs">
-                        {featuredDrop.badge}
-                      </span>
-                    )}
-                  </div>
-
-                  {featuredDrop.editionSize && (
-                    <div className="absolute bottom-4 left-4 z-10">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/95 backdrop-blur-md border border-neutral-200 text-neutral-900 text-xs font-mono font-bold shadow-xs">
-                        <Package className="w-3.5 h-3.5 text-[#FF5500]" />
-                        <span>Série limitée · {featuredDrop.editionSize} pièces</span>
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Content Side (7 cols on lg) */}
-                <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-between gap-6">
-                  <div className="space-y-4">
-                    
-                    {/* Header Tag / Meta */}
-                    <div className="flex items-center justify-between flex-wrap gap-2">
-                      <div className="flex items-center gap-2">
-                        {featuredDrop.dropNumber && (
-                          <span className="px-3 py-1 rounded-lg bg-neutral-100 text-neutral-800 text-xs font-mono font-black uppercase tracking-wider">
-                            {featuredDrop.dropNumber}
-                          </span>
-                        )}
-                        <span className="text-xs font-mono font-semibold text-neutral-500 uppercase tracking-widest">
-                          Atelier Spoolio · Comines
+                    {/* Mystery Teaser Overlay */}
+                    {isTeaser && (
+                      <div className="absolute inset-0 bg-neutral-950/40 backdrop-blur-[3px] flex flex-col items-center justify-center p-6 text-center z-10 pointer-events-none">
+                        <div className="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white text-2xl shadow-xl mb-3">
+                          🔮
+                        </div>
+                        <span className="text-xs font-mono font-black text-white uppercase tracking-widest bg-black/60 px-3.5 py-1.5 rounded-full border border-white/20 shadow-sm">
+                          Projet secret d'atelier
                         </span>
+                        <p className="text-[11px] text-zinc-300 font-sans mt-2 max-w-xs">
+                          Création en cours de fabrication à Comines
+                        </p>
                       </div>
+                    )}
 
-                      {featuredDrop.startDate && (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500">
-                          <Clock className="w-3.5 h-3.5 text-neutral-400" />
-                          <span>
-                            {new Date(featuredDrop.startDate).toLocaleDateString("fr-FR", {
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric",
-                            })}
-                          </span>
+                    {/* Badges on image */}
+                    <div className="absolute top-4 left-4 flex flex-col gap-2 z-20">
+                      <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-md border border-neutral-200 shadow-sm text-[#FF5500] text-xs font-mono font-black uppercase tracking-wider">
+                        {isTeaser ? (
+                          <>
+                            <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                            <span>À Venir</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="relative flex h-2 w-2">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF5500] opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF5500]"></span>
+                            </span>
+                            <span>{featuredDrop.status === "live" ? "Drop en cours" : "Prochain Drop"}</span>
+                          </>
+                        )}
+                      </span>
+
+                      {featuredDrop.badge && (
+                        <span className="inline-flex items-center px-3 py-1 rounded-full bg-neutral-900/90 text-white text-[11px] font-mono font-bold uppercase tracking-wider backdrop-blur-sm self-start shadow-xs">
+                          {featuredDrop.badge}
                         </span>
                       )}
                     </div>
 
-                    {/* Title in Be Vietnam font */}
-                    <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#121212] font-be-vietnam tracking-tight leading-tight">
-                      {featuredDrop.title}
-                    </h2>
-
-                    {/* Tagline */}
-                    {featuredDrop.tagline && (
-                      <p className="text-base sm:text-lg font-medium text-neutral-700 italic border-l-2 border-[#FF5500] pl-3.5 py-0.5">
-                        « {featuredDrop.tagline} »
-                      </p>
-                    )}
-
-                    {/* Description preview */}
-                    <p className="text-sm sm:text-base text-neutral-600 leading-relaxed line-clamp-3">
-                      {featuredDrop.description.split("\n\n")[0]}
-                    </p>
-                  </div>
-
-                  {/* Countdown & Action Bar */}
-                  <div className="space-y-4 pt-4 border-t border-[#E4E4E0]">
-                    {featuredDrop.status !== "ended" && featuredDrop.startDate && (
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-[#FAF9F6] border border-[#E4E4E0]">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-8 h-8 rounded-xl bg-orange-100 text-[#FF5500] flex items-center justify-center shrink-0">
-                            <Zap className="w-4 h-4" />
-                          </div>
-                          <div>
-                            <p className="text-[11px] font-mono font-bold uppercase tracking-wider text-neutral-500">
-                              {featuredDrop.status === "live" ? "Clôture de la vente dans" : "Ouverture officielle dans"}
-                            </p>
-                            <p className="text-xs font-semibold text-neutral-900">
-                              {featuredDrop.status === "live" ? "Pièces numérotées en direct" : "Préparez votre commande"}
-                            </p>
-                          </div>
-                        </div>
-
-                        <div className="shrink-0">
-                          <DropCountdown
-                            targetDate={
-                              featuredDrop.status === "live" && featuredDrop.endDate
-                                ? featuredDrop.endDate
-                                : featuredDrop.startDate
-                            }
-                            compact={false}
-                          />
-                        </div>
+                    {featuredDrop.editionSize && (
+                      <div className="absolute bottom-4 left-4 z-20">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/95 backdrop-blur-md border border-neutral-200 text-neutral-900 text-xs font-mono font-bold shadow-xs">
+                          <Package className="w-3.5 h-3.5 text-[#FF5500]" />
+                          <span>Série limitée · {featuredDrop.editionSize} pièces</span>
+                        </span>
                       </div>
                     )}
-
-                    {/* CTA Buttons */}
-                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                      <Link
-                        href={`/drops/${featuredDrop.slug}`}
-                        className="flex-1 inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#FF5500] hover:bg-[#E04B00] text-white text-sm font-black uppercase tracking-wider transition-all shadow-xs hover:shadow-md hover:scale-[1.01] active:scale-98"
-                      >
-                        <span>{featuredDrop.status === "live" ? "Accéder à la Vente" : "Découvrir la Collection"}</span>
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
-
-                      <Link
-                        href="/drops"
-                        className="inline-flex items-center justify-center px-5 py-3.5 rounded-xl border border-[#E4E4E0] bg-white hover:bg-neutral-50 text-neutral-800 text-xs font-bold uppercase tracking-wider transition-colors shrink-0"
-                        title="Voir toutes les archives et drops"
-                      >
-                        <span>Tous les drops</span>
-                      </Link>
-                    </div>
                   </div>
 
-                </div>
-              </div>
+                  {/* Content Side (7 cols on lg) */}
+                  <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-between gap-6">
+                    <div className="space-y-4">
+                      
+                      {/* Header Tag / Meta */}
+                      <div className="flex items-center justify-between flex-wrap gap-2">
+                        <div className="flex items-center gap-2">
+                          {featuredDrop.dropNumber && (
+                            <span className="px-3 py-1 rounded-lg bg-neutral-100 text-neutral-800 text-xs font-mono font-black uppercase tracking-wider">
+                              {featuredDrop.dropNumber}
+                            </span>
+                          )}
+                          <span className="text-xs font-mono font-semibold text-neutral-500 uppercase tracking-widest">
+                            Atelier Spoolio · Comines
+                          </span>
+                        </div>
 
-            </div>
-          </section>
-        )}
+                        {!isTeaser && featuredDrop.startDate && (
+                          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-500">
+                            <Clock className="w-3.5 h-3.5 text-neutral-400" />
+                            <span>
+                              {new Date(featuredDrop.startDate).toLocaleDateString("fr-FR", {
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric",
+                              })}
+                            </span>
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Title in Be Vietnam font */}
+                      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#121212] font-be-vietnam tracking-tight leading-tight">
+                        {featuredDrop.title}
+                      </h2>
+
+                      {/* Tagline */}
+                      {featuredDrop.tagline && (
+                        <p className="text-base sm:text-lg font-medium text-neutral-700 italic border-l-2 border-[#FF5500] pl-3.5 py-0.5">
+                          « {featuredDrop.tagline} »
+                        </p>
+                      )}
+
+                      {/* Description preview */}
+                      <p className="text-sm sm:text-base text-neutral-600 leading-relaxed line-clamp-3">
+                        {featuredDrop.description.split("\n\n")[0]}
+                      </p>
+                    </div>
+
+                    {/* Countdown & Action Bar */}
+                    <div className="space-y-4 pt-4 border-t border-[#E4E4E0]">
+                      {isTeaser ? (
+                        <DropAlertForm
+                          dropSlug={featuredDrop.slug}
+                          dropTitle={featuredDrop.title}
+                        />
+                      ) : featuredDrop.status !== "ended" && featuredDrop.startDate ? (
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-[#FAF9F6] border border-[#E4E4E0]">
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-8 h-8 rounded-xl bg-orange-100 text-[#FF5500] flex items-center justify-center shrink-0">
+                              <Zap className="w-4 h-4" />
+                            </div>
+                            <div>
+                              <p className="text-[11px] font-mono font-bold uppercase tracking-wider text-neutral-500">
+                                {featuredDrop.status === "live" ? "Clôture de la vente dans" : "Ouverture officielle dans"}
+                              </p>
+                              <p className="text-xs font-semibold text-neutral-900">
+                                {featuredDrop.status === "live" ? "Pièces numérotées en direct" : "Préparez votre commande"}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="shrink-0">
+                            <DropCountdown
+                              targetDate={
+                                featuredDrop.status === "live" && featuredDrop.endDate
+                                  ? featuredDrop.endDate
+                                  : featuredDrop.startDate
+                              }
+                              compact={false}
+                            />
+                          </div>
+                        </div>
+                      ) : null}
+
+                      {/* CTA Buttons */}
+                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                        {isTeaser ? (
+                          <div className="flex-1 inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-neutral-200/90 text-neutral-600 border border-neutral-300 text-sm font-black uppercase tracking-wider select-none cursor-not-allowed">
+                            <Lock className="w-4 h-4 text-neutral-500" />
+                            <span>Date de sortie non dévoilée</span>
+                          </div>
+                        ) : (
+                          <Link
+                            href={`/drops/${featuredDrop.slug}`}
+                            className="flex-1 inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#FF5500] hover:bg-[#E04B00] text-white text-sm font-black uppercase tracking-wider transition-all shadow-xs hover:shadow-md hover:scale-[1.01] active:scale-98"
+                          >
+                            <span>{featuredDrop.status === "live" ? "Accéder à la Vente" : "Découvrir la Collection"}</span>
+                            <ArrowRight className="w-4 h-4" />
+                          </Link>
+                        )}
+
+                        <Link
+                          href="/drops"
+                          className="inline-flex items-center justify-center px-5 py-3.5 rounded-xl border border-[#E4E4E0] bg-white hover:bg-neutral-50 text-neutral-800 text-xs font-bold uppercase tracking-wider transition-colors shrink-0"
+                          title="Voir toutes les archives et drops"
+                        >
+                          <span>Tous les drops</span>
+                        </Link>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </section>
+          );
+        })()}
 
         {/* ================================================================= */}
         {/* 3. BARRE DE FILTRES ET TRI                                        */}

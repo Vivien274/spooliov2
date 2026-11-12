@@ -63,7 +63,7 @@ export interface Drop {
   tagline: string;
   quote?: string;
   description: string;
-  status: "upcoming" | "live" | "ended";
+  status: "upcoming" | "live" | "ended" | "teaser" | "coming_soon";
   startDate: string;
   endDate?: string;
   bannerImage: string;
@@ -75,4 +75,8 @@ export interface Drop {
   productIds: number[];
   products?: Product[];
   gallery?: (string | DropGalleryItem)[];
+}
+
+export function isTeaserDrop(drop?: Drop | null): boolean {
+  return drop?.status === "teaser" || drop?.status === "coming_soon";
 }
