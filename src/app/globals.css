@@ -1227,9 +1227,10 @@ html.light .wysiwyg-editor-area hr {
 
 /* Light mode adaptations for sticky header (only applies to default light header) */
 html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) {
-  background-color: rgba(255, 255, 255, 0.92) !important;
+  background-color: rgba(255, 255, 255, 0.94) !important;
+  border-top: none !important;
   border-bottom-color: rgba(0, 0, 0, 0.08) !important;
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.06) !important;
 }
 
 html.light header.fixed:not(.header-dark, [data-header-theme="dark"]) a:not(.no-invert, .no-invert *, .keep-white, .keep-white *, [class*="bg-zinc-9"], [class*="bg-zinc-9"] *, [class*="bg-black"], [class*="bg-black"] *, [class*="bg-[#ff4f00]"], [class*="bg-[#ff4f00]"] *),

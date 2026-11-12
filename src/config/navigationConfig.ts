@@ -58,6 +58,14 @@ export const MAIN_NAV_ITEMS: MainNavItem[] = [
     type: "shop",
   },
   {
+    id: "drops",
+    label: "Drops",
+    href: "/drops",
+    hasDropdown: false,
+    type: "link",
+    badge: "⚡",
+  },
+  {
     id: "nouveautes",
     label: "Nouveautés",
     href: "/nouveautes",

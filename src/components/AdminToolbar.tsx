@@ -58,15 +58,21 @@ export default function AdminToolbar() {
     }
   }, [pathname, isAdmin, isHidden]);
 
-  // If we are currently browsing the admin section, do not display the toolbar
-  if (pathname.startsWith("/admin")) {
-    return null;
-  }
-
-  // If not admin, or bar has been hidden by user, do not render
-  if (!isAdmin || isHidden) {
-    return null;
-  }
+  // Dynamically manage body margin and scroll padding without leaving orphaned style tags
+  // MUST be called unconditionally before any early returns to respect the Rules of Hooks
+  useEffect(() => {
+    if (isAdmin && !isHidden && !pathname.startsWith("/admin")) {
+      document.body.style.marginTop = "36px";
+      document.documentElement.style.scrollPaddingTop = "36px";
+      return () => {
+        document.body.style.marginTop = "";
+        document.documentElement.style.scrollPaddingTop = "";
+      };
+    } else {
+      document.body.style.marginTop = "";
+      document.documentElement.style.scrollPaddingTop = "";
+    }
+  }, [isAdmin, isHidden, pathname]);
 
   const handleLogout = async () => {
     try {
@@ -81,24 +87,24 @@ export default function AdminToolbar() {
     try {
       sessionStorage.setItem("hide_spoolio_admin_bar", "true");
       setIsHidden(true);
+      document.body.style.marginTop = "";
+      document.documentElement.style.scrollPaddingTop = "";
     } catch (e) {}
   };
 
+  // If we are currently browsing the admin section, do not display the toolbar
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
+
+  // If not admin, or bar has been hidden by user, do not render
+  if (!isAdmin || isHidden) {
+    return null;
+  }
+
   return (
     <>
-      {/* Global CSS injection to offset body content by toolbar height */}
-      <style dangerouslySetInnerHTML={{
-        __html: `
-          html {
-            scroll-padding-top: 36px;
-          }
-          body {
-            margin-top: 36px !important;
-          }
-        `
-      }} />
-
-      <div className="fixed top-0 left-0 right-0 h-9 bg-[#111113] border-b border-[#222225]/80 flex items-center justify-between px-4 text-[11px] font-medium text-white/90 z-[9999] select-none no-invert">
+      <div className="fixed top-0 left-0 right-0 h-9 bg-[#111113] border-b border-[#222225]/80 flex items-center justify-between px-4 text-[11px] font-medium text-white/90 z-[100000] select-none no-invert">
         {/* Left Side: Logo & Main links */}
         <div className="flex items-center gap-5">
           <Link href="/admin" className="flex items-center gap-2 text-white hover:text-[#2F3CD9] transition-colors group">
