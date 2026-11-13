@@ -210,7 +210,21 @@ export default function MobileMenuDrawer({
                   <ChevronRight className="w-4.5 h-4.5 text-zinc-300 group-hover:text-zinc-900 group-hover:translate-x-0.5 transition-all" />
                 </button>
 
-                {/* 2. DROPS [⚡] */}
+                {/* NOËL 2026 */}
+                <Link
+                  href="/noel"
+                  onClick={onClose}
+                  className="w-full flex items-center justify-between py-4 border-b border-zinc-100/90 text-left group"
+                >
+                  <span className="font-be-vietnam font-normal text-lg text-zinc-950 group-hover:text-[#ff4f00] transition-colors tracking-tight">
+                    Noël
+                  </span>
+                  <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-white bg-[#7A131B] px-2.5 py-0.5 rounded-full shadow-2xs">
+                    Coffrets 2026
+                  </span>
+                </Link>
+
+                {/* 2. DROPS */}
                 <Link
                   href="/drops"
                   onClick={onClose}
@@ -219,9 +233,7 @@ export default function MobileMenuDrawer({
                   <span className="font-be-vietnam font-normal text-lg text-zinc-950 group-hover:text-[#ff4f00] transition-colors tracking-tight">
                     Drops
                   </span>
-                  <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-white bg-[#ff4f00] px-2 py-0.5 rounded-full shadow-2xs">
-                    ⚡ Drop
-                  </span>
+                  <ArrowRight className="w-4 h-4 text-zinc-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
                 </Link>
 
                 {/* 3. NOUVEAUTÉS */}

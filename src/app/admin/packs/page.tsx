@@ -1161,9 +1161,6 @@ export default function AdminPacksPage() {
                             </span>
                           )}
                         </div>
-                        <span className="text-[10px] text-zinc-500 font-mono">
-                          {editingPack.packagingType === "pochette_kraft" ? "Pochette kraft" : "Boîte kraft"} incluse
-                        </span>
                       </div>
 
                       <button

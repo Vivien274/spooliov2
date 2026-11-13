@@ -20,6 +20,9 @@ import {
   Gift,
   Printer,
   ChevronRight,
+  Compass,
+  Users,
+  Zap,
 } from "lucide-react";
 
 interface NoelClientProps {
@@ -94,57 +97,175 @@ export default function NoelClient({
     }
   };
 
+  const snowFlakes = [
+    { left: "6%", size: 4, duration: "7.5s", delay: "0s", opacity: 0.55 },
+    { left: "14%", size: 6, duration: "9.2s", delay: "-2.1s", opacity: 0.45 },
+    { left: "23%", size: 3, duration: "6.8s", delay: "-4.3s", opacity: 0.6 },
+    { left: "31%", size: 5, duration: "8.4s", delay: "-1.2s", opacity: 0.5 },
+    { left: "40%", size: 4, duration: "10.1s", delay: "-5.5s", opacity: 0.4 },
+    { left: "49%", size: 6, duration: "7.9s", delay: "-3.0s", opacity: 0.55 },
+    { left: "58%", size: 3, duration: "6.4s", delay: "-0.8s", opacity: 0.65 },
+    { left: "66%", size: 5, duration: "9.5s", delay: "-4.7s", opacity: 0.45 },
+    { left: "74%", size: 4, duration: "8.1s", delay: "-2.6s", opacity: 0.55 },
+    { left: "82%", size: 6, duration: "10.4s", delay: "-6.1s", opacity: 0.4 },
+    { left: "90%", size: 3, duration: "7.2s", delay: "-1.9s", opacity: 0.6 },
+    { left: "95%", size: 5, duration: "8.8s", delay: "-3.8s", opacity: 0.5 },
+  ];
+
   return (
     <div className="space-y-16 sm:space-y-28 pb-20">
       {/* ========================================================= */}
-      {/* SECTION 1 — HERO                                          */}
+      {/* SECTION 1 — HERO NOËL                                     */}
       {/* ========================================================= */}
-      <section className="relative px-4 sm:px-6 lg:px-8 pt-8 sm:pt-16 max-w-7xl mx-auto">
-        <div className="relative rounded-3xl bg-white border border-[#E4E4E0] p-6 sm:p-12 lg:p-16 overflow-hidden shadow-xs">
-          {/* Subtle warm orange & electric blue background glow */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF5500]/5 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
-          <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-[#005CFF]/4 rounded-full blur-3xl pointer-events-none -mb-24" />
+      <section className="relative px-4 sm:px-6 lg:px-8 pt-28 lg:pt-32 max-w-7xl mx-auto">
+        <style>{`
+          @keyframes noelSnowfall {
+            0% {
+              transform: translate3d(0, -16px, 0);
+            }
+            50% {
+              transform: translate3d(10px, 50%, 0);
+            }
+            100% {
+              transform: translate3d(-6px, 460px, 0);
+            }
+          }
+          .noel-flake {
+            animation-name: noelSnowfall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .noel-flake {
+              animation: none;
+              display: none;
+            }
+          }
+        `}</style>
 
-          <div className="relative z-10 max-w-3xl space-y-6">
-            {/* Indexation Spoolio */}
-            <div className="flex items-center gap-2.5">
-              <span className="font-mono text-xs font-black uppercase tracking-widest text-[#FF5500] bg-orange-50 border border-orange-200/60 px-3 py-1 rounded-full">
-                SPOOLIO // XMAS 2026
-              </span>
-              <span className="text-zinc-300 font-mono">/</span>
-              <span className="text-xs font-mono text-zinc-500 uppercase tracking-wider">
-                ÉDITION ATELIER
-              </span>
+        <div className="relative rounded-3xl bg-gradient-to-br from-[#7A131B] via-[#5E0E14] to-[#42080D] border border-[#8E1B24] p-6 sm:p-10 lg:p-14 overflow-hidden shadow-lg text-white">
+          {/* Subtle warm festive glow */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF5500]/15 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20" />
+          <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none -mb-24" />
+
+          {/* Snowflakes strictly scoped to Hero background */}
+          <div aria-hidden="true" className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+            {snowFlakes.map((flake, idx) => (
+              <span
+                key={idx}
+                className="noel-flake absolute -top-3 rounded-full bg-white"
+                style={{
+                  left: flake.left,
+                  width: `${flake.size}px`,
+                  height: `${flake.size}px`,
+                  opacity: flake.opacity,
+                  animationDuration: flake.duration,
+                  animationDelay: flake.delay,
+                }}
+              />
+            ))}
+          </div>
+
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+            <div className="lg:col-span-7 space-y-6">
+              {/* Indexation Spoolio */}
+              <div className="flex flex-wrap items-center gap-2.5">
+                <span className="font-mono text-xs font-black uppercase tracking-widest text-white bg-white/15 border border-white/25 px-3 py-1 rounded-full backdrop-blur-xs">
+                  SPOOLIO // XMAS 2026
+                </span>
+                <span className="text-white/40 font-mono">/</span>
+                <span className="text-xs font-mono text-white/80 uppercase tracking-wider">
+                  ÉDITION ATELIER COMINES
+                </span>
+              </div>
+
+              {/* Titre Principal */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white font-[family-name:var(--font-antonio)] leading-[0.95]">
+                NOËL, MAIS PAS COMME LES AUTRES.
+              </h1>
+
+              {/* Sous-titre */}
+              <p className="text-base sm:text-lg text-white/85 font-sans leading-relaxed max-w-2xl">
+                Des coffrets originaux, des curiosités tactiles et des idées Secret Santa imprimés en 3D dans notre atelier à Comines.
+              </p>
+
+              {/* CTAs */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
+                <a
+                  href="#coffrets"
+                  onClick={scrollToCoffrets}
+                  className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider text-white bg-[#FF5500] hover:bg-[#e04b00] shadow-md transition-all cursor-pointer group"
+                >
+                  <span>Découvrir les coffrets</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </a>
+
+                <Link
+                  href="/trouveur-de-cadeau"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl text-xs sm:text-sm font-bold text-white bg-white/12 hover:bg-white/20 border border-white/25 backdrop-blur-xs transition-colors"
+                >
+                  <Sparkles className="w-4 h-4 text-white !text-white keep-white" style={{ color: "#ffffff" }} />
+                  <span>Trouver une idée cadeau</span>
+                </Link>
+              </div>
             </div>
 
-            {/* Titre Principal */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight text-zinc-950 font-[family-name:var(--font-antonio)] leading-[0.95]">
-              NOËL, MAIS PAS COMME LES AUTRES.
-            </h1>
+            {/* Colonne droite : Repères de campagne */}
+            <div className="lg:col-span-5">
+              <div className="rounded-2xl bg-black/20 border border-white/15 backdrop-blur-md p-5 sm:p-6 space-y-4">
+                <div className="flex items-center justify-between border-b border-white/15 pb-3">
+                  <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-orange-200">
+                    SÉLECTION FESTIVE 2026
+                  </span>
+                  <span className="font-mono text-[11px] text-white/75">
+                    DÈS 12 €
+                  </span>
+                </div>
 
-            {/* Sous-titre */}
-            <p className="text-base sm:text-xl text-zinc-600 font-sans leading-relaxed max-w-2xl">
-              « Des cadeaux avec du caractère. Des curiosités fabriquées dans notre atelier à Comines. »
-            </p>
+                <div className="space-y-3.5">
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center shrink-0 text-white !text-white keep-white">
+                      <Gift className="w-4 h-4 text-white !text-white keep-white" style={{ color: "#ffffff" }} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-black uppercase tracking-wide font-[family-name:var(--font-antonio)] text-white">
+                        3 Coffrets Exclusifs
+                      </p>
+                      <p className="text-xs text-white/75 font-sans">
+                        Compositions prêtes à offrir à tarif avantageux jusqu&apos;à épuisement.
+                      </p>
+                    </div>
+                  </div>
 
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-4">
-              <a
-                href="#coffrets"
-                onClick={scrollToCoffrets}
-                className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider text-white bg-[#FF5500] hover:bg-[#e04b00] shadow-sm transition-all cursor-pointer group"
-              >
-                <span>Découvrir les coffrets</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center shrink-0 text-white !text-white keep-white">
+                      <Users className="w-4 h-4 text-white !text-white keep-white" style={{ color: "#ffffff" }} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-black uppercase tracking-wide font-[family-name:var(--font-antonio)] text-white">
+                        Idéal Secret Santa
+                      </p>
+                      <p className="text-xs text-white/75 font-sans">
+                        Des pépites entre 5 € et 15 € pour surprendre collègues et proches.
+                      </p>
+                    </div>
+                  </div>
 
-              <Link
-                href="/trouveur-de-cadeau"
-                className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl text-xs sm:text-sm font-bold text-zinc-800 bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 transition-colors"
-              >
-                <Sparkles className="w-4 h-4 text-[#FF5500]" />
-                <span>Trouver une idée cadeau</span>
-              </Link>
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center shrink-0 text-white !text-white keep-white">
+                      <Clock className="w-4 h-4 text-white !text-white keep-white" style={{ color: "#ffffff" }} />
+                    </div>
+                    <div>
+                      <p className="text-sm font-black uppercase tracking-wide font-[family-name:var(--font-antonio)] text-white">
+                        Expédition 24–48h
+                      </p>
+                      <p className="text-xs text-white/75 font-sans">
+                        Imprimé, vérifié et préparé à la main dans notre atelier à Comines.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -153,7 +274,7 @@ export default function NoelClient({
       {/* ========================================================= */}
       {/* SECTION 2 — LES TROIS COFFRETS EXCLUSIFS                  */}
       {/* ========================================================= */}
-      <section id="coffrets" className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-24 space-y-8">
+      <section id="coffrets" className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-28 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#E4E4E0] pb-5">
           <div>
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#FF5500]">
@@ -235,9 +356,6 @@ export default function NoelClient({
                           Valeur : {pack.totalComponentsValue.toFixed(0)} €
                         </span>
                       )}
-                      <span className="text-[10px] font-mono text-zinc-500">
-                        ({pack.packagingType === "pochette_kraft" ? "Pochette kraft" : "Boîte kraft"})
-                      </span>
                     </div>
 
                     {/* CONTENU DU COFFRET (SANS MYSTÈRE) */}
@@ -338,7 +456,7 @@ export default function NoelClient({
       {/* ========================================================= */}
       {/* SECTION 3 — TROUVER UN CADEAU PAR BUDGET                  */}
       {/* ========================================================= */}
-      <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
+      <section id="idees" className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto scroll-mt-28 space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#E4E4E0] pb-5">
           <div>
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#FF5500]">
@@ -411,13 +529,100 @@ export default function NoelClient({
       </section>
 
       {/* ========================================================= */}
-      {/* SECTION 4 — PAS D'IDÉE ? LE TROUVEUR DE CADEAU           */}
+      {/* SECTION 4 — SPÉCIAL SECRET SANTA                          */}
+      {/* ========================================================= */}
+      <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="rounded-3xl bg-white border border-[#E4E4E0] p-8 sm:p-12 lg:p-14 relative overflow-hidden shadow-xs space-y-8">
+          <div className="absolute top-0 right-0 w-72 h-72 bg-[#FF5500]/5 rounded-full blur-3xl pointer-events-none -mr-16 -mt-16" />
+
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-[#E4E4E0] pb-6">
+            <div className="space-y-2 max-w-2xl">
+              <span className="inline-flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-widest text-[#FF5500]">
+                <Users className="w-3.5 h-3.5" />
+                03 // SPÉCIAL SECRET SANTA
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-zinc-950 font-[family-name:var(--font-antonio)] leading-[1.05]">
+                Un tirage au sort ? Visez juste entre 5 € et 15 €.
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-600 font-sans leading-relaxed">
+                Collègue, ami ou cousin tiré au sort : oubliez le mug générique. Nos curiosités tactiles et coffrets de bureau font mouche dès le déballage, même avec un petit budget.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                setActiveBudget("under10");
+                document.getElementById("idees")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-black uppercase tracking-wider text-white bg-[#FF5500] hover:bg-[#e04b00] shadow-sm transition-all cursor-pointer shrink-0 font-[family-name:var(--font-antonio)]"
+            >
+              <span>Voir la sélection &lt; 10 €</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
+          <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
+            <button
+              type="button"
+              onClick={() => {
+                setActiveBudget("under10");
+                document.getElementById("idees")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="text-left p-5 rounded-2xl bg-[#FAF9F6] border border-[#E4E4E0] hover:border-[#FF5500]/50 transition-all group cursor-pointer space-y-2.5"
+            >
+              <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/70 flex items-center justify-center text-[#FF5500]">
+                <Zap className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-black uppercase tracking-tight text-zinc-950 font-[family-name:var(--font-antonio)] group-hover:text-[#FF5500] transition-colors">
+                Valeurs sûres à moins de 10 €
+              </h3>
+              <p className="text-xs text-zinc-600 font-sans leading-relaxed">
+                Clickers mécaniques, porte-clés clavier et mini-curiosités qui plaisent à coup sûr.
+              </p>
+            </button>
+
+            <Link
+              href={packs[0] ? `/product/${packs[0].slug}` : "#coffrets"}
+              className="text-left p-5 rounded-2xl bg-[#FAF9F6] border border-[#E4E4E0] hover:border-[#FF5500]/50 transition-all group space-y-2.5"
+            >
+              <div className="w-10 h-10 rounded-xl bg-orange-50 border border-orange-200/70 flex items-center justify-center text-[#FF5500]">
+                <Package className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-black uppercase tracking-tight text-zinc-950 font-[family-name:var(--font-antonio)] group-hover:text-[#FF5500] transition-colors">
+                Le Kit Anti-Réunion (12 €)
+              </h3>
+              <p className="text-xs text-zinc-600 font-sans leading-relaxed">
+                Le cadeau de bureau parfait pour un Secret Santa entre collègues, prêt à offrir.
+              </p>
+            </Link>
+
+            <Link
+              href="/blind-bags"
+              className="text-left p-5 rounded-2xl bg-[#FAF9F6] border border-[#E4E4E0] hover:border-[#005CFF]/50 transition-all group space-y-2.5"
+            >
+              <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200/70 flex items-center justify-center text-[#005CFF]">
+                <Gift className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-black uppercase tracking-tight text-zinc-950 font-[family-name:var(--font-antonio)] group-hover:text-[#005CFF] transition-colors">
+                Blind Bag Surprise
+              </h3>
+              <p className="text-xs text-zinc-600 font-sans leading-relaxed">
+                Un assortiment mystère préparé à l&apos;atelier pour garder la surprise jusqu&apos;à l&apos;ouverture.
+              </p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================= */}
+      {/* SECTION 5 — PAS D'IDÉE ? LE TROUVEUR DE CADEAU           */}
       {/* ========================================================= */}
       <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="rounded-3xl bg-white border border-[#E4E4E0] p-8 sm:p-12 lg:p-14 relative overflow-hidden shadow-xs flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="space-y-4 max-w-xl">
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#FF5500]">
-              03 // GUIDE INTERACTIF
+              04 // GUIDE INTERACTIF
             </span>
             <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-zinc-950 font-[family-name:var(--font-antonio)] leading-[1.05]">
               Pas d&apos;idée précise ? On vous aide en 3 clics.
@@ -437,29 +642,35 @@ export default function NoelClient({
             </div>
           </div>
 
-          <div className="w-full md:w-80 aspect-square rounded-2xl bg-[#FAF9F6] border border-[#E4E4E0] p-6 flex flex-col items-center justify-center text-center space-y-3 relative overflow-hidden shrink-0">
-            <span className="text-5xl">🧭</span>
-            <div className="font-bold text-sm text-zinc-900">
+          <Link
+            href="/trouveur-de-cadeau"
+            className="w-full md:w-80 aspect-square rounded-2xl bg-[#FAF9F6] border border-[#E4E4E0] hover:border-[#005CFF]/40 transition-all p-6 flex flex-col items-center justify-center text-center space-y-3.5 relative overflow-hidden shrink-0 group shadow-2xs hover:shadow-md"
+          >
+            <div className="w-16 h-16 rounded-2xl bg-[#005CFF]/10 border border-[#005CFF]/20 flex items-center justify-center text-[#005CFF] group-hover:scale-105 transition-transform">
+              <Compass className="w-8 h-8" />
+            </div>
+            <div className="font-black text-xl uppercase tracking-tight text-zinc-950 font-[family-name:var(--font-antonio)]">
               Trouveur de Cadeau Spoolio
             </div>
-            <p className="text-xs text-zinc-500">
+            <p className="text-xs text-zinc-500 font-sans leading-relaxed">
               100% interactif • Moins de 60 secondes pour trouver la bonne curiosité
             </p>
-            <span className="text-[11px] font-mono font-bold text-[#005CFF] underline">
-              Tester le questionnaire →
+            <span className="inline-flex items-center gap-1.5 text-sm font-black uppercase tracking-wider text-[#005CFF] font-[family-name:var(--font-antonio)] group-hover:translate-x-0.5 transition-transform">
+              <span>Tester le questionnaire</span>
+              <ArrowRight className="w-4 h-4" />
             </span>
-          </div>
+          </Link>
         </div>
       </section>
 
       {/* ========================================================= */}
-      {/* SECTION 5 — L'ATELIER DE COMINES                          */}
+      {/* SECTION 6 — L'ATELIER DE COMINES                          */}
       {/* ========================================================= */}
       <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="rounded-3xl bg-white border border-[#E4E4E0] p-8 sm:p-12 lg:p-16 relative overflow-hidden shadow-xs grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-7 space-y-5">
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#FF5500]">
-              04 // FABRICATION LOCALE
+              05 // FABRICATION LOCALE
             </span>
             <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-zinc-950 font-[family-name:var(--font-antonio)] leading-[1.02]">
               L&apos;Atelier Spoolio à Comines.
@@ -493,12 +704,12 @@ export default function NoelClient({
       </section>
 
       {/* ========================================================= */}
-      {/* SECTION 6 — LIVRAISON ET RÉASSURANCE                      */}
+      {/* SECTION 7 — LIVRAISON ET RÉASSURANCE                      */}
       {/* ========================================================= */}
       <section className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8">
         <div className="text-center max-w-2xl mx-auto space-y-2">
           <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#FF5500]">
-            05 // SÉRÉNITÉ
+            06 // SÉRÉNITÉ
           </span>
           <h2 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-zinc-950 font-[family-name:var(--font-antonio)]">
             Livraison & engagements de Noël
