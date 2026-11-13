@@ -94,12 +94,22 @@ const navSections: NavSection[] = [
         ),
         subItems: [
           { label: "Tous les produits", href: "/admin/products" },
+          { label: "Packs & Coffrets", href: "/admin/packs" },
           { label: "Ajouter un produit", href: "/admin/products/new" },
           { label: "Taxonomie V2.1", href: "/admin/taxonomy" },
           { label: "Catégories (Historique)", href: "/admin/products/categories" },
           { label: "Attributs", href: "/admin/products/attributes" },
           { label: "Palette Couleurs", href: "/admin/colors" },
         ],
+      },
+      {
+        label: "Packs & Coffrets 🎁",
+        href: "/admin/packs",
+        icon: (
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+          </svg>
+        ),
       },
       {
         label: "Taxonomie V2.1",

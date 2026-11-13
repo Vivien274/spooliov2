@@ -17,15 +17,28 @@ export async function POST(request: Request) {
       );
     }
 
-    // Server-side verification: prevent checkout if any product is out of stock (stock === 0)
-    const itemProductIds = items
+    // Server-side verification: prevent checkout if any product or pack component is out of stock (stock === 0)
+    const directProductIds = items
       .map((item: any) => item.productId || item.id)
       .filter((id: any) => typeof id === "number" && id > 0);
 
-    if (itemProductIds.length > 0) {
+    const packComponentProductIds: number[] = [];
+    items.forEach((item: any) => {
+      if (item.isPack && Array.isArray(item.packComponents)) {
+        item.packComponents.forEach((c: any) => {
+          if (typeof c.productId === "number" && c.productId > 0) {
+            packComponentProductIds.push(c.productId);
+          }
+        });
+      }
+    });
+
+    const allCheckProductIds = Array.from(new Set([...directProductIds, ...packComponentProductIds]));
+
+    if (allCheckProductIds.length > 0) {
       try {
         const dbProducts = await prisma.product.findMany({
-          where: { id: { in: itemProductIds } },
+          where: { id: { in: allCheckProductIds } },
           select: { id: true, name: true, stock: true },
         });
         const outOfStockItem = dbProducts.find((p) => p.stock === 0);
@@ -55,7 +68,7 @@ export async function POST(request: Request) {
 
     // Compute normal items total for promo & shipping thresholds
     const normalTotal = items
-      .filter((item: any) => item.productId > 0 || (typeof item.id === "number" && item.id > 0))
+      .filter((item: any) => item.productId > 0 || item.isPack || (typeof item.id === "number" && item.id > 0))
       .reduce((acc: number, item: any) => acc + parseFloat(item.price) * item.quantity, 0);
 
     const fullCartTotal = items.reduce(
@@ -132,6 +145,9 @@ export async function POST(request: Request) {
           quantity: item.quantity,
           price: item.price,
           slug: item.slug || null,
+          isPack: Boolean(item.isPack),
+          packId: item.packId || null,
+          packComponents: item.packComponents || null,
         };
       });
 

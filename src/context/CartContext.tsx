@@ -14,6 +14,16 @@ export interface CartItem {
   isLoyaltyReward?: boolean;
   rewardPointsCost?: number;
   loyaltyCardId?: string;
+  isPack?: boolean;
+  packId?: string;
+  packComponents?: {
+    productId: number;
+    name: string;
+    quantity: number;
+    variant?: string | null;
+    image?: string;
+    slug?: string;
+  }[];
 }
 
 export interface SelectedRelay {
@@ -249,7 +259,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const cartCount = cartItems
-    .filter((item) => item.productId > 0)
+    .filter((item) => item.productId > 0 || item.isPack)
     .reduce((acc, item) => acc + item.quantity, 0);
 
   const cartTotal = cartItems.reduce(
@@ -258,7 +268,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   );
 
   const cartTotalNormal = cartItems
-    .filter((item) => item.productId > 0 && !item.isLoyaltyReward)
+    .filter((item) => (item.productId > 0 || item.isPack) && !item.isLoyaltyReward)
     .reduce((acc, item) => acc + parseFloat(item.price) * item.quantity, 0);
 
   let discountAmount = 0;

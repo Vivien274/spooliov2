@@ -117,10 +117,15 @@ export async function syncOrderToManager(order: {
       const optionsStr = options.join(", ");
       const color = extractColorFromOptions(optionsStr);
 
+      const isPack = Boolean(item.isPack || mainName.toLowerCase().startsWith("pack"));
+      const packComponentsNotes = item.packComponents && Array.isArray(item.packComponents)
+        ? ` [Contenu pack: ${item.packComponents.map((c: any) => `${c.name} x${(c.quantity || 1) * (item.quantity || 1)}${c.variant ? ` (${c.variant})` : ""}`).join(", ")}]`
+        : "";
+
       return {
         order_id: newOrderId,
         product_id: null,
-        product_name: mainName,
+        product_name: isPack ? `${mainName}${packComponentsNotes}` : mainName,
         quantity: item.quantity || 1,
         unit_price: item.price ? parseFloat(String(item.price)) : 0,
         color: color,

@@ -163,6 +163,13 @@ export default function CartDrawer() {
                             <Link href={item.selectedOptions._configUrl || "/createur-cliqueur"} onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors">
                               {item.name}
                             </Link>
+                          ) : item.isPack ? (
+                            <Link href={`/product/${item.slug}`} onClick={() => setIsCartOpen(false)} className="hover:text-[#ff4f00] transition-colors flex items-center gap-1.5 flex-wrap">
+                              <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-orange-100 text-[#ff4f00]">
+                                🎁 Coffret
+                              </span>
+                              <span>{item.name}</span>
+                            </Link>
                           ) : item.productId < 0 ? (
                             <span>{item.name}</span>
                           ) : (
@@ -171,6 +178,20 @@ export default function CartDrawer() {
                             </Link>
                           )}
                         </h4>
+
+                        {/* Pack Components Summary */}
+                        {item.isPack && item.packComponents && item.packComponents.length > 0 && (
+                          <div className="mt-1 p-2 rounded-lg bg-zinc-50 border border-zinc-200 text-[11px] text-zinc-600 space-y-0.5">
+                            <span className="font-bold text-zinc-700 block text-[10px] uppercase font-mono tracking-wider">Contenu du coffret :</span>
+                            {item.packComponents.map((c, cIdx) => (
+                              <div key={cIdx} className="flex items-center gap-1.5 truncate">
+                                <span className="font-mono font-bold text-[#ff4f00]">x{c.quantity * item.quantity}</span>
+                                <span className="truncate">{c.name}</span>
+                                {c.variant && <span className="text-zinc-400">({c.variant})</span>}
+                              </div>
+                            ))}
+                          </div>
+                        )}
 
                         {/* Selected Options */}
                         {Object.keys(item.selectedOptions).length > 0 && (
@@ -201,7 +222,7 @@ export default function CartDrawer() {
 
                       {/* Stepper + Supprimer link */}
                       <div className="flex items-center gap-3 mt-3">
-                        {item.productId < 0 ? (
+                        {item.productId < 0 && !item.isPack ? (
                           <span className="text-xs font-medium text-zinc-500">
                             Qté : {item.quantity}
                           </span>

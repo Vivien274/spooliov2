@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { verifySession } from "@/lib/auth";
 import { isPreprodEnv } from "@/lib/env";
 import { getProductBySlug, getRelatedProducts } from "@/lib/serverProducts";
+import { getPackBySlug } from "@/lib/serverPacks";
 import { buildPageMetadata, formatDescription } from "@/lib/seoMetadata";
 import JsonLdScript from "@/components/JsonLdScript";
 import { getProductJsonLd, getBreadcrumbJsonLd } from "@/lib/jsonLd";
@@ -101,9 +102,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   await getAllDrops();
-  const product = await getProductBySlug(slug);
+  let product = await getProductBySlug(slug);
 
   if (!product) {
+    const pack = await getPackBySlug(slug);
+    if (pack) {
+      return buildPageMetadata({
+        title: pack.seoTitle || `Coffret ${pack.name} — Spoolio`,
+        description: pack.seoDescription || pack.shortDescription || `Découvrez le coffret ${pack.name} fabriqué dans notre atelier à Comines.`,
+        path: `/product/${slug}`,
+        ogImage: pack.image,
+      });
+    }
+
     return {
       title: "Produit introuvable | Spoolio",
       robots: { index: false, follow: false },
@@ -171,7 +182,49 @@ export default async function ProductPage({ params }: PageProps) {
 
   // 2. Fetch full product directly on server (en synchronisant les drops JIT)
   await getAllDrops();
-  const product = await getProductBySlug(slug);
+  let product = await getProductBySlug(slug);
+
+  if (!product) {
+    const pack = await getPackBySlug(slug);
+    if (pack) {
+      product = {
+        id: -2000 - (pack.displayOrder || 1),
+        name: pack.name,
+        slug: pack.slug,
+        permalink: `/product/${pack.slug}`,
+        price: pack.price.toString(),
+        regular_price: (pack.totalComponentsValue || pack.price).toString(),
+        sale_price: pack.savingsAmount && pack.savingsAmount > 0 ? pack.price.toString() : "",
+        on_sale: Boolean(pack.savingsAmount && pack.savingsAmount > 0),
+        productType: "pack",
+        status: pack.status === "active" ? "publish" : "draft",
+        categories: [
+          {
+            id: 9999,
+            name: pack.category === "noel-2026" ? "Noël 2026" : "Coffrets & Packs",
+            slug: pack.category,
+          },
+        ],
+        images: [
+          { id: 1, src: pack.image, name: pack.name, alt: pack.name },
+          ...(pack.gallery || []).map((img, i) => ({
+            id: i + 2,
+            src: img,
+            name: pack.name,
+            alt: pack.name,
+          })),
+        ],
+        short_description: pack.shortDescription || pack.tagline || "",
+        description: pack.description || "",
+        attributes: {
+          isPack: true,
+          pack: pack,
+          template: "pack",
+        },
+        stock: pack.availableStock ?? 999,
+      };
+    }
+  }
 
   if (!product) {
     notFound();

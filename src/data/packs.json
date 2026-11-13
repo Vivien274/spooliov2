@@ -1,0 +1,158 @@
+[
+  {
+    "id": "pack-anti-reunion",
+    "name": "Le kit anti-réunion",
+    "slug": "le-kit-anti-reunion",
+    "tagline": "Pour survivre à une réunion qui aurait pu être un e-mail.",
+    "shortDescription": "Trois curiosités tactiles et sonores indispensables pour évacuer la tension des visios interminables en toute discrétion.",
+    "description": "Ce coffret regroupe nos trois best-sellers tactiles de bureau : le fameux bouton d'urgence Panic Button au clic franc et libérateur, la boîte de chips Crunchy Click au son ultra-croustillant, et notre porte-clés à switch mécanique pour garder le rythme où que vous soyez.",
+    "image": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892448571.webp",
+    "gallery": [
+      "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892086536.webp",
+      "/images/imported/Spoolio_Porte-Cle-clavier-mecanique-7.jpg"
+    ],
+    "price": 12.0,
+    "status": "active",
+    "startDate": null,
+    "endDate": null,
+    "maxQuantity": null,
+    "displayOrder": 1,
+    "category": "noel-2026",
+    "packagingType": "pochette_kraft",
+    "packagingNotes": "Pochette kraft Spoolio, sticker vinyle offert, carte message personnalisée.",
+    "seoTitle": "Pack Le Kit Anti-Réunion — Coffret Cadeau Tactile | Spoolio",
+    "seoDescription": "Offrez le coffret anti-réunion Spoolio : Panic Button, Crunchy Click et Porte-clés mécanique. Fabriqué en impression 3D dans notre atelier à Comines.",
+    "items": [
+      {
+        "id": "comp-1-panic",
+        "productId": 26,
+        "variant": null,
+        "quantity": 1,
+        "displayOrder": 1
+      },
+      {
+        "id": "comp-1-crunchy",
+        "productId": 29,
+        "variant": null,
+        "quantity": 1,
+        "displayOrder": 2
+      },
+      {
+        "id": "comp-1-keychain",
+        "productId": 7769,
+        "variant": null,
+        "quantity": 1,
+        "displayOrder": 3
+      }
+    ],
+    "createdAt": "2026-11-12T10:00:00.000Z",
+    "updatedAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "pack-bureau-pas-serieux",
+    "name": "Le bureau pas sérieux",
+    "slug": "le-bureau-pas-serieux",
+    "tagline": "Attention : productivité non garantie.",
+    "shortDescription": "Le trio parfait pour transformer un open space morose en espace de création décomplexé et haut en couleur.",
+    "description": "L'antidote ultime à la grisaille du bureau. Comprend le support de téléphone industriel ultra-stable au design brutaliste chic, notre clicker vintage Butter Click au cliquetis velouté irrésistible, et le pot à crayons kraft au style froissé insolite.",
+    "image": "/images/imported/Spoolio-SupportSmartphonearticule-industriel-9-scaled.webp",
+    "gallery": [
+      "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892564194.webp",
+      "/images/imported/DecaleKatam-007.webp"
+    ],
+    "price": 19.0,
+    "status": "active",
+    "startDate": null,
+    "endDate": null,
+    "maxQuantity": null,
+    "displayOrder": 2,
+    "category": "noel-2026",
+    "packagingType": "boite_kraft",
+    "packagingNotes": "Boîte kraft Spoolio rigide, calage papier recyclé, sticker vinyle offert, carte avec phrase personnalisée.",
+    "seoTitle": "Pack Le Bureau Pas Sérieux — Coffret Cadeau Spoolio",
+    "seoDescription": "Découvrez le coffret Le Bureau Pas Sérieux : support téléphone industriel, Butter Click et pot à crayons froissé. Fait en France à l'atelier.",
+    "items": [
+      {
+        "id": "comp-2-support",
+        "productId": 13167,
+        "variant": null,
+        "quantity": 1,
+        "displayOrder": 1
+      },
+      {
+        "id": "comp-2-butter",
+        "productId": 25,
+        "variant": null,
+        "quantity": 1,
+        "displayOrder": 2
+      },
+      {
+        "id": "comp-2-pot",
+        "productId": 10735,
+        "variant": null,
+        "quantity": 1,
+        "displayOrder": 3
+      }
+    ],
+    "createdAt": "2026-11-12T10:00:00.000Z",
+    "updatedAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "pack-cabinet-des-bizarreries",
+    "name": "Le cabinet des bizarreries",
+    "slug": "le-cabinet-des-bizarreries",
+    "tagline": "Aucun de ces objets ne va changer ta vie. Enfin, normalement.",
+    "shortDescription": "Une collection de 4 curiosités décalées et sculpturales pour surprendre les esprits curieux et les collectionneurs d'inédit.",
+    "description": "Pour ceux qui fuient le convenu : ce coffret réunit le Vase Twist sculptural aux reflets hypnotiques, le clicker Bubble Pop miniature, la fameuse boîte de sardines Sardine Club au clic marin rétro, et notre bague fidget mécanique à engrenages tournants.",
+    "image": "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793891736579.webp",
+    "gallery": [
+      "/images/imported/DecaleKatam_Vases_Pots-1.webp",
+      "https://twjqfwigssfkiwjvhpjy.supabase.co/storage/v1/object/public/spoolio-uploads/upload_1793892230502.webp",
+      "/images/imported/Spoolio-fidget-mecanique-engrenage-2-scaled.webp"
+    ],
+    "price": 29.0,
+    "status": "active",
+    "startDate": null,
+    "endDate": null,
+    "maxQuantity": null,
+    "displayOrder": 3,
+    "category": "noel-2026",
+    "packagingType": "boite_kraft",
+    "packagingNotes": "Boîte kraft de prestige, ruban d'atelier, calage soigné, stickers et carte d'authenticité signée.",
+    "seoTitle": "Pack Le Cabinet des Bizarreries — Coffret Curiosités Spoolio",
+    "seoDescription": "Offrez le coffret Le Cabinet des Bizarreries Spoolio : 4 pièces artisanales uniques imprimées en 3D à Comines.",
+    "items": [
+      {
+        "id": "comp-3-vase",
+        "productId": 9924,
+        "variant": null,
+        "quantity": 1,
+        "displayOrder": 1
+      },
+      {
+        "id": "comp-3-goofy",
+        "productId": 27,
+        "variant": null,
+        "quantity": 1,
+        "displayOrder": 2
+      },
+      {
+        "id": "comp-3-sardine",
+        "productId": 30,
+        "variant": null,
+        "quantity": 1,
+        "displayOrder": 3
+      },
+      {
+        "id": "comp-3-engrenage",
+        "productId": 11051,
+        "variant": null,
+        "quantity": 1,
+        "displayOrder": 4
+      }
+    ],
+    "createdAt": "2026-11-12T10:00:00.000Z",
+    "updatedAt": "2026-11-12T10:00:00.000Z"
+  }
+]
+

@@ -54,6 +54,7 @@ interface ProductData {
     template?: "standard" | "hero";
     attributes: { name: string; options: string[]; controlType?: string; defaultOption?: string }[];
     variationPrices: { combination: Record<string, string>; price: string; imageSrc?: string }[];
+    imageVariants?: Record<string, string>;
     technicalSpecs?: {
       dimensions?: string;
       weight?: string;
@@ -156,7 +157,7 @@ export default function ProductFormClient({ productId, isNew }: Props) {
     metaDescriptionEn: "",
     images: [],
     variations: [],
-    attributes: { attributes: [], variationPrices: [] },
+    attributes: { attributes: [], variationPrices: [], imageVariants: {} },
     technicalSpecs: {
       dimensions: "",
       weight: "",
@@ -1538,91 +1539,198 @@ export default function ProductFormClient({ productId, isNew }: Props) {
                     });
                   };
 
+                  const assignedVariant = form.attributes?.imageVariants?.[img.src] || "";
+                  const availableVariantOptions: { group: string; label: string; value: string }[] = [];
+                  (form.attributes?.attributes || []).forEach((attr) => {
+                    (attr.options || []).forEach((opt) => {
+                      availableVariantOptions.push({
+                        group: attr.name,
+                        label: opt,
+                        value: `${attr.name}: ${opt}`,
+                      });
+                    });
+                  });
+
+                  const updateImageVariant = (val: string) => {
+                    setForm(prev => {
+                      const prevAttrs = prev.attributes || { attributes: [], variationPrices: [], imageVariants: {} };
+                      const nextMap = { ...(prevAttrs.imageVariants || {}) };
+                      if (val && val.trim()) {
+                        nextMap[img.src] = val.trim();
+                      } else {
+                        delete nextMap[img.src];
+                      }
+                      return {
+                        ...prev,
+                        attributes: {
+                          ...prevAttrs,
+                          imageVariants: nextMap,
+                        },
+                      };
+                    });
+                  };
+
                   return (
                     <div
                       key={img.id ? `img-${img.id}-${idx}` : `img-${idx}`}
-                      className={`relative aspect-square rounded-xl overflow-hidden ${cls.inputBg} border transition-all group ${
-                        isCover ? "border-[#ff4f00] ring-2 ring-[#ff4f00]/30 shadow-md" : cls.border
-                      }`}
+                      className="flex flex-col gap-1.5"
                     >
-                      {/* Cover Badge */}
-                      {isCover && (
-                        <span className="absolute top-2 left-2 px-2 py-0.5 text-[9px] font-extrabold bg-[#ff4f00] text-white rounded-full shadow-lg z-20 uppercase tracking-widest flex items-center gap-1 no-invert">
-                          ⭐ Couverture
-                        </span>
-                      )}
-
-                      {/* Thumbnail Content */}
-                      {isVid ? (
-                        <div className="w-full h-full relative flex items-center justify-center bg-black">
-                          {ytThumb ? (
-                            <Image src={ytThumb} alt={img.alt || "Vidéo YouTube"} fill unoptimized className="object-cover opacity-75" />
-                          ) : (
-                            <video src={img.src} muted className="object-cover w-full h-full opacity-60" />
-                          )}
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-                            <span className="text-xl">🎥</span>
-                          </div>
-                        </div>
-                      ) : (
-                        <Image src={img.src} alt={img.alt || "Média"} fill className="object-cover" />
-                      )}
-
-                      {/* Hover Action Overlay */}
-                      <div className="absolute inset-0 bg-black/75 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-between p-2 z-10 select-none">
-                        {/* Top bar overlay: Set Cover or Cover indicator */}
-                        {!isCover ? (
-                          <button
-                            type="button"
-                            onClick={() => setAsCover(idx)}
-                            className="w-full py-1 text-[10px] font-bold bg-[#ff4f00] hover:bg-[#e04500] text-white rounded-lg transition-colors cursor-pointer shadow flex items-center justify-center gap-1"
-                          >
-                            <span>⭐ Image de couverture</span>
-                          </button>
-                        ) : (
-                          <span className="text-[10px] font-black text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30">
-                            Image principale
+                      <div
+                        className={`relative aspect-square rounded-xl overflow-hidden ${cls.inputBg} border transition-all group ${
+                          isCover ? "border-[#ff4f00] ring-2 ring-[#ff4f00]/30 shadow-md" : cls.border
+                        }`}
+                      >
+                        {/* Cover Badge */}
+                        {isCover && (
+                          <span className="absolute top-2 left-2 px-2 py-0.5 text-[9px] font-extrabold bg-[#ff4f00] text-white rounded-full shadow-lg z-20 uppercase tracking-widest flex items-center gap-1 no-invert">
+                            ⭐ Couverture
                           </span>
                         )}
 
-                        {/* Center overlay: Delete button */}
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            removeImage(img.id);
-                          }}
-                          className="p-1.5 rounded-full bg-red-500/20 hover:bg-red-500/40 text-red-400 hover:text-red-300 transition-all cursor-pointer"
-                          title="Supprimer ce média"
-                        >
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                        </button>
+                        {/* Variant Badge */}
+                        {assignedVariant && (
+                          <span
+                            className="absolute bottom-2 left-2 right-2 px-2 py-0.5 text-[9px] font-bold bg-zinc-950/85 backdrop-blur-xs text-white rounded-md shadow z-20 truncate text-center"
+                            title={assignedVariant}
+                          >
+                            🏷️ {assignedVariant}
+                          </span>
+                        )}
 
-                        {/* Bottom bar overlay: Move Left / Move Right */}
-                        <div className="flex items-center gap-1.5">
-                          {idx > 0 && (
+                        {/* Thumbnail Content */}
+                        {isVid ? (
+                          <div className="w-full h-full relative flex items-center justify-center bg-black">
+                            {ytThumb ? (
+                              <Image src={ytThumb} alt={img.alt || "Vidéo YouTube"} fill unoptimized className="object-cover opacity-75" />
+                            ) : (
+                              <video src={img.src} muted className="object-cover w-full h-full opacity-60" />
+                            )}
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                              <span className="text-xl">🎥</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <Image src={img.src} alt={img.alt || "Média"} fill className="object-cover" />
+                        )}
+
+                        {/* Hover Action Overlay */}
+                        <div className="absolute inset-0 bg-black/75 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-between p-2 z-10 select-none">
+                          {/* Top bar overlay: Set Cover or Cover indicator */}
+                          {!isCover ? (
                             <button
                               type="button"
-                              onClick={() => moveMedia(idx, idx - 1)}
-                              className="px-2 py-0.5 text-[9px] font-bold bg-white/10 hover:bg-white/20 text-white rounded transition-colors cursor-pointer"
-                              title="Déplacer vers la gauche"
+                              onClick={() => setAsCover(idx)}
+                              className="w-full py-1 text-[10px] font-bold bg-[#ff4f00] hover:bg-[#e04500] text-white rounded-lg transition-colors cursor-pointer shadow flex items-center justify-center gap-1"
                             >
-                              ◀
+                              <span>⭐ Image de couverture</span>
                             </button>
+                          ) : (
+                            <span className="text-[10px] font-black text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30">
+                              Image principale
+                            </span>
                           )}
-                          {idx < form.images.length - 1 && (
+
+                          {/* Center overlay: Delete button */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              removeImage(img.id);
+                            }}
+                            className="p-1.5 rounded-full bg-red-500/20 hover:bg-red-500/40 text-red-400 hover:text-red-300 transition-all cursor-pointer"
+                            title="Supprimer ce média"
+                          >
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                          </button>
+
+                          {/* Bottom bar overlay: Move Left / Move Right */}
+                          <div className="flex items-center gap-1.5">
+                            {idx > 0 && (
+                              <button
+                                type="button"
+                                onClick={() => moveMedia(idx, idx - 1)}
+                                className="px-2 py-0.5 text-[9px] font-bold bg-white/10 hover:bg-white/20 text-white rounded transition-colors cursor-pointer"
+                                title="Déplacer vers la gauche"
+                              >
+                                ◀
+                              </button>
+                            )}
+                            {idx < form.images.length - 1 && (
+                              <button
+                                type="button"
+                                onClick={() => moveMedia(idx, idx + 1)}
+                                className="px-2 py-0.5 text-[9px] font-bold bg-white/10 hover:bg-white/20 text-white rounded transition-colors cursor-pointer"
+                                title="Déplacer vers la droite"
+                              >
+                                ▶
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Variant Identification Selector under each photo */}
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center justify-between text-[10px] font-mono text-zinc-500 px-0.5">
+                          <span className="font-bold">Photo {idx + 1}</span>
+                          {assignedVariant && (
                             <button
                               type="button"
-                              onClick={() => moveMedia(idx, idx + 1)}
-                              className="px-2 py-0.5 text-[9px] font-bold bg-white/10 hover:bg-white/20 text-white rounded transition-colors cursor-pointer"
-                              title="Déplacer vers la droite"
+                              onClick={() => updateImageVariant("")}
+                              className="text-rose-500 hover:text-rose-700 font-bold cursor-pointer"
+                              title="Retirer le variant"
                             >
-                              ▶
+                              ✕
                             </button>
                           )}
                         </div>
+                        {availableVariantOptions.length > 0 ? (
+                          <select
+                            value={
+                              availableVariantOptions.some((o) => o.value === assignedVariant)
+                                ? assignedVariant
+                                : assignedVariant
+                                ? "__custom__"
+                                : ""
+                            }
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              if (val === "__custom__") {
+                                const custom = window.prompt("Nom du variant pour cette photo :", assignedVariant || "");
+                                if (custom !== null) updateImageVariant(custom);
+                              } else {
+                                updateImageVariant(val);
+                              }
+                            }}
+                            className={`w-full px-2 py-1 text-[11px] font-semibold rounded-lg border ${cls.inputBg} ${cls.border} focus:outline-none focus:border-[#ff4f00] truncate cursor-pointer`}
+                          >
+                            <option value="">— Variant (aucun) —</option>
+                            {(form.attributes?.attributes || []).map((attr) => (
+                              <optgroup key={attr.name} label={attr.name}>
+                                {(attr.options || []).map((opt) => (
+                                  <option key={`${attr.name}:${opt}`} value={`${attr.name}: ${opt}`}>
+                                    {opt}
+                                  </option>
+                                ))}
+                              </optgroup>
+                            ))}
+                            {assignedVariant &&
+                              !availableVariantOptions.some((o) => o.value === assignedVariant) && (
+                                <option value="__custom__">✏️ {assignedVariant}</option>
+                              )}
+                            <option value="__custom__">✏️ Autre / libellé libre...</option>
+                          </select>
+                        ) : (
+                          <input
+                            type="text"
+                            value={assignedVariant}
+                            onChange={(e) => updateImageVariant(e.target.value)}
+                            placeholder={`Variant photo ${idx + 1} (ex: Variant A)`}
+                            className={`w-full px-2 py-1 text-[11px] rounded-lg border ${cls.inputBg} ${cls.border} focus:outline-none focus:border-[#ff4f00]`}
+                          />
+                        )}
                       </div>
                     </div>
                   );

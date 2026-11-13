@@ -56,6 +56,7 @@ export async function GET(req: Request) {
                 attributes: parsed.attributes || [],
                 variationPrices: parsed.variationPrices || [],
                 technicalSpecs: parsed.technicalSpecs || undefined,
+                imageVariants: parsed.imageVariants || {},
               };
               tagsList = parsed.tags || [];
               badgeValue = parsed.badge || "";
@@ -128,6 +129,7 @@ export async function GET(req: Request) {
                     attributes: parsed.attributes || [],
                     variationPrices: parsed.variationPrices || [],
                     technicalSpecs: parsed.technicalSpecs || undefined,
+                    imageVariants: parsed.imageVariants || {},
                   };
                   tagsList = parsed.tags || [];
                   badgeValue = parsed.badge || "";

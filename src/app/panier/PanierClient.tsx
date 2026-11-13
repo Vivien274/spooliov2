@@ -414,6 +414,13 @@ export default function PanierClient() {
                       <Link href="/calendrier-avent" className="text-zinc-900 dark:text-white hover:text-[#ff4f00] transition-colors">
                         {item.name}
                       </Link>
+                    ) : item.isPack ? (
+                      <Link href={`/product/${item.slug}`} className="text-zinc-900 dark:text-white hover:text-[#ff4f00] transition-colors flex items-center gap-1.5 flex-wrap">
+                        <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-orange-100 dark:bg-orange-950 text-[#ff4f00]">
+                          🎁 Coffret
+                        </span>
+                        <span>{item.name}</span>
+                      </Link>
                     ) : item.productId < 0 ? (
                       <span className="text-zinc-900 dark:text-white">{item.name}</span>
                     ) : (
@@ -445,9 +452,23 @@ export default function PanierClient() {
                     </Link>
                   )}
 
+                  {/* Pack Components Summary */}
+                  {item.isPack && item.packComponents && item.packComponents.length > 0 && (
+                    <div className="mt-1.5 p-2 rounded-lg bg-zinc-100 dark:bg-white/5 border border-zinc-200 dark:border-white/5 text-[11px] text-zinc-600 dark:text-zinc-300 space-y-0.5">
+                      <span className="font-bold text-zinc-700 dark:text-zinc-200 block text-[10px] uppercase font-mono tracking-wider">Contenu du coffret :</span>
+                      {item.packComponents.map((c, cIdx) => (
+                        <div key={cIdx} className="flex items-center gap-1.5 truncate">
+                          <span className="font-mono font-bold text-[#ff4f00]">x{c.quantity * item.quantity}</span>
+                          <span className="truncate">{c.name}</span>
+                          {c.variant && <span className="text-zinc-400">({c.variant})</span>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
                   {/* Quantity controls */}
                   <div className="flex items-center justify-between mt-3 pt-3 border-t border-zinc-200 dark:border-white/5">
-                    {item.productId < 0 ? (
+                    {item.productId < 0 && !item.isPack ? (
                       <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest bg-zinc-200 dark:bg-white/5 px-2.5 py-1 rounded-md">
                         Soutien Libre
                       </span>

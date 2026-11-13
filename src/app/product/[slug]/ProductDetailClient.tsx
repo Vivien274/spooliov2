@@ -787,13 +787,26 @@ export default function ProductDetailClient({
 
   const handleAddToCartClick = () => {
     if (!product || isNotAvailableToBuy) return;
+    const isPack = rawProductAttrs?.isPack || product.productType === "pack";
+    const pack = rawProductAttrs?.pack;
+
     addToCart({
       productId: product.id,
-      name: product.name,
+      name: isPack ? `PACK — ${product.name}` : product.name,
       slug: product.slug,
       price: currentPrice,
       selectedOptions: selectedOptions,
-      image: product.images[0]?.src || ""
+      image: product.images[0]?.src || "",
+      isPack: Boolean(isPack),
+      packId: pack?.id || (isPack ? product.slug : undefined),
+      packComponents: isPack && pack?.items ? pack.items.map((it: any) => ({
+        productId: it.productId,
+        name: it.productName || `Produit #${it.productId}`,
+        quantity: it.quantity,
+        variant: it.variant,
+        image: it.productImage,
+        slug: it.productSlug,
+      })) : undefined,
     }, quantity);
     setIsAdded(true);
     setTimeout(() => setIsAdded(false), 2000);
@@ -1119,6 +1132,19 @@ export default function ProductDetailClient({
             <span>Agrandir</span>
           </button>
 
+          {/* Bottom-Left Variant Badge (si la photo est associée à un variant) */}
+          {(() => {
+            const currentSrc = product.images[activeImageIndex]?.src || imageUrl;
+            const imgVariants = (product.attributes as { imageVariants?: Record<string, string> } | undefined)?.imageVariants;
+            const variantLabel = currentSrc && imgVariants ? imgVariants[currentSrc] : undefined;
+            if (!variantLabel) return null;
+            return (
+              <div className="absolute bottom-4 left-4 z-20 px-3 py-1 rounded-full bg-white/90 text-[#121212] text-[11px] font-bold tracking-wide border border-[#E4E4E0] shadow-sm backdrop-blur-md select-none pointer-events-none">
+                {variantLabel}
+              </div>
+            );
+          })()}
+
           {/* Bottom-Right Image Count Badge */}
           {hasImage && product.images.length > 1 && (
             <div className="absolute bottom-4 right-4 z-20 px-3 py-1 rounded-full bg-black/75 text-white text-[11px] font-extrabold tracking-wider border border-white/15 backdrop-blur-md select-none hidden sm:block">
@@ -1431,6 +1457,22 @@ export default function ProductDetailClient({
                               setActiveImageIndex(imgIdx);
                             }
                           }
+                        }
+                      }
+
+                      // Also check imageVariants map (photo -> variant tag)
+                      const imageVariantsMap = (product.attributes as { imageVariants?: Record<string, string> } | undefined)?.imageVariants;
+                      if (imageVariantsMap && typeof imageVariantsMap === "object" && Array.isArray(product.images)) {
+                        const targetPair = `${decodedName}: ${val}`.toLowerCase().trim();
+                        const targetVal = String(val).toLowerCase().trim();
+                        const matchedIdx = product.images.findIndex((img) => {
+                          const tag = imageVariantsMap[img.src];
+                          if (!tag) return false;
+                          const normTag = String(tag).toLowerCase().trim();
+                          return normTag === targetPair || normTag === targetVal;
+                        });
+                        if (matchedIdx !== -1) {
+                          setActiveImageIndex(matchedIdx);
                         }
                       }
 
@@ -1850,6 +1892,91 @@ export default function ProductDetailClient({
               </div>
             );
           
+  };
+
+  const renderPackComponentsBlock = () => {
+    const isPack = rawProductAttrs?.isPack || product?.productType === "pack";
+    const pack = rawProductAttrs?.pack;
+    if (!isPack || !pack || !pack.items || pack.items.length === 0) return null;
+
+    return (
+      <div className="mb-6 p-5 rounded-2xl bg-zinc-50 border border-zinc-200 shadow-2xs space-y-3 font-sans">
+        <div className="flex items-center justify-between border-b border-zinc-200/80 pb-2.5">
+          <div className="flex items-center gap-2">
+            <span className="text-lg">📦</span>
+            <h3 className="text-xs font-black uppercase tracking-wider text-zinc-950 font-mono">
+              Ce coffret contient :
+            </h3>
+          </div>
+          <span className="text-xs font-bold text-[#ff4f00] font-mono">
+            {pack.items.length} créations artisanales
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+          {pack.items.map((comp: any, idx: number) => {
+            const compUrl = comp.productSlug ? `/product/${comp.productSlug}` : null;
+            return (
+              <div
+                key={comp.id || idx}
+                className="flex items-center gap-3 p-2.5 rounded-xl bg-white border border-zinc-200 hover:border-zinc-300 transition-colors"
+              >
+                <div className="w-12 h-12 rounded-lg bg-zinc-100 border border-zinc-200 overflow-hidden relative shrink-0">
+                  {comp.productImage ? (
+                    <Image
+                      src={comp.productImage}
+                      alt={comp.productName || ""}
+                      fill
+                      className="object-cover"
+                      sizes="48px"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-zinc-300">
+                      📦
+                    </div>
+                  )}
+                  <span className="absolute bottom-0.5 right-0.5 font-mono text-[9px] font-black px-1 rounded bg-zinc-950 text-white">
+                    x{comp.quantity}
+                  </span>
+                </div>
+
+                <div className="min-w-0 flex-1">
+                  {compUrl ? (
+                    <Link
+                      href={compUrl}
+                      target="_blank"
+                      className="font-bold text-xs text-zinc-900 hover:text-[#ff4f00] hover:underline transition-colors block truncate"
+                      title={comp.productName}
+                    >
+                      {comp.productName}
+                    </Link>
+                  ) : (
+                    <span className="font-bold text-xs text-zinc-900 block truncate">
+                      {comp.productName}
+                    </span>
+                  )}
+                  <div className="flex items-center gap-1.5 text-[10px] text-zinc-500 font-mono mt-0.5">
+                    {comp.variant && (
+                      <span className="truncate">Variante : {comp.variant}</span>
+                    )}
+                    {comp.productPrice && (
+                      <span className="text-zinc-400">({comp.productPrice} € un.)</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {pack.packagingNotes && (
+          <div className="pt-2 border-t border-zinc-200/80 text-[11px] text-zinc-500 flex items-center gap-1.5">
+            <span className="text-zinc-700 font-bold">Packaging d&apos;atelier :</span>
+            <span>{pack.packagingNotes}</span>
+          </div>
+        )}
+      </div>
+    );
   };
 
   const renderAddToCartCta = () => (
@@ -2328,6 +2455,7 @@ export default function ProductDetailClient({
               {renderTitleAndPrice(true)}
               {renderNoiseGauge()}
               {renderDynamicOptions()}
+              {renderPackComponentsBlock()}
               {renderAddToCartCta()}
               {renderReassuranceBadges(true)}
             </div>
@@ -2499,6 +2627,7 @@ export default function ProductDetailClient({
                 dangerouslySetInnerHTML={{ __html: displayShortDesc || "<p>Aucune description disponible pour ce produit.</p>" }}
               />
               {renderDynamicOptions()}
+              {renderPackComponentsBlock()}
               <div className="mb-6">
                 {renderAddToCartCta()}
               </div>

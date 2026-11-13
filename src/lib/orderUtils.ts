@@ -101,9 +101,30 @@ export function generateOrderPackingSlipHtml(order: {
     const { mainName, options } = parseItemName(item.name);
     const { specs, keys } = parseClickerOptions(options);
 
-    // Column 3: Specs List
+    const isPack = (item as any).isPack || mainName.toLowerCase().startsWith("pack");
+    const packComponents = (item as any).packComponents || [];
+
+    // Column 3: Specs List / Pack Components Checklist
     let specsHtml = "";
-    if (specs.length > 0) {
+    if (isPack && Array.isArray(packComponents) && packComponents.length > 0) {
+      specsHtml = `
+        <div style="font-weight: 900; color: #ea580c; font-size: 9.5px; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">
+          📦 CONTENU DU COFFRET À PRÉPARER :
+        </div>
+        <ul style="margin: 0; padding-left: 14px; font-size: 11px; color: #1e293b; line-height: 1.45; list-style-type: none; padding-left: 0;">
+      `;
+      packComponents.forEach((c: any) => {
+        const cQty = (c.quantity || 1) * (item.quantity || 1);
+        const variantText = c.variant ? ` <span style="color: #64748b;">(${c.variant})</span>` : "";
+        specsHtml += `
+          <li style="margin-bottom: 2px;">
+            <span style="font-family: monospace; font-weight: 800; color: #c2410c;">[ ]</span>
+            <strong> ${c.name}</strong> × ${cQty}${variantText}
+          </li>
+        `;
+      });
+      specsHtml += `</ul>`;
+    } else if (specs.length > 0) {
       specsHtml = `<ul style="margin: 0; padding-left: 14px; font-size: 11px; color: #334155; line-height: 1.4;">`;
       specs.forEach((s) => {
         const keyLabel = s.key

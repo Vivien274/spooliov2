@@ -969,6 +969,7 @@ export default function AdminOrdersPage() {
                                   const { mainName } = parseItemName(item.name);
                                   const isDonation = mainName.toLowerCase().includes("don de soutien");
                                   const isTombola = mainName.toLowerCase().includes("tombola") || mainName.toLowerCase().includes("ticket");
+                                  const isPack = Boolean((item as any).isPack || mainName.toLowerCase().startsWith("pack"));
                                   const productUrl = getItemProductUrl(item);
 
                                   return (
@@ -979,6 +980,8 @@ export default function AdminOrdersPage() {
                                             ? "bg-rose-100 text-rose-800 border border-rose-300"
                                             : isTombola
                                             ? "bg-amber-100 text-amber-900 border border-amber-300"
+                                            : isPack
+                                            ? "bg-orange-500 text-white border border-orange-600 shadow-2xs"
                                             : "bg-[#ff4f00]/10 text-[#ff4f00] border border-[#ff4f00]/30"
                                         }`}>
                                           x{item.quantity}
@@ -1797,8 +1800,34 @@ export default function AdminOrdersPage() {
 
                                 {options.length > 0 ? (
                                   <OrderItemOptionsViewer options={options} isLight={true} />
-                                ) : (
+                                ) : !((item as any).isPack || (item as any).packComponents) ? (
                                   <div className="text-[11px] text-gray-500 italic font-medium">Article standard</div>
+                                ) : null}
+
+                                {/* PACK PREPARATION CHECKLIST */}
+                                {Boolean((item as any).isPack || (item as any).packComponents) && (
+                                  <div className="mt-2 p-3 rounded-xl bg-orange-50/80 border border-orange-200 space-y-1.5">
+                                    <div className="text-[10px] font-black uppercase tracking-wider text-orange-950 flex items-center gap-1.5">
+                                      <span>📦</span>
+                                      <span>Contenu du coffret à préparer :</span>
+                                    </div>
+                                    {(item as any).packComponents && (item as any).packComponents.length > 0 ? (
+                                      <div className="space-y-1.5 pt-0.5">
+                                        {(item as any).packComponents.map((c: any, cIdx: number) => (
+                                          <label key={cIdx} className="flex items-center gap-2 text-xs text-zinc-900 cursor-pointer select-none hover:text-black">
+                                            <input type="checkbox" className="w-3.5 h-3.5 rounded border-zinc-300 text-[#ff4f00] focus:ring-[#ff4f00]" />
+                                            <span className="font-mono font-bold text-[#ff4f00]">x{(c.quantity || 1) * item.quantity}</span>
+                                            <span className="font-semibold">{c.name}</span>
+                                            {c.variant && <span className="text-[11px] text-zinc-500 font-normal">({c.variant})</span>}
+                                          </label>
+                                        ))}
+                                      </div>
+                                    ) : (
+                                      <div className="text-[11px] text-zinc-600 italic">
+                                        Composition enregistrée dans la commande.
+                                      </div>
+                                    )}
+                                  </div>
                                 )}
                               </div>
                             </div>
