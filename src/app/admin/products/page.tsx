@@ -702,7 +702,7 @@ export default function AdminProductsPage() {
                       <SeoScoreBadge score={computeSeoScore(p)} />
                     </td>
                     <td className="px-5 pr-6 py-3.5">
-                      <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <div className="flex items-center gap-1.5">
                         {/* Toggle Status Button (Publié <-> Brouillon) */}
                         <button
                           type="button"
