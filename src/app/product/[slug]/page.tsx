@@ -343,6 +343,17 @@ export default async function ProductPage({ params }: PageProps) {
 
   const breadcrumbLd = getBreadcrumbJsonLd(breadcrumbItems);
 
+  let initialUnavailableColors: string[] = [];
+  try {
+    const unavailColors = await prisma.color.findMany({
+      where: { isAvailable: false },
+      select: { name: true },
+    });
+    initialUnavailableColors = unavailColors.map((c: { name: string }) => c.name);
+  } catch {
+    initialUnavailableColors = [];
+  }
+
   return (
     <>
       <JsonLdScript data={productLd} id={`product-jsonld-${slug}`} />
@@ -354,6 +365,7 @@ export default async function ProductPage({ params }: PageProps) {
         initialRelatedProducts={relatedProducts}
         initialReviews={initialReviews}
         breadcrumbItems={breadcrumbItems}
+        initialUnavailableColors={initialUnavailableColors}
       />
     </>
   );

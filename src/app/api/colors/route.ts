@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { DEFAULT_COLORS } from "@/lib/defaultColors";
 
+export const dynamic = "force-dynamic";
+
 function getPrismaClient() {
   if (prisma && (prisma as any).color) return prisma;
   const { PrismaClient } = require("@prisma/client");

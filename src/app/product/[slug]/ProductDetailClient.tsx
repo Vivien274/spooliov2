@@ -21,6 +21,7 @@ interface ProductDetailClientProps {
   initialRelatedProducts?: Product[];
   initialReviews?: any[];
   breadcrumbItems?: { name: string; url: string }[];
+  initialUnavailableColors?: string[];
 }
 
 import {
@@ -40,6 +41,7 @@ export default function ProductDetailClient({
   initialRelatedProducts = [],
   initialReviews = [],
   breadcrumbItems = [],
+  initialUnavailableColors = [],
 }: ProductDetailClientProps) {
   const { locale, t } = useTranslation();
   const { addToCart } = useCart();
@@ -252,17 +254,29 @@ export default function ProductDetailClient({
   const [submittingReview, setSubmittingReview] = useState<boolean>(false);
   const [reviewSuccess, setReviewSuccess] = useState<string | null>(null);
   const [reviewError, setReviewError] = useState<string | null>(null);
-  const [unavailableColorNames, setUnavailableColorNames] = useState<string[]>([]);
+  const normalizeColorKey = (val: string) =>
+    val
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\u00a0/g, " ")
+      .replace(/[-_]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+  const [unavailableColorNames, setUnavailableColorNames] = useState<string[]>(() =>
+    (initialUnavailableColors || []).map((name) => normalizeColorKey(name))
+  );
 
   useEffect(() => {
     const fetchColorsAvailability = async () => {
       try {
-        const res = await fetch("/api/colors");
+        const res = await fetch("/api/colors", { cache: "no-store" });
         if (res.ok) {
           const data = await res.json();
           const unavail = (data.colors || [])
-            .filter((c: any) => !c.isAvailable)
-            .map((c: any) => c.name.toLowerCase().trim());
+            .filter((c: { isAvailable?: boolean }) => !c.isAvailable)
+            .map((c: { name: string }) => normalizeColorKey(c.name));
           setUnavailableColorNames(unavail);
         }
       } catch (e) {
@@ -274,10 +288,17 @@ export default function ProductDetailClient({
 
   const isUnavailableColor = (optionName: string) => {
     if (!unavailableColorNames || unavailableColorNames.length === 0) return false;
-    const normalizedOpt = optionName.toLowerCase().replace(/\u00a0/g, ' ').trim();
+    const normalizedOpt = normalizeColorKey(optionName);
+    if (!normalizedOpt) return false;
     return unavailableColorNames.some((uName) => {
       if (normalizedOpt === uName) return true;
-      if (uName.length >= 3 && (normalizedOpt.includes(uName) || uName.includes(normalizedOpt))) return true;
+      if (normalizedOpt.startsWith(`${uName} (`) || normalizedOpt.startsWith(`${uName} -`)) return true;
+      if (uName.includes("/")) {
+        return uName
+          .split("/")
+          .map((part) => part.trim())
+          .some((part) => part.length >= 3 && normalizedOpt === part);
+      }
       return false;
     });
   };
@@ -291,16 +312,28 @@ export default function ProductDetailClient({
       const initialOptions: Record<string, string> = {};
       attrs.forEach((attr: any) => {
         if (attr.options && attr.options.length > 0) {
-          const validOpts = attr.options
-            .map((o: string) => o.replace(/\u00a0/g, ' ').trim())
-            .filter((o: string) => !isUnavailableColor(o));
+          const nameLower = String(attr.name || "").toLowerCase();
+          const isColorAttr =
+            attr.controlType === "color_swatch" ||
+            nameLower.includes("couleur") ||
+            nameLower.includes("accent") ||
+            nameLower.includes("tube") ||
+            nameLower.includes("bague");
+          const cleanOpts = attr.options.map((o: string) => o.replace(/\u00a0/g, " ").trim());
+          const validOpts = isColorAttr
+            ? cleanOpts.filter((o: string) => !isUnavailableColor(o))
+            : cleanOpts;
 
-          const photoOpt = (attr.defaultOption || attr.photoOption || "").replace(/\u00a0/g, ' ').trim();
+          if (validOpts.length === 0) {
+            return;
+          }
+
+          const photoOpt = (attr.defaultOption || attr.photoOption || "").replace(/\u00a0/g, " ").trim();
           if (photoOpt && validOpts.some((o: string) => o.toLowerCase() === photoOpt.toLowerCase())) {
             const match = validOpts.find((o: string) => o.toLowerCase() === photoOpt.toLowerCase());
             initialOptions[attr.name] = match || photoOpt;
           } else {
-            initialOptions[attr.name] = validOpts.length > 0 ? validOpts[0] : attr.options[0].replace(/\u00a0/g, ' ').trim();
+            initialOptions[attr.name] = validOpts[0];
           }
         }
       });
@@ -341,7 +374,7 @@ export default function ProductDetailClient({
         }
       }
     }
-  }, [product]);
+  }, [product, unavailableColorNames]);
 
 
   useEffect(() => {
@@ -1490,11 +1523,9 @@ export default function ProductDetailClient({
 
                   // Filter out unavailable filaments for color options
                   if (isColor || nameLower.includes("couleur") || controlType === "color_swatch") {
-                    const availableOpts = options.filter((opt) => !isUnavailableColor(opt));
-                    if (availableOpts.length > 0) {
-                      options = availableOpts;
-                    }
+                    options = options.filter((opt) => !isUnavailableColor(opt));
                   }
+                  if (options.length === 0) return null;
 
                   
                   const isBinary = controlType === "default" && 
