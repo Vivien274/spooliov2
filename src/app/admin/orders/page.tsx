@@ -192,6 +192,16 @@ export default function AdminOrdersPage() {
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [activeTab, setActiveTab] = useState<"active" | "archived" | "production">("active");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [sortBy, setSortBy] = useState<"id" | "date" | "client" | "articles" | "shipping" | "total" | "status">("date");
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+  const handleSort = (col: "id" | "date" | "client" | "articles" | "shipping" | "total" | "status") => {
+    if (sortBy === col) {
+      setSortDir((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortBy(col);
+      setSortDir(col === "date" || col === "total" || col === "articles" ? "desc" : "asc");
+    }
+  };
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [proposingSlots, setProposingSlots] = useState<Record<string, string>>({});
   const [pickupLoading, setPickupLoading] = useState<string | null>(null);
@@ -665,14 +675,39 @@ export default function AdminOrdersPage() {
   const activeOrdersCount = orders.filter((o) => !o.archived).length;
   const archivedOrdersCount = orders.filter((o) => Boolean(o.archived)).length;
 
-  // Filters
-  const filteredOrders = orders.filter((o) => {
-    const matchesTab = activeTab === "archived" ? Boolean(o.archived) : !o.archived;
-    const matchesStatus = filterStatus === "all" || o.status === filterStatus;
-    const searchString = `${o.customerName || ""} ${o.email} ${o.id}`.toLowerCase();
-    const matchesSearch = searchString.includes(searchTerm.toLowerCase());
-    return matchesTab && matchesStatus && matchesSearch;
-  });
+  // Filters & Sort
+  const filteredOrders = orders
+    .filter((o) => {
+      const matchesTab = activeTab === "archived" ? Boolean(o.archived) : !o.archived;
+      const matchesStatus = filterStatus === "all" || o.status === filterStatus;
+      const searchString = `${o.customerName || ""} ${o.email} ${o.id}`.toLowerCase();
+      const matchesSearch = searchString.includes(searchTerm.toLowerCase());
+      return matchesTab && matchesStatus && matchesSearch;
+    })
+    .sort((a, b) => {
+      const factor = sortDir === "asc" ? 1 : -1;
+      switch (sortBy) {
+        case "id":
+          return a.id.localeCompare(b.id, "fr", { numeric: true }) * factor;
+        case "date":
+          return (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()) * factor;
+        case "client":
+          return (a.customerName || a.email || "").localeCompare(b.customerName || b.email || "", "fr") * factor;
+        case "articles": {
+          const qtyA = (a.items || []).reduce((sum, it) => sum + (it.quantity || 1), 0);
+          const qtyB = (b.items || []).reduce((sum, it) => sum + (it.quantity || 1), 0);
+          return (qtyA - qtyB) * factor;
+        }
+        case "shipping":
+          return (a.shippingMethod || "").localeCompare(b.shippingMethod || "", "fr") * factor;
+        case "total":
+          return ((a.total || 0) - (b.total || 0)) * factor;
+        case "status":
+          return (a.status || "").localeCompare(b.status || "", "fr") * factor;
+        default:
+          return 0;
+      }
+    });
 
   // Financial Calculations
   const totalRevenue = orders.reduce((acc, o) => acc + (o.total || 0), 0);
@@ -908,13 +943,31 @@ export default function AdminOrdersPage() {
                 <table className="w-full text-sm table-auto border-collapse">
                   <thead>
                     <tr className="border-b border-gray-200 bg-gray-50/80">
-                      <th className="text-left text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 pl-6 w-[110px]">ID</th>
-                      <th className="text-left text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 w-[110px]">Date</th>
-                      <th className="text-left text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 w-[180px]">Client</th>
-                      <th className="text-left text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 min-w-[280px]">Articles</th>
-                      <th className="text-left text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 w-[200px]">Livraison / Relais</th>
-                      <th className="text-right text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 w-[110px]">Total</th>
-                      <th className="text-center text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 w-[140px]">Statut</th>
+                      {[
+                        { key: "id" as const, label: "ID", align: "text-left", cls: "px-4 py-3.5 pl-6 min-w-[135px] whitespace-nowrap" },
+                        { key: "date" as const, label: "Date", align: "text-left", cls: "px-4 py-3.5 w-[120px] whitespace-nowrap" },
+                        { key: "client" as const, label: "Client", align: "text-left", cls: "px-4 py-3.5 w-[180px]" },
+                        { key: "articles" as const, label: "Articles", align: "text-left", cls: "px-4 py-3.5 min-w-[280px]" },
+                        { key: "shipping" as const, label: "Livraison / Relais", align: "text-left", cls: "px-4 py-3.5 w-[200px]" },
+                        { key: "total" as const, label: "Total", align: "text-right", cls: "px-4 py-3.5 w-[110px] whitespace-nowrap" },
+                        { key: "status" as const, label: "Statut", align: "text-center", cls: "px-4 py-3.5 w-[150px] whitespace-nowrap" },
+                      ].map((col) => {
+                        const isActive = sortBy === col.key;
+                        return (
+                          <th
+                            key={col.key}
+                            onClick={() => handleSort(col.key)}
+                            className={`${col.align} text-[11px] font-extrabold text-gray-600 uppercase tracking-wider ${col.cls} cursor-pointer select-none hover:text-[#ff4f00] transition-colors group/sort`}
+                          >
+                            <span className={`inline-flex items-center gap-1 ${col.align === "text-right" ? "justify-end w-full" : col.align === "text-center" ? "justify-center w-full" : ""}`}>
+                              <span>{col.label}</span>
+                              <span className={`text-[10px] transition-opacity ${isActive ? "opacity-100 text-[#ff4f00]" : "opacity-35 group-hover/sort:opacity-80"}`}>
+                                {isActive ? (sortDir === "asc" ? "↑" : "↓") : "↕"}
+                              </span>
+                            </span>
+                          </th>
+                        );
+                      })}
                       <th className="text-right text-[11px] font-extrabold text-gray-600 uppercase tracking-wider px-4 py-3.5 pr-6 w-[220px]">Action</th>
                     </tr>
                   </thead>
@@ -928,8 +981,8 @@ export default function AdminOrdersPage() {
                           onClick={() => setSelectedOrder(o)}
                           className="hover:bg-gray-50/80 transition-colors text-[13px] cursor-pointer"
                         >
-                          <td className="px-5 pl-6 py-4 font-mono font-bold select-all shrink-0">
-                            <span className="bg-gray-100 border border-gray-200 text-gray-800 px-2 py-0.5 rounded-md text-xs">
+                          <td className="px-4 pl-6 py-4 font-mono font-bold select-all whitespace-nowrap min-w-[135px]">
+                            <span className="inline-block bg-gray-100 border border-gray-200 text-gray-800 px-2.5 py-1 rounded-md text-xs whitespace-nowrap">
                               {o.id}
                             </span>
                           </td>
