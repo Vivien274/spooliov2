@@ -135,7 +135,7 @@ export async function POST(request: Request) {
 
       const finalTotal = Math.max(0, fullCartTotal - discountAmount + cost);
 
-      const purchasedItems = items.map((item: any) => {
+      const purchasedItems = items.map((item: any, idx: number) => {
         const optionsText = Object.entries(item.selectedOptions || {})
           .map(([k, v]) => `${k}: ${v}`)
           .join(", ");
@@ -148,6 +148,7 @@ export async function POST(request: Request) {
           isPack: Boolean(item.isPack),
           packId: item.packId || null,
           packComponents: item.packComponents || null,
+          ...(idx === 0 && appliedPromo ? { promoCode: appliedPromo.code, discountAmount } : {}),
         };
       });
 
@@ -243,12 +244,14 @@ export async function POST(request: Request) {
     });
 
     // Add shipping cost line item to Stripe Checkout if applicable
+    let computedShippingCost = 0;
     if (!isPureDonation && shippingMethod !== "pickup" && !isFreeShipping) {
       const isRelay = shippingMethod === "relay";
       const shippingLabel = isRelay
         ? "Frais de livraison - Point Relais Mondial Relay (Boxtal)"
         : "Frais de livraison - Colissimo Domicile (Boxtal)";
       const shippingAmount = isRelay ? shippingConfig.relayShippingCost : shippingConfig.homeShippingCost;
+      computedShippingCost = shippingAmount;
 
       lineItems.push({
         price_data: {
@@ -261,6 +264,8 @@ export async function POST(request: Request) {
         },
         quantity: 1,
       });
+    } else if (!isPureDonation && shippingMethod === "pickup") {
+      computedShippingCost = shippingConfig.pickupShippingCost || 0;
     }
 
     const body = new URLSearchParams();
@@ -269,20 +274,15 @@ export async function POST(request: Request) {
     body.append("cancel_url", new URL("/boutique", request.url).href);
 
     // Dynamic Stripe Coupon application if a promo discount applies
+    // Always apply exact amount_off computed strictly on product items (never on shipping)
     let stripeCouponId: string | null = null;
     if (appliedPromo && discountAmount > 0) {
       try {
         const couponBody = new URLSearchParams();
         couponBody.append("duration", "once");
         couponBody.append("name", `Code ${appliedPromo.code}`);
-
-        if (appliedPromo.discountType === "percentage") {
-          couponBody.append("percent_off", String(appliedPromo.discountValue));
-        } else {
-          // Amount off in cents
-          couponBody.append("amount_off", String(Math.round(discountAmount * 100)));
-          couponBody.append("currency", "eur");
-        }
+        couponBody.append("amount_off", String(Math.round(discountAmount * 100)));
+        couponBody.append("currency", "eur");
 
         const couponRes = await fetch("https://api.stripe.com/v1/coupons", {
           method: "POST",
@@ -320,6 +320,7 @@ export async function POST(request: Request) {
 
     // Append metadata to track details dynamically in Stripe/Boxtal/Manager
     body.append("metadata[shipping_method]", isPureDonation ? "don_soutien" : shippingMethod || "home");
+    body.append("metadata[shipping_cost]", computedShippingCost.toFixed(2));
     if (appliedPromo) {
       body.append("metadata[promo_code]", appliedPromo.code);
       body.append("metadata[discount_amount]", discountAmount.toFixed(2));

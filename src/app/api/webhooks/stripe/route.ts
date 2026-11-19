@@ -89,6 +89,11 @@ export async function POST(request: Request) {
 
         // Fetch line items from Stripe to store details in DB
         let itemsSummary = "[]";
+        let shippingCostFromLineItem: number | null = null;
+        const promoCodeUsed = session.metadata?.promo_code || null;
+        const discountAmountMeta = session.metadata?.discount_amount
+          ? parseFloat(session.metadata.discount_amount)
+          : null;
         try {
           const stripeKey = process.env.STRIPE_SECRET_KEY?.trim().replace(/[\s\r\n↵\u2195]/g, "");
           const lineItemsRes = await fetch(
@@ -100,12 +105,25 @@ export async function POST(request: Request) {
           
           if (lineItemsRes.ok) {
             const lineItemsData = await lineItemsRes.json();
-            const purchasedItems = (lineItemsData.data || []).map((li: any) => {
+            const purchasedItems = (lineItemsData.data || []).map((li: any, idx: number) => {
               const unitAmount = li.amount_subtotal ?? li.amount_total;
+              const decodedName = decodeHtml(li.description);
+              const unitPriceNum = unitAmount / li.quantity / 100;
+              if (decodedName.toLowerCase().trim().startsWith("frais de livraison")) {
+                shippingCostFromLineItem = unitPriceNum * li.quantity;
+              }
               return {
-                name: decodeHtml(li.description),
+                name: decodedName,
                 quantity: li.quantity,
-                price: (unitAmount / li.quantity / 100).toFixed(2)
+                price: unitPriceNum.toFixed(2),
+                ...(idx === 0 && promoCodeUsed
+                  ? {
+                      promoCode: promoCodeUsed,
+                      ...(discountAmountMeta !== null && !isNaN(discountAmountMeta)
+                        ? { discountAmount: discountAmountMeta }
+                        : {}),
+                    }
+                  : {}),
               };
             });
             itemsSummary = JSON.stringify(purchasedItems);
@@ -126,7 +144,21 @@ export async function POST(request: Request) {
 
         // Insert order inside MySQL o2switch database
         const isDonation = shippingMethod === "don_soutien";
-        const shippingCost = isDonation ? 0 : (shippingMethod === "pickup" ? 0 : (shippingMethod === "relay" ? 3.90 : 4.90));
+        const metaShippingCost =
+          session.metadata?.shipping_cost !== undefined
+            ? parseFloat(session.metadata.shipping_cost)
+            : NaN;
+        const shippingCost = isDonation
+          ? 0
+          : !isNaN(metaShippingCost)
+          ? metaShippingCost
+          : shippingCostFromLineItem !== null
+          ? shippingCostFromLineItem
+          : shippingMethod === "pickup"
+          ? 0
+          : shippingMethod === "relay"
+          ? 3.9
+          : 4.9;
         const newOrderData = {
           id: orderId,
           stripeSession: sessionId,

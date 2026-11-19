@@ -113,6 +113,8 @@ interface OrderItem {
   quantity: number;
   price?: string | number;
   slug?: string;
+  promoCode?: string;
+  discountAmount?: number;
 }
 
 
@@ -1853,26 +1855,47 @@ export default function AdminOrdersPage() {
 
                 {/* Total & Shipping Pricing Summary Strip */}
                 {(() => {
+                  const isShippingLineItem = (name?: string) =>
+                    String(name || "").toLowerCase().trim().startsWith("frais de livraison");
+
+                  let shippingFromItems: number | null = null;
                   const itemsSubtotal = (selectedOrder.items || []).reduce((acc, item) => {
                     const price = item.price ? parseFloat(String(item.price)) : 0;
-                    return acc + price * (item.quantity || 1);
+                    const lineTotal = price * (item.quantity || 1);
+                    if (isShippingLineItem(item.name)) {
+                      shippingFromItems = (shippingFromItems ?? 0) + lineTotal;
+                      return acc;
+                    }
+                    return acc + lineTotal;
                   }, 0);
 
-                  const expectedTotal = itemsSubtotal + (selectedOrder.shippingCost || 0);
+                  const effectiveShipping =
+                    shippingFromItems !== null ? shippingFromItems : (selectedOrder.shippingCost || 0);
+                  const expectedTotal = itemsSubtotal + effectiveShipping;
                   const diff = expectedTotal - selectedOrder.total;
                   const hasDiscount = diff > 0.05;
+                  const promoCodeUsed = (selectedOrder.items || []).find(
+                    (it) => Boolean(it.promoCode)
+                  )?.promoCode;
 
                   return (
                     <div className="bg-gray-100/80 border border-gray-200 rounded-xl p-3.5 mt-2 space-y-2">
                       {hasDiscount && (
-                        <div className="flex justify-between items-center text-xs text-emerald-800 font-bold border-b border-gray-200 pb-2">
-                          <span>🎁 Réduction / Code promo / Fidélité appliqué :</span>
+                        <div className="flex flex-wrap justify-between items-center gap-2 text-xs text-emerald-800 font-bold border-b border-gray-200 pb-2">
+                          <span className="flex items-center gap-2 flex-wrap">
+                            <span>🎁 Réduction / Code promo / Fidélité appliqué :</span>
+                            {promoCodeUsed && (
+                              <span className="font-mono text-[11px] font-black uppercase bg-emerald-100 text-emerald-900 border border-emerald-300 px-2 py-0.5 rounded-md">
+                                {promoCodeUsed}
+                              </span>
+                            )}
+                          </span>
                           <span className="font-mono font-black">-{diff.toFixed(2)}€</span>
                         </div>
                       )}
                       <div className="flex flex-wrap justify-between items-center text-xs text-gray-600 gap-2">
                         <div>
-                          Sous-total articles : <strong className="text-gray-950 font-bold">{itemsSubtotal.toFixed(2)}€</strong> &nbsp;•&nbsp; Livraison : <strong className="text-gray-950 font-bold">{selectedOrder.shippingCost === 0 ? "Offerte" : `${selectedOrder.shippingCost.toFixed(2)}€`}</strong>
+                          Sous-total articles : <strong className="text-gray-950 font-bold">{itemsSubtotal.toFixed(2)}€</strong> &nbsp;•&nbsp; Livraison : <strong className="text-gray-950 font-bold">{effectiveShipping === 0 ? "Offerte" : `${effectiveShipping.toFixed(2)}€`}</strong>
                         </div>
                         <div className="text-right flex items-center gap-2">
                           <span className="text-xs uppercase font-extrabold text-gray-700">Total Net Payé :</span>
