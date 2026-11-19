@@ -30,11 +30,6 @@ export interface HeroSlide {
   cardBadge?: string;
 }
 
-function stripEmojis(text: string) {
-  if (!text) return "";
-  return text.replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F600}-\u{1F64F}]|[\u{1F680}-\u{1F6FF}]|[\u{1F900}-\u{1F9FF}]/gu, "").trim();
-}
-
 function renderFormattedText(text: string) {
   if (!text) return null;
   const parts = text.split(/<br\s*\/?>|\n/gi);
@@ -49,11 +44,11 @@ function renderFormattedText(text: string) {
 const DEFAULT_SLIDES_FR: HeroSlide[] = [
   {
     id: 1,
-    badge: "ATELIER DE FABRICATION • COMINES (59)",
-    title: "DES OBJETS QU'ON A ENVIE DE TOUCHER.",
+    badge: "ATELIER • COMINES",
+    title: "Fidgets, objets sensoriels et curiosités imprimés en 3D",
     subtitle:
-      "Art toys, objets tactiles et curiosités fabriqués en petites séries dans notre atelier de Comines.",
-    buttonText: "DÉCOUVRIR LE CATALOGUE",
+      "Conçus et fabriqués à la demande dans notre atelier à Comines.",
+    buttonText: "Découvrir le catalogue",
     buttonLink: "/boutique",
     secondaryButtonText: "BOUSSOLE SENSORIELLE",
     secondaryButtonLink: "/boussole-sensorielle",
@@ -221,22 +216,38 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
   };
 
   const activeSlide = heroSlides[activeIndex] || heroSlides[0];
+  const touchStartX = React.useRef<number | null>(null);
 
-  const rawBadge = activeSlide.badge || "FABRICATION ARTISANALE À COMINES (59)";
-  const cleanBadge = stripEmojis(rawBadge);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || heroSlides.length <= 1) return;
+    const endX = e.changedTouches[0]?.clientX ?? null;
+    if (endX === null) return;
+    const deltaX = endX - touchStartX.current;
+    if (Math.abs(deltaX) > 40) {
+      if (deltaX < 0) nextSlide();
+      else prevSlide();
+    }
+    touchStartX.current = null;
+  };
 
   return (
     <div className="w-full relative z-30 select-none">
       <Header />
 
-      {/* Hero Container spanning full width, glued to marquee below */}
+      {/* Hero Container spanning full width, glued to marquee below (Mobile 72-78svh, Desktop preserved) */}
       <div className="w-full pt-20 sm:pt-24 mb-0">
         <section
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
-          className="relative w-full overflow-hidden bg-zinc-950 text-white min-h-[600px] sm:min-h-[660px] lg:min-h-[700px] border-b border-zinc-800/80 group/hero flex flex-col justify-between"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          className="relative w-full overflow-hidden bg-zinc-950 text-white min-h-[46svh] max-h-[52svh] sm:max-h-none sm:min-h-[440px] lg:min-h-[480px] border-b border-zinc-800/80 group/hero flex flex-col justify-between touch-pan-y"
         >
-          {/* Background Image & Ambient Effects (Without white overlay) */}
+          {/* Background Image & Ambient Effects */}
           <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
@@ -255,15 +266,14 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1920px"
                   className="object-cover object-center filter brightness-[0.98] contrast-[1.02] saturate-[1.05]"
                 />
-                {/* Gradient for text legibility on the left, clear and transparent on the right */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 via-40% to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/40 via-transparent to-black/20" />
+                {/* Mobile: bottom-up light scrim leaving upper photo clear; Desktop: left-to-right scrim */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 via-55% to-transparent sm:bg-gradient-to-r sm:from-black/85 sm:via-black/45 sm:via-45% sm:to-transparent" />
               </motion.div>
             </AnimatePresence>
 
             {/* Accent Radial Glow */}
             <div
-              className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[500px] rounded-full blur-[150px] transition-colors duration-700 pointer-events-none opacity-30"
+              className="hidden sm:block absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[500px] rounded-full blur-[150px] transition-colors duration-700 pointer-events-none opacity-30"
               style={{ backgroundColor: `${activeSlide.accentColor || '#ff4f00'}25` }}
             />
           </div>
@@ -289,103 +299,46 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
             </>
           )}
 
-          {/* Hero Main Body: Left Typography with wide breathing space */}
-          <div className="relative z-20 w-full max-w-[1360px] mx-auto h-full min-h-[580px] sm:min-h-[640px] lg:min-h-[680px] px-6 sm:px-10 lg:px-14 py-12 sm:py-16 lg:py-20 flex flex-col justify-between">
+          {/* Hero Main Body: Mobile anchored lower to showcase photography; Desktop left-aligned */}
+          <div className="relative z-20 w-full max-w-[1360px] mx-auto flex-1 sm:min-h-[440px] lg:min-h-[480px] px-5 sm:px-10 lg:px-14 pt-12 pb-4 sm:py-10 lg:py-12 flex flex-col justify-end sm:justify-between">
             
-            <div className="flex items-center flex-1 my-auto">
+            <div className="flex items-end sm:items-center flex-1 sm:my-auto">
               
-              {/* LEFT COLUMN: Mise en forme Atelier Curiosités (Surtitre liseré, H1 dense, Pitch aéré, CTAs sobres, Specs atelier) */}
-              <div className="max-w-2xl lg:max-w-3xl text-left">
+              <div className="w-full max-w-2xl lg:max-w-3xl text-left">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeSlide.id || activeIndex}
-                    initial={{ opacity: 0, y: 15 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -15 }}
-                    transition={{ duration: 0.4 }}
-                    className="flex flex-col items-start space-y-6"
+                    exit={{ opacity: 0, y: -12 }}
+                    transition={{ duration: 0.35 }}
+                    className="flex flex-col items-start"
                   >
-                    {/* Surtitre technique avec liseré orange */}
-                    <div className="inline-flex items-center gap-3 border-l-2 border-[#FF5500] pl-3 py-0.5">
-                      <span className="font-mono text-xs tracking-[0.25em] text-[#FF5500] uppercase font-bold">
-                        {cleanBadge || "CABINET DE CURIOSITÉS CONTEMPORAIN"}
-                      </span>
-                    </div>
-
-                    {/* Titre H1 percutant avec typographie Be Vietnam (Canva : letter-spacing -107, line-height 0.78, bold) */}
+                    {/* Titre principal : mobile 34-38px max 3 lignes, desktop inchangé */}
                     {activeIndex === 0 ? (
-                      <h1
-                        className="text-4xl sm:text-5xl md:text-6xl lg:text-[70px] xl:text-[76px] font-bold text-white max-w-3xl font-be-vietnam py-1"
-                        style={{
-                          letterSpacing: "-0.107em",
-                          lineHeight: 0.78,
-                        }}
-                      >
+                      <h1 className="text-[34px] sm:text-5xl md:text-6xl lg:text-[70px] xl:text-[76px] font-bold text-white max-w-3xl font-be-vietnam leading-[0.95] sm:leading-[0.78] tracking-[-0.04em] sm:tracking-[-0.107em] line-clamp-3 py-0.5">
                         {renderFormattedText(activeSlide.title)}
                       </h1>
                     ) : (
-                      <h2
-                        className="text-4xl sm:text-5xl md:text-6xl lg:text-[70px] xl:text-[76px] font-bold text-white max-w-3xl font-be-vietnam py-1"
-                        style={{
-                          letterSpacing: "-0.107em",
-                          lineHeight: 0.78,
-                        }}
-                      >
+                      <h2 className="text-[34px] sm:text-5xl md:text-6xl lg:text-[70px] xl:text-[76px] font-bold text-white max-w-3xl font-be-vietnam leading-[0.95] sm:leading-[0.78] tracking-[-0.04em] sm:tracking-[-0.107em] line-clamp-3 py-0.5">
                         {renderFormattedText(activeSlide.title)}
                       </h2>
                     )}
 
-                    {/* Pitch sobre & spacieux */}
-                    <p className="text-zinc-200 text-base sm:text-lg lg:text-xl font-normal leading-relaxed max-w-xl">
+                    {/* Description courte : secondaire (~15-16px, max 2 lignes sur mobile) */}
+                    <p className="mt-3 sm:mt-5 text-white/80 sm:text-zinc-200 text-[15px] sm:text-lg lg:text-xl font-normal leading-snug sm:leading-relaxed max-w-xl line-clamp-2 sm:line-clamp-3">
                       {renderFormattedText(activeSlide.subtitle)}
                     </p>
 
-                    {/* Deux CTAs sobres */}
-                    <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto">
+                    {/* CTA principal unique avec espace généreux */}
+                    <div className="pt-6 sm:pt-7 flex items-center w-full sm:w-auto">
                       <Link
                         href={activeSlide.buttonLink || "/boutique"}
-                        className="inline-flex items-center justify-center gap-3 bg-[#FF5500] hover:bg-[#e04b00] text-white font-mono text-xs tracking-[0.16em] uppercase px-7 py-4 rounded-none transition-all duration-200 shadow-[0_4px_20px_rgba(255,85,0,0.25)] hover:shadow-[0_6px_28px_rgba(255,85,0,0.35)] font-bold cursor-pointer"
+                        className="inline-flex items-center justify-center gap-3 bg-[#FF5500] hover:bg-[#e04b00] text-white font-mono text-xs tracking-[0.16em] uppercase px-7 py-4 rounded-none transition-all duration-200 shadow-[0_4px_20px_rgba(255,85,0,0.28)] hover:shadow-[0_6px_28px_rgba(255,85,0,0.38)] font-bold cursor-pointer w-full sm:w-auto"
                       >
-                        <span>{activeSlide.buttonText || "DÉCOUVRIR LE CATALOGUE"}</span>
+                        <span>{activeSlide.buttonText || "Découvrir le catalogue"}</span>
                         <ArrowRight className="w-4 h-4" />
                       </Link>
-
-                      {activeSlide.secondaryButtonLink && (
-                        <Link
-                          href={activeSlide.secondaryButtonLink}
-                          className="inline-flex items-center justify-center gap-2 border border-white/30 hover:border-white bg-black/40 hover:bg-white/10 text-white font-mono text-xs tracking-[0.16em] uppercase px-7 py-4 rounded-none transition-all duration-200 shadow-xs font-bold backdrop-blur-md cursor-pointer"
-                        >
-                          <span>{activeSlide.secondaryButtonText}</span>
-                        </Link>
-                      )}
-                    </div>
-
-                    {/* Données d'atelier en cartouche discret */}
-                    <div className="pt-6 border-t border-white/15 w-full grid grid-cols-3 gap-4 text-left max-w-xl">
-                      <div>
-                        <div className="font-mono text-[10px] uppercase text-zinc-400 tracking-wider">
-                          Origine
-                        </div>
-                        <div className="font-mono text-xs text-white font-semibold mt-0.5">
-                          Comines, 59
-                        </div>
-                      </div>
-                      <div>
-                        <div className="font-mono text-[10px] uppercase text-zinc-400 tracking-wider">
-                          Matière
-                        </div>
-                        <div className="font-mono text-xs text-white font-semibold mt-0.5">
-                          100% Végétal
-                        </div>
-                      </div>
-                      <div>
-                        <div className="font-mono text-[10px] uppercase text-zinc-400 tracking-wider">
-                          Tirages
-                        </div>
-                        <div className="font-mono text-xs text-white font-semibold mt-0.5">
-                          Atelier Raisonné
-                        </div>
-                      </div>
                     </div>
                   </motion.div>
                 </AnimatePresence>
@@ -393,22 +346,22 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
 
             </div>
 
-            {/* Slider Pagination Dots (Rendered only when multiple slides exist) */}
+            {/* Slider Pagination Dots (discrets, actif orange) */}
             {heroSlides.length > 1 && (
-              <div className="flex items-center justify-center gap-1 pt-4">
+              <div className="flex items-center justify-center gap-1 pt-5 sm:pt-4">
                 {heroSlides.map((_, idx) => (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => setActiveIndex(idx)}
                     aria-label={`Aller à la slide ${idx + 1}`}
-                    className="p-2.5 flex items-center justify-center cursor-pointer -m-1"
+                    className="p-2 flex items-center justify-center cursor-pointer -m-1"
                   >
                     <span
-                      className={`h-2 rounded-full transition-all duration-300 block ${
+                      className={`h-1.5 rounded-full transition-all duration-300 block ${
                         idx === activeIndex
-                          ? "w-8 bg-[#ff4f00]"
-                          : "w-2 bg-white/40 hover:bg-white/70"
+                          ? "w-6 bg-[#FF5500]"
+                          : "w-1.5 bg-white/35 hover:bg-white/65"
                       }`}
                     />
                   </button>
