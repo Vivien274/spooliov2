@@ -42,6 +42,31 @@ export function extractAddressFromStripeSession(
   return null;
 }
 
+export function extractBillingAddressFromStripeSession(
+  session: any,
+  customerName?: string
+): string | null {
+  if (!session) return null;
+
+  const custObj = session.customer_details;
+  const shipObj = session.shipping_details || session.collected_information?.shipping_details || session.shipping;
+  const addr = custObj?.address || shipObj?.address;
+  const name = custObj?.name || shipObj?.name || customerName;
+
+  if (addr && (addr.line1 || addr.city || addr.postal_code)) {
+    const line1 = addr.line1 || "";
+    const line2 = addr.line2 || "";
+    const zipCity = [addr.postal_code || "", addr.city || ""].filter(Boolean).join(" ");
+    const state = addr.state || "";
+    const countryCode = addr.country || "FR";
+    const countryName = countryCode === "FR" ? "France" : (countryCode === "BE" ? "Belgique" : countryCode);
+
+    return [name, line1, line2, zipCity, state, countryName].filter(Boolean).join("\n");
+  }
+
+  return null;
+}
+
 export async function fetchStripeSessionAddress(
   stripeSessionId: string,
   customerName?: string,

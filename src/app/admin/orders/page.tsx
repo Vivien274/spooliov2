@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Copy, Check, ExternalLink } from "lucide-react";
+import { Copy, Check, ExternalLink, Calendar, Store, Truck, Package } from "lucide-react";
 import { useAdminTheme } from "../AdminThemeContext";
 import { getItemProductUrl, parseItemName, printOrderPackingSlip } from "@/lib/orderUtils";
 import { recommendPackaging } from "@/lib/packagingUtils";
@@ -209,6 +209,40 @@ export default function AdminOrdersPage() {
   const [editingAddress, setEditingAddress] = useState<string | null>(null);
   const [editingAddressInput, setEditingAddressInput] = useState<string>("");
   const [savingAddressLoading, setSavingAddressLoading] = useState<boolean>(false);
+  const [billingAddress, setBillingAddress] = useState<string | null>(null);
+  const [loadingBillingAddress, setLoadingBillingAddress] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!selectedOrder) {
+      setBillingAddress(null);
+      return;
+    }
+    const storedBilling = (selectedOrder.relayDetails as { billingAddress?: string } | null)?.billingAddress;
+    if (storedBilling) {
+      setBillingAddress(storedBilling);
+      return;
+    }
+    if (!selectedOrder.stripeSession || selectedOrder.stripeSession.startsWith("sim_") || selectedOrder.stripeSession.startsWith("manual_")) {
+      setBillingAddress(null);
+      return;
+    }
+    let cancelled = false;
+    setLoadingBillingAddress(true);
+    fetch(`/api/admin/orders/billing?sessionId=${encodeURIComponent(selectedOrder.stripeSession)}&customerName=${encodeURIComponent(selectedOrder.customerName || "")}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (!cancelled) setBillingAddress(data?.billingAddress || null);
+      })
+      .catch(() => {
+        if (!cancelled) setBillingAddress(null);
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingBillingAddress(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedOrder]);
   const [showNoteModal, setShowNoteModal] = useState<boolean>(false);
   const [noteText, setNoteText] = useState<string>("");
   const [sendingNoteLoading, setSendingNoteLoading] = useState<boolean>(false);
@@ -1189,13 +1223,13 @@ export default function AdminOrdersPage() {
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
         >
           <div 
-            className="relative w-full max-w-3xl bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-2xl animate-fade-in text-gray-900"
+            className="relative w-full max-w-6xl max-h-[90vh] flex flex-col bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-2xl animate-fade-in text-gray-900"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 border-b border-gray-200 bg-gray-50/90">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2 flex-wrap">
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2.5 flex-wrap">
                   <span className="text-[10px] uppercase font-black tracking-widest text-[#ff4f00] bg-[#ff4f00]/10 border border-[#ff4f00]/30 px-2.5 py-0.5 rounded-md">
                     Détails Commande
                   </span>
@@ -1207,7 +1241,7 @@ export default function AdminOrdersPage() {
                     "bg-gray-100 text-gray-800 border-gray-300"
                   }`}>
                     {selectedOrder.status === "attente_impression" ? "⏳ En attente" :
-                     selectedOrder.status === "impression" ? "🛠️ Impression" :
+                     selectedOrder.status === "impression" ? "🛠️ En cours d'impression" :
                      selectedOrder.status === "emballe" ? "📦 Emballée" :
                      selectedOrder.status === "expedie" ? "🚚 Expédiée" : selectedOrder.status}
                   </span>
@@ -1235,19 +1269,39 @@ export default function AdminOrdersPage() {
               </div>
             </div>
 
-            {/* Modal Content - Scrollable */}
-            <div className="p-5 sm:p-6 space-y-5 max-h-[75vh] overflow-y-auto bg-white">
+            {/* Modal Content - Scrollable 2-Column Ergonomic Workspace */}
+            <div className="p-5 sm:p-6 space-y-5 flex-1 overflow-y-auto bg-[#FAF9F6]/60">
               
-              {/* Top Sub-banner Info */}
-              <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded-2xl px-4 py-2.5">
-                <div>
-                  📅 Passée le <strong className="text-gray-950 font-bold">{new Date(selectedOrder.createdAt).toLocaleString("fr-FR", { dateStyle: "long", timeStyle: "short" })}</strong>
+              {/* Top Sub-banner Info : Date + Indicateur lisible Retrait / Expédition */}
+              <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-gray-600 bg-white border border-gray-200 rounded-2xl px-4 py-3 shadow-2xs">
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4 text-gray-400 shrink-0" />
+                  <span>
+                    Passée le <strong className="text-gray-950 font-bold">{new Date(selectedOrder.createdAt).toLocaleString("fr-FR", { dateStyle: "long", timeStyle: "short" })}</strong>
+                  </span>
                 </div>
-                <div>
-                  📦 Mode : <strong className="text-gray-950 font-bold">{selectedOrder.shippingMethod === "pickup" ? "Retrait Atelier" : (selectedOrder.shippingMethod === "relay" ? "Mondial Relay" : "Colissimo Domicile")}</strong>
-                </div>
+
+                {selectedOrder.shippingMethod === "pickup" ? (
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 font-extrabold text-xs shadow-2xs">
+                    <Store className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>RETRAIT DOMICILE / ATELIER — Comines (59560)</span>
+                  </div>
+                ) : selectedOrder.shippingMethod === "relay" ? (
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-blue-50 border border-blue-200 text-blue-900 font-extrabold text-xs shadow-2xs">
+                    <Package className="w-4 h-4 text-blue-600 shrink-0" />
+                    <span>EXPÉDITION — Point Relais Mondial Relay</span>
+                  </div>
+                ) : (
+                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-orange-50 border border-orange-200 text-orange-950 font-extrabold text-xs shadow-2xs">
+                    <Truck className="w-4 h-4 text-[#ff4f00] shrink-0" />
+                    <span>EXPÉDITION — Colissimo Domicile</span>
+                  </div>
+                )}
               </div>
 
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+              {/* RIGHT SIDEBAR ON DESKTOP: CLIENT & LIVRAISON */}
+              <div className="lg:col-span-5 lg:order-2 space-y-5">
               {/* CARD 1: CLIENT & LIVRAISON (GROUPED) */}
               <div className="bg-white border border-gray-200 rounded-2xl p-4.5 space-y-4 shadow-xs">
                 <div className="text-[11px] font-black uppercase tracking-wider text-gray-700 flex items-center gap-2 border-b border-gray-100 pb-2">
@@ -1255,35 +1309,7 @@ export default function AdminOrdersPage() {
                   <span>Informations Client & Expédition</span>
                 </div>
 
-                {/* Recommended Packaging Banner */}
-                {(() => {
-                  const pkg = recommendPackaging(selectedOrder.items, selectedOrder.shippingMethod);
-                  const isKraft = pkg.type === "SAC_KRAFT";
-                  const isS = pkg.type === "CARTON_S";
-                  const isM = pkg.type === "CARTON_M";
-                  const bgClass = isKraft ? "bg-amber-50 border-amber-200 text-amber-950" : isS ? "bg-blue-50 border-blue-200 text-blue-950" : isM ? "bg-purple-50 border-purple-200 text-purple-950" : "bg-emerald-50 border-emerald-200 text-emerald-950";
-                  const labelClass = isKraft ? "text-amber-800" : isS ? "text-blue-700" : isM ? "text-purple-700" : "text-emerald-700";
-                  const descClass = isKraft ? "text-amber-900" : isS ? "text-blue-900" : isM ? "text-purple-900" : "text-emerald-900";
-                  const badgeClass = isKraft ? "border-amber-300 text-amber-900 bg-white" : isS ? "border-blue-300 text-blue-900 bg-white" : isM ? "border-purple-300 text-purple-900 bg-white" : "border-emerald-300 text-emerald-900 bg-white";
-
-                  return (
-                    <div className={`p-3.5 rounded-2xl border ${bgClass} flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs`}>
-                      <div className="flex items-center gap-3">
-                        <div className="text-2xl shrink-0">{pkg.icon}</div>
-                        <div>
-                          <span className="text-[10px] uppercase font-mono font-bold text-gray-500 block">Recommandation Packaging Atelier</span>
-                          <div className={`text-xs font-black uppercase ${labelClass}`}>{pkg.label}</div>
-                          <span className={`text-[11px] ${descClass} block leading-snug font-medium`}>{pkg.description}</span>
-                        </div>
-                      </div>
-                      <div className={`text-xs font-mono font-extrabold px-3 py-1 rounded-xl border ${badgeClass} shadow-xs shrink-0`}>
-                        {pkg.dimensions}
-                      </div>
-                    </div>
-                  );
-                })()}
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 gap-4">
                   {/* Left: Customer Info */}
                   <div className="space-y-2 bg-gray-50 border border-gray-200 rounded-xl p-3.5">
                     <div className="flex items-center justify-between">
@@ -1493,12 +1519,12 @@ export default function AdminOrdersPage() {
                             return (
                               <div className="space-y-1.5">
                                 {/* Nom Destinataire */}
-                                <div className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs">
+                                <div className="flex items-start justify-between gap-2 p-2 rounded-lg bg-white border border-gray-200/80 shadow-2xs">
                                   <div className="min-w-0 flex-1">
                                     <span className="text-[9px] uppercase font-extrabold tracking-wider text-gray-500 block">
                                       Nom / Destinataire
                                     </span>
-                                    <span className="text-xs font-extrabold text-gray-900 truncate block select-all">
+                                    <span className="text-xs font-extrabold text-gray-900 break-words whitespace-normal leading-snug block select-all">
                                       {parsed.name || selectedOrder.customerName || "—"}
                                     </span>
                                   </div>
@@ -1526,13 +1552,13 @@ export default function AdminOrdersPage() {
                                   </button>
                                 </div>
 
-                                {/* Adresse / Rue */}
-                                <div className="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs">
+                                {/* Adresse / Rue (non tronquée) */}
+                                <div className="flex items-start justify-between gap-2 p-2 rounded-lg bg-white border border-gray-200/80 shadow-2xs">
                                   <div className="min-w-0 flex-1">
                                     <span className="text-[9px] uppercase font-extrabold tracking-wider text-gray-500 block">
                                       Adresse
                                     </span>
-                                    <span className="text-xs font-semibold text-gray-900 truncate block select-all">
+                                    <span className="text-xs font-semibold text-gray-900 break-words whitespace-normal leading-snug block select-all">
                                       {parsed.street || "—"}
                                     </span>
                                   </div>
@@ -1668,6 +1694,53 @@ export default function AdminOrdersPage() {
                           </div>
                         )}
 
+                        {/* Adresse de Facturation (utile surtout pour Point Relais) */}
+                        {(selectedOrder.shippingMethod === "relay" || billingAddress || loadingBillingAddress) && (
+                          <div className="pt-2.5 mt-2.5 border-t border-gray-200 space-y-1.5">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[10px] uppercase font-extrabold tracking-wider text-gray-500">
+                                Adresse de Facturation
+                              </span>
+                              {billingAddress && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleCopyField("billing_addr", billingAddress)}
+                                  className={`text-[10px] font-bold px-2 py-0.5 rounded transition-all flex items-center gap-1 cursor-pointer ${
+                                    copiedFieldKey === "billing_addr"
+                                      ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                                      : "bg-white border border-gray-200 text-gray-700 hover:border-gray-400 shadow-2xs"
+                                  }`}
+                                >
+                                  {copiedFieldKey === "billing_addr" ? (
+                                    <>
+                                      <Check className="w-3 h-3 text-emerald-600" />
+                                      <span>Copié !</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Copy className="w-3 h-3 text-gray-400" />
+                                      <span>Copier</span>
+                                    </>
+                                  )}
+                                </button>
+                              )}
+                            </div>
+                            {loadingBillingAddress ? (
+                              <div className="text-[11px] text-gray-400 italic bg-white border border-gray-200/80 rounded-lg p-2">
+                                Récupération depuis Stripe...
+                              </div>
+                            ) : billingAddress ? (
+                              <div className="text-xs font-medium text-gray-900 bg-white border border-gray-200/80 rounded-lg p-2.5 whitespace-pre-line break-words leading-relaxed select-all shadow-2xs">
+                                {billingAddress}
+                              </div>
+                            ) : (
+                              <div className="text-[11px] text-gray-400 italic bg-white border border-gray-200/80 rounded-lg p-2">
+                                Adresse de facturation non disponible sur cette session Stripe.
+                              </div>
+                            )}
+                          </div>
+                        )}
+
                         {/* Tracking Number badge */}
                         {selectedOrder.trackingNumber && (
                           <div className="pt-2.5 mt-2.5 border-t border-gray-200 flex items-center justify-between gap-2">
@@ -1750,7 +1823,10 @@ export default function AdminOrdersPage() {
                   </div>
                 </div>
               </div>
+              </div>
 
+              {/* LEFT MAIN COLUMN ON DESKTOP: ARTICLES COMMANDÉS & OPTIONS 3D */}
+              <div className="lg:col-span-7 lg:order-1 space-y-5">
               {/* CARD 2: ARTICLES COMMANDÉS & OPTIONS 3D */}
               <div className="bg-white border border-gray-200 rounded-2xl p-4.5 space-y-3.5 shadow-xs">
                 <div className="flex items-center justify-between border-b border-gray-100 pb-2">
@@ -1967,56 +2043,33 @@ export default function AdminOrdersPage() {
                   <span>Centre d'Actions & Communication Client</span>
                 </div>
 
-                {/* Row 1: Workflow status steps */}
+                {/* Row 1: Workflow status dropdown */}
                 <div className="flex flex-wrap items-center justify-between gap-3 bg-gray-50 border border-gray-200 rounded-xl p-3" onClick={(e) => e.stopPropagation()}>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-extrabold text-gray-800">Étape suivante :</span>
+                    <span className="text-xs font-extrabold text-gray-800">Statut de la commande :</span>
                   </div>
 
                   <div className="flex items-center gap-2 flex-wrap">
-                    {selectedOrder.status === "attente_impression" && (
-                      <button
-                        type="button"
-                        onClick={() => handleUpdateStatus(selectedOrder.id, "impression")}
-                        disabled={statusChangeLoading === selectedOrder.id}
-                        className="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs transition-colors cursor-pointer shadow-sm"
-                      >
-                        Lancer Impression 🛠️
-                      </button>
-                    )}
-                    {selectedOrder.status === "impression" && (
-                      <button
-                        type="button"
-                        onClick={() => handleUpdateStatus(selectedOrder.id, "emballe")}
-                        disabled={statusChangeLoading === selectedOrder.id}
-                        className="px-3.5 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs transition-colors cursor-pointer shadow-sm"
-                      >
-                        Emballer 📦
-                      </button>
-                    )}
-                    {selectedOrder.status === "emballe" && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (selectedOrder.shippingMethod !== "pickup") {
-                            const trackNum = prompt("Saisissez le numéro de suivi du colis (Mondial Relay / Colissimo) ou laissez vide :");
-                            if (trackNum === null) return;
-                            handleUpdateStatus(selectedOrder.id, "expedie", trackNum.trim());
-                          } else {
-                            handleUpdateStatus(selectedOrder.id, "expedie");
-                          }
-                        }}
-                        disabled={statusChangeLoading === selectedOrder.id}
-                        className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs transition-colors cursor-pointer shadow-sm"
-                      >
-                        {selectedOrder.shippingMethod === "pickup" ? "Prêt au Retrait ✓" : "Expédier Manuellement 🚚"}
-                      </button>
-                    )}
-                    {selectedOrder.status === "expedie" && (
-                      <span className="px-3 py-1 rounded-xl bg-emerald-100 text-emerald-800 font-extrabold text-xs border border-emerald-300 select-none">
-                        Clôturée ✓
-                      </span>
-                    )}
+                    <select
+                      value={selectedOrder.status}
+                      disabled={statusChangeLoading === selectedOrder.id}
+                      onChange={(e) => {
+                        const nextStatus = e.target.value;
+                        if (nextStatus === "expedie" && selectedOrder.shippingMethod !== "pickup") {
+                          const trackNum = prompt("Saisissez le numéro de suivi du colis (Mondial Relay / Colissimo) ou laissez vide :");
+                          if (trackNum === null) return;
+                          handleUpdateStatus(selectedOrder.id, nextStatus, trackNum.trim());
+                        } else {
+                          handleUpdateStatus(selectedOrder.id, nextStatus);
+                        }
+                      }}
+                      className="px-3.5 py-2 rounded-xl bg-white border border-gray-300 text-gray-900 font-bold text-xs outline-none focus:border-[#ff4f00] cursor-pointer shadow-xs disabled:opacity-60"
+                    >
+                      <option value="attente_impression">En attente</option>
+                      <option value="impression">En cours d&apos;impression</option>
+                      <option value="emballe">Emballée</option>
+                      <option value="expedie">Expédiée</option>
+                    </select>
 
                     <button
                       type="button"
@@ -2032,6 +2085,8 @@ export default function AdminOrdersPage() {
                     </button>
                   </div>
                 </div>
+              </div>
+              </div>
               </div>
             </div>
           </div>

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendOrderConfirmationEmail, sendAdminOrderNotificationEmail } from "@/lib/email";
 import { syncOrderToManager } from "@/lib/managerSync";
-import { extractAddressFromStripeSession } from "@/lib/stripeAddress";
+import { extractAddressFromStripeSession, extractBillingAddressFromStripeSession } from "@/lib/stripeAddress";
 import { incrementPromoCodeUsage } from "@/app/actions/promoActions";
 import fs from "fs";
 import path from "path";
@@ -77,13 +77,15 @@ export async function POST(request: Request) {
         const shippingMethod = session.metadata?.shipping_method || "home";
         const pickupSlot = session.metadata?.pickup_slot || null;
         
-        // Extract Point Relais metadata if applicable
+        // Extract Point Relais metadata if applicable (also store billing address for relay orders)
         let relayDetails = null;
         if (shippingMethod === "relay" && session.metadata?.relay_id) {
+          const billingAddress = extractBillingAddressFromStripeSession(session, customerName);
           relayDetails = JSON.stringify({
             id: session.metadata.relay_id,
             name: session.metadata.relay_name,
-            address: session.metadata.relay_address
+            address: session.metadata.relay_address,
+            ...(billingAddress ? { billingAddress } : {}),
           });
         }
 
