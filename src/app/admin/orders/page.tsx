@@ -1220,7 +1220,7 @@ export default function AdminOrdersPage() {
       {selectedOrder && (
         <div 
           onClick={() => setSelectedOrder(null)}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
+          className="fixed inset-0 z-[1100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
         >
           <div 
             className="relative w-full max-w-6xl max-h-[90vh] flex flex-col bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-2xl animate-fade-in text-gray-900"
@@ -2097,7 +2097,7 @@ export default function AdminOrdersPage() {
       {showCreateModal && (
         <div
           onClick={() => setShowCreateModal(false)}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-[1100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
         >
           <div
             onClick={(e) => e.stopPropagation()}
@@ -2225,7 +2225,7 @@ export default function AdminOrdersPage() {
       {showNoteModal && selectedOrder && (
         <div
           onClick={() => setShowNoteModal(false)}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+          className="fixed inset-0 z-[1100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
         >
           <div
             onClick={(e) => e.stopPropagation()}

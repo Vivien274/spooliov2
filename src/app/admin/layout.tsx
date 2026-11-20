@@ -103,7 +103,7 @@ const navSections: NavSection[] = [
         ],
       },
       {
-        label: "Packs & Coffrets 🎁",
+        label: "Packs & Coffrets",
         href: "/admin/packs",
         icon: (
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -130,7 +130,7 @@ const navSections: NavSection[] = [
         ),
       },
       {
-        label: "Le Bazar 📸",
+        label: "Le Bazar",
         href: "/admin/bazar",
         icon: (
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -138,7 +138,6 @@ const navSections: NavSection[] = [
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
           </svg>
         ),
-        badge: "Nouveau",
       },
       {
         label: "Drops Exclusifs",
@@ -211,14 +210,13 @@ const navSections: NavSection[] = [
         ),
       },
       {
-        label: "Calendrier de l'Avent 🎄",
+        label: "Calendrier de l'Avent",
         href: "/admin/calendrier-avent",
         icon: (
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
         ),
-        badge: "Nouveau",
       },
       {
         label: "Paliers de Dons",
@@ -446,18 +444,18 @@ function AdminShell({ children }: { children: React.ReactNode }) {
       {isMobileOpen && (
         <div
           onClick={() => setIsMobileOpen(false)}
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[999] md:hidden"
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 md:hidden"
         />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar (Gris anthracite, textes & pictos blancs) */}
       <aside
-        className={`fixed md:sticky top-0 z-[1000] h-screen ${isCollapsed ? "w-20" : "w-64"} shrink-0 ${cls.sidebarBg} border-r ${cls.border} flex flex-col transition-all duration-300 max-h-screen ${
+        className={`fixed md:sticky top-0 z-50 h-screen ${isCollapsed ? "w-20" : "w-64"} shrink-0 bg-[#27272A] text-white border-r border-white/10 flex flex-col transition-all duration-300 max-h-screen keep-white ${
           isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         }`}
       >
         {/* Logo & Toggle Row */}
-        <div className={`h-16 flex items-center ${isCollapsed ? "justify-center px-2" : "justify-between px-5"} border-b ${cls.border} shrink-0`}>
+        <div className={`h-16 flex items-center ${isCollapsed ? "justify-center px-2" : "justify-between px-5"} border-b border-white/15 shrink-0`}>
           {!isCollapsed && (
             <Link href="/admin" className="flex items-center gap-3">
               <Image
@@ -465,12 +463,9 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                 alt="Spoolio"
                 width={95}
                 height={28}
-                className={`h-7 w-auto object-contain ${theme === "light" ? "invert" : ""}`}
+                className="h-7 w-auto object-contain no-invert"
               />
-              <span
-                className="text-[9px] font-black tracking-[0.25em] uppercase text-white px-2 py-0.5 rounded-full"
-                style={{ background: ADMIN_BLUE }}
-              >
+              <span className="text-[9px] font-black tracking-[0.25em] uppercase text-white !text-white bg-white/20 border border-white/25 px-2 py-0.5 rounded-full">
                 ADMIN
               </span>
             </Link>
@@ -479,16 +474,15 @@ function AdminShell({ children }: { children: React.ReactNode }) {
           {/* Collapse Toggle Button */}
           <button
             onClick={toggleCollapse}
-            className={`p-2 rounded-xl transition-all cursor-pointer ${
-              theme === "dark" ? "hover:bg-white/10 text-gray-400 hover:text-white" : "hover:bg-gray-200 text-gray-600 hover:text-black"
-            }`}
+            className="p-2 rounded-xl transition-all cursor-pointer hover:bg-white/15 text-white/85 hover:text-white !text-white"
             title={isCollapsed ? "Agrandir la barre latérale" : "Réduire la barre latérale"}
           >
             <svg
-              className={`w-5 h-5 transition-transform duration-300 ${isCollapsed ? "rotate-180" : ""}`}
+              className={`w-5 h-5 transition-transform duration-300 text-white ${isCollapsed ? "rotate-180" : ""}`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              style={{ color: "#ffffff" }}
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
             </svg>
@@ -500,7 +494,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
           {navSections.map((section, secIdx) => (
             <div key={secIdx} className="space-y-1">
               {section.title && !isCollapsed && (
-                <div className={`px-3 text-[10px] font-extrabold uppercase tracking-widest ${theme === "dark" ? "text-neutral-500" : "text-gray-400"} pb-1 select-none`}>
+                <div className="px-3 text-[10px] font-extrabold uppercase tracking-widest text-white/65 pb-1 select-none">
                   {section.title}
                 </div>
               )}
@@ -517,7 +511,6 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                   badgeValue = String(pendingReviewsCount);
                 }
 
-                const activeColor = theme === "dark" ? "#ffffff" : ADMIN_BLUE;
                 const isParentActive = pathname.startsWith(item.href) && item.href !== "/admin";
 
                 return (
@@ -526,31 +519,33 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                       href={item.href}
                       onClick={() => setIsMobileOpen(false)}
                       title={isCollapsed ? item.label : undefined}
-                      className={`relative flex items-center ${isCollapsed ? "justify-center px-0 py-2.5" : "justify-between px-3 py-2.5"} rounded-xl text-xs transition-all duration-300 group ${
+                      className={`relative flex items-center ${isCollapsed ? "justify-center px-0 py-2.5" : "justify-between px-3 py-2.5"} rounded-xl text-xs transition-all duration-200 group text-white !text-white ${
                         isActive
-                          ? theme === "dark"
-                            ? "bg-gradient-to-r from-[#2F3CD9]/35 to-[#2F3CD9]/15 border-2 border-[#2F3CD9] text-white font-extrabold shadow-lg shadow-[#2F3CD9]/30 scale-[1.02]"
-                            : "bg-[#2F3CD9] text-white font-extrabold shadow-md shadow-[#2F3CD9]/30 scale-[1.02]"
-                          : `${cls.textMuted} hover:${cls.textMain} ${theme === "dark" ? "hover:bg-white/5" : "hover:bg-gray-100"}`
+                          ? "bg-white/20 border border-white/25 text-white font-extrabold shadow-sm"
+                          : "text-white/90 hover:text-white hover:bg-white/10 font-medium"
                       }`}
                     >
                       {isActive && (
-                        <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#2F3CD9] rounded-r-full shadow-[0_0_10px_#2F3CD9]" />
+                        <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-white rounded-r-full" />
                       )}
 
-                      <span className="flex items-center gap-3">
-                        <span className={`text-base transition-transform group-hover:scale-110 ${isActive ? "text-white" : ""}`}>{item.icon}</span>
-                        {!isCollapsed && <span className={isActive ? "text-white font-black tracking-wide" : ""}>{item.label}</span>}
+                      <span className="flex items-center gap-3 text-white !text-white" style={{ color: "#ffffff" }}>
+                        <span className="text-base transition-transform group-hover:scale-110 text-white !text-white" style={{ color: "#ffffff" }}>
+                          {item.icon}
+                        </span>
+                        {!isCollapsed && (
+                          <span className={isActive ? "text-white !text-white font-black tracking-wide" : "text-white/95 !text-white"}>
+                            {item.label}
+                          </span>
+                        )}
                       </span>
 
                       {badgeValue && (
                         <span
-                          className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                          className={`text-[10px] font-bold px-2 py-0.5 rounded-full text-white !text-white ${
                             typeof badgeValue === "string" && !isNaN(Number(badgeValue))
-                              ? "bg-red-500 text-white"
-                              : isActive
-                              ? "bg-white/25 text-white"
-                              : "bg-[#2F3CD9]/15 text-[#2F3CD9] dark:bg-[#2F3CD9]/30 dark:text-[#93c5fd]"
+                              ? "bg-[#FF5500]"
+                              : "bg-white/20 border border-white/25"
                           } ${isCollapsed ? "absolute top-1 right-1" : ""}`}
                         >
                           {badgeValue}
@@ -559,7 +554,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                     </Link>
 
                     {item.subItems && isParentActive && !isCollapsed && (
-                      <div className={`flex flex-col gap-1 pl-6 pr-2 py-1 border-l-2 ml-4 ${theme === "dark" ? "border-[#2F3CD9]/50" : "border-[#2F3CD9]"}`}>
+                      <div className="flex flex-col gap-1 pl-6 pr-2 py-1 border-l-2 ml-4 border-white/30">
                         {item.subItems.map((sub) => {
                           const isSubActive = pathname === sub.href;
                           return (
@@ -567,10 +562,10 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                               key={sub.href}
                               href={sub.href}
                               onClick={() => setIsMobileOpen(false)}
-                              className={`text-[11px] py-1.5 px-2.5 rounded-lg transition-all ${
+                              className={`text-[11px] py-1.5 px-2.5 rounded-lg transition-all text-white !text-white ${
                                 isSubActive
-                                  ? `font-black text-white bg-[#2F3CD9] shadow-sm shadow-[#2F3CD9]/30 translate-x-1`
-                                  : `${cls.textMuted} hover:${theme === "dark" ? "text-white hover:bg-white/5" : "text-black hover:bg-gray-200"}`
+                                  ? "font-black bg-white/20 shadow-xs translate-x-0.5"
+                                  : "text-white/80 hover:text-white hover:bg-white/10"
                               }`}
                             >
                               {sub.label}
@@ -587,22 +582,23 @@ function AdminShell({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* Sidebar footer */}
-        <div className={`p-3 border-t ${cls.border} flex flex-col gap-1`}>
+        <div className="p-3 border-t border-white/15 flex flex-col gap-1">
           <button
             onClick={toggleTheme}
             title={theme === "dark" ? "Passer au thème clair" : "Passer au thème sombre"}
-            className={`flex items-center ${isCollapsed ? "justify-center px-0 py-2.5" : "gap-2 px-3 py-2"} text-xs font-semibold rounded-xl transition-all cursor-pointer w-full ${cls.textMuted} ${theme === "dark" ? "hover:text-white hover:bg-white/5" : "hover:text-gray-900 hover:bg-gray-100"}`}
+            className="flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-xl transition-all cursor-pointer w-full text-white/90 hover:text-white hover:bg-white/10 !text-white"
+            style={{ color: "#ffffff" }}
           >
             {theme === "dark" ? (
               <>
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: "#ffffff" }}>
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M12 7a5 5 0 100 10 5 5 0 000-10z" />
                 </svg>
                 {!isCollapsed && <span>Thème clair</span>}
               </>
             ) : (
               <>
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: "#ffffff" }}>
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
                 {!isCollapsed && <span>Thème sombre</span>}
@@ -613,9 +609,10 @@ function AdminShell({ children }: { children: React.ReactNode }) {
           <Link
             href="/"
             title="Voir le site public"
-            className={`flex items-center ${isCollapsed ? "justify-center px-0 py-2.5" : "gap-2 px-3 py-2"} text-xs rounded-xl transition-colors ${cls.textMuted} ${theme === "dark" ? "hover:text-white hover:bg-white/5" : "hover:text-gray-900 hover:bg-gray-100"}`}
+            className={`flex items-center ${isCollapsed ? "justify-center px-0 py-2.5" : "gap-2 px-3 py-2"} text-xs rounded-xl transition-colors text-white/90 hover:text-white hover:bg-white/10 !text-white`}
+            style={{ color: "#ffffff" }}
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: "#ffffff" }}>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             {!isCollapsed && <span>Voir le site</span>}
@@ -630,9 +627,10 @@ function AdminShell({ children }: { children: React.ReactNode }) {
               } catch (e) {}
             }}
             title="Déconnexion"
-            className={`flex items-center ${isCollapsed ? "justify-center px-0 py-2.5" : "gap-2 px-3 py-2"} text-xs rounded-xl transition-colors cursor-pointer w-full text-red-500 hover:bg-red-500/10 font-semibold`}
+            className={`flex items-center ${isCollapsed ? "justify-center px-0 py-2.5" : "gap-2 px-3 py-2"} text-xs rounded-xl transition-colors cursor-pointer w-full text-white/95 hover:bg-red-500/30 hover:text-white !text-white font-semibold`}
+            style={{ color: "#ffffff" }}
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: "#ffffff" }}>
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
             </svg>
             {!isCollapsed && <span>Déconnexion</span>}
