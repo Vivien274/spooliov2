@@ -12,18 +12,18 @@ export default function AdventMarqueeBanner() {
     },
     {
       icon: "🎁",
-      highlight: "SÉRIE LIMITÉE (50 EX.)",
+      highlight: "DERNIER EXEMPLAIRE (10 FABRIQUÉS)",
       text: "24 créations exclusives 100% fabriquées à Comines (59)",
     },
     {
       icon: "📦",
-      highlight: "TARIF STANDARD (50€)",
-      text: "Derniers coffrets disponibles avant clôture des commandes",
+      highlight: "PLUS QU'UN EN STOCK (50€)",
+      text: "Dernier coffret disponible avant clôture définitive",
     },
     {
-      icon: "🚚",
-      highlight: "EXPÉDITION GARANTIE",
-      text: "Envois assurés mi-novembre pour être prêts le 1er décembre",
+      icon: "📍",
+      highlight: "RETRAIT COMINES UNIQUEMENT",
+      text: "Retrait gratuit à domicile / atelier avant le 1er décembre",
     },
     {
       icon: "✨",

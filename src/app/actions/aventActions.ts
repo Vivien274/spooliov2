@@ -101,8 +101,8 @@ export async function getAdventDataAction(): Promise<AdventData> {
     data.config.preorder = {
       tier1Price: 45,
       tier2Price: 50,
-      totalLimit: 50,
-      totalSold: dbSold,
+      totalLimit: 10,
+      totalSold: Math.max(dbSold, 9),
     };
   } else {
     // Use live DB count, or manual override if set higher

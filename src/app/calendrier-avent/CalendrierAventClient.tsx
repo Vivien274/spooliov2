@@ -27,8 +27,8 @@ import { useCart } from "@/context/CartContext";
 
 const FAQ_ITEMS = [
   {
-    q: "Quand vais-je recevoir mon calendrier de l'Avent ?",
-    a: "Tous les calendriers seront expédiés mi-novembre par Colissimo ou Mondial Relay (ou disponibles en retrait gratuit à notre atelier de Comines). Vous le recevrez largement à temps avant le 1er décembre pour démarrer le rituel.",
+    q: "Comment récupérer mon calendrier de l'Avent avant le 1er décembre ?",
+    a: "La livraison n'étant plus possible à temps pour le 1er décembre, les commandes se font désormais uniquement en retrait gratuit à notre atelier à Comines (59560). Vous pourrez choisir votre créneau de retrait directement dans le panier.",
   },
   {
     q: "Y a-t-il des doublons avec les objets du site ?",
@@ -165,12 +165,12 @@ export default function CalendrierAventClient({
   const preorder = data.config.preorder || {
     tier1Price: 45,
     tier2Price: 50,
-    totalLimit: 50,
-    totalSold: 0,
+    totalLimit: 10,
+    totalSold: 9,
   };
 
-  const totalLimit = preorder.totalLimit || 50;
-  const totalSold = preorder.totalSold ?? 0;
+  const totalLimit = preorder.totalLimit || 10;
+  const totalSold = preorder.totalSold ?? 9;
   const remainingStock = Math.max(0, totalLimit - totalSold);
   const currentPrice = preorder.tier2Price || 50;
 
@@ -211,7 +211,11 @@ export default function CalendrierAventClient({
             <div className="space-y-3">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-orange-50 text-[#FF5500] border border-orange-200">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>Édition Artisanale Limitée • 50 Coffrets</span>
+                <span>
+                  {remainingStock === 1
+                    ? "Édition Artisanale • Dernier exemplaire en stock"
+                    : `Édition Artisanale Limitée • ${totalLimit} Coffrets`}
+                </span>
               </div>
 
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-[#121212] font-antonio uppercase tracking-tight leading-none">
@@ -257,9 +261,9 @@ export default function CalendrierAventClient({
                 {/* Jauge de disponibilité */}
                 <div className="space-y-1.5 p-3.5 rounded-2xl bg-[#FAF9F6] border border-[#E4E4E0]">
                   <div className="flex items-center justify-between text-xs text-neutral-600 font-medium">
-                    <span>Coffrets réservés sur la série :</span>
+                    <span>Disponibilité sur la série de {totalLimit} :</span>
                     <strong className="text-[#121212] font-mono font-bold">
-                      {totalSold} / {totalLimit}
+                      {remainingStock === 1 ? "Plus que 1 en stock !" : `${remainingStock} / ${totalLimit} dispo`}
                     </strong>
                   </div>
                   <div className="w-full bg-neutral-200 rounded-full h-2 overflow-hidden">
@@ -273,10 +277,12 @@ export default function CalendrierAventClient({
                       }}
                     />
                   </div>
-                  <div className="text-[11px] text-neutral-500">
-                    {remainingStock > 0
-                      ? `Il reste ${remainingStock} exemplaires disponibles pour cette fin d'année.`
-                      : "Série complète réservée."}
+                  <div className={`text-[11px] font-semibold ${remainingStock === 1 ? "text-[#FF5500]" : "text-neutral-500"}`}>
+                    {remainingStock === 1
+                      ? `⚠️ Plus qu'un seul exemplaire disponible sur les ${totalLimit} fabriqués !`
+                      : remainingStock > 1
+                      ? `Il reste ${remainingStock} exemplaires disponibles sur les ${totalLimit} fabriqués.`
+                      : "Série complète écoulée."}
                   </div>
                 </div>
 
@@ -320,7 +326,13 @@ export default function CalendrierAventClient({
                         <ShoppingBag className="w-5 h-5" />
                       )}
                       <span className="text-base font-antonio tracking-wide uppercase">
-                        {addedSuccess ? "Ajouté au panier ! ✨" : "Précommander mon calendrier"}
+                        {addedSuccess
+                          ? "Ajouté au panier ! ✨"
+                          : remainingStock === 1
+                          ? "Commander le dernier exemplaire"
+                          : remainingStock > 1
+                          ? "Commander mon calendrier"
+                          : "Rupture de stock"}
                       </span>
                     </div>
                     <span className="px-3 py-1 rounded-xl bg-black/20 text-xs font-mono font-bold">
@@ -328,8 +340,8 @@ export default function CalendrierAventClient({
                     </span>
                   </button>
 
-                  <p className="text-center text-xs text-neutral-500">
-                    📦 Expédition mi-novembre garantie avant le 1er décembre • Retrait atelier offert à Comines
+                  <p className="text-center text-xs text-neutral-600 font-medium">
+                    📍 <strong>Retrait uniquement à domicile / atelier à Comines (59560)</strong> — La livraison n&apos;est plus possible avant le 1er décembre.
                   </p>
                 </div>
               </div>

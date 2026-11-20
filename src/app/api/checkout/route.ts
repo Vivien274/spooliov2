@@ -17,6 +17,24 @@ export async function POST(request: Request) {
       );
     }
 
+    const hasAdventCalendar = items.some(
+      (item: any) =>
+        item.slug === "calendrier-avent" ||
+        item.productId === 202612 ||
+        (item.name && String(item.name).toLowerCase().includes("calendrier de l'avent")) ||
+        (item.name && String(item.name).toLowerCase().includes("calendrier de l’avent"))
+    );
+
+    if (hasAdventCalendar && shippingMethod !== "pickup") {
+      return NextResponse.json(
+        {
+          error:
+            "Le Calendrier de l'Avent est uniquement disponible en retrait à domicile / atelier à Comines (la livraison n'est plus possible avant le 1er décembre).",
+        },
+        { status: 400 }
+      );
+    }
+
     // Server-side verification: prevent checkout if any product or pack component is out of stock (stock === 0)
     const directProductIds = items
       .map((item: any) => item.productId || item.id)

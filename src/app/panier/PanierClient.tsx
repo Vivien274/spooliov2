@@ -52,6 +52,22 @@ export default function PanierClient() {
     .reduce((acc, item) => acc + parseFloat(item.price) * item.quantity, 0);
   const pointsEarned = Math.floor(eligibleTotal / 2);
 
+  const hasAdventCalendar = cartItems.some(
+    (item) =>
+      item.slug === "calendrier-avent" ||
+      item.productId === 202612 ||
+      (item.name && item.name.toLowerCase().includes("calendrier de l'avent")) ||
+      (item.name && item.name.toLowerCase().includes("calendrier de l’avent"))
+  );
+
+  // Force pickup only when cart contains an Advent Calendar
+  useEffect(() => {
+    if (hasAdventCalendar && shippingMethod !== "pickup") {
+      setShippingMethod("pickup");
+      setSelectedRelay(null);
+    }
+  }, [hasAdventCalendar, shippingMethod, setShippingMethod, setSelectedRelay]);
+
   // Point Relais search UI states
   const [postalCode, setPostalCode] = useState<string>("");
   const [relays, setRelays] = useState<SelectedRelay[]>([]);
@@ -585,11 +601,21 @@ export default function PanierClient() {
             <span>🚚</span> Livraison & Retrait
           </h3>
 
+          {hasAdventCalendar && (
+            <div className="mb-4 p-3 rounded-2xl bg-orange-50 border border-orange-200 text-xs text-orange-900 leading-relaxed">
+              <strong>Retrait à l&apos;atelier uniquement :</strong> votre panier contient un Calendrier de l&apos;Avent. La livraison n&apos;est plus disponible afin de garantir la remise avant le 1er décembre.
+            </div>
+          )}
+
           <div className="flex flex-col gap-3">
             {[
-              { id: "pickup", name: "Retrait gratuit à l'Atelier", desc: "Comines, Nord (59560)", cost: "Gratuit" },
-              { id: "relay", name: "Point Relais (Mondial Relay)", desc: "Suivi Boxtal en point relais", cost: (cartTotal >= shippingConfig.freeShippingThreshold) ? "Gratuit" : `${shippingConfig.relayShippingCost.toFixed(2).replace(".", ",")} €` },
-              { id: "home", name: "Colissimo Domicile", desc: "Suivi Boxtal à domicile", cost: (cartTotal >= shippingConfig.freeShippingThreshold) ? "Gratuit" : `${shippingConfig.homeShippingCost.toFixed(2).replace(".", ",")} €` },
+              { id: "pickup", name: "Retrait gratuit à l'Atelier / Domicile", desc: "Comines, Nord (59560)", cost: "Gratuit" },
+              ...(hasAdventCalendar
+                ? []
+                : [
+                    { id: "relay", name: "Point Relais (Mondial Relay)", desc: "Suivi Boxtal en point relais", cost: (cartTotal >= shippingConfig.freeShippingThreshold) ? "Gratuit" : `${shippingConfig.relayShippingCost.toFixed(2).replace(".", ",")} €` },
+                    { id: "home", name: "Colissimo Domicile", desc: "Suivi Boxtal à domicile", cost: (cartTotal >= shippingConfig.freeShippingThreshold) ? "Gratuit" : `${shippingConfig.homeShippingCost.toFixed(2).replace(".", ",")} €` },
+                  ]),
             ].map((m) => {
               const active = shippingMethod === m.id;
               return (

@@ -11,8 +11,8 @@
     "preorder": {
       "tier1Price": 45,
       "tier2Price": 50,
-      "totalLimit": 50,
-      "totalSold": 6
+      "totalLimit": 10,
+      "totalSold": 9
     }
   },
   "packaging": [],
