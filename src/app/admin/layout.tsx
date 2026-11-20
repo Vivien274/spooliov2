@@ -23,7 +23,7 @@ interface NavSection {
 
 const navSections: NavSection[] = [
   {
-    title: "Ventes & Boutique",
+    title: "Ventes",
     items: [
       {
         label: "Dashboard",
@@ -42,122 +42,12 @@ const navSections: NavSection[] = [
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
           </svg>
         ),
-      },
-      {
-        label: "Finances & Livraison",
-        href: "/admin/shipping",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20" />
-          </svg>
-        ),
-      },
-      {
-        label: "Paniers Abandonnés",
-        href: "/admin/abandoned",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-        ),
-      },
-      {
-        label: "Créneaux Retrait",
-        href: "/admin/pickup",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-        ),
-      },
-      {
-        label: "Badges NFC",
-        href: "/admin/badges",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h10a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V9a2 2 0 012-2zm0 0V5a2 2 0 012-2h6a2 2 0 012 2v2" />
-          </svg>
-        ),
-      },
-    ],
-  },
-  {
-    title: "Catalogue Produits",
-    items: [
-      {
-        label: "Produits",
-        href: "/admin/products",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-          </svg>
-        ),
         subItems: [
-          { label: "Tous les produits", href: "/admin/products" },
-          { label: "Packs & Coffrets", href: "/admin/packs" },
-          { label: "Ajouter un produit", href: "/admin/products/new" },
-          { label: "Taxonomie V2.1", href: "/admin/taxonomy" },
-          { label: "Catégories (Historique)", href: "/admin/products/categories" },
-          { label: "Attributs", href: "/admin/products/attributes" },
-          { label: "Palette Couleurs", href: "/admin/colors" },
+          { label: "Toutes les commandes", href: "/admin/orders" },
+          { label: "Créneaux Retrait", href: "/admin/pickup" },
+          { label: "Paniers Abandonnés", href: "/admin/abandoned" },
+          { label: "Finances & Livraison", href: "/admin/shipping" },
         ],
-      },
-      {
-        label: "Packs & Coffrets",
-        href: "/admin/packs",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-          </svg>
-        ),
-      },
-      {
-        label: "Taxonomie V2.1",
-        href: "/admin/taxonomy",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-          </svg>
-        ),
-      },
-      {
-        label: "Pièces Uniques",
-        href: "/admin/pieces-uniques",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-3M9.707 9.707l5-5a1 1 0 011.414 0l2.586 2.586a1 1 0 010 1.414l-5 5a1 1 0 01-.707.293H10a1 1 0 01-1-1v-.586a1 1 0 01.293-.707z" />
-          </svg>
-        ),
-      },
-      {
-        label: "Le Bazar",
-        href: "/admin/bazar",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-        ),
-      },
-      {
-        label: "Drops Exclusifs",
-        href: "/admin/drops",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" />
-          </svg>
-        ),
-      },
-
-      {
-        label: "Studio Clickers",
-        href: "/admin/clickers",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
-          </svg>
-        ),
       },
       {
         label: "Avis Clients",
@@ -171,25 +61,59 @@ const navSections: NavSection[] = [
     ],
   },
   {
-    title: "Marketing & Fidélité",
+    title: "Catalogue",
     items: [
       {
-        label: "Codes Promo",
+        label: "Produits",
+        href: "/admin/products",
+        icon: (
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          </svg>
+        ),
+        subItems: [
+          { label: "Tous les produits", href: "/admin/products" },
+          { label: "Packs & Coffrets", href: "/admin/packs" },
+          { label: "Palette Couleurs", href: "/admin/colors" },
+          { label: "Attributs", href: "/admin/products/attributes" },
+          { label: "Taxonomie V2.1", href: "/admin/taxonomy" },
+        ],
+      },
+      {
+        label: "Collections & Éditions",
+        href: "/admin/drops",
+        icon: (
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
+          </svg>
+        ),
+        subItems: [
+          { label: "Drops Exclusifs", href: "/admin/drops" },
+          { label: "Le Bazar", href: "/admin/bazar" },
+          { label: "Pièces Uniques", href: "/admin/pieces-uniques" },
+          { label: "Studio Clickers", href: "/admin/clickers" },
+          { label: "Calendrier de l'Avent", href: "/admin/calendrier-avent" },
+        ],
+      },
+    ],
+  },
+  {
+    title: "Marketing & Site",
+    items: [
+      {
+        label: "Promos & Fidélité",
         href: "/admin/promos",
         icon: (
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
           </svg>
         ),
-      },
-      {
-        label: "Cartes de Fidélité",
-        href: "/admin/loyalty",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-          </svg>
-        ),
+        subItems: [
+          { label: "Codes Promo", href: "/admin/promos" },
+          { label: "Cartes de Fidélité", href: "/admin/loyalty" },
+          { label: "Badges NFC", href: "/admin/badges" },
+          { label: "Paliers de Dons", href: "/admin/don" },
+        ],
       },
       {
         label: "Tombolas",
@@ -201,90 +125,21 @@ const navSections: NavSection[] = [
         ),
       },
       {
-        label: "Roue de la Loterie",
-        href: "/admin/loterie",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        ),
-      },
-      {
-        label: "Calendrier de l'Avent",
-        href: "/admin/calendrier-avent",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-        ),
-      },
-      {
-        label: "Paliers de Dons",
-        href: "/admin/don",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-        ),
-      },
-      {
-        label: "Hub de Liens",
-        href: "/admin/liens",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-          </svg>
-        ),
-      },
-      {
-        label: "SEO Pages",
-        href: "/admin/seo",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        ),
-      },
-    ],
-  },
-  {
-    title: "Contenu & Apparence",
-    items: [
-      {
-        label: "Bandeau Haut de Page",
-        href: "/admin/announcement",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-          </svg>
-        ),
-      },
-      {
-        label: "Design Accueil",
+        label: "Site & Contenu",
         href: "/admin/hero",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-3M9.707 9.707l5-5a1 1 0 011.414 0l2.586 2.586a1 1 0 010 1.414l-5 5a1 1 0 01-.707.293H10a1 1 0 01-1-1v-.586a1 1 0 01.293-.707z" />
-          </svg>
-        ),
-      },
-      {
-        label: "Pages Sur-Mesure",
-        href: "/admin/pages",
         icon: (
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
         ),
-      },
-      {
-        label: "Blog",
-        href: "/admin/blog",
-        icon: (
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-          </svg>
-        ),
+        subItems: [
+          { label: "Design Accueil", href: "/admin/hero" },
+          { label: "Bandeau Haut de Page", href: "/admin/announcement" },
+          { label: "Pages Sur-Mesure", href: "/admin/pages" },
+          { label: "Hub de Liens", href: "/admin/liens" },
+          { label: "Blog", href: "/admin/blog" },
+          { label: "SEO Pages", href: "/admin/seo" },
+        ],
       },
     ],
   },
@@ -499,10 +354,11 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                 </div>
               )}
               {section.items.map((item) => {
+                const matchesSub = Boolean(item.subItems?.some((sub) => pathname.startsWith(sub.href)));
                 const isActive =
                   item.href === "/admin"
                     ? pathname === "/admin"
-                    : pathname.startsWith(item.href);
+                    : pathname.startsWith(item.href) || matchesSub;
 
                 let badgeValue = item.badge;
                 if (item.label === "Commandes" && newOrdersCount > 0) {
@@ -511,7 +367,7 @@ function AdminShell({ children }: { children: React.ReactNode }) {
                   badgeValue = String(pendingReviewsCount);
                 }
 
-                const isParentActive = pathname.startsWith(item.href) && item.href !== "/admin";
+                const isParentActive = isActive && Boolean(item.subItems?.length);
 
                 return (
                   <div key={item.href} className="flex flex-col gap-1">
