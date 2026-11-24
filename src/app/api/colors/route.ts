@@ -41,7 +41,14 @@ export async function GET(req: Request) {
       });
     }
 
-    return NextResponse.json({ colors });
+    return NextResponse.json(
+      { colors },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        },
+      }
+    );
   } catch (err: any) {
     console.error("GET Public Colors Error:", err);
     return NextResponse.json({ error: "Impossible de récupérer les couleurs" }, { status: 500 });

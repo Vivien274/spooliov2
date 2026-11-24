@@ -6,6 +6,12 @@ import {
 } from "@/services/collectionService";
 import CollectionPageView from "@/components/taxonomy/CollectionPageView";
 
+export const revalidate = 300;
+
+export function generateStaticParams() {
+  return [];
+}
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }

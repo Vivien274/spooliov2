@@ -5,6 +5,11 @@ import {
 } from "@/components/taxonomy/CategoryRouteHelper";
 
 const UNIVERSE_SLUG = "objets-deco";
+export const revalidate = 300;
+
+export function generateStaticParams() {
+  return [];
+}
 
 interface PageProps {
   params: Promise<{ category: string }>;

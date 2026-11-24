@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { computeSeoScore } from '@/lib/seoUtils';
 import { isPreprodEnv } from '@/lib/env';
+import { resolveProductImageSrc } from '@/lib/serverProducts';
 
 export const dynamic = 'force-dynamic';
 
@@ -41,7 +42,7 @@ function mapProduct(p: any, viewCountMap: Record<string, number> = {}, isCompact
   const rawImages = isCompact ? (p.images || []).slice(0, 2) : (p.images || []);
   const images = rawImages.map((img: any, idx: number) => ({
     id: img.id || idx,
-    src: img.src || img.sourceUrl || img.source_url || "/images/figma_keychains.jpg",
+    src: resolveProductImageSrc(img),
     name: decodeHtml(img.name || p.name),
     alt: img.alt || p.name
   }));

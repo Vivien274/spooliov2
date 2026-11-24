@@ -10,6 +10,8 @@ import { BUSINESS_CONFIG } from "@/lib/businessConfig";
 import { generateBreadcrumbsJsonLd } from "@/lib/jsonLd";
 import { ArrowRight, CheckCircle2, Compass, ShieldCheck } from "lucide-react";
 
+export const revalidate = 300;
+
 interface Props {
   params: Promise<{ name: string }>;
 }

@@ -1,29 +1,25 @@
 import type { Metadata } from "next";
 import BoutiqueClient from "./BoutiqueClient";
 import { getPageSeoMetadata } from "@/lib/seoPages";
-import { getPublishedProducts } from "@/lib/serverProducts";
+import { getPublishedProducts, slimProductForGrid } from "@/lib/serverProducts";
 import { getFeaturedDrop } from "@/lib/serverDrops";
+
+export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   return getPageSeoMetadata("boutique");
 }
 
-export default async function BoutiquePage({
-  searchParams,
-}: {
-  searchParams?: Promise<{ category?: string; q?: string }>;
-}) {
-  const [initialProducts, featuredDrop] = await Promise.all([
+export default async function BoutiquePage() {
+  const [rawProducts, featuredDrop] = await Promise.all([
     getPublishedProducts(),
     getFeaturedDrop(),
   ]);
-  const params = searchParams ? await searchParams : {};
+  const initialProducts = rawProducts.map(slimProductForGrid);
 
   return (
     <BoutiqueClient
       initialProducts={initialProducts}
-      initialCategory={params.category}
-      initialQuery={params.q}
       featuredDrop={featuredDrop}
     />
   );

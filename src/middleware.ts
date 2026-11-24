@@ -36,6 +36,19 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  // 4. Route authenticated admin product requests to uncached draft-preview route
+  // so public /product/[slug] stays 100% ISR-cached on CDN without cookies().
+  if (pathname.startsWith("/product/") && token) {
+    const previewSecret = secret || "spoolio-ultra-secure-key-928372651";
+    const isValid = await verifySession(token, previewSecret);
+    if (isValid) {
+      const slug = pathname.slice("/product/".length);
+      if (slug && !slug.includes("/")) {
+        return NextResponse.rewrite(new URL(`/admin/preview/product/${slug}`, request.url));
+      }
+    }
+  }
+
   return NextResponse.next();
 }
 

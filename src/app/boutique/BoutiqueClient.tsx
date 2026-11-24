@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState, useMemo, useRef } from "react";
+import { Suspense, useEffect, useState, useMemo, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -88,9 +89,18 @@ function BoutiqueClientContent({
   const [loading, setLoading] = useState<boolean>(initialProducts.length === 0);
   const [error, setError] = useState<string | null>(null);
 
+  const searchParams = useSearchParams();
+  const urlCategory = searchParams.get("category") ?? initialCategory ?? "all";
+  const urlQuery = searchParams.get("q") ?? initialQuery ?? "";
+
   // Filter & Sort & Infinite Scroll states
-  const [searchQuery, setSearchQuery] = useState<string>(initialQuery || "");
-  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory || "all");
+  const [searchQuery, setSearchQuery] = useState<string>(urlQuery);
+  const [selectedCategory, setSelectedCategory] = useState<string>(urlCategory);
+
+  useEffect(() => {
+    setSelectedCategory(urlCategory);
+    setSearchQuery(urlQuery);
+  }, [urlCategory, urlQuery]);
   const [selectedUniverse, setSelectedUniverse] = useState<string | null>(null);
   const [maxPrice, setMaxPrice] = useState<number | null>(null);
   const [onlyOnSale, setOnlyOnSale] = useState<boolean>(false);
@@ -798,11 +808,13 @@ export default function BoutiqueClient({
   featuredDrop?: Drop | null;
 }) {
   return (
-    <BoutiqueClientContent
-      initialProducts={initialProducts}
-      initialCategory={initialCategory}
-      initialQuery={initialQuery}
-      featuredDrop={featuredDrop}
-    />
+    <Suspense fallback={null}>
+      <BoutiqueClientContent
+        initialProducts={initialProducts}
+        initialCategory={initialCategory}
+        initialQuery={initialQuery}
+        featuredDrop={featuredDrop}
+      />
+    </Suspense>
   );
 }

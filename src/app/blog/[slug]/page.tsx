@@ -9,7 +9,11 @@ import JsonLdScript from "@/components/JsonLdScript";
 import { getBlogPostingJsonLd, generateBreadcrumbsJsonLd } from "@/lib/jsonLd";
 import { BUSINESS_CONFIG } from "@/lib/businessConfig";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
+
+export function generateStaticParams() {
+  return [];
+}
 
 interface BlogPostPageProps {
   params: Promise<{

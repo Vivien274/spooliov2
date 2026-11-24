@@ -27,7 +27,14 @@ export async function GET() {
       }
     }
 
-    return NextResponse.json({ success: true, config });
+    return NextResponse.json(
+      { success: true, config },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        },
+      }
+    );
   } catch (e: any) {
     return NextResponse.json({ success: true, config: DEFAULT_SHIPPING_CONFIG });
   }

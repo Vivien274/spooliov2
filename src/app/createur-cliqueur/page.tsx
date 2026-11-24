@@ -6,8 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getPageSeoMetadata } from "@/lib/seoPages";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300;
 
 // Dynamic import for heavy interactive configurator component
 const ClickerConfiguratorClient = nextDynamic(

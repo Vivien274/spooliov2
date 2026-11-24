@@ -44,7 +44,14 @@ export async function GET() {
       config = DEFAULT_BANNER_CONFIG;
     }
 
-    return NextResponse.json({ success: true, config });
+    return NextResponse.json(
+      { success: true, config },
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
+        },
+      }
+    );
   } catch (e: any) {
     console.warn("Error fetching announcement banner config:", e.message || e);
     return NextResponse.json({ success: true, config: DEFAULT_BANNER_CONFIG });

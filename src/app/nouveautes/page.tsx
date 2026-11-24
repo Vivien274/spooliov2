@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { getAllDrops } from "@/lib/serverDrops";
-import { getPublishedProducts } from "@/lib/serverProducts";
+import { getPublishedProducts, slimProductForGrid } from "@/lib/serverProducts";
 import NouveautesClient from "./NouveautesClient";
 import { getPageSeoMetadata } from "@/lib/seoPages";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   const base = getPageSeoMetadata("nouveautes");
@@ -28,10 +27,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function NouveautesPage() {
-  const [drops, products] = await Promise.all([
+  const [drops, rawProducts] = await Promise.all([
     getAllDrops(),
     getPublishedProducts(),
   ]);
 
-  return <NouveautesClient drops={drops} products={products} />;
+  return <NouveautesClient drops={drops} products={rawProducts.map(slimProductForGrid)} />;
 }

@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 
 import { createPageMetadata } from "@/lib/seoMetadata";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export const metadata: Metadata = createPageMetadata({
   title: "Blog et Coulisses de l'Atelier 3D | Spoolio",

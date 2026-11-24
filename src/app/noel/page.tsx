@@ -7,7 +7,7 @@ import { getPublishedProducts } from "@/lib/serverProducts";
 import { buildPageMetadata } from "@/lib/seoMetadata";
 import JsonLdScript from "@/components/JsonLdScript";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata({

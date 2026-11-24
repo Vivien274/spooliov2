@@ -19,11 +19,68 @@ function decodeHtml(str: string): string {
     .replace(/&nbsp;/g, " ");
 }
 
+function shortImageVersion(src: string): string {
+  let hash = 2166136261;
+  const step = Math.max(1, Math.floor(src.length / 64));
+  for (let i = 0; i < src.length; i += step) {
+    hash ^= src.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return `${src.length.toString(36)}-${(hash >>> 0).toString(36)}`;
+}
+
+export function resolveProductImageSrc(img: any): string {
+  const rawSrc = img?.src || img?.sourceUrl || img?.source_url || "/images/figma_keychains.jpg";
+  if (typeof rawSrc === "string" && rawSrc.startsWith("data:image/")) {
+    const numId = Number(img?.id);
+    if (Number.isInteger(numId) && numId > 0) {
+      return `/api/product-image/${numId}?v=${shortImageVersion(rawSrc)}`;
+    }
+  }
+  return rawSrc;
+}
+
+export function slimProductForGrid(p: Product): Product {
+  const attrs = p.attributes && typeof p.attributes === "object" ? (p.attributes as any) : undefined;
+  const hasVariants = Array.isArray(attrs?.attributes) && attrs.attributes.length > 0;
+  return {
+    id: p.id,
+    name: p.name,
+    nameEn: p.nameEn || p.name_en || null,
+    name_en: p.name_en || p.nameEn || null,
+    slug: p.slug,
+    permalink: p.permalink,
+    price: p.price,
+    regular_price: p.regular_price,
+    sale_price: p.sale_price,
+    on_sale: p.on_sale,
+    productType: p.productType,
+    categories: p.categories,
+    images: (p.images || []).slice(0, 2),
+    short_description: p.short_description || "",
+    short_description_en: p.short_description_en || null,
+    shortDescriptionEn: p.shortDescriptionEn || null,
+    description: "",
+    badge: p.badge,
+    stock: p.stock,
+    status: p.status,
+    date_created: p.date_created,
+    tags: p.tags,
+    attributes: attrs
+      ? {
+          badge: attrs.badge,
+          uniquePieceData: attrs.uniquePieceData,
+          ...(hasVariants ? { attributes: [{ name: "Option", options: [] }] } : {}),
+        }
+      : undefined,
+  };
+}
+
 export function mapRawProduct(p: any): Product {
   const rawImages = p.images || [];
   const images = rawImages.map((img: any, idx: number) => ({
     id: img.id || idx,
-    src: img.src || img.sourceUrl || img.source_url || "/images/figma_keychains.jpg",
+    src: resolveProductImageSrc(img),
     name: decodeHtml(img.name || p.name),
     alt: img.alt || p.name,
   }));

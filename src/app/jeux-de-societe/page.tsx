@@ -5,7 +5,7 @@ import JeuxDeSocieteClient from "./JeuxDeSocieteClient";
 import { getPageSeoMetadata } from "@/lib/seoPages";
 import { prisma } from "@/lib/prisma";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export async function generateMetadata(): Promise<Metadata> {
   return getPageSeoMetadata("jeux-de-societe");
