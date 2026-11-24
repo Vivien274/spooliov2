@@ -332,6 +332,35 @@ export default function HeroCustomizerPage() {
     }
   };
 
+  const handleResetDefaults = async () => {
+    if (!confirm("Remplacer les slides actuels par les 4 slides par défaut (Fidgets, Art Toys, Noël, Blind Bags) ?")) {
+      return;
+    }
+    setSavingHero(true);
+    setHeroError(null);
+    setHeroSuccess(null);
+
+    try {
+      const res = await fetch("/api/admin/hero", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ resetToDefault: true }),
+      });
+      const data = await res.json();
+      if (res.ok && data.config?.slides) {
+        setSlides(data.config.slides);
+        setActiveSlideIndex(0);
+        setHeroSuccess("Les 4 slides par défaut ont été appliqués et enregistrés !");
+      } else {
+        setHeroError(data.error || "Erreur lors de la réinitialisation.");
+      }
+    } catch {
+      setHeroError("Erreur réseau lors de la réinitialisation.");
+    } finally {
+      setSavingHero(false);
+    }
+  };
+
   const currentActiveSlide = slides[activeSlideIndex] || slides[0] || DEFAULT_SLIDES[0];
 
   return (
@@ -352,12 +381,22 @@ export default function HeroCustomizerPage() {
           </p>
         </div>
 
-        <button
-          onClick={handleAddSlide}
-          className="h-11 px-5 bg-gradient-to-r from-[#ff4f00] to-[#FF7700] hover:from-[#e04500] hover:to-[#ff4f00] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-lg cursor-pointer flex items-center justify-center gap-2 shrink-0"
-        >
-          <span>+ Ajouter une Slide</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+          <button
+            type="button"
+            onClick={handleResetDefaults}
+            disabled={savingHero}
+            className={`h-11 px-4 border ${cls.border} ${cls.cardBg} ${cls.textMain} hover:border-[#ff4f00] hover:text-[#ff4f00] text-xs font-bold rounded-xl transition-all cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50`}
+          >
+            <span>Réinitialiser par défaut</span>
+          </button>
+          <button
+            onClick={handleAddSlide}
+            className="h-11 px-5 bg-gradient-to-r from-[#ff4f00] to-[#FF7700] hover:from-[#e04500] hover:to-[#ff4f00] text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-lg cursor-pointer flex items-center justify-center gap-2 shrink-0"
+          >
+            <span>+ Ajouter une Slide</span>
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

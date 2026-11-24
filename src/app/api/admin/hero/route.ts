@@ -171,14 +171,16 @@ export async function POST(request: Request) {
 
     const payload = await request.json();
 
-    const slidesToSave = Array.isArray(payload.slides) && payload.slides.length > 0
+    const slidesToSave = payload.resetToDefault
+      ? DEFAULT_SLIDES
+      : Array.isArray(payload.slides) && payload.slides.length > 0
       ? payload.slides
       : DEFAULT_SLIDES;
 
     const firstSlide = slidesToSave[0] || DEFAULT_SLIDES[0];
 
-    const configString = JSON.stringify({
-      topBadgeText: payload.topBadgeText || DEFAULT_HERO.topBadgeText,
+    const configObj = {
+      topBadgeText: payload.resetToDefault ? DEFAULT_HERO.topBadgeText : (payload.topBadgeText || DEFAULT_HERO.topBadgeText),
       title: firstSlide.title || payload.title || DEFAULT_HERO.title,
       subtitle: firstSlide.subtitle || payload.subtitle || "",
       buttonText: firstSlide.buttonText || payload.buttonText || DEFAULT_HERO.buttonText,
@@ -194,7 +196,9 @@ export async function POST(request: Request) {
       imageUrl: firstSlide.image || payload.imageUrl || DEFAULT_HERO.imageUrl,
       imagePosition: payload.imagePosition || "center center",
       slides: slidesToSave
-    });
+    };
+
+    const configString = JSON.stringify(configObj);
 
     await prisma.page.upsert({
       where: { slug: "config-hero" },
@@ -211,7 +215,13 @@ export async function POST(request: Request) {
 
     console.log("[Admin Update] Configuration Hero Slider mise à jour !");
 
-    return NextResponse.json({ success: true, message: "Configuration du Slider Hero enregistrée." });
+    return NextResponse.json({
+      success: true,
+      config: configObj,
+      message: payload.resetToDefault
+        ? "Slides réinitialisés par défaut."
+        : "Configuration du Slider Hero enregistrée.",
+    });
   } catch (e: any) {
     return NextResponse.json(
       { error: e.message || "Erreur lors de l'enregistrement de la configuration Hero." },
