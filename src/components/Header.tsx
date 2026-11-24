@@ -10,6 +10,7 @@ import MotionNavigationMenu from "@/components/MotionNavigationMenu";
 import MobileMenuDrawer from "@/components/MobileMenuDrawer";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import VacationBanner from "@/components/VacationBanner";
+import ElectricSpoolioLogo from "@/components/ElectricSpoolioLogo";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Search, X, Loader2, ArrowRight } from "lucide-react";
@@ -17,6 +18,7 @@ import { Sparkles, Search, X, Loader2, ArrowRight } from "lucide-react";
 interface HeaderProps {
   className?: string;
   isDark?: boolean;
+  variant?: "default" | "home";
 }
 
 const POPULAR_SEARCH_TAGS = [
@@ -39,6 +41,7 @@ const QUICK_PAGE_SHORTCUTS = [
 export default function Header({
   className = "relative h-24 flex items-center justify-between z-50 px-6 max-w-[1200px] mx-auto w-full",
   isDark = false,
+  variant = "default",
 }: HeaderProps) {
   const { locale, setLocale, t } = useTranslation();
   const [theme, setTheme] = useState<"dark" | "light">("light");
@@ -194,19 +197,23 @@ export default function Header({
     }).catch(() => {});
   };
 
+  const isHomeExpanded = variant === "home" && !isSticky;
+
   return (
     <>
       <header
-        data-header-theme={isDark ? "dark" : "light"}
-        className={`fixed top-0 left-0 right-0 z-[99999] w-full transition-all duration-300 ${
-          isDark
-            ? `header-dark ${isSticky ? "header-sticky bg-black/85 backdrop-blur-2xl border-b border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.6)]" : "bg-transparent border-transparent shadow-none"}`
-            : isSticky
-              ? "header-light header-sticky bg-white/90 backdrop-blur-2xl border-b border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
-              : "header-light bg-white/75 backdrop-blur-md border-b border-zinc-200/60"
+        data-header-theme={isHomeExpanded ? "dark" : isDark ? "dark" : "light"}
+        className={`${isHomeExpanded ? "absolute top-0 left-0 right-0" : "fixed top-0 left-0 right-0"} z-[99999] w-full transition-all duration-300 ${
+          isHomeExpanded
+            ? "header-dark bg-transparent border-transparent shadow-none"
+            : isDark
+              ? `header-dark ${isSticky ? "header-sticky bg-black/85 backdrop-blur-2xl border-b border-white/20 shadow-[0_4px_30px_rgba(0,0,0,0.6)]" : "bg-transparent border-transparent shadow-none"}`
+              : isSticky
+                ? "header-light header-sticky bg-white/90 backdrop-blur-2xl border-b border-zinc-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)]"
+                : "header-light bg-white/75 backdrop-blur-md border-b border-zinc-200/60"
         }`}
         style={
-          isDark
+          isDark && !isHomeExpanded
             ? {
                 backgroundColor: isSticky ? "rgba(10, 10, 14, 0.88)" : "transparent",
                 backdropFilter: isSticky ? "blur(24px)" : "none",
@@ -218,14 +225,77 @@ export default function Header({
         }
       >
       <VacationBanner />
-      <div className={`w-full max-w-[1440px] mx-auto transition-all duration-300 relative z-10 ${isSticky
-          ? "h-16 md:h-20 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12"
-          : "h-20 md:h-24 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12"
+      <div className={`w-full max-w-[1440px] mx-auto transition-all duration-300 relative z-10 ${
+        isHomeExpanded
+          ? "px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 py-3 md:pt-5 md:pb-3.5"
+          : isSticky
+            ? "h-16 md:h-20 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12"
+            : "h-20 md:h-24 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12"
         }`}>
         {/* ========================================================================= */}
-        {/* DESKTOP 3-ZONE HEADER (md and up)                                         */}
-        {/* [ ZONE GAUCHE: Logo ] [ ZONE CENTRALE: Nav ] [ ZONE DROITE: Actions ]     */}
+        {/* DESKTOP HEADER                                                            */}
         {/* ========================================================================= */}
+        {isHomeExpanded ? (
+          <div className="hidden md:flex flex-col items-center w-full gap-2.5">
+            {/* Ligne 1 : Grand logo électrique centré + actions à droite */}
+            <div className="w-full grid grid-cols-[1fr_auto_1fr] items-center">
+              <div />
+              <div className="flex items-center justify-center">
+                <Link
+                  href="/"
+                  onClick={handleLogoClick}
+                  className="flex items-center justify-center cursor-pointer no-invert group"
+                  title="Spoolio - Accueil"
+                >
+                  <ElectricSpoolioLogo className="h-20 lg:h-24 xl:h-28 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
+                </Link>
+              </div>
+              <div className="flex items-center justify-end gap-2 lg:gap-2.5 shrink-0">
+                <button
+                  onClick={() => setIsSearchOpen((prev) => !prev)}
+                  className={`w-9.5 h-9.5 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-2xs shrink-0 header-search-btn ${
+                    isSearchOpen
+                      ? "bg-zinc-900 text-white border border-zinc-900 scale-105 search-active"
+                      : "bg-white/15 hover:bg-white/25 text-white border border-white/25 backdrop-blur-md no-invert"
+                  }`}
+                  title={isSearchOpen ? "Fermer la recherche (ESC)" : "Rechercher (Cmd+K)"}
+                  aria-label={isSearchOpen ? "Fermer la recherche" : "Rechercher"}
+                >
+                  {isSearchOpen ? (
+                    <X className="w-4 h-4 text-white" />
+                  ) : (
+                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: "#ffffff" }}>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => setIsCartOpen(true)}
+                  className={`relative w-9.5 h-9.5 lg:w-10 lg:h-10 flex items-center justify-center bg-[#ff4f00] hover:bg-[#e04500] text-white rounded-full transition-all shadow-md shadow-[#ff4f00]/25 cursor-pointer shrink-0 ${
+                    isBouncing ? "animate-bouncy-cart" : ""
+                  }`}
+                  title="Ouvrir le panier"
+                  aria-label="Ouvrir le panier"
+                >
+                  <svg className="w-4 h-4 md:w-4.5 md:h-4.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" style={{ color: "#ffffff" }}>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  {cartCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-md animate-none no-invert">
+                      {cartCount}
+                    </span>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Ligne 2 : Menu centré sous le logo (texte blanc sur hero) */}
+            <div className="w-full flex items-center justify-center pt-0.5">
+              <MotionNavigationMenu isDark={true} />
+            </div>
+          </div>
+        ) : (
         <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] items-center w-full h-full">
           {/* ZONE GAUCHE : Logo Spoolio (largeur naturelle, centré verticalement) */}
           <div className="flex items-center justify-start min-w-0">
@@ -301,17 +371,18 @@ export default function Header({
             </button>
           </div>
         </div>
+        )}
 
         {/* ========================================================================= */}
         {/* MOBILE / TABLET HEADER (below md)                                         */}
         {/* Burger à gauche, Logo centré, Recherche + Panier à droite                 */}
         {/* ========================================================================= */}
-        <div className="flex md:hidden items-center justify-between w-full h-full relative">
+        <div className={`flex md:hidden items-center justify-between w-full relative ${isHomeExpanded ? "min-h-[76px]" : "h-full"}`}>
           {/* Mobile Burger Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className={`w-10 h-10 flex items-center justify-center rounded-full transition-all cursor-pointer z-50 ${
-              isDark
+              isDark || isHomeExpanded
                 ? "bg-transparent hover:bg-white/10 text-white no-invert"
                 : "bg-transparent hover:bg-zinc-100 text-zinc-900"
             }`}
@@ -336,14 +407,18 @@ export default function Header({
               onClick={handleLogoClick}
               className="flex items-center justify-center cursor-pointer no-invert"
             >
-              <Image
-                src={isDark ? "/images/logo-spoolio-eyes-white.png" : "/images/logo-spoolio-eyes.png"}
-                alt="Spoolio Logo"
-                width={130}
-                height={38}
-                priority
-                className="h-8 sm:h-9 w-auto object-contain header-logo"
-              />
+              {isHomeExpanded ? (
+                <ElectricSpoolioLogo className="h-14 sm:h-16 w-auto" />
+              ) : (
+                <Image
+                  src={isDark ? "/images/logo-spoolio-eyes-white.png" : "/images/logo-spoolio-eyes.png"}
+                  alt="Spoolio Logo"
+                  width={130}
+                  height={38}
+                  priority
+                  className="h-8 sm:h-9 w-auto object-contain header-logo"
+                />
+              )}
             </Link>
           </div>
 
@@ -354,8 +429,8 @@ export default function Header({
               className={`w-9.5 h-9.5 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-sm header-search-btn ${
                 isSearchOpen
                   ? "bg-zinc-900 text-white border border-zinc-900 scale-105 search-active"
-                  : isDark
-                    ? "bg-white/10 hover:bg-white/20 text-white border border-white/20 no-invert"
+                  : isDark || isHomeExpanded
+                    ? "bg-white/15 hover:bg-white/25 text-white border border-white/25 backdrop-blur-md no-invert"
                     : "bg-zinc-100 hover:bg-zinc-200 text-black border border-zinc-200/80"
               }`}
               title={isSearchOpen ? "Fermer la recherche (ESC)" : "Rechercher"}
@@ -365,10 +440,11 @@ export default function Header({
                 <X className="w-4 h-4 text-white" />
               ) : (
                 <svg
-                  className={`w-4 h-4 ${isDark ? "text-white" : "text-black"}`}
+                  className={`w-4 h-4 ${isDark || isHomeExpanded ? "text-white" : "text-black"}`}
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
+                  style={isDark || isHomeExpanded ? { color: "#ffffff" } : undefined}
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>

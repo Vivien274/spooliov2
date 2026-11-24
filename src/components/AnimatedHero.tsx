@@ -236,16 +236,16 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
 
   return (
     <div className="w-full relative z-30 select-none">
-      <Header />
+      <Header variant="home" />
 
-      {/* Hero Container spanning full width, glued to marquee below (Mobile 72-78svh, Desktop preserved) */}
-      <div className="w-full pt-20 sm:pt-24 mb-0">
+      {/* Hero Container spanning full width, sitting cleanly below the centered Home Header */}
+      <div className="w-full mb-0">
         <section
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
-          className="relative w-full overflow-hidden bg-zinc-950 text-white min-h-[46svh] max-h-[52svh] sm:max-h-none sm:min-h-[440px] lg:min-h-[480px] border-b border-zinc-800/80 group/hero flex flex-col justify-between touch-pan-y"
+          className="relative w-full overflow-hidden bg-zinc-950 text-white min-h-[540px] sm:min-h-[640px] lg:min-h-[720px] border-b border-zinc-800/80 group/hero flex flex-col justify-between touch-pan-y"
         >
           {/* Background Image & Ambient Effects */}
           <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
@@ -264,10 +264,12 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
                   fill
                   priority={activeIndex === 0}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1920px"
-                  className="object-cover object-center filter brightness-[0.98] contrast-[1.02] saturate-[1.05]"
+                  className="object-cover object-center filter brightness-[0.95] contrast-[1.02] saturate-[1.05]"
                 />
-                {/* Mobile: bottom-up light scrim leaving upper photo clear; Desktop: left-to-right scrim */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 via-55% to-transparent sm:bg-gradient-to-r sm:from-black/85 sm:via-black/45 sm:via-45% sm:to-transparent" />
+                {/* Top scrim for transparent header + electric logo legibility */}
+                <div className="absolute inset-x-0 top-0 h-56 sm:h-64 bg-gradient-to-b from-black/80 via-black/40 to-transparent" />
+                {/* Mobile: bottom-up scrim; Desktop: left-to-right scrim */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 via-50% to-transparent sm:bg-gradient-to-r sm:from-black/80 sm:via-black/40 sm:via-45% sm:to-transparent" />
               </motion.div>
             </AnimatePresence>
 
@@ -299,8 +301,8 @@ export default function AnimatedHero({ slides }: AnimatedHeroProps = {}) {
             </>
           )}
 
-          {/* Hero Main Body: Mobile anchored lower to showcase photography; Desktop left-aligned */}
-          <div className="relative z-20 w-full max-w-[1360px] mx-auto flex-1 sm:min-h-[440px] lg:min-h-[480px] px-5 sm:px-10 lg:px-14 pt-12 pb-4 sm:py-10 lg:py-12 flex flex-col justify-end sm:justify-between">
+          {/* Hero Main Body: Clear top clearance for overlaid logo + menu */}
+          <div className="relative z-20 w-full max-w-[1360px] mx-auto flex-1 min-h-[540px] sm:min-h-[640px] lg:min-h-[720px] px-5 sm:px-10 lg:px-14 pt-32 pb-6 sm:pt-48 sm:pb-12 lg:pt-52 lg:pb-16 flex flex-col justify-end sm:justify-between">
             
             <div className="flex items-end sm:items-center flex-1 sm:my-auto">
               
