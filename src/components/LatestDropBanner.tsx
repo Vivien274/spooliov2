@@ -62,6 +62,7 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
   const dTheme = drop.theme;
   const dBg = dTheme?.bgColor || "linear-gradient(135deg, #180b2b 0%, #0d0617 100%)";
   const dText = dTheme?.textColor || "#ffffff";
+  const isLightTheme = !/^#fff(fff)?$/i.test(dText.trim()) && dText.trim().toLowerCase() !== "white";
   const dSubtitle = dTheme?.subtitleColor || "#d8b4fe";
   const dAccent = dTheme?.accentColor || drop.themeColor || "#ff5500";
   const dCardBg = dTheme?.cardBgColor || "rgba(255, 255, 255, 0.06)";
@@ -92,7 +93,7 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
         style={{
           background: dBg,
           borderColor: dBorder,
-          color: "#ffffff",
+          color: dText,
         }}
       >
         {/* Glow atmosphérique en arrière-plan */}
@@ -170,7 +171,7 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
                   className="font-normal leading-[1.1] tracking-tight select-none"
                   style={{
                     fontFamily: dTitleFont,
-                    color: "#ffffff",
+                    color: dText,
                     fontSize: `calc(clamp(1.875rem, 4vw, 3rem) * ${getDropTitleScale(dTheme?.titleSize)})`,
                   }}
                 >
@@ -195,7 +196,7 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
               {currentStatus === "live" ? (
                 <div className="space-y-2">
                   <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider">
-                    <span className="flex items-center gap-2" style={{ color: "#ffffff" }}>
+                    <span className="flex items-center gap-2" style={{ color: dText }}>
                       <Sparkles className="w-4 h-4 text-emerald-400" />
                       <span>Série lancée à l&apos;Atelier :</span>
                     </span>
@@ -228,14 +229,14 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
               ) : currentStatus === "teaser" ? (
                 <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wide">
                   <Clock className="w-4 h-4 text-amber-400" />
-                  <span style={{ color: "#ffffff" }}>Projet secret en cours · Lancement à venir</span>
+                  <span style={{ color: dText }}>Projet secret en cours · Lancement à venir</span>
                 </div>
               ) : (
                 <>
                   <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-bold uppercase tracking-wider">
-                    <span className="flex items-center gap-2" style={{ color: "#ffffff" }}>
+                    <span className="flex items-center gap-2" style={{ color: dText }}>
                       <Calendar className="w-4 h-4" style={{ color: dAccent }} />
-                      <span style={{ color: "#ffffff" }}>Lancement officiel de la collection :</span>
+                      <span style={{ color: dText }}>Lancement officiel de la collection :</span>
                     </span>
                     <span
                       className="font-mono text-xs sm:text-sm font-black px-2.5 py-0.5 rounded-lg border"
@@ -260,7 +261,7 @@ export default function LatestDropBanner({ drop }: LatestDropBannerProps) {
                   <DropAlertForm
                     dropSlug={drop.slug}
                     dropTitle={drop.title}
-                    variant="dark"
+                    variant={isLightTheme ? "light" : "dark"}
                   />
                 </div>
               ) : currentStatus === "live" ? (
