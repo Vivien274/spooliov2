@@ -10,7 +10,7 @@ import MotionNavigationMenu from "@/components/MotionNavigationMenu";
 import MobileMenuDrawer from "@/components/MobileMenuDrawer";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import VacationBanner from "@/components/VacationBanner";
-import ElectricSpoolioLogo from "@/components/ElectricSpoolioLogo";
+import StrokeSpoolioLogo from "@/components/StrokeSpoolioLogo";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Search, X, Loader2, ArrowRight } from "lucide-react";
@@ -247,7 +247,7 @@ export default function Header({
                   className="flex items-center justify-center cursor-pointer no-invert group"
                   title="Spoolio - Accueil"
                 >
-                  <ElectricSpoolioLogo className="h-20 lg:h-24 xl:h-28 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
+                  <StrokeSpoolioLogo className="h-20 lg:h-24 xl:h-28 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
                 </Link>
               </div>
               <div className="flex items-center justify-end gap-2 lg:gap-2.5 shrink-0">
@@ -408,7 +408,7 @@ export default function Header({
               className="flex items-center justify-center cursor-pointer no-invert"
             >
               {isHomeExpanded ? (
-                <ElectricSpoolioLogo className="h-14 sm:h-16 w-auto" />
+                <StrokeSpoolioLogo className="h-14 sm:h-16 w-auto" />
               ) : (
                 <Image
                   src={isDark ? "/images/logo-spoolio-eyes-white.png" : "/images/logo-spoolio-eyes.png"}

@@ -32,6 +32,7 @@ const NewsletterPopup = dynamic(() => import("@/components/NewsletterPopup"));
 const TombolaFloatingBanner = dynamic(() => import("@/components/TombolaFloatingBanner"));
 import AdminToolbarLoader from "@/components/AdminToolbarLoader";
 import NavigationProgressBar from "@/components/NavigationProgressBar";
+import ClickSpark from "@/components/ClickSpark";
 
 const beVietnamPro = Be_Vietnam_Pro({
   variable: "--font-be-vietnam-pro",
@@ -214,6 +215,7 @@ export default function RootLayout({
         />
         {gaId && <GoogleAnalytics gaId={gaId} />}
         <NavigationProgressBar />
+        <ClickSpark />
         <LanguageProvider>
           <CartProvider>
             <VisitorTracker />
