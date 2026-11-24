@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { computeSeoScore } from '@/lib/seoUtils';
 import { isPreprodEnv } from '@/lib/env';
-import { resolveProductImageSrc } from '@/lib/serverProducts';
+import { resolveProductImageSrc, fetchProjectedProductImagesMap } from '@/lib/serverProducts';
 
 export const dynamic = 'force-dynamic';
 
@@ -214,8 +214,36 @@ async function fetchAllProducts(status: string, isCompact = false) {
             in: ['publish', '']
           }
         },
-        include: {
-          images: true,
+        select: {
+          id: true,
+          name: true,
+          nameEn: true,
+          slug: true,
+          permalink: true,
+          price: true,
+          regularPrice: true,
+          salePrice: true,
+          onSale: true,
+          shortDescription: true,
+          shortDescriptionEn: true,
+          description: !isCompact,
+          descriptionEn: !isCompact,
+          stock: true,
+          productType: true,
+          status: true,
+          seoScore: true,
+          metaTitle: true,
+          metaTitleEn: true,
+          metaDescription: true,
+          metaDescriptionEn: true,
+          dateCreated: true,
+          attributes: true,
+          showInSensoryCompass: true,
+          sensoryNoiseLevel: true,
+          sensorySize: true,
+          sensoryCategory: true,
+          sensoryProfiles: true,
+          adminAuditTag: true,
           categories: true,
         },
         orderBy: {
@@ -226,8 +254,11 @@ async function fetchAllProducts(status: string, isCompact = false) {
     ])) as any[];
 
     if (dbProducts && dbProducts.length > 0) {
+      const imagesMap = await fetchProjectedProductImagesMap(dbProducts.map((p: any) => p.id));
       console.log("Successfully fetched products from Prisma Database.");
-      return dbProducts.map((p: any) => mapProduct(p, viewCountMap, isCompact));
+      return dbProducts.map((p: any) =>
+        mapProduct({ ...p, images: imagesMap.get(p.id) || [] }, viewCountMap, isCompact)
+      );
     }
   } catch (e: any) {
     console.warn("Prisma query failed or timed out, trying local JSON...", e.message);

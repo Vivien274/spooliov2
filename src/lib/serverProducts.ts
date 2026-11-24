@@ -231,6 +231,62 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
 let cachedPublishedProducts: { data: Product[]; timestamp: number } | null = null;
 const PUBLISHED_PRODUCTS_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
+export interface ProjectedProductImage {
+  id: number;
+  productId: number;
+  src: string;
+  name: string | null;
+  alt: string | null;
+}
+
+/**
+ * Fetch product images from Postgres while rewriting inline base64 data URIs
+ * server-side in SQL so megabytes of base64 never leave Supabase on list queries.
+ */
+export async function fetchProjectedProductImagesMap(
+  productIds?: number[]
+): Promise<Map<number, ProjectedProductImage[]>> {
+  const rows = productIds && productIds.length > 0
+    ? await prisma.$queryRaw<ProjectedProductImage[]>`
+        SELECT
+          id,
+          "productId",
+          name,
+          alt,
+          CASE
+            WHEN src LIKE 'data:image/%' THEN '/api/product-image/' || id || '?v=' || length(src)
+            ELSE src
+          END AS src
+        FROM "ProductImage"
+        WHERE "productId" = ANY(${productIds}::int[])
+        ORDER BY id ASC
+      `
+    : await prisma.$queryRaw<ProjectedProductImage[]>`
+        SELECT
+          id,
+          "productId",
+          name,
+          alt,
+          CASE
+            WHEN src LIKE 'data:image/%' THEN '/api/product-image/' || id || '?v=' || length(src)
+            ELSE src
+          END AS src
+        FROM "ProductImage"
+        ORDER BY id ASC
+      `;
+
+  const map = new Map<number, ProjectedProductImage[]>();
+  for (const row of rows) {
+    const list = map.get(row.productId);
+    if (list) {
+      list.push(row);
+    } else {
+      map.set(row.productId, [row]);
+    }
+  }
+  return map;
+}
+
 export function invalidateServerProductsCache() {
   cachedPublishedProducts = null;
 }
@@ -247,9 +303,26 @@ export async function getPublishedProducts(): Promise<Product[]> {
     const dbProducts = await Promise.race([
       prisma.product.findMany({
         where: { status: "publish" },
-        include: {
-          images: true,
-          categories: true,
+        select: {
+          id: true,
+          name: true,
+          nameEn: true,
+          slug: true,
+          permalink: true,
+          price: true,
+          regularPrice: true,
+          salePrice: true,
+          onSale: true,
+          shortDescription: true,
+          shortDescriptionEn: true,
+          stock: true,
+          productType: true,
+          status: true,
+          dateCreated: true,
+          attributes: true,
+          categories: {
+            select: { id: true, name: true, slug: true },
+          },
         },
         orderBy: { dateCreated: "desc" },
       }),
@@ -257,7 +330,11 @@ export async function getPublishedProducts(): Promise<Product[]> {
     ]);
 
     if (dbProducts && Array.isArray(dbProducts) && dbProducts.length > 0) {
-      const mapped = dbProducts.map(mapRawProduct);
+      const ids = dbProducts.map((p) => p.id);
+      const imagesMap = await fetchProjectedProductImagesMap(ids);
+      const mapped = dbProducts.map((p) =>
+        mapRawProduct({ ...p, images: imagesMap.get(p.id) || [] })
+      );
       cachedPublishedProducts = { data: mapped, timestamp: Date.now() };
       return mapped;
     }
